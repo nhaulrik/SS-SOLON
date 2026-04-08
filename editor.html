@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solon Template Editor</title>
+  <link rel="stylesheet" href="editor.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <h1>Solon Template Editor</h1>
+      <p>Edit your PowerPoint theme tokens and save them directly to <code>theme.json</code>.</p>
+    </header>
+
+    <section class="panel">
+      <h2>Theme preview</h2>
+      <div class="preview-row">
+        <div class="preview-card">
+          <span>Heading</span>
+          <div class="preview-box heading-sample">Slide heading</div>
+        </div>
+        <div class="preview-card">
+          <span>Body</span>
+          <div class="preview-box body-sample">Sample paragraph text</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Color palette</h2>
+      <div id="colors" class="grid"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Fonts</h2>
+      <div id="fonts" class="grid"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Raw theme JSON</h2>
+      <textarea id="json-editor" rows="16"></textarea>
+    </section>
+
+    <div class="actions">
+      <button id="load-btn" type="button">Reload theme</button>
+      <button id="save-btn" type="button" class="primary">Save theme</button>
+    </div>
+
+    <div id="status" class="status"></div>
+  </div>
+
+  <script>
+    function isFileProtocol() {
+      return window.location.protocol === 'file:';
+    }
+
+    function checkOrigin() {
+      if (isFileProtocol()) {
+        setStatus('Please run the editor using the local server and open http://localhost:3000 instead of loading editor.html directly.', false);
+        document.getElementById('load-btn').disabled = true;
+        document.getElementById('save-btn').disabled = true;
+        return false;
+      }
+      return true;
+    }
+
+    const themeUrl = '/api/theme';
+    let themeData = null;
+
+    function createField(labelText, input) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'field';
+      const label = document.createElement('label');
+      label.textContent = labelText;
+      wrapper.append(label, input);
+      return wrapper;
+    }
+
+    function buildColorInputs(colors) {
+      const container = document.getElementById('colors');
+      container.innerHTML = '';
+      Object.entries(colors).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type = 'color';
+        input.value = `#${value}`;
+        input.dataset.key = key;
+        input.addEventListener('input', () => updateThemeColor(key, input.value));
+        container.appendChild(createField(key, input));
+      });
+    }
+
+    function buildFontInputs(fonts) {
+      const container = document.getElementById('fonts');
+      container.innerHTML = '';
+      Object.entries(fonts).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = value;
+        input.dataset.key = key;
+        input.addEventListener('input', () => updateThemeValue('fonts', key, input.value));
+        container.appendChild(createField(key, input));
+      });
+    }
+
+    function updateThemeColor(key, value) {
+      if (!themeData) return;
+      themeData.colors[key] = value.replace('#', '').toUpperCase();
+      updateJsonEditor();
+      refreshPreview();
+    }
+
+    function updateThemeValue(group, key, value) {
+      if (!themeData) return;
+      themeData[group][key] = value;
+      updateJsonEditor();
+    }
+
+    function updateJsonEditor() {
+      const editor = document.getElementById('json-editor');
+      editor.value = JSON.stringify(themeData, null, 2);
+    }
+
+    function refreshPreview() {
+      if (!themeData) return;
+      const headingSample = document.querySelector('.heading-sample');
+      const bodySample = document.querySelector('.body-sample');
+      headingSample.style.backgroundColor = `#${themeData.colors.darkTeal}`;
+      headingSample.style.color = `#${themeData.colors.white}`;
+      bodySample.style.borderColor = `#${themeData.colors.bgGrey}`;
+      bodySample.style.color = `#${themeData.colors.nearBlack}`;
+    }
+
+    async function loadTheme() {
+      if (!checkOrigin()) return;
+      setStatus('Loading theme...', false);
+      try {
+        const response = await fetch(themeUrl);
+        if (!response.ok) throw new Error(response.statusText);
+        themeData = await response.json();
+        buildColorInputs(themeData.colors || {});
+        buildFontInputs(themeData.fonts || {});
+        updateJsonEditor();
+        refreshPreview();
+        setStatus('Theme loaded successfully.', true);
+      } catch (err) {
+        setStatus(`Error loading theme: ${err.message}`, false);
+      }
+    }
+
+    async function saveTheme() {
+      try {
+        const json = document.getElementById('json-editor').value;
+        const parsed = JSON.parse(json);
+        const response = await fetch(themeUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(parsed, null, 2)
+        });
+        if (!response.ok) throw new Error(await response.text());
+        themeData = parsed;
+        buildColorInputs(themeData.colors || {});
+        buildFontInputs(themeData.fonts || {});
+        refreshPreview();
+        setStatus('Theme saved to theme.json.', true);
+      } catch (err) {
+        setStatus(`Error saving theme: ${err.message}`, false);
+      }
+    }
+
+    function setStatus(message, success) {
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.className = `status ${success ? 'success' : 'error'}`;
+    }
+
+    document.getElementById('load-btn').addEventListener('click', loadTheme);
+    document.getElementById('save-btn').addEventListener('click', saveTheme);
+
+    document.getElementById('json-editor').addEventListener('input', () => {
+      try {
+        const parsed = JSON.parse(document.getElementById('json-editor').value);
+        themeData = parsed;
+      } catch (err) {
+        // Ignore invalid JSON until save
+      }
+    });
+
+    loadTheme();
+  </script>
+</body>
+</html>

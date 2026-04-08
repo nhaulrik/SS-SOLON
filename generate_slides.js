@@ -4,6 +4,7 @@ const path = require("path");
 
 // ====================== CONFIG ======================
 const INPUT_JSON = "input.json";
+const THEME_JSON = "theme.json";
 const OUTPUT_PPTX = "Solon_Roadmap_SteerCo_2026.pptx";
 
 // Netcompany Brand Colors
@@ -13,35 +14,51 @@ const NC = {
   white: "FFFFFF", nearBlack: "141E1E", textGrey: "4A5C5A", lightBg: "EEF3F2",
 };
 
+let THEME_FONTS = { heading: "Calibri", body: "Calibri" };
+
+function applyTheme(themeData) {
+  if (!themeData) return;
+  if (themeData.colors && typeof themeData.colors === 'object') {
+    Object.assign(NC, themeData.colors);
+  }
+  if (themeData.fonts && typeof themeData.fonts === 'object') {
+    THEME_FONTS = { ...THEME_FONTS, ...themeData.fonts };
+  }
+}
+
+function getFontFace(type = 'body') {
+  return THEME_FONTS[type] || THEME_FONTS.body || 'Calibri';
+}
+
 // ── Helpers ──
 const mkShadow = () => ({ type: "outer", blur: 4, offset: 2, angle: 135, color: "000000", opacity: 0.12 });
 
 function addSlideHeader(slide, pres, title, subtitle) {
   slide.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 1.05, fill: { color: NC.darkTeal } });
   slide.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 0.08, h: 1.05, fill: { color: NC.coral } });
-  slide.addText(title, { x: 0.2, y: 0.07, w: 7, h: 0.55, fontSize: 20, bold: true, color: NC.white, fontFace: "Calibri" });
+  slide.addText(title, { x: 0.2, y: 0.07, w: 7, h: 0.55, fontSize: 20, bold: true, color: NC.white, fontFace: getFontFace('heading') });
   if (subtitle) {
-    slide.addText(subtitle, { x: 0.2, y: 0.6, w: 9, h: 0.38, fontSize: 11, color: NC.lightTeal, fontFace: "Calibri" });
+    slide.addText(subtitle, { x: 0.2, y: 0.6, w: 9, h: 0.38, fontSize: 11, color: NC.lightTeal, fontFace: getFontFace() });
   }
-  slide.addText("Netcompany", { x: 7.5, y: 0.08, w: 2.3, h: 0.4, fontSize: 12, bold: true, color: NC.lightTeal, fontFace: "Calibri", align: "right" });
+  slide.addText("Netcompany", { x: 7.5, y: 0.08, w: 2.3, h: 0.4, fontSize: 12, bold: true, color: NC.lightTeal, fontFace: getFontFace(), align: "right" });
 }
 
 function addFooter(slide, pres, pageNum) {
   slide.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.45, w: 10, h: 0.175, fill: { color: NC.darkTeal } });
   slide.addText("Solon Tax Product Roadmap 2026 | SteerCo", {
-    x: 0.15, y: 5.44, w: 7, h: 0.18, fontSize: 8, color: NC.bgGrey, fontFace: "Calibri"
+    x: 0.15, y: 5.44, w: 7, h: 0.18, fontSize: 8, color: NC.bgGrey, fontFace: getFontFace()
   });
-  if (pageNum) slide.addText(String(pageNum), { x: 9.5, y: 5.44, w: 0.4, h: 0.18, fontSize: 8, color: NC.bgGrey, fontFace: "Calibri", align: "right" });
+  if (pageNum) slide.addText(String(pageNum), { x: 9.5, y: 5.44, w: 0.4, h: 0.18, fontSize: 8, color: NC.bgGrey, fontFace: getFontFace(), align: "right" });
 }
 
 function addKpiCard(slide, pres, x, y, w, h, value, label, unit) {
   slide.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill: { color: NC.darkTeal }, line: { color: NC.medTeal }, shadow: mkShadow() });
   slide.addShape(pres.shapes.RECTANGLE, { x, y, w, h: 0.06, fill: { color: NC.coral } });
-  slide.addText(String(value), { x: x+0.1, y: y+0.1, w: w-0.2, h: h*0.48, fontSize: 22, bold: true, color: NC.white, fontFace: "Calibri", align: "center" });
+  slide.addText(String(value), { x: x+0.1, y: y+0.1, w: w-0.2, h: h*0.48, fontSize: 22, bold: true, color: NC.white, fontFace: getFontFace(), align: "center" });
   if (unit) {
-    slide.addText(unit, { x: x+0.1, y: y+h*0.52, w: w-0.2, h: 0.22, fontSize: 9, color: NC.gold, fontFace: "Calibri", align: "center" });
+    slide.addText(unit, { x: x+0.1, y: y+h*0.52, w: w-0.2, h: 0.22, fontSize: 9, color: NC.gold, fontFace: getFontFace(), align: "center" });
   }
-  slide.addText(label, { x: x+0.05, y: y+h*0.68, w: w-0.1, h: 0.36, fontSize: 9, color: NC.bgGrey, fontFace: "Calibri", align: "center", wrap: true });
+  slide.addText(label, { x: x+0.05, y: y+h*0.68, w: w-0.1, h: 0.36, fontSize: 9, color: NC.bgGrey, fontFace: getFontFace(), align: "center", wrap: true });
 }
 
 // ================================================================
@@ -49,6 +66,7 @@ function addKpiCard(slide, pres, x, y, w, h, value, label, unit) {
 // ================================================================
 async function buildPresentation() {
   const inputPath = path.join(process.cwd(), INPUT_JSON);
+  const themePath = path.join(process.cwd(), THEME_JSON);
 
   if (!fs.existsSync(inputPath)) {
     console.error(`❌ ${INPUT_JSON} not found!`);
@@ -61,6 +79,18 @@ async function buildPresentation() {
   } catch (err) {
     console.error(`❌ Failed to parse ${INPUT_JSON}:`, err.message);
     process.exit(1);
+  }
+
+  if (fs.existsSync(themePath)) {
+    try {
+      applyTheme(JSON.parse(fs.readFileSync(themePath, 'utf8')));
+    } catch (err) {
+      console.warn(`⚠️ Could not parse ${THEME_JSON}, using defaults.`);
+    }
+  } else if (data.slide_recipe?.design_tokens) {
+    applyTheme(data.slide_recipe.design_tokens);
+  } else if (data.design_tokens) {
+    applyTheme(data.design_tokens);
   }
 
   const slides = data.slide_recipe?.slides || data.slides;
@@ -87,10 +117,10 @@ async function buildPresentation() {
       s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 0.12, h: 5.625, fill: { color: NC.coral } });
       s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 4.7, w: 10, h: 0.925, fill: { color: NC.deepGreen } });
 
-      s.addText(sData.title || "", { x: 0.5, y: 1.2, w: 8.5, h: 0.85, fontSize: 36, bold: true, color: NC.white, fontFace: "Calibri" });
-      s.addText(sData.subtitle || "", { x: 0.5, y: 2.05, w: 8, h: 0.55, fontSize: 22, color: NC.lightTeal, fontFace: "Calibri" });
-      s.addText(sData.audience_line || "", { x: 0.5, y: 2.65, w: 8, h: 0.4, fontSize: 14, color: NC.bgGrey, fontFace: "Calibri" });
-      s.addText(sData.author || "", { x: 0.5, y: 3.15, w: 8, h: 0.35, fontSize: 12, color: NC.slate, fontFace: "Calibri" });
+      s.addText(sData.title || "", { x: 0.5, y: 1.2, w: 8.5, h: 0.85, fontSize: 36, bold: true, color: NC.white, fontFace: getFontFace('heading') });
+      s.addText(sData.subtitle || "", { x: 0.5, y: 2.05, w: 8, h: 0.55, fontSize: 22, color: NC.lightTeal, fontFace: getFontFace() });
+      s.addText(sData.audience_line || "", { x: 0.5, y: 2.65, w: 8, h: 0.4, fontSize: 14, color: NC.bgGrey, fontFace: getFontFace() });
+      s.addText(sData.author || "", { x: 0.5, y: 3.15, w: 8, h: 0.35, fontSize: 12, color: NC.slate, fontFace: getFontFace() });
 
       s.addText("Netcompany", { x: 7, y: 4.75, w: 2.8, h: 0.4, fontSize: 16, bold: true, color: NC.lightTeal, align: "right" });
       s.addText("netcompany.com", { x: 7, y: 5.1, w: 2.8, h: 0.3, fontSize: 10, color: NC.slate, align: "right" });

@@ -1,0 +1,29 @@
+{
+  "note": "Template tokens used by generate_slides.js and the template editor. Update colors and fonts here.",
+  "colors": {
+    "darkTeal": "123836",
+    "deepGreen": "0A2422",
+    "medTeal": "1B5E52",
+    "lightTeal": "73AA87",
+    "coral": "FF6359",
+    "gold": "FFD282",
+    "slate": "718886",
+    "bgGrey": "D0D7D7",
+    "white": "FFFFFF",
+    "nearBlack": "141E1E",
+    "textGrey": "4A5C5A",
+    "lightBg": "EEF3F2"
+  },
+  "fonts": {
+    "heading": "Calibri",
+    "body": "Calibri"
+  },
+  "defaults": {
+    "coverBackground": "darkTeal",
+    "agendaBackground": "lightBg",
+    "slideBackground": "lightBg",
+    "footerBackground": "darkTeal",
+    "headerAccent": "coral",
+    "kpiBorder": "medTeal"
+  }
+}

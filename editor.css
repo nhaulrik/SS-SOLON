@@ -1,0 +1,125 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, sans-serif;
+}
+body {
+  margin: 0;
+  background: #F4F6F6;
+  color: #1F3330;
+}
+.app-shell {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+}
+header h1 {
+  margin: 0 0 6px;
+  font-size: 2rem;
+}
+header p {
+  margin: 0 0 20px;
+  color: #4A5C5A;
+}
+.panel {
+  background: #FFFFFF;
+  border: 1px solid #D9E2E1;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+}
+.panel h2 {
+  margin-top: 0;
+}
+.grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.field {
+  display: grid;
+  gap: 8px;
+}
+label {
+  font-size: 0.9rem;
+  color: #334E4A;
+}
+input[type="text"], textarea {
+  width: 100%;
+  border: 1px solid #C8D1CF;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  background: #F8FBFB;
+  color: #102723;
+}
+input[type="color"] {
+  width: 100%;
+  height: 44px;
+  border: 1px solid #C8D1CF;
+  border-radius: 10px;
+  padding: 4px;
+}
+textarea {
+  min-height: 280px;
+  resize: vertical;
+}
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+button {
+  border: none;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+}
+button.primary {
+  background: #123836;
+  color: white;
+}
+button:not(.primary) {
+  background: #E8F0EF;
+  color: #1F3330;
+}
+.status {
+  min-height: 1.5rem;
+  font-weight: 600;
+}
+.status.success {
+  color: #0B6D49;
+}
+.status.error {
+  color: #9B2D17;
+}
+.preview-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.preview-card {
+  background: #F8FBFB;
+  border: 1px solid #D9E2E1;
+  border-radius: 14px;
+  padding: 16px;
+}
+.preview-card span {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.preview-box {
+  border: 1px solid #CBD9D6;
+  border-radius: 12px;
+  padding: 16px;
+}
+.heading-sample {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.body-sample {
+  background: #FFFFFF;
+}
