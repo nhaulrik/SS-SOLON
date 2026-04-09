@@ -653,18 +653,63 @@ header p {
 /* ============================================================
    Recipe Area
    ============================================================ */
+.recipe-json-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+.recipe-panel,
+.json-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.recipe-panel h3,
+.json-panel h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
 .recipe-area {
   background: var(--bg-primary);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   white-space: pre-wrap;
-  max-height: 500px;
+  max-height: 450px;
   overflow-y: auto;
   color: var(--accent-primary);
   line-height: 1.6;
+}
+
+.recipe-area-wrapper {
+  position: relative;
+}
+
+.copy-btn {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  z-index: 10;
+  transition: all 0.15s;
+}
+
+.copy-btn:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
 }
 
 /* ============================================================
@@ -672,7 +717,7 @@ header p {
    ============================================================ */
 .json-input {
   width: 100%;
-  min-height: 280px;
+  min-height: 380px;
   background: var(--bg-primary);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
@@ -688,6 +733,11 @@ header p {
   outline: none;
   border-color: var(--accent-primary);
   box-shadow: 0 0 0 3px rgba(76, 175, 128, 0.15);
+}
+
+.json-input.has-error {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px rgba(255, 99, 89, 0.15);
 }
 
 /* ============================================================

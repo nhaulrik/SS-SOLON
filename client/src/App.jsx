@@ -7,12 +7,11 @@ const EMU_PER_PIXEL = 914400 / 96
 const SLIDE_WIDTH = 10 // inches
 const SLIDE_HEIGHT = 5.625 // inches
 
-const STEPS = ['upload', 'tag', 'recipe', 'json', 'preview']
+const STEPS = ['upload', 'tag', 'recipe', 'preview']
 const STEP_LABELS = {
   upload: 'Upload',
   tag: 'Tag Elements',
-  recipe: 'Recipe',
-  json: 'Paste JSON',
+  recipe: 'Recipe + JSON',
   preview: 'Preview'
 }
 
@@ -139,10 +138,9 @@ function App() {
     if (s === 'upload') return true
     if (s === 'tag') return !!templateFile
     if (s === 'recipe') return templateFile && tags.length > 0
-    if (s === 'json') return templateFile && tags.length > 0 && recipe
-    if (s === 'preview') return templateFile && tags.length > 0 && recipe && jsonInput && validation?.valid
+    if (s === 'preview') return templateFile && tags.length > 0 && jsonInput && validation?.valid
     return false
-  }, [templateFile, tags, recipe, jsonInput, validation])
+  }, [templateFile, tags, jsonInput, validation])
 
   // Handle file upload
   const handleFileUpload = useCallback(async (e) => {
@@ -217,20 +215,62 @@ function App() {
     const result = await response.json()
     if (result.ok) {
       setRecipe(result.recipe)
-      navigateTo('recipe')
+      setStep('recipe')
     }
-  }, [tags, recordSlideIndex, navigateTo])
+  }, [tags, recordSlideIndex])
 
   // Validate JSON
-  const validateJson = useCallback(async () => {
-    const response = await fetch('/api/validate-json', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jsonString: jsonInput, tags, recordSlideIndex: recordSlideIndex[0] || null })
+  const validateJson = useCallback((value = null) => {
+    const jsonStr = value !== null ? value : jsonInput
+    if (!jsonStr.trim()) {
+      setValidation({ valid: null })
+      return
+    }
+    
+    let data
+    try {
+      data = JSON.parse(jsonStr)
+    } catch (e) {
+      setValidation({ valid: false, error: 'Invalid JSON syntax' })
+      return
+    }
+    
+    const foundFields = []
+    const missingFields = []
+    
+    const rootTags = tags.filter(t => t.slideIndex !== recordSlideIndex[0])
+    rootTags.forEach(tag => {
+      if (data[tag.key] !== undefined) {
+        foundFields.push(tag.key)
+      } else {
+        missingFields.push(tag.key)
+      }
     })
     
-    const result = await response.json()
-    setValidation(result)
+    const recordTags = tags.filter(t => t.slideIndex === recordSlideIndex[0])
+    if (recordSlideIndex[0] !== null && Array.isArray(data.records)) {
+      data.records.forEach((record, idx) => {
+        recordTags.forEach(tag => {
+          if (record[tag.key] !== undefined) {
+            if (!foundFields.includes(`${tag.key} (record ${idx + 1})`)) {
+              foundFields.push(`${tag.key} (record ${idx + 1})`)
+            }
+          } else {
+            if (!missingFields.includes(`${tag.key} (record ${idx + 1})`)) {
+              missingFields.push(`${tag.key} (record ${idx + 1})`)
+            }
+          }
+        })
+      })
+    }
+    
+    setValidation({
+      valid: missingFields.length === 0,
+      error: missingFields.length > 0 ? 'Missing fields: ' + missingFields.join(', ') : null,
+      foundFields,
+      missingFields,
+      recordCount: data.records ? data.records.length : 0
+    })
   }, [jsonInput, tags, recordSlideIndex])
 
   // Generate preview
@@ -580,80 +620,56 @@ function App() {
     return (
       <div className="app">
         <header>
-          <h1>Recipe</h1>
-          <p>Copy this prompt and paste it into an online AI (Claude, ChatGPT)</p>
+          <h1>Recipe + JSON</h1>
+          <p>Copy the recipe prompt for the AI, then paste the JSON response</p>
         </header>
         <Breadcrumbs />
         
         <div className={`step-content ${stepAnimClass}`}>
-          <div className="panel-section">
-            <div className="recipe-area">{recipe}</div>
-          
-            <div className="actions">
-              <button className="btn btn-secondary" onClick={() => {
-                navigator.clipboard.writeText(recipe)
-                alert('Copied to clipboard!')
-              }}>
-                Copy Recipe
-              </button>
-              <button className="btn btn-primary" onClick={() => navigateTo('json')}>
-                Next: Paste JSON
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  if (step === 'json') {
-    return (
-      <div className="app">
-        <header>
-          <h1>Paste JSON</h1>
-          <p>Paste the JSON response from the AI</p>
-        </header>
-        <Breadcrumbs />
-        
-        <div className={`step-content ${stepAnimClass}`}>
-          <div className="panel-section">
-            <textarea 
-              className="json-input"
-              value={jsonInput}
-              onChange={(e) => setJsonInput(e.target.value)}
-              placeholder='{"title": "My Presentation", "records": [...]}'
-            />
-            
-            <div className="actions">
-              <button className="btn btn-secondary" onClick={validateJson}>
-                Validate JSON
-              </button>
-              <button className="btn btn-primary" onClick={generatePreview}>
-                Preview & Generate
-              </button>
-            </div>
-            
-            {validation && (
-              <div className={`validation-status ${validation.valid ? 'valid' : 'invalid'}`}>
-                <div><strong>Valid:</strong> {validation.valid ? 'Yes' : 'No'}</div>
-                {validation.error && <div style={{ color: '#FF6359' }}>{validation.error}</div>}
-                {validation.foundFields?.length > 0 && (
-                  <div style={{ marginTop: 8 }}>
-                    <strong>Found fields:</strong> {validation.foundFields.join(', ')}
-                  </div>
-                )}
-                {validation.missingFields?.length > 0 && (
-                  <div style={{ marginTop: 8, color: '#FFD282' }}>
-                    <strong>Missing fields:</strong> {validation.missingFields.join(', ')}
-                  </div>
-                )}
-                {validation.recordCount !== undefined && (
-                  <div style={{ marginTop: 8 }}>
-                    <strong>Records:</strong> {validation.recordCount}
-                  </div>
-                )}
+          <div className="recipe-json-layout">
+            <div className="recipe-panel">
+              <h3>Recipe Prompt</h3>
+              <div className="recipe-area-wrapper">
+                <button 
+                  className="copy-btn" 
+                  onClick={() => {
+                    navigator.clipboard.writeText(recipe)
+                    alert('Copied!')
+                  }}
+                  title="Copy to clipboard"
+                >⧉</button>
+                <div className="recipe-area">{recipe}</div>
               </div>
-            )}
+            </div>
+            
+            <div className="json-panel">
+              <h3>JSON Response</h3>
+              <textarea 
+                className={`json-input ${validation?.valid === false ? 'has-error' : ''}`}
+                value={jsonInput}
+                onChange={(e) => {
+                  setJsonInput(e.target.value)
+                  setTimeout(() => validateJson(e.target.value), 300)
+                }}
+                placeholder='{"title": "My Presentation", "records": [...]}'
+              />
+              
+              {validation && validation.valid === false && (
+                <div className="validation-status invalid">
+                  {validation.error || 'Invalid JSON'}
+                </div>
+              )}
+              
+              <div className="actions">
+                <button 
+                  className="btn btn-primary" 
+                  onClick={generatePreview}
+                  disabled={!validation?.valid}
+                >
+                  Preview & Generate
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
