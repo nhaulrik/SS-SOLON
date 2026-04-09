@@ -1,21 +1,20 @@
 {
-  "name": "solon",
+  "name": "solon-slide-studio",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node src/template_editor.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "edit-template": "node src/template_editor.js",
-    "preview-slides": "node src/template_editor.js",
-    "generate": "node src/generate_slides.js"
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server/index.js",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "concurrently \"node server/index.js\" \"cd client && npm run dev\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "adm-zip": "^0.5.17",
-    "pptxgenjs": "^4.0.1"
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
