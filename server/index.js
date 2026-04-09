@@ -58,7 +58,10 @@ app.post('/api/generate-recipe', (req, res) => {
     
     rootFields.forEach((tag, idx) => {
       const comma = idx < rootFields.length - 1 || recordFields.length > 0 ? ',' : '';
-      const hint = tag.hint ? ` // ${tag.hint}` : '';
+      let hint = '';
+      if (tag.hint) hint = ` // ${tag.hint}`;
+      if (tag.maxChars) hint += ` (max ${tag.maxChars} chars)`;
+      else if (tag.maxChars === 0) hint += ' (short text)';
       recipe += `  "${tag.key}": "..."${hint}${comma}\n`;
     });
     
@@ -66,7 +69,10 @@ app.post('/api/generate-recipe', (req, res) => {
       recipe += `  "records": [\n    {\n`;
       recordFields.forEach((tag, idx) => {
         const comma = idx < recordFields.length - 1 ? ',' : '';
-        const hint = tag.hint ? ` // ${tag.hint}` : '';
+        let hint = '';
+        if (tag.hint) hint = ` // ${tag.hint}`;
+        if (tag.maxChars) hint += ` (max ${tag.maxChars} chars)`;
+        else if (tag.maxChars === 0) hint += ' (short text)';
         recipe += `      "${tag.key}": "..."${hint}${comma}\n`;
       });
       recipe += `    }\n    // repeat for each item\n  ]\n`;
@@ -357,6 +363,11 @@ function extractSlideElements(xml, slideIndex) {
       if (alignMatch) textAlign = alignMatch[1];
     }
 
+// Estimate max characters based on element area and font size
+    // Conservative: ~5 chars per sq inch works well for short titles
+    const area = bounds.w * bounds.h;
+    const maxChars = Math.floor(area * 5);
+    
     slide.elements.push({
       id: `slide${slideIndex}-elem${i}`,
       shapeName,
@@ -365,7 +376,8 @@ function extractSlideElements(xml, slideIndex) {
       fontSize,
       fontBold,
       fontColor,
-      textAlign
+      textAlign,
+      maxChars
     });
   }
 

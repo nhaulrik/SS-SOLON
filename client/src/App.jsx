@@ -176,22 +176,30 @@ function App() {
   const handleElementClick = useCallback((element) => {
     const existingTag = tags.find(t => t.elementId === element.id)
     if (existingTag) {
-      setTags(tags.filter(t => t.elementId !== element.id))
+      setTagModal({ element, slideIndex: slides[selectedSlide].index, existingTag })
     } else {
       setTagModal({ element, slideIndex: slides[selectedSlide].index })
     }
   }, [tags, slides, selectedSlide])
 
   // Save a new tag
-  const saveTag = useCallback((key, hint) => {
+  const saveTag = useCallback((key, hint, maxChars) => {
     if (!tagModal) return
+    
+    let finalMaxChars = tagModal.element.maxChars
+    if (maxChars !== null && maxChars !== undefined && maxChars > 0) {
+      finalMaxChars = maxChars
+    } else if (maxChars === 0 || maxChars === '') {
+      finalMaxChars = null
+    }
     
     setTags([...tags.filter(t => t.elementId !== tagModal.element.id), {
       elementId: tagModal.element.id,
       key,
       hint,
       slideIndex: tagModal.slideIndex,
-      originalText: tagModal.element.text
+      originalText: tagModal.element.text,
+      maxChars: finalMaxChars
     }])
     setTagModal(null)
   }, [tagModal, tags])
@@ -396,12 +404,21 @@ function App() {
                   {tags.length === 0 ? (
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>No fields tagged yet. Click elements on the slide to tag them.</p>
                   ) : (
-                    tags.map(t => (
-                      <div key={t.elementId} className="tagged-item">
-                        <strong>{t.key}</strong>
-                        {t.hint && <span>{t.hint}</span>}
-                      </div>
-                    ))
+                    tags.map(t => {
+                      const slide = slides.find(s => s.index === t.slideIndex)
+                      const element = slide?.elements.find(e => e.id === t.elementId)
+                      return (
+                        <div 
+                          key={t.elementId} 
+                          className="tagged-item"
+                          onClick={() => element && setTagModal({ element, slideIndex: t.slideIndex, existingTag: t })}
+                        >
+                          <strong>{t.key}</strong>
+                          {t.hint && <span>{t.hint}</span>}
+                          {t.maxChars && <span className="tagged-max">~{t.maxChars} chars</span>}
+                        </div>
+                      )
+                    })
                   )}
                 </div>
                 
@@ -481,37 +498,75 @@ function App() {
           
           {/* Tag modal */}
           {tagModal && (
-            <div className="modal-overlay" onClick={() => setTagModal(null)}>
-              <div className="modal-content" onClick={e => e.stopPropagation()}>
-                <h4>Tag Element</h4>
-                <p>Original: "{tagModal.element.text.substring(0, 60)}..."</p>
-                <div className="form-group">
-                  <label>Placeholder name (key)</label>
-                  <input 
-                    type="text" 
-                    id="tag-key" 
-                    placeholder="e.g., product_name"
-                    autoFocus
-                  />
+            (() => {
+              const existing = tagModal.existingTag
+              const calcMax = tagModal.element.maxChars || 0
+              const hasCalcMax = calcMax > 0
+              const currentMax = existing?.maxChars || (hasCalcMax ? calcMax : '')
+              return (
+                <div className="modal-overlay" onClick={() => setTagModal(null)}>
+                  <div className="modal-content" onClick={e => e.stopPropagation()}>
+                    <h4>{existing ? 'Edit Tag' : 'Tag Element'}</h4>
+                    <p>Original: "{tagModal.element.text.substring(0, 60)}..."</p>
+                    {hasCalcMax && (
+                      <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '-12px', marginBottom: '12px' }}>
+                        Calculated max: ~{calcMax} chars
+                      </p>
+                    )}
+                    <div className="form-group">
+                      <label>Placeholder name (key)</label>
+                      <input 
+                        type="text" 
+                        id="tag-key" 
+                        defaultValue={existing?.key || ''}
+                        placeholder="e.g., product_name"
+                        autoFocus
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>AI hint (optional)</label>
+                      <input 
+                        type="text" 
+                        id="tag-hint" 
+                        defaultValue={existing?.hint || ''}
+                        placeholder="e.g., a short punchy headline, max 8 words"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Max characters {hasCalcMax ? `(calculated: ${calcMax})` : ''}</label>
+                      <input 
+                        type="number" 
+                        id="tag-maxchars" 
+                        defaultValue={currentMax || ''}
+                        placeholder={hasCalcMax ? `default: ${calcMax}` : 'unlimited'}
+                        min={1}
+                      />
+                    </div>
+                    <div className="modal-actions">
+                      {existing && (
+                        <button 
+                          className="btn btn-danger" 
+                          onClick={() => {
+                            setTags(tags.filter(t => t.elementId !== tagModal.element.id))
+                            setTagModal(null)
+                          }}
+                        >
+                          Delete
+                        </button>
+                      )}
+                      <button className="btn btn-primary" onClick={() => {
+                        const key = document.getElementById('tag-key').value.trim()
+                        const hint = document.getElementById('tag-hint').value.trim()
+                        const maxCharsInput = document.getElementById('tag-maxchars')
+                        const maxChars = maxCharsInput?.value ? parseInt(maxCharsInput.value, 10) : null
+                        if (key) saveTag(key, hint, maxChars)
+                      }}>Save Tag</button>
+                      <button className="btn btn-secondary" onClick={() => setTagModal(null)}>Cancel</button>
+                    </div>
+                  </div>
                 </div>
-                <div className="form-group">
-                  <label>AI hint (optional)</label>
-                  <input 
-                    type="text" 
-                    id="tag-hint" 
-                    placeholder="e.g., a short punchy headline, max 8 words"
-                  />
-                </div>
-                <div className="modal-actions">
-                  <button className="btn btn-primary" onClick={() => {
-                    const key = document.getElementById('tag-key').value.trim()
-                    const hint = document.getElementById('tag-hint').value.trim()
-                    if (key) saveTag(key, hint)
-                  }}>Save Tag</button>
-                  <button className="btn btn-secondary" onClick={() => setTagModal(null)}>Cancel</button>
-                </div>
-              </div>
-            </div>
+              )
+            })()
           )}
         </div>
       </div>
