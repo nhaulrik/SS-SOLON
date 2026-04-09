@@ -349,18 +349,42 @@ function extractSlideElements(xml, slideIndex) {
     let fontColor = '#333333';
     let textAlign = 'left';
 
-    const txPrMatch = shapeXml.match(/<p:txBody>([\s\S]*?)<\/p:txBody>/);
-    if (txPrMatch) {
-      const rPrMatch = txPrMatch[1].match(/<a:rPr([^>]*)>/);
-      if (rPrMatch) {
-        const sizeMatch = rPrMatch[1].match(/sz="(\d+)"/);
-        if (sizeMatch) fontSize = parseInt(sizeMatch[1]) / 100;
-        if (rPrMatch[1].includes('b="1"') || rPrMatch[1].includes('b="true"')) fontBold = true;
-        const colorMatch = rPrMatch[1].match(/<a:srgbClr\s+val="([^"]+)"/);
+    // Extract txBody content
+    const txBodyMatch = shapeXml.match(/<p:txBody[^>]*>([\s\S]*?)<\/p:txBody>/);
+    if (txBodyMatch && txBodyMatch[1]) {
+      const txBody = txBodyMatch[1];
+      
+      // Find rPr element
+      const rPrMatch = txBody.match(/<a:rPr([^>]*)>/);
+      if (rPrMatch && rPrMatch[1]) {
+        const rPrAttrs = rPrMatch[1];
+        // Check for sz attribute
+        if (rPrAttrs.includes('sz="')) {
+          const szIdx = rPrAttrs.indexOf('sz="');
+          const endIdx = rPrAttrs.indexOf('"', szIdx + 3);
+          if (szIdx > -1 && endIdx > szIdx) {
+            const szVal = rPrAttrs.substring(szIdx + 3, endIdx);
+            fontSize = parseInt(szVal) / 100;
+          }
+        }
+        // Check for bold
+        if (rPrAttrs.includes('b="1"') || rPrAttrs.includes('b="true"')) fontBold = true;
+        // Check for color - look inside the rPr or after it
+        const colorMatch = rPrAttrs.match(/<a:srgbClr\s+val="([^"]+)"/);
         if (colorMatch) fontColor = '#' + colorMatch[1];
       }
-      const alignMatch = txPrMatch[1].match(/<a:pPr[^>]*algn="(\w+)"/);
-      if (alignMatch) textAlign = alignMatch[1];
+      // Check for paragraph alignment
+      const pPrMatch = txBody.match(/<a:pPr([^>]*)/);
+      if (pPrMatch && pPrMatch[1]) {
+        const pPrAttrs = pPrMatch[1];
+        if (pPrAttrs.includes('algn="')) {
+          const algnIdx = pPrAttrs.indexOf('algn="');
+          const endIdx = pPrAttrs.indexOf('"', algnIdx + 5);
+          if (algnIdx > -1 && endIdx > algnIdx) {
+            textAlign = pPrAttrs.substring(algnIdx + 5, endIdx);
+          }
+        }
+      }
     }
 
 // Estimate max characters based on element area and font size

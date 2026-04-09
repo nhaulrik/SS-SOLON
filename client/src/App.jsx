@@ -21,15 +21,15 @@ const STEP_LABELS = {
 // Renders a preview of a single slide with positioned elements
 // ============================================================
 function SlidePreview({ slide, size = 'normal' }) {
-  const { elements, background } = slide
+  const { elements, background, color } = slide
   
   if (!elements || elements.length === 0) {
     return <div className="preview-empty">{size === 'small' ? '—' : 'No elements'}</div>
   }
 
-  const fontSize = size === 'small' ? '3.5px' : '10px'
   const padding = size === 'small' ? 1 : 3
   const bgColor = background || '#ffffff'
+  const scale = size === 'small' ? 0.12 : 0.9
   
   return (
     <div className="slide-preview-canvas" style={{ background: bgColor }}>
@@ -39,6 +39,8 @@ function SlidePreview({ slide, size = 'normal' }) {
         const width = (el.bounds.w / SLIDE_WIDTH) * 100
         const height = (el.bounds.h / SLIDE_HEIGHT) * 100
         
+        const elemFontSize = el.fontSize ? Math.round(el.fontSize * scale) : 12
+        
         const style = {
           position: 'absolute',
           left: `${left}%`,
@@ -46,15 +48,15 @@ function SlidePreview({ slide, size = 'normal' }) {
           width: `${width}%`,
           height: `${height}%`,
           padding: padding,
-          fontSize,
-          fontWeight: el.fontBold ? 600 : 400,
-          color: el.fontColor || '#222',
+          fontSize: `${elemFontSize}px`,
+          fontWeight: el.fontBold ? 'bold' : 'normal',
+          color: el.fontColor || color || '#222222',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
           justifyContent: el.textAlign === 'center' ? 'center' : el.textAlign === 'right' ? 'flex-end' : 'flex-start',
           wordBreak: 'break-word',
-          lineHeight: 1.25,
+          lineHeight: 1.2,
           textAlign: el.textAlign || 'left',
           whiteSpace: 'pre-wrap'
         }
