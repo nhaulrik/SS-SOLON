@@ -129,9 +129,9 @@
               "type": "text",
               "staticText": "Business Scope",
               "x": 0.25,
-              "y": 2.3,
+              "y": 2.25,
               "w": 3.6,
-              "h": 0.28,
+              "h": 0.25,
               "fontSize": 10,
               "bold": true,
               "color": "coral"
@@ -140,20 +140,21 @@
               "type": "text",
               "bind": "business_scope",
               "x": 0.25,
-              "y": 2.58,
+              "y": 2.52,
               "w": 3.6,
-              "h": 0.85,
-              "fontSize": 10,
+              "h": 0.7,
+              "fontSize": 9,
               "bold": false,
-              "color": "nearBlack"
+              "color": "nearBlack",
+              "wrap": true
             },
             {
               "type": "text",
               "staticText": "Market Needs & Investment Benefits",
               "x": 0.25,
-              "y": 3.5,
+              "y": 3.3,
               "w": 3.6,
-              "h": 0.28,
+              "h": 0.25,
               "fontSize": 10,
               "bold": true,
               "color": "coral"
@@ -162,9 +163,9 @@
               "type": "bullet_list",
               "bind": "market_needs_and_benefits",
               "x": 0.25,
-              "y": 3.82,
+              "y": 3.58,
               "w": 3.6,
-              "h": 1.55,
+              "h": 1.3,
               "fontSize": 9,
               "color": "textGrey"
             },
@@ -172,17 +173,17 @@
               "type": "table",
               "bind": "initiative_table",
               "x": 3.95,
-              "y": 2.3,
-              "w": 5.4,
-              "h": 2.61,
+              "y": 2.25,
+              "w": 5.6,
+              "h": 2.65,
               "fontSize": 9,
-              "colW": [2.25, 1.116, 0.684, 0.756, 0.594],
               "columns": [
                 { "key": "initiative", "label": "Initiative", "align": "left" },
                 { "key": "effort_h", "label": "Effort (H)", "align": "center" },
-                { "key": "features", "label": "Feats", "align": "center" },
-                { "key": "pi_window", "label": "PI", "align": "center" },
-                { "key": "priority", "label": "Prio", "align": "center" }
+                { "key": "priority", "label": "Prio", "align": "center" },
+                { "key": "pi27", "label": "PI27", "align": "center" },
+                { "key": "pi28", "label": "PI28", "align": "center" },
+                { "key": "pi29", "label": "PI29", "align": "center" }
               ]
             }
           ]

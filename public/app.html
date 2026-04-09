@@ -32,7 +32,7 @@
     .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .preview-title { font-weight: 700; font-size: 1rem; color: #E4F7EE; }
     .preview-badge { font-size: 11px; padding: 4px 8px; border-radius: 6px; background: rgba(115,170,135,0.2); color: #73AA87; }
-    .slide-canvas { width: 100%; max-width: 720px; height: 405px; margin: 0 auto; position: relative; overflow: hidden; border: 1px solid #144C43; border-radius: 8px; background: white; }
+    .slide-canvas { width: 100%; max-width: 720px; aspect-ratio: 16/9; height: auto; margin: 0 auto; position: relative; overflow: hidden; border: 1px solid #144C43; border-radius: 8px; background: white; }
     
     .slide-carousel { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0; margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); }
     .carousel-item { min-width: 100px; padding: 8px 12px; border-radius: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #E4F7EE; cursor: pointer; transition: all .16s; flex-shrink: 0; }
@@ -155,10 +155,18 @@
         white: '#FFFFFF',
         nearBlack: '#141E1E',
         textGrey: '#4A5C5A',
-        lightBg: '#EEF3F2'
+        lightBg: '#EEF3F6'
       },
       fonts: { heading: 'Calibri', body: 'Calibri' }
     };
+    
+    function getColor(colorName) {
+      return theme.colors[colorName] || colorName || '#000000';
+    }
+    
+    function pxToPercent(px, total) {
+      return (px / total) * 100;
+    }
 
     let presentations = {};
     let selectedPresentation = null;
@@ -366,7 +374,7 @@
       const template = slide.slideType;
       
       canvas.style.backgroundColor = template.background ? 
-        (theme.colors[template.background] || template.background) : theme.colors.lightBg;
+        getColor(template.background) : theme.colors.lightBg;
       
       template.components?.forEach(component => {
         renderPreviewComponent(canvas, component, slide.data);
@@ -378,8 +386,17 @@
         footer.style.left = '0';
         footer.style.bottom = '0';
         footer.style.width = '100%';
-        footer.style.height = '6.8%';
-        footer.style.backgroundColor = theme.colors.darkTeal;
+        footer.style.height = '3.1%';
+        footer.style.backgroundColor = getColor('darkTeal');
+        footer.style.display = 'flex';
+        footer.style.alignItems = 'center';
+        footer.style.justifyContent = 'space-between';
+        footer.style.padding = '0 10px';
+        footer.style.boxSizing = 'border-box';
+        footer.innerHTML = `
+          <span style="font-size:8px;color:${getColor('bgGrey')};font-family:Calibri,sans-serif;">Solon Tax Product Roadmap 2026 | SteerCo</span>
+          <span style="font-size:8px;color:${getColor('bgGrey')};font-family:Calibri,sans-serif;"></span>
+        `;
         canvas.appendChild(footer);
       }
     }
@@ -387,32 +404,64 @@
     function renderPreviewComponent(canvas, component, data) {
       if (component.type === 'header') {
         const header = document.createElement('div');
-        header.className = 'slide-element';
         header.style.position = 'absolute';
         header.style.left = '0';
         header.style.top = '0';
         header.style.width = '100%';
-        header.style.height = '19.4%';
-        header.style.backgroundColor = theme.colors.darkTeal;
+        header.style.height = '18.7%';
         header.style.display = 'flex';
-        header.style.flexDirection = 'column';
-        header.style.padding = '8px 12px';
         header.style.boxSizing = 'border-box';
         
+        const bgBar = document.createElement('div');
+        bgBar.style.position = 'absolute';
+        bgBar.style.left = '0';
+        bgBar.style.top = '0';
+        bgBar.style.width = '100%';
+        bgBar.style.height = '100%';
+        bgBar.style.backgroundColor = getColor('darkTeal');
+        header.appendChild(bgBar);
+        
+        const accentBar = document.createElement('div');
+        accentBar.style.position = 'absolute';
+        accentBar.style.left = '0';
+        accentBar.style.top = '0';
+        accentBar.style.width = '0.8%';
+        accentBar.style.height = '100%';
+        accentBar.style.backgroundColor = getColor('coral');
+        header.appendChild(accentBar);
+        
         const title = document.createElement('div');
+        title.style.position = 'relative';
+        title.style.zIndex = '1';
+        title.style.padding = '1.2% 1.5%';
         title.textContent = getField(data, component.bind?.title) || component.title || '';
-        title.style.fontSize = '18px';
+        title.style.fontSize = '20px';
         title.style.fontWeight = 'bold';
-        title.style.color = theme.colors.white;
+        title.style.color = getColor('white');
+        title.style.fontFamily = 'Calibri, sans-serif';
         
         const subtitle = document.createElement('div');
+        subtitle.style.position = 'relative';
+        subtitle.style.zIndex = '1';
+        subtitle.style.padding = '0 1.5%';
+        subtitle.style.fontSize = '11px';
+        subtitle.style.color = getColor('lightTeal');
+        subtitle.style.fontFamily = 'Calibri, sans-serif';
         subtitle.textContent = getField(data, component.bind?.subtitle) || component.subtitle || '';
-        subtitle.style.fontSize = '10px';
-        subtitle.style.color = theme.colors.lightTeal;
-        subtitle.style.marginTop = '4px';
+        
+        const netcompany = document.createElement('div');
+        netcompany.style.position = 'absolute';
+        netcompany.style.right = '1.5%';
+        netcompany.style.top = '1.2%';
+        netcompany.style.fontSize = '12px';
+        netcompany.style.fontWeight = 'bold';
+        netcompany.style.color = getColor('lightTeal');
+        netcompany.style.fontFamily = 'Calibri, sans-serif';
+        netcompany.textContent = 'Netcompany';
         
         header.appendChild(title);
         header.appendChild(subtitle);
+        header.appendChild(netcompany);
         canvas.appendChild(header);
         return;
       }
@@ -421,21 +470,61 @@
         const items = getField(data, component.bind) || [];
         items.forEach((item, idx) => {
           const card = document.createElement('div');
-          card.className = 'slide-element';
           const x = component.x + idx * ((component.cardWidth || 2.2) + (component.gap || 0.19));
+          card.style.position = 'absolute';
           card.style.left = `${(x / 10) * 100}%`;
           card.style.top = `${(component.y / 5.625) * 100}%`;
           card.style.width = `${((component.cardWidth || 2.2) / 10) * 100}%`;
           card.style.height = `${((component.cardHeight || 1.0) / 5.625) * 100}%`;
-          card.style.backgroundColor = theme.colors.darkTeal;
-          card.style.border = `1px solid ${theme.colors.medTeal}`;
-          card.style.padding = '6px';
-          card.style.color = theme.colors.white;
-          card.style.fontSize = '9px';
+          card.style.backgroundColor = getColor('darkTeal');
+          card.style.border = `1px solid ${getColor('medTeal')}`;
           card.style.boxSizing = 'border-box';
           card.style.overflow = 'hidden';
-          const unit = item.unit ? `<div style="font-size:7px; color:${theme.colors.gold};">${item.unit}</div>` : '';
-          card.innerHTML = `<div style="font-weight:bold; font-size:12px; overflow:hidden; text-overflow:ellipsis;">${item.value || ''}</div>${unit}<div style="font-size:7px; color:${theme.colors.bgGrey}; margin-top:2px;">${item.label || ''}</div>`;
+          card.style.display = 'flex';
+          card.style.flexDirection = 'column';
+          card.style.padding = '4%';
+          
+          const accentBar = document.createElement('div');
+          accentBar.style.position = 'absolute';
+          accentBar.style.left = '0';
+          accentBar.style.top = '0';
+          accentBar.style.width = '5%';
+          accentBar.style.height = '100%';
+          accentBar.style.backgroundColor = getColor('coral');
+          card.appendChild(accentBar);
+          
+          const valueDiv = document.createElement('div');
+          valueDiv.style.fontSize = '22px';
+          valueDiv.style.fontWeight = 'bold';
+          valueDiv.style.color = getColor('white');
+          valueDiv.style.fontFamily = 'Calibri, sans-serif';
+          valueDiv.style.textAlign = 'center';
+          valueDiv.style.overflow = 'hidden';
+          valueDiv.style.textOverflow = 'ellipsis';
+          valueDiv.style.whiteSpace = 'nowrap';
+          valueDiv.textContent = item.value || '';
+          card.appendChild(valueDiv);
+          
+          if (item.unit) {
+            const unitDiv = document.createElement('div');
+            unitDiv.style.fontSize = '9px';
+            unitDiv.style.color = getColor('gold');
+            unitDiv.style.fontFamily = 'Calibri, sans-serif';
+            unitDiv.style.textAlign = 'center';
+            unitDiv.textContent = item.unit;
+            card.appendChild(unitDiv);
+          }
+          
+          const labelDiv = document.createElement('div');
+          labelDiv.style.fontSize = '9px';
+          labelDiv.style.color = getColor('bgGrey');
+          labelDiv.style.fontFamily = 'Calibri, sans-serif';
+          labelDiv.style.textAlign = 'center';
+          labelDiv.style.marginTop = 'auto';
+          labelDiv.style.wordWrap = 'break-word';
+          labelDiv.textContent = item.label || '';
+          card.appendChild(labelDiv);
+          
           canvas.appendChild(card);
         });
         return;
@@ -443,24 +532,287 @@
       
       if (component.type === 'agenda_grid') {
         const items = getField(data, component.bind) || [];
+        const cols = component.columns || 2;
         items.slice(0, 6).forEach((item, idx) => {
-          const cols = component.columns || 2;
           const col = idx % cols;
           const row = Math.floor(idx / cols);
           const card = document.createElement('div');
-          card.className = 'slide-element';
-          card.style.left = `${((component.x || 0) + col * ((component.cardWidth || 4.7) + (component.horizontalGap || 0.6))) / 10 * 100}%`;
-          card.style.top = `${((component.y || 1.15) + row * (component.rowHeight || 1.35)) / 5.625 * 100}%`;
+          const cardX = (component.x || 0) + col * ((component.cardWidth || 4.7) + (component.horizontalGap || 0.6));
+          const cardY = (component.y || 1.15) + row * (component.rowHeight || 1.35);
+          card.style.position = 'absolute';
+          card.style.left = `${(cardX / 10) * 100}%`;
+          card.style.top = `${(cardY / 5.625) * 100}%`;
           card.style.width = `${((component.cardWidth || 4.7) / 10) * 100}%`;
           card.style.height = `${((component.cardHeight || 1.2) / 5.625) * 100}%`;
-          card.style.backgroundColor = theme.colors.white;
-          card.style.border = `1px solid ${theme.colors.medTeal}`;
-          card.style.padding = '6px';
-          card.style.color = theme.colors.nearBlack;
-          card.style.fontSize = '9px';
-          card.innerHTML = `<strong>${item.num || ''} ${item.title || ''}</strong><div style="font-size:8px; margin-top:4px;">${item.sub || ''}</div>`;
+          card.style.backgroundColor = getColor('white');
+          card.style.border = `1px solid ${getColor('bgGrey')}`;
+          card.style.boxSizing = 'border-box';
+          card.style.padding = '2.5%';
+          card.style.display = 'flex';
+          card.style.flexDirection = 'column';
+          
+          const accentBar = document.createElement('div');
+          accentBar.style.position = 'absolute';
+          accentBar.style.left = '0';
+          accentBar.style.top = '0';
+          accentBar.style.width = '3.5%';
+          accentBar.style.height = '100%';
+          accentBar.style.backgroundColor = getColor('coral');
+          card.appendChild(accentBar);
+          
+          const numDiv = document.createElement('div');
+          numDiv.style.fontSize = '18px';
+          numDiv.style.fontWeight = 'bold';
+          numDiv.style.color = getColor('lightTeal');
+          numDiv.style.fontFamily = 'Calibri, sans-serif';
+          numDiv.textContent = item.num || '';
+          card.appendChild(numDiv);
+          
+          const titleDiv = document.createElement('div');
+          titleDiv.style.fontSize = '11px';
+          titleDiv.style.fontWeight = 'bold';
+          titleDiv.style.color = getColor('darkTeal');
+          titleDiv.style.fontFamily = 'Calibri, sans-serif';
+          titleDiv.style.marginTop = '8%';
+          titleDiv.textContent = item.title || '';
+          card.appendChild(titleDiv);
+          
+          const subDiv = document.createElement('div');
+          subDiv.style.fontSize = '8px';
+          subDiv.style.color = getColor('slate');
+          subDiv.style.fontFamily = 'Calibri, sans-serif';
+          subDiv.style.marginTop = '5%';
+          subDiv.style.wordWrap = 'break-word';
+          subDiv.textContent = item.sub || '';
+          card.appendChild(subDiv);
+          
           canvas.appendChild(card);
         });
+        return;
+      }
+      
+      if (component.type === 'bar_chart') {
+        const chartData = getField(data, component.bind) || {};
+        const features = chartData.features || [];
+        
+        const container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.left = `${(component.x / 10) * 100}%`;
+        container.style.top = `${(component.y / 5.625) * 100}%`;
+        container.style.width = `${(component.w / 10) * 100}%`;
+        container.style.height = `${(component.h / 5.625) * 100}%`;
+        container.style.boxSizing = 'border-box';
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.padding = '2%';
+        
+        const title = document.createElement('div');
+        title.style.fontSize = '10px';
+        title.style.fontWeight = 'bold';
+        title.style.color = getColor('coral');
+        title.style.fontFamily = 'Calibri, sans-serif';
+        title.style.marginBottom = '3%';
+        title.textContent = chartData.title || component.title || 'Effort by Feature';
+        container.appendChild(title);
+        
+        const maxHours = Math.max(...features.map(f => f.hours || 0));
+        const barsContainer = document.createElement('div');
+        barsContainer.style.flex = '1';
+        barsContainer.style.display = 'flex';
+        barsContainer.style.alignItems = 'flex-end';
+        barsContainer.style.gap = '4%';
+        
+        features.forEach(feature => {
+          const barWrapper = document.createElement('div');
+          barWrapper.style.flex = '1';
+          barWrapper.style.display = 'flex';
+          barWrapper.style.flexDirection = 'column';
+          barWrapper.style.alignItems = 'center';
+          barWrapper.style.height = '100%';
+          barWrapper.style.justifyContent = 'flex-end';
+          
+          const barHeight = maxHours > 0 ? ((feature.hours || 0) / maxHours) * 80 : 0;
+          const bar = document.createElement('div');
+          bar.style.width = '70%';
+          bar.style.height = `${barHeight}%`;
+          bar.style.backgroundColor = getColor('medTeal');
+          bar.style.borderRadius = '2px 2px 0 0';
+          bar.style.minHeight = '4px';
+          barWrapper.appendChild(bar);
+          
+          const label = document.createElement('div');
+          label.style.fontSize = '6px';
+          label.style.color = getColor('textGrey');
+          label.style.fontFamily = 'Calibri, sans-serif';
+          label.style.textAlign = 'center';
+          label.style.marginTop = '2px';
+          label.style.wordBreak = 'break-word';
+          label.style.maxWidth = '100%';
+          label.textContent = feature.name || '';
+          barWrapper.appendChild(label);
+          
+          barsContainer.appendChild(barWrapper);
+        });
+        
+        container.appendChild(barsContainer);
+        canvas.appendChild(container);
+        return;
+      }
+      
+      if (component.type === 'donut_chart') {
+        const chartData = getField(data, component.bind) || {};
+        const segments = chartData.segments || [];
+        
+        const container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.left = `${(component.x / 10) * 100}%`;
+        container.style.top = `${(component.y / 5.625) * 100}%`;
+        container.style.width = `${(component.w / 10) * 100}%`;
+        container.style.height = `${(component.h / 5.625) * 100}%`;
+        container.style.boxSizing = 'border-box';
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.padding = '2%';
+        
+        const title = document.createElement('div');
+        title.style.fontSize = '10px';
+        title.style.fontWeight = 'bold';
+        title.style.color = getColor('coral');
+        title.style.fontFamily = 'Calibri, sans-serif';
+        title.textContent = chartData.title || 'Chart';
+        container.appendChild(title);
+        
+        const chartArea = document.createElement('div');
+        chartArea.style.flex = '1';
+        chartArea.style.display = 'flex';
+        chartArea.style.alignItems = 'center';
+        chartArea.style.justifyContent = 'center';
+        chartArea.style.gap = '8%';
+        
+        const total = segments.reduce((sum, s) => sum + (s.value || 0), 0);
+        
+        const pieContainer = document.createElement('div');
+        pieContainer.style.width = '50%';
+        pieContainer.style.height = '100%';
+        pieContainer.style.borderRadius = '50%';
+        pieContainer.style.position = 'relative';
+        pieContainer.style.display = 'flex';
+        pieContainer.style.alignItems = 'center';
+        pieContainer.style.justifyContent = 'center';
+        
+        let currentAngle = 0;
+        segments.forEach(segment => {
+          const angle = total > 0 ? (segment.value / total) * 360 : 0;
+          const pieSlice = document.createElement('div');
+          pieSlice.style.position = 'absolute';
+          pieSlice.style.width = '100%';
+          pieSlice.style.height = '100%';
+          pieSlice.style.borderRadius = '50%';
+          pieSlice.style.background = `conic-gradient(${getColor(segment.color) || segment.color} ${currentAngle}deg ${currentAngle + angle}deg, transparent ${currentAngle + angle}deg)`;
+          currentAngle += angle;
+          pieContainer.appendChild(pieSlice);
+        });
+        
+        const centerDot = document.createElement('div');
+        centerDot.style.width = '50%';
+        centerDot.style.height = '100%';
+        centerDot.style.borderRadius = '50%';
+        centerDot.style.backgroundColor = 'white';
+        pieContainer.appendChild(centerDot);
+        
+        chartArea.appendChild(pieContainer);
+        
+        const legend = document.createElement('div');
+        legend.style.display = 'flex';
+        legend.style.flexDirection = 'column';
+        legend.style.gap = '2px';
+        legend.style.fontSize = '7px';
+        legend.style.fontFamily = 'Calibri, sans-serif';
+        
+        segments.forEach(segment => {
+          const legendItem = document.createElement('div');
+          legendItem.style.display = 'flex';
+          legendItem.style.alignItems = 'center';
+          legendItem.style.gap = '3px';
+          const colorBox = document.createElement('div');
+          colorBox.style.width = '8px';
+          colorBox.style.height = '8px';
+          colorBox.style.backgroundColor = getColor(segment.color) || segment.color;
+          legendItem.appendChild(colorBox);
+          const text = document.createElement('span');
+          text.style.color = getColor('nearBlack');
+          text.textContent = `${segment.label} (${segment.value}%)`;
+          legendItem.appendChild(text);
+          legend.appendChild(legendItem);
+        });
+        
+        chartArea.appendChild(legend);
+        container.appendChild(chartArea);
+        canvas.appendChild(container);
+        return;
+      }
+      
+      if (component.type === 'pi_planning') {
+        const planning = getField(data, component.bind) || {};
+        const bands = planning.bands || [];
+        
+        const container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.left = `${(component.x / 10) * 100}%`;
+        container.style.top = `${(component.y / 5.625) * 100}%`;
+        container.style.width = `${(component.w / 10) * 100}%`;
+        container.style.height = `${(component.h / 5.625) * 100}%`;
+        container.style.boxSizing = 'border-box';
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.padding = '1%';
+        
+        const title = document.createElement('div');
+        title.style.fontSize = '9px';
+        title.style.fontWeight = 'bold';
+        title.style.color = getColor('coral');
+        title.style.fontFamily = 'Calibri, sans-serif';
+        title.textContent = planning.title || 'PI Planning';
+        container.appendChild(title);
+        
+        const bandsContainer = document.createElement('div');
+        bandsContainer.style.flex = '1';
+        bandsContainer.style.display = 'flex';
+        bandsContainer.style.gap = '2%';
+        bandsContainer.style.marginTop = '2%';
+        
+        bands.forEach((band, idx) => {
+          const bandDiv = document.createElement('div');
+          bandDiv.style.flex = '1';
+          bandDiv.style.backgroundColor = getColor(band.color) || band.color;
+          bandDiv.style.borderRadius = '3px';
+          bandDiv.style.padding = '4%';
+          bandDiv.style.display = 'flex';
+          bandDiv.style.flexDirection = 'column';
+          bandDiv.style.color = 'white';
+          
+          const piLabel = document.createElement('div');
+          piLabel.style.fontSize = '9px';
+          piLabel.style.fontWeight = 'bold';
+          piLabel.style.color = getColor('gold');
+          piLabel.style.fontFamily = 'Calibri, sans-serif';
+          piLabel.textContent = band.pi || `PI${idx + 27}`;
+          bandDiv.appendChild(piLabel);
+          
+          const note = document.createElement('div');
+          note.style.fontSize = '7px';
+          note.style.color = getColor('white');
+          note.style.fontFamily = 'Calibri, sans-serif';
+          note.style.marginTop = 'auto';
+          note.style.wordWrap = 'break-word';
+          note.textContent = band.note || '';
+          bandDiv.appendChild(note);
+          
+          bandsContainer.appendChild(bandDiv);
+        });
+        
+        container.appendChild(bandsContainer);
+        canvas.appendChild(container);
         return;
       }
 
@@ -468,47 +820,61 @@
       if (!hasBox) return;
 
       const el = document.createElement('div');
-      el.className = 'slide-element';
+      el.style.position = 'absolute';
       el.style.left = `${(component.x / 10) * 100}%`;
       el.style.top = `${(component.y / 5.625) * 100}%`;
       el.style.width = `${(component.w / 10) * 100}%`;
       el.style.height = `${(component.h / 5.625) * 100}%`;
+      el.style.boxSizing = 'border-box';
+      el.style.overflow = 'hidden';
 
       if (component.type === 'shape') {
-        el.style.backgroundColor = theme.colors[component.fill] || component.fill || 'transparent';
-        if (component.line) {
-          el.style.border = `1px solid ${theme.colors[component.line.color] || component.line.color || '#000'}`;
-        }
+        el.style.backgroundColor = getColor(component.fill);
       } else {
-        el.style.padding = '4px';
-        el.style.overflow = 'hidden';
-        el.style.whiteSpace = 'pre-wrap';
-        el.style.wordBreak = 'break-word';
-        el.style.color = theme.colors[component.color] || component.color || theme.colors.nearBlack;
+        el.style.padding = '2%';
+        el.style.color = getColor(component.color) || getColor('nearBlack');
         el.style.fontSize = `${component.fontSize || 10}px`;
-        el.style.fontFamily = component.font || 'Calibri';
+        el.style.fontFamily = component.font === 'heading' ? 'Calibri, sans-serif' : 'Calibri, sans-serif';
+        if (component.bold) el.style.fontWeight = 'bold';
+        if (component.align === 'right') el.style.textAlign = 'right';
         
-        if (component.type === 'text') {
-          const value = component.staticText !== undefined ? component.staticText : getField(data, component.bind);
+        if (component.staticText !== undefined) {
+          el.textContent = component.staticText;
+        } else if (component.type === 'text') {
+          const value = getField(data, component.bind);
           el.textContent = value || '';
         } else if (component.type === 'bullet_list') {
           let list = getField(data, component.bind);
           if (Array.isArray(list)) {
-            el.innerHTML = `<ul style="margin:0;padding-left:14px;color:${theme.colors.textGrey};font-size:${component.fontSize || 9}px;line-height:1.3;">${list.map(item => `<li>${typeof item === 'string' ? item : JSON.stringify(item)}</li>`).join('')}</ul>`;
-          } else if (list && typeof list === 'object' && list.rows) {
-            el.innerHTML = `<ul style="margin:0;padding-left:14px;color:${theme.colors.textGrey};font-size:${component.fontSize || 9}px;line-height:1.3;">${list.rows.map(item => `<li>${typeof item === 'string' ? item : JSON.stringify(item)}</li>`).join('')}</ul>`;
+            el.innerHTML = `<ul style="margin:0;padding-left:12px;color:${getColor('textGrey')};font-size:${component.fontSize || 9}px;line-height:1.4;font-family:Calibri,sans-serif;">${list.map(item => `<li style="margin-bottom:2px;">${typeof item === 'string' ? item : JSON.stringify(item)}</li>`).join('')}</ul>`;
           }
         } else if (component.type === 'table') {
           const tableData = getField(data, component.bind) || { rows: [] };
           const rows = tableData.rows || [];
           const columns = component.columns || [];
-          const header = columns.map(col => `<th style="background:${theme.colors.darkTeal};color:${theme.colors.white};padding:4px;font-size:${component.fontSize || 9}px;">${col.label}</th>`).join('');
-          const body = rows.map(row => `<tr>${columns.map(col => `<td style="padding:3px;font-size:${component.fontSize || 9}px;border:1px solid ${theme.colors.bgGrey};">${getField(row, col.key) ?? ''}</td>`).join('')}</tr>`).join('');
-          el.innerHTML = `<table style="border-collapse:collapse;width:100%;"><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
+          
+          let tableHtml = `<table style="border-collapse:collapse;width:100%;font-size:${component.fontSize || 9}px;font-family:Calibri,sans-serif;">`;
+          tableHtml += `<thead><tr>`;
+          columns.forEach(col => {
+            tableHtml += `<th style="background:${getColor('darkTeal')};color:${getColor('white')};padding:5px 6px;text-align:${col.align || 'left'};font-weight:bold;border:0.5px solid ${getColor('bgGrey')};">${col.label}</th>`;
+          });
+          tableHtml += `</tr></thead><tbody>`;
+          
+          rows.forEach(row => {
+            tableHtml += `<tr>`;
+            columns.forEach(col => {
+              let cellValue = getField(row, col.key) ?? '';
+              if (typeof cellValue === 'boolean') {
+                cellValue = cellValue ? '✓' : '';
+              }
+              tableHtml += `<td style="padding:4px 6px;border:0.5px solid ${getColor('bgGrey')};color:${getColor('nearBlack')};text-align:${col.align || 'left'};">${cellValue}</td>`;
+            });
+            tableHtml += `</tr>`;
+          });
+          tableHtml += `</tbody></table>`;
+          el.innerHTML = tableHtml;
           el.style.padding = '0';
           el.style.overflow = 'hidden';
-        } else {
-          el.textContent = component.type;
         }
       }
       canvas.appendChild(el);
