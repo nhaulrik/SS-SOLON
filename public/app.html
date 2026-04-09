@@ -32,9 +32,15 @@
     .preview-layout { display: flex; justify-content: center; gap: 20px; max-width: 1400px; margin: 0 auto; }
     .preview-card { width: 860px; flex-shrink: 0; border: 1px solid #144C43; border-radius: 14px; background: #0B2822; padding: 16px; min-height: 440px; position: relative; }
     .preview-sidebar { width: 280px; flex-shrink: 0; }
+    .preview-left-sidebar { width: 280px; flex-shrink: 0; }
+    .left-sidebar-section { background: #0C2220; border: 1px solid #143A34; border-radius: 14px; padding: 16px; position: sticky; top: 24px; }
+    .left-sidebar-section h3 { margin: 0 0 8px; font-size: 0.95rem; color: #E4F7EE; }
+    .left-sidebar-section .sidebar-hint { margin: 0 0 12px; font-size: 12px; color: #B6D9C9; line-height: 1.4; }
+    .json-data-textarea { width: 100%; min-height: 200px; background: #071913; border: 1px solid #144C43; border-radius: 10px; color: #E4F7EE; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 12px; padding: 10px; resize: vertical; margin-bottom: 10px; box-sizing: border-box; }
     .sidebar-section { background: #0C2220; border: 1px solid #143A34; border-radius: 14px; padding: 16px; position: sticky; top: 24px; }
     .sidebar-section h3 { margin: 0 0 12px; font-size: 0.95rem; color: #E4F7EE; }
     .sidebar-section select { width: 100%; min-height: 44px; border-radius: 10px; border: 1px solid #144C43; background: #0A2B28; color: #E4F7EE; padding: 0 12px; margin-bottom: 12px; font-size: 13px; }
+    .sidebar-section select:disabled { opacity: 0.6; cursor: not-allowed; }
     .sidebar-section button { width: 100%; }
     .preview-card canvas, .slide-canvas { border: 1px solid #144C43; border-radius: 12px; background: white; }
     .slide-canvas { width: 100%; max-width: 760px; height: 540px; margin: 30px auto 0; position: relative; overflow: hidden; }
@@ -56,7 +62,7 @@
     .slide-element table { width: 100%; border-collapse: collapse; font-size: 11px; color: #141E1E; }
     .slide-element th, .slide-element td { border: 1px solid rgba(0,0,0,0.12); padding: 4px; }
     .download-link { color: #FFD282; text-decoration: underline; }
-    @media (max-width: 1200px) { .grid-2 { grid-template-columns: 1fr; } .preview-layout { flex-direction: column; align-items: center; } .preview-card { width: 100%; max-width: 860px; } .preview-sidebar { width: 100%; max-width: 860px; } }
+    @media (max-width: 1200px) { .grid-2 { grid-template-columns: 1fr; } .preview-layout { flex-direction: column; align-items: center; } .preview-card { width: 100%; max-width: 860px; order: 2; } .preview-sidebar { width: 100%; max-width: 860px; order: 3; } .preview-left-sidebar { width: 100%; max-width: 860px; order: 1; position: static; } .left-sidebar-section { position: static; } }
   </style>
 </head>
 <body>
@@ -87,6 +93,16 @@
     </div>
 
     <div class="preview-layout">
+      <aside class="preview-left-sidebar">
+        <div class="left-sidebar-section">
+          <h3>JSON Data Input</h3>
+          <p class="sidebar-hint">Paste your JSON data to preview slides with custom content.</p>
+          <textarea id="json-data-input" class="json-data-textarea" spellcheck="false" placeholder='{"slide_recipe": {"slides": [...]}}'></textarea>
+          <button id="apply-json-btn" class="primary">Apply JSON</button>
+          <div id="json-input-status" class="status success" style="margin-top: 10px; font-size: 12px;"></div>
+        </div>
+      </aside>
+
       <div class="preview-panels">
         <section class="preview-card">
           <div class="canvas-label">Slide preview</div>
@@ -129,10 +145,12 @@
 
     let templates = {};
     let sampleInput = null;
+    let userInputData = null;
     let allSlides = [];
     let selectedTemplate = null;
     let selectedSampleIndex = 0;
     let selectedPageIndex = 0;
+    let isUserInputActive = false;
 
     document.addEventListener('DOMContentLoaded', init);
 
@@ -142,6 +160,7 @@
       document.getElementById('ai-prompt-btn').addEventListener('click', generateAIPrompt);
       document.getElementById('preview-btn').addEventListener('click', handlePreview);
       document.getElementById('generate-btn').addEventListener('click', generatePptx);
+      document.getElementById('apply-json-btn').addEventListener('click', applyUserJson);
       document.getElementById('sample-select').addEventListener('change', event => {
         selectedSampleIndex = Number(event.target.value);
         const inputData = parseJsonInput();
@@ -186,9 +205,52 @@
       if (!sampleInput) return;
       document.getElementById('json-input').value = JSON.stringify(sampleInput, null, 2);
       setInputStatus('Sample JSON loaded. Validate and preview or generate.', 'success');
+      isUserInputActive = false;
+      userInputData = null;
+      document.getElementById('json-data-input').value = '';
+      document.getElementById('sample-select').disabled = false;
+      updateSampleSelectLabel('Sample data');
       populateSampleOptions();
       populatePageOptions();
       renderSlidePreview();
+    }
+
+    function applyUserJson() {
+      const jsonInput = document.getElementById('json-data-input').value.trim();
+      if (!jsonInput) {
+        setJsonInputStatus('Please enter JSON data.', 'error');
+        return;
+      }
+      try {
+        const parsed = JSON.parse(jsonInput);
+        userInputData = parsed;
+        allSlides = parsed.slide_recipe?.slides || parsed.slides || [];
+        isUserInputActive = true;
+        document.getElementById('sample-select').disabled = true;
+        updateSampleSelectLabel('User input');
+        populatePageOptions();
+        renderSlidePreview();
+        renderFieldMapping();
+        renderAIPrompt();
+        setJsonInputStatus('JSON applied successfully.', 'success');
+      } catch (err) {
+        setJsonInputStatus(`Invalid JSON: ${err.message}`, 'error');
+      }
+    }
+
+    function updateSampleSelectLabel(label) {
+      const select = document.getElementById('sample-select');
+      const options = select.options;
+      if (options.length > 0) {
+        const firstOption = options[0];
+        firstOption.textContent = label + (options.length > 1 ? ` (${options.length - 1} slides)` : '');
+      }
+    }
+
+    function setJsonInputStatus(message, type = 'success') {
+      const status = document.getElementById('json-input-status');
+      status.textContent = message;
+      status.className = `status ${type}`;
     }
 
     function renderTemplateList() {
@@ -347,7 +409,8 @@
         return;
       }
       const template = templates[selectedTemplate];
-      const slideData = allSlides[selectedPageIndex] || getSelectedSlide(parseJsonInput());
+      const inputData = isUserInputActive ? userInputData : parseJsonInput();
+      const slideData = allSlides[selectedPageIndex] || getSelectedSlide(inputData);
       const content = getSlideContent(slideData);
       const bindings = getTemplateBindings(template);
       if (!bindings.length) {
@@ -389,7 +452,7 @@
 
     function createAIPromptText() {
       if (!selectedTemplate) return '';
-      const inputData = parseJsonInput();
+      const inputData = isUserInputActive ? userInputData : parseJsonInput();
       const template = templates[selectedTemplate];
       const schema = inputData?.slide_recipe?.ai_schema?.templates?.[selectedTemplate];
       const bindings = getTemplateBindings(template).map(b => b.path);
@@ -497,6 +560,11 @@
         setInputStatus('Select a template to preview.', 'error');
         return;
       }
+      userInputData = null;
+      isUserInputActive = false;
+      allSlides = inputData.slide_recipe?.slides || inputData.slides || [];
+      document.getElementById('sample-select').disabled = false;
+      updateSampleSelectLabel('Sample');
       const candidates = getSlideCandidates(inputData);
       if (!candidates.length) {
         setInputStatus(`No slides found for template '${selectedTemplate}'.`, 'error');
@@ -519,7 +587,7 @@
     function renderSlidePreview() {
       const canvas = document.getElementById('slide-canvas');
       canvas.innerHTML = '';
-      const inputData = parseJsonInput();
+      const inputData = isUserInputActive ? userInputData : parseJsonInput();
       if (!inputData) return;
       const slideData = allSlides[selectedPageIndex] || getSelectedSlide(inputData);
       if (!slideData) return;
@@ -655,7 +723,7 @@
     }
 
     async function generatePptx() {
-      const inputData = parseJsonInput();
+      const inputData = isUserInputActive ? userInputData : parseJsonInput();
       if (!inputData) return;
       if (!selectedTemplate) {
         setGenerateStatus('You must select a template before generating.', 'error');
