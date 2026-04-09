@@ -4,10 +4,11 @@ const path = require("path");
 
 // ====================== CONFIG ======================
 const INPUT_JSON = "input.json";
+const TEMPLATE_JSON = "slide_templates.json";
 const THEME_JSON = "theme.json";
 const OUTPUT_PPTX = "Solon_Roadmap_SteerCo_2026.pptx";
 
-// Netcompany Brand Colors
+// Brand colors and theme tokens
 const NC = {
   darkTeal: "123836", deepGreen: "0A2422", medTeal: "1B5E52", lightTeal: "73AA87",
   coral: "FF6359", gold: "FFD282", slate: "718886", bgGrey: "D0D7D7",
@@ -18,19 +19,23 @@ let THEME_FONTS = { heading: "Calibri", body: "Calibri" };
 
 function applyTheme(themeData) {
   if (!themeData) return;
-  if (themeData.colors && typeof themeData.colors === 'object') {
+  if (themeData.colors && typeof themeData.colors === "object") {
     Object.assign(NC, themeData.colors);
   }
-  if (themeData.fonts && typeof themeData.fonts === 'object') {
+  if (themeData.fonts && typeof themeData.fonts === "object") {
     THEME_FONTS = { ...THEME_FONTS, ...themeData.fonts };
   }
 }
 
-function getFontFace(type = 'body') {
-  return THEME_FONTS[type] || THEME_FONTS.body || 'Calibri';
+function getFontFace(type = "body") {
+  return THEME_FONTS[type] || THEME_FONTS.body || "Calibri";
 }
 
-// ── Helpers ──
+function getField(data, path) {
+  if (!path || !data) return undefined;
+  return path.split('.').reduce((obj, key) => (obj && obj[key] !== undefined ? obj[key] : undefined), data);
+}
+
 const mkShadow = () => ({ type: "outer", blur: 4, offset: 2, angle: 135, color: "000000", opacity: 0.12 });
 
 function addSlideHeader(slide, pres, title, subtitle) {
@@ -53,29 +58,269 @@ function addFooter(slide, pres, pageNum) {
 
 function addKpiCard(slide, pres, x, y, w, h, value, label, unit) {
   slide.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill: { color: NC.darkTeal }, line: { color: NC.medTeal }, shadow: mkShadow() });
-  slide.addShape(pres.shapes.RECTANGLE, { x, y, w, h: 0.06, fill: { color: NC.coral } });
-  slide.addText(String(value), { x: x+0.1, y: y+0.1, w: w-0.2, h: h*0.48, fontSize: 22, bold: true, color: NC.white, fontFace: getFontFace(), align: "center" });
+  slide.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.06, h, fill: { color: NC.coral } });
+  slide.addText(String(value), { x: x + 0.1, y: y + 0.1, w: w - 0.2, h: h * 0.48, fontSize: 22, bold: true, color: NC.white, fontFace: getFontFace(), align: "center" });
   if (unit) {
-    slide.addText(unit, { x: x+0.1, y: y+h*0.52, w: w-0.2, h: 0.22, fontSize: 9, color: NC.gold, fontFace: getFontFace(), align: "center" });
+    slide.addText(unit, { x: x + 0.1, y: y + h * 0.52, w: w - 0.2, h: 0.22, fontSize: 9, color: NC.gold, fontFace: getFontFace(), align: "center" });
   }
-  slide.addText(label, { x: x+0.05, y: y+h*0.68, w: w-0.1, h: 0.36, fontSize: 9, color: NC.bgGrey, fontFace: getFontFace(), align: "center", wrap: true });
+  slide.addText(label, { x: x + 0.05, y: y + h * 0.68, w: w - 0.1, h: 0.36, fontSize: 9, color: NC.bgGrey, fontFace: getFontFace(), align: "center", wrap: true });
 }
 
-// ================================================================
-// BUILD PRESENTATION
-// ================================================================
+function renderShape(slide, pres, component) {
+  const shapeType = pres.shapes[component.shape?.toUpperCase()] || pres.shapes.RECTANGLE;
+  const opts = {
+    x: component.x,
+    y: component.y,
+    w: component.w,
+    h: component.h,
+    fill: { color: NC[component.fill] || component.fill || NC.white }
+  };
+  if (component.line) {
+    opts.line = { color: NC[component.line.color] || component.line.color, width: component.line.width || 0.5 };
+  }
+  slide.addShape(shapeType, opts);
+}
+
+function renderText(slide, component, data) {
+  const value = component.staticText ?? getField(data, component.bind);
+  if (value === undefined || value === null) return;
+  slide.addText(String(value), {
+    x: component.x,
+    y: component.y,
+    w: component.w,
+    h: component.h,
+    fontSize: component.fontSize || 10,
+    bold: component.bold || false,
+    italic: component.italic || false,
+    color: NC[component.color] || component.color || NC.nearBlack,
+    fontFace: getFontFace(component.font || 'body'),
+    align: component.align,
+    wrap: component.wrap !== false,
+    valign: component.valign,
+    margin: component.margin
+  });
+}
+
+function renderBulletList(slide, component, data) {
+  const list = getField(data, component.bind);
+  if (!Array.isArray(list) || !list.length) return;
+  slide.addText(list.map(item => ({ text: item, options: { bullet: true } })), {
+    x: component.x,
+    y: component.y,
+    w: component.w,
+    h: component.h,
+    fontSize: component.fontSize || 9,
+    color: NC[component.color] || component.color || NC.textGrey,
+    fontFace: getFontFace(component.font || 'body'),
+    wrap: true
+  });
+}
+
+function renderKpiRow(slide, pres, component, data) {
+  const items = getField(data, component.bind);
+  if (!Array.isArray(items)) return;
+  const cardW = component.cardWidth || 2.2;
+  const cardH = component.cardHeight || 1.05;
+  const gap = component.gap !== undefined ? component.gap : 0.19;
+  items.forEach((item, index) => {
+    const x = component.x + index * (cardW + gap);
+    addKpiCard(slide, pres, x, component.y, cardW, cardH, item.value, item.label, item.unit);
+  });
+}
+
+function renderTable(slide, pres, component, data) {
+  const table = getField(data, component.bind);
+  if (!table || !Array.isArray(table.rows)) return;
+  const title = component.title || table.title;
+  if (title) {
+    slide.addText(title, { x: component.x, y: component.y, w: component.w, h: 0.28, fontSize: component.titleFontSize || 9, bold: true, color: NC.coral, fontFace: getFontFace(component.font || 'heading') });
+  }
+  const rows = table.rows || [];
+  const columns = component.columns || [];
+  const header = columns.map(col => ({
+    text: col.label,
+    options: {
+      bold: true,
+      color: NC.white,
+      fill: { color: NC.darkTeal },
+      align: col.align || 'left',
+      fontSize: component.fontSize || 9
+    }
+  }));
+  const body = rows.map(row => columns.map(col => ({
+    text: String(getField(row, col.key) ?? ''),
+    options: {
+      align: col.align || 'left',
+      fontSize: component.fontSize || 9
+    }
+  })));
+  const tableY = component.y + (title ? 0.32 : 0);
+  slide.addTable([header, ...body], {
+    x: component.x,
+    y: tableY,
+    w: component.w,
+    h: component.h,
+    colW: component.colW,
+    border: { pt: component.borderPt || 0.5, color: NC.bgGrey }
+  });
+}
+
+function renderBarChart(slide, pres, component, data) {
+  const chart = getField(data, component.bind);
+  if (!chart || !Array.isArray(chart.features)) return;
+  slide.addText(component.title || chart.title || '', { x: component.x, y: component.y, w: component.w, h: 0.25, fontSize: component.titleFontSize || 10, bold: true, color: NC.coral, fontFace: getFontFace(component.font || 'heading') });
+  slide.addChart(pres.charts.BAR, [{
+    name: component.seriesName || 'Hours',
+    labels: chart.features.map(f => f.name),
+    values: chart.features.map(f => f.hours)
+  }], {
+    x: component.x,
+    y: component.y + 0.27,
+    w: component.w,
+    h: component.h,
+    barDir: component.barDir || 'bar',
+    chartColors: [NC[component.color] || NC.medTeal],
+    showValue: component.showValue !== false,
+    dataLabelFontSize: component.dataLabelFontSize || 7
+  });
+}
+
+function renderDonutChart(slide, pres, component, data) {
+  const chart = getField(data, component.bind);
+  if (!chart || !Array.isArray(chart.segments)) return;
+  slide.addText(component.title || chart.title || '', { x: component.x, y: component.y, w: component.w, h: 0.25, fontSize: component.titleFontSize || 10, bold: true, color: NC.coral, fontFace: getFontFace(component.font || 'heading') });
+  slide.addChart(pres.charts.DOUGHNUT, [{
+    name: component.seriesName || 'Series',
+    labels: chart.segments.map(seg => seg.label),
+    values: chart.segments.map(seg => seg.value)
+  }], {
+    x: component.x,
+    y: component.y + 0.27,
+    w: component.w,
+    h: component.h,
+    holeSize: component.holeSize || 55,
+    showLegend: component.showLegend !== false,
+    legendPos: component.legendPos || 'b',
+    showPercent: component.showPercent !== false,
+    chartColors: chart.segments.map(seg => NC[seg.color] || seg.color || NC.coral)
+  });
+}
+
+function renderPiPlanning(slide, pres, component, data) {
+  const planning = getField(data, component.bind);
+  if (!planning || !Array.isArray(planning.bands)) return;
+  slide.addText(component.title || planning.title || 'PI Planning', { x: component.x, y: component.y, w: component.w, h: 0.22, fontSize: component.titleFontSize || 10, bold: true, color: NC.coral, fontFace: getFontFace(component.font || 'heading') });
+  planning.bands.forEach((band, index) => {
+    const bx = component.x + index * (component.bandWidth || 3.17);
+    slide.addShape(pres.shapes.RECTANGLE, { x: bx, y: component.y + 0.25, w: component.bandWidth || 3.0, h: component.bandHeight || 0.72, fill: { color: NC[band.color] || band.color || NC.medTeal } });
+    slide.addText(band.pi, { x: bx + 0.1, y: component.y + 0.28, w: 0.55, h: 0.22, fontSize: 10, bold: true, color: NC.gold, fontFace: getFontFace(component.font || 'heading') });
+    slide.addText(band.note, { x: bx + 0.68, y: component.y + 0.27, w: (component.bandWidth || 3.0) - 0.68, h: 0.44, fontSize: component.noteFontSize || 8, color: NC.white, wrap: true, fontFace: getFontFace(component.font || 'body') });
+  });
+}
+
+function renderFooterBanner(slide, pres, component, data) {
+  const text = getField(data, component.bind);
+  if (!text) return;
+  slide.addShape(pres.shapes.RECTANGLE, { x: component.x, y: component.y, w: component.w, h: component.h, fill: { color: NC[component.fill] || component.fill || NC.darkTeal } });
+  slide.addShape(pres.shapes.RECTANGLE, { x: component.x, y: component.y, w: component.accentWidth || 0.08, h: component.h, fill: { color: NC[component.accentColor] || component.accentColor || NC.gold } });
+  slide.addText(String(text), {
+    x: component.x + (component.textInset || 0.15),
+    y: component.y,
+    w: component.w - (component.textInset || 0.15) - 0.1,
+    h: component.h,
+    fontSize: component.fontSize || 7.5,
+    color: NC[component.color] || component.color || NC.bgGrey,
+    wrap: true,
+    valign: 'middle',
+    fontFace: getFontFace(component.font || 'body')
+  });
+}
+
+function renderAgendaGrid(slide, pres, component, data) {
+  const items = getField(data, component.bind);
+  if (!Array.isArray(items)) return;
+  items.forEach((item, index) => {
+    const col = index % component.columns;
+    const row = Math.floor(index / component.columns);
+    const x = component.x + col * (component.cardWidth + component.horizontalGap);
+    const y = component.y + row * component.rowHeight;
+    slide.addShape(pres.shapes.RECTANGLE, { x, y, w: component.cardWidth, h: component.cardHeight, fill: { color: NC.white }, line: { color: NC.bgGrey }, shadow: mkShadow() });
+    slide.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.06, h: component.cardHeight, fill: { color: NC.coral } });
+    slide.addText(item.num, { x: x+0.12, y: y+0.08, w: 0.5, h: 0.4, fontSize: component.numberFontSize || 20, bold: true, color: NC.lightTeal });
+    slide.addText(item.title, { x: x+0.12, y: y+0.42, w: component.cardWidth - 0.24, h: 0.38, fontSize: component.titleFontSize || 11, bold: true, color: NC.darkTeal });
+    slide.addText(item.sub, { x: x+0.12, y: y+0.78, w: component.cardWidth - 0.24, h: 0.35, fontSize: component.bodyFontSize || 8.5, color: NC.slate, wrap: true });
+  });
+}
+
+function renderDecisionList(slide, pres, component, data) {
+  const decisions = getField(data, component.bind);
+  if (!Array.isArray(decisions)) return;
+  decisions.forEach((decision, index) => {
+    const y = component.y + index * component.rowHeight;
+    slide.addShape(pres.shapes.RECTANGLE, { x: component.x, y, w: component.cardWidth, h: component.cardHeight, fill: { color: NC.medTeal } });
+    slide.addShape(pres.shapes.RECTANGLE, { x: component.x, y, w: component.accentWidth || 0.06, h: component.cardHeight, fill: { color: NC.gold } });
+    slide.addText(decision.num, { x: component.x + 0.1, y: y + 0.08, w: 0.4, h: 0.5, fontSize: component.numFontSize || 18, bold: true, color: NC.gold });
+    slide.addText(decision.action, { x: component.x + 0.55, y: y + 0.1, w: component.cardWidth - 0.6, h: 0.28, fontSize: component.actionFontSize || 11, bold: true, color: NC.white });
+    slide.addText(decision.detail, { x: component.x + 0.55, y: y + 0.4, w: component.cardWidth - 0.6, h: 0.28, fontSize: component.detailFontSize || 9, color: NC.bgGrey, wrap: true });
+  });
+}
+
+function renderComponent(slide, pres, component, data) {
+  switch (component.type) {
+    case 'shape': return renderShape(slide, pres, component);
+    case 'header': return renderHeader(slide, pres, component, data);
+    case 'text': return renderText(slide, component, data);
+    case 'bullet_list': return renderBulletList(slide, component, data);
+    case 'kpi_row': return renderKpiRow(slide, pres, component, data);
+    case 'table': return renderTable(slide, pres, component, data);
+    case 'bar_chart': return renderBarChart(slide, pres, component, data);
+    case 'donut_chart': return renderDonutChart(slide, pres, component, data);
+    case 'pi_planning': return renderPiPlanning(slide, pres, component, data);
+    case 'footer_banner': return renderFooterBanner(slide, pres, component, data);
+    case 'agenda_grid': return renderAgendaGrid(slide, pres, component, data);
+    case 'decision_list': return renderDecisionList(slide, pres, component, data);
+    default:
+      console.warn(`⚠️ Unknown component type: ${component.type}`);
+  }
+}
+
+function renderHeader(slide, pres, component, data) {
+  const title = getField(data, component.bind?.title) || component.title;
+  const subtitle = getField(data, component.bind?.subtitle) || component.subtitle;
+  addSlideHeader(slide, pres, title, subtitle);
+}
+
+function loadTemplates() {
+  const templatePath = path.join(process.cwd(), TEMPLATE_JSON);
+  if (!fs.existsSync(templatePath)) {
+    console.error(`❌ ${TEMPLATE_JSON} not found!`);
+    process.exit(1);
+  }
+  try {
+    return JSON.parse(fs.readFileSync(templatePath, 'utf8')).templates || {};
+  } catch (err) {
+    console.error(`❌ Failed to parse ${TEMPLATE_JSON}:`, err.message);
+    process.exit(1);
+  }
+}
+
 async function buildPresentation() {
   const inputPath = path.join(process.cwd(), INPUT_JSON);
   const themePath = path.join(process.cwd(), THEME_JSON);
+  const templatePath = path.join(process.cwd(), TEMPLATE_JSON);
 
   if (!fs.existsSync(inputPath)) {
     console.error(`❌ ${INPUT_JSON} not found!`);
     process.exit(1);
   }
+  if (!fs.existsSync(templatePath)) {
+    console.error(`❌ ${TEMPLATE_JSON} not found!`);
+    process.exit(1);
+  }
 
   let data;
   try {
-    data = JSON.parse(fs.readFileSync(inputPath, "utf8"));
+    data = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
   } catch (err) {
     console.error(`❌ Failed to parse ${INPUT_JSON}:`, err.message);
     process.exit(1);
@@ -93,6 +338,7 @@ async function buildPresentation() {
     applyTheme(data.design_tokens);
   }
 
+  const templates = loadTemplates();
   const slides = data.slide_recipe?.slides || data.slides;
   if (!slides || !Array.isArray(slides)) {
     console.error(`❌ No "slides" array found in ${INPUT_JSON}`);
@@ -105,175 +351,25 @@ async function buildPresentation() {
   pres.layout = "LAYOUT_16x9";
   pres.title = "Solon Tax Product Roadmap 2026 – Feature Catalog";
   pres.author = "Nikolaj";
-
   let pageNum = 1;
 
   for (const sData of slides) {
     const type = sData.slide_type;
-
-    if (type === "cover") {
-      const s = pres.addSlide();
-      s.background = { color: NC.darkTeal };
-      s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 0.12, h: 5.625, fill: { color: NC.coral } });
-      s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 4.7, w: 10, h: 0.925, fill: { color: NC.deepGreen } });
-
-      s.addText(sData.title || "", { x: 0.5, y: 1.2, w: 8.5, h: 0.85, fontSize: 36, bold: true, color: NC.white, fontFace: getFontFace('heading') });
-      s.addText(sData.subtitle || "", { x: 0.5, y: 2.05, w: 8, h: 0.55, fontSize: 22, color: NC.lightTeal, fontFace: getFontFace() });
-      s.addText(sData.audience_line || "", { x: 0.5, y: 2.65, w: 8, h: 0.4, fontSize: 14, color: NC.bgGrey, fontFace: getFontFace() });
-      s.addText(sData.author || "", { x: 0.5, y: 3.15, w: 8, h: 0.35, fontSize: 12, color: NC.slate, fontFace: getFontFace() });
-
-      s.addText("Netcompany", { x: 7, y: 4.75, w: 2.8, h: 0.4, fontSize: 16, bold: true, color: NC.lightTeal, align: "right" });
-      s.addText("netcompany.com", { x: 7, y: 5.1, w: 2.8, h: 0.3, fontSize: 10, color: NC.slate, align: "right" });
+    const template = templates[type];
+    if (!template) {
+      console.warn(`⚠️ Unknown slide type: "${type}" – skipping`);
+      continue;
     }
 
-    else if (type === "agenda") {
-      const s = pres.addSlide();
-      s.background = { color: "F4F6F6" };
-      addSlideHeader(s, pres, sData.header_title || "Agenda", sData.header_subtitle);
+    const s = pres.addSlide();
+    if (template.background) {
+      s.background = { color: NC[template.background] || template.background };
+    }
+
+    (template.components || []).forEach(component => renderComponent(s, pres, component, sData));
+
+    if (template.footer) {
       addFooter(s, pres, ++pageNum);
-
-      (sData.groups || []).forEach((g, i) => {
-        const col = i % 2, row = Math.floor(i / 2);
-        const x = 0.25 + col * 5, y = 1.15 + row * 1.35;
-
-        s.addShape(pres.shapes.RECTANGLE, { x, y, w: 4.7, h: 1.2, fill: { color: NC.white }, line: { color: NC.bgGrey }, shadow: mkShadow() });
-        s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.06, h: 1.2, fill: { color: NC.coral } });
-        s.addText(g.num, { x: x+0.12, y: y+0.08, w: 0.5, h: 0.4, fontSize: 20, bold: true, color: NC.lightTeal });
-        s.addText(g.title, { x: x+0.12, y: y+0.42, w: 4.45, h: 0.38, fontSize: 11, bold: true, color: NC.darkTeal });
-        s.addText(g.sub, { x: x+0.12, y: y+0.78, w: 4.45, h: 0.35, fontSize: 8.5, color: NC.slate });
-      });
-    }
-
-    else if (type === "group_summary") {
-      const s = pres.addSlide();
-      s.background = { color: "F4F6F6" };
-      addSlideHeader(s, pres, sData.header_title, sData.header_subtitle);
-      addFooter(s, pres, ++pageNum);
-
-      // KPI Cards
-      (sData.kpis || []).forEach((k, i) => {
-        addKpiCard(s, pres, 0.25 + i * 2.39, 1.1, 2.2, 1.05, k.value, k.label, k.unit);
-      });
-
-      const leftX = 0.25, contentY = 2.3, colW = 3.6;
-
-      s.addText("Business Scope", { x: leftX, y: contentY, w: colW, h: 0.28, fontSize: 10, bold: true, color: NC.coral });
-      s.addText(sData.business_scope || "", { x: leftX, y: contentY + 0.3, w: colW, h: 0.85, fontSize: 10, color: NC.nearBlack, wrap: true });
-
-      s.addText("Market Needs & Investment Benefits", { x: leftX, y: contentY + 1.2, w: colW, h: 0.28, fontSize: 10, bold: true, color: NC.coral });
-      s.addText((sData.market_needs_and_benefits || []).map(b => ({ text: b, options: { bullet: true } })), {
-        x: leftX, y: contentY + 1.52, w: colW, h: 1.55, fontSize: 9, color: NC.textGrey, wrap: true
-      });
-
-      // Initiative Table
-      const tX = 3.95, tY = 2.3;
-      s.addText(sData.initiative_table?.title || "Roadmap Initiatives at a Glance", { x: tX, y: tY, w: 5.4, h: 0.28, fontSize: 9, bold: true, color: NC.coral });
-
-      const rows = sData.initiative_table?.rows || [];
-      const tableData = [
-        [{ text: "Initiative", options: { bold: true, color: NC.white, fill: { color: NC.darkTeal }, fontSize: 9 } },
-         { text: "Effort (H)", options: { bold: true, color: NC.white, fill: { color: NC.darkTeal }, align: "center", fontSize: 9 } },
-         { text: "Feats", options: { bold: true, color: NC.white, fill: { color: NC.darkTeal }, align: "center", fontSize: 9 } },
-         { text: "PI", options: { bold: true, color: NC.white, fill: { color: NC.darkTeal }, align: "center", fontSize: 9 } },
-         { text: "Prio", options: { bold: true, color: NC.white, fill: { color: NC.darkTeal }, align: "center", fontSize: 9 } }]
-      ];
-
-      rows.forEach(r => {
-        tableData.push([
-          { text: r.initiative || "", options: { fontSize: 9 } },
-          { text: r.effort_h || "", options: { align: "center", fontSize: 9 } },
-          { text: r.features || "", options: { align: "center", fontSize: 9 } },
-          { text: r.pi_window || "", options: { align: "center", fontSize: 9 } },
-          { text: r.priority || "", options: { align: "center", fontSize: 9 } }
-        ]);
-      });
-
-      s.addTable(tableData, { x: tX, y: tY + 0.32, w: 5.4, h: 2.61, colW: [2.25, 1.116, 0.684, 0.756, 0.594], border: { pt: 0.5, color: NC.bgGrey } });
-    }
-
-    else if (type === "initiative_detail") {
-      // This is the most complex one – I kept it as close as possible to original
-      const s = pres.addSlide();
-      s.background = { color: "F4F6F6" };
-      addSlideHeader(s, pres, sData.header_title, sData.header_subtitle);
-      addFooter(s, pres, ++pageNum);
-
-      (sData.kpis || []).forEach((k, i) => addKpiCard(s, pres, 0.25 + i*2.39, 1.1, 2.2, 1.0, k.value, k.label, k.unit));
-
-      const lx = 0.25, topY = 2.15, colW = 3.0;
-
-      // Left: Scope + Benefits
-      s.addText("Business Scope", { x: lx, y: topY, w: colW, h: 0.25, fontSize: 10, bold: true, color: NC.coral });
-      s.addText(sData.business_scope || "", { x: lx, y: topY+0.27, w: colW, h: 0.75, fontSize: 9, color: NC.nearBlack, wrap: true });
-
-      s.addText("Key Investment Benefits", { x: lx, y: topY+1.07, w: colW, h: 0.22, fontSize: 10, bold: true, color: NC.coral });
-      s.addText((sData.key_investment_benefits || []).map(b => ({ text: b, options: { bullet: true } })), {
-        x: lx, y: topY+1.32, w: colW, h: 0.82, fontSize: 9, color: NC.textGrey, wrap: true
-      });
-
-      // Effort Bar Chart
-      const cx = 3.4;
-      s.addText(sData.effort_bar_chart?.title || "Estimated Effort by Feature Area", { x: cx, y: topY, w: 3.3, h: 0.25, fontSize: 10, bold: true, color: NC.coral });
-      s.addChart(pres.charts.BAR, [{
-        name: "Hours",
-        labels: (sData.effort_bar_chart?.features || []).map(f => f.name),
-        values: (sData.effort_bar_chart?.features || []).map(f => f.hours)
-      }], {
-        x: cx, y: topY+0.27, w: 3.3, h: 2.0, barDir: "bar", chartColors: [NC.medTeal],
-        showValue: true, dataLabelFontSize: 7
-      });
-
-      // Priority Donut + optional stakeholder / talking points
-      const rx = 6.85;
-      s.addText(sData.priority_donut?.title || "Priority Distribution", { x: rx, y: topY, w: 2.9, h: 0.25, fontSize: 10, bold: true, color: NC.coral });
-      s.addChart(pres.charts.DOUGHNUT, [{
-        name: "Priority",
-        labels: (sData.priority_donut?.segments || []).map(seg => seg.label),
-        values: (sData.priority_donut?.segments || []).map(seg => seg.value)
-      }], {
-        x: rx, y: topY+0.27, w: 2.9, h: 1.0, holeSize: 55, showLegend: true, legendPos: "r",
-        chartColors: (sData.priority_donut?.segments || []).map(seg => seg.color)
-      });
-
-      // PI Planning boxes
-      const piY = 4.25;
-      s.addText("PI Planning", { x: lx, y: piY, w: 1, h: 0.22, fontSize: 10, bold: true, color: NC.coral });
-      (sData.pi_planning?.bands || []).forEach((band, i) => {
-        const bx = lx + i * 3.17;
-        s.addShape(pres.shapes.RECTANGLE, { x: bx, y: piY + 0.25, w: 3.0, h: 0.72, fill: { color: NC[band.color] || band.color || NC.medTeal } });
-        s.addText(band.pi, { x: bx + 0.1, y: piY + 0.28, w: 0.55, h: 0.22, fontSize: 10, bold: true, color: NC.gold });
-        s.addText(band.note, { x: bx + 0.68, y: piY + 0.27, w: 2.25, h: 0.44, fontSize: 8, color: NC.white, wrap: true });
-      });
-
-      // Optional steerco footer banner
-      if (sData.steerco_footer) {
-        s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.05, w: 10, h: 0.38, fill: { color: NC.darkTeal } });
-        s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.05, w: 0.08, h: 0.38, fill: { color: NC.gold } });
-        s.addText(sData.steerco_footer, { x: 0.15, y: 5.05, w: 9.7, h: 0.38, fontSize: 7.5, color: NC.bgGrey, valign: "middle" });
-      }
-    }
-
-    else if (type === "next_steps") {
-      const s = pres.addSlide();
-      s.background = { color: NC.darkTeal };
-      s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 0.12, h: 5.625, fill: { color: NC.coral } });
-      s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 4.85, w: 10, h: 0.775, fill: { color: NC.deepGreen } });
-
-      s.addText(sData.title || "Next Steps & Decision Points", { x: 0.35, y: 0.3, w: 9.3, h: 0.65, fontSize: 28, bold: true, color: NC.white });
-      s.addText(sData.subtitle || "", { x: 0.35, y: 0.95, w: 9.3, h: 0.35, fontSize: 13, color: NC.lightTeal });
-
-      (sData.decisions || []).forEach((d, i) => {
-        const y = 1.45 + i * 0.82;
-        s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: 0.72, fill: { color: NC.medTeal } });
-        s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.06, h: 0.72, fill: { color: NC.gold } });
-        s.addText(d.num, { x: 0.45, y: y+0.08, w: 0.4, h: 0.5, fontSize: 18, bold: true, color: NC.gold });
-        s.addText(d.action, { x: 0.9, y: y+0.1, w: 8.5, h: 0.28, fontSize: 11, bold: true, color: NC.white });
-        s.addText(d.detail, { x: 0.9, y: y+0.4, w: 8.5, h: 0.28, fontSize: 9, color: NC.bgGrey, wrap: true });
-      });
-    }
-
-    else {
-      console.warn(`⚠️  Unknown slide type: "${type}" – skipping`);
     }
   }
 

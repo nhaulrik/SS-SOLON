@@ -1,0 +1,72 @@
+{
+  "templates": {
+    "cover": {
+      "background": "darkTeal",
+      "components": [
+        { "type": "shape", "shape": "RECTANGLE", "x": 0, "y": 0, "w": 0.12, "h": 5.625, "fill": "coral" },
+        { "type": "shape", "shape": "RECTANGLE", "x": 0, "y": 4.7, "w": 10, "h": 0.925, "fill": "deepGreen" },
+        { "type": "text", "bind": "title", "x": 0.5, "y": 1.2, "w": 8.5, "h": 0.85, "fontSize": 36, "bold": true, "color": "white", "font": "heading" },
+        { "type": "text", "bind": "subtitle", "x": 0.5, "y": 2.05, "w": 8, "h": 0.55, "fontSize": 22, "color": "lightTeal" },
+        { "type": "text", "bind": "audience_line", "x": 0.5, "y": 2.65, "w": 8, "h": 0.4, "fontSize": 14, "color": "bgGrey" },
+        { "type": "text", "bind": "author", "x": 0.5, "y": 3.15, "w": 8, "h": 0.35, "fontSize": 12, "color": "slate" },
+        { "type": "text", "staticText": "Netcompany", "x": 7, "y": 4.75, "w": 2.8, "h": 0.4, "fontSize": 16, "bold": true, "color": "lightTeal", "align": "right" },
+        { "type": "text", "staticText": "netcompany.com", "x": 7, "y": 5.1, "w": 2.8, "h": 0.3, "fontSize": 10, "color": "slate", "align": "right" }
+      ]
+    },
+    "agenda": {
+      "background": "F4F6F6",
+      "footer": true,
+      "components": [
+        { "type": "header", "bind": { "title": "header_title", "subtitle": "header_subtitle" } },
+        { "type": "agenda_grid", "bind": "groups", "columns": 2, "cardWidth": 4.7, "cardHeight": 1.2, "rowHeight": 1.35, "horizontalGap": 0.6, "x": 0.25, "y": 1.15 }
+      ]
+    },
+    "group_summary": {
+      "background": "F4F6F6",
+      "footer": true,
+      "components": [
+        { "type": "header", "bind": { "title": "header_title", "subtitle": "header_subtitle" } },
+        { "type": "kpi_row", "bind": "kpis", "x": 0.25, "y": 1.1, "cardWidth": 2.2, "cardHeight": 1.05, "gap": 0.19 },
+        { "type": "text", "bind": "business_scope", "x": 0.25, "y": 2.3, "w": 3.6, "h": 0.85, "fontSize": 10, "bold": false, "color": "nearBlack", "wrap": true },
+        { "type": "text", "staticText": "Business Scope", "x": 0.25, "y": 2.3, "w": 3.6, "h": 0.28, "fontSize": 10, "bold": true, "color": "coral" },
+        { "type": "text", "staticText": "Market Needs & Investment Benefits", "x": 0.25, "y": 3.5, "w": 3.6, "h": 0.28, "fontSize": 10, "bold": true, "color": "coral" },
+        { "type": "bullet_list", "bind": "market_needs_and_benefits", "x": 0.25, "y": 3.82, "w": 3.6, "h": 1.55, "fontSize": 9, "color": "textGrey" },
+        { "type": "table", "bind": "initiative_table", "x": 3.95, "y": 2.3, "w": 5.4, "h": 2.61, "fontSize": 9, "colW": [2.25, 1.116, 0.684, 0.756, 0.594], "columns": [
+          { "key": "initiative", "label": "Initiative", "align": "left" },
+          { "key": "effort_h", "label": "Effort (H)", "align": "center" },
+          { "key": "features", "label": "Feats", "align": "center" },
+          { "key": "pi_window", "label": "PI", "align": "center" },
+          { "key": "priority", "label": "Prio", "align": "center" }
+        ] }
+      ]
+    },
+    "initiative_detail": {
+      "background": "F4F6F6",
+      "footer": true,
+      "components": [
+        { "type": "header", "bind": { "title": "header_title", "subtitle": "header_subtitle" } },
+        { "type": "kpi_row", "bind": "kpis", "x": 0.25, "y": 1.1, "cardWidth": 2.2, "cardHeight": 1.0, "gap": 0.19 },
+        { "type": "text", "staticText": "Business Scope", "x": 0.25, "y": 2.15, "w": 3.0, "h": 0.25, "fontSize": 10, "bold": true, "color": "coral" },
+        { "type": "text", "bind": "business_scope", "x": 0.25, "y": 2.42, "w": 3.0, "h": 0.75, "fontSize": 9, "color": "nearBlack", "wrap": true },
+        { "type": "text", "staticText": "Key Investment Benefits", "x": 0.25, "y": 3.27, "w": 3.0, "h": 0.22, "fontSize": 10, "bold": true, "color": "coral" },
+        { "type": "bullet_list", "bind": "key_investment_benefits", "x": 0.25, "y": 3.52, "w": 3.0, "h": 0.82, "fontSize": 9, "color": "textGrey" },
+        { "type": "bar_chart", "bind": "effort_bar_chart", "x": 3.4, "y": 2.15, "w": 3.3, "h": 2.0, "titleFontSize": 10, "color": "medTeal" },
+        { "type": "donut_chart", "bind": "priority_donut", "x": 6.85, "y": 2.15, "w": 2.9, "h": 1.0, "titleFontSize": 10, "legendPos": "r" },
+        { "type": "text", "staticText": "Talking Points", "x": 3.4, "y": 4.3, "w": 3.3, "h": 0.25, "fontSize": 10, "bold": true, "color": "coral" },
+        { "type": "bullet_list", "bind": "talking_points", "x": 3.4, "y": 4.55, "w": 3.3, "h": 0.7, "fontSize": 9, "color": "textGrey" },
+        { "type": "pi_planning", "bind": "pi_planning", "x": 0.25, "y": 4.25, "w": 9.5, "h": 0.72, "bandWidth": 3.17, "bandHeight": 0.72, "noteFontSize": 8 },
+        { "type": "footer_banner", "bind": "steerco_footer", "x": 0, "y": 5.05, "w": 10, "h": 0.38, "fill": "darkTeal", "accentColor": "gold", "textInset": 0.15 }
+      ]
+    },
+    "next_steps": {
+      "background": "darkTeal",
+      "components": [
+        { "type": "shape", "shape": "RECTANGLE", "x": 0, "y": 0, "w": 0.12, "h": 5.625, "fill": "coral" },
+        { "type": "shape", "shape": "RECTANGLE", "x": 0, "y": 4.85, "w": 10, "h": 0.775, "fill": "deepGreen" },
+        { "type": "text", "bind": "title", "x": 0.35, "y": 0.3, "w": 9.3, "h": 0.65, "fontSize": 28, "bold": true, "color": "white", "fontFace": "heading" },
+        { "type": "text", "bind": "subtitle", "x": 0.35, "y": 0.95, "w": 9.3, "h": 0.35, "fontSize": 13, "color": "lightTeal" },
+        { "type": "decision_list", "bind": "decisions", "x": 0.35, "y": 1.45, "cardWidth": 9.3, "cardHeight": 0.72, "rowHeight": 0.82, "accentWidth": 0.06 }
+      ]
+    }
+  }
+}
