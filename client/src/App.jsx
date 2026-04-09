@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 // ============================================================
 // Constants
@@ -20,17 +20,20 @@ const STEP_LABELS = {
 // SlidePreview Component
 // Renders a preview of a single slide with positioned elements
 // ============================================================
-function SlidePreview({ slide }) {
-  const { elements } = slide
+function SlidePreview({ slide, size = 'normal' }) {
+  const { elements, background } = slide
   
   if (!elements || elements.length === 0) {
-    return <div className="preview-empty">No elements</div>
+    return <div className="preview-empty">{size === 'small' ? '—' : 'No elements'}</div>
   }
 
+  const fontSize = size === 'small' ? '3.5px' : '10px'
+  const padding = size === 'small' ? 1 : 3
+  const bgColor = background || '#ffffff'
+  
   return (
-    <div className="slide-preview-canvas">
+    <div className="slide-preview-canvas" style={{ background: bgColor }}>
       {elements.map((el, idx) => {
-        // bounds are in inches, convert to percentage
         const left = (el.bounds.x / SLIDE_WIDTH) * 100
         const top = (el.bounds.y / SLIDE_HEIGHT) * 100
         const width = (el.bounds.w / SLIDE_WIDTH) * 100
@@ -42,21 +45,25 @@ function SlidePreview({ slide }) {
           top: `${top}%`,
           width: `${width}%`,
           height: `${height}%`,
-          background: el.isPlaceholder ? '#73AA8740' : '#0C2220',
-          border: el.isPlaceholder ? '1px dashed #73AA87' : '1px solid #143A34',
-          borderRadius: '2px',
-          padding: '2px',
-          fontSize: `${Math.max(4, Math.min(12, height * 0.4))}px`,
-          color: el.textColor || '#fff',
+          padding: padding,
+          fontSize,
+          fontWeight: el.fontBold ? 600 : 400,
+          color: el.fontColor || '#222',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
-          wordBreak: 'break-word'
+          justifyContent: el.textAlign === 'center' ? 'center' : el.textAlign === 'right' ? 'flex-end' : 'flex-start',
+          wordBreak: 'break-word',
+          lineHeight: 1.25,
+          textAlign: el.textAlign || 'left',
+          whiteSpace: 'pre-wrap'
         }
+        
+        const text = el.text.length > 80 ? el.text.substring(0, 80) + '...' : el.text
         
         return (
           <div key={idx} style={style} title={el.shapeName}>
-            {el.text}
+            {text}
           </div>
         )
       })}
@@ -87,6 +94,23 @@ function App() {
   const [jsonInput, setJsonInput] = useState('')
   const [validation, setValidation] = useState(null)
   const [previewData, setPreviewData] = useState([])
+  const [selectedPreviewIdx, setSelectedPreviewIdx] = useState(0)
+
+  // Keyboard navigation for preview
+  useEffect(() => {
+    if (step !== 'preview') return
+    
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft') {
+        setSelectedPreviewIdx(i => Math.max(0, i - 1))
+      } else if (e.key === 'ArrowRight') {
+        setSelectedPreviewIdx(i => Math.min(previewData.length - 1, i + 1))
+      }
+    }
+    
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [step, previewData.length])
 
   // Navigate to step with animation direction
   const navigateTo = useCallback((newStep) => {
@@ -578,39 +602,62 @@ function App() {
   }
 
   if (step === 'preview') {
+    const selectedSlide = previewData[selectedPreviewIdx]
+    
     return (
       <div className="app">
         <header>
           <h1>Preview</h1>
-          <p>Review your generated slides before downloading</p>
+          <p>Review your generated slides, use ← → arrow keys to navigate</p>
         </header>
         <Breadcrumbs />
         
         <div className={`step-content ${stepAnimClass}`}>
-          <div className="panel-section">
-            <div className="preview-grid">
-              {previewData.map((slide, idx) => (
-                <div key={idx} className="preview-card">
-                  <div className="preview-card-header">
-                    Slide {slide.slideNumber}
-                    {slide.recordIndex ? ` (Item ${slide.recordIndex})` : ''}
-                  </div>
-                  <div className="preview-card-body">
-                    <SlidePreview slide={slide} />
-                  </div>
-                  
+          {/* Large Preview - FIRST */}
+          <div className="preview-large">
+            <div className="preview-large-header">
+              <span className="preview-large-title">
+                {selectedSlide?.slideNumber ? `Slide ${selectedSlide.slideNumber}` : 'Preview'}
+                {selectedSlide?.recordIndex ? ` - Item ${selectedSlide.recordIndex}` : ''}
+              </span>
+            </div>
+            <div className="preview-large-canvas">
+              {selectedSlide && <SlidePreview slide={selectedSlide} />}
+            </div>
+            {selectedSlide?.sampleText && selectedSlide.sampleText.length > 0 && (
+              <div className="preview-large-text">
+                {selectedSlide.sampleText.slice(0, 5).join(' › ')}
+              </div>
+            )}
+          </div>
+          
+          {/* Thumbnail Strip - SECOND */}
+          <div className="preview-thumbs">
+            {previewData.map((slide, idx) => (
+              <div 
+                key={idx} 
+                className={`preview-thumb ${selectedPreviewIdx === idx ? 'active' : ''}`}
+                onClick={() => setSelectedPreviewIdx(idx)}
+              >
+                <div className="preview-thumb-num">{slide.slideNumber}</div>
+                <div className="preview-thumb-body">
+                  <SlidePreview slide={slide} size="small" />
                 </div>
-              ))}
-            </div>
-            
-            <div className="actions">
-              <button className="btn btn-secondary" onClick={() => navigateTo('json')}>
-                Back to Edit
-              </button>
-              <button className="btn btn-primary" onClick={downloadPptx}>
-                Download PPTX
-              </button>
-            </div>
+                {slide.recordIndex && (
+                  <div className="preview-thumb-badge">{slide.recordIndex}</div>
+                )}
+              </div>
+            ))}
+          </div>
+          
+          {/* Actions */}
+          <div className="preview-actions">
+            <button className="btn btn-secondary" onClick={() => navigateTo('json')}>
+              ← Back to Edit
+            </button>
+            <button className="btn btn-primary" onClick={downloadPptx}>
+              Download PPTX ↓
+            </button>
           </div>
         </div>
       </div>

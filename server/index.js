@@ -218,6 +218,7 @@ app.post('/api/generate-pptx', (req, res) => {
         recordIndex: gs.recordIndex,
         content: gs.content,
         elements: elements.elements,
+        background: elements.background,
         sampleText
       };
     });
