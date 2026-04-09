@@ -196,10 +196,7 @@ function App() {
     try {
       const jsonData = JSON.parse(jsonInput)
       
-      console.log('Sending to server:', { 
-        tags: tags.map(t => ({ key: t.key, slideIndex: t.slideIndex })),
-        jsonData 
-      })
+      
       
       const response = await fetch('/api/generate-pptx', {
         method: 'POST',
@@ -213,9 +210,7 @@ function App() {
       })
       
       const result = await response.json()
-      console.log('Generate result:', result.debug)
       if (result.ok) {
-        console.log('Debug:', result.debug)
         setPreviewData(result.previewData)
         navigateTo('preview')
       } else {
@@ -603,11 +598,7 @@ function App() {
                   <div className="preview-card-body">
                     <SlidePreview slide={slide} />
                   </div>
-                  {slide.sampleText && slide.sampleText.length > 0 && (
-                    <div style={{ padding: '8px 12px', fontSize: 10, color: slide.hadUnreplaced ? '#FF6359' : '#73AA87', borderTop: '1px solid #143A34' }}>
-                      {slide.hadUnreplaced ? 'UNREPLACED: ' : ''}{slide.sampleText.join(' | ')}
-                    </div>
-                  )}
+                  
                 </div>
               ))}
             </div>

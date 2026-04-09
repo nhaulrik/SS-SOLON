@@ -8,33 +8,19 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ============================================================
-// Configuration
-// ============================================================
 const PORT = 3001;
 const TEMP_DIR = path.join(__dirname, 'temp');
 const OUTPUT_DIR = path.join(__dirname, 'output');
-const EMU_PER_INCH = 914400; // English Metric Units per inch
+const EMU_PER_INCH = 914400;
 
-// Initialize directories
 if (!fs.existsSync(TEMP_DIR)) fs.mkdirSync(TEMP_DIR, { recursive: true });
 if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
-// ============================================================
-// Express App Setup
-// ============================================================
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
-// ============================================================
-// API Endpoints
-// ============================================================
-
-/**
- * UC-01: Upload and parse PPTX template
- * Accepts base64-encoded PPTX, extracts slides and text elements with positions
- */
+// UC-01: Upload and parse PPTX
 app.post('/api/upload-pptx', (req, res) => {
   try {
     const { file, fileName } = req.body;
@@ -60,10 +46,7 @@ app.post('/api/upload-pptx', (req, res) => {
   }
 });
 
-/**
- * UC-04: Generate recipe prompt for AI
- * Creates a JSON schema prompt based on tagged placeholders
- */
+// UC-04: Generate recipe
 app.post('/api/generate-recipe', (req, res) => {
   try {
     const { tags, recordSlideIndex } = req.body;
@@ -97,10 +80,7 @@ app.post('/api/generate-recipe', (req, res) => {
   }
 });
 
-/**
- * UC-05: Validate JSON from AI response
- * Checks if all required fields are present
- */
+// UC-05: Validate JSON
 app.post('/api/validate-json', (req, res) => {
   try {
     const { jsonString, tags, recordSlideIndex } = req.body;
@@ -158,10 +138,7 @@ app.post('/api/validate-json', (req, res) => {
   }
 });
 
-/**
- * UC-06, UC-07: Generate and download PPTX
- * Replaces placeholders with JSON data, returns preview and download URL
- */
+// UC-06: Generate PPTX
 app.post('/api/generate-pptx', (req, res) => {
   try {
     const { templatePath, tags, jsonData, recordSlideIndex } = req.body;
@@ -173,10 +150,6 @@ app.post('/api/generate-pptx', (req, res) => {
     const zip = new admZip(templatePath);
     const slideEntries = zip.getEntries().filter(e => e.entryName.match(/^ppt\/slides\/slide\d+\.xml$/));
     
-    if (!tags || tags.length === 0) {
-      return res.status(400).json({ error: 'No tags provided' });
-    }
-    
     const sortedEntries = slideEntries.sort((a, b) => {
       const numA = parseInt(a.entryName.match(/slide(\d+)\.xml/)[1]);
       const numB = parseInt(b.entryName.match(/slide(\d+)\.xml/)[1]);
@@ -184,18 +157,15 @@ app.post('/api/generate-pptx', (req, res) => {
     });
     
     const generatedSlides = [];
-    
-    // Step 1: Inject {{placeholders}} into the original slide content for tagged elements
     const baseContent = {};
+    
+    // Inject placeholders
     for (let slideIdx = 0; slideIdx < sortedEntries.length; slideIdx++) {
       const entry = sortedEntries[slideIdx];
       let content = entry.getData().toString('utf8');
       const slideNum = slideIdx + 1;
       
-      // Get tags for this slide
       const slideTags = tags.filter(t => t.slideIndex === slideNum);
-      
-      // Inject placeholders: replace original text with {{key}}
       slideTags.forEach(tag => {
         if (tag.originalText) {
           const escaped = tag.originalText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -207,78 +177,48 @@ app.post('/api/generate-pptx', (req, res) => {
       baseContent[slideNum] = content;
     }
     
-    // Step 2: Replace placeholders with JSON data (using content with inject placeholders)
+    // Replace with JSON data
     for (let slideIdx = 0; slideIdx < sortedEntries.length; slideIdx++) {
-      const entry = sortedEntries[slideIdx];
       let content = baseContent[slideIdx + 1];
       const slideNum = slideIdx + 1;
-      
-      // Find tags for this slide
-      const slideTags = tags.filter(t => t.slideIndex === slideNum);
-      const tagKeys = slideTags.map(t => t.key);
-      
-      // Check for placeholders
-      const hasPlaceholder = content.includes('<a:t>{{');
-      if (hasPlaceholder) {
-        console.log(`Slide ${slideNum} has placeholders:`, tagKeys);
-      }
-      
-      const isRecordSlide = slideIdx + 1 === recordSlideIndex;
-      const recordKey = recordSlideIndex;
-      console.log(`Slide ${slideNum}: isRecordSlide=${isRecordSlide}, recordSlideIndex=${recordKey}`);
+      const isRecordSlide = slideNum === recordSlideIndex;
       
       if (isRecordSlide && jsonData.records && jsonData.records.length > 0) {
         jsonData.records.forEach((record, recordIdx) => {
-          const slideContent = replacePlaceholders(content, jsonData, record, tags, slideIdx + 1, recordSlideIndex);
-          generatedSlides.push({ slideIndex: slideIdx + 1, recordIndex: recordIdx + 1, content: slideContent });
+          const slideContent = replacePlaceholders(content, jsonData, record, tags, slideNum, recordSlideIndex);
+          generatedSlides.push({ slideIndex: slideNum, recordIndex: recordIdx + 1, content: slideContent });
         });
       } else if (!isRecordSlide) {
-        const slideContent = replacePlaceholders(content, jsonData, null, tags, slideIdx + 1, recordSlideIndex);
-        generatedSlides.push({ slideIndex: slideIdx + 1, recordIndex: null, content: slideContent });
+        const slideContent = replacePlaceholders(content, jsonData, null, tags, slideNum, recordSlideIndex);
+        generatedSlides.push({ slideIndex: slideNum, recordIndex: null, content: slideContent });
       }
     }
     
-    // Note: When recordSlideIndex is null, the first loop already processes all slides
-    
-    // For output: map each original slide to its processed version
+    // Output slides
     const outputSlides = sortedEntries.map((entry, idx) => {
       const slideNum = idx + 1;
-      // If record slide, use first record; otherwise use the processed version
       const gen = generatedSlides.find(g => g.slideIndex === slideNum && g.recordIndex === 1) 
         || generatedSlides.find(g => g.slideIndex === slideNum && g.recordIndex === null);
       const content = gen ? gen.content : (baseContent[slideNum] || entry.getData().toString('utf8'));
       return { entry, content };
     });
     
-    const previewData = generatedSlides.map((gs, idx) => {
+    const previewData = generatedSlides.map(gs => {
       const content = gs.content || '';
-      const hasContent = content.length > 0;
-      const textCount = (content.match(/<a:t>/g) || []).length;
-      const sampleRaw = content.slice(0, 200);
-      
-      console.log(`Preview slide ${idx}: hasContent=${hasContent}, textElements=${textCount}`);
-      
       let elements = { elements: [] };
       try {
         elements = extractSlideElements(content, gs.slideIndex);
-      } catch (e) {
-        console.log('Extract error:', e.message);
-      }
+      } catch (e) {}
       
-      // Get sample text to show what was rendered
       const textMatches = content.match(/<a:t>([^<]*)<\/a:t>/g) || [];
       const sampleText = textMatches.slice(0, 3).map(t => t.replace(/<[^>]+>/g, ''));
-      
-      // Check if there were {{ placeholders that weren't replaced
-      const hadUnreplaced = content.includes('{{');
       
       return {
         slideNumber: gs.slideIndex,
         recordIndex: gs.recordIndex,
         content: gs.content,
         elements: elements.elements,
-        sampleText,
-        hadUnreplaced
+        sampleText
       };
     });
     
@@ -295,21 +235,14 @@ app.post('/api/generate-pptx', (req, res) => {
     res.json({
       ok: true,
       previewData,
-      downloadUrl: `/api/download/${path.basename(outputPath)}`,
-      debug: { 
-        totalTags: tags.length,
-        tagKeys: tags.map(t => t.key),
-        jsonKeys: Object.keys(jsonData)
-      }
+      downloadUrl: `/api/download/${path.basename(outputPath)}`
     });
   } catch (err) {
     res.status(500).json({ error: 'Failed to generate: ' + err.message });
   }
 });
 
-/**
- * Download generated PPTX file
- */
+// Download
 app.get('/api/download/:filename', (req, res) => {
   const filePath = path.join(OUTPUT_DIR, req.params.filename);
   if (!fs.existsSync(filePath)) {
@@ -318,13 +251,7 @@ app.get('/api/download/:filename', (req, res) => {
   res.download(filePath);
 });
 
-// ============================================================
-// Utility Functions
-// ============================================================
-
-/**
- * Parse all slides from PPTX zip
- */
+// Parse slides
 function parseSlides(zip) {
   const slides = [];
   const slideEntries = zip.getEntries().filter(e => e.entryName.match(/^ppt\/slides\/slide\d+\.xml$/));
@@ -342,9 +269,7 @@ function parseSlides(zip) {
   return slides;
 }
 
-/**
- * Extract text elements with positions from slide XML
- */
+// Extract elements
 function extractSlideElements(xml, slideIndex) {
   if (!xml) {
     return { index: slideIndex, elements: [], background: '#ffffff' };
@@ -356,7 +281,6 @@ function extractSlideElements(xml, slideIndex) {
     background: '#ffffff'
   };
 
-  // Background color
   const bgMatch = xml.match(/<p:bg>([\s\S]*?)<\/p:bg>/);
   if (bgMatch) {
     const srgbMatch = bgMatch[1].match(/<a:srgbClr val="([^"]+)"/);
@@ -368,7 +292,6 @@ function extractSlideElements(xml, slideIndex) {
     }
   }
 
-  // Parse shapes
   const spTreeMatch = xml.match(/<p:spTree>([\s\S]*?)<\/p:spTree>/);
   const shapesToCheck = spTreeMatch ? spTreeMatch[1] : xml;
   const shapeMatches = shapesToCheck.match(/<p:sp>([\s\S]*?)<\/p:sp>/g) || [];
@@ -382,7 +305,6 @@ function extractSlideElements(xml, slideIndex) {
     const textContent = textMatches.map(t => t.replace(/<[^>]+>/g, '')).join(' ');
     if (!textContent.trim()) continue;
     
-    // Bounds (position and size)
     let bounds = { x: 0.5, y: 0.5, w: 2, h: 0.5 };
     let xfrmContent = '';
     
@@ -411,20 +333,10 @@ function extractSlideElements(xml, slideIndex) {
       }
     }
 
-    // Shape name
     let shapeName = `text_${i}`;
     const cNvPrMatch = shapeXml.match(/<p:cNvPr\s+id="\d+"\s+name="([^"]+)"/);
     if (cNvPrMatch) shapeName = cNvPrMatch[1];
 
-    // Fill color
-    let fill = null;
-    const spPrMatch = shapeXml.match(/<p:spPr>([\s\S]*?)<\/p:spPr>/);
-    if (spPrMatch) {
-      const srgbMatch = spPrMatch[1].match(/<a:srgbClr\s+val="([^"]+)"/);
-      if (srgbMatch) fill = '#' + srgbMatch[1];
-    }
-
-    // Text formatting
     let fontSize = 14;
     let fontBold = false;
     let fontColor = '#333333';
@@ -436,13 +348,10 @@ function extractSlideElements(xml, slideIndex) {
       if (rPrMatch) {
         const sizeMatch = rPrMatch[1].match(/sz="(\d+)"/);
         if (sizeMatch) fontSize = parseInt(sizeMatch[1]) / 100;
-        
         if (rPrMatch[1].includes('b="1"') || rPrMatch[1].includes('b="true"')) fontBold = true;
-        
         const colorMatch = rPrMatch[1].match(/<a:srgbClr\s+val="([^"]+)"/);
         if (colorMatch) fontColor = '#' + colorMatch[1];
       }
-
       const alignMatch = txPrMatch[1].match(/<a:pPr[^>]*algn="(\w+)"/);
       if (alignMatch) textAlign = alignMatch[1];
     }
@@ -452,7 +361,6 @@ function extractSlideElements(xml, slideIndex) {
       shapeName,
       text: textContent,
       bounds,
-      fill,
       fontSize,
       fontBold,
       fontColor,
@@ -463,49 +371,20 @@ function extractSlideElements(xml, slideIndex) {
   return slide;
 }
 
-/**
- * Get hex color from PPTX preset color name
- */
 function getPresetColor(name) {
-  const colors = {
-    white: '#FFFFFF',
-    black: '#000000',
-    red: '#FF0000',
-    green: '#00FF00',
-    blue: '#0000FF',
-    yellow: '#FFFF00',
-    cyan: '#00FFFF',
-    magenta: '#FF00FF',
-    gray: '#808080',
-    darkGray: '#404040',
-    lightGray: '#C0C0C0'
-  };
+  const colors = { white: '#FFFFFF', black: '#000000', red: '#FF0000', green: '#00FF00', blue: '#0000FF', yellow: '#FFFF00', cyan: '#00FFFF', magenta: '#FF00FF', gray: '#808080' };
   return colors[name] || '#FFFFFF';
 }
 
-/**
- * Replace {{placeholder}} tags with JSON data
- */
 function replacePlaceholders(content, jsonData, recordData, tags, slideIndex, recordSlideIndex) {
   const slideTags = tags.filter(t => t.slideIndex === slideIndex);
-  const tagKeys = slideTags.map(t => t.key);
-  const jsonKeys = Object.keys(jsonData);
   
-  // Debug
-  console.log(`replacePlaceholders slide ${slideIndex}: tags=${tagKeys.join(',')}, json=${jsonKeys.join(',')}`);
-  
-  let replacements = 0;
   const result = content.replace(/<a:t>([^<]*)<\/a:t>/g, (match, text) => {
     const tag = slideTags.find(t => text.includes(`{{${t.key}}}`));
     
     if (tag) {
-      let value;
-      if (recordData && tag.slideIndex === recordSlideIndex) {
-        value = recordData[tag.key] || '';
-      } else {
-        value = jsonData[tag.key] || '';
-      }
-      return `<a:t>${value}</a:t>`;
+      let value = recordData ? recordData[tag.key] : jsonData[tag.key];
+      return `<a:t>${value || ''}</a:t>`;
     }
     
     return match;
@@ -514,9 +393,6 @@ function replacePlaceholders(content, jsonData, recordData, tags, slideIndex, re
   return result;
 }
 
-// ============================================================
-// Start Server
-// ============================================================
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
