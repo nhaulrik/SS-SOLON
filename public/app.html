@@ -31,17 +31,17 @@
     .status.warning { background: rgba(255, 187, 85, 0.12); color: #FFD79A; border: 1px solid #B37C47; }
     .preview-layout { display: flex; justify-content: center; gap: 20px; max-width: 1400px; margin: 0 auto; }
     .preview-card { width: 860px; flex-shrink: 0; border: 1px solid #144C43; border-radius: 14px; background: #0B2822; padding: 16px; min-height: 440px; position: relative; }
-    .preview-sidebar { width: 280px; flex-shrink: 0; }
-    .preview-left-sidebar { width: 280px; flex-shrink: 0; }
-    .left-sidebar-section { background: #0C2220; border: 1px solid #143A34; border-radius: 14px; padding: 16px; position: sticky; top: 24px; }
+    .preview-sidebar { width: 280px; flex-shrink: 0; position: sticky; top: 24px; height: fit-content; }
+    .preview-left-sidebar { width: 280px; flex-shrink: 0; position: sticky; top: 24px; height: fit-content; }
+    .left-sidebar-section { background: #0C2220; border: 1px solid #143A34; border-radius: 14px; padding: 16px; }
     .left-sidebar-section h3 { margin: 0 0 8px; font-size: 0.95rem; color: #E4F7EE; }
     .left-sidebar-section .sidebar-hint { margin: 0 0 12px; font-size: 12px; color: #B6D9C9; line-height: 1.4; }
     .json-data-textarea { width: 100%; min-height: 200px; background: #071913; border: 1px solid #144C43; border-radius: 10px; color: #E4F7EE; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 12px; padding: 10px; resize: vertical; margin-bottom: 10px; box-sizing: border-box; }
-    .sidebar-section { background: #0C2220; border: 1px solid #143A34; border-radius: 14px; padding: 16px; position: sticky; top: 24px; }
+    .sidebar-section { background: #0C2220; border: 1px solid #143A34; border-radius: 14px; padding: 16px; }
     .sidebar-section h3 { margin: 0 0 12px; font-size: 0.95rem; color: #E4F7EE; }
     .sidebar-section select { width: 100%; min-height: 44px; border-radius: 10px; border: 1px solid #144C43; background: #0A2B28; color: #E4F7EE; padding: 0 12px; margin-bottom: 12px; font-size: 13px; }
     .sidebar-section select:disabled { opacity: 0.6; cursor: not-allowed; }
-    .sidebar-section button { width: 100%; }
+    .sidebar-section button { width: 100%; position: relative; z-index: 10; }
     .preview-card canvas, .slide-canvas { border: 1px solid #144C43; border-radius: 12px; background: white; }
     .slide-canvas { width: 100%; max-width: 760px; height: 540px; margin: 30px auto 0; position: relative; overflow: hidden; }
     .canvas-label { position: absolute; top: 12px; left: 16px; right: 16px; color: #E4F7EE; font-weight: 700; font-size: 0.95rem; z-index: 1; }
@@ -62,7 +62,7 @@
     .slide-element table { width: 100%; border-collapse: collapse; font-size: 11px; color: #141E1E; }
     .slide-element th, .slide-element td { border: 1px solid rgba(0,0,0,0.12); padding: 4px; }
     .download-link { color: #FFD282; text-decoration: underline; }
-    @media (max-width: 1200px) { .grid-2 { grid-template-columns: 1fr; } .preview-layout { flex-direction: column; align-items: center; } .preview-card { width: 100%; max-width: 860px; order: 2; } .preview-sidebar { width: 100%; max-width: 860px; order: 3; } .preview-left-sidebar { width: 100%; max-width: 860px; order: 1; position: static; } .left-sidebar-section { position: static; } }
+    @media (max-width: 1200px) { .grid-2 { grid-template-columns: 1fr; } .preview-layout { flex-direction: column; align-items: center; } .preview-card { width: 100%; max-width: 860px; order: 2; } .preview-sidebar { width: 100%; max-width: 860px; order: 3; position: static; } .preview-left-sidebar { width: 100%; max-width: 860px; order: 1; position: static; } .left-sidebar-section { position: static; } .sidebar-section { position: static; } }
   </style>
 </head>
 <body>
@@ -224,8 +224,27 @@
       try {
         const parsed = JSON.parse(jsonInput);
         userInputData = parsed;
-        allSlides = parsed.slide_recipe?.slides || parsed.slides || [];
+        const slideArray = parsed.slide_recipe?.slides || parsed.slides || [];
+        let firstSlide = null;
+        if (Array.isArray(slideArray) && slideArray.length > 0) {
+          allSlides = slideArray;
+          firstSlide = slideArray[0];
+        } else if (parsed.slide_type) {
+          allSlides = [parsed];
+          firstSlide = parsed;
+          userInputData = { slide_recipe: { slides: [parsed] } };
+        } else {
+          allSlides = [];
+        }
+        // Auto-detect template from slide_type
+        if (firstSlide?.slide_type && templates[firstSlide.slide_type]) {
+          selectedTemplate = firstSlide.slide_type;
+          renderTemplateList();
+          renderTemplateMeta();
+        }
         isUserInputActive = true;
+        selectedPageIndex = 0;
+        selectedSampleIndex = 0;
         document.getElementById('sample-select').disabled = true;
         updateSampleSelectLabel('User input');
         populatePageOptions();
@@ -772,8 +791,28 @@
 
     function setGenerateResult(downloadUrl, fileName) {
       const status = document.getElementById('generate-status');
-      status.innerHTML = `Presentation generated successfully. <a href="${downloadUrl}" target="_blank" class="download-link">Download ${fileName}</a>`;
+      status.innerHTML = `<span style="display: flex; align-items: center; gap: 8px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+        ${fileName} generated successfully!
+      </span>`;
       status.className = 'status success';
+      fetch(downloadUrl)
+        .then(response => response.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        })
+        .catch(err => {
+          console.error('Auto-download failed:', err);
+        });
     }
 
     function getField(data, path) {
