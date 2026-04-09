@@ -59,7 +59,7 @@ The generated PowerPoint file will be saved in the `output` folder with a timest
    ```
    or
    ```bash
-   node template_editor.js
+   node src/template_editor.js
    ```
 
 2. Open your browser and navigate to `http://localhost:3000`
@@ -121,15 +121,22 @@ Edit `theme.json` to customize:
 
 ```
 SOLON/
-├── generate_slides.js      # Main PowerPoint generation script
-├── template_editor.js      # Web server for template editor
-├── editor.html             # HTML interface for template editor
-├── editor.css              # Styles for the editor UI (dark theme)
-├── package.json            # Node.js dependencies and scripts
-├── input.json              # Input data for slide generation
-├── slide_templates.json    # Slide template definitions
-├── theme.json              # Color and font theme definitions
-└── README.md               # This documentation file
+├── src/
+│   ├── generate_slides.js      # Main PowerPoint generation script
+│   └── template_editor.js      # Web server for template editor
+├── utils/
+│   ├── theme.js                # Theme management utilities
+│   └── fileUtils.js            # File and data utilities
+├── data/
+│   ├── input.json              # Input data for slide generation
+│   ├── slide_templates.json    # Slide template definitions
+│   └── theme.json              # Color and font theme definitions
+├── public/
+│   ├── editor.html             # HTML interface for template editor
+│   └── editor.css              # Styles for the editor UI (dark theme)
+├── output/                     # Generated PowerPoint files
+├── package.json                # Node.js dependencies and scripts
+└── README.md                   # This documentation file
 ```
 
 ## Dependencies

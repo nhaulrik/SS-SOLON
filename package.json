@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "edit-template": "node template_editor.js",
-    "generate": "node generate_slides.js"
+    "edit-template": "node src/template_editor.js",
+    "generate": "node src/generate_slides.js"
   },
   "keywords": [],
   "author": "",

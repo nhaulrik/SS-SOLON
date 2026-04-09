@@ -5,8 +5,9 @@ const url = require('url');
 
 const PORT = process.env.PORT || 3000;
 const ROOT = process.cwd();
-const THEME_FILE = path.join(ROOT, 'theme.json');
-const TEMPLATE_FILE = path.join(ROOT, 'slide_templates.json');
+const THEME_FILE = path.join(ROOT, 'data', 'theme.json');
+const TEMPLATE_FILE = path.join(ROOT, 'data', 'slide_templates.json');
+const PUBLIC_DIR = path.join(ROOT, 'public');
 
 function sendJSON(res, data, status = 200) {
   const payload = JSON.stringify(data, null, 2);
@@ -126,7 +127,8 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  let filePath = pathname === '/' ? '/editor.html' : pathname;
+  // Serve static files from public directory
+  let filePath = pathname === '/' ? '/public/editor.html' : '/public' + pathname;
   const ext = path.extname(filePath).toLowerCase();
   const safe = safePath(filePath);
   if (!safe) {
