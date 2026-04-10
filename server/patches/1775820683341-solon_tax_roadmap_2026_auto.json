@@ -1,26 +1,26 @@
 {
-  "id": 1775812844146,
+  "id": 1775820683341,
   "name": "solon_tax_roadmap_2026_auto",
   "pptxFile": "solon_tax_roadmap_2026.pptx",
-  "createdAt": "2026-04-10T09:20:44.146Z",
+  "createdAt": "2026-04-10T11:31:23.341Z",
   "tags": [
     {
       "elementId": "slide1-elem2",
       "key": "solon_tax_product_roadmap_2026",
-      "hint": "Something about the weather",
+      "hint": "Solon Tax Product Roadmap 2026",
       "slideIndex": 1,
       "originalText": "Solon Tax Product Roadmap 2026",
       "maxChars": 36,
-      "autoGenerate": true
+      "autoGenerate": false
     },
     {
       "elementId": "slide1-elem3",
       "key": "feature_catalog_for_steerco",
-      "hint": "subtitle about danish tax",
+      "hint": "Feature Catalog for SteerCo",
       "slideIndex": 1,
       "originalText": "Feature Catalog for SteerCo",
       "maxChars": 22,
-      "autoGenerate": true
+      "autoGenerate": false
     },
     {
       "elementId": "slide1-elem4",
@@ -88,11 +88,11 @@
     {
       "elementId": "slide2-elem8",
       "key": "core_revenue_management",
-      "hint": "conut remaining for thi",
+      "hint": "Core Revenue Management",
       "slideIndex": 2,
       "originalText": "Core Revenue Management",
       "maxChars": 8,
-      "autoGenerate": true
+      "autoGenerate": false
     },
     {
       "elementId": "slide2-elem9",
@@ -178,11 +178,11 @@
     {
       "elementId": "slide3-elem2",
       "key": "core_revenue_management",
-      "hint": "A headline for the initiative group",
+      "hint": "Core Revenue Management",
       "slideIndex": 3,
       "originalText": "Core Revenue Management",
       "maxChars": 19,
-      "autoGenerate": true
+      "autoGenerate": false
     },
     {
       "elementId": "slide3-elem3",
@@ -365,7 +365,5 @@
       "autoGenerate": false
     }
   ],
-  "recordSlideIndex": [],
-  "updatedAt": "2026-04-10T11:35:08.675Z",
   "repeatableSlides": []
 }

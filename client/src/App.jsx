@@ -107,14 +107,26 @@ function App() {
   
   // Tags state
   const [tags, setTags] = useState([])
-  const [recordSlideIndex, setRecordSlideIndex] = useState([])
+  const [repeatableSlides, setRepeatableSlides] = useState([]) // [{ slideIndex, customPrompt }]
 
   const toggleRecordSlide = (slideIndex) => {
-    setRecordSlideIndex(prev => 
-      prev.includes(slideIndex) 
-        ? prev.filter(i => i !== slideIndex)
-        : [...prev, slideIndex]
+    setRepeatableSlides(prev => {
+      const exists = prev.find(r => r.slideIndex === slideIndex)
+      if (exists) {
+        return prev.filter(r => r.slideIndex !== slideIndex)
+      }
+      return [...prev, { slideIndex, customPrompt: '' }]
+    })
+  }
+
+  const updateRepeatablePrompt = (slideIndex, customPrompt) => {
+    setRepeatableSlides(prev => 
+      prev.map(r => r.slideIndex === slideIndex ? { ...r, customPrompt } : r)
     )
+  }
+
+  const getRepeatableConfig = (slideIndex) => {
+    return repeatableSlides.find(r => r.slideIndex === slideIndex)
   }
   const [tagModal, setTagModal] = useState(null)
   
@@ -152,14 +164,14 @@ function App() {
     }
     
     saveTimeoutRef.current = setTimeout(() => {
-      const currentData = JSON.stringify({ tags: newTags, recordSlideIndex: newRecordSlide })
+      const currentData = JSON.stringify({ tags: newTags, repeatableSlides: newRecordSlide })
       
       if (currentData !== lastSavedPatchRef.current) {
         lastSavedPatchRef.current = currentData
         
         const updated = patches.map(p => 
           p.id === currentPatch 
-            ? { ...p, tags: newTags, recordSlideIndex: newRecordSlide, updatedAt: new Date().toISOString() }
+            ? { ...p, tags: newTags, repeatableSlides: newRecordSlide, updatedAt: new Date().toISOString() }
             : p
         )
         setPatches(updated)
@@ -195,7 +207,7 @@ function App() {
         setTags(autoTags)
         
         // Initialize ref to prevent immediate re-save
-        lastSavedPatchRef.current = JSON.stringify({ tags: autoTags, recordSlideIndex: [] })
+        lastSavedPatchRef.current = JSON.stringify({ tags: autoTags, repeatableSlides: [] })
         
         // Auto-create and save a patch
         const patchName = templateFile?.fileName ? templateFile.fileName.replace('.pptx', '') + '_auto' : 'auto_patch'
@@ -205,7 +217,7 @@ function App() {
           pptxFile: templateFile?.fileName || '',
           createdAt: new Date().toISOString(),
           tags: autoTags,
-          recordSlideIndex: []
+          repeatableSlides: []
         }
         setPatches(prev => [...prev, newPatch])
         setCurrentPatch(newPatch.id)
@@ -229,21 +241,21 @@ function App() {
       pptxFile: templateFile?.fileName || '',
       createdAt: new Date().toISOString(),
       tags: [...tags],
-      recordSlideIndex: [...recordSlideIndex]
+      repeatableSlides: [...repeatableSlides]
     }
     const updated = [...patches, newPatch]
     setPatches(updated)
     savePatchToServer(newPatch)
     setCurrentPatch(newPatch.id)
     setPatchName(name.trim())
-  }, [templateFile, tags, recordSlideIndex, patches, savePatchToServer])
+  }, [templateFile, tags, repeatableSlides, patches, savePatchToServer])
 
   // Apply patch to current tags
   const applyPatch = useCallback((patchId) => {
     const patch = patches.find(p => p.id === patchId)
     if (patch) {
       setTags(patch.tags || [])
-      setRecordSlideIndex(patch.recordSlideIndex || [])
+      setRepeatableSlides(patch.repeatableSlides || [])
       setCurrentPatch(patch.id)
       setPatchName(patch.name)
     }
@@ -256,7 +268,7 @@ function App() {
       if (matchingPatch) {
         // Auto-apply if matches
         setTags(matchingPatch.tags || [])
-        setRecordSlideIndex(matchingPatch.recordSlideIndex || [])
+        setRepeatableSlides(matchingPatch.repeatableSlides || [])
         setCurrentPatch(matchingPatch.id)
         setPatchName(matchingPatch.name)
       }
@@ -375,7 +387,7 @@ function App() {
     const response = await fetch('/api/generate-recipe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tags, recordSlideIndex: recordSlideIndex[0] || null })
+      body: JSON.stringify({ tags, repeatableSlides })
     })
     
     const result = await response.json()
@@ -383,7 +395,7 @@ function App() {
       setRecipe(result.recipe)
       setStep('recipe')
     }
-  }, [tags, recordSlideIndex])
+  }, [tags, repeatableSlides])
 
   // Validate JSON
   const validateJson = useCallback((value = null) => {
@@ -405,10 +417,10 @@ function App() {
     const missingFields = []
     
     const generateOnlyTags = tags.filter(t => t.autoGenerate)
-    const rootGenerateTags = generateOnlyTags.filter(t => t.slideIndex !== recordSlideIndex[0])
-    const recordGenerateTags = generateOnlyTags.filter(t => t.slideIndex === recordSlideIndex[0])
     
-    rootGenerateTags.forEach(tag => {
+    // Validate static fields (non-repeatable slides)
+    const staticTags = generateOnlyTags.filter(t => !repeatableSlides.find(r => r.slideIndex === t.slideIndex))
+    staticTags.forEach(tag => {
       if (data[tag.key] !== undefined) {
         foundFields.push(tag.key)
       } else {
@@ -416,30 +428,39 @@ function App() {
       }
     })
     
-    if (recordSlideIndex[0] !== null && Array.isArray(data.records)) {
-      data.records.forEach((record, idx) => {
-        recordGenerateTags.forEach(tag => {
-          if (record[tag.key] !== undefined) {
-            if (!foundFields.includes(`${tag.key} (record ${idx + 1})`)) {
-              foundFields.push(`${tag.key} (record ${idx + 1})`)
-            }
+    // Validate repeatable slides
+    const slidesData = data.slides || {}
+    repeatableSlides.forEach(repeatable => {
+      const dataKey = `slide_${repeatable.slideIndex}`
+      const instances = slidesData[dataKey]
+      
+      if (!Array.isArray(instances) || instances.length === 0) {
+        missingFields.push(`${dataKey} (no instances found)`)
+        return
+      }
+      
+      const slideTags = generateOnlyTags.filter(t => t.slideIndex === repeatable.slideIndex)
+      instances.forEach((instance, idx) => {
+        slideTags.forEach(tag => {
+          if (instance[tag.key] !== undefined) {
+            foundFields.push(`${tag.key} (${dataKey} instance ${idx + 1})`)
           } else {
-            if (!missingFields.includes(`${tag.key} (record ${idx + 1})`)) {
-              missingFields.push(`${tag.key} (record ${idx + 1})`)
-            }
+            missingFields.push(`${tag.key} (${dataKey} instance ${idx + 1})`)
           }
         })
       })
-    }
+    })
+    
+    const instanceCount = Object.values(slidesData).reduce((sum, arr) => sum + (Array.isArray(arr) ? arr.length : 0), 0)
     
     setValidation({
       valid: missingFields.length === 0,
       error: missingFields.length > 0 ? 'Missing fields: ' + missingFields.join(', ') : null,
       foundFields,
       missingFields,
-      recordCount: data.records ? data.records.length : 0
+      instanceCount
     })
-  }, [jsonInput, tags, recordSlideIndex])
+  }, [jsonInput, tags, repeatableSlides])
 
   // Generate preview
   const generatePreview = useCallback(async () => {
@@ -455,7 +476,7 @@ function App() {
           templatePath: templateFile.filePath,
           tags,
           jsonData,
-          recordSlideIndex
+          repeatableSlides
         })
       })
       
@@ -469,7 +490,7 @@ function App() {
     } catch (err) {
       alert('Invalid JSON: ' + err.message)
     }
-  }, [templateFile, tags, jsonInput, recordSlideIndex, navigateTo])
+  }, [templateFile, tags, jsonInput, repeatableSlides, navigateTo])
 
   // Download PPTX
   const downloadPptx = useCallback(async () => {
@@ -483,7 +504,7 @@ function App() {
           templatePath: templateFile.filePath,
           tags,
           jsonData,
-          recordSlideIndex: recordSlideIndex[0] || null
+          repeatableSlides
         })
       })
       
@@ -494,7 +515,7 @@ function App() {
     } catch (err) {
       alert('Error: ' + err.message)
     }
-  }, [templateFile, tags, jsonInput, recordSlideIndex])
+  }, [templateFile, tags, jsonInput, repeatableSlides])
 
   // Animation class
   const stepAnimClass = animDir === 'forward' 
@@ -582,7 +603,7 @@ function App() {
             {slides.map((slide, idx) => (
               <div 
                 key={idx}
-                className={`tag-slide-btn ${selectedSlide === idx ? 'active' : ''} ${recordSlideIndex.includes(slide.index) ? 'record' : ''}`}
+                className={`tag-slide-btn ${selectedSlide === idx ? 'active' : ''} ${repeatableSlides.includes(slide.index) ? 'record' : ''}`}
                 onClick={() => setSelectedSlide(idx)}
               >
                 <span className="tag-slide-num">{slide.index}</span>
@@ -590,8 +611,8 @@ function App() {
                   <SlidePreview slide={slide} size="small" />
                 </span>
                 <span 
-                  className={`tag-slide-badge ${recordSlideIndex.includes(slide.index) ? 'active' : ''}`} 
-                  title={recordSlideIndex.includes(slide.index) ? 'Click to remove repeatable' : 'Click to mark as repeatable'}
+                  className={`tag-slide-badge ${repeatableSlides.includes(slide.index) ? 'active' : ''}`} 
+                  title={repeatableSlides.includes(slide.index) ? 'Click to remove repeatable' : 'Click to mark as repeatable'}
                   onClick={(e) => { e.stopPropagation(); toggleRecordSlide(slide.index) }}
                 >⟳</span>
               </div>
@@ -696,7 +717,7 @@ function App() {
                                           : tag
                                       )
                                       setTags(newTags)
-                                      triggerSave(newTags, recordSlideIndex)
+                                      triggerSave(newTags, repeatableSlides)
                                     }}
                                   />
                                   <span className="toggle-slider"></span>
@@ -713,7 +734,7 @@ function App() {
                                           : tag
                                       )
                                       setTags(newTags)
-                                      triggerSave(newTags, recordSlideIndex)
+                                      triggerSave(newTags, repeatableSlides)
                                     }}
                                   />
                                 ) : (
@@ -751,12 +772,23 @@ function App() {
                   <label className="tag-repeatable">
                     <input 
                       type="checkbox" 
-                      checked={recordSlideIndex.includes(currentSlide.index)}
+                      checked={!!getRepeatableConfig(currentSlide.index)}
                       onChange={(e) => toggleRecordSlide(currentSlide.index)}
                     />
                     <span>Repeatable</span>
                   </label>
                 </div>
+                {getRepeatableConfig(currentSlide.index) && (
+                  <div className="repeatable-prompt">
+                    <label>Custom prompt for this slide:</label>
+                    <textarea
+                      placeholder="Describe what instances to generate (e.g., 'List 5 major car manufacturers with revenue and HQ')"
+                      value={getRepeatableConfig(currentSlide.index).customPrompt}
+                      onChange={(e) => updateRepeatablePrompt(currentSlide.index, e.target.value)}
+                      rows={3}
+                    />
+                  </div>
+                )}
                 <div className="slide-preview">
                   <div 
                     className="slide-preview-inner"

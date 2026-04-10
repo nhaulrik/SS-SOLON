@@ -636,6 +636,38 @@ header p {
   color: var(--accent-primary);
 }
 
+.repeatable-prompt {
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+}
+
+.repeatable-prompt label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.repeatable-prompt textarea {
+  width: 100%;
+  padding: var(--space-sm);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.repeatable-prompt textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
 /* Repeatable Badge on Thumbnail */
 .tag-slide-badge {
   position: absolute;

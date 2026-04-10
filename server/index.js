@@ -53,25 +53,24 @@ app.post('/api/upload-pptx', (req, res) => {
 // UC-04: Generate recipe
 app.post('/api/generate-recipe', (req, res) => {
   try {
-    const { tags, recordSlideIndex } = req.body;
+    const { tags, repeatableSlides } = req.body;
     
-    const rootFields = tags.filter(t => t.slideIndex !== recordSlideIndex);
-    const recordFields = tags.filter(t => t.slideIndex === recordSlideIndex);
+    // Separate static fields (non-repeatable slides) from repeatable slide fields
+    const repeatableSlideIndices = new Set((repeatableSlides || []).map(r => r.slideIndex));
+    const staticFields = tags.filter(t => !repeatableSlideIndices.has(t.slideIndex));
     
-    const generateFields = [];
-    const hints = {};
+    // Get fields for each repeatable slide
+    const repeatableFields = (repeatableSlides || []).map(r => ({
+      slideIndex: r.slideIndex,
+      customPrompt: r.customPrompt || '',
+      fields: tags.filter(t => t.slideIndex === r.slideIndex)
+    }));
     
-    [...rootFields, ...recordFields].forEach(tag => {
-      if (tag.autoGenerate) {
-        generateFields.push(tag.key);
-        if (tag.hint) {
-          if (tag.maxChars && tag.maxChars > 0) {
-            hints[tag.key] = `${tag.hint}, max ${tag.maxChars} chars`;
-          } else {
-            hints[tag.key] = tag.hint;
-          }
-        }
-      }
+    // Collect static generate fields
+    const staticGenerateFields = staticFields.filter(t => t.autoGenerate).map(t => t.key);
+    const staticHints = {};
+    staticFields.filter(t => t.autoGenerate && t.hint).forEach(t => {
+      staticHints[t.key] = t.maxChars ? `${t.hint}, max ${t.maxChars} chars` : t.hint;
     });
     
     let recipe = `INSTRUCTIONS:
@@ -81,10 +80,40 @@ app.post('/api/generate-recipe', (req, res) => {
 
 JSON STRUCTURE:\n{\n`;
     
-    if (generateFields.length > 0) {
+    // Static fields section
+    if (staticGenerateFields.length > 0) {
       recipe += `  "_instructions": {\n`;
-      recipe += `    "generate_fields": ${JSON.stringify(generateFields)},\n`;
-      recipe += `    "hints": ${JSON.stringify(hints)}\n`;
+      recipe += `    "generate_fields": ${JSON.stringify(staticGenerateFields)},\n`;
+      recipe += `    "hints": ${JSON.stringify(staticHints)}\n`;
+      recipe += `  },\n`;
+    }
+    
+    // Repeatable slides section
+    if (repeatableFields.length > 0) {
+      recipe += `  "slides": {\n`;
+      
+      repeatableFields.forEach((rf, idx) => {
+        const dataKey = `slide_${rf.slideIndex}`;
+        const isLast = idx === repeatableFields.length - 1;
+        
+        // Generate fields for this repeatable slide
+        const slideGenerateFields = rf.fields.filter(t => t.autoGenerate).map(t => t.key);
+        const slideHints = {};
+        rf.fields.filter(t => t.autoGenerate && t.hint).forEach(t => {
+          slideHints[t.key] = t.maxChars ? `${t.hint}, max ${t.maxChars} chars` : t.hint;
+        });
+        
+        recipe += `    "${dataKey}": [\n`;
+        recipe += `      {\n`;
+        recipe += `        "_instructions": {\n`;
+        recipe += `          "prompt": ${JSON.stringify(rf.customPrompt)},\n`;
+        recipe += `          "generate_fields": ${JSON.stringify(slideGenerateFields)},\n`;
+        recipe += `          "hints": ${JSON.stringify(slideHints)}\n`;
+        recipe += `        }\n`;
+        recipe += `      }\n`;
+        recipe += `    ]${isLast ? '' : ','}\n`;
+      });
+      
       recipe += `  }\n`;
     }
     
@@ -99,7 +128,7 @@ JSON STRUCTURE:\n{\n`;
 // UC-05: Validate JSON
 app.post('/api/validate-json', (req, res) => {
   try {
-    const { jsonString, tags, recordSlideIndex } = req.body;
+    const { jsonString, tags, repeatableSlides } = req.body;
     
     let data;
     try {
@@ -117,10 +146,11 @@ app.post('/api/validate-json', (req, res) => {
     const missingFields = [];
     
     const generateOnlyTags = tags.filter(t => t.autoGenerate);
-    const rootGenerateTags = generateOnlyTags.filter(t => t.slideIndex !== recordSlideIndex);
-    const recordGenerateTags = generateOnlyTags.filter(t => t.slideIndex === recordSlideIndex);
+    const repeatableSet = new Set((repeatableSlides || []).map(r => r.slideIndex));
     
-    rootGenerateTags.forEach(tag => {
+    // Validate static fields
+    const staticTags = generateOnlyTags.filter(t => !repeatableSet.has(t.slideIndex));
+    staticTags.forEach(tag => {
       if (data[tag.key] !== undefined) {
         foundFields.push(tag.key);
       } else {
@@ -128,28 +158,37 @@ app.post('/api/validate-json', (req, res) => {
       }
     });
     
-    if (recordSlideIndex !== null && Array.isArray(data.records)) {
-      data.records.forEach((record, idx) => {
-        recordGenerateTags.forEach(tag => {
-          if (record[tag.key] !== undefined) {
-            if (!foundFields.includes(`${tag.key} (record ${idx + 1})`)) {
-              foundFields.push(`${tag.key} (record ${idx + 1})`);
-            }
+    // Validate repeatable slides
+    const slidesData = data.slides || {};
+    (repeatableSlides || []).forEach(repeatable => {
+      const dataKey = `slide_${repeatable.slideIndex}`;
+      const instances = slidesData[dataKey];
+      
+      if (!Array.isArray(instances) || instances.length === 0) {
+        missingFields.push(`${dataKey} (no instances)`);
+        return;
+      }
+      
+      const slideTags = generateOnlyTags.filter(t => t.slideIndex === repeatable.slideIndex);
+      instances.forEach((instance, idx) => {
+        slideTags.forEach(tag => {
+          if (instance[tag.key] !== undefined) {
+            foundFields.push(`${tag.key} (${dataKey} instance ${idx + 1})`);
           } else {
-            if (!missingFields.includes(`${tag.key} (record ${idx + 1})`)) {
-              missingFields.push(`${tag.key} (record ${idx + 1})`);
-            }
+            missingFields.push(`${tag.key} (${dataKey} instance ${idx + 1})`);
           }
         });
       });
-    }
+    });
+    
+    const instanceCount = Object.values(slidesData).reduce((sum, arr) => sum + (Array.isArray(arr) ? arr.length : 0), 0);
     
     res.json({
       valid: missingFields.length === 0,
       error: null,
       foundFields,
       missingFields,
-      recordCount: data.records ? data.records.length : 0
+      instanceCount
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -159,7 +198,7 @@ app.post('/api/validate-json', (req, res) => {
 // UC-06: Generate PPTX
 app.post('/api/generate-pptx', (req, res) => {
   try {
-    const { templatePath, tags, jsonData, recordSlideIndex } = req.body;
+    const { templatePath, tags, jsonData, repeatableSlides } = req.body;
     
     if (!templatePath || !fs.existsSync(templatePath)) {
       return res.status(400).json({ error: 'Template file not found' });
@@ -194,33 +233,65 @@ app.post('/api/generate-pptx', (req, res) => {
       baseContent[slideNum] = content;
     }
     
-    // Replace with JSON data
+    // Build output slides
     const generatedSlides = [];
+    const slidesData = jsonData.slides || {};
+    const repeatableSet = new Set((repeatableSlides || []).map(r => r.slideIndex));
+    
     for (let slideIdx = 0; slideIdx < sortedEntries.length; slideIdx++) {
-      let content = baseContent[slideIdx + 1];
       const slideNum = slideIdx + 1;
-      const isRecordSlide = slideNum === recordSlideIndex;
+      const content = baseContent[slideNum];
       
-      if (isRecordSlide && jsonData.records && jsonData.records.length > 0) {
-        jsonData.records.forEach((record, recordIdx) => {
-          const slideContent = replacePlaceholders(content, jsonData, record, tags, slideNum, recordSlideIndex);
-          generatedSlides.push({ slideIndex: slideNum, recordIndex: recordIdx + 1, content: slideContent });
+      // Check if this is a repeatable slide
+      if (repeatableSet.has(slideNum)) {
+        const dataKey = `slide_${slideNum}`;
+        const instances = slidesData[dataKey];
+        
+        if (Array.isArray(instances) && instances.length > 0) {
+          // Generate one slide per instance
+          instances.forEach((instance, instanceIdx) => {
+            const slideContent = replacePlaceholders(content, jsonData, instance, tags, slideNum);
+            generatedSlides.push({
+              slideIndex: slideNum,
+              instanceIndex: instanceIdx + 1,
+              content: slideContent
+            });
+          });
+        } else {
+          // No instances - still generate one with placeholder values
+          generatedSlides.push({
+            slideIndex: slideNum,
+            instanceIndex: null,
+            content
+          });
+        }
+      } else {
+        // Static slide - generate once with root level data
+        const slideContent = replacePlaceholders(content, jsonData, null, tags, slideNum);
+        generatedSlides.push({
+          slideIndex: slideNum,
+          instanceIndex: null,
+          content: slideContent
         });
-      } else if (!isRecordSlide) {
-        const slideContent = replacePlaceholders(content, jsonData, null, tags, slideNum, recordSlideIndex);
-        generatedSlides.push({ slideIndex: slideNum, recordIndex: null, content: slideContent });
       }
     }
     
-    // Output slides
+    // Replace content in zip
     const outputEntries = sortedEntries.map((entry, idx) => {
       const slideNum = idx + 1;
-      const gen = generatedSlides.find(g => g.slideIndex === slideNum && g.recordIndex === 1) 
-        || generatedSlides.find(g => g.slideIndex === slideNum && g.recordIndex === null);
+      const gen = generatedSlides.find(g => g.slideIndex === slideNum && g.instanceIndex === 1)
+        || generatedSlides.find(g => g.slideIndex === slideNum && g.instanceIndex === null);
       const content = gen ? gen.content : (baseContent[slideNum] || entry.getData().toString('utf8'));
       return { entry, content };
     });
     
+    outputEntries.forEach(({ entry, content }) => {
+      if (content && entry) {
+        entry.setData(Buffer.from(content, 'utf8'));
+      }
+    });
+    
+    // Generate preview data
     const previewData = generatedSlides.map(gs => {
       const content = gs.content || '';
       let elements = { elements: [] };
@@ -233,7 +304,7 @@ app.post('/api/generate-pptx', (req, res) => {
       
       return {
         slideNumber: gs.slideIndex,
-        recordIndex: gs.recordIndex,
+        instanceIndex: gs.instanceIndex,
         content: gs.content,
         elements: elements.elements,
         background: elements.background,
@@ -241,10 +312,33 @@ app.post('/api/generate-pptx', (req, res) => {
       };
     });
     
-    outputEntries.forEach(({ entry, content }) => {
-      if (content && entry) {
-        entry.setData(Buffer.from(content, 'utf8'));
+    // Also add static slides to preview
+    const staticSlides = generatedSlides.filter(g => !repeatableSet.has(g.slideIndex));
+    staticSlides.forEach(gs => {
+      if (!previewData.find(p => p.slideNumber === gs.slideIndex && p.instanceIndex === null)) {
+        let elements = { elements: [] };
+        try {
+          elements = extractSlideElements(gs.content, gs.slideIndex);
+        } catch (e) {}
+        
+        const textMatches = (gs.content || '').match(/<a:t>([^<]*)<\/a:t>/g) || [];
+        const sampleText = textMatches.slice(0, 3).map(t => t.replace(/<[^>]+>/g, ''));
+        
+        previewData.push({
+          slideNumber: gs.slideIndex,
+          instanceIndex: null,
+          content: gs.content,
+          elements: elements.elements,
+          background: elements.background,
+          sampleText
+        });
       }
+    });
+    
+    // Sort preview by slide number then instance
+    previewData.sort((a, b) => {
+      if (a.slideNumber !== b.slideNumber) return a.slideNumber - b.slideNumber;
+      return (a.instanceIndex || 0) - (b.instanceIndex || 0);
     });
     
     const timestamp = Date.now();
