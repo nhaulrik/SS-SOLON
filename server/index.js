@@ -55,31 +55,37 @@ app.post('/api/generate-recipe', (req, res) => {
   try {
     const { tags, recordSlideIndex } = req.body;
     
-    let recipe = `Return a JSON object with the following structure. Do not include any explanation — return only the JSON.\n\n{\n`;
-    
     const rootFields = tags.filter(t => t.slideIndex !== recordSlideIndex);
     const recordFields = tags.filter(t => t.slideIndex === recordSlideIndex);
     
-    rootFields.forEach((tag, idx) => {
-      const comma = idx < rootFields.length - 1 || recordFields.length > 0 ? ',' : '';
-      let hint = '';
-      if (tag.hint) hint = ` // ${tag.hint}`;
-      if (tag.maxChars) hint += ` (max ${tag.maxChars} chars)`;
-      else if (tag.maxChars === 0) hint += ' (short text)';
-      recipe += `  "${tag.key}": "..."${hint}${comma}\n`;
+    const generateFields = [];
+    const hints = {};
+    
+    [...rootFields, ...recordFields].forEach(tag => {
+      if (tag.autoGenerate) {
+        generateFields.push(tag.key);
+        if (tag.hint) {
+          if (tag.maxChars && tag.maxChars > 0) {
+            hints[tag.key] = `${tag.hint}, max ${tag.maxChars} chars`;
+          } else {
+            hints[tag.key] = tag.hint;
+          }
+        }
+      }
     });
     
-    if (recordSlideIndex !== null && recordFields.length > 0) {
-      recipe += `  "records": [\n    {\n`;
-      recordFields.forEach((tag, idx) => {
-        const comma = idx < recordFields.length - 1 ? ',' : '';
-        let hint = '';
-        if (tag.hint) hint = ` // ${tag.hint}`;
-        if (tag.maxChars) hint += ` (max ${tag.maxChars} chars)`;
-        else if (tag.maxChars === 0) hint += ' (short text)';
-        recipe += `      "${tag.key}": "..."${hint}${comma}\n`;
-      });
-      recipe += `    }\n  ]\n`;
+    let recipe = `INSTRUCTIONS:
+- Return ONLY valid JSON, no explanations or markdown
+- Strictly follow the JSON structure below
+- Use EXACT key names as provided - do NOT abbreviate or modify key names
+
+JSON STRUCTURE:\n{\n`;
+    
+    if (generateFields.length > 0) {
+      recipe += `  "_instructions": {\n`;
+      recipe += `    "generate_fields": ${JSON.stringify(generateFields)},\n`;
+      recipe += `    "hints": ${JSON.stringify(hints)}\n`;
+      recipe += `  }\n`;
     }
     
     recipe += `}`;
@@ -110,8 +116,11 @@ app.post('/api/validate-json', (req, res) => {
     const foundFields = [];
     const missingFields = [];
     
-    const rootTags = tags.filter(t => t.slideIndex !== recordSlideIndex);
-    rootTags.forEach(tag => {
+    const generateOnlyTags = tags.filter(t => t.autoGenerate);
+    const rootGenerateTags = generateOnlyTags.filter(t => t.slideIndex !== recordSlideIndex);
+    const recordGenerateTags = generateOnlyTags.filter(t => t.slideIndex === recordSlideIndex);
+    
+    rootGenerateTags.forEach(tag => {
       if (data[tag.key] !== undefined) {
         foundFields.push(tag.key);
       } else {
@@ -119,10 +128,9 @@ app.post('/api/validate-json', (req, res) => {
       }
     });
     
-    const recordTags = tags.filter(t => t.slideIndex === recordSlideIndex);
     if (recordSlideIndex !== null && Array.isArray(data.records)) {
       data.records.forEach((record, idx) => {
-        recordTags.forEach(tag => {
+        recordGenerateTags.forEach(tag => {
           if (record[tag.key] !== undefined) {
             if (!foundFields.includes(`${tag.key} (record ${idx + 1})`)) {
               foundFields.push(`${tag.key} (record ${idx + 1})`);
@@ -461,12 +469,30 @@ function getPresetColor(name) {
 function replacePlaceholders(content, jsonData, recordData, tags, slideIndex, recordSlideIndex) {
   const slideTags = tags.filter(t => t.slideIndex === slideIndex);
   
+  const findValue = (key) => {
+    const source = recordData || jsonData;
+    if (source[key] !== undefined) return source[key];
+    
+    const keyBase = key.replace(/_20\d{2}.*$/, '').replace(/_session.*$/, '').replace(/_steerco.*$/, '').replace(/_roadmap.*$/, '').replace(/_product.*$/, '').replace(/_tax.*$/, '').replace(/_solon.*$/, '');
+    
+    for (const k of Object.keys(source)) {
+      if (k.includes(key) || key.includes(k) || k.replace(/_20\d{2}.*$/, '').replace(/_session.*$/, '').replace(/_steerco.*$/, '').replace(/_roadmap.*$/, '').replace(/_product.*$/, '').replace(/_tax.*$/, '').replace(/_solon.*$/, '') === keyBase) {
+        return source[k];
+      }
+    }
+    return undefined;
+  };
+  
   const result = content.replace(/<a:t>([^<]*)<\/a:t>/g, (match, text) => {
     const tag = slideTags.find(t => text.includes(`{{${t.key}}}`));
     
     if (tag) {
-      let value = recordData ? recordData[tag.key] : jsonData[tag.key];
-      return `<a:t>${value || ''}</a:t>`;
+      if (tag.autoGenerate) {
+        const value = findValue(tag.key);
+        return `<a:t>${value || ''}</a:t>`;
+      } else {
+        return `<a:t>${tag.originalText || ''}</a:t>`;
+      }
     }
     
     return match;

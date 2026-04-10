@@ -422,7 +422,7 @@ header p {
 
 .patch-table-header {
   display: grid;
-  grid-template-columns: 1fr 1fr 70px;
+  grid-template-columns: 1fr 50px 1.5fr 60px;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
   background: var(--bg-tertiary);
@@ -434,7 +434,7 @@ header p {
 
 .patch-row {
   display: grid;
-  grid-template-columns: 1fr 1.5fr 50px;
+  grid-template-columns: 1fr 50px 1.5fr 60px;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
   background: var(--bg-primary);
@@ -472,15 +472,16 @@ header p {
   background: var(--bg-secondary);
   color: var(--text-primary);
 }
-  color: var(--text-secondary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 
 .patch-max {
   color: var(--accent-primary);
   text-align: right;
+}
+
+.patch-row input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  cursor: pointer;
 }
 
 .patch-empty {

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 
 // ============================================================
 // Constants
@@ -140,6 +140,37 @@ function App() {
     })
   }, [])
 
+  // Manual save trigger - only when user makes explicit changes
+  const lastSavedPatchRef = useRef(null)
+  const saveTimeoutRef = useRef(null)
+  
+  const triggerSave = useCallback((newTags, newRecordSlide) => {
+    if (!currentPatch) return
+    
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current)
+    }
+    
+    saveTimeoutRef.current = setTimeout(() => {
+      const currentData = JSON.stringify({ tags: newTags, recordSlideIndex: newRecordSlide })
+      
+      if (currentData !== lastSavedPatchRef.current) {
+        lastSavedPatchRef.current = currentData
+        
+        const updated = patches.map(p => 
+          p.id === currentPatch 
+            ? { ...p, tags: newTags, recordSlideIndex: newRecordSlide, updatedAt: new Date().toISOString() }
+            : p
+        )
+        setPatches(updated)
+        const patchToSave = updated.find(p => p.id === currentPatch)
+        if (patchToSave) {
+          savePatchToServer(patchToSave)
+        }
+      }
+    }, 1000)
+  }, [currentPatch, patches, savePatchToServer])
+
   // Auto-create tags from slide elements when entering tag step
   useEffect(() => {
     if (step === 'tag' && slides.length > 0 && tags.length === 0) {
@@ -147,20 +178,24 @@ function App() {
       slides.forEach(slide => {
         slide.elements.forEach(elem => {
           if (elem.text && elem.text.trim()) {
-            const key = elem.text.trim().toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '').substring(0, 20)
+            const key = elem.text.trim().toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
             autoTags.push({
               elementId: elem.id,
               key: key || 'field',
               hint: elem.text.trim(),
               slideIndex: slide.index,
               originalText: elem.text,
-              maxChars: elem.maxChars
+              maxChars: elem.maxChars,
+              autoGenerate: false
             })
           }
         })
       })
       if (autoTags.length > 0) {
         setTags(autoTags)
+        
+        // Initialize ref to prevent immediate re-save
+        lastSavedPatchRef.current = JSON.stringify({ tags: autoTags, recordSlideIndex: [] })
         
         // Auto-create and save a patch
         const patchName = templateFile?.fileName ? templateFile.fileName.replace('.pptx', '') + '_auto' : 'auto_patch'
@@ -184,25 +219,6 @@ function App() {
   const deletePatchFromServer = useCallback(async (id) => {
     await fetch(`/api/patches/${id}`, { method: 'DELETE' })
   }, [])
-
-  // Auto-save patch when tags change
-  useEffect(() => {
-    if (currentPatch && tags.length > 0) {
-      const timeout = setTimeout(() => {
-        const updated = patches.map(p => 
-          p.id === currentPatch 
-            ? { ...p, tags: [...tags], recordSlideIndex: [...recordSlideIndex], updatedAt: new Date().toISOString() }
-            : p
-        )
-        setPatches(updated)
-        const patchToSave = updated.find(p => p.id === currentPatch)
-        if (patchToSave) {
-          savePatchToServer(patchToSave)
-        }
-      }, 500)
-      return () => clearTimeout(timeout)
-    }
-  }, [tags, recordSlideIndex, currentPatch, patches, savePatchToServer])
 
   // Create new patch
   const createPatch = useCallback((name) => {
@@ -332,7 +348,7 @@ function App() {
   }, [tags, slides, selectedSlide])
 
   // Save a new tag
-  const saveTag = useCallback((key, hint, maxChars) => {
+  const saveTag = useCallback((key, hint, maxChars, autoGenerate) => {
     if (!tagModal) return
     
     let finalMaxChars = tagModal.element.maxChars
@@ -348,7 +364,8 @@ function App() {
       hint,
       slideIndex: tagModal.slideIndex,
       originalText: tagModal.element.text,
-      maxChars: finalMaxChars
+      maxChars: finalMaxChars,
+      autoGenerate: autoGenerate ?? false
     }])
     setTagModal(null)
   }, [tagModal, tags])
@@ -387,8 +404,11 @@ function App() {
     const foundFields = []
     const missingFields = []
     
-    const rootTags = tags.filter(t => t.slideIndex !== recordSlideIndex[0])
-    rootTags.forEach(tag => {
+    const generateOnlyTags = tags.filter(t => t.autoGenerate)
+    const rootGenerateTags = generateOnlyTags.filter(t => t.slideIndex !== recordSlideIndex[0])
+    const recordGenerateTags = generateOnlyTags.filter(t => t.slideIndex === recordSlideIndex[0])
+    
+    rootGenerateTags.forEach(tag => {
       if (data[tag.key] !== undefined) {
         foundFields.push(tag.key)
       } else {
@@ -396,10 +416,9 @@ function App() {
       }
     })
     
-    const recordTags = tags.filter(t => t.slideIndex === recordSlideIndex[0])
     if (recordSlideIndex[0] !== null && Array.isArray(data.records)) {
       data.records.forEach((record, idx) => {
-        recordTags.forEach(tag => {
+        recordGenerateTags.forEach(tag => {
           if (record[tag.key] !== undefined) {
             if (!foundFields.includes(`${tag.key} (record ${idx + 1})`)) {
               foundFields.push(`${tag.key} (record ${idx + 1})`)
@@ -631,6 +650,7 @@ function App() {
               <div className="patch-table">
                 <div className="patch-table-header">
                   <span>Key</span>
+                  <span>AI</span>
                   <span>Hint</span>
                   <span>Max</span>
                 </div>
@@ -656,6 +676,20 @@ function App() {
                       >
                         <span className="patch-key">{'{{' + t.key + '}}'}</span>
                         <input 
+                          type="checkbox"
+                          checked={t.autoGenerate ?? false}
+                          onChange={(e) => {
+                            const newTags = tags.map(tag => 
+                              tag.elementId === t.elementId 
+                                ? { ...tag, autoGenerate: e.target.checked }
+                                : tag
+                            )
+                            setTags(newTags)
+                            triggerSave(newTags, recordSlideIndex)
+                          }}
+                          title="Check to have AI generate this value"
+                        />
+                        <input 
                           className="patch-hint-input"
                           defaultValue={t.hint || ''}
                           placeholder={element?.text || ''}
@@ -666,8 +700,8 @@ function App() {
                                 : tag
                             )
                             setTags(newTags)
+                            triggerSave(newTags, recordSlideIndex)
                           }}
-                          onBlur={() => updatePatch && updatePatch()}
                         />
                         <span className="patch-max">{t.maxChars || '—'}</span>
                       </div>
@@ -796,6 +830,20 @@ function App() {
                         min={1}
                       />
                     </div>
+                    <div className="form-group">
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                        <input 
+                          type="checkbox" 
+                          id="tag-autogenerate"
+                          defaultChecked={existing?.autoGenerate ?? false}
+                          style={{ width: 'auto', margin: 0 }}
+                        />
+                        <span>AI generates this value (auto-replace)</span>
+                      </label>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                        If checked, AI will replace this value. If unchecked, original text is kept.
+                      </p>
+                    </div>
                     <div className="modal-actions">
                       {existing && (
                         <button 
@@ -813,7 +861,8 @@ function App() {
                         const hint = document.getElementById('tag-hint').value.trim()
                         const maxCharsInput = document.getElementById('tag-maxchars')
                         const maxChars = maxCharsInput?.value ? parseInt(maxCharsInput.value, 10) : null
-                        if (key) saveTag(key, hint, maxChars)
+                        const autoGenerate = document.getElementById('tag-autogenerate')?.checked ?? false
+                        if (key) saveTag(key, hint, maxChars, autoGenerate)
                       }}>Save Tag</button>
                       <button className="btn btn-secondary" onClick={() => setTagModal(null)}>Cancel</button>
                     </div>
