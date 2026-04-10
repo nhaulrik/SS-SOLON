@@ -388,6 +388,11 @@
     
     <a href="#overview" class="active">Overview</a>
     
+    <div class="section-header">Getting Started</div>
+    <a href="#getting-started">Quick Start</a>
+    <a href="#installation">Installation</a>
+    <a href="#running">Running the App</a>
+    
     <div class="section-header">Introduction</div>
     <a href="#what-is">What is Solon?</a>
     <a href="#problems">Problems Solved</a>
@@ -419,12 +424,124 @@
       <div class="toc">
         <h4>Quick Navigation</h4>
         <ul>
+          <li><a href="#getting-started">Quick Start Guide</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#running">Running the App</a></li>
           <li><a href="#what-is">What is Solon?</a></li>
           <li><a href="#problems">Problems Solved</a></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#walkthrough">Step-by-Step Walkthrough</a></li>
           <li><a href="#version-control">Version Control Benefits</a></li>
         </ul>
+      </div>
+    </section>
+
+    <section id="getting-started">
+      <h2>🚀 Quick Start</h2>
+      <p>Get up and running in 5 minutes. Follow these steps to transform your PPTX templates into data-driven presentations.</p>
+      
+      <div class="highlight">
+        <strong>Prerequisites:</strong> Node.js (v18+), npm, git
+      </div>
+      
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Clone the Repository</h4>
+          <p>Open your terminal and clone the project:</p>
+          <div class="code-block">git clone &lt;your-repo-url&gt;
+cd SOLON</div>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>Install Dependencies</h4>
+          <p>Install all dependencies from the root folder:</p>
+          <div class="code-block">npm install</div>
+          <p>This installs both frontend and backend dependencies in one go.</p>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Start the Application</h4>
+          <p>Run a single command from the root folder:</p>
+          <div class="code-block">npm run dev</div>
+          <p>This starts both the backend (port 3001) and frontend (port 5173) simultaneously.</p>
+        </div>
+      </div>
+      
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h4>Use the App</h4>
+          <ol>
+            <li>Open <strong>http://localhost:5173</strong> in your browser</li>
+            <li>Upload a <strong>.pptx</strong> file</li>
+            <li>Click on text elements to <strong>tag</strong> them as placeholders</li>
+            <li>Toggle the <strong>AI switch</strong> for fields you want AI to generate</li>
+            <li>Click <strong>Generate Recipe</strong> and copy the prompt</li>
+            <li>Paste AI's JSON response and <strong>Preview</strong></li>
+            <li><strong>Download</strong> your generated PPTX</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="installation">
+      <h2>📦 Installation</h2>
+      <p>Detailed installation instructions for developers who want to run or extend the application.</p>
+      
+      <div class="card">
+        <h3>System Requirements</h3>
+        <ul>
+          <li><strong>Node.js:</strong> v18.0.0 or higher</li>
+          <li><strong>npm:</strong> v8.0.0 or higher</li>
+          <li><strong>Git:</strong> For version control</li>
+          <li><strong>Browser:</strong> Chrome, Firefox, Edge, or Safari</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h3>Project Structure</h3>
+        <div class="code-block">SOLON/
+├── client/          # React frontend (Vite)
+│   ├── src/
+│   │   ├── App.jsx    # Main React component
+│   │   └── index.css   # Styles
+│   └── package.json
+├── server/          # Node.js backend (Express)
+│   ├── index.js       # Server logic
+│   └── package.json
+├── patches/          # Saved tag configurations
+└── docs.html        # This documentation</div>
+      </div>
+      
+      <div class="card">
+        <h3>Install Commands</h3>
+        <p>From the root directory:</p>
+        <div class="code-block">npm install</div>
+      </div>
+    </section>
+
+    <section id="running">
+      <h2>▶️ Running the Application</h2>
+      <p>Start both frontend and backend with a single command:</p>
+      
+      <div class="card">
+        <h3>Start Both Servers</h3>
+        <div class="code-block">npm run dev</div>
+        <ul>
+          <li>Backend runs on <strong>http://localhost:3001</strong></li>
+          <li>Frontend runs on <strong>http://localhost:5173</strong></li>
+        </ul>
+      </div>
+      
+      <div class="highlight">
+        <strong>Tip:</strong> Use <code>npm start</code> as an alternative that runs the same command.
       </div>
     </section>
 
