@@ -13,12 +13,14 @@ const PROJECT_ROOT = path.join(__dirname);
 const TEMP_DIR = path.join(PROJECT_ROOT, 'temp');
 const OUTPUT_DIR = path.join(PROJECT_ROOT, 'output');
 const PATCHES_DIR = path.join(PROJECT_ROOT, 'patches');
+const CHAINS_DIR = path.join(PROJECT_ROOT, 'patch-chains');
 const EMU_PER_INCH = 914400;
 
 // Ensure directories exist
 if (!fs.existsSync(TEMP_DIR)) fs.mkdirSync(TEMP_DIR, { recursive: true });
 if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 if (!fs.existsSync(PATCHES_DIR)) fs.mkdirSync(PATCHES_DIR, { recursive: true });
+if (!fs.existsSync(CHAINS_DIR)) fs.mkdirSync(CHAINS_DIR, { recursive: true });
 
 const app = express();
 app.use(cors());
@@ -217,279 +219,15 @@ app.post('/api/validate-json', (req, res) => {
 app.post('/api/generate-pptx', (req, res) => {
   try {
     const { templatePath, tags, jsonData, repeatableSlides } = req.body;
-    
+
     if (!templatePath || !fs.existsSync(templatePath)) {
       return res.status(400).json({ error: 'Template file not found' });
     }
-    
-    const buffer = fs.readFileSync(templatePath);
-    const zip = new admZip(buffer);
-    
-    // Get original slides content
-    const sortedEntries = zip.getEntries()
-      .filter(e => e.entryName.match(/^ppt\/slides\/slide\d+\.xml$/))
-      .sort((a, b) => {
-        const numA = parseInt(a.entryName.match(/slide(\d+)\.xml/)[1]);
-        const numB = parseInt(b.entryName.match(/slide(\d+)\.xml/)[1]);
-        return numA - numB;
-      });
-    
-    const baseContent = {};
-    for (const entry of sortedEntries) {
-      let content = entry.getData().toString('utf8');
-      const slideNum = parseInt(entry.entryName.match(/slide(\d+)\.xml/)[1]);
-      
-      const slideTags = tags.filter(t => t.slideIndex === slideNum);
-      slideTags.forEach(tag => {
-        if (tag.originalText) {
-          const escaped = tag.originalText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-          const regex = new RegExp(`<a:t>(${escaped})</a:t>`, 'g');
-          content = content.replace(regex, `<a:t>{{${tag.key}}}</a:t>`);
-        }
-      });
-      
-      baseContent[slideNum] = content;
-    }
-    
-    // Build output slides
-    const generatedSlides = [];
-    const slidesData = jsonData.slides || {};
-    
-    // Build structure type to slide template mapping
-    const structureTypeToTemplate = {};
-    (repeatableSlides || []).forEach(r => {
-      const st = r.structureType || `slide_${r.slideIndex}`;
-      structureTypeToTemplate[st] = {
-        slideIndex: r.slideIndex,
-        content: baseContent[r.slideIndex]
-      };
-    });
-    
-    // Generate slides from JSON data by structure_type, preserving raw instance for matching
-    Object.entries(slidesData).forEach(([dataKey, instances]) => {
-      if (!Array.isArray(instances) || instances.length === 0) return;
 
-      instances.forEach((instance, instanceIdx) => {
-        const st = instance.structure_type;
-        const template = structureTypeToTemplate[st];
-
-        if (template) {
-          const slideContent = replacePlaceholders(template.content, jsonData, instance, tags, template.slideIndex);
-          generatedSlides.push({
-            slideIndex: template.slideIndex,
-            instanceIndex: instanceIdx + 1,
-            structureType: st,
-            instanceData: instance,   // retained for field-value matching at sort time
-            content: slideContent
-          });
-        }
-      });
-    });
-
-    // Also include static slides (non-repeatable)
-    const repeatableSet = new Set((repeatableSlides || []).map(r => r.slideIndex));
-    const staticData = jsonData.static || jsonData;
-    for (let slideNum = 1; slideNum <= sortedEntries.length; slideNum++) {
-      if (!repeatableSet.has(slideNum)) {
-        const slideContent = replacePlaceholders(baseContent[slideNum], staticData, null, tags, slideNum);
-        generatedSlides.push({
-          slideIndex: slideNum,
-          instanceIndex: null,
-          content: slideContent
-        });
-      }
-    }
-
-    // Interleave repeatable slides by parent-child relationship
-    const staticSlides = generatedSlides.filter(g => g.instanceIndex === null);
-    const repeatableSlidesList = generatedSlides.filter(g => g.instanceIndex !== null);
-
-    // Determine tier order from template slideIndex (lower = parent, higher = child)
-    const tierOrder = [...new Set(
-      (repeatableSlides || [])
-        .slice()
-        .sort((a, b) => a.slideIndex - b.slideIndex)
-        .map(r => r.structureType || `slide_${r.slideIndex}`)
-    )];
-
-    // Extract all string field values from an instance for matching
-    const stringValues = (instance) => new Set(
-      Object.values(instance).filter(v => typeof v === 'string' && v.trim() !== '')
-    );
-
-    // Build tier buckets in template slide order
-    const tierBuckets = tierOrder.map(st => repeatableSlidesList.filter(s => s.structureType === st));
-
-    const sortedRepeatable = [];
-    const placed = new Set();
-
-    if (tierBuckets.length <= 1) {
-      // Single structure type — no interleaving needed
-      sortedRepeatable.push(...(tierBuckets[0] || []));
-    } else {
-      const parentBucket = tierBuckets[0];
-      const childBuckets = tierBuckets.slice(1);
-
-      parentBucket.forEach(parent => {
-        sortedRepeatable.push(parent);
-        placed.add(parent);
-
-        const parentValues = stringValues(parent.instanceData);
-
-        // For each child tier (in slideIndex order), emit matched children
-        childBuckets.forEach(childBucket => {
-          childBucket.forEach(child => {
-            if (placed.has(child)) return;
-            const childValues = stringValues(child.instanceData);
-            const linked = [...childValues].some(v => parentValues.has(v));
-            if (linked) {
-              sortedRepeatable.push(child);
-              placed.add(child);
-            }
-          });
-        });
-      });
-
-      // Append any children not matched to a parent (orphans) in tier order
-      tierBuckets.slice(1).forEach(childBucket => {
-        childBucket.forEach(child => {
-          if (!placed.has(child)) sortedRepeatable.push(child);
-        });
-      });
-    }
-
-    // Combine: static slides first, then interleaved repeatable slides
-    const finalSortedSlides = [...staticSlides, ...sortedRepeatable];
-    
-    // Handle slide numbering for PPTX
-    // Remove original slides and replace with generated slides only
-
-    // Collect slide _rels templates before deletion so we can recreate them for generated slides
-    const slideRelsTemplates = {};
-    zip.getEntries()
-      .filter(e => e.entryName.match(/^ppt\/slides\/_rels\/slide\d+\.xml\.rels$/))
-      .forEach(e => {
-        const num = parseInt(e.entryName.match(/slide(\d+)\.xml\.rels/)[1]);
-        slideRelsTemplates[num] = e.getData().toString('utf8');
-      });
-
-    // Delete all original slide XMLs and their _rels files from zip
-    const allEntries = zip.getEntries();
-    allEntries.forEach(entry => {
-      if (entry.entryName.match(/^ppt\/slides\/slide\d+\.xml$/) ||
-          entry.entryName.match(/^ppt\/slides\/_rels\/slide\d+\.xml\.rels$/)) {
-        zip.deleteEntry(entry.entryName);
-      }
-    });
-
-    // Use the final sorted slides with interleaved ordering
-    const sortedGenerated = finalSortedSlides;
-
-    // Add all generated slides starting from slide1.xml, plus their _rels files
-    sortedGenerated.forEach((gs, idx) => {
-      const slideNum = idx + 1;
-      const slideXml = `ppt/slides/slide${slideNum}.xml`;
-      // Escape & to &amp; in XML content
-      const escapedContent = (gs.content || '').replace(/&(?!(amp|lt|gt|apos|quot);)/g, '&amp;');
-      zip.addFile(slideXml, Buffer.from(escapedContent, 'utf8'));
-
-      // Create _rels file for this slide based on the source template slide's rels
-      const sourceRels = slideRelsTemplates[gs.slideIndex] || slideRelsTemplates[1] ||
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/></Relationships>`;
-      // Strip notesSlide refs — we're not generating note slides for the expanded set
-      const cleanRels = sourceRels.replace(/<Relationship[^>]*notesSlide[^>]*\/>/g, '');
-      zip.addFile(`ppt/slides/_rels/slide${slideNum}.xml.rels`, Buffer.from(cleanRels, 'utf8'));
-    });
-
-    // Update _rels/presentation.xml.rels: preserve non-slide relationships, replace slide ones
-    const relsEntry = zip.getEntries().find(e => e.entryName === 'ppt/_rels/presentation.xml.rels');
-    if (relsEntry) {
-      let relsXml = relsEntry.getData().toString('utf8');
-
-      // Remove only existing slide relationships (preserve slideMaster, theme, presProps, etc.)
-      relsXml = relsXml.replace(/<Relationship[^>]*\/officeDocument\/2006\/relationships\/slide"[^>]*\/>/g, '');
-
-      // Find max rId used by remaining relationships to avoid ID conflicts
-      const existingIds = [...relsXml.matchAll(/Id="rId(\d+)"/g)].map(m => parseInt(m[1]));
-      const maxRId = existingIds.length > 0 ? Math.max(...existingIds) : 0;
-
-      // Build new slide relationships with non-conflicting IDs
-      const newSlideRels = sortedGenerated.map((_, idx) =>
-        `<Relationship Id="rId${maxRId + idx + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide${idx + 1}.xml"/>`
-      ).join('');
-
-      relsXml = relsXml.replace('</Relationships>', newSlideRels + '</Relationships>');
-      relsEntry.setData(Buffer.from(relsXml, 'utf8'));
-
-      // Update presentation.xml sldIdLst to use the matching rIds
-      const presentationEntry = zip.getEntries().find(e => e.entryName === 'ppt/presentation.xml');
-      if (presentationEntry) {
-        let presentationXml = presentationEntry.getData().toString('utf8');
-        const slideIds = sortedGenerated.map((_, idx) =>
-          `<p:sldId id="${256 + idx}" r:id="rId${maxRId + idx + 1}"/>`
-        ).join('');
-        presentationXml = presentationXml.replace(
-          /<p:sldIdLst[^>]*>[\s\S]*?<\/p:sldIdLst>/,
-          `<p:sldIdLst>${slideIds}</p:sldIdLst>`
-        );
-        presentationEntry.setData(Buffer.from(presentationXml, 'utf8'));
-      }
-    }
-    
-    // Update [Content_Types].xml to include all new slides
-    const contentTypesEntry = zip.getEntries().find(e => e.entryName === '[Content_Types].xml');
-    if (contentTypesEntry) {
-      let contentTypesXml = contentTypesEntry.getData().toString('utf8');
-      
-      // FIX 1: Remove all existing slide overrides first to avoid duplicates
-      contentTypesXml = contentTypesXml.replace(/<Override PartName="\/ppt\/slides\/slide\d+\.xml"[^>]*\/>/g, '');
-      
-      // FIX 2: Use correct ContentType — slide+xml not slide.main+xml
-      const slideOverrides = [];
-      for (let i = 1; i <= sortedGenerated.length; i++) {
-        slideOverrides.push(`<Override PartName="/ppt/slides/slide${i}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>`);
-      }
-      
-      // FIX 3: Use correct negative lookahead regex to find a non-slide Override to insert after,
-      // instead of the broken character-by-character approach that could insert outside </Types>
-      const lastOverrideMatch = contentTypesXml.match(/<Override PartName="(?!\/ppt\/slides\/)[^"]*"[^>]*\/>/g);
-      if (lastOverrideMatch) {
-        const lastOverride = lastOverrideMatch[lastOverrideMatch.length - 1];
-        const lastIndex = contentTypesXml.lastIndexOf(lastOverride);
-        contentTypesXml = contentTypesXml.slice(0, lastIndex + lastOverride.length) + '\n' + slideOverrides.join('\n') + contentTypesXml.slice(lastIndex + lastOverride.length);
-      } else {
-        // Fallback: insert before closing </Types> tag to guarantee valid XML
-        contentTypesXml = contentTypesXml.replace('</Types>', slideOverrides.join('\n') + '\n</Types>');
-      }
-      
-      contentTypesEntry.setData(Buffer.from(contentTypesXml, 'utf8'));
-    }
-    
-    // Generate preview data in the same order as the output PPTX (sortedGenerated)
-    const previewData = sortedGenerated.map((gs, idx) => {
-      const content = gs.content || '';
-      let elements = { elements: [] };
-      try {
-        elements = extractSlideElements(content, gs.slideIndex);
-      } catch (e) {}
-
-      const textMatches = content.match(/<a:t>([^<]*)<\/a:t>/g) || [];
-      const sampleText = textMatches.slice(0, 3).map(t => t.replace(/<[^>]+>/g, ''));
-
-      return {
-        slideNumber: idx + 1,          // output position (1-based), not template slide index
-        instanceIndex: gs.instanceIndex,
-        content: gs.content,
-        elements: elements.elements,
-        background: elements.background,
-        sampleText
-      };
-    });
-    
-    const timestamp = Date.now();
-    const outputPath = path.join(OUTPUT_DIR, `generated-${timestamp}.pptx`);
+    const { zip, previewData } = buildPptxZip(templatePath, tags, jsonData, repeatableSlides);
+    const outputPath = path.join(OUTPUT_DIR, `generated-${Date.now()}.pptx`);
     zip.writeZip(outputPath);
-    
+
     res.json({
       ok: true,
       previewData,
@@ -499,6 +237,326 @@ app.post('/api/generate-pptx', (req, res) => {
     res.status(500).json({ error: 'Failed to generate: ' + err.message });
   }
 });
+
+// ========================
+// Patch Chain Endpoints
+// ========================
+
+// Create a new chain — copies the uploaded temp file into a permanent chain folder
+app.post('/api/patch-chains', (req, res) => {
+  try {
+    const { templatePath, pptxFileName } = req.body;
+    if (!templatePath || !fs.existsSync(templatePath)) {
+      return res.status(400).json({ error: 'Template file not found' });
+    }
+    const chainId = `chain-${Date.now()}`;
+    const chainDir = path.join(CHAINS_DIR, chainId);
+    fs.mkdirSync(chainDir, { recursive: true });
+    fs.copyFileSync(templatePath, path.join(chainDir, 'original.pptx'));
+    const chain = {
+      id: chainId,
+      pptxFileName: pptxFileName || 'template.pptx',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      rounds: []
+    };
+    fs.writeFileSync(path.join(chainDir, 'chain.json'), JSON.stringify(chain, null, 2));
+    res.json({ ok: true, chainId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Apply a patch round to the chain's current base file, produce next intermediate
+app.post('/api/patch-chains/:chainId/apply', (req, res) => {
+  try {
+    const { chainId } = req.params;
+    const { tags, jsonData, repeatableSlides, roundName, focus } = req.body;
+    const chainDir = path.join(CHAINS_DIR, chainId);
+    const chainPath = path.join(chainDir, 'chain.json');
+    if (!fs.existsSync(chainPath)) {
+      return res.status(404).json({ error: 'Chain not found' });
+    }
+    const chain = JSON.parse(fs.readFileSync(chainPath, 'utf8'));
+    const appliedCount = chain.rounds.filter(r => r.status === 'applied').length;
+    const baseFile = appliedCount === 0 ? 'original.pptx' : chain.rounds.filter(r => r.status === 'applied').slice(-1)[0].outputFile;
+    const basePath = path.join(chainDir, baseFile);
+    const originalBase = path.basename(chain.pptxFileName, '.pptx');
+    const outputFile = `${originalBase}-patch-${appliedCount + 1}.pptx`;
+    const outputPath = path.join(chainDir, outputFile);
+    if (!fs.existsSync(basePath)) {
+      return res.status(400).json({ error: `Base file not found: ${baseFile}` });
+    }
+    const { zip, previewData } = buildPptxZip(basePath, tags || [], jsonData || {}, repeatableSlides || []);
+    zip.writeZip(outputPath);
+    const round = {
+      id: `round-${appliedCount + 1}`,
+      name: roundName || `Patch ${appliedCount + 1}`,
+      focus: focus || 'mixed',
+      status: 'applied',
+      baseFile,
+      outputFile,
+      tags: tags || [],
+      repeatableSlides: repeatableSlides || [],
+      appliedAt: new Date().toISOString()
+    };
+    chain.rounds.push(round);
+    chain.updatedAt = new Date().toISOString();
+    fs.writeFileSync(chainPath, JSON.stringify(chain, null, 2));
+    res.json({
+      ok: true,
+      chainId,
+      roundId: round.id,
+      outputFile,
+      nextBasePath: outputPath,
+      previewData,
+      downloadUrl: `/api/patch-chains/${chainId}/download/${outputFile}`
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Serve an intermediate or original file from a chain (for download)
+app.get('/api/patch-chains/:chainId/download/:filename', (req, res) => {
+  const filePath = path.join(CHAINS_DIR, req.params.chainId, req.params.filename);
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ error: 'File not found' });
+  }
+  res.download(filePath);
+});
+
+// Parse a PPTX from a server-side path (used to load the next round's Tag step from an intermediate)
+app.post('/api/parse-pptx-from-path', (req, res) => {
+  try {
+    const { filePath } = req.body;
+    const resolved = path.resolve(filePath);
+    // Only allow paths within CHAINS_DIR
+    if (!resolved.startsWith(path.resolve(CHAINS_DIR))) {
+      return res.status(403).json({ error: 'Invalid path' });
+    }
+    if (!fs.existsSync(resolved)) {
+      return res.status(404).json({ error: 'File not found' });
+    }
+    const buffer = fs.readFileSync(resolved);
+    const zip = new admZip(buffer);
+    const slides = parseSlides(zip);
+    res.json({ ok: true, filePath: resolved, slides });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Shared PPTX generation logic. Returns { zip, previewData }.
+// Caller is responsible for writing zip to the desired output path.
+function buildPptxZip(templatePath, tags, jsonData, repeatableSlides) {
+  const buffer = fs.readFileSync(templatePath);
+  const zip = new admZip(buffer);
+
+  // Get original slides content
+  const sortedEntries = zip.getEntries()
+    .filter(e => e.entryName.match(/^ppt\/slides\/slide\d+\.xml$/))
+    .sort((a, b) => {
+      const numA = parseInt(a.entryName.match(/slide(\d+)\.xml/)[1]);
+      const numB = parseInt(b.entryName.match(/slide(\d+)\.xml/)[1]);
+      return numA - numB;
+    });
+
+  const baseContent = {};
+  for (const entry of sortedEntries) {
+    let content = entry.getData().toString('utf8');
+    const slideNum = parseInt(entry.entryName.match(/slide(\d+)\.xml/)[1]);
+    const slideTags = tags.filter(t => t.slideIndex === slideNum);
+    slideTags.forEach(tag => {
+      if (tag.originalText) {
+        const escaped = tag.originalText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`<a:t>(${escaped})</a:t>`, 'g');
+        content = content.replace(regex, `<a:t>{{${tag.key}}}</a:t>`);
+      }
+    });
+    baseContent[slideNum] = content;
+  }
+
+  // Build output slides
+  const generatedSlides = [];
+  const slidesData = jsonData.slides || {};
+
+  // Build structure type to slide template mapping
+  const structureTypeToTemplate = {};
+  (repeatableSlides || []).forEach(r => {
+    const st = r.structureType || `slide_${r.slideIndex}`;
+    structureTypeToTemplate[st] = {
+      slideIndex: r.slideIndex,
+      content: baseContent[r.slideIndex]
+    };
+  });
+
+  // Generate slides from JSON data by structure_type
+  Object.entries(slidesData).forEach(([dataKey, instances]) => {
+    if (!Array.isArray(instances) || instances.length === 0) return;
+    instances.forEach((instance, instanceIdx) => {
+      const st = instance.structure_type;
+      const template = structureTypeToTemplate[st];
+      if (template) {
+        const slideContent = replacePlaceholders(template.content, jsonData, instance, tags, template.slideIndex);
+        generatedSlides.push({
+          slideIndex: template.slideIndex,
+          instanceIndex: instanceIdx + 1,
+          structureType: st,
+          instanceData: instance,
+          content: slideContent
+        });
+      }
+    });
+  });
+
+  // Include static slides (non-repeatable)
+  const repeatableSet = new Set((repeatableSlides || []).map(r => r.slideIndex));
+  const staticData = jsonData.static || jsonData;
+  for (let slideNum = 1; slideNum <= sortedEntries.length; slideNum++) {
+    if (!repeatableSet.has(slideNum)) {
+      const slideContent = replacePlaceholders(baseContent[slideNum], staticData, null, tags, slideNum);
+      generatedSlides.push({ slideIndex: slideNum, instanceIndex: null, content: slideContent });
+    }
+  }
+
+  // Interleave repeatable slides by parent-child relationship
+  const staticSlides = generatedSlides.filter(g => g.instanceIndex === null);
+  const repeatableSlidesList = generatedSlides.filter(g => g.instanceIndex !== null);
+
+  const tierOrder = [...new Set(
+    (repeatableSlides || [])
+      .slice()
+      .sort((a, b) => a.slideIndex - b.slideIndex)
+      .map(r => r.structureType || `slide_${r.slideIndex}`)
+  )];
+
+  const stringValues = (instance) => new Set(
+    Object.values(instance).filter(v => typeof v === 'string' && v.trim() !== '')
+  );
+
+  const tierBuckets = tierOrder.map(st => repeatableSlidesList.filter(s => s.structureType === st));
+  const sortedRepeatable = [];
+  const placed = new Set();
+
+  if (tierBuckets.length <= 1) {
+    sortedRepeatable.push(...(tierBuckets[0] || []));
+  } else {
+    const parentBucket = tierBuckets[0];
+    const childBuckets = tierBuckets.slice(1);
+    parentBucket.forEach(parent => {
+      sortedRepeatable.push(parent);
+      placed.add(parent);
+      const parentValues = stringValues(parent.instanceData);
+      childBuckets.forEach(childBucket => {
+        childBucket.forEach(child => {
+          if (placed.has(child)) return;
+          const childValues = stringValues(child.instanceData);
+          const linked = [...childValues].some(v => parentValues.has(v));
+          if (linked) { sortedRepeatable.push(child); placed.add(child); }
+        });
+      });
+    });
+    tierBuckets.slice(1).forEach(childBucket => {
+      childBucket.forEach(child => { if (!placed.has(child)) sortedRepeatable.push(child); });
+    });
+  }
+
+  const sortedGenerated = [...staticSlides, ...sortedRepeatable];
+
+  // Collect _rels templates before deleting originals
+  const slideRelsTemplates = {};
+  zip.getEntries()
+    .filter(e => e.entryName.match(/^ppt\/slides\/_rels\/slide\d+\.xml\.rels$/))
+    .forEach(e => {
+      const num = parseInt(e.entryName.match(/slide(\d+)\.xml\.rels/)[1]);
+      slideRelsTemplates[num] = e.getData().toString('utf8');
+    });
+
+  // Delete all original slide XMLs and _rels
+  zip.getEntries().forEach(entry => {
+    if (entry.entryName.match(/^ppt\/slides\/slide\d+\.xml$/) ||
+        entry.entryName.match(/^ppt\/slides\/_rels\/slide\d+\.xml\.rels$/)) {
+      zip.deleteEntry(entry.entryName);
+    }
+  });
+
+  // Add generated slides
+  sortedGenerated.forEach((gs, idx) => {
+    const slideNum = idx + 1;
+    const escapedContent = (gs.content || '').replace(/&(?!(amp|lt|gt|apos|quot);)/g, '&amp;');
+    zip.addFile(`ppt/slides/slide${slideNum}.xml`, Buffer.from(escapedContent, 'utf8'));
+    const sourceRels = slideRelsTemplates[gs.slideIndex] || slideRelsTemplates[1] ||
+      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/></Relationships>`;
+    const cleanRels = sourceRels.replace(/<Relationship[^>]*notesSlide[^>]*\/>/g, '');
+    zip.addFile(`ppt/slides/_rels/slide${slideNum}.xml.rels`, Buffer.from(cleanRels, 'utf8'));
+  });
+
+  // Update presentation.xml.rels
+  const relsEntry = zip.getEntries().find(e => e.entryName === 'ppt/_rels/presentation.xml.rels');
+  if (relsEntry) {
+    let relsXml = relsEntry.getData().toString('utf8');
+    relsXml = relsXml.replace(/<Relationship[^>]*\/officeDocument\/2006\/relationships\/slide"[^>]*\/>/g, '');
+    const existingIds = [...relsXml.matchAll(/Id="rId(\d+)"/g)].map(m => parseInt(m[1]));
+    const maxRId = existingIds.length > 0 ? Math.max(...existingIds) : 0;
+    const newSlideRels = sortedGenerated.map((_, idx) =>
+      `<Relationship Id="rId${maxRId + idx + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide${idx + 1}.xml"/>`
+    ).join('');
+    relsXml = relsXml.replace('</Relationships>', newSlideRels + '</Relationships>');
+    relsEntry.setData(Buffer.from(relsXml, 'utf8'));
+
+    const presentationEntry = zip.getEntries().find(e => e.entryName === 'ppt/presentation.xml');
+    if (presentationEntry) {
+      let presentationXml = presentationEntry.getData().toString('utf8');
+      const slideIds = sortedGenerated.map((_, idx) =>
+        `<p:sldId id="${256 + idx}" r:id="rId${maxRId + idx + 1}"/>`
+      ).join('');
+      presentationXml = presentationXml.replace(
+        /<p:sldIdLst[^>]*>[\s\S]*?<\/p:sldIdLst>/,
+        `<p:sldIdLst>${slideIds}</p:sldIdLst>`
+      );
+      presentationEntry.setData(Buffer.from(presentationXml, 'utf8'));
+    }
+  }
+
+  // Update [Content_Types].xml
+  const contentTypesEntry = zip.getEntries().find(e => e.entryName === '[Content_Types].xml');
+  if (contentTypesEntry) {
+    let contentTypesXml = contentTypesEntry.getData().toString('utf8');
+    contentTypesXml = contentTypesXml.replace(/<Override PartName="\/ppt\/slides\/slide\d+\.xml"[^>]*\/>/g, '');
+    const slideOverrides = sortedGenerated.map((_, i) =>
+      `<Override PartName="/ppt/slides/slide${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/>`
+    );
+    const lastOverrideMatch = contentTypesXml.match(/<Override PartName="(?!\/ppt\/slides\/)[^"]*"[^>]*\/>/g);
+    if (lastOverrideMatch) {
+      const lastOverride = lastOverrideMatch[lastOverrideMatch.length - 1];
+      const lastIndex = contentTypesXml.lastIndexOf(lastOverride);
+      contentTypesXml = contentTypesXml.slice(0, lastIndex + lastOverride.length) + '\n' + slideOverrides.join('\n') + contentTypesXml.slice(lastIndex + lastOverride.length);
+    } else {
+      contentTypesXml = contentTypesXml.replace('</Types>', slideOverrides.join('\n') + '\n</Types>');
+    }
+    contentTypesEntry.setData(Buffer.from(contentTypesXml, 'utf8'));
+  }
+
+  // Build preview data
+  const previewData = sortedGenerated.map((gs, idx) => {
+    const content = gs.content || '';
+    let elements = { elements: [] };
+    try { elements = extractSlideElements(content, gs.slideIndex); } catch (e) {}
+    const textMatches = content.match(/<a:t>([^<]*)<\/a:t>/g) || [];
+    const sampleText = textMatches.slice(0, 3).map(t => t.replace(/<[^>]+>/g, ''));
+    return {
+      slideNumber: idx + 1,
+      instanceIndex: gs.instanceIndex,
+      content: gs.content,
+      elements: elements.elements,
+      background: elements.background,
+      sampleText
+    };
+  });
+
+  return { zip, previewData };
+}
 
 // Download
 app.get('/api/download/:filename', (req, res) => {

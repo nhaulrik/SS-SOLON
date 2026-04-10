@@ -228,6 +228,9 @@ function App() {
   // Auto-create tags from slide elements when entering tag step
   useEffect(() => {
     if (step === 'tag' && slides.length > 0 && tags.length === 0) {
+      // Inside a chain: start fresh, no patch auto-load
+      if (chainId) return
+
       // Check if a patch already exists for this file
       const existingPatch = patches.find(p => p.pptxFile === templateFile?.fileName)
       if (existingPatch) {
@@ -392,6 +395,9 @@ function App() {
     }
   }, [templateFile, patches, slides])
   
+  // Patch chain state (Story 1)
+  const [chainId, setChainId] = useState(null)
+
   // Generation state
   const [recipe, setRecipe] = useState('')
   const [jsonInput, setJsonInput] = useState('')
@@ -615,30 +621,98 @@ function App() {
     }
   }, [templateFile, tags, jsonInput, repeatableSlides, navigateTo])
 
-  // Download PPTX
-  const downloadPptx = useCallback(async () => {
+  // Apply this patch round to the chain and reset to Tag step for the next round
+  const applyPatchAndContinue = useCallback(async () => {
     try {
       const jsonData = JSON.parse(jsonInput)
-      
-      const response = await fetch('/api/generate-pptx', {
+
+      // Create chain on first apply
+      let activeChainId = chainId
+      if (!activeChainId) {
+        const createRes = await fetch('/api/patch-chains', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ templatePath: templateFile.filePath, pptxFileName: templateFile.fileName })
+        })
+        const createResult = await createRes.json()
+        if (!createResult.ok) { alert(createResult.error); return }
+        activeChainId = createResult.chainId
+        setChainId(activeChainId)
+      }
+
+      // Apply round — generates intermediate file
+      const applyRes = await fetch(`/api/patch-chains/${activeChainId}/apply`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          templatePath: templateFile.filePath,
-          tags,
-          jsonData,
-          repeatableSlides
-        })
+        body: JSON.stringify({ tags, jsonData, repeatableSlides })
       })
-      
-      const result = await response.json()
-      if (result.ok && result.downloadUrl) {
-        window.location.href = result.downloadUrl
+      const applyResult = await applyRes.json()
+      if (!applyResult.ok) { alert(applyResult.error); return }
+
+      // Download the checkpoint file without navigating away
+      const a = document.createElement('a')
+      a.href = applyResult.downloadUrl
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+
+      // Parse the intermediate file to get slides for next round's Tag step
+      const parseRes = await fetch('/api/parse-pptx-from-path', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filePath: applyResult.nextBasePath })
+      })
+      const parseResult = await parseRes.json()
+      if (!parseResult.ok) { alert(parseResult.error); return }
+
+      // Reset round state — keep chainId, update template base to intermediate
+      setTemplateFile({ filePath: parseResult.filePath, slides: parseResult.slides, fileName: templateFile.fileName })
+      setSlides(parseResult.slides)
+      setTags([])
+      setRepeatableSlides([])
+      setRecipe('')
+      setJsonInput('')
+      setValidation(null)
+      setPreviewData([])
+      setSelectedPreviewIdx(0)
+      setCurrentPatch(null)
+      navigateTo('tag')
+    } catch (err) {
+      alert('Error: ' + err.message)
+    }
+  }, [chainId, templateFile, tags, jsonInput, repeatableSlides, navigateTo])
+
+  // Generate final file — saves intermediate in chain (if active) and triggers download
+  const generateFinalFile = useCallback(async () => {
+    try {
+      const jsonData = JSON.parse(jsonInput)
+
+      if (chainId) {
+        // Chain context: apply round to get intermediate, then download it
+        const applyRes = await fetch(`/api/patch-chains/${chainId}/apply`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tags, jsonData, repeatableSlides })
+        })
+        const applyResult = await applyRes.json()
+        if (!applyResult.ok) { alert(applyResult.error); return }
+        window.location.href = applyResult.downloadUrl
+      } else {
+        // No chain: legacy single-shot generate
+        const response = await fetch('/api/generate-pptx', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ templatePath: templateFile.filePath, tags, jsonData, repeatableSlides })
+        })
+        const result = await response.json()
+        if (result.ok && result.downloadUrl) {
+          window.location.href = result.downloadUrl
+        }
       }
     } catch (err) {
       alert('Error: ' + err.message)
     }
-  }, [templateFile, tags, jsonInput, repeatableSlides])
+  }, [chainId, templateFile, tags, jsonInput, repeatableSlides])
 
   // Animation class
   const stepAnimClass = animDir === 'forward' 
@@ -1213,11 +1287,14 @@ function App() {
           
           {/* Actions */}
           <div className="preview-actions">
-            <button className="btn btn-secondary" onClick={() => navigateTo('json')}>
+            <button className="btn btn-secondary" onClick={() => navigateTo('recipe')}>
               ← Back to Edit
             </button>
-            <button className="btn btn-primary" onClick={downloadPptx}>
-              Download PPTX ↓
+            <button className="btn btn-secondary" onClick={applyPatchAndContinue}>
+              Apply Patch &amp; Continue →
+            </button>
+            <button className="btn btn-primary" onClick={generateFinalFile}>
+              Generate Final File ↓
             </button>
           </div>
         </div>
