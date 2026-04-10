@@ -192,6 +192,18 @@ function App() {
   // Auto-create tags from slide elements when entering tag step
   useEffect(() => {
     if (step === 'tag' && slides.length > 0 && tags.length === 0) {
+      // Check if a patch already exists for this file
+      const existingPatch = patches.find(p => p.pptxFile === templateFile?.fileName)
+      if (existingPatch) {
+        // Apply existing patch instead of creating new one
+        setTags(existingPatch.tags || [])
+        setRepeatableSlides(existingPatch.repeatableSlides || [])
+        setCurrentPatch(existingPatch.id)
+        setPatchName(existingPatch.name)
+        lastSavedPatchRef.current = JSON.stringify({ tags: existingPatch.tags, repeatableSlides: existingPatch.repeatableSlides })
+        return
+      }
+      
       const autoTags = []
       slides.forEach(slide => {
         slide.elements.forEach(elem => {
@@ -215,7 +227,7 @@ function App() {
         // Initialize ref to prevent immediate re-save
         lastSavedPatchRef.current = JSON.stringify({ tags: autoTags, repeatableSlides: [] })
         
-        // Auto-create and save a patch
+        // Auto-create and save a patch only if no existing patch
         const patchName = templateFile?.fileName ? templateFile.fileName.replace('.pptx', '') + '_auto' : 'auto_patch'
         const newPatch = {
           id: Date.now(),
@@ -231,7 +243,7 @@ function App() {
         savePatchToServer(newPatch)
       }
     }
-  }, [step, slides, tags.length, templateFile, savePatchToServer, setPatches, setCurrentPatch, setPatchName])
+  }, [step, slides, tags.length, templateFile, patches, savePatchToServer, setPatches, setCurrentPatch, setPatchName])
 
   // Delete patch from server
   const deletePatchFromServer = useCallback(async (id) => {
@@ -277,6 +289,8 @@ function App() {
         setRepeatableSlides(matchingPatch.repeatableSlides || [])
         setCurrentPatch(matchingPatch.id)
         setPatchName(matchingPatch.name)
+        // Initialize ref to prevent re-saving the loaded patch
+        lastSavedPatchRef.current = JSON.stringify({ tags: matchingPatch.tags, repeatableSlides: matchingPatch.repeatableSlides })
       }
     }
   }, [templateFile, patches])
@@ -612,23 +626,26 @@ function App() {
         <div className={`step-content ${stepAnimClass}`}>
           {/* Slide Carousel */}
           <div className="tag-slides">
-            {slides.map((slide, idx) => (
-              <div 
-                key={idx}
-                className={`tag-slide-btn ${selectedSlide === idx ? 'active' : ''} ${repeatableSlides.includes(slide.index) ? 'record' : ''}`}
-                onClick={() => setSelectedSlide(idx)}
-              >
-                <span className="tag-slide-num">{slide.index}</span>
-                <span className="tag-slide-preview">
-                  <SlidePreview slide={slide} size="small" />
-                </span>
-                <span 
-                  className={`tag-slide-badge ${repeatableSlides.includes(slide.index) ? 'active' : ''}`} 
-                  title={repeatableSlides.includes(slide.index) ? 'Click to remove repeatable' : 'Click to mark as repeatable'}
-                  onClick={(e) => { e.stopPropagation(); toggleRecordSlide(slide.index) }}
-                >⟳</span>
-              </div>
-            ))}
+            {slides.map((slide, idx) => {
+              const isRepeatable = repeatableSlides.some(r => r.slideIndex === slide.index);
+              return (
+                <div 
+                  key={idx}
+                  className={`tag-slide-btn ${selectedSlide === idx ? 'active' : ''} ${isRepeatable ? 'record' : ''}`}
+                  onClick={() => setSelectedSlide(idx)}
+                >
+                  <span className="tag-slide-num">{slide.index}</span>
+                  <span className="tag-slide-preview">
+                    <SlidePreview slide={slide} size="small" />
+                  </span>
+                  <span 
+                    className={`tag-slide-badge ${isRepeatable ? 'active' : ''}`} 
+                    title={isRepeatable ? 'Click to remove repeatable' : 'Click to mark as repeatable'}
+                    onClick={(e) => { e.stopPropagation(); toggleRecordSlide(slide.index) }}
+                  >⟳</span>
+                </div>
+              );
+            })}
           </div>
           
           {/* Two column layout */}

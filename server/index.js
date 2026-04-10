@@ -458,54 +458,25 @@ app.post('/api/generate-pptx', (req, res) => {
       contentTypesEntry.setData(Buffer.from(contentTypesXml, 'utf8'));
     }
     
-    // Generate preview data
-    const previewData = generatedSlides.map(gs => {
+    // Generate preview data in the same order as the output PPTX (sortedGenerated)
+    const previewData = sortedGenerated.map((gs, idx) => {
       const content = gs.content || '';
       let elements = { elements: [] };
       try {
         elements = extractSlideElements(content, gs.slideIndex);
       } catch (e) {}
-      
+
       const textMatches = content.match(/<a:t>([^<]*)<\/a:t>/g) || [];
       const sampleText = textMatches.slice(0, 3).map(t => t.replace(/<[^>]+>/g, ''));
-      
+
       return {
-        slideNumber: gs.slideIndex,
+        slideNumber: idx + 1,          // output position (1-based), not template slide index
         instanceIndex: gs.instanceIndex,
         content: gs.content,
         elements: elements.elements,
         background: elements.background,
         sampleText
       };
-    });
-    
-    // Also add static slides to preview
-    const staticSlideData = generatedSlides.filter(g => !repeatableSet.has(g.slideIndex));
-    staticSlideData.forEach(gs => {
-      if (!previewData.find(p => p.slideNumber === gs.slideIndex && p.instanceIndex === null)) {
-        let elements = { elements: [] };
-        try {
-          elements = extractSlideElements(gs.content, gs.slideIndex);
-        } catch (e) {}
-        
-        const textMatches = (gs.content || '').match(/<a:t>([^<]*)<\/a:t>/g) || [];
-        const sampleText = textMatches.slice(0, 3).map(t => t.replace(/<[^>]+>/g, ''));
-        
-        previewData.push({
-          slideNumber: gs.slideIndex,
-          instanceIndex: null,
-          content: gs.content,
-          elements: elements.elements,
-          background: elements.background,
-          sampleText
-        });
-      }
-    });
-    
-    // Sort preview by slide number then instance
-    previewData.sort((a, b) => {
-      if (a.slideNumber !== b.slideNumber) return a.slideNumber - b.slideNumber;
-      return (a.instanceIndex || 0) - (b.instanceIndex || 0);
     });
     
     const timestamp = Date.now();
