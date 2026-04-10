@@ -64,8 +64,22 @@ app.post('/api/generate-recipe', (req, res) => {
     
     // Separate static fields (non-repeatable slides) from repeatable slide fields
     const repeatableSlideIndices = new Set((repeatableSlides || []).map(r => r.slideIndex));
-    const staticFields = tags.filter(t => !repeatableSlideIndices.has(t.slideIndex));
-    
+    const allStaticFields = tags.filter(t => !repeatableSlideIndices.has(t.slideIndex));
+
+    // Detect shared keys: a key used on more than one distinct static slide
+    const keyToSlides = {};
+    allStaticFields.forEach(t => {
+      if (!keyToSlides[t.key]) keyToSlides[t.key] = [];
+      if (!keyToSlides[t.key].includes(t.slideIndex)) keyToSlides[t.key].push(t.slideIndex);
+    });
+    const sharedKeys = new Set(
+      Object.entries(keyToSlides).filter(([, slides]) => slides.length > 1).map(([k]) => k)
+    );
+
+    // Split static fields into truly-static (one slide) and contextual (multiple slides)
+    const staticFields = allStaticFields.filter(t => !sharedKeys.has(t.key));
+    const contextualFields = allStaticFields.filter(t => sharedKeys.has(t.key));
+
     // Get fields for each repeatable slide
     const repeatableFields = (repeatableSlides || []).map(r => ({
       slideIndex: r.slideIndex,
@@ -73,66 +87,89 @@ app.post('/api/generate-recipe', (req, res) => {
       customPrompt: r.customPrompt || '',
       fields: tags.filter(t => t.slideIndex === r.slideIndex)
     }));
-    
-    // Collect static generate fields
-    const staticGenerateFieldsList = staticFields.filter(t => t.autoGenerate);
-    
+
     let recipe = `INSTRUCTIONS:
 - Return ONLY valid JSON, no explanations or markdown
 - Use EXACT key names as provided - do NOT abbreviate or modify key names
 
 ${globalPromptSection}GENERATE THE FOLLOWING DATA:
 
-1. STATIC FIELDS (non-repeatable slides) - generate actual values:
+1. STATIC FIELDS (one value per field):
 {
   "static": {
 `;
-    
-    // Static fields section - include maxChars for all static fields
+
+    // Static fields section
     if (staticFields.length > 0) {
       staticFields.forEach(tag => {
         const hint = tag.hint || `value for ${tag.key}`;
         const maxCharsStr = tag.maxChars ? ` (max ${tag.maxChars} chars)` : '';
-        const autoGen = tag.autoGenerate ? '[AI]' : '';
-        recipe += `    "${tag.key}": "${hint}${maxCharsStr}"${autoGen ? ` ${autoGen}` : ''},\n`;
+        const autoGen = tag.autoGenerate ? ' [AI]' : '';
+        recipe += `    "${tag.key}": "${hint}${maxCharsStr}"${autoGen},\n`;
       });
     }
-    
+
     recipe += `  },\n`;
-    
+
+    // Contextual fields section — same key, different slide-specific values
+    if (contextualFields.length > 0) {
+      recipe += `\n2. CONTEXTUAL FIELDS (same field type, slide-specific content — generate one value per slide):\n`;
+      recipe += `"contextual": [\n`;
+      recipe += `  // Each entry: { "slide_index": N, "field_key": "generated value" }\n`;
+
+      // Group by key for readability
+      const byKey = {};
+      contextualFields.forEach(t => {
+        if (!byKey[t.key]) byKey[t.key] = [];
+        byKey[t.key].push(t);
+      });
+
+      Object.entries(byKey).forEach(([key, fieldTags]) => {
+        recipe += `\n  // Field: "${key}" — generate a distinct value for each slide below\n`;
+        fieldTags
+          .filter(t => t.autoGenerate)
+          .sort((a, b) => a.slideIndex - b.slideIndex)
+          .forEach(tag => {
+            const hint = tag.hint || `value for ${key} on slide ${tag.slideIndex}`;
+            const maxCharsStr = tag.maxChars ? ` (max ${tag.maxChars} chars)` : '';
+            recipe += `  { "slide_index": ${tag.slideIndex}, "${key}": "Slide ${tag.slideIndex} context: ${hint}${maxCharsStr}" },\n`;
+          });
+      });
+
+      recipe += `]\n`;
+    }
+
     // Repeatable slides section
+    const slidesSection = contextualFields.length > 0 ? '\n3.' : '\n2.';
     if (repeatableFields.length > 0) {
-      recipe += `  "slides": {\n`;
-      
+      recipe += `${slidesSection} REPEATABLE SLIDES (generate an array of instances for each slide type):\n`;
+      recipe += `"slides": {\n`;
+
       repeatableFields.forEach((rf, idx) => {
         const dataKey = rf.structureType;
         const isLast = idx === repeatableFields.length - 1;
-        
-        // Generate fields for this repeatable slide
         const slideGenerateFields = rf.fields.filter(t => t.autoGenerate);
-        
-        recipe += `    "${dataKey}": [\n`;
-        
-        // Show example instance with structure_type
-        recipe += `      // CUSTOM PROMPT: ${rf.customPrompt || 'instances of this slide type'}\n`;
-        recipe += `      {\n`;
-        recipe += `        "structure_type": "${rf.structureType}",\n`;
-        
+
+        recipe += `  "${dataKey}": [\n`;
+        recipe += `    // CUSTOM PROMPT: ${rf.customPrompt || 'instances of this slide type'}\n`;
+        recipe += `    {\n`;
+        recipe += `      "structure_type": "${rf.structureType}",\n`;
+
         slideGenerateFields.forEach(tag => {
           const hint = tag.hint || `value for ${tag.key}`;
-          recipe += `        "${tag.key}": "${hint}"${tag.maxChars ? ` (max ${tag.maxChars} chars)` : ''},\n`;
+          recipe += `      "${tag.key}": "${hint}"${tag.maxChars ? ` (max ${tag.maxChars} chars)` : ''},\n`;
         });
-        
-        recipe += `      }\n`;
-        recipe += `    ]${isLast ? '' : ','}\n`;
+
+        recipe += `    }\n`;
+        recipe += `  ]${isLast ? '' : ','}\n`;
       });
-      
-      recipe += `  }\n`;
+
+      recipe += `}\n`;
     } else {
-      recipe += `  "slides": {}\n`;
+      recipe += `\n`;
     }
-    
-    recipe += `}\n\nIMPORTANT: For static fields, provide actual generated values. For repeatable slides, generate an array of instances - each with "structure_type" field matching the key name.`;
+
+    recipe += `\nIMPORTANT:\n- static: one value per key\n- contextual: one array entry per slide, each with "slide_index" and the field value\n- slides: array of instances, each with "structure_type" field`;
     
     res.json({ ok: true, recipe });
   } catch (err) {
@@ -162,15 +199,38 @@ app.post('/api/validate-json', (req, res) => {
     
     const generateOnlyTags = tags.filter(t => t.autoGenerate);
     const repeatableSet = new Set((repeatableSlides || []).map(r => r.slideIndex));
-    
-    // Validate static fields (now under "static" key)
+
+    // Detect shared keys among static (non-repeatable) auto-generate tags
+    const allStaticTags = generateOnlyTags.filter(t => !repeatableSet.has(t.slideIndex));
+    const keyToSlides = {};
+    allStaticTags.forEach(t => {
+      if (!keyToSlides[t.key]) keyToSlides[t.key] = [];
+      if (!keyToSlides[t.key].includes(t.slideIndex)) keyToSlides[t.key].push(t.slideIndex);
+    });
+    const sharedKeys = new Set(
+      Object.entries(keyToSlides).filter(([, slides]) => slides.length > 1).map(([k]) => k)
+    );
+
+    // Validate truly-static fields (under "static" key)
     const staticData = data.static || data;
-    const staticTags = generateOnlyTags.filter(t => !repeatableSet.has(t.slideIndex));
+    const staticTags = allStaticTags.filter(t => !sharedKeys.has(t.key));
     staticTags.forEach(tag => {
       if (staticData[tag.key] !== undefined) {
         foundFields.push(tag.key);
       } else {
         missingFields.push(tag.key);
+      }
+    });
+
+    // Validate contextual fields (under "contextual" array)
+    const contextualData = data.contextual || [];
+    const contextualTags = allStaticTags.filter(t => sharedKeys.has(t.key));
+    contextualTags.forEach(tag => {
+      const entry = contextualData.find(c => c.slide_index === tag.slideIndex);
+      if (entry && entry[tag.key] !== undefined) {
+        foundFields.push(`${tag.key} (slide ${tag.slideIndex})`);
+      } else {
+        missingFields.push(`${tag.key} (slide ${tag.slideIndex})`);
       }
     });
     
@@ -876,20 +936,28 @@ function getPresetColor(name) {
 
 function replacePlaceholders(content, jsonData, recordData, tags, slideIndex, recordSlideIndex) {
   const slideTags = tags.filter(t => t.slideIndex === slideIndex);
-  
+
   const escapeXml = (str) => {
     if (!str) return '';
     return str.replace(/&(?!(amp|lt|gt|apos|quot);)/g, '&amp;')
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;');
   };
-  
+
+  // For contextual fields: find the entry in jsonData.contextual whose slide_index matches
+  const contextualEntry = !recordData && Array.isArray(jsonData.contextual)
+    ? jsonData.contextual.find(c => c.slide_index === slideIndex)
+    : null;
+
   const findValue = (key) => {
-    const source = recordData || jsonData;
+    // Contextual lookup takes priority over static for shared keys on this slide
+    if (contextualEntry && contextualEntry[key] !== undefined) return contextualEntry[key];
+
+    const source = recordData || jsonData.static || jsonData;
     if (source[key] !== undefined) return source[key];
-    
+
     const keyBase = key.replace(/_20\d{2}.*$/, '').replace(/_session.*$/, '').replace(/_steerco.*$/, '').replace(/_roadmap.*$/, '').replace(/_product.*$/, '').replace(/_tax.*$/, '').replace(/_solon.*$/, '');
-    
+
     for (const k of Object.keys(source)) {
       if (k.includes(key) || key.includes(k) || k.replace(/_20\d{2}.*$/, '').replace(/_session.*$/, '').replace(/_steerco.*$/, '').replace(/_roadmap.*$/, '').replace(/_product.*$/, '').replace(/_tax.*$/, '').replace(/_solon.*$/, '') === keyBase) {
         return source[k];

@@ -541,15 +541,38 @@ function App() {
     
     const generateOnlyTags = tags.filter(t => t.autoGenerate)
     const repeatableSet = new Set(repeatableSlides.map(r => r.slideIndex))
-    
-    // Validate static fields (under "static" key)
+
+    // Detect shared keys among non-repeatable auto-generate tags
+    const allStaticTags = generateOnlyTags.filter(t => !repeatableSet.has(t.slideIndex))
+    const keyToSlides = {}
+    allStaticTags.forEach(t => {
+      if (!keyToSlides[t.key]) keyToSlides[t.key] = []
+      if (!keyToSlides[t.key].includes(t.slideIndex)) keyToSlides[t.key].push(t.slideIndex)
+    })
+    const sharedKeys = new Set(
+      Object.entries(keyToSlides).filter(([, slides]) => slides.length > 1).map(([k]) => k)
+    )
+
+    // Validate truly-static fields (under "static" key)
     const staticData = data.static || data
-    const staticTags = generateOnlyTags.filter(t => !repeatableSet.has(t.slideIndex))
+    const staticTags = allStaticTags.filter(t => !sharedKeys.has(t.key))
     staticTags.forEach(tag => {
       if (staticData[tag.key] !== undefined) {
         foundFields.push(tag.key)
       } else {
         missingFields.push(tag.key)
+      }
+    })
+
+    // Validate contextual fields (under "contextual" array)
+    const contextualData = data.contextual || []
+    const contextualTags = allStaticTags.filter(t => sharedKeys.has(t.key))
+    contextualTags.forEach(tag => {
+      const entry = contextualData.find(c => c.slide_index === tag.slideIndex)
+      if (entry && entry[tag.key] !== undefined) {
+        foundFields.push(`${tag.key} (slide ${tag.slideIndex})`)
+      } else {
+        missingFields.push(`${tag.key} (slide ${tag.slideIndex})`)
       }
     })
     
@@ -1092,6 +1115,19 @@ function App() {
               const calcMax = tagModal.element.maxChars || 0
               const hasCalcMax = calcMax > 0
               const currentMax = existing?.maxChars || (hasCalcMax ? calcMax : '')
+              const currentSlideIndex = tagModal.slideIndex
+
+              // Detect if a given key is already used on a different slide (shared key)
+              const isSharedKey = (key) => {
+                if (!key) return false
+                return tags.some(t => t.key === key && t.slideIndex !== currentSlideIndex && t.elementId !== tagModal.element.id)
+              }
+              // Detect if a given key already exists on THIS slide (duplicate — block save)
+              const isDuplicateOnSlide = (key) => {
+                if (!key) return false
+                return tags.some(t => t.key === key && t.slideIndex === currentSlideIndex && t.elementId !== tagModal.element.id)
+              }
+
               return (
                 <div className="modal-overlay" onClick={() => setTagModal(null)}>
                   <div className="modal-content" onClick={e => e.stopPropagation()}>
@@ -1104,21 +1140,44 @@ function App() {
                     )}
                     <div className="form-group">
                       <label>Placeholder name (key)</label>
-                      <input 
-                        type="text" 
-                        id="tag-key" 
+                      <input
+                        type="text"
+                        id="tag-key"
                         defaultValue={existing?.key || ''}
                         placeholder="e.g., product_name"
                         autoFocus
+                        onChange={(e) => {
+                          const key = e.target.value.trim()
+                          const notice = document.getElementById('tag-shared-notice')
+                          const dupError = document.getElementById('tag-dup-error')
+                          const hintLabel = document.getElementById('tag-hint-label')
+                          if (notice) notice.style.display = isSharedKey(key) ? 'block' : 'none'
+                          if (dupError) dupError.style.display = isDuplicateOnSlide(key) ? 'block' : 'none'
+                          if (hintLabel) hintLabel.textContent = isSharedKey(key)
+                            ? 'Slide context (AI uses this to write content specific to this slide)'
+                            : 'AI hint (optional)'
+                        }}
                       />
+                      <div
+                        id="tag-dup-error"
+                        style={{ display: 'none', marginTop: '6px', fontSize: '0.82rem', color: 'var(--color-error, #c0392b)', padding: '6px 8px', background: '#fdf0f0', borderRadius: '4px' }}
+                      >
+                        Key already used on this slide. Choose a different key or edit the existing tag.
+                      </div>
+                      <div
+                        id="tag-shared-notice"
+                        style={{ display: isSharedKey(existing?.key) ? 'block' : 'none', marginTop: '6px', fontSize: '0.82rem', color: 'var(--text-muted)', padding: '6px 8px', background: 'var(--bg-subtle, #f5f5f5)', borderRadius: '4px' }}
+                      >
+                        This key is used on another slide. The recipe will ask the AI to generate a slide-specific value for each — make sure the hint below describes what is specific about this slide.
+                      </div>
                     </div>
                     <div className="form-group">
-                      <label>AI hint (optional)</label>
-                      <input 
-                        type="text" 
-                        id="tag-hint" 
+                      <label id="tag-hint-label">{isSharedKey(existing?.key) ? 'Slide context (AI uses this to write content specific to this slide)' : 'AI hint (optional)'}</label>
+                      <input
+                        type="text"
+                        id="tag-hint"
                         defaultValue={existing?.hint || ''}
-                        placeholder="e.g., a short punchy headline, max 8 words"
+                        placeholder={isSharedKey(existing?.key) ? 'Describe what this slide is about or what angle this field should take…' : 'e.g., a short punchy headline, max 8 words'}
                       />
                     </div>
                     <div className="form-group">
@@ -1163,7 +1222,9 @@ function App() {
                         const maxCharsInput = document.getElementById('tag-maxchars')
                         const maxChars = maxCharsInput?.value ? parseInt(maxCharsInput.value, 10) : null
                         const autoGenerate = document.getElementById('tag-autogenerate')?.checked ?? false
-                        if (key) saveTag(key, hint, maxChars, autoGenerate)
+                        if (!key) return
+                        if (isDuplicateOnSlide(key)) return
+                        saveTag(key, hint, maxChars, autoGenerate)
                       }}>Save Tag</button>
                       <button className="btn btn-secondary" onClick={() => setTagModal(null)}>Cancel</button>
                     </div>

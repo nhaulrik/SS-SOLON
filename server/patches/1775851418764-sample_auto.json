@@ -1,8 +1,8 @@
 {
-  "id": 1775836648529,
+  "id": 1775851418764,
   "name": "sample_auto",
   "pptxFile": "sample.pptx",
-  "createdAt": "2026-04-10T15:57:28.529Z",
+  "createdAt": "2026-04-10T20:03:38.764Z",
   "tags": [
     {
       "elementId": "slide1-elem2",
@@ -77,13 +77,31 @@
       "autoGenerate": false
     },
     {
+      "elementId": "slide2-elem7",
+      "key": "core_revenue_management",
+      "hint": "Core Revenue Management",
+      "slideIndex": 2,
+      "originalText": "Core Revenue Management",
+      "maxChars": 39,
+      "autoGenerate": false
+    },
+    {
       "elementId": "slide2-elem8",
       "key": "group_summary__roadmap_initiative_overview",
-      "hint": "Group Summary subheader",
+      "hint": "Group Summary | Roadmap Initiative Overview",
       "slideIndex": 2,
       "originalText": "Group Summary | Roadmap Initiative Overview",
-      "maxChars": 214,
-      "autoGenerate": true
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem11",
+      "key": "23200",
+      "hint": "~23,200",
+      "slideIndex": 2,
+      "originalText": "~23,200",
+      "maxChars": 11,
+      "autoGenerate": false
     },
     {
       "elementId": "slide2-elem12",
@@ -106,7 +124,7 @@
     {
       "elementId": "slide2-elem16",
       "key": "6",
-      "hint": "Roadmap initiatives count",
+      "hint": "6",
       "slideIndex": 2,
       "originalText": "6",
       "maxChars": 11,
@@ -133,7 +151,7 @@
     {
       "elementId": "slide2-elem21",
       "key": "15",
-      "hint": "Features in scope count",
+      "hint": "15",
       "slideIndex": 2,
       "originalText": "15",
       "maxChars": 11,
@@ -160,7 +178,7 @@
     {
       "elementId": "slide2-elem26",
       "key": "pi28",
-      "hint": "Primary PI window for the associated work",
+      "hint": "PI28",
       "slideIndex": 2,
       "originalText": "PI28",
       "maxChars": 11,
@@ -185,13 +203,40 @@
       "autoGenerate": false
     },
     {
+      "elementId": "slide2-elem29",
+      "key": "irm1234__some_feature__1000h",
+      "hint": "IRM-1234 – some feature – 1000H",
+      "slideIndex": 2,
+      "originalText": "IRM-1234 – some feature – 1000H",
+      "maxChars": 1088,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem30",
+      "key": "features_in_initiative",
+      "hint": "Features in initiative",
+      "slideIndex": 2,
+      "originalText": "Features in initiative",
+      "maxChars": 46,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem2",
+      "key": "registration",
+      "hint": "Registration",
+      "slideIndex": 3,
+      "originalText": "Registration",
+      "maxChars": 45,
+      "autoGenerate": false
+    },
+    {
       "elementId": "slide3-elem3",
       "key": "core_revenue_management",
-      "hint": "Inititive subheader ",
+      "hint": "Core Revenue Management",
       "slideIndex": 3,
       "originalText": "Core Revenue Management",
       "maxChars": 214,
-      "autoGenerate": true
+      "autoGenerate": false
     },
     {
       "elementId": "slide3-elem4",
@@ -214,16 +259,16 @@
     {
       "elementId": "slide3-elem6",
       "key": "covers_foundational_tax_administration_functions_enabling_authorities_to_manage_the_full_lifecycle_of_taxpayer_obligations",
-      "hint": "business scope for the initiative.",
+      "hint": "Covers foundational tax administration functions enabling authorities to manage the full lifecycle of taxpayer obligations.",
       "slideIndex": 3,
       "originalText": "Covers foundational tax administration functions enabling authorities to manage the full lifecycle of taxpayer obligations.",
       "maxChars": 1288,
-      "autoGenerate": true
+      "autoGenerate": false
     },
     {
       "elementId": "slide3-elem7",
       "key": "market_needs_amp_investment_benefits",
-      "hint": "Market Needs &amp; Investment Benefits for the initiative",
+      "hint": "Market Needs &amp; Investment Benefits",
       "slideIndex": 3,
       "originalText": "Market Needs &amp; Investment Benefits",
       "maxChars": 47,
@@ -232,11 +277,11 @@
     {
       "elementId": "slide3-elem8",
       "key": "endtoend_taxpayer_lifecycle_management_reduces_administrative_burden_automated_penalty_and_interest_calculations_improve_collection_rates_modular_capability_design_allows_onboarding_of_new_tax_types",
-      "hint": "Market Needs &amp; Investment Benefits for the initiative",
+      "hint": "End-to-end taxpayer lifecycle management reduces administrative burden Automated penalty and interest calculations improve collection rates Modular capability design allows onboarding of new tax types",
       "slideIndex": 3,
       "originalText": "End-to-end taxpayer lifecycle management reduces administrative burden Automated penalty and interest calculations improve collection rates Modular capability design allows onboarding of new tax types",
       "maxChars": 1470,
-      "autoGenerate": true
+      "autoGenerate": false
     },
     {
       "elementId": "slide3-elem10",
@@ -255,65 +300,8 @@
       "originalText": "3",
       "maxChars": 6,
       "autoGenerate": false
-    },
-    {
-      "elementId": "slide2-elem7",
-      "key": "initiative group",
-      "hint": "initiative group name",
-      "slideIndex": 2,
-      "originalText": "Core Revenue Management",
-      "maxChars": 26,
-      "autoGenerate": true
-    },
-    {
-      "elementId": "slide3-elem2",
-      "key": "registration",
-      "hint": "Initiative name",
-      "slideIndex": 3,
-      "originalText": "Registration",
-      "maxChars": 78,
-      "autoGenerate": true
-    },
-    {
-      "elementId": "slide2-elem30",
-      "key": "features_in_initiative",
-      "hint": "Features in initiative",
-      "slideIndex": 2,
-      "originalText": "Features in initiative",
-      "maxChars": 46,
-      "autoGenerate": false
-    },
-    {
-      "elementId": "slide2-elem11",
-      "key": "total original estimate",
-      "hint": "total of final original estimate",
-      "slideIndex": 2,
-      "originalText": "~23,200",
-      "maxChars": 11,
-      "autoGenerate": false
-    },
-    {
-      "elementId": "slide2-elem29",
-      "key": "irm1234__some_feature__1000h",
-      "hint": "List all features that belong to the initiative group. The sum of \"final original estimate\" of these features must be the same as what is displayed in the \"total original estimate\" element.",
-      "slideIndex": 2,
-      "originalText": "IRM-1234 – some feature – 1000H",
-      "maxChars": 1088,
-      "autoGenerate": false
     }
   ],
-  "repeatableSlides": [
-    {
-      "slideIndex": 2,
-      "customPrompt": "I expect these initiative groups to be covered: \nNON-FUNCTIONAL REQUIREMENT COVERAGE\nCORE REVENUE MANAGEMENT CAPABILITIES\nCORE SELF SERVICE CAPABILITIES\nREFERENCE IMPLEMENTATIONS\nCORE SUPPORTING CAPABILITIES\nCORE DATA HUB CAPABILITIES\n",
-      "structureType": "initiative group"
-    },
-    {
-      "slideIndex": 3,
-      "customPrompt": "I expect these initiatives to be covered:\nEXTENSIBILITY\nUSABILITY\nMAINTAINABILITY\nACCESSIBILITY\nTAXPAYER ACCOUNTING\nPERFORMANCE EFFICIENCY\nUSER & 3RD PARTY ACCESS MANAGEMENT\nSECURITY\nTAX ACCOUNTS\nVAT\nUI CONFIGURATION\nFORM PROCESSING\nTRACEABILITY\nREFERENCE DATA\nTEST SUITE OPTIMIZATION\nREGISTRATION\nBILLING, ASSESSMENTS AND INSTALLMENTS\nRELIABILITY\nDOCUMENT MANAGEMENT INTEGRATION\nSELF SERVICE SERVICES MANAGEMENT\nCONTACT MANAGEMENT\nOPERABILITY\nAEOI, VIDA & OTHER DATA STORAGE\nEXEMPTIONS\nCONTENT MANAGEMENT INTEGRATION\nCASE MANAGEMENT\nAEOI, VIDA & OTHER DATA EXCHANGE\nOPERATIONAL REPORTING\nAPPLICATION PROCESSES\nPENALTY & INTEREST\nSELF SERVICE FILING & PAYMENTS\nSELF SERVICE ACCOUNT OVERVIEW\n",
-      "structureType": "initiative detail"
-    }
-  ],
-  "globalPrompt": "for business scopes, use bullets and highlight the value that the business will get from the iniative.",
-  "updatedAt": "2026-04-10T18:13:13.087Z"
+  "repeatableSlides": [],
+  "globalPrompt": ""
 }
