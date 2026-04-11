@@ -10,15 +10,24 @@ export function detectSharedKeys(tags, repeatableSlideIndices = new Set()) {
   );
 }
 
-export function buildRecipe(tags, repeatableSlides, globalPrompt) {
+export function buildRecipe(tags, repeatableSlides, globalPrompt, propagations = []) {
   const globalPromptSection = globalPrompt ? `GLOBAL GUIDANCE:\n${globalPrompt}\n\n` : '';
 
   const repeatableSlideIndices = new Set((repeatableSlides || []).map(r => r.slideIndex));
   const allStaticFields = tags.filter(t => !repeatableSlideIndices.has(t.slideIndex) && t.autoGenerate);
   const sharedKeys = detectSharedKeys(tags, repeatableSlideIndices);
 
-  const staticFields    = allStaticFields.filter(t => !sharedKeys.has(t.key));
-  const contextualFields = allStaticFields.filter(t =>  sharedKeys.has(t.key));
+  // Shared keys with non-unique propagation config are promoted to static
+  const nonUniqueKeys = new Set(
+    propagations.filter(p => p.mode === 'non-unique').map(p => p.key)
+  );
+  const uniqueKeys = new Set(
+    propagations.filter(p => p.mode === 'unique').map(p => p.key)
+  );
+
+  // Non-unique shared keys → static; unique or unconfigured shared keys → contextual
+  const staticFields    = allStaticFields.filter(t => !sharedKeys.has(t.key) || nonUniqueKeys.has(t.key));
+  const contextualFields = allStaticFields.filter(t =>  sharedKeys.has(t.key) && !nonUniqueKeys.has(t.key));
   const repeatableFields = (repeatableSlides || []).map(r => ({
     slideIndex:    r.slideIndex,
     structureType: r.structureType || `slide_${r.slideIndex}`,
@@ -63,9 +72,13 @@ ${globalPromptSection}GENERATE THE FOLLOWING DATA:
       fieldTags
         .sort((a, b) => a.slideIndex - b.slideIndex)
         .forEach(tag => {
-          const hint = tag.hint || `value for ${key} on slide ${tag.slideIndex}`;
+          const baseHint = tag.hint || `value for ${key} on slide ${tag.slideIndex}`;
           const maxCharsStr = tag.maxChars ? ` (max ${tag.maxChars} chars)` : '';
-          recipe += `  { "slide_index": ${tag.slideIndex}, "${key}": "Slide ${tag.slideIndex} context: ${hint}${maxCharsStr}" },\n`;
+          const propagationConfig = propagations.find(p => p.key === key);
+          const linkedSuffix = (uniqueKeys.has(key) && propagationConfig?.linkedKey)
+            ? `. Use the value of '${propagationConfig.linkedKey}' on slide ${tag.slideIndex} as context`
+            : '';
+          recipe += `  { "slide_index": ${tag.slideIndex}, "${key}": "${baseHint}${maxCharsStr}${linkedSuffix}" },\n`;
         });
     });
 
@@ -105,7 +118,7 @@ ${globalPromptSection}GENERATE THE FOLLOWING DATA:
   return recipe;
 }
 
-export function validateJsonData(jsonString, tags, repeatableSlides) {
+export function validateJsonData(jsonString, tags, repeatableSlides, propagations = []) {
   let data;
   try {
     data = JSON.parse(jsonString);
@@ -121,15 +134,19 @@ export function validateJsonData(jsonString, tags, repeatableSlides) {
   const allStaticTags    = generateOnlyTags.filter(t => !repeatableSet.has(t.slideIndex));
   const sharedKeys       = detectSharedKeys(generateOnlyTags, repeatableSet);
 
+  const nonUniqueKeys = new Set(
+    propagations.filter(p => p.mode === 'non-unique').map(p => p.key)
+  );
+
   const staticData  = data.static || data;
-  const staticTags  = allStaticTags.filter(t => !sharedKeys.has(t.key));
+  const staticTags  = allStaticTags.filter(t => !sharedKeys.has(t.key) || nonUniqueKeys.has(t.key));
   staticTags.forEach(tag => {
     if (staticData[tag.key] !== undefined) foundFields.push(tag.key);
     else missingFields.push(tag.key);
   });
 
   const contextualData  = data.contextual || [];
-  const contextualTags  = allStaticTags.filter(t => sharedKeys.has(t.key));
+  const contextualTags  = allStaticTags.filter(t => sharedKeys.has(t.key) && !nonUniqueKeys.has(t.key));
   contextualTags.forEach(tag => {
     const entry = contextualData.find(c => c.slide_index === tag.slideIndex);
     if (entry && entry[tag.key] !== undefined) foundFields.push(`${tag.key} (slide ${tag.slideIndex})`);

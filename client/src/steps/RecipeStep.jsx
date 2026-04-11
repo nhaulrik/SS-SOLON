@@ -10,6 +10,7 @@ export default function RecipeStep({
   setValidation,
   tags,
   repeatableSlides,
+  propagations,
   step,
   canNavigateTo,
   navigateTo,
@@ -31,7 +32,7 @@ export default function RecipeStep({
       const res = await fetch('/api/validate-json', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jsonString: value, tags, repeatableSlides })
+        body: JSON.stringify({ jsonString: value, tags, repeatableSlides, propagations })
       })
       if (!res.ok) throw new Error(`Server error ${res.status}`)
       const result = await res.json()

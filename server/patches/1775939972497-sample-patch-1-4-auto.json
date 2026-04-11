@@ -1,0 +1,1164 @@
+{
+  "id": 1775939972497,
+  "name": "sample-patch-1 (4)_auto",
+  "pptxFile": "sample-patch-1 (4).pptx",
+  "createdAt": "2026-04-11T20:39:32.497Z",
+  "tags": [
+    {
+      "elementId": "slide1-elem2",
+      "key": "solon_tax_product_roadmap_2026",
+      "hint": "Solon Tax Product Roadmap 2026",
+      "slideIndex": 1,
+      "originalText": "Solon Tax Product Roadmap 2026",
+      "maxChars": 30,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide1-elem3",
+      "key": "feature_catalog_for_steerco",
+      "hint": "Feature Catalog for SteerCo",
+      "slideIndex": 1,
+      "originalText": "Feature Catalog for SteerCo",
+      "maxChars": 47,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide1-elem4",
+      "key": "executive_steering_committee__29_april_2026",
+      "hint": "Executive Steering Committee | 29 April 2026",
+      "slideIndex": 1,
+      "originalText": "Executive Steering Committee | 29 April 2026",
+      "maxChars": 74,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide1-elem5",
+      "key": "prepared_by_nikolaj",
+      "hint": "Prepared by: Nikolaj",
+      "slideIndex": 1,
+      "originalText": "Prepared by: Nikolaj",
+      "maxChars": 87,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide1-elem6",
+      "key": "netcompany",
+      "hint": "Netcompany",
+      "slideIndex": 1,
+      "originalText": "Netcompany",
+      "maxChars": 22,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem2",
+      "key": "registration",
+      "hint": "Registration",
+      "slideIndex": 2,
+      "originalText": "Registration",
+      "maxChars": 45,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem3",
+      "key": "core_revenue_management",
+      "hint": "Core Revenue Management",
+      "slideIndex": 2,
+      "originalText": "Core Revenue Management",
+      "maxChars": 214,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem4",
+      "key": "netcompany",
+      "hint": "Netcompany",
+      "slideIndex": 2,
+      "originalText": "Netcompany",
+      "maxChars": 50,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem5",
+      "key": "business_scope",
+      "hint": "Business Scope",
+      "slideIndex": 2,
+      "originalText": "Business Scope",
+      "maxChars": 47,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem6",
+      "key": "covers_foundational_tax_administration_functions_enabling_authorities_to_manage_the_full_lifecycle_of_taxpayer_obligations",
+      "hint": "Covers foundational tax administration functions enabling authorities to manage the full lifecycle of taxpayer obligations.",
+      "slideIndex": 2,
+      "originalText": "Covers foundational tax administration functions enabling authorities to manage the full lifecycle of taxpayer obligations.",
+      "maxChars": 1288,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem7",
+      "key": "market_needs_amp_investment_benefits",
+      "hint": "Market Needs &amp; Investment Benefits",
+      "slideIndex": 2,
+      "originalText": "Market Needs &amp; Investment Benefits",
+      "maxChars": 47,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem8",
+      "key": "endtoend_taxpayer_lifecycle_management_reduces_administrative_burden_automated_penalty_and_interest_calculations_improve_collection_rates_modular_capability_design_allows_onboarding_of_new_tax_types",
+      "hint": "End-to-end taxpayer lifecycle management reduces administrative burden Automated penalty and interest calculations improve collection rates Modular capability design allows onboarding of new tax types",
+      "slideIndex": 2,
+      "originalText": "End-to-end taxpayer lifecycle management reduces administrative burden Automated penalty and interest calculations improve collection rates Modular capability design allows onboarding of new tax types",
+      "maxChars": 1470,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem10",
+      "key": "solon_tax_product_roadmap_2026__steerco",
+      "hint": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "slideIndex": 2,
+      "originalText": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide2-elem11",
+      "key": "3",
+      "hint": "3",
+      "slideIndex": 2,
+      "originalText": "3",
+      "maxChars": 6,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem3",
+      "key": "netcompany",
+      "hint": "Netcompany",
+      "slideIndex": 3,
+      "originalText": "Netcompany",
+      "maxChars": 50,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem5",
+      "key": "solon_tax_product_roadmap_2026__steerco",
+      "hint": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "slideIndex": 3,
+      "originalText": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem6",
+      "key": "2",
+      "hint": "2",
+      "slideIndex": 3,
+      "originalText": "2",
+      "maxChars": 6,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem7",
+      "key": "core_revenue_management",
+      "hint": "Core Revenue Management",
+      "slideIndex": 3,
+      "originalText": "Core Revenue Management",
+      "maxChars": 39,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem8",
+      "key": "scope_business_value_estimates_pi_plan_progress_for_steerco",
+      "hint": "Scope, business value, estimates, PI plan, progress for steerco",
+      "slideIndex": 3,
+      "originalText": "Scope, business value, estimates, PI plan, progress for steerco",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem11",
+      "key": "23200",
+      "hint": "~23,200",
+      "slideIndex": 3,
+      "originalText": "~23,200",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem12",
+      "key": "hours",
+      "hint": "Hours",
+      "slideIndex": 3,
+      "originalText": "Hours",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem13",
+      "key": "total_estimated_effort",
+      "hint": "Total Estimated Effort",
+      "slideIndex": 3,
+      "originalText": "Total Estimated Effort",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem16",
+      "key": "6",
+      "hint": "6",
+      "slideIndex": 3,
+      "originalText": "6",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem17",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 3,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem18",
+      "key": "roadmap_initiatives",
+      "hint": "Roadmap Initiatives",
+      "slideIndex": 3,
+      "originalText": "Roadmap Initiatives",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem21",
+      "key": "15",
+      "hint": "15",
+      "slideIndex": 3,
+      "originalText": "15",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem22",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 3,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem23",
+      "key": "features_in_scope",
+      "hint": "Features in Scope",
+      "slideIndex": 3,
+      "originalText": "Features in Scope",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem26",
+      "key": "pi28",
+      "hint": "PI28",
+      "slideIndex": 3,
+      "originalText": "PI28",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem27",
+      "key": "program_increment",
+      "hint": "Program Increment",
+      "slideIndex": 3,
+      "originalText": "Program Increment",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem28",
+      "key": "primary_pi_window",
+      "hint": "Primary PI Window",
+      "slideIndex": 3,
+      "originalText": "Primary PI Window",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem29",
+      "key": "description",
+      "hint": "IRM-1234 – some feature – 1000H",
+      "slideIndex": 3,
+      "originalText": "IRM-1234 – some feature – 1000H",
+      "maxChars": 1088,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide3-elem30",
+      "key": "features_in_initiative",
+      "hint": "Features in initiative",
+      "slideIndex": 3,
+      "originalText": "Features in initiative",
+      "maxChars": 46,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem3",
+      "key": "netcompany",
+      "hint": "Netcompany",
+      "slideIndex": 4,
+      "originalText": "Netcompany",
+      "maxChars": 50,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem5",
+      "key": "solon_tax_product_roadmap_2026__steerco",
+      "hint": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "slideIndex": 4,
+      "originalText": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem6",
+      "key": "2",
+      "hint": "2",
+      "slideIndex": 4,
+      "originalText": "2",
+      "maxChars": 6,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem7",
+      "key": "core_supporting_capabilities",
+      "hint": "Core Supporting Capabilities",
+      "slideIndex": 4,
+      "originalText": "Core Supporting Capabilities",
+      "maxChars": 39,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem8",
+      "key": "enabling_services_reuse_integration_scope_estimates_delivery_status_for_steerco",
+      "hint": "Enabling services, reuse, integration scope, estimates, delivery status for steerco",
+      "slideIndex": 4,
+      "originalText": "Enabling services, reuse, integration scope, estimates, delivery status for steerco",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem11",
+      "key": "23200",
+      "hint": "~23,200",
+      "slideIndex": 4,
+      "originalText": "~23,200",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem12",
+      "key": "hours",
+      "hint": "Hours",
+      "slideIndex": 4,
+      "originalText": "Hours",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem13",
+      "key": "total_estimated_effort",
+      "hint": "Total Estimated Effort",
+      "slideIndex": 4,
+      "originalText": "Total Estimated Effort",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem16",
+      "key": "6",
+      "hint": "6",
+      "slideIndex": 4,
+      "originalText": "6",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem17",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 4,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem18",
+      "key": "roadmap_initiatives",
+      "hint": "Roadmap Initiatives",
+      "slideIndex": 4,
+      "originalText": "Roadmap Initiatives",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem21",
+      "key": "15",
+      "hint": "15",
+      "slideIndex": 4,
+      "originalText": "15",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem22",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 4,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem23",
+      "key": "features_in_scope",
+      "hint": "Features in Scope",
+      "slideIndex": 4,
+      "originalText": "Features in Scope",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem26",
+      "key": "pi28",
+      "hint": "PI28",
+      "slideIndex": 4,
+      "originalText": "PI28",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem27",
+      "key": "program_increment",
+      "hint": "Program Increment",
+      "slideIndex": 4,
+      "originalText": "Program Increment",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem28",
+      "key": "primary_pi_window",
+      "hint": "Primary PI Window",
+      "slideIndex": 4,
+      "originalText": "Primary PI Window",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem29",
+      "key": "irm1234__some_feature__1000h",
+      "hint": "IRM-1234 – some feature – 1000H",
+      "slideIndex": 4,
+      "originalText": "IRM-1234 – some feature – 1000H",
+      "maxChars": 1088,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide4-elem30",
+      "key": "features_in_initiative",
+      "hint": "Features in initiative",
+      "slideIndex": 4,
+      "originalText": "Features in initiative",
+      "maxChars": 46,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem3",
+      "key": "netcompany",
+      "hint": "Netcompany",
+      "slideIndex": 5,
+      "originalText": "Netcompany",
+      "maxChars": 50,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem5",
+      "key": "solon_tax_product_roadmap_2026__steerco",
+      "hint": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "slideIndex": 5,
+      "originalText": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem6",
+      "key": "2",
+      "hint": "2",
+      "slideIndex": 5,
+      "originalText": "2",
+      "maxChars": 6,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem7",
+      "key": "nonfunctional_requirements",
+      "hint": "Non-Functional Requirements",
+      "slideIndex": 5,
+      "originalText": "Non-Functional Requirements",
+      "maxChars": 39,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem8",
+      "key": "security_performance_reliability_usability_targets_progress_risks_for_steerco",
+      "hint": "Security, performance, reliability, usability targets, progress, risks for steerco",
+      "slideIndex": 5,
+      "originalText": "Security, performance, reliability, usability targets, progress, risks for steerco",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem11",
+      "key": "23200",
+      "hint": "~23,200",
+      "slideIndex": 5,
+      "originalText": "~23,200",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem12",
+      "key": "hours",
+      "hint": "Hours",
+      "slideIndex": 5,
+      "originalText": "Hours",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem13",
+      "key": "total_estimated_effort",
+      "hint": "Total Estimated Effort",
+      "slideIndex": 5,
+      "originalText": "Total Estimated Effort",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem16",
+      "key": "6",
+      "hint": "6",
+      "slideIndex": 5,
+      "originalText": "6",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem17",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 5,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem18",
+      "key": "roadmap_initiatives",
+      "hint": "Roadmap Initiatives",
+      "slideIndex": 5,
+      "originalText": "Roadmap Initiatives",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem21",
+      "key": "15",
+      "hint": "15",
+      "slideIndex": 5,
+      "originalText": "15",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem22",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 5,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem23",
+      "key": "features_in_scope",
+      "hint": "Features in Scope",
+      "slideIndex": 5,
+      "originalText": "Features in Scope",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem26",
+      "key": "pi28",
+      "hint": "PI28",
+      "slideIndex": 5,
+      "originalText": "PI28",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem27",
+      "key": "program_increment",
+      "hint": "Program Increment",
+      "slideIndex": 5,
+      "originalText": "Program Increment",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem28",
+      "key": "primary_pi_window",
+      "hint": "Primary PI Window",
+      "slideIndex": 5,
+      "originalText": "Primary PI Window",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem29",
+      "key": "irm1234__some_feature__1000h",
+      "hint": "IRM-1234 – some feature – 1000H",
+      "slideIndex": 5,
+      "originalText": "IRM-1234 – some feature – 1000H",
+      "maxChars": 1088,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide5-elem30",
+      "key": "features_in_initiative",
+      "hint": "Features in initiative",
+      "slideIndex": 5,
+      "originalText": "Features in initiative",
+      "maxChars": 46,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem3",
+      "key": "netcompany",
+      "hint": "Netcompany",
+      "slideIndex": 6,
+      "originalText": "Netcompany",
+      "maxChars": 50,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem5",
+      "key": "solon_tax_product_roadmap_2026__steerco",
+      "hint": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "slideIndex": 6,
+      "originalText": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem6",
+      "key": "2",
+      "hint": "2",
+      "slideIndex": 6,
+      "originalText": "2",
+      "maxChars": 6,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem7",
+      "key": "core_self_service_capabilities",
+      "hint": "Core Self Service Capabilities",
+      "slideIndex": 6,
+      "originalText": "Core Self Service Capabilities",
+      "maxChars": 39,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem8",
+      "key": "portal_services_access_management_feature_scope_estimates_status_for_steerco",
+      "hint": "Portal services, access management, feature scope, estimates, status for steerco",
+      "slideIndex": 6,
+      "originalText": "Portal services, access management, feature scope, estimates, status for steerco",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem11",
+      "key": "23200",
+      "hint": "~23,200",
+      "slideIndex": 6,
+      "originalText": "~23,200",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem12",
+      "key": "hours",
+      "hint": "Hours",
+      "slideIndex": 6,
+      "originalText": "Hours",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem13",
+      "key": "total_estimated_effort",
+      "hint": "Total Estimated Effort",
+      "slideIndex": 6,
+      "originalText": "Total Estimated Effort",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem16",
+      "key": "6",
+      "hint": "6",
+      "slideIndex": 6,
+      "originalText": "6",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem17",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 6,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem18",
+      "key": "roadmap_initiatives",
+      "hint": "Roadmap Initiatives",
+      "slideIndex": 6,
+      "originalText": "Roadmap Initiatives",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem21",
+      "key": "15",
+      "hint": "15",
+      "slideIndex": 6,
+      "originalText": "15",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem22",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 6,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem23",
+      "key": "features_in_scope",
+      "hint": "Features in Scope",
+      "slideIndex": 6,
+      "originalText": "Features in Scope",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem26",
+      "key": "pi28",
+      "hint": "PI28",
+      "slideIndex": 6,
+      "originalText": "PI28",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem27",
+      "key": "program_increment",
+      "hint": "Program Increment",
+      "slideIndex": 6,
+      "originalText": "Program Increment",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem28",
+      "key": "primary_pi_window",
+      "hint": "Primary PI Window",
+      "slideIndex": 6,
+      "originalText": "Primary PI Window",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem29",
+      "key": "irm1234__some_feature__1000h",
+      "hint": "IRM-1234 – some feature – 1000H",
+      "slideIndex": 6,
+      "originalText": "IRM-1234 – some feature – 1000H",
+      "maxChars": 1088,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide6-elem30",
+      "key": "features_in_initiative",
+      "hint": "Features in initiative",
+      "slideIndex": 6,
+      "originalText": "Features in initiative",
+      "maxChars": 46,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem3",
+      "key": "netcompany",
+      "hint": "Netcompany",
+      "slideIndex": 7,
+      "originalText": "Netcompany",
+      "maxChars": 50,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem5",
+      "key": "solon_tax_product_roadmap_2026__steerco",
+      "hint": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "slideIndex": 7,
+      "originalText": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem6",
+      "key": "2",
+      "hint": "2",
+      "slideIndex": 7,
+      "originalText": "2",
+      "maxChars": 6,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem7",
+      "key": "reference_implementations",
+      "hint": "Reference Implementations",
+      "slideIndex": 7,
+      "originalText": "Reference Implementations",
+      "maxChars": 39,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem8",
+      "key": "packaged_demos_vat_and_flows_coverage_effort_timeline_readiness_for_steerco",
+      "hint": "Packaged demos, VAT and flows coverage, effort, timeline, readiness for steerco",
+      "slideIndex": 7,
+      "originalText": "Packaged demos, VAT and flows coverage, effort, timeline, readiness for steerco",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem11",
+      "key": "23200",
+      "hint": "~23,200",
+      "slideIndex": 7,
+      "originalText": "~23,200",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem12",
+      "key": "hours",
+      "hint": "Hours",
+      "slideIndex": 7,
+      "originalText": "Hours",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem13",
+      "key": "total_estimated_effort",
+      "hint": "Total Estimated Effort",
+      "slideIndex": 7,
+      "originalText": "Total Estimated Effort",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem16",
+      "key": "6",
+      "hint": "6",
+      "slideIndex": 7,
+      "originalText": "6",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem17",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 7,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem18",
+      "key": "roadmap_initiatives",
+      "hint": "Roadmap Initiatives",
+      "slideIndex": 7,
+      "originalText": "Roadmap Initiatives",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem21",
+      "key": "15",
+      "hint": "15",
+      "slideIndex": 7,
+      "originalText": "15",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem22",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 7,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem23",
+      "key": "features_in_scope",
+      "hint": "Features in Scope",
+      "slideIndex": 7,
+      "originalText": "Features in Scope",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem26",
+      "key": "pi28",
+      "hint": "PI28",
+      "slideIndex": 7,
+      "originalText": "PI28",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem27",
+      "key": "program_increment",
+      "hint": "Program Increment",
+      "slideIndex": 7,
+      "originalText": "Program Increment",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem28",
+      "key": "primary_pi_window",
+      "hint": "Primary PI Window",
+      "slideIndex": 7,
+      "originalText": "Primary PI Window",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem29",
+      "key": "irm1234__some_feature__1000h",
+      "hint": "IRM-1234 – some feature – 1000H",
+      "slideIndex": 7,
+      "originalText": "IRM-1234 – some feature – 1000H",
+      "maxChars": 1088,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide7-elem30",
+      "key": "features_in_initiative",
+      "hint": "Features in initiative",
+      "slideIndex": 7,
+      "originalText": "Features in initiative",
+      "maxChars": 46,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem3",
+      "key": "netcompany",
+      "hint": "Netcompany",
+      "slideIndex": 8,
+      "originalText": "Netcompany",
+      "maxChars": 50,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem5",
+      "key": "solon_tax_product_roadmap_2026__steerco",
+      "hint": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "slideIndex": 8,
+      "originalText": "Solon Tax Product Roadmap 2026 | SteerCo",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem6",
+      "key": "2",
+      "hint": "2",
+      "slideIndex": 8,
+      "originalText": "2",
+      "maxChars": 6,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem7",
+      "key": "core_data_hub_capabilities",
+      "hint": "Core Data Hub Capabilities",
+      "slideIndex": 8,
+      "originalText": "Core Data Hub Capabilities",
+      "maxChars": 39,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem8",
+      "key": "data_exchange_storage_prefill_vida_scope_estimates_dependencies_status_for_steerco",
+      "hint": "Data exchange, storage, prefill, ViDA scope, estimates, dependencies, status for steerco",
+      "slideIndex": 8,
+      "originalText": "Data exchange, storage, prefill, ViDA scope, estimates, dependencies, status for steerco",
+      "maxChars": 114,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem11",
+      "key": "23200",
+      "hint": "~23,200",
+      "slideIndex": 8,
+      "originalText": "~23,200",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem12",
+      "key": "hours",
+      "hint": "Hours",
+      "slideIndex": 8,
+      "originalText": "Hours",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem13",
+      "key": "total_estimated_effort",
+      "hint": "Total Estimated Effort",
+      "slideIndex": 8,
+      "originalText": "Total Estimated Effort",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem16",
+      "key": "6",
+      "hint": "6",
+      "slideIndex": 8,
+      "originalText": "6",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem17",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 8,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem18",
+      "key": "roadmap_initiatives",
+      "hint": "Roadmap Initiatives",
+      "slideIndex": 8,
+      "originalText": "Roadmap Initiatives",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem21",
+      "key": "15",
+      "hint": "15",
+      "slideIndex": 8,
+      "originalText": "15",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem22",
+      "key": "count",
+      "hint": "Count",
+      "slideIndex": 8,
+      "originalText": "Count",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem23",
+      "key": "features_in_scope",
+      "hint": "Features in Scope",
+      "slideIndex": 8,
+      "originalText": "Features in Scope",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem26",
+      "key": "pi28",
+      "hint": "PI28",
+      "slideIndex": 8,
+      "originalText": "PI28",
+      "maxChars": 11,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem27",
+      "key": "program_increment",
+      "hint": "Program Increment",
+      "slideIndex": 8,
+      "originalText": "Program Increment",
+      "maxChars": 29,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem28",
+      "key": "primary_pi_window",
+      "hint": "Primary PI Window",
+      "slideIndex": 8,
+      "originalText": "Primary PI Window",
+      "maxChars": 60,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem29",
+      "key": "irm1234__some_feature__1000h",
+      "hint": "IRM-1234 – some feature – 1000H",
+      "slideIndex": 8,
+      "originalText": "IRM-1234 – some feature – 1000H",
+      "maxChars": 1088,
+      "autoGenerate": false
+    },
+    {
+      "elementId": "slide8-elem30",
+      "key": "features_in_initiative",
+      "hint": "Features in initiative",
+      "slideIndex": 8,
+      "originalText": "Features in initiative",
+      "maxChars": 46,
+      "autoGenerate": false
+    }
+  ],
+  "repeatableSlides": [],
+  "globalPrompt": "",
+  "propagations": [],
+  "updatedAt": "2026-04-11T20:40:36.566Z"
+}

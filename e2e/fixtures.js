@@ -50,6 +50,14 @@ export const SEL = {
   hintInput:        '.patch-hint-input',
   patchMaxInput:    '.patch-max-input',
 
+  // Propagation
+  propagateIcon:        '.propagate-icon',
+  propagateModal:       '.propagate-modal',
+  propagateModeNonUniq: '[data-testid="mode-non-unique"]',
+  propagateModeUnique:  '[data-testid="mode-unique"]',
+  propagateLinkedKey:   '[data-testid="linked-key-select"]',
+  propagateSave:        '[data-testid="propagate-save"]',
+
   // Actions
   generateRecipe:   'button:has-text("Generate Recipe")',
 
@@ -143,6 +151,19 @@ export const test = base.extend({
       key:          'initiative_group_subheader',
       hint:         'subheader of initiative group'
     });
+    await use(page);
+  },
+
+  /**
+   * "Netcompany" is tagged with the same key on slide 1 and slide 3 (both non-repeatable).
+   * This gives a naturally shared key ready for propagation tests.
+   */
+  propagatedPage: async ({ page }, use) => {
+    await doUpload(page);
+    await selectSlide(page, 1);
+    await tagElement(page, { originalText: 'Netcompany', key: 'netcompany', hint: 'Company name', ai: true });
+    await selectSlide(page, 3);
+    await tagElement(page, { originalText: 'Netcompany', key: 'netcompany', hint: 'Company name', ai: true });
     await use(page);
   }
 });

@@ -29,8 +29,8 @@ router.post('/upload-pptx', (req, res) => {
 // ── Generate recipe prompt ─────────────────────────────────────────────────────
 router.post('/generate-recipe', (req, res) => {
   try {
-    const { tags, repeatableSlides, globalPrompt } = req.body;
-    const recipe = buildRecipe(tags, repeatableSlides, globalPrompt);
+    const { tags, repeatableSlides, globalPrompt, propagations } = req.body;
+    const recipe = buildRecipe(tags, repeatableSlides, globalPrompt, propagations);
     res.json({ ok: true, recipe });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -40,8 +40,8 @@ router.post('/generate-recipe', (req, res) => {
 // ── Validate JSON response ─────────────────────────────────────────────────────
 router.post('/validate-json', (req, res) => {
   try {
-    const { jsonString, tags, repeatableSlides } = req.body;
-    res.json(validateJsonData(jsonString, tags, repeatableSlides));
+    const { jsonString, tags, repeatableSlides, propagations } = req.body;
+    res.json(validateJsonData(jsonString, tags, repeatableSlides, propagations));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

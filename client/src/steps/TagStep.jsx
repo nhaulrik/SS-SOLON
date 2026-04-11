@@ -3,6 +3,7 @@ import AppHeader from '../components/AppHeader.jsx'
 import Breadcrumbs from '../components/Breadcrumbs.jsx'
 import SlidePreview from '../components/SlidePreview.jsx'
 import TagModal from '../components/TagModal.jsx'
+import PropagateModal from '../components/PropagateModal.jsx'
 
 const SLIDE_WIDTH  = 10
 const SLIDE_HEIGHT = 5.625
@@ -15,6 +16,10 @@ export default function TagStep({
   setTags,
   repeatableSlides,
   setRepeatableSlides,
+  // Propagation state
+  propagations,
+  onSavePropagation,
+  onRenameKeyAllSlides,
   // Patch state
   patches,
   currentPatch,
@@ -37,6 +42,20 @@ export default function TagStep({
   const [selectedSlide,      setSelectedSlide]      = useState(0)
   const [highlightedElement, setHighlightedElement] = useState(null)
   const [tagModal,           setTagModal]           = useState(null)
+  const [propagateModal,     setPropagateModal]     = useState(null) // key string | null
+  const [renameConfirm,      setRenameConfirm]      = useState(null) // { elementId, oldKey, newKey } | null
+
+  // ── Shared key detection ───────────────────────────────────────
+  const repeatableSet = new Set(repeatableSlides.map(r => r.slideIndex))
+  const allStaticTags = tags.filter(t => !repeatableSet.has(t.slideIndex))
+  const keyToSlides   = {}
+  allStaticTags.forEach(t => {
+    if (!keyToSlides[t.key]) keyToSlides[t.key] = []
+    if (!keyToSlides[t.key].includes(t.slideIndex)) keyToSlides[t.key].push(t.slideIndex)
+  })
+  const sharedKeys = new Set(
+    Object.entries(keyToSlides).filter(([, s]) => s.length > 1).map(([k]) => k)
+  )
 
   const currentSlide = slides[selectedSlide]
 
@@ -244,21 +263,41 @@ export default function TagStep({
                               </label>
 
                               {/* Key — always visible, inline editable */}
-                              <input
-                                className="patch-key-input"
-                                value={t.key}
-                                title={t.key}
-                                onClick={e => e.stopPropagation()}
-                                onChange={e => {
-                                  const newTags = tags.map(tag =>
-                                    tag.elementId === t.elementId
-                                      ? { ...tag, key: e.target.value }
-                                      : tag
-                                  )
-                                  setTags(newTags)
-                                  triggerSave(newTags, repeatableSlides)
-                                }}
-                              />
+                              <div className="patch-key-cell">
+                                <input
+                                  className="patch-key-input"
+                                  value={t.key}
+                                  title={t.key}
+                                  onClick={e => e.stopPropagation()}
+                                  onFocus={e => { e.target.dataset.originalKey = t.key }}
+                                  onChange={e => {
+                                    // Update only this tag while typing
+                                    const newTags = tags.map(tag =>
+                                      tag.elementId === t.elementId
+                                        ? { ...tag, key: e.target.value }
+                                        : tag
+                                    )
+                                    setTags(newTags)
+                                    triggerSave(newTags, repeatableSlides)
+                                  }}
+                                  onBlur={e => {
+                                    const originalKey = e.target.dataset.originalKey
+                                    const newKey      = e.target.value
+                                    if (newKey === originalKey) return
+                                    // Only prompt when the original key was shared
+                                    if (originalKey && sharedKeys.has(originalKey)) {
+                                      setRenameConfirm({ elementId: t.elementId, oldKey: originalKey, newKey })
+                                    }
+                                  }}
+                                />
+                                {sharedKeys.has(t.key) && (
+                                  <button
+                                    className="propagate-icon"
+                                    title={`This key is used on ${keyToSlides[t.key].length} slide(s). Click to configure propagation.`}
+                                    onClick={e => { e.stopPropagation(); setPropagateModal(t.key) }}
+                                  >⇔</button>
+                                )}
+                              </div>
 
                               {/* Hint — visible only when AI on */}
                               {t.autoGenerate ? (
@@ -426,6 +465,52 @@ export default function TagStep({
             onSave={handleSaveTag}
             onClose={() => setTagModal(null)}
             onDelete={handleDeleteTag}
+          />
+        )}
+
+        {renameConfirm && (
+          <div className="modal-overlay" onClick={() => setRenameConfirm(null)}>
+            <div className="modal-content rename-confirm-modal" onClick={e => e.stopPropagation()}>
+              <h3>Rename key &ldquo;{renameConfirm.oldKey}&rdquo;</h3>
+              <p>
+                This key is used on multiple slides. Do you want to rename it everywhere,
+                or only on this slide?
+              </p>
+              <div className="modal-actions">
+                <button
+                  className="btn btn-secondary"
+                  data-testid="rename-this-slide"
+                  onClick={() => setRenameConfirm(null)}
+                >
+                  This slide only
+                </button>
+                <button
+                  className="btn btn-primary"
+                  data-testid="rename-all-slides"
+                  onClick={() => {
+                    onRenameKeyAllSlides(renameConfirm.oldKey, renameConfirm.newKey)
+                    setRenameConfirm(null)
+                  }}
+                >
+                  All slides
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {propagateModal && (
+          <PropagateModal
+            sharedKey={propagateModal}
+            slideList={keyToSlides[propagateModal] ?? []}
+            allKeysOnSlide={
+              tags
+                .filter(t => t.slideIndex === slides[selectedSlide]?.index)
+                .map(t => t.key)
+            }
+            currentConfig={propagations.find(p => p.key === propagateModal) ?? null}
+            onSave={config => onSavePropagation(propagateModal, config)}
+            onClose={() => setPropagateModal(null)}
           />
         )}
       </div>

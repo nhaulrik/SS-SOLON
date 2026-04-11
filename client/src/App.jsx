@@ -29,6 +29,7 @@ export default function App() {
   // ── Tags ───────────────────────────────────────────────────────
   const [tags,             setTags]             = useState([])
   const [repeatableSlides, setRepeatableSlides] = useState([])
+  const [propagations,     setPropagations]     = useState([])
 
   // ── Patch persistence ──────────────────────────────────────────
   const [patches,      setPatches]      = useState([])
@@ -81,27 +82,28 @@ export default function App() {
     }
   }, [])
 
-  const triggerSave = useCallback((newTags, newRepeatableSlides, newGlobalPrompt) => {
+  const triggerSave = useCallback((newTags, newRepeatableSlides, newGlobalPrompt, newPropagations) => {
     if (!currentPatch) return
 
-    const promptToSave = newGlobalPrompt !== undefined ? newGlobalPrompt : globalPrompt
+    const promptToSave      = newGlobalPrompt  !== undefined ? newGlobalPrompt  : globalPrompt
+    const propagationsToSave = newPropagations !== undefined ? newPropagations  : propagations
 
     clearTimeout(saveTimeoutRef.current)
     saveTimeoutRef.current = setTimeout(() => {
-      const snapshot = JSON.stringify({ tags: newTags, repeatableSlides: newRepeatableSlides, globalPrompt: promptToSave })
+      const snapshot = JSON.stringify({ tags: newTags, repeatableSlides: newRepeatableSlides, globalPrompt: promptToSave, propagations: propagationsToSave })
       if (snapshot === lastSavedPatchRef.current) return
 
       lastSavedPatchRef.current = snapshot
       const updated = patches.map(p =>
         p.id === currentPatch
-          ? { ...p, tags: newTags, repeatableSlides: newRepeatableSlides, globalPrompt: promptToSave, updatedAt: new Date().toISOString() }
+          ? { ...p, tags: newTags, repeatableSlides: newRepeatableSlides, globalPrompt: promptToSave, propagations: propagationsToSave, updatedAt: new Date().toISOString() }
           : p
       )
       setPatches(updated)
       const patchToSave = updated.find(p => p.id === currentPatch)
       if (patchToSave) savePatchToServer(patchToSave)
     }, 1000)
-  }, [currentPatch, patches, globalPrompt, savePatchToServer])
+  }, [currentPatch, patches, globalPrompt, propagations, savePatchToServer])
 
   // ── Auto-load / create patch when entering Tag step ───────────
   useEffect(() => {
@@ -113,10 +115,11 @@ export default function App() {
       const merged = mergeTagsWithSlides(existing.tags || [], slides)
       setTags(merged)
       setRepeatableSlides(existing.repeatableSlides || [])
+      setPropagations(existing.propagations || [])
       setCurrentPatch(existing.id)
       setPatchName(existing.name)
       setGlobalPrompt(existing.globalPrompt || '')
-      lastSavedPatchRef.current = JSON.stringify({ tags: merged, repeatableSlides: existing.repeatableSlides || [], globalPrompt: existing.globalPrompt || '' })
+      lastSavedPatchRef.current = JSON.stringify({ tags: merged, repeatableSlides: existing.repeatableSlides || [], globalPrompt: existing.globalPrompt || '', propagations: existing.propagations || [] })
       return
     }
 
@@ -131,13 +134,15 @@ export default function App() {
       createdAt: new Date().toISOString(),
       tags: [],
       repeatableSlides: [],
-      globalPrompt: ''
+      globalPrompt: '',
+      propagations: []
     }
     setPatches(prev => [...prev, newPatch])
     setCurrentPatch(newPatch.id)
     setPatchName(autoPatchName)
+    setPropagations([])
     savePatchToServer(newPatch)
-    lastSavedPatchRef.current = JSON.stringify({ tags: [], repeatableSlides: [], globalPrompt: '' })
+    lastSavedPatchRef.current = JSON.stringify({ tags: [], repeatableSlides: [], globalPrompt: '', propagations: [] })
   }, [step, slides, templateFile, patches, chainId, savePatchToServer])
 
   // ── Auto-match patch when a PPTX is loaded ────────────────────
@@ -149,10 +154,11 @@ export default function App() {
     const merged = mergeTagsWithSlides(match.tags || [], slides)
     setTags(merged)
     setRepeatableSlides(match.repeatableSlides || [])
+    setPropagations(match.propagations || [])
     setCurrentPatch(match.id)
     setPatchName(match.name)
     setGlobalPrompt(match.globalPrompt || '')
-    lastSavedPatchRef.current = JSON.stringify({ tags: merged, repeatableSlides: match.repeatableSlides || [], globalPrompt: match.globalPrompt || '' })
+    lastSavedPatchRef.current = JSON.stringify({ tags: merged, repeatableSlides: match.repeatableSlides || [], globalPrompt: match.globalPrompt || '', propagations: match.propagations || [] })
   }, [templateFile, patches, slides])
 
   // ── Apply a saved patch ────────────────────────────────────────
@@ -163,10 +169,11 @@ export default function App() {
     const merged = mergeTagsWithSlides(patch.tags || [], slides)
     setTags(merged)
     setRepeatableSlides(patch.repeatableSlides || [])
+    setPropagations(patch.propagations || [])
     setCurrentPatch(patch.id)
     setPatchName(patch.name)
     setGlobalPrompt(patch.globalPrompt || '')
-    lastSavedPatchRef.current = JSON.stringify({ tags: merged, repeatableSlides: patch.repeatableSlides || [], globalPrompt: patch.globalPrompt || '' })
+    lastSavedPatchRef.current = JSON.stringify({ tags: merged, repeatableSlides: patch.repeatableSlides || [], globalPrompt: patch.globalPrompt || '', propagations: patch.propagations || [] })
   }, [patches, slides])
 
   // ── Delete a patch ─────────────────────────────────────────────
@@ -179,7 +186,30 @@ export default function App() {
     setCurrentPatch(null)
     setPatchName('')
     setGlobalPrompt('')
+    setPropagations([])
   }, [currentPatch])
+
+  // ── Propagation config ─────────────────────────────────────────
+  const handleSavePropagation = useCallback((key, config) => {
+    setPropagations(prev => {
+      const next = config
+        ? [...prev.filter(p => p.key !== key), { key, ...config }]
+        : prev.filter(p => p.key !== key)
+      triggerSave(tags, repeatableSlides, undefined, next)
+      return next
+    })
+  }, [tags, repeatableSlides, triggerSave])
+
+  // ── Rename a key across all slides ────────────────────────────
+  const handleRenameKeyAllSlides = useCallback((oldKey, newKey) => {
+    const newTags = tags.map(tag => tag.key === oldKey ? { ...tag, key: newKey } : tag)
+    const newPropagations = propagations
+      .map(p => p.key      === oldKey ? { ...p, key:       newKey } : p)
+      .map(p => p.linkedKey === oldKey ? { ...p, linkedKey: newKey } : p)
+    setTags(newTags)
+    setPropagations(newPropagations)
+    triggerSave(newTags, repeatableSlides, undefined, newPropagations)
+  }, [tags, propagations, repeatableSlides, triggerSave])
 
   // ── File upload ────────────────────────────────────────────────
   const handleFileUpload = useCallback(async (e) => {
@@ -217,7 +247,7 @@ export default function App() {
       const res = await fetch('/api/generate-recipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tags, repeatableSlides, globalPrompt })
+        body: JSON.stringify({ tags, repeatableSlides, globalPrompt, propagations })
       })
       if (!res.ok) throw new Error(`Server error ${res.status}`)
       const result = await res.json()
@@ -226,7 +256,7 @@ export default function App() {
     } catch (err) {
       setToast({ message: 'Failed to generate recipe: ' + err.message, type: 'error' })
     }
-  }, [tags, repeatableSlides, globalPrompt, navigateTo])
+  }, [tags, repeatableSlides, globalPrompt, propagations, navigateTo])
 
   // ── Generate preview & navigate to Preview step ───────────────
   const generatePreview = useCallback(async () => {
@@ -360,6 +390,9 @@ export default function App() {
           setTags={setTags}
           repeatableSlides={repeatableSlides}
           setRepeatableSlides={setRepeatableSlides}
+          propagations={propagations}
+          onSavePropagation={handleSavePropagation}
+          onRenameKeyAllSlides={handleRenameKeyAllSlides}
           patches={patches}
           currentPatch={currentPatch}
           patchName={patchName}
@@ -388,6 +421,7 @@ export default function App() {
           setValidation={setValidation}
           tags={tags}
           repeatableSlides={repeatableSlides}
+          propagations={propagations}
           generatePreview={generatePreview}
           setToast={setToast}
         />
