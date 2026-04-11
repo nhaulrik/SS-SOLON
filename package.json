@@ -9,7 +9,8 @@
     "build": "cd client && npm run build",
     "start": "concurrently \"node server/index.js\" \"cd client && npm run dev\"",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "lint": "eslint server/ && cd client && npm run lint"
   },
   "dependencies": {
     "adm-zip": "^0.5.17",
@@ -17,7 +18,10 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "concurrently": "^8.2.2",
+    "eslint": "^10.2.0",
+    "globals": "^17.4.0",
     "supertest": "^7.0.0",
     "vitest": "^2.1.0"
   }

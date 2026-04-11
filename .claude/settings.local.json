@@ -4,7 +4,8 @@
       "Bash(xargs ls:*)",
       "Bash(node --input-type=module)",
       "Bash(npm install:*)",
-      "Bash(npm test:*)"
+      "Bash(npm test:*)",
+      "Bash(npm run:*)"
     ]
   }
 }

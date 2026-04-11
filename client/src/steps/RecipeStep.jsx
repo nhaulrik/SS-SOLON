@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import AppHeader from '../components/AppHeader.jsx'
 import Breadcrumbs from '../components/Breadcrumbs.jsx'
 
@@ -16,6 +17,8 @@ export default function RecipeStep({
   generatePreview,
   setToast
 }) {
+  const validateTimeoutRef = useRef(null)
+
   const handleJsonChange = async (value) => {
     setJsonInput(value)
 
@@ -74,8 +77,8 @@ export default function RecipeStep({
                   const v = e.target.value
                   setJsonInput(v)
                   // Debounce server-side validation
-                  clearTimeout(window.__validateTimeout)
-                  window.__validateTimeout = setTimeout(() => handleJsonChange(v), 300)
+                  clearTimeout(validateTimeoutRef.current)
+                  validateTimeoutRef.current = setTimeout(() => handleJsonChange(v), 300)
                 }}
                 placeholder='{"static": {...}, "slides": {...}}'
               />

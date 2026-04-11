@@ -3,7 +3,6 @@ import AppHeader from '../components/AppHeader.jsx'
 import Breadcrumbs from '../components/Breadcrumbs.jsx'
 import SlidePreview from '../components/SlidePreview.jsx'
 import TagModal from '../components/TagModal.jsx'
-import { keyGen } from '../utils/tagUtils.js'
 
 const SLIDE_WIDTH  = 10
 const SLIDE_HEIGHT = 5.625
