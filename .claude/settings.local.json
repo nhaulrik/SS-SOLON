@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(xargs ls:*)",
-      "Bash(node --input-type=module)"
+      "Bash(node --input-type=module)",
+      "Bash(npm install:*)",
+      "Bash(npm test:*)"
     ]
   }
 }
