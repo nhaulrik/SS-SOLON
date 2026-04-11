@@ -3,6 +3,31 @@ import fs from 'fs';
 
 const EMU_PER_INCH = 914400;
 
+// Slide number comparator — used in multiple sort() calls.
+const slideNumFrom = (entry) => parseInt(entry.entryName.match(/slide(\d+)\.xml/)[1]);
+const slideNumComparator = (a, b) => slideNumFrom(a) - slideNumFrom(b);
+
+// Full Office theme colour palette — used for both background and element colour resolution.
+const SCHEME_COLORS = {
+  dk1: '#000000', dk2: '#44546A',
+  lt1: '#FFFFFF', lt2: '#E7E6E6',
+  accent1: '#4472C4', accent2: '#ED7D31', accent3: '#A9D18E',
+  accent4: '#FFC000', accent5: '#5B9BD5', accent6: '#70AD47',
+  tx1: '#000000', tx2: '#44546A',
+  bg1: '#FFFFFF', bg2: '#E7E6E6',
+  hlink: '#0563C1', folHlink: '#954F72'
+};
+
+// Strips date/project suffixes from fuzzy key matching (e.g. revenue_2024_solon → revenue).
+const stripKeySuffix = (k) => k
+  .replace(/_20\d{2}.*$/, '')
+  .replace(/_session.*$/, '')
+  .replace(/_steerco.*$/, '')
+  .replace(/_roadmap.*$/, '')
+  .replace(/_product.*$/, '')
+  .replace(/_tax.*$/, '')
+  .replace(/_solon.*$/, '');
+
 // ========================
 // Slide Parsing
 // ========================
@@ -11,14 +36,9 @@ export function parseSlides(zip) {
   const slides = [];
   const slideEntries = zip.getEntries().filter(e => e.entryName.match(/^ppt\/slides\/slide\d+\.xml$/));
 
-  for (const entry of slideEntries.sort((a, b) => {
-    const numA = parseInt(a.entryName.match(/slide(\d+)\.xml/)[1]);
-    const numB = parseInt(b.entryName.match(/slide(\d+)\.xml/)[1]);
-    return numA - numB;
-  })) {
+  for (const entry of slideEntries.sort(slideNumComparator)) {
     const content = entry.getData().toString('utf8');
-    const slideData = extractSlideElements(content, parseInt(entry.entryName.match(/slide(\d+)\.xml/)[1]));
-    slides.push(slideData);
+    slides.push(extractSlideElements(content, slideNumFrom(entry)));
   }
 
   return slides;
@@ -35,12 +55,6 @@ export function extractSlideElements(xml, slideIndex) {
     background: '#ffffff'
   };
 
-  const bgSchemeMap = {
-    dk1: '#000000', dk2: '#44546A', lt1: '#FFFFFF', lt2: '#E7E6E6',
-    accent1: '#4472C4', accent2: '#ED7D31', accent3: '#A9D18E',
-    accent4: '#FFC000', accent5: '#5B9BD5', accent6: '#70AD47',
-    bg1: '#FFFFFF', bg2: '#E7E6E6'
-  };
   const bgMatch = xml.match(/<p:bg>([\s\S]*?)<\/p:bg>/);
   if (bgMatch) {
     const srgbMatch = bgMatch[1].match(/<a:srgbClr val="([0-9A-Fa-f]{6})"/);
@@ -49,7 +63,7 @@ export function extractSlideElements(xml, slideIndex) {
     } else {
       const schemeMatch = bgMatch[1].match(/<a:schemeClr val="([^"]+)"/);
       if (schemeMatch) {
-        slide.background = bgSchemeMap[schemeMatch[1]] || '#FFFFFF';
+        slide.background = SCHEME_COLORS[schemeMatch[1]] || '#FFFFFF';
       } else {
         const prstMatch = bgMatch[1].match(/<a:prstClr val="(\w+)"/);
         if (prstMatch) slide.background = getPresetColor(prstMatch[1]);
@@ -61,22 +75,11 @@ export function extractSlideElements(xml, slideIndex) {
   const shapesToCheck = spTreeMatch ? spTreeMatch[1] : xml;
   const shapeMatches = shapesToCheck.match(/<p:sp>([\s\S]*?)<\/p:sp>/g) || [];
 
-  // Full Office theme palette
-  const schemeMap = {
-    dk1: '#000000', dk2: '#44546A',
-    lt1: '#FFFFFF', lt2: '#E7E6E6',
-    accent1: '#4472C4', accent2: '#ED7D31', accent3: '#A9D18E',
-    accent4: '#FFC000', accent5: '#5B9BD5', accent6: '#70AD47',
-    tx1: '#000000', tx2: '#44546A',
-    bg1: '#FFFFFF', bg2: '#E7E6E6',
-    hlink: '#0563C1', folHlink: '#954F72'
-  };
-
   const resolveColor = (xml) => {
     const srgb = xml.match(/<a:srgbClr val="([0-9A-Fa-f]{6})"/);
     if (srgb) return '#' + srgb[1];
     const scheme = xml.match(/<a:schemeClr val="([^"]+)"/);
-    if (scheme) return schemeMap[scheme[1]] || '#333333';
+    if (scheme) return SCHEME_COLORS[scheme[1]] || '#333333';
     return null;
   };
 
@@ -281,21 +284,10 @@ export function replacePlaceholders(content, jsonData, recordData, tags, slideIn
     const source = recordData || jsonData.static || jsonData;
     if (source[key] !== undefined) return source[key];
 
-    const keyBase = key
-      .replace(/_20\d{2}.*$/, '')
-      .replace(/_session.*$/, '')
-      .replace(/_steerco.*$/, '')
-      .replace(/_roadmap.*$/, '')
-      .replace(/_product.*$/, '')
-      .replace(/_tax.*$/, '')
-      .replace(/_solon.*$/, '');
+    const keyBase = stripKeySuffix(key);
 
     for (const k of Object.keys(source)) {
-      if (
-        k.includes(key) ||
-        key.includes(k) ||
-        k.replace(/_20\d{2}.*$/, '').replace(/_session.*$/, '').replace(/_steerco.*$/, '').replace(/_roadmap.*$/, '').replace(/_product.*$/, '').replace(/_tax.*$/, '').replace(/_solon.*$/, '') === keyBase
-      ) {
+      if (k.includes(key) || key.includes(k) || stripKeySuffix(k) === keyBase) {
         return source[k];
       }
     }
@@ -536,11 +528,7 @@ export function buildPptxZip(templatePath, tags, jsonData, repeatableSlides) {
 
   const sortedEntries = zip.getEntries()
     .filter(e => e.entryName.match(/^ppt\/slides\/slide\d+\.xml$/))
-    .sort((a, b) => {
-      const numA = parseInt(a.entryName.match(/slide(\d+)\.xml/)[1]);
-      const numB = parseInt(b.entryName.match(/slide(\d+)\.xml/)[1]);
-      return numA - numB;
-    });
+    .sort(slideNumComparator);
 
   const baseContent = {};
   for (const entry of sortedEntries) {
@@ -718,7 +706,9 @@ export function buildPptxZip(templatePath, tags, jsonData, repeatableSlides) {
   const previewData = sortedGenerated.map((gs, idx) => {
     const content = gs.content || '';
     let elements = { elements: [] };
-    try { elements = extractSlideElements(content, gs.slideIndex); } catch (e) {}
+    try { elements = extractSlideElements(content, gs.slideIndex); } catch (e) {
+      console.error(`[pptx-utils] Failed to parse slide ${gs.slideIndex} for preview:`, e.message);
+    }
     const textMatches = content.match(/<a:t>([^<]*)<\/a:t>/g) || [];
     const sampleText = textMatches.slice(0, 3).map(t => t.replace(/<[^>]+>/g, ''));
     return {

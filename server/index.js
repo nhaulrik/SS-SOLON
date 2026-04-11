@@ -3,6 +3,7 @@ import cors from 'cors';
 import admZip from 'adm-zip';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { randomUUID } from 'crypto';
 import fs from 'fs';
 import {
   parseSlides,
@@ -14,30 +15,41 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const PROJECT_ROOT = path.join(__dirname);
-export const TEMP_DIR = process.env.TEMP_DIR || path.join(PROJECT_ROOT, 'temp');
-export const OUTPUT_DIR = process.env.OUTPUT_DIR || path.join(PROJECT_ROOT, 'output');
+export const TEMP_DIR    = process.env.TEMP_DIR    || path.join(PROJECT_ROOT, 'temp');
+export const OUTPUT_DIR  = process.env.OUTPUT_DIR  || path.join(PROJECT_ROOT, 'output');
 export const PATCHES_DIR = process.env.PATCHES_DIR || path.join(PROJECT_ROOT, 'patches');
-export const CHAINS_DIR = process.env.CHAINS_DIR || path.join(PROJECT_ROOT, 'patch-chains');
+export const CHAINS_DIR  = process.env.CHAINS_DIR  || path.join(PROJECT_ROOT, 'patch-chains');
 
 // Ensure directories exist
-if (!fs.existsSync(TEMP_DIR)) fs.mkdirSync(TEMP_DIR, { recursive: true });
-if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-if (!fs.existsSync(PATCHES_DIR)) fs.mkdirSync(PATCHES_DIR, { recursive: true });
-if (!fs.existsSync(CHAINS_DIR)) fs.mkdirSync(CHAINS_DIR, { recursive: true });
+for (const dir of [TEMP_DIR, OUTPUT_DIR, PATCHES_DIR, CHAINS_DIR]) {
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+}
+
+// Resolve the canonical base paths once — used by traversal guards below.
+const RESOLVED_OUTPUT_DIR = path.resolve(OUTPUT_DIR);
+const RESOLVED_CHAINS_DIR = path.resolve(CHAINS_DIR);
+const RESOLVED_PATCHES_DIR = path.resolve(PATCHES_DIR);
+
+/** Returns true only when `filePath` is strictly inside `baseDir`. */
+function isInsideDir(filePath, resolvedBase) {
+  const resolved = path.resolve(filePath);
+  return resolved.startsWith(resolvedBase + path.sep) || resolved === resolvedBase;
+}
 
 export const app = express();
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
-// UC-01: Upload PPTX
+// ========================
+// PPTX Upload
+// ========================
+
 app.post('/api/upload-pptx', (req, res) => {
   try {
     const { file, fileName } = req.body;
-    if (!file) {
-      return res.status(400).json({ error: 'No file provided' });
-    }
+    if (!file) return res.status(400).json({ error: 'No file provided' });
 
     const buffer = Buffer.from(file, 'base64');
     const tempPath = path.join(TEMP_DIR, `${Date.now()}-${fileName || 'template.pptx'}`);
@@ -46,18 +58,16 @@ app.post('/api/upload-pptx', (req, res) => {
     const zip = new admZip(buffer);
     const slides = parseSlides(zip);
 
-    res.json({
-      ok: true,
-      filePath: tempPath,
-      slides,
-      fileName: fileName || 'template.pptx'
-    });
+    res.json({ ok: true, filePath: tempPath, slides, fileName: fileName || 'template.pptx' });
   } catch (err) {
     res.status(400).json({ error: 'Failed to parse PPTX: ' + err.message });
   }
 });
 
-// UC-04: Generate recipe
+// ========================
+// Recipe Generation
+// ========================
+
 app.post('/api/generate-recipe', (req, res) => {
   try {
     const { tags, repeatableSlides, globalPrompt } = req.body;
@@ -68,7 +78,10 @@ app.post('/api/generate-recipe', (req, res) => {
   }
 });
 
-// UC-05: Validate JSON
+// ========================
+// JSON Validation
+// ========================
+
 app.post('/api/validate-json', (req, res) => {
   try {
     const { jsonString, tags, repeatableSlides } = req.body;
@@ -79,7 +92,10 @@ app.post('/api/validate-json', (req, res) => {
   }
 });
 
-// UC-06: Generate PPTX
+// ========================
+// PPTX Generation
+// ========================
+
 app.post('/api/generate-pptx', (req, res) => {
   try {
     const { templatePath, tags, jsonData, repeatableSlides } = req.body;
@@ -103,7 +119,77 @@ app.post('/api/generate-pptx', (req, res) => {
 });
 
 // ========================
-// Patch Chain Endpoints
+// File Downloads
+// ========================
+
+app.get('/api/download/:filename', (req, res) => {
+  const candidate = path.resolve(OUTPUT_DIR, req.params.filename);
+  if (!isInsideDir(candidate, RESOLVED_OUTPUT_DIR)) {
+    return res.status(403).json({ error: 'Invalid path' });
+  }
+  if (!fs.existsSync(candidate)) {
+    return res.status(404).json({ error: 'File not found' });
+  }
+  res.download(candidate);
+});
+
+// ========================
+// Patch Persistence
+// ========================
+
+app.get('/api/patches', (_req, res) => {
+  try {
+    const files = fs.readdirSync(PATCHES_DIR);
+    const patches = files
+      .filter(f => f.endsWith('.json'))
+      .map(f => JSON.parse(fs.readFileSync(path.join(PATCHES_DIR, f), 'utf8')));
+    res.json(patches);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/patches', (req, res) => {
+  try {
+    const { patch } = req.body;
+    if (!patch || !patch.name) {
+      return res.status(400).json({ error: 'Patch name required' });
+    }
+    // Strip everything except alphanumerics and hyphens to prevent path injection.
+    const slug = patch.name.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const filename = `${patch.id}-${slug || 'patch'}.json`;
+    const filePath = path.join(PATCHES_DIR, filename);
+
+    if (!isInsideDir(filePath, RESOLVED_PATCHES_DIR)) {
+      return res.status(400).json({ error: 'Invalid patch name' });
+    }
+
+    fs.writeFileSync(filePath, JSON.stringify(patch, null, 2));
+    res.json({ ok: true, filename });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/patches/:id', (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({ error: 'Invalid patch id' });
+    }
+    const files = fs.readdirSync(PATCHES_DIR).filter(f => f.endsWith('.json'));
+    const file = files.find(f => f.startsWith(`${id}-`));
+    if (file) {
+      fs.unlinkSync(path.join(PATCHES_DIR, file));
+    }
+    res.json({ ok: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ========================
+// Patch Chains
 // ========================
 
 app.post('/api/patch-chains', (req, res) => {
@@ -112,10 +198,12 @@ app.post('/api/patch-chains', (req, res) => {
     if (!templatePath || !fs.existsSync(templatePath)) {
       return res.status(400).json({ error: 'Template file not found' });
     }
-    const chainId = `chain-${Date.now()}`;
+
+    const chainId = `chain-${randomUUID()}`;
     const chainDir = path.join(CHAINS_DIR, chainId);
     fs.mkdirSync(chainDir, { recursive: true });
     fs.copyFileSync(templatePath, path.join(chainDir, 'original.pptx'));
+
     const chain = {
       id: chainId,
       pptxFileName: pptxFileName || 'template.pptx',
@@ -134,23 +222,34 @@ app.post('/api/patch-chains/:chainId/apply', (req, res) => {
   try {
     const { chainId } = req.params;
     const { tags, jsonData, repeatableSlides, roundName, focus } = req.body;
+
     const chainDir = path.join(CHAINS_DIR, chainId);
+    if (!isInsideDir(chainDir, RESOLVED_CHAINS_DIR)) {
+      return res.status(403).json({ error: 'Invalid chain id' });
+    }
+
     const chainPath = path.join(chainDir, 'chain.json');
     if (!fs.existsSync(chainPath)) {
       return res.status(404).json({ error: 'Chain not found' });
     }
+
     const chain = JSON.parse(fs.readFileSync(chainPath, 'utf8'));
-    const appliedCount = chain.rounds.filter(r => r.status === 'applied').length;
-    const baseFile = appliedCount === 0 ? 'original.pptx' : chain.rounds.filter(r => r.status === 'applied').slice(-1)[0].outputFile;
+    const appliedRounds = chain.rounds.filter(r => r.status === 'applied');
+    const appliedCount = appliedRounds.length;
+    const baseFile = appliedCount === 0 ? 'original.pptx' : appliedRounds.slice(-1)[0].outputFile;
     const basePath = path.join(chainDir, baseFile);
-    const originalBase = path.basename(chain.pptxFileName, '.pptx');
-    const outputFile = `${originalBase}-patch-${appliedCount + 1}.pptx`;
-    const outputPath = path.join(chainDir, outputFile);
+
     if (!fs.existsSync(basePath)) {
       return res.status(400).json({ error: `Base file not found: ${baseFile}` });
     }
+
+    const originalBase = path.basename(chain.pptxFileName, '.pptx');
+    const outputFile = `${originalBase}-patch-${appliedCount + 1}.pptx`;
+    const outputPath = path.join(chainDir, outputFile);
+
     const { zip, previewData } = buildPptxZip(basePath, tags || [], jsonData || {}, repeatableSlides || []);
     zip.writeZip(outputPath);
+
     const round = {
       id: `round-${appliedCount + 1}`,
       name: roundName || `Patch ${appliedCount + 1}`,
@@ -165,6 +264,7 @@ app.post('/api/patch-chains/:chainId/apply', (req, res) => {
     chain.rounds.push(round);
     chain.updatedAt = new Date().toISOString();
     fs.writeFileSync(chainPath, JSON.stringify(chain, null, 2));
+
     res.json({
       ok: true,
       chainId,
@@ -180,20 +280,23 @@ app.post('/api/patch-chains/:chainId/apply', (req, res) => {
 });
 
 app.get('/api/patch-chains/:chainId/download/:filename', (req, res) => {
-  const filePath = path.join(CHAINS_DIR, req.params.chainId, req.params.filename);
-  if (!fs.existsSync(filePath)) {
+  const candidate = path.resolve(CHAINS_DIR, req.params.chainId, req.params.filename);
+  if (!isInsideDir(candidate, RESOLVED_CHAINS_DIR)) {
+    return res.status(403).json({ error: 'Invalid path' });
+  }
+  if (!fs.existsSync(candidate)) {
     return res.status(404).json({ error: 'File not found' });
   }
-  res.download(filePath);
+  res.download(candidate);
 });
 
 app.post('/api/parse-pptx-from-path', (req, res) => {
   try {
     const { filePath } = req.body;
-    const resolved = path.resolve(filePath);
-    if (!resolved.startsWith(path.resolve(CHAINS_DIR))) {
+    if (!isInsideDir(filePath, RESOLVED_CHAINS_DIR)) {
       return res.status(403).json({ error: 'Invalid path' });
     }
+    const resolved = path.resolve(filePath);
     if (!fs.existsSync(resolved)) {
       return res.status(404).json({ error: 'File not found' });
     }
@@ -201,60 +304,6 @@ app.post('/api/parse-pptx-from-path', (req, res) => {
     const zip = new admZip(buffer);
     const slides = parseSlides(zip);
     res.json({ ok: true, filePath: resolved, slides });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Download
-app.get('/api/download/:filename', (req, res) => {
-  const filePath = path.join(OUTPUT_DIR, req.params.filename);
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).json({ error: 'File not found' });
-  }
-  res.download(filePath);
-});
-
-// Patch endpoints
-app.get('/api/patches', (_req, res) => {
-  try {
-    if (!fs.existsSync(PATCHES_DIR)) {
-      return res.json([]);
-    }
-    const files = fs.readdirSync(PATCHES_DIR);
-    const patches = files.filter(f => f.endsWith('.json')).map(f => {
-      const data = fs.readFileSync(path.join(PATCHES_DIR, f), 'utf8');
-      return JSON.parse(data);
-    });
-    res.json(patches);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.post('/api/patches', (req, res) => {
-  try {
-    const { patch } = req.body;
-    if (!patch || !patch.name) {
-      return res.status(400).json({ error: 'Patch name required' });
-    }
-    const filename = `${patch.id}-${patch.name.toLowerCase().replace(/\s+/g, '-')}.json`;
-    fs.writeFileSync(path.join(PATCHES_DIR, filename), JSON.stringify(patch, null, 2));
-    res.json({ ok: true, filename });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.delete('/api/patches/:id', (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const files = fs.readdirSync(PATCHES_DIR).filter(f => f.endsWith('.json'));
-    const file = files.find(f => f.startsWith(`${id}-`));
-    if (file) {
-      fs.unlinkSync(path.join(PATCHES_DIR, file));
-    }
-    res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

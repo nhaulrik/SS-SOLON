@@ -1,25 +1,30 @@
-﻿# Node.js
+﻿# Dependencies
 node_modules/
-npm-debug.log
-yarn-debug.log
-yarn-error.log
-
-# PowerPoint output
-*.pptx
+client/node_modules/
 
 # Build output
 client/dist/
+
+# Runtime data directories (auto-created at server startup — not tracked)
 server/temp/
 server/output/
+server/patches/
+server/patch-chains/
 output/
 
-# Environment / config
+# Debug / scratch files that should never be committed
+*.pptx
+*.xml
+test-*.json
+
+# Environment
 .env
 .env.local
 
-# OS generated files
+# OS / editor
 .DS_Store
 Thumbs.db
-
-# Logs
 *.log
+npm-debug.log
+yarn-debug.log
+yarn-error.log

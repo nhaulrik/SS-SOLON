@@ -1410,3 +1410,63 @@ header p {
   height: 100%;
   border-radius: 0;
 }
+
+/* ============================================================
+   Toast notification
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: var(--space-lg, 24px);
+  right: var(--space-lg, 24px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg, 20px);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  animation: toast-in 0.2s ease;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.toast--success { background: var(--success);  color: #fff; }
+.toast--error   { background: var(--error);    color: #fff; }
+.toast--info    { background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border-default); }
+
+.toast__close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 0 0 var(--space-sm);
+  opacity: 0.75;
+  line-height: 1;
+}
+.toast__close:hover { opacity: 1; }
+
+/* ============================================================
+   Form notices (inside TagModal — replaces imperative DOM)
+   ============================================================ */
+.form-notice {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  padding: 6px 8px;
+  border-radius: 4px;
+}
+
+.form-notice--error {
+  color: var(--error);
+  background: rgba(232, 84, 74, 0.1);
+}
+
+.form-notice--info {
+  color: var(--text-muted);
+  background: var(--bg-subtle, var(--bg-secondary));
+}

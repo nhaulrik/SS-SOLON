@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 // ─────────────────────────────────────────────
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const FIXTURE_PPTX = path.resolve(__dirname, '../../sample.pptx');
+const FIXTURE_PPTX = path.resolve(__dirname, './fixtures/sample.pptx');
 
 let testDir;
 let app;
