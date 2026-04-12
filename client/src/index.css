@@ -1331,6 +1331,10 @@ header p {
    Propagate modal
    ============================================================ */
 
+.propagate-modal {
+  max-width: 800px;
+}
+
 .propagate-slide-list {
   font-size: 0.85rem;
   color: var(--text-muted);
@@ -1377,10 +1381,40 @@ header p {
 }
 
 .propagate-pick-overlay {
-  display: block;
+  display: flex;
+  flex-direction: column;
   max-height: 200px;
   min-height: 2rem;
   overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+}
+
+.propagate-pick-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border-default);
+  position: sticky;
+  top: 0;
+  background: var(--bg-tertiary);
+  z-index: 1;
+}
+
+.propagate-pick-header span:first-child {
+  text-align: left;
+}
+
+.propagate-pick-header span:last-child {
+  text-align: right;
 }
 
 .propagate-pick-empty {
@@ -1388,48 +1422,52 @@ header p {
   color: var(--text-muted);
   font-style: italic;
   margin: 0;
+  padding: var(--space-md);
 }
 
 .propagate-pick-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-sm);
-  padding: var(--space-xs) var(--space-sm);
-  margin-bottom: var(--space-xs);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: 2px;
   width: 100%;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-default);
-  border-radius: 4px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-subtle);
   cursor: pointer;
   text-align: left;
-  transition: border-color var(--transition-fast), background var(--transition-fast);
+  transition: background var(--transition-fast);
   font-size: 0.85rem;
   box-sizing: border-box;
+  align-items: start;
+  overflow: hidden;
+}
+
+.propagate-pick-item:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
 }
 
 .propagate-pick-item:hover {
-  border-color: var(--accent-primary);
-}
-
-.propagate-pick-item--selected {
-  border-color: var(--accent-primary);
-  background: color-mix(in srgb, var(--accent-primary) 10%, transparent);
-}
-
-.propagate-pick-item-text {
-  color: var(--text-primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 1;
+  background: var(--bg-tertiary);
 }
 
 .propagate-pick-item-key {
   font-family: monospace;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  flex-shrink: 0;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  text-align: left;
+}
+
+.propagate-pick-item-text {
+  color: var(--text-secondary);
+  overflow: hidden;
+  word-break: break-word;
+  text-align: right;
+}
+
+.propagate-pick-item--selected {
+  background: color-mix(in srgb, var(--accent-primary) 15%, var(--bg-primary));
 }
 
 .propagate-context-display {

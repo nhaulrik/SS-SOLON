@@ -78,21 +78,24 @@ export default function PropagateModal({
             </p>
 
             <div className="propagate-pick-overlay" data-testid="propagate-pick-overlay">
+              <div className="propagate-pick-header">
+                <span>Key</span>
+                <span>Element Text</span>
+              </div>
               {currentSlideElements.length === 0 ? (
                 <p className="propagate-pick-empty">
                   No other tagged elements on this slide to use as context.
                 </p>
               ) : (
                 currentSlideElements.map(elem => (
-                  <button
+                  <div
                     key={elem.elementId}
-                    className={`overlay-element propagate-pick-item${linkedKey === elem.key ? ' propagate-pick-item--selected' : ''}`}
-                    data-text={elem.originalText}
+                    className={`propagate-pick-item${linkedKey === elem.key ? ' propagate-pick-item--selected' : ''}`}
                     onClick={() => setLinkedKey(elem.key)}
                   >
-                    <span className="propagate-pick-item-text">{elem.originalText}</span>
                     <span className="propagate-pick-item-key">{elem.key}</span>
-                  </button>
+                    <span className="propagate-pick-item-text">{elem.originalText}</span>
+                  </div>
                 ))
               )}
             </div>
