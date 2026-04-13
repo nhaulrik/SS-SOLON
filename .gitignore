@@ -8,12 +8,10 @@ client/dist/
 # Runtime data directories (auto-created at server startup — not tracked)
 server/temp/
 server/output/
+server/patches/
 server/patch-chains/
 server/e2e-data/
 output/
-
-# Note: patches/ directory IS version-controlled (stores patch JSON files)
-# Do NOT add server/patches/ or server/e2e-data/patches/ here - these are for different purposes
 
 # Debug / scratch files that should never be committed
 *.pptx

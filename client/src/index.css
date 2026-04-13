@@ -311,6 +311,10 @@ header p {
   overflow-y: auto;
 }
 
+.workspace .slide-preview {
+  /* aspect-ratio is driven by the canvas inside, not the wrapper */
+}
+
 /* ============================================================
    Panel Sections
    ============================================================ */
@@ -735,9 +739,9 @@ header p {
 
 .tag-slide-preview {
   display: block;
-  height: 68px;
   padding: 4px;
   background: #fff;
+  overflow: hidden;
 }
 
 /* Repeatable Toggle in Large Preview */
@@ -874,18 +878,33 @@ header p {
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
-  aspect-ratio: 16/9;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 .slide-preview-inner {
   width: 100%;
-  height: 100%;
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-md);
+}
+
+.slide-preview-canvas {
+  /* Establishes the aspect ratio and container query context.
+     aspect-ratio is set via inline style from slide data. */
+  position: relative;
+  width: 100%;
+  container-type: inline-size;
+}
+
+.slide-preview-stage {
+  /* Fills the canvas 100%×100%, clips absolute children to slide bounds. */
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 2px;
 }
 
 /* ============================================================
@@ -920,14 +939,11 @@ header p {
    Slide Overlay (for tag elements step)
    ============================================================ */
 .slide-overlay {
+  /* Covers the entire canvas (same coordinate space as the stage) */
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   z-index: 10;
   pointer-events: none;
-  aspect-ratio: 16/9;
 }
 
 .overlay-element {
@@ -955,12 +971,15 @@ header p {
   background: rgba(115, 170, 135, 0.2);
 }
 
-.no-text {
+.no-text,
+.no-elements {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
   color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: var(--space-md);
 }
 
 .help-text {
@@ -1265,20 +1284,9 @@ header p {
 }
 
 .preview-card-body {
-  height: 140px;
   padding: var(--space-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.slide-preview-canvas {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16/9;
-  border-radius: 2px;
+  background: #fff;
   overflow: hidden;
-  container-type: inline-size; /* enables cqw units for proportional font sizing */
 }
 
 .preview-empty {
@@ -1570,7 +1578,6 @@ header p {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  aspect-ratio: 16/9;
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
@@ -1632,11 +1639,9 @@ header p {
 }
 
 .preview-thumb-body {
-  height: 68px;
   padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #fff;
+  overflow: hidden;
 }
 
 .preview-thumb-badge {
@@ -1967,7 +1972,6 @@ header p {
 
 .tag-step-preview-main {
   container-type: inline-size;
-  aspect-ratio: 16 / 9;
   border-radius: var(--radius-md);
   overflow: hidden;
   border: 1px solid var(--border-subtle);

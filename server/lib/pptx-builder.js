@@ -3,9 +3,61 @@ import fs from 'fs';
 import { slideNumFrom, slideNumComparator, extractSlideElements } from './slide-parser.js';
 import { replacePlaceholders } from './placeholder.js';
 
+function injectChartData(zip, chartKey, chartData) {
+  const chartEntries = zip.getEntries().filter(e => e.entryName.match(/^ppt\/charts\/chart\d+\.xml$/));
+  if (chartEntries.length === 0) return;
+  
+  const chartEntry = chartEntries[0];
+  let chartXml = chartEntry.getData().toString('utf8');
+  
+  if (chartData.title) {
+    const titleMatch = chartXml.match(/<c:title>[\s\S]*?<c:tx>[\s\S]*?<c:rich>[\s\S]*?<a:t>([^<]*)<\/a:t>/);
+    if (titleMatch) {
+      chartXml = chartXml.replace(titleMatch[0], titleMatch[0].replace(titleMatch[1], chartData.title));
+    }
+  }
+  
+  if (chartData.categories && chartData.values) {
+    const strCacheMatch = chartXml.match(/<c:strCache>[\s\S]*?<\/c:strCache>/);
+    if (strCacheMatch) {
+      const ptCount = chartData.categories.length;
+      const pts = chartData.categories.map((cat, i) => 
+        `<c:pt idx="${i}"><c:v>${cat}</c:v></c:pt>`
+      ).join('');
+      const newStrCache = `<c:strCache><c:ptCount val="${ptCount}"/>${pts}</c:strCache>`;
+      chartXml = chartXml.replace(strCacheMatch[0], newStrCache);
+    }
+    
+    const numCacheMatch = chartXml.match(/<c:numCache>[\s\S]*?<\/c:numCache>/);
+    if (numCacheMatch) {
+      const ptCount = chartData.values.length;
+      const pts = chartData.values.map((val, i) => 
+        `<c:pt idx="${i}"><c:v>${val}</c:v></c:pt>`
+      ).join('');
+      const newNumCache = `<c:numCache><c:ptCount val="${ptCount}"/>${pts}</c:numCache>`;
+      chartXml = chartXml.replace(numCacheMatch[0], newNumCache);
+    }
+  }
+  
+  chartEntry.setData(Buffer.from(chartXml, 'utf8'));
+}
+
 export function buildPptxZip(templatePath, tags, jsonData, repeatableSlides) {
   const buffer = fs.readFileSync(templatePath);
   const zip = new admZip(buffer);
+
+  // Inject chart data if any chart tags exist in the JSON
+  const chartTags = tags.filter(t => {
+    const staticData = jsonData.static || jsonData;
+    return t.autoGenerate && staticData[t.key] && typeof staticData[t.key] === 'object';
+  });
+  chartTags.forEach(tag => {
+    const staticData = jsonData.static || jsonData;
+    const chartData = staticData[tag.key];
+    if (chartData && typeof chartData === 'object') {
+      injectChartData(zip, tag.key, chartData);
+    }
+  });
 
   const sortedEntries = zip.getEntries()
     .filter(e => e.entryName.match(/^ppt\/slides\/slide\d+\.xml$/))
@@ -179,6 +231,25 @@ export function buildPptxZip(templatePath, tags, jsonData, repeatableSlides) {
     try { elements = extractSlideElements(gs.content || '', gs.slideIndex); } catch (e) {
       console.error(`[pptx-builder] Failed to parse slide ${gs.slideIndex} for preview:`, e.message);
     }
+    
+    // Inject updated chart data into chart elements
+    const chartTags = tags.filter(t => {
+      const staticData = jsonData.static || jsonData;
+      return t.autoGenerate && staticData[t.key] && typeof staticData[t.key] === 'object';
+    });
+    chartTags.forEach(tag => {
+      const staticData = jsonData.static || jsonData;
+      const chartData = staticData[tag.key];
+      const chartEl = elements.elements.find(el => el.type === 'chart');
+      if (chartEl && chartData) {
+        chartEl.chartData = {
+          title: chartData.title || chartEl.chartData?.title,
+          categories: chartData.categories || chartEl.chartData?.categories,
+          values: chartData.values || chartEl.chartData?.values
+        };
+      }
+    });
+    
     const textMatches = (gs.content || '').match(/<a:t>([^<]*)<\/a:t>/g) || [];
     return {
       slideNumber:   idx + 1,
@@ -186,7 +257,9 @@ export function buildPptxZip(templatePath, tags, jsonData, repeatableSlides) {
       content:       gs.content,
       elements:      elements.elements,
       background:    elements.background,
-      sampleText:    textMatches.slice(0, 3).map(t => t.replace(/<[^>]+>/g, ''))
+      sampleText:    textMatches.slice(0, 3).map(t => t.replace(/<[^>]+>/g, '')),
+      width:         elements.width || 10,
+      height:        elements.height || 5.625
     };
   });
 

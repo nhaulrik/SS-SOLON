@@ -26,7 +26,7 @@ export function mergeTagsWithSlides(existingTags, slides) {
 
   let globalElementOrder = maxElementOrder(existingTags) + 1
   slides.forEach(slide => {
-    slide.elements.forEach((elem, idx) => {
+    slide.elements.forEach((elem, _idx) => {
       if (elem.text && elem.text.trim() && !existingIds.has(elem.id)) {
         newTags.push({
           elementId: elem.id,

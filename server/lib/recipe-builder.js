@@ -93,7 +93,7 @@ ${globalPromptSection}GENERATE THE FOLLOWING DATA:
     recipe += `]\n`;
   }
 
-  const hasContextual = contextualFields.length > 0;
+  const _hasContextual = contextualFields.length > 0;
   const hasRepeatable = repeatableFields.length > 0;
   
   if (hasRepeatable) {

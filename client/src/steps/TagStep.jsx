@@ -7,8 +7,9 @@ import PropagateModal from '../components/PropagateModal.jsx'
 import PatchHistoryTimeline from '../components/PatchHistoryTimeline.jsx'
 import { maxElementOrder, keyGen } from '../utils/tagUtils.js'
 
-const SLIDE_WIDTH  = 10
-const SLIDE_HEIGHT = 5.625
+// Reference dimensions (not used - normalization now uses max element bounds)
+const _SLIDE_WIDTH  = 10
+const _SLIDE_HEIGHT = 5.625
 
 export default function TagStep({
   // Slide data
@@ -120,6 +121,11 @@ export default function TagStep({
 
   const handleSaveTag = (key, hint, maxChars, autoGenerate) => {
     if (!tagModal) return
+    const elem = tagModal.element
+    const isChart = elem.type === 'chart'
+    const originalText = isChart 
+      ? `Chart: ${elem.chartData?.title || elem.shapeName}` 
+      : (elem.text || '')
     const existingTag = tags.find(t => t.elementId === tagModal.element.id)
     const existingOrder = existingTag?.elementOrder
     const maxOrder = maxElementOrder(tags)
@@ -130,7 +136,7 @@ export default function TagStep({
         key,
         hint,
         slideIndex:   tagModal.slideIndex,
-        originalText: tagModal.element.text,
+        originalText: originalText,
         maxChars,
         autoGenerate: autoGenerate ?? false,
         elementOrder: existingOrder ?? maxOrder + 1
@@ -485,23 +491,23 @@ export default function TagStep({
               )}
 
               <div className="slide-preview">
-                <div className="slide-preview-inner" style={{ backgroundColor: '#ffffff', position: 'relative' }}>
-                  {currentSlide.elements.length === 0 ? (
-                    <div className="no-elements">No text elements found</div>
-                  ) : (
-                    <>
-                      <SlidePreview slide={currentSlide} size="normal" />
-
-                      {/* Click-target overlay */}
+                {currentSlide.elements.length === 0 ? (
+                  <div className="no-elements">No text elements found</div>
+                ) : (
+                  <SlidePreview
+                    slide={currentSlide}
+                    size="normal"
+                    overlay={
                       <div className="slide-overlay">
                         {currentSlide.elements.map((elem, idx) => {
                           const isTagged      = taggedElementIds.includes(elem.id)
                           const isHighlighted = highlightedElement === elem.id
 
-                          const left   = Math.max(0, Math.min(95, (elem.bounds.x / SLIDE_WIDTH)  * 100))
-                          const top    = Math.max(0, Math.min(95, (elem.bounds.y / SLIDE_HEIGHT) * 100))
-                          const width  = Math.max(5, Math.min(50, (elem.bounds.w / SLIDE_WIDTH)  * 100))
-                          const height = Math.max(3, Math.min(30, (elem.bounds.h / SLIDE_HEIGHT) * 100))
+                          // Bounds are already 0–1 fractions of slide dimensions
+                          const left   = elem.bounds.x * 100
+                          const top    = elem.bounds.y * 100
+                          const width  = elem.bounds.w * 100
+                          const height = elem.bounds.h * 100
 
                           return (
                             <div
@@ -512,14 +518,14 @@ export default function TagStep({
                               onMouseEnter={() => isTagged && setHighlightedElement(elem.id)}
                               onMouseLeave={() => setHighlightedElement(null)}
                               title={isTagged ? tags.find(t => t.elementId === elem.id)?.key : elem.text}
-                              data-text={elem.text}
+                              data-text={elem.type === 'chart' ? `chart:${elem.shapeName}` : (elem.text || '')}
                             />
                           )
                         })}
                       </div>
-                    </>
-                  )}
-                </div>
+                    }
+                  />
+                )}
               </div>
 
               <p className="help-text">

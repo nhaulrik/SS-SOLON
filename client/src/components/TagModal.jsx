@@ -11,13 +11,17 @@ export default function TagModal({ tagModal, tags, onSave, onClose, onDelete }) 
   const existing        = tagModal.existingTag
   const calcMax         = tagModal.element.maxChars || 0
   const currentSlideIdx = tagModal.slideIndex
+  const isChart         = tagModal.element.type === 'chart'
+  const originalText    = isChart 
+    ? `Chart: ${tagModal.element.chartData?.title || tagModal.element.shapeName}` 
+    : (tagModal.element.text || '')
 
   const [key,          setKey]          = useState(existing?.key          ?? '')
   const [hint,         setHint]         = useState(existing?.hint         ?? '')
   const [maxChars,     setMaxChars]     = useState(
     existing?.maxChars != null ? String(existing.maxChars) : calcMax > 0 ? String(calcMax) : ''
   )
-  const [autoGenerate, setAutoGenerate] = useState(existing?.autoGenerate ?? false)
+  const [autoGenerate, setAutoGenerate] = useState(existing?.autoGenerate ?? (isChart ? true : false))
 
   // Derived validation — recomputed on each render from controlled state
   const trimmedKey       = key.trim()
@@ -42,7 +46,7 @@ export default function TagModal({ tagModal, tags, onSave, onClose, onDelete }) 
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <h4>{existing ? 'Edit Tag' : 'Tag Element'}</h4>
-        <p>Original: "{tagModal.element.text.substring(0, 60)}{tagModal.element.text.length > 60 ? '…' : ''}"</p>
+        <p>Original: "{originalText.substring(0, 60)}{originalText.length > 60 ? '…' : ''}"</p>
 
         {calcMax > 0 && (
           <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '-12px', marginBottom: '12px' }}>
