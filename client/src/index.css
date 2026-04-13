@@ -1269,6 +1269,35 @@ header p {
 
 .propagate-modal {
   max-width: 800px;
+  /* Prevent the modal from exceeding the viewport height */
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.propagate-modal-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 var(--space-sm);
+  line-height: 1.4;
+  /* Allow the title to wrap naturally */
+  overflow-wrap: anywhere;
+}
+
+/* Inline key display — monospace pill that wraps on long identifiers */
+.propagate-key-pill {
+  display: inline;
+  font-family: monospace;
+  font-size: 0.9em;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  padding: 1px 5px;
+  color: var(--accent-primary);
+  /* Keys are underscore-separated with no spaces — must break on any character */
+  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 .propagate-slide-list {
@@ -1330,7 +1359,7 @@ header p {
 
 .propagate-pick-header {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--space-md);
   padding: var(--space-sm) var(--space-md);
   font-size: 0.75rem;
@@ -1351,7 +1380,7 @@ header p {
 }
 
 .propagate-pick-header span:last-child {
-  text-align: right;
+  text-align: left;
 }
 
 .propagate-pick-empty {
@@ -1364,7 +1393,7 @@ header p {
 
 .propagate-pick-item {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--space-md);
   padding: var(--space-sm) var(--space-md);
   margin-bottom: 2px;
@@ -1394,13 +1423,17 @@ header p {
   font-size: 0.85rem;
   color: var(--text-primary);
   text-align: left;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .propagate-pick-item-text {
   color: var(--text-secondary);
-  overflow: hidden;
   word-break: break-word;
-  text-align: right;
+  overflow-wrap: anywhere;
+  text-align: left;
+  min-width: 0;
 }
 
 .propagate-pick-item--selected {

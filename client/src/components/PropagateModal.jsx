@@ -37,10 +37,12 @@ export default function PropagateModal({
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content propagate-modal" onClick={e => e.stopPropagation()}>
-        <h3>Propagate &ldquo;{sharedKey}&rdquo;</h3>
+        <h3 className="propagate-modal-title">
+          Propagate <code className="propagate-key-pill">{sharedKey}</code>
+        </h3>
 
         <p className="propagate-slide-list">
-          This key is tagged on slides: {slideList.join(', ')}
+          Tagged on slides: {slideList.join(', ')}
         </p>
 
         <div className="propagate-modes">
@@ -74,7 +76,9 @@ export default function PropagateModal({
         {mode === 'unique' && (
           <div className="propagate-unique-section">
             <p className="propagate-pick-prompt" data-testid="propagate-pick-prompt">
-              Click an element below to use as context when generating &ldquo;{sharedKey}&rdquo; for each slide.
+              Click an element below to use as context when generating{' '}
+              <code className="propagate-key-pill">{sharedKey}</code>{' '}
+              for each slide.
             </p>
 
             <div className="propagate-pick-overlay" data-testid="propagate-pick-overlay">
