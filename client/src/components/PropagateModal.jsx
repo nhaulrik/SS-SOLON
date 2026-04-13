@@ -38,7 +38,8 @@ export default function PropagateModal({
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content propagate-modal" onClick={e => e.stopPropagation()}>
         <h3 className="propagate-modal-title">
-          Propagate <code className="propagate-key-pill">{sharedKey}</code>
+          Propagate<br />
+          <code className="propagate-key-pill">{sharedKey}</code>
         </h3>
 
         <p className="propagate-slide-list">
