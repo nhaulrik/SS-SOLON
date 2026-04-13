@@ -78,8 +78,7 @@ export default function PropagateModal({
           <div className="propagate-unique-section">
             <p className="propagate-pick-prompt" data-testid="propagate-pick-prompt">
               Click an element below to use as context when generating<br />
-              <code className="propagate-key-pill">{sharedKey}</code><br />
-              for each slide.
+              <code className="propagate-key-pill">{sharedKey}</code>
             </p>
 
             <div className="propagate-pick-overlay" data-testid="propagate-pick-overlay">
