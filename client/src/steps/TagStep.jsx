@@ -162,9 +162,9 @@ export default function TagStep({
       originalText: originalText,
       maxChars,
       autoGenerate: autoGenerate ?? false,
-      elementOrder: existingOrder ?? maxOrder + 1
+      elementOrder: existingOrder ?? maxOrder + 1,
+      shapeName:    tagModal.element.shapeName ?? null
     }
-
     // maxChars is a field-level constraint — propagate it to all existing tags
     // that share the same key so the recipe emits a consistent limit everywhere.
     const newTags = [

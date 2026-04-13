@@ -34,7 +34,8 @@ export function mergeTagsWithSlides(existingTags, slides) {
           hint: elem.text.trim(),
           slideIndex: slide.index,
           originalText: elem.text,
-          maxChars: elem.maxChars,
+          shapeName:    elem.shapeName ?? null,
+          maxChars:     elem.maxChars,
           autoGenerate: false,
           elementOrder: globalElementOrder++
         })

@@ -12,7 +12,7 @@ export default function PreviewStep({
   navigateTo,
   stepAnimClass,
   applyPatchAndContinue,
-  generateFinalFile
+  generateFinalFile,
   debugContext
 }) {
   // Keyboard navigation
@@ -29,7 +29,6 @@ export default function PreviewStep({
 
   return (
     <div className="app">
-      <AppHeader title="Preview" subtitle="Review your generated slides, use ← → arrow keys to navigate" />
       <AppHeader title="Preview" subtitle="Review your generated slides, use arrow keys to navigate" debugContext={debugContext} />
 
       <div className={stepAnimClass}>

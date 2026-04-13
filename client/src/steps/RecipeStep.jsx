@@ -16,7 +16,7 @@ export default function RecipeStep({
   navigateTo,
   stepAnimClass,
   generatePreview,
-  setToast
+  setToast,
   debugContext
 }) {
   const validateTimeoutRef = useRef(null)
@@ -55,7 +55,6 @@ export default function RecipeStep({
 
   return (
     <div className="app">
-      <AppHeader title="Recipe + JSON" subtitle="Copy the recipe prompt for the AI, then paste the JSON response" />
       <AppHeader title="Recipe + JSON" subtitle="Copy the recipe prompt for the AI, then paste the JSON response" debugContext={debugContext} />
 
       <div className={stepAnimClass}>

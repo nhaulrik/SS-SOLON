@@ -387,9 +387,25 @@ export default function App() {
       // the copy. The output PPTX renumbers slides positionally (slide3.xml, slide4.xml)
       // so element IDs shift, but shapeNames do not.
 
-      // Build shapeName -> tag map from existing tags
-      const byShapeName = {}
-      tags.forEach(t => { if (t.shapeName) byShapeName[t.shapeName] = t })
+      // Enrich tags that lack shapeName by looking up the element in the current slides.
+      // This handles tags saved before shapeName was added to the data model.
+      const elemById = {}
+      slides.forEach(s => s.elements.forEach(e => { elemById[e.id] = e }))
+      const enrichedTags = tags.map(t =>
+        t.shapeName ? t : { ...t, shapeName: elemById[t.elementId]?.shapeName ?? null }
+      )
+
+      // Build (slideIndex:shapeName:elementIndex) -> tag map.
+      // Key includes the element's positional index within its slide so that slides
+      // with multiple shapes sharing the same shapeName are disambiguated correctly.
+      const byShapeKey = {}
+      enrichedTags.forEach(t => {
+        if (!t.shapeName) return
+        const slideElems = (slides.find(s => s.index === t.slideIndex)?.elements || [])
+        const elemIdx   = slideElems.findIndex(e => e.id === t.elementId)
+        const key       = t.slideIndex + ':' + t.shapeName + ':' + elemIdx
+        byShapeKey[key] = t
+      })
 
       // Build output slideNumber -> templateSlideIndex map (clones only)
       const cloneMap = {}
@@ -397,22 +413,27 @@ export default function App() {
         if (p.templateSlideIndex && p.instanceIndex !== null) cloneMap[p.slideNumber] = p.templateSlideIndex
       })
 
-      // Synthesise tags for cloned slides by shapeName match
+      // Synthesise tags for cloned slides by (shapeName + position index) match.
+      // Using the element's index within the slide ensures shapes that share a
+      // shapeName (non-unique names in PPTX) are matched to the correct source tag.
       const synthetic = []
       const covered   = new Set()
       parseResult.slides.forEach(slide => {
         const tplIdx = cloneMap[slide.index]
         if (!tplIdx) return
-        slide.elements.forEach(elem => {
-          const src = elem.shapeName && byShapeName[elem.shapeName]
-          if (!src || src.slideIndex !== tplIdx) return
+        slide.elements.forEach((elem, elemIdx) => {
+          if (covered.has(elem.id)) return
+          if (!elem.shapeName) return
+          const shapeKey = tplIdx + ':' + elem.shapeName + ':' + elemIdx
+          const src = byShapeKey[shapeKey]
+          if (!src) return
           synthetic.push({ ...src, elementId: elem.id, slideIndex: slide.index, autoGenerate: false })
           covered.add(elem.id)
         })
       })
 
       // Standard merge for static slides and elements not covered by shapeName match
-      const mergedTags = mergeTagsWithSlides(tags, parseResult.slides)
+      const mergedTags = mergeTagsWithSlides(enrichedTags, parseResult.slides)
         .map(t => ({ ...t, autoGenerate: false }))
       const filteredMerged = mergedTags.filter(t => !covered.has(t.elementId))
 

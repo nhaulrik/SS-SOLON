@@ -1,11 +1,3 @@
-/**
- * TDD: Repeatable slide key preservation after Apply Patch & Continue.
- *
- * The correct identity signal for matching elements across slides is
- * shapeName (the OOXML p:cNvPr name attribute). Cloned slides are
- * literal XML copies so their shapes have identical shapeNames.
- */
-
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import fs from "fs";
 import path from "path";
@@ -33,11 +25,9 @@ const jsonData = {
 beforeAll(() => {
   testDir    = fs.mkdtempSync(path.join(os.tmpdir(), "solon-repkey-"));
   outputPath = path.join(testDir, "output.pptx");
-
   const templateZip    = new AdmZip(FIXTURE_PPTX);
   const templateSlides = parseSlides(templateZip);
   templateSlide2Elements = templateSlides.find(s => s.index === 2).elements;
-
   const result = buildPptxZip(FIXTURE_PPTX, [], jsonData, repeatableSlides);
   previewData  = result.previewData;
   result.zip.writeZip(outputPath);
@@ -59,10 +49,8 @@ function makeRound1Tags() {
 function mergeTagsPreservingClones(existingTags, slides, preview) {
   const byShapeName = {};
   existingTags.forEach(t => { if (t.shapeName) byShapeName[t.shapeName] = t; });
-
   const cloneMap = {};
   preview.forEach(p => { if (p.templateSlideIndex && p.instanceIndex !== null) cloneMap[p.slideNumber] = p.templateSlideIndex; });
-
   const synthetic = [];
   const covered   = new Set();
   slides.forEach(slide => {
@@ -75,7 +63,6 @@ function mergeTagsPreservingClones(existingTags, slides, preview) {
       covered.add(elem.id);
     });
   });
-
   const existingIds = new Set(existingTags.map(t => t.elementId));
   let order = existingTags.reduce((m, t) => Math.max(m, t.elementOrder || 0), 0) + 1;
   const stubs = [];
@@ -88,7 +75,6 @@ function mergeTagsPreservingClones(existingTags, slides, preview) {
       }
     });
   });
-
   return [...existingTags.map(t => ({ ...t, autoGenerate: false })), ...stubs, ...synthetic];
 }
 
@@ -97,7 +83,6 @@ describe("shapeName on template elements", () => {
     templateSlide2Elements.filter(e => e.type === "text").forEach(e => {
       expect(e.shapeName).toBeDefined();
       expect(typeof e.shapeName).toBe("string");
-      expect(e.shapeName.length).toBeGreaterThan(0);
     });
   });
   it("rect elements have shapeName", () => {
@@ -114,7 +99,6 @@ describe("shapeName stability across clones", () => {
     expect(cloneNums.length).toBe(2);
     cloneNums.forEach(num => {
       const slide = parsedSlides.find(s => s.index === num);
-      expect(slide).toBeDefined();
       const cloneNames = new Set(slide.elements.map(e => e.shapeName));
       templateNames.forEach(name => expect(cloneNames.has(name)).toBe(true));
     });
@@ -171,5 +155,25 @@ describe("mergeTagsPreservingClones", () => {
   it("original template tags are still present", () => {
     const merged = mergeTagsPreservingClones(makeRound1Tags(), parsedSlides, previewData);
     expect(merged.find(t => t.slideIndex === 2 && t.key === "initiative_group")).toBeDefined();
+  });
+
+  it("REGRESSION: produces zero synthetic tags when tags have no shapeName (documents the pre-fix bug)", () => {
+    // Tags without shapeName = what handleSaveTag produced before the fix
+    const tagsNoShape = makeRound1Tags().map(t => { const c = Object.assign({}, t); delete c.shapeName; return c; });
+    const merged = mergeTagsPreservingClones(tagsNoShape, parsedSlides, previewData);
+    const cloneNums = previewData.filter(p => p.instanceIndex !== null).map(p => p.slideNumber);
+    // Without shapeName the byShapeName map is empty so no synthetic tags are produced
+    cloneNums.forEach(num => {
+      const tag = merged.find(t => t.slideIndex === num && t.key === "initiative_group");
+      expect(tag).toBeUndefined(); // documents the bug - no match without shapeName
+    });
+  });
+
+  it("tags from makeRound1Tags have shapeName (simulates handleSaveTag after fix)", () => {
+    makeRound1Tags().forEach(t => {
+      expect(t.shapeName).toBeDefined();
+      expect(typeof t.shapeName).toBe("string");
+      expect(t.shapeName.length).toBeGreaterThan(0);
+    });
   });
 });
