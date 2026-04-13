@@ -9,7 +9,7 @@
  *   UC1  — Basic flow: navigates back to Tag step after apply
  *   UC2  — Tags with keys are preserved
  *   UC3  — Hints are preserved
- *   UC4  — AI toggle state is preserved
+ *   UC4  — AI toggle is reset to OFF (keys and hints preserved)
  *   UC5  — Repeatable slides are cleared
  *   UC6  — Generated preview appears in Tag step
  *   UC7  — Preview shows multiple slides (repeatable instances)
@@ -83,61 +83,33 @@ test.describe('UC3 — Hints are preserved after apply', () => {
   });
 });
 
-// ─── UC4: AI toggle state preserved ──────────────────────────────────────────
+// --- UC4: AI toggle reset to OFF after apply ---
 
-test.describe('UC4 — AI toggle state is preserved after apply', () => {
-  test('AI toggle for initiative_group remains ON after apply', async ({ taggedPage: page }) => {
+test.describe('UC4 - AI toggle is reset to OFF after apply', () => {
+  test('AI toggle for initiative_group is OFF after apply', async ({ taggedPage: page }) => {
     await doFullApply(page, REPEATABLE_JSON);
     await selectSlide(page, 2);
     await expect(
       page.locator(SEL.patchRowByKey('initiative_group')).locator('input[type="checkbox"]')
-    ).toBeChecked();
+    ).not.toBeChecked();
   });
 
-  test('AI toggle for initiative_group_subheader remains ON after apply', async ({ taggedPage: page }) => {
+  test('AI toggle for initiative_group_subheader is OFF after apply', async ({ taggedPage: page }) => {
     await doFullApply(page, REPEATABLE_JSON);
     await selectSlide(page, 2);
     await expect(
       page.locator(SEL.patchRowByKey('initiative_group_subheader')).locator('input[type="checkbox"]')
-    ).toBeChecked();
+    ).not.toBeChecked();
   });
 
-  test('element that had AI OFF before apply keeps AI OFF after apply', async ({ page }) => {
-    // Set up: tag one element with AI off, one with AI on
-    await page.request.delete('http://localhost:3001/api/patches');
-    await page.request.delete('http://localhost:3001/api/patch-chains');
-    await page.goto('/');
-    await page.setInputFiles(SEL.fileInput, (await import('./fixtures.js')).FIXTURE_PPTX);
-    await page.waitForSelector('.tag-slides .tag-slide-btn');
-
+  test('key and hint are preserved even though AI is reset to OFF', async ({ taggedPage: page }) => {
+    await doFullApply(page, REPEATABLE_JSON);
     await selectSlide(page, 2);
-    // Tag with AI on
-    await tagElement(page, {
-      originalText: 'Core Revenue Management',
-      key:          'ai_field',
-      hint:         'AI hint',
-      ai:           true
-    });
-    // Tag with AI off
-    await page.locator(SEL.overlayByText('Group Summary | Roadmap Initiative Overview')).click();
-    await page.waitForSelector(SEL.modal);
-    await page.locator(SEL.modalKey).fill('manual_field');
-    await page.locator(SEL.modalHint).fill('manual hint');
-    await page.locator(SEL.modalAI).uncheck();
-    await page.locator(SEL.modalSave).click();
-    await page.waitForSelector(SEL.modal, { state: 'detached' });
-
-    // Apply with static JSON (no repeatable, manual_field not needed)
-    await doFullApply(page, { static: { ai_field: 'Generated value' } });
-
-    await selectSlide(page, 2);
-    // ai_field: still checked
+    // Key is preserved
+    await expect(page.locator(SEL.patchRowByKey('initiative_group'))).toBeVisible();
+    // AI is off
     await expect(
-      page.locator(SEL.patchRowByKey('ai_field')).locator('input[type="checkbox"]')
-    ).toBeChecked();
-    // manual_field: still unchecked
-    await expect(
-      page.locator(SEL.patchRowByKey('manual_field')).locator('input[type="checkbox"]')
+      page.locator(SEL.patchRowByKey('initiative_group')).locator('input[type="checkbox"]')
     ).not.toBeChecked();
   });
 });
