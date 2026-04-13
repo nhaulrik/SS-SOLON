@@ -413,7 +413,8 @@ test.describe('Unique propagation — recipe', () => {
     const text = await page.locator(SEL.recipeArea).innerText();
 
     expect(text).toContain('"contextual"');
-    expect(text).toContain("Use the value of 'subheader'");
+    // The actual text of the linked element is now embedded directly in the recipe
+    expect(text).toContain('Context for this slide: "Group Summary | Roadmap Initiative Overview"');
     // Both slides should have a contextual entry
     expect(text).toContain('"slide_index": 2');
     expect(text).toContain('"slide_index": 3');
@@ -429,9 +430,9 @@ test.describe('Unique propagation — recipe', () => {
 
     await generateRecipe(page);
     const text = await page.locator(SEL.recipeArea).innerText();
-    // Unique mode without a context field still falls back to contextual without a hint
+    // Unique mode without a context field — no context suffix at all
     expect(text).toContain('"contextual"');
-    expect(text).not.toContain("Use the value of");
+    expect(text).not.toContain('Context for this slide:');
   });
 });
 

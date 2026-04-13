@@ -83,9 +83,16 @@ ${globalPromptSection}GENERATE THE FOLLOWING DATA:
           const baseHint = tag.hint || `value for ${key} on slide ${tag.slideIndex}`;
           const maxCharsStr = tag.maxChars ? ` (max ${tag.maxChars} chars)` : '';
           const propagationConfig = propagations.find(p => p.key === key);
-          const linkedSuffix = (uniqueKeys.has(key) && propagationConfig?.linkedKey)
-            ? `. Use the value of '${propagationConfig.linkedKey}' on slide ${tag.slideIndex} as context`
-            : '';
+          const linkedSuffix = (() => {
+            if (!uniqueKeys.has(key) || !propagationConfig?.linkedKey) return '';
+            // Look up the actual text of the linked element on this specific slide
+            // so the AI receives a concrete value rather than an abstract key reference.
+            const linkedTag = tags.find(
+              t => t.key === propagationConfig.linkedKey && t.slideIndex === tag.slideIndex
+            );
+            if (!linkedTag?.originalText) return '';
+            return `. Context for this slide: "${linkedTag.originalText}"`;
+          })();
           recipe += `  { "slide_index": ${tag.slideIndex}, "${key}": "${baseHint}${maxCharsStr}${linkedSuffix}" },\n`;
         });
     });

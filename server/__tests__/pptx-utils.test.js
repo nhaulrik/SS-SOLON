@@ -486,6 +486,41 @@ describe('buildRecipe', () => {
     expect(() => buildRecipe([], [], null)).not.toThrow();
   });
 
+  it('embeds the actual originalText of the linked element instead of a key/slide reference', () => {
+    const tags = [
+      { slideIndex: 2, key: 'scope', hint: 'Scope description', autoGenerate: true, maxChars: null },
+      { slideIndex: 3, key: 'scope', hint: 'Scope description', autoGenerate: true, maxChars: null },
+      // The linked context element — different text per slide
+      { slideIndex: 2, key: 'group_name', hint: '', autoGenerate: false, maxChars: null, originalText: 'Alpha Initiative' },
+      { slideIndex: 3, key: 'group_name', hint: '', autoGenerate: false, maxChars: null, originalText: 'Beta Initiative' },
+    ];
+    const propagations = [{ key: 'scope', mode: 'unique', linkedKey: 'group_name' }];
+    const recipe = buildRecipe(tags, [], null, propagations);
+
+    // Must embed the actual text, not a key/slide reference
+    expect(recipe).toContain('Context for this slide: "Alpha Initiative"');
+    expect(recipe).toContain('Context for this slide: "Beta Initiative"');
+    expect(recipe).not.toContain('on slide 2 as context');
+    expect(recipe).not.toContain('on slide 3 as context');
+    expect(recipe).not.toContain("Use the value of");
+  });
+
+  it('omits context suffix when linkedKey tag is not found for a slide', () => {
+    const tags = [
+      { slideIndex: 2, key: 'scope', hint: 'Scope description', autoGenerate: true, maxChars: null },
+      { slideIndex: 3, key: 'scope', hint: 'Scope description', autoGenerate: true, maxChars: null },
+      // group_name only exists on slide 2, not slide 3
+      { slideIndex: 2, key: 'group_name', hint: '', autoGenerate: false, maxChars: null, originalText: 'Alpha Initiative' },
+    ];
+    const propagations = [{ key: 'scope', mode: 'unique', linkedKey: 'group_name' }];
+    const recipe = buildRecipe(tags, [], null, propagations);
+
+    expect(recipe).toContain('Context for this slide: "Alpha Initiative"');
+    // Slide 3 has no linked tag — no suffix emitted
+    const slide3Entry = recipe.match(/slide_index.*?3.*?\n/)?.[0] || '';
+    expect(slide3Entry).not.toContain('Context for this slide:');
+  });
+
   it('emits consistent maxChars across all slides for a unique contextual field', () => {
     // Simulates: user set maxChars=500 on slide 2, propagation syncs it to slides 3-5
     const tags = [
