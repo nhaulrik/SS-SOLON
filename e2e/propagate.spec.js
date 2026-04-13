@@ -435,6 +435,49 @@ test.describe('Unique propagation — recipe', () => {
   });
 });
 
+// ── maxChars propagation ──────────────────────────────────────────────────────
+
+test.describe('maxChars propagation in recipe', () => {
+  test('setting maxChars on one slide propagates to all slides for unique contextual field', async ({ propagatedPage: page }) => {
+    // Set maxChars=200 on the slide 2 tag via the inline input in the patch table
+    await selectSlide(page, 2);
+    const maxInput = page.locator('.patch-row[data-key="initiative_group"] .patch-max-input');
+    await maxInput.fill('200');
+    await maxInput.press('Tab');
+    await page.waitForTimeout(1200); // debounce
+
+    await generateRecipe(page);
+    const text = await page.locator(SEL.recipeArea).innerText();
+
+    // Both contextual entries must carry the same max constraint
+    const matches = [...text.matchAll(/max (\d+) chars/g)].map(m => parseInt(m[1]));
+    expect(matches.length).toBe(2);
+    expect(matches.every(n => n === 200)).toBe(true);
+  });
+
+  test('setting maxChars on one slide propagates to all slides for non-unique static field', async ({ propagatedPage: page }) => {
+    // Configure non-unique propagation
+    await selectSlide(page, 2);
+    await openPropagateModal(page);
+    await page.locator(SEL.propagateModeNonUniq).check();
+    await page.locator(SEL.propagateSave).click();
+
+    // Set maxChars=80 via the inline input
+    const maxInput = page.locator('.patch-row[data-key="initiative_group"] .patch-max-input');
+    await maxInput.fill('80');
+    await maxInput.press('Tab');
+    await page.waitForTimeout(1200); // debounce
+
+    await generateRecipe(page);
+    const text = await page.locator(SEL.recipeArea).innerText();
+
+    // Non-unique → emitted once as static; must carry the correct max
+    const matches = [...text.matchAll(/max (\d+) chars/g)].map(m => parseInt(m[1]));
+    expect(matches.length).toBe(1);
+    expect(matches[0]).toBe(80);
+  });
+});
+
 // ── Recipe output — no config (auto-detect fallback) ─────────────────────────
 
 test.describe('No propagation config — auto-detect fallback', () => {

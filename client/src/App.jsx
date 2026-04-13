@@ -205,14 +205,31 @@ export default function App() {
         ? [...prev.filter(p => p.key !== key), { key, ...config }]
         : prev.filter(p => p.key !== key)
 
-      // When non-unique propagation is configured, sync hints across all elements with this key
+      // maxChars is a field-level constraint — sync it across all tags sharing
+      // this key whenever propagation is configured, regardless of mode.
+      const tagsWithKey = tags.filter(t => t.key === key)
+      const sourceTag = tagsWithKey.find(t => t.maxChars != null) ?? tagsWithKey[0]
+
       if (config?.mode === 'non-unique') {
-        const tagsWithKey = tags.filter(t => t.key === key)
-        const sourceTag = tagsWithKey.find(t => t.hint)
+        // Non-unique: sync both hint and maxChars (one value for all slides)
         if (sourceTag) {
           const newTags = tags.map(tag =>
             tag.key === key
-              ? { ...tag, hint: sourceTag.hint }
+              ? { ...tag, hint: sourceTag.hint, maxChars: sourceTag.maxChars }
+              : tag
+          )
+          setTags(newTags)
+          triggerSave(newTags, repeatableSlides, undefined, next)
+          return next
+        }
+      }
+
+      if (config?.mode === 'unique') {
+        // Unique: hints stay slide-specific, but maxChars is still a shared constraint
+        if (sourceTag?.maxChars != null) {
+          const newTags = tags.map(tag =>
+            tag.key === key
+              ? { ...tag, maxChars: sourceTag.maxChars }
               : tag
           )
           setTags(newTags)

@@ -485,6 +485,38 @@ describe('buildRecipe', () => {
   it('handles empty tags array without throwing', () => {
     expect(() => buildRecipe([], [], null)).not.toThrow();
   });
+
+  it('emits consistent maxChars across all slides for a unique contextual field', () => {
+    // Simulates: user set maxChars=500 on slide 2, propagation syncs it to slides 3-5
+    const tags = [
+      { slideIndex: 2, key: 'scope', hint: 'scope slide 2', autoGenerate: true, maxChars: 500 },
+      { slideIndex: 3, key: 'scope', hint: 'scope slide 3', autoGenerate: true, maxChars: 500 },
+      { slideIndex: 4, key: 'scope', hint: 'scope slide 4', autoGenerate: true, maxChars: 500 },
+      { slideIndex: 5, key: 'scope', hint: 'scope slide 5', autoGenerate: true, maxChars: 500 },
+    ];
+    const propagations = [{ key: 'scope', mode: 'unique', linkedKey: 'initiative_group' }];
+    const recipe = buildRecipe(tags, [], null, propagations);
+
+    // Every contextual entry must carry the same max constraint
+    const maxMatches = [...recipe.matchAll(/max (\d+) chars/g)].map(m => parseInt(m[1]));
+    expect(maxMatches.length).toBe(4);
+    expect(maxMatches.every(n => n === 500)).toBe(true);
+  });
+
+  it('emits consistent maxChars for a non-unique (static) propagated field', () => {
+    const tags = [
+      { slideIndex: 2, key: 'title', hint: 'the title', autoGenerate: true, maxChars: 80 },
+      { slideIndex: 3, key: 'title', hint: 'the title', autoGenerate: true, maxChars: 80 },
+    ];
+    const propagations = [{ key: 'title', mode: 'non-unique' }];
+    const recipe = buildRecipe(tags, [], null, propagations);
+
+    // Non-unique → emitted once as a static field with the correct max
+    expect(recipe).toContain('max 80 chars');
+    const maxMatches = [...recipe.matchAll(/max (\d+) chars/g)];
+    expect(maxMatches.length).toBe(1);
+    expect(parseInt(maxMatches[0][1])).toBe(80);
+  });
 });
 
 // ─────────────────────────────────────────────

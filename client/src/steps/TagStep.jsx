@@ -125,18 +125,26 @@ export default function TagStep({
     const existingTag = tags.find(t => t.elementId === tagModal.element.id)
     const existingOrder = existingTag?.elementOrder
     const maxOrder = maxElementOrder(tags)
+
+    // Build the updated tag for this element
+    const updatedTag = {
+      elementId:    tagModal.element.id,
+      key,
+      hint,
+      slideIndex:   tagModal.slideIndex,
+      originalText: originalText,
+      maxChars,
+      autoGenerate: autoGenerate ?? false,
+      elementOrder: existingOrder ?? maxOrder + 1
+    }
+
+    // maxChars is a field-level constraint — propagate it to all existing tags
+    // that share the same key so the recipe emits a consistent limit everywhere.
     const newTags = [
-      ...tags.filter(t => t.elementId !== tagModal.element.id),
-      {
-        elementId:    tagModal.element.id,
-        key,
-        hint,
-        slideIndex:   tagModal.slideIndex,
-        originalText: originalText,
-        maxChars,
-        autoGenerate: autoGenerate ?? false,
-        elementOrder: existingOrder ?? maxOrder + 1
-      }
+      ...tags
+        .filter(t => t.elementId !== tagModal.element.id)
+        .map(t => t.key === key ? { ...t, maxChars } : t),
+      updatedTag
     ]
     setTags(newTags)
     triggerSave(newTags, repeatableSlides)
@@ -360,8 +368,11 @@ export default function TagStep({
                                   onClick={e => e.stopPropagation()}
                                   onChange={e => {
                                     const parsed = e.target.value ? parseInt(e.target.value, 10) : null
+                                    // maxChars is a field-level constraint, not slide-specific —
+                                    // propagate it to every tag sharing the same key so the
+                                    // recipe emits a consistent limit across all slides.
                                     const newTags = tags.map(tag =>
-                                      tag.elementId === t.elementId
+                                      tag.key === t.key
                                         ? { ...tag, maxChars: parsed }
                                         : tag
                                     )
