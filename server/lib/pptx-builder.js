@@ -252,8 +252,9 @@ export function buildPptxZip(templatePath, tags, jsonData, repeatableSlides) {
     
     const textMatches = (gs.content || '').match(/<a:t>([^<]*)<\/a:t>/g) || [];
     return {
-      slideNumber:   idx + 1,
-      instanceIndex: gs.instanceIndex,
+      slideNumber:         idx + 1,
+      templateSlideIndex:  gs.slideIndex,   // template slide this output slide was generated from
+      instanceIndex:      gs.instanceIndex,
       content:       gs.content,
       elements:      elements.elements,
       background:    elements.background,

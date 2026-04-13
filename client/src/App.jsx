@@ -381,12 +381,49 @@ export default function App() {
       // UC2, UC3, UC4, UC8: Preserve tags (merged with new slides) and propagations.
       // Keys and hints are preserved; autoGenerate is reset to false so the next
       // iteration starts with AI off - the user opts back in deliberately.
-      const mergedTags = mergeTagsWithSlides(tags, parseResult.slides)
+      //
+      // For cloned (repeatable) slides the output PPTX renumbers them positionally
+      // (slide3.xml, slide4.xml...) so their element IDs differ from the template
+      // (slide2-elem0 -> slide3-elem0). Build an ID translation map using previewData
+      // (which carries templateSlideIndex) so mergeTagsWithSlides can match them.
+      const idTranslation = {}
+      ;(applyResult.previewData || []).forEach(preview => {
+        if (!preview.templateSlideIndex) return
+        const parsedSlide = parseResult.slides.find(s => s.index === preview.slideNumber)
+        if (!parsedSlide) return
+        ;(preview.elements || []).forEach((previewElem, i) => {
+          const parsedElem = parsedSlide.elements[i]
+          if (parsedElem && previewElem.id !== parsedElem.id) {
+            idTranslation[parsedElem.id] = previewElem.id
+          }
+        })
+      })
+
+      // Translate output-position IDs back to template IDs so existing tags match
+      const translatedSlides = parseResult.slides.map(slide => ({
+        ...slide,
+        elements: slide.elements.map(elem => ({
+          ...elem,
+          id: idTranslation[elem.id] ?? elem.id
+        }))
+      }))
+
+      const mergedTags = mergeTagsWithSlides(tags, translatedSlides)
         .map(t => ({ ...t, autoGenerate: false }))
+
+      // Correct slideIndex on each tag to reflect its actual position in the new PPTX
+      const correctedTags = mergedTags.map(tag => {
+        for (const slide of translatedSlides) {
+          if (slide.elements.some(e => e.id === tag.elementId)) {
+            return { ...tag, slideIndex: slide.index }
+          }
+        }
+        return tag
+      })
 
       setTemplateFile({ filePath: parseResult.filePath, slides: parseResult.slides, fileName: templateFile.fileName })
       setSlides(parseResult.slides)
-      setTags(mergedTags)                          // preserved + merged (UC2/UC3/UC4)
+      setTags(correctedTags)                        // preserved + merged, IDs translated (UC2/UC3/UC4)
       setRepeatableSlides([])                      // reset (UC5)
       // propagations preserved — not reset (UC8)
       setRecipe('')
