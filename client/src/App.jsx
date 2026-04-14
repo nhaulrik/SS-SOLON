@@ -34,6 +34,7 @@ export default function App() {
     setHtmlUploadSession(null)
     setHtmlProject(null)
     setHtmlApplied(null)
+    setHtmlRecipe('')
     navigateTo('flow-select')
   }, [navigateTo])
 
@@ -45,6 +46,7 @@ export default function App() {
 
   const [htmlProject, setHtmlProject] = useState(null)  // { chainId, projectName, zones, templatePath }
   const [htmlApplied, setHtmlApplied] = useState(null)  // { outputFile, previewHtml, roundId }
+  const [htmlRecipe,  setHtmlRecipe]  = useState('')    // last generated recipe string
 
   const handleHtmlProjectCreated = useCallback((project) => {
     setHtmlProject(project)
@@ -79,18 +81,18 @@ export default function App() {
     step,
     activeFlow,
 
-    // Upload session — tree, selections, repeatable slides (omit raw HTML to keep payload small)
+    // Upload session — tree, selections, repeatable slides, raw HTML source
     uploadSession: htmlUploadSession
       ? {
-          templateId:      htmlUploadSession.templateId,
-          fileName:        htmlUploadSession.fileName,
-          slideCount:      htmlUploadSession.slideCount,
-          projectName:     htmlUploadSession.projectName,
-          selectionCount:  htmlUploadSession.selections?.length ?? 0,
-          selections:      htmlUploadSession.selections ?? [],
+          templateId:       htmlUploadSession.templateId,
+          fileName:         htmlUploadSession.fileName,
+          slideCount:       htmlUploadSession.slideCount,
+          projectName:      htmlUploadSession.projectName,
+          selectionCount:   htmlUploadSession.selections?.length ?? 0,
+          selections:       htmlUploadSession.selections ?? [],
           repeatableSlides: htmlUploadSession.repeatableSlides ?? [],
-          hasPreview:      !!htmlUploadSession.previewHtml,
-          rawHtmlLength:   htmlUploadSession.rawHtml?.length ?? 0,
+          hasPreview:       !!htmlUploadSession.previewHtml,
+          rawHtml:          htmlUploadSession.rawHtml ?? '',
         }
       : null,
 
@@ -105,6 +107,9 @@ export default function App() {
           repeatableSlides: htmlProject.repeatableSlides ?? [],
         }
       : null,
+
+    // Last generated recipe string
+    recipe: htmlRecipe || null,
 
     // Applied result — last output round
     applied: htmlApplied
@@ -159,6 +164,7 @@ export default function App() {
           navigateTo={navigateTo}
           onBack={() => navigateTo('html-upload')}
           onApplied={handleHtmlApplied}
+          onRecipeChange={setHtmlRecipe}
           setToast={setToast}
           debugContext={debugContext}
         />

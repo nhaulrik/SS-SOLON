@@ -19,6 +19,7 @@ export default function HtmlRecipeStep({
   navigateTo,
   onBack,           // () => void — back to zone review (start over)
   onApplied,        // ({ outputFile, previewHtml, roundId }) => void — advance to preview
+  onRecipeChange,   // (recipeString) => void — lifts recipe to App for debug context
   setToast,
   debugContext,
 }) {
@@ -50,6 +51,7 @@ export default function HtmlRecipeStep({
       const data = await res.json()
       if (!data.ok) throw new Error(data.error || 'Failed to generate recipe')
       setRecipe(data.recipe)
+      onRecipeChange?.(data.recipe)
     } catch (err) {
       setToast({ message: 'Recipe generation failed: ' + err.message, type: 'error' })
     } finally {

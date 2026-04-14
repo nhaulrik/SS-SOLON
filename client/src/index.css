@@ -645,6 +645,41 @@ header p {
   flex-shrink: 0;
 }
 
+.debug-include-row {
+  display: flex;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.debug-include-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.debug-include-option input {
+  accent-color: var(--accent-primary);
+  cursor: pointer;
+}
+
+.debug-include-option--disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.debug-include-option--disabled input {
+  cursor: default;
+}
+
+.debug-include-na {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
 .debug-json {
   flex: 1;
   overflow-y: auto;

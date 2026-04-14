@@ -9,18 +9,40 @@ import { useState, useMemo } from 'react'
  *   onClose  — dismiss callback
  */
 export default function DebugContextModal({ context, onClose }) {
-  const [copied, setCopied] = useState(false)
+  const [copied,      setCopied]      = useState(false)
+  const [includeHtml, setIncludeHtml] = useState(false)
+  const [includeRecipe, setIncludeRecipe] = useState(true)
+
+  const hasHtml   = !!(context?.uploadSession?.rawHtml)
+  const hasRecipe = !!(context?.recipe)
+
+  const filtered = useMemo(() => {
+    if (!context) return context
+    const out = { ...context }
+
+    // Strip or keep rawHtml inside uploadSession
+    if (out.uploadSession) {
+      const { rawHtml, ...rest } = out.uploadSession
+      out.uploadSession = includeHtml && hasHtml ? { ...rest, rawHtml } : rest
+    }
+
+    // Strip or keep recipe
+    if (!includeRecipe || !hasRecipe) {
+      out.recipe = null
+    }
+
+    return out
+  }, [context, includeHtml, includeRecipe, hasHtml, hasRecipe])
 
   const json = useMemo(() => {
     try {
-      return JSON.stringify(context, null, 2)
+      return JSON.stringify(filtered, null, 2)
     } catch {
       return '{ "error": "Could not serialise state" }'
     }
-  }, [context])
+  }, [filtered])
 
   const handleCopy = () => {
-    // Wrap in a markdown code block so it pastes cleanly into chat
     const payload = '```json\n' + json + '\n```'
     navigator.clipboard.writeText(payload).then(() => {
       setCopied(true)
@@ -48,6 +70,31 @@ export default function DebugContextModal({ context, onClose }) {
           >
             {copied ? 'Copied!' : 'Copy'}
           </button>
+        </div>
+
+        {/* ── Include toggles ── */}
+        <div className="debug-include-row">
+          <label className={`debug-include-option${!hasHtml ? ' debug-include-option--disabled' : ''}`}>
+            <input
+              type="checkbox"
+              checked={includeHtml && hasHtml}
+              disabled={!hasHtml}
+              onChange={e => setIncludeHtml(e.target.checked)}
+            />
+            <span>Raw HTML</span>
+            {!hasHtml && <span className="debug-include-na">— not available</span>}
+          </label>
+
+          <label className={`debug-include-option${!hasRecipe ? ' debug-include-option--disabled' : ''}`}>
+            <input
+              type="checkbox"
+              checked={includeRecipe && hasRecipe}
+              disabled={!hasRecipe}
+              onChange={e => setIncludeRecipe(e.target.checked)}
+            />
+            <span>Recipe</span>
+            {!hasRecipe && <span className="debug-include-na">— not available</span>}
+          </label>
         </div>
 
         <pre className="debug-json">{json}</pre>
