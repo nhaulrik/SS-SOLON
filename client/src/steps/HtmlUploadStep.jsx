@@ -153,6 +153,19 @@ export default function HtmlUploadStep({
     syncSession({ repeatableSlides: newRepSlides })
   }, [syncSession])
 
+  // ── Clear all zones + repeatable slides ───────────────────────────────────
+  const handleClearAll = useCallback(() => {
+    setSelections([])
+    setRepeatableSlides([])
+    syncSession({ selections: [], repeatableSlides: [] })
+    if (templateId) {
+      fetch('/api/html-flow/update-selections', {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ templateId, selections: [] })
+      }).catch(() => {})
+    }
+  }, [templateId, syncSession])
+
   // ── Create project ────────────────────────────────────────────────────────
   const handleCreateProject = useCallback(async () => {
     if (!templateId) return
@@ -357,6 +370,7 @@ ${highlightCss}
                   trees={trees}
                   selections={selections}
                   onSelections={handleSelectionsChange}
+                  onClearAll={handleClearAll}
                   repeatableSlides={repeatableSlides}
                   onRepeatableSlides={handleRepeatableSlidesChange}
                   slideCount={slideCount}

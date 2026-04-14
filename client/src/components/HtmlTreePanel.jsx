@@ -5,14 +5,15 @@
  * can select nodes (single or multi), assign zone types, and provide prompts.
  *
  * Props:
- *   trees             — array of per-slide tree node arrays from the server
- *   selections        — current selection objects array (controlled)
- *   onSelections      — (newSelections) => void
- *   repeatableSlides  — [{ slideIndex, key, prompt }] (controlled)
+ *   trees              — array of per-slide tree node arrays from the server
+ *   selections         — current selection objects array (controlled)
+ *   onSelections       — (newSelections) => void
+ *   onClearAll         — () => void — clears all zones + repeatable slides
+ *   repeatableSlides   — [{ slideIndex, key, prompt }] (controlled)
  *   onRepeatableSlides — (newRepeatableSlides) => void
- *   slideCount        — total number of slides
- *   highlightNodeId   — node id currently highlighted from iframe hover
- *   onHighlight       — (nodeId | null) => void — called on tree row hover
+ *   slideCount         — total number of slides
+ *   highlightNodeId    — node id currently highlighted from iframe hover
+ *   onHighlight        — (nodeId | null) => void — called on tree row hover
  */
 
 import { useState, useCallback, useMemo } from 'react'
@@ -446,6 +447,7 @@ export default function HtmlTreePanel({
   trees,
   selections,
   onSelections,
+  onClearAll,
   repeatableSlides = [],
   onRepeatableSlides,
   slideCount,
@@ -599,6 +601,20 @@ export default function HtmlTreePanel({
               data-testid="tree-group-assign-btn"
             >
               Assign {selectedIds.size} selected →
+            </button>
+          )}
+          {onClearAll && (selections.length > 0 || repeatableSlides.length > 0) && (
+            <button
+              className="btn btn-link html-tree-clear-btn"
+              onClick={() => {
+                if (window.confirm('Clear all zone assignments and repeatable slide settings?')) {
+                  onClearAll()
+                }
+              }}
+              title="Remove all zone assignments and repeatable slide settings"
+              data-testid="tree-clear-all-btn"
+            >
+              Clear all
             </button>
           )}
           <button

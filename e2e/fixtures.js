@@ -54,6 +54,7 @@ export const SEL = {
   treeExpandAll:      'button:has-text("Expand all")',
   treeZoneBadges:     '.tree-zone-badge',
   treeConflictWarning: '[data-testid="tree-conflict-warning"]',
+  treeClearAllBtn:     '[data-testid="tree-clear-all-btn"]',
 
   // Assignment panel
   assignPanel:       '[data-testid="tree-assign-panel"]',
