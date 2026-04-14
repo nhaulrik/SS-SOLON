@@ -147,6 +147,106 @@ describe('applyHtmlContent — block zones', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Block zones — nodeId path (user-assigned, no data-block attribute)
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('applyHtmlContent — block zones via nodeId', () => {
+  // Helper: build a block zone with a nodeId (user-assigned, no data-block attr)
+  const nodeIdBlock = (key, nodeId, slideIndex = 1) => ({
+    zoneType: 'block', key, nodeId, slideIndex, type: 'block', autoGenerate: true,
+    isRepeatable: false, repeatableKey: null,
+  });
+
+  it('replaces innerHTML of an element matched by nodeId', () => {
+    const html = `<section><div class="header"><span>Old content</span></div></section>`;
+    const data = { blocks: { header: { value: '<span>New content</span>' } } };
+    const zones = [nodeIdBlock('header', 'div.header')];
+    const result = applyHtmlContent(html, data, zones);
+    expect(result).toContain('New content');
+    expect(result).not.toContain('Old content');
+  });
+
+  it('resolves a nested nodeId path (parent>child)', () => {
+    const html = `<section><div class="header"><div class="header-left"><span>Old</span></div></div></section>`;
+    const data = { blocks: { headerleft: { value: '<span>New</span>' } } };
+    const zones = [nodeIdBlock('headerleft', 'div.header>div.header-left')];
+    const result = applyHtmlContent(html, data, zones);
+    expect(result).toContain('New');
+    expect(result).not.toContain('Old');
+  });
+
+  it('resolves a nodeId with a sibling disambiguator [N]', () => {
+    const html = `<section>
+      <div class="col">First</div>
+      <div class="col">Second</div>
+    </section>`;
+    const data = { blocks: { col2: { value: 'Replaced' } } };
+    const zones = [nodeIdBlock('col2', 'div.col[1]')];
+    const result = applyHtmlContent(html, data, zones);
+    expect(result).toContain('Replaced');
+    expect(result).toContain('First'); // first sibling untouched
+  });
+
+  it('accepts a plain string block value (no {value} wrapper)', () => {
+    const html = `<section><div class="header"><span>Old</span></div></section>`;
+    const data = { blocks: { header: '<span>Plain</span>' } };
+    const zones = [nodeIdBlock('header', 'div.header')];
+    const result = applyHtmlContent(html, data, zones);
+    expect(result).toContain('Plain');
+  });
+
+  it('leaves element unchanged when no matching value in data', () => {
+    const html = `<section><div class="header"><span>Original</span></div></section>`;
+    const data = { blocks: {} };
+    const zones = [nodeIdBlock('header', 'div.header')];
+    const result = applyHtmlContent(html, data, zones);
+    expect(result).toContain('Original');
+  });
+
+  it('leaves element unchanged when nodeId does not match any element', () => {
+    const html = `<section><div class="header"><span>Original</span></div></section>`;
+    const data = { blocks: { missing: { value: '<span>New</span>' } } };
+    const zones = [nodeIdBlock('missing', 'div.nonexistent')];
+    const result = applyHtmlContent(html, data, zones);
+    expect(result).toContain('Original');
+  });
+
+  it('preserves surrounding structure when patching by nodeId', () => {
+    const html = `<section>
+      <div class="top-bar"></div>
+      <div class="header"><span>Old header</span></div>
+      <div class="body"><p>Body content</p></div>
+    </section>`;
+    const data = { blocks: { header: { value: '<span>New header</span>' } } };
+    const zones = [nodeIdBlock('header', 'div.header')];
+    const result = applyHtmlContent(html, data, zones);
+    expect(result).toContain('New header');
+    expect(result).toContain('Body content');
+    expect(result).toContain('top-bar');
+  });
+
+  it('nodeId block zone coexists with data-zone leaf zones on the same slide', () => {
+    const html = `<section>
+      <p data-zone="title">Old title</p>
+      <div class="header"><span>Old header</span></div>
+    </section>`;
+    const data = {
+      static: { title: 'New title' },
+      blocks: { header: { value: '<span>New header</span>' } },
+    };
+    const zones = [
+      leaf('title'),
+      nodeIdBlock('header', 'div.header'),
+    ];
+    const result = applyHtmlContent(html, data, zones);
+    expect(result).toContain('New title');
+    expect(result).toContain('New header');
+    expect(result).not.toContain('Old title');
+    expect(result).not.toContain('Old header');
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Label zones
 // ─────────────────────────────────────────────────────────────────────────────
 

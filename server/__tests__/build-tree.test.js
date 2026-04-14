@@ -251,6 +251,56 @@ describe('buildSectionTree — pre-existing selections', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
+// buildSectionTree — innerHTML on tree nodes
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('buildSectionTree — innerHTML on tree nodes', () => {
+  it('includes an innerHTML field on every node', () => {
+    const { tree } = buildSectionTree(section('<div class="wrap"><p>Hello</p></div>'), 1);
+    expect(tree[0]).toHaveProperty('innerHTML');
+  });
+
+  it('innerHTML contains the inner markup of a container node', () => {
+    const { tree } = buildSectionTree(
+      section('<div class="header"><span class="title">Revenue</span></div>'), 1
+    );
+    expect(tree[0].innerHTML).toContain('<span');
+    expect(tree[0].innerHTML).toContain('Revenue');
+  });
+
+  it('innerHTML is an empty string for a leaf node with no children', () => {
+    const { tree } = buildSectionTree(section('<p class="text">Hello</p>'), 1);
+    // <p> has only a text node — innerHTML is the text content
+    expect(typeof tree[0].innerHTML).toBe('string');
+  });
+
+  it('innerHTML is trimmed', () => {
+    const { tree } = buildSectionTree(
+      section('<div class="box">  <p>text</p>  </div>'), 1
+    );
+    expect(tree[0].innerHTML).toBe(tree[0].innerHTML.trim());
+  });
+
+  it('innerHTML is present on nested child nodes too', () => {
+    const { tree } = buildSectionTree(
+      section('<div class="outer"><div class="inner"><p>x</p></div></div>'), 1
+    );
+    const inner = tree[0].children[0];
+    expect(inner).toHaveProperty('innerHTML');
+    expect(inner.innerHTML).toContain('<p>');
+  });
+
+  it('data-block selection exampleHtml matches the node innerHTML', () => {
+    // Backward-compat path: pre-existing data-block attr
+    const { tree, selections } = buildSectionTree(
+      section('<table class="t" data-block="my_table"><tbody><tr><td>X</td></tr></tbody></table>'), 1
+    );
+    const node = tree[0];
+    expect(selections[0].exampleHtml).toBe(node.innerHTML);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 // flattenTree
 // ─────────────────────────────────────────────────────────────────────────────
 

@@ -542,6 +542,9 @@ export default function HtmlTreePanel({
         prompt:       zoneType === 'block' ? prompt : '',
         autoGenerate: zoneType === 'block' ? true : autoGenerate,
         type:         zoneType === 'block' ? 'block' : type,
+        // Capture the node's current innerHTML as exampleHtml for block zones
+        // so the recipe builder can show the AI the exact HTML structure to fill
+        ...(zoneType === 'block' && node.innerHTML ? { exampleHtml: node.innerHTML } : {}),
         // unique is only set for zones on repeatable slides
         ...(isCurrentSlideRepeatable ? { unique: unique !== false } : {}),
       }

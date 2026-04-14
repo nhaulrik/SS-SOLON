@@ -90,9 +90,11 @@ export const SEL = {
   htmlApplyBtn:          'button:has-text("Apply content")',
 
   // HTML preview step
-  htmlPreviewStepLayout: '.html-preview-step-layout',
-  htmlDownloadBtn:       'button:has-text("Download HTML")',
-  htmlStartNewBtn:       'button:has-text("Start new project")',
+  htmlPreviewStepLayout:    '.html-preview-step-layout',
+  htmlPreviewStepFrameWrap: '.html-preview-step-frame-wrap',
+  htmlPreviewStepFrame:     '.html-preview-step-frame',
+  htmlDownloadBtn:          'button:has-text("Download HTML")',
+  htmlStartNewBtn:          'button:has-text("Start new project")',
 
   // Navigation
   changeFlowBtn: 'button:has-text("Change flow")',
@@ -124,6 +126,31 @@ export async function doHtmlCreateProject(page, projectName = 'test-project') {
   await page.locator(SEL.projectNameInput).fill(projectName);
   await page.locator(SEL.createProjectBtn).click();
   await page.waitForSelector(SEL.htmlRecipeLayout);
+}
+
+/**
+ * Navigate all the way to the HTML preview step by applying minimal valid JSON.
+ * Uses the API directly to bypass the recipe UI — fast and deterministic.
+ */
+export async function doHtmlApplyContent(page, projectName = 'test-project') {
+  await doHtmlCreateProject(page, projectName);
+
+  // Paste minimal valid JSON into the recipe textarea and click Apply
+  const minimalJson = JSON.stringify({
+    static: {
+      initiative_group_title:    'Test Initiative',
+      initiative_group_subtitle: 'Test Subtitle',
+      total_hours:               '1,000',
+      initiative_count:          '3',
+      feature_count:             '10',
+      completion_pct:            '50%',
+      business_value:            'Test value',
+      market_relevance:          'Test relevance',
+    }
+  });
+  await page.locator(SEL.htmlJsonInput).fill(minimalJson);
+  await page.locator(SEL.htmlApplyBtn).click();
+  await page.waitForSelector(SEL.htmlPreviewStepLayout);
 }
 
 // ─── Fixture definitions ──────────────────────────────────────────────────────

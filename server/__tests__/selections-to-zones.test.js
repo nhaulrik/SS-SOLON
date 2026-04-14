@@ -122,6 +122,42 @@ describe('selectionsToZones', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
+// selectionsToZones — exampleHtml propagation
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('selectionsToZones — exampleHtml', () => {
+  it('propagates exampleHtml from a block selection to the zone', () => {
+    const sel   = { ...blockSel('div.header', 'header'), exampleHtml: '<span>Revenue</span>' };
+    const zones = selectionsToZones([sel]);
+    expect(zones[0].exampleHtml).toBe('<span>Revenue</span>');
+  });
+
+  it('exampleHtml is undefined on a block zone when not present on selection', () => {
+    const zones = selectionsToZones([blockSel('div.t', 'table')]);
+    expect(zones[0].exampleHtml).toBeUndefined();
+  });
+
+  it('exampleHtml is undefined on a block zone when selection has empty string', () => {
+    const sel   = { ...blockSel('div.t', 'table'), exampleHtml: '' };
+    const zones = selectionsToZones([sel]);
+    expect(zones[0].exampleHtml).toBeUndefined();
+  });
+
+  it('exampleHtml is always undefined on leaf zones regardless of selection', () => {
+    const sel   = { ...leafSel('p.x', 'x'), exampleHtml: '<b>should be ignored</b>' };
+    const zones = selectionsToZones([sel]);
+    expect(zones[0].exampleHtml).toBeUndefined();
+  });
+
+  it('preserves multiline HTML in exampleHtml', () => {
+    const html  = '<tbody>\n  <tr><td class="name">X</td></tr>\n</tbody>';
+    const sel   = { ...blockSel('table.t', 'rows'), exampleHtml: html };
+    const zones = selectionsToZones([sel]);
+    expect(zones[0].exampleHtml).toBe(html);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 // resolveConflicts
 // ─────────────────────────────────────────────────────────────────────────────
 

@@ -44,6 +44,55 @@ function resolveChainDir(chainId) {
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 /**
+ * Build a preview HTML document for the full patched output (all sections).
+ *
+ * Wraps all <section> elements in a #solon-slide-shell div so the client can
+ * scale the 1280×720 slide to fit its container using transform: scale().
+ * The shell CSS is injected so the client only needs to set the scale value.
+ */
+function buildOutputPreviewHtml(html) {
+  try {
+    const root     = parse(html);
+    const head     = root.querySelector('head');
+    const sections = root.querySelectorAll('section');
+    if (sections.length === 0) return html; // fallback: return as-is
+
+    const headContent = head ? head.innerHTML : '';
+    const slidesHtml  = sections.map(s => s.outerHTML).join('\n');
+
+    return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+${headContent}
+<style>
+  /* Solon preview shell — controls the viewport, not the slide content */
+  html, body {
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #000;
+    display: block;
+  }
+  #solon-slide-shell {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1280px; height: 720px;
+    overflow: hidden;
+    transform-origin: top left;
+  }
+</style>
+</head>
+<body>
+  <div id="solon-slide-shell">${slidesHtml}</div>
+</body>
+</html>`;
+  } catch {
+    return html;
+  }
+}
+
+/**
  * Build a preview HTML document for a single slide (first section).
  *
  * Injects data-solon-id attributes onto every element matching a tree node
@@ -472,9 +521,9 @@ router.post('/html-flow/apply-content', (req, res) => {
     const outputPath = path.join(chainDir, outputFile);
     fs.writeFileSync(outputPath, patchedHtml, 'utf8');
 
-    // Pass the chain's stored tree (first slide) for data-solon-id injection
-    const firstTree  = chain.trees?.[0] ?? null;
-    const previewHtml = buildPreviewHtml(patchedHtml, firstTree);
+    // Wrap all sections in #solon-slide-shell so the client can scale them
+    // to fit the preview container via transform: scale().
+    const previewHtml = buildOutputPreviewHtml(patchedHtml);
 
     const round = {
       id:         roundId,

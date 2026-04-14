@@ -359,9 +359,9 @@ test.describe('UC-RS-19/20/21/22 — Apply content', () => {
       { footer: 'Confidential' }
     );
     expect(body.ok).toBe(true);
+    // previewHtml is now the full patched document — 3 clones = 3 sections
     const sections = (body.previewHtml.match(/<section/g) || []).length;
-    // previewHtml shows only first section — check outputFile content instead
-    expect(body.outputFile).toMatch(/\.html$/);
+    expect(sections).toBe(3);
   });
 
   test('UC-RS-20: non-unique zone values are identical across all clones', async ({ page }) => {
@@ -370,8 +370,9 @@ test.describe('UC-RS-19/20/21/22 — Apply content', () => {
       { footer: 'UNIQUE_FOOTER_TEXT' }
     );
     expect(body.ok).toBe(true);
-    // previewHtml is just the first section — test via the apply response
-    expect(body.previewHtml).toContain('UNIQUE_FOOTER_TEXT');
+    // Both clones carry the shared footer — appears twice in the full document
+    const matches = (body.previewHtml.match(/UNIQUE_FOOTER_TEXT/g) || []).length;
+    expect(matches).toBe(2);
   });
 
   test('UC-RS-21: unique zone values differ across clones', async ({ page }) => {
@@ -380,8 +381,9 @@ test.describe('UC-RS-19/20/21/22 — Apply content', () => {
       { footer: 'x' }
     );
     expect(body.ok).toBe(true);
-    // Both brands appear in the full output (previewHtml only shows first section)
-    expect(body.outputFile).toMatch(/\.html$/);
+    // Both unique values appear in the full patched document
+    expect(body.previewHtml).toContain('BMW_UNIQUE');
+    expect(body.previewHtml).toContain('MERCEDES_UNIQUE');
   });
 
   test('UC-RS-22: static slides before/after repeatable section preserved', async ({ page }) => {

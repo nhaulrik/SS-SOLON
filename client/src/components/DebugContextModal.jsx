@@ -9,12 +9,14 @@ import { useState, useMemo } from 'react'
  *   onClose  — dismiss callback
  */
 export default function DebugContextModal({ context, onClose }) {
-  const [copied,      setCopied]      = useState(false)
-  const [includeHtml, setIncludeHtml] = useState(false)
-  const [includeRecipe, setIncludeRecipe] = useState(true)
+  const [copied,         setCopied]         = useState(false)
+  const [includeHtml,    setIncludeHtml]    = useState(false)
+  const [includeRecipe,  setIncludeRecipe]  = useState(true)
+  const [includeOutput,  setIncludeOutput]  = useState(false)
 
-  const hasHtml   = !!(context?.uploadSession?.rawHtml)
-  const hasRecipe = !!(context?.recipe)
+  const hasHtml    = !!(context?.uploadSession?.rawHtml)
+  const hasRecipe  = !!(context?.recipe)
+  const hasOutput  = !!(context?.applied?.outputHtml)
 
   const filtered = useMemo(() => {
     if (!context) return context
@@ -31,8 +33,14 @@ export default function DebugContextModal({ context, onClose }) {
       out.recipe = null
     }
 
+    // Strip or keep output HTML inside applied
+    if (out.applied) {
+      const { outputHtml, ...rest } = out.applied
+      out.applied = includeOutput && hasOutput ? { ...rest, outputHtml } : rest
+    }
+
     return out
-  }, [context, includeHtml, includeRecipe, hasHtml, hasRecipe])
+  }, [context, includeHtml, includeRecipe, includeOutput, hasHtml, hasRecipe, hasOutput])
 
   const json = useMemo(() => {
     try {
@@ -94,6 +102,17 @@ export default function DebugContextModal({ context, onClose }) {
             />
             <span>Recipe</span>
             {!hasRecipe && <span className="debug-include-na">— not available</span>}
+          </label>
+
+          <label className={`debug-include-option${!hasOutput ? ' debug-include-option--disabled' : ''}`}>
+            <input
+              type="checkbox"
+              checked={includeOutput && hasOutput}
+              disabled={!hasOutput}
+              onChange={e => setIncludeOutput(e.target.checked)}
+            />
+            <span>Output HTML</span>
+            {!hasOutput && <span className="debug-include-na">— not available</span>}
           </label>
         </div>
 

@@ -189,6 +189,7 @@ function walkNode(node, parentId, depth, siblingMap, slideIndex, selections) {
     classes,
     label,
     textPreview,
+    innerHTML: node.innerHTML?.trim() ?? '',
     children,
     isLeaf,
     interesting,

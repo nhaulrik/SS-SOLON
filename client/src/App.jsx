@@ -116,7 +116,7 @@ export default function App() {
       ? {
           roundId:    htmlApplied.roundId,
           outputFile: htmlApplied.outputFile,
-          hasPreview: !!htmlApplied.previewHtml,
+          outputHtml: htmlApplied.previewHtml ?? '',
         }
       : null,
   }

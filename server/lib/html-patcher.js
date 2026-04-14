@@ -125,6 +125,49 @@ export function applyHtmlContent(templateHtml, data, zones, repeatableSlides = [
 
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
+/**
+ * Resolve a nodeId CSS-path fingerprint (e.g. "div.header>div.header-left[1]")
+ * to the actual node-html-parser element within a parsed <section>.
+ *
+ * Each path segment has the form: tag[.class1.class2...][N]
+ * where [N] is a 0-based sibling disambiguator.
+ *
+ * The lookup mirrors the makeNodeId logic in build-tree.js exactly, so paths
+ * produced during tree building resolve to the correct element here.
+ */
+function findElementByNodeId(section, nodeId) {
+  const segments = nodeId.split('>');
+  let current = section;
+
+  for (const seg of segments) {
+    // Parse segment: "div.header-left[1]" → tag="div", classes=["header-left"], idx=1
+    const idxMatch = seg.match(/\[(\d+)\]$/);
+    const sibIdx   = idxMatch ? parseInt(idxMatch[1], 10) : 0;
+    const base     = idxMatch ? seg.slice(0, idxMatch.index) : seg;
+    const [tag, ...classParts] = base.split('.');
+    const wantedClasses = classParts.sort();
+
+    // Walk direct element children to find the Nth matching sibling
+    let matchCount = 0;
+    let found = null;
+    for (const child of (current.childNodes ?? [])) {
+      if (child.nodeType !== 1) continue;
+      const childTag = child.tagName?.toLowerCase() ?? '';
+      if (childTag !== tag) continue;
+      const childClasses = (child.getAttribute?.('class') ?? '')
+        .split(/\s+/).filter(Boolean).sort();
+      if (wantedClasses.join('.') !== childClasses.join('.')) continue;
+      if (matchCount === sibIdx) { found = child; break; }
+      matchCount++;
+    }
+
+    if (!found) return null;
+    current = found;
+  }
+
+  return current === section ? null : current;
+}
+
 function patchSection(section, zones, valueMap, inst, blocksData) {
   // Leaf zones: data-zone
   section.querySelectorAll('[data-zone]').forEach(node => {
@@ -147,7 +190,7 @@ function patchSection(section, zones, valueMap, inst, blocksData) {
     if (value !== undefined && value !== null) node.set_content(String(value));
   });
 
-  // Block zones: data-block
+  // Block zones: data-block (backward compat — pre-existing data-block attributes)
   section.querySelectorAll('[data-block]').forEach(node => {
     const key  = node.getAttribute('data-block');
     if (!key) return;
@@ -161,6 +204,25 @@ function patchSection(section, zones, valueMap, inst, blocksData) {
       html = block?.value ?? (typeof block === 'string' ? block : null);
     }
     if (html !== undefined && html !== null) node.set_content(String(html));
+  });
+
+  // Block zones: nodeId path (user-assigned block zones with no data-block attr)
+  zones.forEach(zone => {
+    if (zone.zoneType !== 'block' || !zone.autoGenerate || !zone.nodeId) return;
+    // Skip zones already handled via data-block above
+    if (section.querySelector(`[data-block="${zone.key}"]`)) return;
+
+    let html;
+    if (inst) {
+      html = inst[zone.key];
+    } else {
+      const block = blocksData[zone.key] ?? valueMap[zone.key];
+      html = block?.value ?? (typeof block === 'string' ? block : null);
+    }
+    if (html === undefined || html === null) return;
+
+    const el = findElementByNodeId(section, zone.nodeId);
+    if (el) el.set_content(String(html));
   });
 }
 
