@@ -75,11 +75,44 @@ export default function App() {
 
   // ── Debug context ──────────────────────────────────────────────
   const debugContext = {
-    timestamp:   new Date().toISOString(),
+    timestamp:  new Date().toISOString(),
     step,
     activeFlow,
-    htmlProject: htmlProject
-      ? { chainId: htmlProject.chainId, projectName: htmlProject.projectName, zoneCount: htmlProject.zones?.length }
+
+    // Upload session — tree, selections, repeatable slides (omit raw HTML to keep payload small)
+    uploadSession: htmlUploadSession
+      ? {
+          templateId:      htmlUploadSession.templateId,
+          fileName:        htmlUploadSession.fileName,
+          slideCount:      htmlUploadSession.slideCount,
+          projectName:     htmlUploadSession.projectName,
+          selectionCount:  htmlUploadSession.selections?.length ?? 0,
+          selections:      htmlUploadSession.selections ?? [],
+          repeatableSlides: htmlUploadSession.repeatableSlides ?? [],
+          hasPreview:      !!htmlUploadSession.previewHtml,
+          rawHtmlLength:   htmlUploadSession.rawHtml?.length ?? 0,
+        }
+      : null,
+
+    // Created project — zones and chain metadata
+    project: htmlProject
+      ? {
+          chainId:          htmlProject.chainId,
+          projectName:      htmlProject.projectName,
+          zoneCount:        htmlProject.zones?.length ?? 0,
+          zones:            htmlProject.zones ?? [],
+          selections:       htmlProject.selections ?? [],
+          repeatableSlides: htmlProject.repeatableSlides ?? [],
+        }
+      : null,
+
+    // Applied result — last output round
+    applied: htmlApplied
+      ? {
+          roundId:    htmlApplied.roundId,
+          outputFile: htmlApplied.outputFile,
+          hasPreview: !!htmlApplied.previewHtml,
+        }
       : null,
   }
 

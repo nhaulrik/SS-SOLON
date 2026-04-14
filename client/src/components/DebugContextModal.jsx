@@ -1,12 +1,12 @@
 import { useState, useMemo } from 'react'
 
 /**
- * Debug context modal -- shows a JSON snapshot of the current app state
+ * Debug context modal — shows a JSON snapshot of the current app state
  * so it can be copied and shared for remote debugging.
  *
  * Props:
- *   context  -- the raw state object from App.jsx
- *   onClose  -- dismiss callback
+ *   context  — the raw state object from App.jsx
+ *   onClose  — dismiss callback
  */
 export default function DebugContextModal({ context, onClose }) {
   const [copied, setCopied] = useState(false)
@@ -20,11 +20,15 @@ export default function DebugContextModal({ context, onClose }) {
   }, [context])
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(json).then(() => {
+    // Wrap in a markdown code block so it pastes cleanly into chat
+    const payload = '```json\n' + json + '\n```'
+    navigator.clipboard.writeText(payload).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     })
   }
+
+  const charCount = json.length
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -34,14 +38,15 @@ export default function DebugContextModal({ context, onClose }) {
           <div>
             <h3 className="debug-modal-title">Debug Context</h3>
             <p className="debug-modal-subtitle">
-              Copy this JSON and share it to accelerate debugging.
+              Copy and paste into chat to share your current state for debugging.
+              {' '}<span style={{ opacity: 0.6 }}>({charCount.toLocaleString()} chars)</span>
             </p>
           </div>
           <button
             className={"btn btn-sm " + (copied ? 'btn-primary' : 'btn-secondary') + " debug-copy-btn"}
             onClick={handleCopy}
           >
-            {copied ? 'Copied' : 'Copy JSON'}
+            {copied ? 'Copied!' : 'Copy'}
           </button>
         </div>
 
