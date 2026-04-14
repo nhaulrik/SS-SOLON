@@ -21,7 +21,8 @@ export default function HtmlPreviewStep({
   debugContext,
 }) {
   const { chainId, projectName } = project
-  const { outputFile, previewHtml } = applied
+  const { outputFile, previewHtml, slideCount = 1 } = applied
+  const isMultiSlide = slideCount > 1
 
   // ── Scale: identical to HtmlUploadStep ────────────────────────────────────
   // The wrapper uses padding-bottom:56.25% (aspect-ratio trick) so its height
@@ -41,15 +42,27 @@ export default function HtmlPreviewStep({
     roRef.current.observe(el)
   }, [])
 
+  // ── Slide navigation (multi-slide only) ──────────────────────────────────
+  const [currentSlide, setCurrentSlide] = useState(1)
+
+  const goToSlide = useCallback((index) => {
+    setCurrentSlide(Math.max(1, Math.min(index, slideCount)))
+  }, [slideCount])
+
   const scaledPreviewHtml = useMemo(() => {
     if (!previewHtml) return ''
+    // CSS transforms are applied right-to-left: scale runs first, then translateY.
+    // So translateY operates in post-scale (screen) space.
+    // To shift slide N to the top of the viewport we need to move up by
+    // (slideIndex - 1) * 720 * previewScale screen pixels.
+    const offsetY   = (currentSlide - 1) * 720 * previewScale
     const injection = `<style>
-#solon-slide-shell { transform: scale(${previewScale}); }
+#solon-slide-shell { transform: translateY(-${offsetY}px) scale(${previewScale}); overflow: hidden; }
 </style>`
     return previewHtml.includes('</head>')
       ? previewHtml.replace('</head>', injection + '</head>')
       : injection + previewHtml
-  }, [previewHtml, previewScale])
+  }, [previewHtml, previewScale, currentSlide])
 
   const handleDownload = useCallback(() => {
     const url = `/api/html-flow/download/${chainId}/${outputFile}`
@@ -78,6 +91,33 @@ export default function HtmlPreviewStep({
             title="Output preview"
           />
         </div>
+
+        {/* ── Slide navigation (multi-slide only) ─────────────────── */}
+        {isMultiSlide && (
+          <div className="html-preview-step-nav" data-testid="preview-nav">
+            <button
+              className="btn btn-secondary html-preview-step-nav-btn"
+              onClick={() => goToSlide(currentSlide - 1)}
+              disabled={currentSlide <= 1}
+              aria-label="Previous slide"
+              data-testid="preview-nav-prev"
+            >
+              ←
+            </button>
+            <span className="html-preview-step-nav-counter" data-testid="preview-nav-counter">
+              {currentSlide} / {slideCount}
+            </span>
+            <button
+              className="btn btn-secondary html-preview-step-nav-btn"
+              onClick={() => goToSlide(currentSlide + 1)}
+              disabled={currentSlide >= slideCount}
+              aria-label="Next slide"
+              data-testid="preview-nav-next"
+            >
+              →
+            </button>
+          </div>
+        )}
 
         {/* ── Actions ─────────────────────────────────────────────── */}
         <div className="html-preview-step-actions">

@@ -1355,6 +1355,32 @@ header p {
   display: block;
 }
 
+.html-preview-step-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-shrink: 0;
+}
+
+.html-preview-step-nav-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.html-preview-step-nav-counter {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  min-width: 48px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
 .html-preview-step-actions {
   display: flex;
   align-items: center;

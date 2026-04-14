@@ -57,8 +57,27 @@ function buildOutputPreviewHtml(html) {
     const sections = root.querySelectorAll('section');
     if (sections.length === 0) return html; // fallback: return as-is
 
-    const headContent = head ? head.innerHTML : '';
-    const slidesHtml  = sections.map(s => s.outerHTML).join('\n');
+    const headContent  = head ? head.innerHTML : '';
+    const slideCount   = sections.length;
+    const shellHeight  = 720 * slideCount;
+    const slidesHtml   = sections.map(s => s.outerHTML).join('\n');
+
+    // For multi-slide output the shell becomes a scroll-snap container:
+    //   - height = 720px × N so all slides fit without clipping
+    //   - overflow-y: scroll + scroll-snap-type: y mandatory
+    //   - each <section> gets scroll-snap-align: start via the injected style
+    // The client injects transform: scale(N) on top of this via ResizeObserver,
+    // so the scaled shell still shows one slide at a time in the iframe viewport.
+    const multiSlideStyle = slideCount > 1 ? `
+  #solon-slide-shell {
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+  #solon-slide-shell section {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }` : '';
 
     return `<!DOCTYPE html>
 <html>
@@ -77,10 +96,12 @@ ${headContent}
   #solon-slide-shell {
     position: absolute;
     top: 0; left: 0;
-    width: 1280px; height: 720px;
+    width: 1280px; height: ${shellHeight}px;
     overflow: hidden;
     transform-origin: top left;
-  }
+    display: flex;
+    flex-direction: column;
+  }${multiSlideStyle}
 </style>
 </head>
 <body>
@@ -525,6 +546,9 @@ router.post('/html-flow/apply-content', (req, res) => {
     // to fit the preview container via transform: scale().
     const previewHtml = buildOutputPreviewHtml(patchedHtml);
 
+    // Count sections in the patched output so the client can render nav controls
+    const slideCount = (patchedHtml.match(/<section/g) || []).length;
+
     const round = {
       id:         roundId,
       appliedAt:  new Date().toISOString(),
@@ -537,7 +561,7 @@ router.post('/html-flow/apply-content', (req, res) => {
     fs.writeFileSync(chainPath, JSON.stringify(chain, null, 2), 'utf8');
 
     // outputPath intentionally omitted from response — server-side path not for clients
-    return res.json({ ok: true, roundId, outputFile, previewHtml });
+    return res.json({ ok: true, roundId, outputFile, previewHtml, slideCount });
   } catch (err) {
     console.error('[html-flow] apply-content error:', err);
     return res.status(500).json({ ok: false, error: err.message });

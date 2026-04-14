@@ -129,6 +129,40 @@ export async function doHtmlCreateProject(page, projectName = 'test-project') {
 }
 
 /**
+ * Create a multi-slide (repeatable) project via the API and return the
+ * apply-content response body.  Produces N cloned sections in previewHtml.
+ *
+ * @param {Page}   page
+ * @param {number} instanceCount — number of slide clones to produce (default 3)
+ */
+export async function doHtmlApplyMultiSlide(page, instanceCount = 3) {
+  const html = `<!DOCTYPE html><html><body>
+    <section>
+      <p data-zone="title" data-hint="slide title">Title</p>
+    </section>
+  </body></html>`;
+
+  const uploadRes = await page.request.post('http://localhost:3001/api/html-flow/upload-template', {
+    data: { html, fileName: 'multi.html' }
+  });
+  const { templateId, selections } = await uploadRes.json();
+
+  const repSlides = [{ slideIndex: 1, key: 'deck', prompt: 'one per item' }];
+  const modified  = selections.map(s => ({ ...s, unique: true }));
+  const createRes = await page.request.post('http://localhost:3001/api/html-flow/create-project', {
+    data: { templateId, selections: modified, projectName: 'multi-test', repeatableSlides: repSlides }
+  });
+  const { chainId } = await createRes.json();
+
+  const instances = Array.from({ length: instanceCount }, (_, i) => ({ title: `Slide ${i + 1}` }));
+  const json      = JSON.stringify({ slides: { deck: { instances } } });
+  const applyRes  = await page.request.post('http://localhost:3001/api/html-flow/apply-content', {
+    data: { chainId, jsonString: json }
+  });
+  return applyRes.json();
+}
+
+/**
  * Navigate all the way to the HTML preview step by applying minimal valid JSON.
  * Uses the API directly to bypass the recipe UI — fast and deterministic.
  */

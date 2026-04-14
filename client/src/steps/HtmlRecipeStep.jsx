@@ -18,7 +18,7 @@ export default function HtmlRecipeStep({
   canNavigateTo,
   navigateTo,
   onBack,           // () => void — back to zone review (start over)
-  onApplied,        // ({ outputFile, previewHtml, roundId }) => void — advance to preview
+  onApplied,        // ({ outputFile, previewHtml, roundId, slideCount }) => void — advance to preview
   onRecipeChange,   // (recipeString) => void — lifts recipe to App for debug context
   setToast,
   debugContext,
@@ -95,7 +95,7 @@ export default function HtmlRecipeStep({
       if (!res.ok) throw new Error(`Server error ${res.status}`)
       const data = await res.json()
       if (!data.ok) throw new Error(data.error || 'Apply failed')
-      onApplied({ outputFile: data.outputFile, previewHtml: data.previewHtml, roundId: data.roundId })
+      onApplied({ outputFile: data.outputFile, previewHtml: data.previewHtml, roundId: data.roundId, slideCount: data.slideCount ?? 1 })
     } catch (err) {
       setToast({ message: 'Apply failed: ' + err.message, type: 'error' })
     } finally {
