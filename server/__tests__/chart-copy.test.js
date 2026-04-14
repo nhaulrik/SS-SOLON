@@ -23,7 +23,15 @@ import { buildPptxZip } from '../lib/pptx-builder.js';
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
 const SAMPLE     = path.resolve(__dirname, './fixtures/sample.pptx');
 const CATALOG    = path.resolve(__dirname, '../../product_catalog.pptx');
-const hasCatalog = fs.existsSync(CATALOG);
+// hasCatalog is true only when the file exists AND contains at least one chart.
+// The fixture may exist without charts (e.g. a placeholder or non-chart version).
+const hasCatalog = (() => {
+  if (!fs.existsSync(CATALOG)) return false;
+  try {
+    const zip = new AdmZip(CATALOG);
+    return zip.getEntries().some(e => e.entryName.includes('charts/chart'));
+  } catch { return false; }
+})();
 
 let testDir;
 beforeAll(() => { testDir = fs.mkdtempSync(path.join(os.tmpdir(), 'solon-chart-')); });

@@ -95,6 +95,8 @@ describe('extractSlideElements', () => {
   });
 
   it('parses a basic text element with correct bounds', () => {
+    // extractSlideElements returns bounds as 0–1 fractions of slide dimensions.
+    // Default slide is 10" × 5.625". So x=1" → 0.1, y=2" → 0.355…, w=3" → 0.3, h=0.5" → 0.0888…
     const xml = makeSlideXml([
       makeShape({ x: 1, y: 2, w: 3, h: 0.5, text: 'Hello World' })
     ]);
@@ -104,10 +106,10 @@ describe('extractSlideElements', () => {
     const el = result.elements[0];
     expect(el.type).toBe('text');
     expect(el.text).toBe('Hello World');
-    expect(el.bounds.x).toBeCloseTo(1, 2);
-    expect(el.bounds.y).toBeCloseTo(2, 2);
-    expect(el.bounds.w).toBeCloseTo(3, 2);
-    expect(el.bounds.h).toBeCloseTo(0.5, 2);
+    expect(el.bounds.x).toBeCloseTo(1 / 10, 2);
+    expect(el.bounds.y).toBeCloseTo(2 / 5.625, 2);
+    expect(el.bounds.w).toBeCloseTo(3 / 10, 2);
+    expect(el.bounds.h).toBeCloseTo(0.5 / 5.625, 2);
   });
 
   it('assigns element id using slideIndex', () => {
@@ -346,11 +348,11 @@ describe('replacePlaceholders', () => {
   it('strips newlines from AI values to prevent invalid XML in a:t elements', () => {
     const content = makeContent('scope');
     const tags = [{ slideIndex: 1, key: 'scope', autoGenerate: true }];
-    const jsonData = { static: { scope: "Line one\n\nLine two\n� Bullet" } };
+    const jsonData = { static: { scope: "Line one\n\nLine two\n� Bullet" } };
     const result = replacePlaceholders(content, jsonData, null, tags, 1);
     // Newlines must be replaced with spaces - raw \n inside <a:t> is invalid OOXML
     expect(result).not.toContain('\n');
-    expect(result).toBe('<a:t>Line one Line two � Bullet</a:t>');
+    expect(result).toBe('<a:t>Line one Line two � Bullet</a:t>');
   });
 
   it('strips carriage-return-newline sequences', () => {
@@ -460,17 +462,16 @@ describe('buildRecipe', () => {
     expect(recipe).toContain('the company name');
   });
 
-  it('includes [AI] marker only for autoGenerate tags', () => {
+  it('includes autoGenerate tags and excludes non-autoGenerate tags', () => {
+    // The recipe only lists autoGenerate:true fields; non-autoGenerate fields are
+    // excluded entirely (they are restored from originalText at patch time, not AI-generated).
     const tags = [
       staticTag('auto_field', 'hint', true),
       staticTag('manual_field', 'hint', false),
     ];
     const recipe = buildRecipe(tags, [], null);
-    const lines = recipe.split('\n');
-    const autoLine = lines.find(l => l.includes('auto_field'));
-    const manualLine = lines.find(l => l.includes('manual_field'));
-    expect(autoLine).toContain('[AI]');
-    expect(manualLine).not.toContain('[AI]');
+    expect(recipe).toContain('auto_field');
+    expect(recipe).not.toContain('manual_field');
   });
 
   it('includes max chars hint when maxChars is set', () => {
@@ -504,6 +505,9 @@ describe('buildRecipe', () => {
   });
 
   it('numbers the REPEATABLE SLIDES section correctly when contextual fields exist', () => {
+    // tags: 'desc' appears on slides 1 and 2 → contextual (section 1).
+    // 'item_name' is on the repeatable slide → repeatable (section 2).
+    // No static section exists, so repeatable is section 2, not 3.
     const tags = [
       { slideIndex: 1, key: 'desc', hint: '', autoGenerate: true, maxChars: null },
       { slideIndex: 2, key: 'desc', hint: '', autoGenerate: true, maxChars: null },
@@ -511,8 +515,10 @@ describe('buildRecipe', () => {
     ];
     const repeatableSlides = [{ slideIndex: 3, structureType: 'item', customPrompt: 'one per initiative' }];
     const recipe = buildRecipe(tags, repeatableSlides, null);
-    // With contextual fields present, repeatable is section 3
-    expect(recipe).toContain('3. REPEATABLE SLIDES');
+    // Contextual is section 1, repeatable follows as section 2
+    expect(recipe).toContain('2. REPEATABLE SLIDES');
+    // And contextual appears before repeatable
+    expect(recipe.indexOf('CONTEXTUAL')).toBeLessThan(recipe.indexOf('REPEATABLE'));
   });
 
   it('numbers the REPEATABLE SLIDES section as 2 when no contextual fields', () => {

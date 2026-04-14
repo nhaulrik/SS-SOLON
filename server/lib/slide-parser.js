@@ -179,6 +179,11 @@ export function extractSlideElements(xml, slideIndex, slideWidth = 10 * EMU_PER_
       const schemeMatch = bgMatch[1].match(/<a:schemeClr val="([^"]+)"/);
       if (schemeMatch) {
         slide.background = SCHEME_COLORS[schemeMatch[1]] || '#FFFFFF';
+      } else {
+        const prstMatch = bgMatch[1].match(/<a:prstClr val="([^"]+)"/);
+        if (prstMatch) {
+          slide.background = getPresetColor(prstMatch[1]);
+        }
       }
     }
   }

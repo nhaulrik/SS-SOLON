@@ -98,9 +98,9 @@ ${globalPromptSection}GENERATE THE FOLLOWING DATA:
     });
 
     recipe += `]\n`;
+    sectionNum++;
   }
 
-  const _hasContextual = contextualFields.length > 0;
   const hasRepeatable = repeatableFields.length > 0;
   
   if (hasRepeatable) {
