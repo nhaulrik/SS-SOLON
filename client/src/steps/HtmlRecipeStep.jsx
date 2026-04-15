@@ -20,44 +20,47 @@ export default function HtmlRecipeStep({
   onBack,           // () => void — back to zone review (start over)
   onApplied,        // ({ outputFile, previewHtml, roundId, slideCount }) => void — advance to preview
   onRecipeChange,   // (recipeString) => void — lifts recipe to App for debug context
+  onRecipeStateChange, // (updates) => void — updates preserved recipe state in App
+  recipeState = { recipe: '', globalPrompt: '', jsonInput: '' }, // preserved state from App
   setToast,
   debugContext,
 }) {
   const { chainId, projectName, selections = [], zones = [] } = project
   // Use selections for display counts; zones are used server-side for recipe/validate/apply
 
-  // ── Recipe ────────────────────────────────────────────────────────────────
-  const [recipe,        setRecipe]        = useState('')
-  const [globalPrompt,  setGlobalPrompt]  = useState('')
-  const [loadingRecipe, setLoadingRecipe] = useState(false)
+   // ── Recipe ────────────────────────────────────────────────────────────────
+   const [recipe,        setRecipe]        = useState(recipeState.recipe)
+   const [globalPrompt,  setGlobalPrompt]  = useState(recipeState.globalPrompt)
+   const [loadingRecipe, setLoadingRecipe] = useState(false)
 
   // ── JSON response ─────────────────────────────────────────────────────────
-  const [jsonInput,   setJsonInput]   = useState('')
+  const [jsonInput,   setJsonInput]   = useState(recipeState.jsonInput)
   const [validation,  setValidation]  = useState(null)   // { valid, error, missingFields }
   const [applying,    setApplying]    = useState(false)
 
   const validateTimerRef = useRef(null)
 
-  // ── Generate recipe ───────────────────────────────────────────────────────
-  const handleGenerateRecipe = useCallback(async () => {
-    setLoadingRecipe(true)
-    try {
-      const res = await fetch('/api/html-flow/generate-recipe', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ chainId, globalPrompt }),
-      })
-      if (!res.ok) throw new Error(`Server error ${res.status}`)
-      const data = await res.json()
-      if (!data.ok) throw new Error(data.error || 'Failed to generate recipe')
-      setRecipe(data.recipe)
-      onRecipeChange?.(data.recipe)
-    } catch (err) {
-      setToast({ message: 'Recipe generation failed: ' + err.message, type: 'error' })
-    } finally {
-      setLoadingRecipe(false)
-    }
-  }, [chainId, globalPrompt, setToast])
+   // ── Generate recipe ───────────────────────────────────────────────────────
+   const handleGenerateRecipe = useCallback(async () => {
+     setLoadingRecipe(true)
+     try {
+       const res = await fetch('/api/html-flow/generate-recipe', {
+         method:  'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body:    JSON.stringify({ chainId, globalPrompt }),
+       })
+       if (!res.ok) throw new Error(`Server error ${res.status}`)
+       const data = await res.json()
+       if (!data.ok) throw new Error(data.error || 'Failed to generate recipe')
+       setRecipe(data.recipe)
+       onRecipeChange?.(data.recipe)
+       onRecipeStateChange?.({ recipe: data.recipe })
+     } catch (err) {
+       setToast({ message: 'Recipe generation failed: ' + err.message, type: 'error' })
+     } finally {
+       setLoadingRecipe(false)
+     }
+   }, [chainId, globalPrompt, setToast, onRecipeStateChange])
 
   // ── Validate JSON (debounced) ─────────────────────────────────────────────
   const validateJson = useCallback(async (value) => {
@@ -76,11 +79,12 @@ export default function HtmlRecipeStep({
     }
   }, [chainId])
 
-  const handleJsonChange = useCallback((value) => {
-    setJsonInput(value)
-    clearTimeout(validateTimerRef.current)
-    validateTimerRef.current = setTimeout(() => validateJson(value), 400)
-  }, [validateJson])
+   const handleJsonChange = useCallback((value) => {
+     setJsonInput(value)
+     onRecipeStateChange?.({ jsonInput: value })
+     clearTimeout(validateTimerRef.current)
+     validateTimerRef.current = setTimeout(() => validateJson(value), 400)
+   }, [validateJson, onRecipeStateChange])
 
   // ── Apply content ─────────────────────────────────────────────────────────
   const handleApply = useCallback(async () => {
@@ -141,13 +145,16 @@ export default function HtmlRecipeStep({
                 Global guidance
                 <span className="html-recipe-global-sub">Optional context prepended to the recipe</span>
               </label>
-              <textarea
-                className="html-recipe-global-input"
-                rows={2}
-                value={globalPrompt}
-                onChange={e => setGlobalPrompt(e.target.value)}
-                placeholder='e.g. "Use formal language. Focus on EMEA market data."'
-              />
+               <textarea
+                 className="html-recipe-global-input"
+                 rows={2}
+                 value={globalPrompt}
+                 onChange={e => {
+                   setGlobalPrompt(e.target.value)
+                   onRecipeStateChange?.({ globalPrompt: e.target.value })
+                 }}
+                 placeholder='e.g. "Use formal language. Focus on EMEA market data."'
+               />
             </div>
 
             <button

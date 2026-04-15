@@ -38,6 +38,12 @@ export default function App() {
     navigateTo('flow-select')
   }, [navigateTo])
 
+  const handleBackToHtmlUpload = useCallback(() => {
+    // Preserve htmlUploadSession when going back to upload step
+    // (don't clear it, as the user may want to iterate on the project creation)
+    navigateTo('html-upload')
+  }, [navigateTo])
+
   // ── HTML flow state ────────────────────────────────────────────
   // htmlUploadSession persists the upload/tree state so back-navigation
   // from recipe or preview restores the tree without re-uploading.
@@ -47,6 +53,13 @@ export default function App() {
   const [htmlProject, setHtmlProject] = useState(null)  // { chainId, projectName, zones, templatePath }
   const [htmlApplied, setHtmlApplied] = useState(null)  // { outputFile, previewHtml, roundId }
   const [htmlRecipe,  setHtmlRecipe]  = useState('')    // last generated recipe string
+  
+  // ── HTML recipe step state (preserved across navigation) ────────
+  const [htmlRecipeState, setHtmlRecipeState] = useState({
+    recipe: '',           // the generated recipe prompt
+    globalPrompt: '',     // user's global guidance input
+    jsonInput: '',        // user's JSON response input
+  })
 
   const handleHtmlProjectCreated = useCallback((project) => {
     setHtmlProject(project)
@@ -63,17 +76,21 @@ export default function App() {
     navigateTo('html-recipe')
   }, [navigateTo])
 
+  const handleHtmlRecipeStateChange = useCallback((updates) => {
+    setHtmlRecipeState(prev => ({ ...prev, ...updates }))
+  }, [])
+
   // ── Global toast ───────────────────────────────────────────────
   const [toast, setToast] = useState(null)
 
   // ── canNavigateTo guard ────────────────────────────────────────
   const canNavigateTo = useCallback((s) => {
     if (s === 'flow-select')  return true
-    if (s === 'html-upload')  return activeFlow === 'html'
+    if (s === 'html-upload')  return activeFlow === 'html' || step === 'html-recipe'
     if (s === 'html-recipe')  return !!(htmlProject)
     if (s === 'html-preview') return !!(htmlProject && htmlApplied)
     return false
-  }, [activeFlow, htmlProject, htmlApplied])
+  }, [activeFlow, htmlProject, htmlApplied, step])
 
   // ── Debug context ──────────────────────────────────────────────
   const debugContext = {
@@ -162,9 +179,11 @@ export default function App() {
           step={step}
           canNavigateTo={canNavigateTo}
           navigateTo={navigateTo}
-          onBack={() => navigateTo('html-upload')}
+          onBack={handleBackToHtmlUpload}
           onApplied={handleHtmlApplied}
           onRecipeChange={setHtmlRecipe}
+          onRecipeStateChange={handleHtmlRecipeStateChange}
+          recipeState={htmlRecipeState}
           setToast={setToast}
           debugContext={debugContext}
         />

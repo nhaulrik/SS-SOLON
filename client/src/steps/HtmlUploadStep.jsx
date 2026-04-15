@@ -134,8 +134,48 @@ export default function HtmlUploadStep({
     }
   }, [setToast, syncSession])
 
-  const handleDrop        = useCallback((e) => { e.preventDefault(); handleFile(e.dataTransfer?.files?.[0]) }, [handleFile])
-  const handleInputChange = useCallback((e) => { handleFile(e.target.files?.[0]) }, [handleFile])
+   const handleDrop        = useCallback((e) => { e.preventDefault(); handleFile(e.dataTransfer?.files?.[0]) }, [handleFile])
+   const handleInputChange = useCallback((e) => { handleFile(e.target.files?.[0]) }, [handleFile])
+
+   // ── Re-sync server session when component mounts or templateId changes ────
+   // If the user navigates back to this step, we need to ensure the server still
+   // has the session. If the session was lost, we can't recover it, so we show
+   // an error and require re-upload.
+   // NOTE: This check is disabled for now because it was clearing state too aggressively.
+   // The server now keeps sessions alive for 2 hours, so we shouldn't need to check.
+   // TODO: Re-enable this check if we add session expiration handling.
+   useEffect(() => {
+     // Disabled for now - sessions are kept alive on the server
+     return;
+     
+     if (!templateId) return;
+     
+     // Attempt to verify the session exists by calling update-selections with empty array
+     // This is a lightweight check that doesn't modify state
+     fetch('/api/html-flow/update-selections', {
+       method: 'PATCH',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ templateId, selections: [] }),
+     })
+       .then(res => {
+         if (!res.ok && res.status === 404) {
+           // Session was lost on server - clear client state and show error
+           setTemplateId(null);
+           setTrees([]);
+           setSelections([]);
+           setRepeatableSlides([]);
+           setFullSlideGeneration([]);
+           setPreviewHtml('');
+           setToast({
+             message: 'Template session expired. Please re-upload your HTML file.',
+             type: 'warning',
+           });
+         }
+       })
+       .catch(() => {
+         // Network error - don't clear state, just continue
+       });
+   }, [templateId, setToast])
 
   // ── Selections change (from tree panel) ──────────────────────────────────
   const handleSelectionsChange = useCallback((newSelections) => {

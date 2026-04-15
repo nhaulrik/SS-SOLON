@@ -105,14 +105,14 @@ ${globalSection}GENERATE THE FOLLOWING DATA:\n`;
 
    let sectionNum = 1;
 
-   // ── Ignored zones (preservation instructions) ──────────────────────────────
-   if (ignoredZones.length > 0) {
-     recipe += `\nZONES TO PRESERVE (do NOT regenerate these):\n`;
-     ignoredZones.forEach(z => {
-       recipe += `- ${z.key} (preserve as-is)\n`;
-     });
-     recipe += `\n`;
-   }
+    // ── Ignored zones (preservation instructions) ──────────────────────────────
+    if (ignoredZones.length > 0) {
+      recipe += `\nZONES_TO_PRESERVE (do NOT regenerate these):\n`;
+      ignoredZones.forEach(z => {
+        recipe += `- ${z.nodeId || z.key} (preserve as-is)\n`;
+      });
+      recipe += `\n`;
+    }
 
    // ── Static block zones ────────────────────────────────────────────────────
    if (staticBlockZones.length > 0) {

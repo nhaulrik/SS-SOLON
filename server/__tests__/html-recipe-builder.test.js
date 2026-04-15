@@ -236,6 +236,54 @@ describe('buildHtmlRecipe', () => {
     expect(recipe).toContain('"sibling_parent"');
     expect(recipe).toContain('"child_of_sibling"');
   });
+
+  it('should list ignored zones in ZONES_TO_PRESERVE section with their nodeId', () => {
+    const zones = [
+      { ...zone('header', 'header content'), nodeId: 'div.header', ignored: false },
+      { ...zone('footer', 'footer content'), nodeId: 'div.footer', ignored: true },
+      { ...zone('body', 'body content'), nodeId: 'div.body', ignored: false }
+    ];
+    const recipe = buildHtmlRecipe(zones);
+    
+    // Should have ZONES_TO_PRESERVE section
+    expect(recipe).toContain('ZONES_TO_PRESERVE');
+    
+    // Should list the ignored zone (footer)
+    expect(recipe).toContain('div.footer');
+    expect(recipe).toContain('preserve as-is');
+    
+    // Should NOT list non-ignored zones in ZONES_TO_PRESERVE
+    expect(recipe).not.toContain('div.header');
+    expect(recipe).not.toContain('div.body');
+    
+    // Should NOT contain "undefined"
+    expect(recipe).not.toContain('- undefined');
+  });
+
+  it('should not have ZONES_TO_PRESERVE section when no zones are ignored', () => {
+    const zones = [
+      zone('header', 'header content'),
+      zone('body', 'body content')
+    ];
+    const recipe = buildHtmlRecipe(zones);
+    
+    // Should not have ZONES_TO_PRESERVE section
+    expect(recipe).not.toContain('ZONES_TO_PRESERVE');
+  });
+
+  it('should list multiple ignored zones correctly', () => {
+    const zones = [
+      { ...zone('header', 'header'), nodeId: 'div.header', ignored: true },
+      { ...zone('footer', 'footer'), nodeId: 'div.footer', ignored: true },
+      { ...zone('body', 'body'), nodeId: 'div.body', ignored: false }
+    ];
+    const recipe = buildHtmlRecipe(zones);
+    
+    expect(recipe).toContain('ZONES_TO_PRESERVE');
+    expect(recipe).toContain('div.header');
+    expect(recipe).toContain('div.footer');
+    expect(recipe).not.toContain('div.body');
+  });
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

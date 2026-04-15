@@ -496,8 +496,8 @@ router.post('/html-flow/create-project', (req, res) => {
     };
 
     fs.writeFileSync(path.join(chainDir, 'chain.json'), JSON.stringify(chain, null, 2), 'utf8');
-    // Only delete the session after both writes succeed
-    pendingTemplates.delete(templateId);
+    // Keep the session alive so the user can navigate back and iterate on project creation
+    // (The session will auto-expire after 2 hours anyway)
 
     return res.json({
       ok: true,
