@@ -1,7 +1,7 @@
 /**
  * Step-progress breadcrumb bar for the HTML Visual Flow.
  *
- * Steps: Template & Zones → Recipe + JSON → Preview
+ * Steps: Template & Zones → Recipe + JSON → Preview → Assign Metadata
  *
  * Props:
  *   step          — current step string (e.g. 'html-upload', 'html-recipe')
@@ -11,7 +11,7 @@
  */
 
 const FLOW_STEPS = {
-  html: ['html-upload', 'html-recipe', 'html-preview'],
+  html: ['html-upload', 'html-recipe', 'html-preview', 'html-metadata'],
 }
 
 const FLOW_LABELS = {
@@ -19,6 +19,7 @@ const FLOW_LABELS = {
     'html-upload':  'Template & Zones',
     'html-recipe':  'Recipe + JSON',
     'html-preview': 'Preview',
+    'html-metadata': 'Assign Metadata',
   },
 }
 

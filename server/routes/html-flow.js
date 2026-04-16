@@ -725,13 +725,21 @@ router.get('/html-flow/download/:chainId/:file', (req, res) => {
 
 router.post('/html-flow/save-project', (req, res) => {
   try {
-    const { chainId, projectName } = req.body;
+    const { chainId, projectName, metadata } = req.body;
 
     // Validation
     if (!chainId || !projectName) {
       return res.status(400).json({ 
         ok: false, 
         error: 'chainId and projectName are required.' 
+      });
+    }
+
+    // Validate metadata if provided
+    if (metadata && !Array.isArray(metadata)) {
+      return res.status(400).json({
+        ok: false,
+        error: 'Metadata must be an array.'
       });
     }
 
@@ -795,21 +803,21 @@ router.post('/html-flow/save-project', (req, res) => {
       });
     }
 
-    // Write individual slide files
-    const slideFiles = [];
-    for (let i = 0; i < sections.length; i++) {
-      const section = sections[i];
-      const slideNumber = i + 1;
-      const fileName = `slide-${slideNumber}.html`;
-      
-      // Create complete HTML document for each slide
-      // Include the head content from the original HTML (styles, fonts, etc.)
-      const slideHtml = `<!DOCTYPE html>
+     // Write individual slide files
+     const slideFiles = [];
+     for (let i = 0; i < sections.length; i++) {
+       const section = sections[i];
+       const slideNumber = i + 1;
+       const fileName = `slide-${slideNumber}.html`;
+       
+       // Create complete HTML document for each slide
+       // Include the head content from the original HTML (styles, fonts, etc.)
+       const slideHtml = `<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Slide ${slideNumber}</title>
+   <meta charset="UTF-8"/>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+   <title>Slide ${slideNumber}</title>
 ${headContent}
 </head>
 <body>
@@ -817,18 +825,41 @@ ${section}
 </body>
 </html>`;
 
-      const slidePath = path.join(projectFolder, fileName);
-      fs.writeFileSync(slidePath, slideHtml, 'utf8');
-      slideFiles.push(fileName);
-    }
+       const slidePath = path.join(projectFolder, fileName);
+       fs.writeFileSync(slidePath, slideHtml, 'utf8');
+       slideFiles.push(fileName);
+     }
 
-    // Project folder with individual slide files is now saved
-    return res.json({
-      ok: true,
-      projectName: sanitizedName,
-      slideCount: sections.length,
-      projectPath: projectFolder,
-    });
+     // Create project.json with metadata
+     const projectJson = {
+       name: sanitizedName,
+       createdAt: new Date().toISOString(),
+       slideCount: sections.length,
+       slides: metadata && metadata.length === sections.length
+         ? metadata.map((meta, idx) => ({
+             index: idx,
+             file: `slide-${idx + 1}.html`,
+             ...meta,
+           }))
+         : sections.map((_, idx) => ({
+             index: idx,
+             file: `slide-${idx + 1}.html`,
+             slideId: `slide-${idx + 1}`,
+             name: `Slide ${idx + 1}`,
+             type: 'content',
+           })),
+     };
+
+     const projectJsonPath = path.join(projectFolder, 'project.json');
+     fs.writeFileSync(projectJsonPath, JSON.stringify(projectJson, null, 2), 'utf8');
+
+     // Project folder with individual slide files and metadata is now saved
+     return res.json({
+       ok: true,
+       projectName: sanitizedName,
+       slideCount: sections.length,
+       projectPath: projectFolder,
+     });
   } catch (err) {
     console.error('[html-flow] save-project error:', err);
     return res.status(500).json({ ok: false, error: err.message });

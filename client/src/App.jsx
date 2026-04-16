@@ -4,8 +4,9 @@ import FlowSelectStep  from './steps/FlowSelectStep.jsx'
 import HtmlUploadStep  from './steps/HtmlUploadStep.jsx'
 import HtmlRecipeStep  from './steps/HtmlRecipeStep.jsx'
 import HtmlPreviewStep from './steps/HtmlPreviewStep.jsx'
+import MetadataAssignmentStep from './steps/MetadataAssignmentStep.jsx'
 
-const ALL_STEPS = ['flow-select', 'html-upload', 'html-recipe', 'html-preview']
+const ALL_STEPS = ['flow-select', 'html-upload', 'html-recipe', 'html-preview', 'html-metadata']
 
 export default function App() {
   // ── Step navigation ────────────────────────────────────────────
@@ -65,6 +66,9 @@ export default function App() {
   const [htmlAiResponse, setHtmlAiResponse] = useState(null)
   // { raw, validated, validationResult }
 
+  // ── Global toast (declare early so handlers can use it) ──────────
+  const [toast, setToast] = useState(null)
+
   const handleHtmlProjectCreated = useCallback((project) => {
     setHtmlProject(project)
     navigateTo('html-recipe')
@@ -80,6 +84,47 @@ export default function App() {
     navigateTo('html-recipe')
   }, [navigateTo])
 
+  const handleMetadataAssignmentStart = useCallback(() => {
+    navigateTo('html-metadata')
+  }, [navigateTo])
+
+  const handleMetadataSaved = useCallback(async (metadata) => {
+    try {
+      const response = await fetch('/api/html-flow/save-project', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chainId: htmlProject.chainId,
+          projectName: htmlProject.projectName,
+          slideCount: htmlApplied.slideCount,
+          metadata,
+        }),
+      })
+
+      const result = await response.json()
+
+      if (!result.ok) {
+        setToast({ type: 'error', message: result.error })
+        return
+      }
+
+      setToast({
+        type: 'success',
+        message: `Project "${result.projectName}" saved with metadata!`,
+      })
+
+      // Reset state and go back to flow select
+      setActiveFlow(null)
+      setHtmlUploadSession(null)
+      setHtmlProject(null)
+      setHtmlApplied(null)
+      setHtmlRecipe('')
+      navigateTo('flow-select')
+    } catch (err) {
+      setToast({ type: 'error', message: err.message })
+    }
+  }, [htmlProject, htmlApplied, navigateTo, setToast])
+
   const handleHtmlRecipeStateChange = useCallback((updates) => {
     setHtmlRecipeState(prev => ({ ...prev, ...updates }))
   }, [])
@@ -88,15 +133,13 @@ export default function App() {
     setHtmlAiResponse(aiResponse)
   }, [])
 
-  // ── Global toast ───────────────────────────────────────────────
-  const [toast, setToast] = useState(null)
-
   // ── canNavigateTo guard ────────────────────────────────────────
   const canNavigateTo = useCallback((s) => {
     if (s === 'flow-select')  return true
-    if (s === 'html-upload')  return activeFlow === 'html' || step === 'html-recipe'
+    if (s === 'html-upload')  return activeFlow === 'html' || step === 'html-recipe' || step === 'html-metadata'
     if (s === 'html-recipe')  return !!(htmlProject)
     if (s === 'html-preview') return !!(htmlProject && htmlApplied)
+    if (s === 'html-metadata') return !!(htmlProject && htmlApplied)
     return false
   }, [activeFlow, htmlProject, htmlApplied, step])
 
@@ -215,6 +258,26 @@ export default function App() {
           navigateTo={navigateTo}
           onBack={handleBackToHtmlRecipe}
           onStartNew={handleBackToFlowSelect}
+          onAssignMetadata={handleMetadataAssignmentStart}
+          setToast={setToast}
+          debugContext={debugContext}
+        />
+      </>
+    )
+  }
+
+  if (step === 'html-metadata' && htmlProject && htmlApplied) {
+    return (
+      <>
+        <Toast toast={toast} onDismiss={() => setToast(null)} />
+        <MetadataAssignmentStep
+          project={htmlProject}
+          applied={htmlApplied}
+          step={step}
+          canNavigateTo={canNavigateTo}
+          navigateTo={navigateTo}
+          onBack={() => navigateTo('html-preview')}
+          onNext={handleMetadataSaved}
           setToast={setToast}
           debugContext={debugContext}
         />
