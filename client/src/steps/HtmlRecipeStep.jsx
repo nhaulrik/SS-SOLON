@@ -42,26 +42,26 @@ export default function HtmlRecipeStep({
   const validateTimerRef = useRef(null)
 
    // ── Generate recipe ───────────────────────────────────────────────────────
-   const handleGenerateRecipe = useCallback(async () => {
-     setLoadingRecipe(true)
-     try {
-       const res = await fetch('/api/html-flow/generate-recipe', {
-         method:  'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body:    JSON.stringify({ chainId, globalPrompt }),
-       })
-       if (!res.ok) throw new Error(`Server error ${res.status}`)
-       const data = await res.json()
-       if (!data.ok) throw new Error(data.error || 'Failed to generate recipe')
-       setRecipe(data.recipe)
-       onRecipeChange?.(data.recipe)
-       onRecipeStateChange?.({ recipe: data.recipe })
-     } catch (err) {
-       setToast({ message: 'Recipe generation failed: ' + err.message, type: 'error' })
-     } finally {
-       setLoadingRecipe(false)
-     }
-   }, [chainId, globalPrompt, setToast, onRecipeStateChange])
+    const handleGenerateRecipe = useCallback(async () => {
+      setLoadingRecipe(true)
+      try {
+        const res = await fetch('/api/html-flow/generate-recipe', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ chainId, globalPrompt }),
+        })
+        if (!res.ok) throw new Error(`Server error ${res.status}`)
+        const data = await res.json()
+        if (!data.ok) throw new Error(data.error || 'Failed to generate recipe')
+        setRecipe(data.recipe)
+        onRecipeChange?.(data.recipe)
+        onRecipeStateChange?.({ recipe: data.recipe, recipeGenerationId: data.generationId })
+      } catch (err) {
+        setToast({ message: 'Recipe generation failed: ' + err.message, type: 'error' })
+      } finally {
+        setLoadingRecipe(false)
+      }
+    }, [chainId, globalPrompt, setToast, onRecipeStateChange])
 
   // ── Validate JSON (debounced) ─────────────────────────────────────────────
   const validateJson = useCallback(async (value) => {
@@ -106,26 +106,26 @@ export default function HtmlRecipeStep({
      validateTimerRef.current = setTimeout(() => validateJson(value), 400)
    }, [validateJson, onRecipeStateChange])
 
-  // ── Apply content ─────────────────────────────────────────────────────────
-  const handleApply = useCallback(async () => {
-    if (!validation?.valid || applying) return
-    setApplying(true)
-    try {
-      const res = await fetch('/api/html-flow/apply-content', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ chainId, jsonString: jsonInput }),
-      })
-      if (!res.ok) throw new Error(`Server error ${res.status}`)
-      const data = await res.json()
-      if (!data.ok) throw new Error(data.error || 'Apply failed')
-      onApplied({ outputFile: data.outputFile, previewHtml: data.previewHtml, roundId: data.roundId, slideCount: data.slideCount ?? 1 })
-    } catch (err) {
-      setToast({ message: 'Apply failed: ' + err.message, type: 'error' })
-    } finally {
-      setApplying(false)
-    }
-  }, [chainId, jsonInput, validation, applying, onApplied, setToast])
+   // ── Apply content ─────────────────────────────────────────────────────────
+   const handleApply = useCallback(async () => {
+     if (!validation?.valid || applying) return
+     setApplying(true)
+     try {
+       const res = await fetch('/api/html-flow/apply-content', {
+         method:  'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body:    JSON.stringify({ chainId, jsonString: jsonInput }),
+       })
+       if (!res.ok) throw new Error(`Server error ${res.status}`)
+       const data = await res.json()
+       if (!data.ok) throw new Error(data.error || 'Apply failed')
+       onApplied({ outputFile: data.outputFile, previewHtml: data.previewHtml, roundId: data.roundId, slideCount: data.slideCount ?? 1, generationId: data.generationId })
+     } catch (err) {
+       setToast({ message: 'Apply failed: ' + err.message, type: 'error' })
+     } finally {
+       setApplying(false)
+     }
+   }, [chainId, jsonInput, validation, applying, onApplied, setToast])
 
   // ── Copy helpers ──────────────────────────────────────────────────────────
   const handleCopyRecipe = useCallback(() => {

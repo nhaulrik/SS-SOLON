@@ -89,16 +89,17 @@ export default function App() {
   const [htmlUploadSession, setHtmlUploadSession] = useState(null)
   // { templateId, fileName, slideCount, trees, selections, previewHtml, rawHtml, projectName }
 
-  const [htmlProject, setHtmlProject] = useState(null)  // { chainId, projectName, zones, templatePath }
-  const [htmlApplied, setHtmlApplied] = useState(null)  // { outputFile, previewHtml, roundId }
+   const [htmlProject, setHtmlProject] = useState(null)  // { chainId, projectName, zones, templatePath, recipeGenerationId }
+   const [htmlApplied, setHtmlApplied] = useState(null)  // { outputFile, previewHtml, roundId, generationId }
   const [htmlRecipe,  setHtmlRecipe]  = useState('')    // last generated recipe string
   
-  // ── HTML recipe step state (preserved across navigation) ────────
-  const [htmlRecipeState, setHtmlRecipeState] = useState({
-    recipe: '',           // the generated recipe prompt
-    globalPrompt: '',     // user's global guidance input
-    jsonInput: '',        // user's JSON response input
-  })
+   // ── HTML recipe step state (preserved across navigation) ────────
+   const [htmlRecipeState, setHtmlRecipeState] = useState({
+     recipe: '',           // the generated recipe prompt
+     globalPrompt: '',     // user's global guidance input
+     jsonInput: '',        // user's JSON response input
+     recipeGenerationId: null, // generation ID from recipe generation
+   })
 
   // ── AI response tracking (for debug context) ────────────────────
   const [htmlAiResponse, setHtmlAiResponse] = useState(null)
@@ -107,15 +108,21 @@ export default function App() {
   // ── Global toast (declare early so handlers can use it) ──────────
   const [toast, setToast] = useState(null)
 
-  const handleHtmlProjectCreated = useCallback((project) => {
-    setHtmlProject(project)
-    navigateTo('html-recipe')
-  }, [navigateTo])
+   const handleHtmlProjectCreated = useCallback((project) => {
+     setHtmlProject({ ...project, recipeGenerationId: null })
+     navigateTo('html-recipe')
+   }, [navigateTo])
 
-  const handleHtmlApplied = useCallback((result) => {
-    setHtmlApplied(result)
-    navigateTo('html-preview')
-  }, [navigateTo])
+   const handleHtmlApplied = useCallback((result) => {
+     setHtmlApplied({
+       outputFile: result.outputFile,
+       previewHtml: result.previewHtml,
+       roundId: result.roundId,
+       slideCount: result.slideCount,
+       generationId: result.generationId
+     })
+     navigateTo('html-preview')
+   }, [navigateTo])
 
   const handleBackToHtmlRecipe = useCallback(() => {
     setHtmlApplied(null)
@@ -163,9 +170,13 @@ export default function App() {
     }
   }, [htmlProject, htmlApplied, navigateTo, setToast])
 
-  const handleHtmlRecipeStateChange = useCallback((updates) => {
-    setHtmlRecipeState(prev => ({ ...prev, ...updates }))
-  }, [])
+   const handleHtmlRecipeStateChange = useCallback((updates) => {
+     setHtmlRecipeState(prev => ({ ...prev, ...updates }))
+     // If recipeGenerationId is being set, also update htmlProject
+     if (updates.recipeGenerationId && htmlProject) {
+       setHtmlProject(prev => ({ ...prev, recipeGenerationId: updates.recipeGenerationId }))
+     }
+   }, [htmlProject])
 
   const handleHtmlAiResponseChange = useCallback((aiResponse) => {
     setHtmlAiResponse(aiResponse)

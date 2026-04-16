@@ -22,6 +22,20 @@ import { buildHtmlRecipe, generateFullSlideRecipe, validateHtmlJson } from '../l
 import { applyHtmlContent }                  from '../lib/html-patcher.js';
 import { buildSectionTree, flattenTree }      from '../lib/build-tree.js';
 import { selectionsToZones, resolveConflicts } from '../lib/selections-to-zones.js';
+import {
+  recordRecipeGeneration,
+  recordRound,
+  recordFullSlideGeneration,
+  getGenerationHistory,
+  getGenerationCount,
+  getGeneration,
+  getSlideGenerations,
+  deleteGeneration,
+  getGenerationForReplay,
+  recordReplay,
+  getGenerationStats,
+  exportGenerations,
+} from '../lib/generation-manager.js';
 
 const router = express.Router();
 
@@ -538,13 +552,22 @@ router.post('/html-flow/generate-recipe', (req, res) => {
 
     const recipe = buildHtmlRecipe(zones, prompt, repSlides);
 
+    // Update globalPrompt if provided, before recording generation
     if (globalPrompt !== undefined) {
       chain.globalPrompt = globalPrompt;
       chain.updatedAt    = new Date().toISOString();
       fs.writeFileSync(chainPath, JSON.stringify(chain, null, 2), 'utf8');
     }
 
-    return res.json({ ok: true, recipe });
+    // Record the generation in history
+    const metadata = {
+      slideCount: chain.slideCount || 0,
+      zoneCount: zones.length,
+      repeatableSlideCount: repSlides.length,
+    };
+    const generationId = recordRecipeGeneration(chainId, recipe, prompt, metadata);
+
+    return res.json({ ok: true, recipe, generationId });
   } catch (err) {
     console.error('[html-flow] generate-recipe error:', err);
     return res.status(500).json({ ok: false, error: err.message });
@@ -582,12 +605,16 @@ router.post('/html-flow/generate-full-slide', (req, res) => {
 
     const recipe = generateFullSlideRecipe(zones, slideIndex, prompt, repSlides);
 
+    // Record the generation in history
+    const generationId = recordFullSlideGeneration(chainId, slideIndex, recipe, 'generated');
+
     return res.json({
       ok: true,
       recipe,
       slideIndex,
       zoneCount: slideZones.length,
       zones: slideZones.map(z => ({ key: z.key, prompt: z.prompt })),
+      generationId,
     });
   } catch (err) {
     console.error('[html-flow] generate-full-slide error:', err);
@@ -672,19 +699,28 @@ router.post('/html-flow/apply-content', (req, res) => {
     // Count sections in the patched output so the client can render nav controls
     const slideCount = (patchedHtml.match(/<section/g) || []).length;
 
-    const round = {
-      id:         roundId,
-      appliedAt:  new Date().toISOString(),
-      outputFile,
-      // outputPath intentionally not stored — can be derived from chainDir + outputFile
-      jsonInput:  jsonString.slice(0, 2000),
-    };
-    chain.rounds    = [...(chain.rounds || []), round];
-    chain.updatedAt = new Date().toISOString();
-    fs.writeFileSync(chainPath, JSON.stringify(chain, null, 2), 'utf8');
+     const round = {
+       id:         roundId,
+       appliedAt:  new Date().toISOString(),
+       outputFile,
+       // outputPath intentionally not stored — can be derived from chainDir + outputFile
+       jsonInput:  jsonString.slice(0, 2000),
+     };
+     chain.rounds    = [...(chain.rounds || []), round];
+     chain.updatedAt = new Date().toISOString();
+     fs.writeFileSync(chainPath, JSON.stringify(chain, null, 2), 'utf8');
 
-    // outputPath intentionally omitted from response — server-side path not for clients
-    return res.json({ ok: true, roundId, outputFile, previewHtml, slideCount });
+     // Record the generation in history with full JSON and validation result
+     const validationResult = {
+       valid: validation.valid,
+       instanceCount: validation.instanceCount || 0,
+       foundFields: validation.foundFields || 0,
+       missingFields: validation.missingFields || [],
+     };
+     const generationId = recordRound(chainId, roundId, jsonString, outputFile, validationResult);
+
+     // outputPath intentionally omitted from response — server-side path not for clients
+     return res.json({ ok: true, roundId, outputFile, previewHtml, slideCount, generationId });
   } catch (err) {
     console.error('[html-flow] apply-content error:', err);
     return res.status(500).json({ ok: false, error: err.message });
@@ -850,18 +886,220 @@ ${section}
            })),
      };
 
-     const projectJsonPath = path.join(projectFolder, 'project.json');
-     fs.writeFileSync(projectJsonPath, JSON.stringify(projectJson, null, 2), 'utf8');
+      const projectJsonPath = path.join(projectFolder, 'project.json');
+      fs.writeFileSync(projectJsonPath, JSON.stringify(projectJson, null, 2), 'utf8');
 
-     // Project folder with individual slide files and metadata is now saved
-     return res.json({
-       ok: true,
-       projectName: sanitizedName,
-       slideCount: sections.length,
-       projectPath: projectFolder,
-     });
+      // Save generation history if available
+      if (chain.generationHistory && chain.generationHistory.length > 0) {
+        const generationsPath = path.join(projectFolder, 'generations.json');
+        fs.writeFileSync(generationsPath, JSON.stringify(chain.generationHistory, null, 2), 'utf8');
+      }
+
+      // Project folder with individual slide files and metadata is now saved
+      return res.json({
+        ok: true,
+        projectName: sanitizedName,
+        slideCount: sections.length,
+        projectPath: projectFolder,
+      });
+   } catch (err) {
+     console.error('[html-flow] save-project error:', err);
+     return res.status(500).json({ ok: false, error: err.message });
+   }
+ });
+
+// ── Generation History API Endpoints ─────────────────────────────────────────
+
+/**
+ * GET /api/html-flow/:chainId/generations
+ * List all generations for a chain with optional filtering.
+ * Query params: type (recipe|round|fullSlide), slideIndex, limit, offset
+ */
+router.get('/html-flow/:chainId/generations', (req, res) => {
+  try {
+    const { chainId } = req.params;
+    const { type, slideIndex, limit = 50, offset = 0 } = req.query;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const options = {
+      type: type || null,
+      slideIndex: slideIndex !== undefined ? parseInt(slideIndex, 10) : undefined,
+      limit: Math.min(parseInt(limit, 10) || 50, 100), // max 100
+      offset: parseInt(offset, 10) || 0,
+    };
+
+    const generations = getGenerationHistory(chainId, options);
+    const total = getGenerationCount(chainId, type || null);
+
+    return res.json({
+      ok: true,
+      generations,
+      total,
+      limit: options.limit,
+      offset: options.offset,
+    });
   } catch (err) {
-    console.error('[html-flow] save-project error:', err);
+    console.error('[html-flow] get-generations error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/generations/:generationId
+ * Get detailed information about a specific generation.
+ */
+router.get('/html-flow/:chainId/generations/:generationId', (req, res) => {
+  try {
+    const { chainId, generationId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const generation = getGeneration(chainId, generationId);
+    if (!generation) {
+      return res.status(404).json({ ok: false, error: 'Generation not found.' });
+    }
+
+    return res.json({ ok: true, generation });
+  } catch (err) {
+    console.error('[html-flow] get-generation error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * DELETE /api/html-flow/:chainId/generations/:generationId
+ * Delete a generation from the history.
+ */
+router.delete('/html-flow/:chainId/generations/:generationId', (req, res) => {
+  try {
+    const { chainId, generationId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const success = deleteGeneration(chainId, generationId);
+    if (!success) {
+      return res.status(404).json({ ok: false, error: 'Generation not found or failed to delete.' });
+    }
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('[html-flow] delete-generation error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/generations/stats
+ * Get statistics about generations for a chain.
+ */
+router.get('/html-flow/:chainId/generations-stats', (req, res) => {
+  try {
+    const { chainId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const stats = getGenerationStats(chainId);
+
+    return res.json({ ok: true, stats });
+  } catch (err) {
+    console.error('[html-flow] get-generation-stats error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * POST /api/html-flow/:chainId/generations/:generationId/replay
+ * Replay a previous generation (re-apply its JSON output without re-running AI).
+ */
+router.post('/html-flow/:chainId/generations/:generationId/replay', (req, res) => {
+  try {
+    const { chainId, generationId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const chainPath = path.join(chainDir, 'chain.json');
+    if (!fs.existsSync(chainPath)) {
+      return res.status(404).json({ ok: false, error: 'Chain not found.' });
+    }
+
+    const replayData = getGenerationForReplay(chainId, generationId);
+    if (!replayData) {
+      return res.status(404).json({ ok: false, error: 'Generation not found or is not a round.' });
+    }
+
+    const chain = JSON.parse(fs.readFileSync(chainPath, 'utf8'));
+    const zones = (chain.zones || []).filter(z => z.key);
+    const repeatableSlides = chain.repeatableSlides || [];
+
+    // Validate the stored JSON
+    const validation = validateHtmlJson(replayData.jsonInput, zones, repeatableSlides);
+    if (!validation.valid) {
+      return res.status(422).json({ ok: false, error: 'Stored JSON is no longer valid', missingFields: validation.missingFields });
+    }
+
+    // Apply the content
+    const data = JSON.parse(replayData.jsonInput);
+    const templateHtml = fs.readFileSync(chain.templatePath, 'utf8');
+    const patchedHtml = applyHtmlContent(templateHtml, data, zones, repeatableSlides);
+
+    // Save new output file
+    const newRoundId = randomUUID();
+    const newOutputFile = `output-${newRoundId}.html`;
+    const newOutputPath = path.join(chainDir, newOutputFile);
+    fs.writeFileSync(newOutputPath, patchedHtml, 'utf8');
+
+    // Build preview
+    const previewHtml = buildOutputPreviewHtml(patchedHtml);
+    const slideCount = (patchedHtml.match(/<section/g) || []).length;
+
+    // Record the replay
+    const replayResult = recordReplay(chainId, generationId, newRoundId, newOutputFile);
+    if (!replayResult) {
+      return res.status(500).json({ ok: false, error: 'Failed to record replay.' });
+    }
+
+    return res.json({
+      ok: true,
+      roundId: newRoundId,
+      outputFile: newOutputFile,
+      previewHtml,
+      slideCount,
+      generationId: replayResult.generationId,
+      sourceGenerationId: generationId,
+    });
+  } catch (err) {
+    console.error('[html-flow] replay-generation error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/generations/export
+ * Export all generations as JSON (for backup/audit).
+ */
+router.get('/html-flow/:chainId/generations-export', (req, res) => {
+  try {
+    const { chainId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const exportData = exportGenerations(chainId);
+    if (!exportData) {
+      return res.status(404).json({ ok: false, error: 'Chain not found.' });
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="generations-${chainId}.json"`);
+    return res.send(exportData);
+  } catch (err) {
+    console.error('[html-flow] export-generations error:', err);
     return res.status(500).json({ ok: false, error: err.message });
   }
 });
