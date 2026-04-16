@@ -1,0 +1,236 @@
+.panel {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.loading,
+.empty {
+  padding: var(--space-lg) var(--space-xl);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.headerTitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.headerCount {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ── Export list ─────────────────────────────────────────────────────────────── */
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.exportItem {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.exportItem:last-child {
+  border-bottom: none;
+}
+
+/* ── Export summary row ──────────────────────────────────────────────────────── */
+
+.exportSummary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.expandButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  text-align: left;
+  transition: background var(--transition-fast);
+}
+
+.expandButton:hover {
+  background: var(--bg-tertiary);
+}
+
+.expandIcon {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  width: 12px;
+}
+
+.exportId {
+  font-weight: 600;
+  color: var(--accent-primary);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.exportMeta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.exportActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-shrink: 0;
+}
+
+/* ── Action buttons ──────────────────────────────────────────────────────────── */
+
+.actionBtn {
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: inherit;
+  transition: all var(--transition-fast);
+}
+
+.zipBtn {
+  background: var(--bg-tertiary);
+  color: var(--accent-primary);
+  border-color: var(--accent-muted);
+}
+
+.zipBtn:hover {
+  background: var(--accent-muted);
+  color: var(--text-primary);
+}
+
+.downloadBtn {
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border-color: var(--border-default);
+}
+
+.downloadBtn:hover {
+  background: var(--border-default);
+  color: var(--text-primary);
+}
+
+.deleteBtn {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: transparent;
+  font-size: 1rem;
+  padding: 2px 8px;
+}
+
+.deleteBtn:hover {
+  background: rgba(232, 84, 74, 0.15);
+  color: var(--error);
+  border-color: rgba(232, 84, 74, 0.3);
+}
+
+/* ── Slide list (expanded) ───────────────────────────────────────────────────── */
+
+.slideList {
+  padding: var(--space-xs) var(--space-sm) var(--space-sm) calc(var(--space-sm) + 12px + var(--space-sm));
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.slideListLoading,
+.slideListEmpty {
+  padding: var(--space-sm) var(--space-xl);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.slideRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-xs);
+  transition: background var(--transition-fast);
+}
+
+.slideRow:hover {
+  background: var(--bg-tertiary);
+}
+
+.slideIndex {
+  width: 24px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.slideInfo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.slideTitle {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slideType {
+  font-size: 0.7rem;
+  color: var(--accent-secondary);
+  background: var(--accent-muted);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  flex-shrink: 0;
+}
+
+.slideId {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}

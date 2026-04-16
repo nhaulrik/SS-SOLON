@@ -36,6 +36,24 @@ import {
   getGenerationStats,
   exportGenerations,
 } from '../lib/generation-manager.js';
+import {
+  createExport,
+  listExports,
+  getExport,
+  getExportProjectIndex,
+  resolveSlideFilePath,
+  getExportCount,
+  deleteExport,
+  buildExportZip,
+} from '../lib/export-manager.js';
+import {
+  assignSlidesToParent,
+  getRelationshipGraph,
+  getHierarchyTree,
+  getSlideRelationships,
+  removeRelationship,
+  getAvailableParentExports,
+} from '../lib/relationship-manager.js';
 
 const router = express.Router();
 
@@ -507,6 +525,7 @@ router.post('/html-flow/create-project', (req, res) => {
       fullSlideGeneration: fullSlideGen,
       trees:               session.trees ?? [],
       rounds:              [],
+      exports:             [],   // Phase 3: versioned export history
     };
 
     fs.writeFileSync(path.join(chainDir, 'chain.json'), JSON.stringify(chain, null, 2), 'utf8');
@@ -1100,6 +1119,380 @@ router.get('/html-flow/:chainId/generations-export', (req, res) => {
     return res.send(exportData);
   } catch (err) {
     console.error('[html-flow] export-generations error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// ── Phase 3: Versioned Export API Endpoints ───────────────────────────────────
+
+/**
+ * POST /api/html-flow/:chainId/exports
+ * Create a versioned export from a generation round.
+ *
+ * Body: {
+ *   roundId: string,          — round ID from apply-content
+ *   outputFile: string,       — output HTML file name
+ *   slideMetadata?: Array<{   — optional per-slide metadata
+ *     slideId: string,
+ *     name: string,
+ *     type: string
+ *   }>
+ * }
+ */
+router.post('/html-flow/:chainId/exports', (req, res) => {
+  try {
+    const { chainId } = req.params;
+    const { roundId, outputFile, slideMetadata } = req.body;
+
+    if (!roundId || !outputFile) {
+      return res.status(400).json({ ok: false, error: 'roundId and outputFile are required.' });
+    }
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const chainPath = path.join(chainDir, 'chain.json');
+    if (!fs.existsSync(chainPath)) {
+      return res.status(404).json({ ok: false, error: 'Chain not found.' });
+    }
+
+    // Validate slideMetadata if provided
+    if (slideMetadata !== undefined && !Array.isArray(slideMetadata)) {
+      return res.status(400).json({ ok: false, error: 'slideMetadata must be an array.' });
+    }
+
+    const result = createExport(chainId, roundId, outputFile, slideMetadata || []);
+    if (!result) {
+      return res.status(500).json({ ok: false, error: 'Failed to create export.' });
+    }
+
+    return res.status(201).json({
+      ok: true,
+      exportId: result.exportId,
+      exportNumber: result.exportNumber,
+      slideCount: result.slideCount,
+      createdAt: result.createdAt,
+    });
+  } catch (err) {
+    console.error('[html-flow] create-export error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/exports
+ * List all exports for a chain (newest first).
+ */
+router.get('/html-flow/:chainId/exports', (req, res) => {
+  try {
+    const { chainId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const exports = listExports(chainId);
+    const total = getExportCount(chainId);
+
+    return res.json({ ok: true, exports, total });
+  } catch (err) {
+    console.error('[html-flow] list-exports error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/exports/:exportId
+ * Get detailed information about a specific export.
+ */
+router.get('/html-flow/:chainId/exports/:exportId', (req, res) => {
+  try {
+    const { chainId, exportId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const exportData = getExport(chainId, exportId);
+    if (!exportData) {
+      return res.status(404).json({ ok: false, error: 'Export not found.' });
+    }
+
+    return res.json({ ok: true, export: exportData });
+  } catch (err) {
+    console.error('[html-flow] get-export error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/exports/:exportId/project
+ * Get the project.json (slide index) for an export.
+ */
+router.get('/html-flow/:chainId/exports/:exportId/project', (req, res) => {
+  try {
+    const { chainId, exportId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const projectIndex = getExportProjectIndex(chainId, exportId);
+    if (!projectIndex) {
+      return res.status(404).json({ ok: false, error: 'Export project index not found.' });
+    }
+
+    return res.json({ ok: true, project: projectIndex });
+  } catch (err) {
+    console.error('[html-flow] get-export-project error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/exports/:exportId/slides/:slideFile
+ * Download a specific slide HTML file from an export.
+ * slideFile must match pattern: slide-N.html
+ */
+router.get('/html-flow/:chainId/exports/:exportId/slides/:slideFile', (req, res) => {
+  try {
+    const { chainId, exportId, slideFile } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const filePath = resolveSlideFilePath(chainId, exportId, slideFile);
+    if (!filePath) {
+      return res.status(404).json({ ok: false, error: 'Slide file not found.' });
+    }
+
+    res.setHeader('Content-Disposition', `attachment; filename="${slideFile}"`);
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.sendFile(path.resolve(filePath));
+  } catch (err) {
+    console.error('[html-flow] download-slide error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/exports/:exportId/download
+ * Download the entire export as a ZIP archive.
+ */
+router.get('/html-flow/:chainId/exports/:exportId/download', (req, res) => {
+  try {
+    const { chainId, exportId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const zipResult = buildExportZip(chainId, exportId);
+    if (!zipResult) {
+      return res.status(404).json({ ok: false, error: 'Export not found or failed to build ZIP.' });
+    }
+
+    res.setHeader('Content-Disposition', `attachment; filename="${zipResult.filename}"`);
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Length', zipResult.buffer.length);
+    return res.send(zipResult.buffer);
+  } catch (err) {
+    console.error('[html-flow] download-export-zip error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * DELETE /api/html-flow/:chainId/exports/:exportId
+ * Delete an export and all its files.
+ */
+router.delete('/html-flow/:chainId/exports/:exportId', (req, res) => {
+  try {
+    const { chainId, exportId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const success = deleteExport(chainId, exportId);
+    if (!success) {
+      return res.status(404).json({ ok: false, error: 'Export not found or failed to delete.' });
+    }
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('[html-flow] delete-export error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// ── Phase 4: Hierarchical Relationships & Bulk Assignment ──────────────────────
+
+/**
+ * POST /api/html-flow/:chainId/relationships/assign
+ * Bulk assign multiple slides to a parent slide.
+ */
+router.post('/html-flow/:chainId/relationships/assign', (req, res) => {
+  try {
+    const { chainId } = req.params;
+    const {
+      childExportId,
+      childSlideIndices,
+      parentExportId,
+      parentSlideIndex,
+      relationshipType = 'child_of',
+      relationshipLabel = 'is a model of',
+    } = req.body;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    if (!childExportId || !parentExportId || !Array.isArray(childSlideIndices)) {
+      return res.status(400).json({
+        ok: false,
+        error: 'childExportId, parentExportId, and childSlideIndices are required.',
+      });
+    }
+
+    const result = assignSlidesToParent(
+      chainId,
+      childExportId,
+      childSlideIndices,
+      parentExportId,
+      parentSlideIndex,
+      relationshipType,
+      relationshipLabel
+    );
+
+    if (!result) {
+      return res.status(400).json({ ok: false, error: 'Failed to assign slides.' });
+    }
+
+    return res.json({ ok: true, ...result });
+  } catch (err) {
+    console.error('[html-flow] assign-slides error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/relationships
+ * Get the full relationship graph for a chain.
+ */
+router.get('/html-flow/:chainId/relationships', (req, res) => {
+  try {
+    const { chainId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const graph = getRelationshipGraph(chainId);
+    if (!graph) {
+      return res.status(404).json({ ok: false, error: 'Failed to load relationship graph.' });
+    }
+
+    return res.json({ ok: true, graph });
+  } catch (err) {
+    console.error('[html-flow] get-relationships error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/relationships/hierarchy
+ * Get relationships as a tree structure for visualization.
+ */
+router.get('/html-flow/:chainId/relationships/hierarchy', (req, res) => {
+  try {
+    const { chainId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const tree = getHierarchyTree(chainId);
+    if (!tree) {
+      return res.status(404).json({ ok: false, error: 'Failed to load hierarchy tree.' });
+    }
+
+    return res.json({ ok: true, tree });
+  } catch (err) {
+    console.error('[html-flow] get-hierarchy-tree error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/relationships/:exportId/:slideIndex
+ * Get all relationships for a specific slide.
+ */
+router.get('/html-flow/:chainId/relationships/:exportId/:slideIndex', (req, res) => {
+  try {
+    const { chainId, exportId, slideIndex } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const slideIndex_num = parseInt(slideIndex, 10);
+    if (isNaN(slideIndex_num) || slideIndex_num < 1) {
+      return res.status(400).json({ ok: false, error: 'Invalid slideIndex.' });
+    }
+
+    const relationships = getSlideRelationships(chainId, exportId, slideIndex_num);
+    if (!relationships) {
+      return res.status(404).json({ ok: false, error: 'Slide or relationships not found.' });
+    }
+
+    return res.json({ ok: true, ...relationships });
+  } catch (err) {
+    console.error('[html-flow] get-slide-relationships error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * DELETE /api/html-flow/:chainId/relationships/:exportId/:slideIndex/:targetExportId/:targetSlideIndex
+ * Remove a relationship between two slides.
+ */
+router.delete('/html-flow/:chainId/relationships/:exportId/:slideIndex/:targetExportId/:targetSlideIndex', (req, res) => {
+  try {
+    const { chainId, exportId, slideIndex, targetExportId, targetSlideIndex } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const slideIndex_num = parseInt(slideIndex, 10);
+    const targetSlideIndex_num = parseInt(targetSlideIndex, 10);
+
+    if (isNaN(slideIndex_num) || slideIndex_num < 1 || isNaN(targetSlideIndex_num) || targetSlideIndex_num < 1) {
+      return res.status(400).json({ ok: false, error: 'Invalid slide indices.' });
+    }
+
+    const success = removeRelationship(chainId, exportId, slideIndex_num, targetExportId, targetSlideIndex_num);
+    if (!success) {
+      return res.status(404).json({ ok: false, error: 'Relationship not found or failed to delete.' });
+    }
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('[html-flow] delete-relationship error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/relationships/available-parents
+ * Get all available parent exports (for bulk assignment UI).
+ */
+router.get('/html-flow/:chainId/relationships/available-parents', (req, res) => {
+  try {
+    const { chainId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const parentExports = getAvailableParentExports(chainId);
+    if (!parentExports) {
+      return res.status(404).json({ ok: false, error: 'Failed to load parent exports.' });
+    }
+
+    return res.json({ ok: true, parentExports });
+  } catch (err) {
+    console.error('[html-flow] get-available-parents error:', err);
     return res.status(500).json({ ok: false, error: err.message });
   }
 });

@@ -8,6 +8,8 @@
 import { useCallback, useRef, useState, useMemo } from 'react'
 import AppHeader   from '../components/AppHeader.jsx'
 import Breadcrumbs from '../components/Breadcrumbs.jsx'
+import ExportDialog from '../components/ExportDialog.jsx'
+import ExportHistoryPanel from '../components/ExportHistoryPanel.jsx'
 import { generateScaledPreviewHtml } from '../utils/slidePreview.js'
 
 export default function HtmlPreviewStep({
@@ -23,8 +25,18 @@ export default function HtmlPreviewStep({
   debugContext,
 }) {
   const { chainId, projectName } = project
-  const { outputFile, previewHtml, slideCount = 1 } = applied
+  const { outputFile, previewHtml, roundId, slideCount = 1 } = applied
   const isMultiSlide = slideCount > 1
+
+  // ── Export state ──────────────────────────────────────────────────────────
+  const [showExportDialog, setShowExportDialog] = useState(false)
+  const [exportRefreshTrigger, setExportRefreshTrigger] = useState(0)
+
+  const handleExportDialogOpen = useCallback(() => setShowExportDialog(true), [])
+  const handleExportDialogClose = useCallback(() => setShowExportDialog(false), [])
+  const handleExported = useCallback(() => {
+    setExportRefreshTrigger(n => n + 1)
+  }, [])
 
   // ── Scale: identical to HtmlUploadStep ────────────────────────────────────
   // The wrapper uses padding-bottom:56.25% (aspect-ratio trick) so its height
@@ -116,6 +128,14 @@ export default function HtmlPreviewStep({
              <span aria-hidden="true">←</span> Back to recipe
            </button>
             <div className="html-preview-step-right-actions">
+              <button
+                className="btn btn-secondary"
+                onClick={handleExportDialogOpen}
+                data-testid="btn-export-slides"
+                title="Export slides as individual HTML files"
+              >
+                Export to Slides
+              </button>
               <button 
                 className="btn btn-primary" 
                 onClick={onAssignMetadata}
@@ -136,7 +156,29 @@ export default function HtmlPreviewStep({
               </button>
             </div>
           </div>
+
+        {/* ── Export History ───────────────────────────────────────── */}
+        <div className="html-preview-step-export-history">
+          <ExportHistoryPanel
+            chainId={chainId}
+            refreshTrigger={exportRefreshTrigger}
+            setToast={setToast}
+          />
+        </div>
        </div>
+
+      {/* ── Export Dialog ────────────────────────────────────────────── */}
+      {showExportDialog && (
+        <ExportDialog
+          chainId={chainId}
+          roundId={roundId}
+          outputFile={outputFile}
+          slideCount={slideCount}
+          onClose={handleExportDialogClose}
+          onExported={handleExported}
+          setToast={setToast}
+        />
+      )}
      </div>
    )
 }
