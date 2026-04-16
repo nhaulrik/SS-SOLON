@@ -1,12 +1,12 @@
 import { useState, useCallback } from 'react'
-import Toast           from './components/Toast.jsx'
-import ProjectLandingStep from './steps/ProjectLandingStep.jsx'
+import Toast                from './components/Toast.jsx'
+import ProjectLandingStep   from './steps/ProjectLandingStep.jsx'
 import ProjectDashboardStep from './steps/ProjectDashboardStep.jsx'
-import FlowSelectStep  from './steps/FlowSelectStep.jsx'
-import HtmlUploadStep  from './steps/HtmlUploadStep.jsx'
-import HtmlRecipeStep  from './steps/HtmlRecipeStep.jsx'
-import HtmlPreviewStep from './steps/HtmlPreviewStep.jsx'
-import MetadataAssignmentStep from './steps/MetadataAssignmentStep.jsx'
+import FlowSelectStep       from './steps/FlowSelectStep.jsx'
+import HtmlUploadStep       from './steps/HtmlUploadStep.jsx'
+import HtmlRecipeStep       from './steps/HtmlRecipeStep.jsx'
+import HtmlPreviewStep      from './steps/HtmlPreviewStep.jsx'
+import HtmlMetadataStep     from './steps/HtmlMetadataStep.jsx'
 
 const ALL_STEPS = [
   'project-landing',
@@ -15,7 +15,7 @@ const ALL_STEPS = [
   'html-upload',
   'html-recipe',
   'html-preview',
-  'html-metadata'
+  'html-metadata',
 ]
 
 export default function App() {
@@ -32,25 +32,17 @@ export default function App() {
 
   const stepAnimClass = `step-content step-content-enter-${animDir === 'forward' ? 'right' : 'left'}`
 
-  // ── Project Management (Phase 1) ────────────────────────────────
+  // ── Project & flow tracking ────────────────────────────────────
   const [currentProjectName, setCurrentProjectName] = useState(null)
-  const [currentFlowId, setCurrentFlowId] = useState(null)
+  const [currentFlowId,      setCurrentFlowId]      = useState(null)
 
   const handleProjectSelected = useCallback((projectName) => {
     setCurrentProjectName(projectName)
     navigateTo('project-dashboard')
   }, [navigateTo])
 
-  const handleCreateProject = useCallback((projectData) => {
-    setCurrentProjectName(projectData.projectName)
-    setCurrentFlowId(projectData.flowId)
-    navigateTo('project-dashboard')
-  }, [navigateTo])
-
   const handleFlowSelected = useCallback((flowId) => {
     setCurrentFlowId(flowId)
-    // Navigate to html-upload with the selected flow
-    // This will load the flow's template and zones
     navigateTo('html-upload')
   }, [navigateTo])
 
@@ -78,105 +70,70 @@ export default function App() {
   }, [navigateTo])
 
   const handleBackToHtmlUpload = useCallback(() => {
-    // Preserve htmlUploadSession when going back to upload step
-    // (don't clear it, as the user may want to iterate on the project creation)
     navigateTo('html-upload')
   }, [navigateTo])
 
   // ── HTML flow state ────────────────────────────────────────────
-  // htmlUploadSession persists the upload/tree state so back-navigation
-  // from recipe or preview restores the tree without re-uploading.
   const [htmlUploadSession, setHtmlUploadSession] = useState(null)
   // { templateId, fileName, slideCount, trees, selections, previewHtml, rawHtml, projectName }
 
-   const [htmlProject, setHtmlProject] = useState(null)  // { chainId, projectName, zones, templatePath, recipeGenerationId }
-   const [htmlApplied, setHtmlApplied] = useState(null)  // { outputFile, previewHtml, roundId, generationId }
-  const [htmlRecipe,  setHtmlRecipe]  = useState('')    // last generated recipe string
-  
-   // ── HTML recipe step state (preserved across navigation) ────────
-   const [htmlRecipeState, setHtmlRecipeState] = useState({
-     recipe: '',           // the generated recipe prompt
-     globalPrompt: '',     // user's global guidance input
-     jsonInput: '',        // user's JSON response input
-     recipeGenerationId: null, // generation ID from recipe generation
-   })
+  const [htmlProject, setHtmlProject] = useState(null)
+  // { projectName, flowId, zones, selections, repeatableSlides, fullSlideGeneration }
+
+  const [htmlApplied, setHtmlApplied] = useState(null)
+  // { outputFile, previewHtml, roundId, slideCount }
+
+  const [htmlRecipe, setHtmlRecipe] = useState('')
+
+  // ── HTML recipe step state (preserved across navigation) ────────
+  const [htmlRecipeState, setHtmlRecipeState] = useState({
+    recipe:             '',
+    globalPrompt:       '',
+    jsonInput:          '',
+    recipeGenerationId: null,
+  })
 
   // ── AI response tracking (for debug context) ────────────────────
   const [htmlAiResponse, setHtmlAiResponse] = useState(null)
-  // { raw, validated, validationResult }
 
-  // ── Global toast (declare early so handlers can use it) ──────────
+  // ── Global toast ───────────────────────────────────────────────
   const [toast, setToast] = useState(null)
 
-   const handleHtmlProjectCreated = useCallback((project) => {
-     setHtmlProject({ ...project, recipeGenerationId: null })
-     navigateTo('html-recipe')
-   }, [navigateTo])
+  const handleHtmlProjectCreated = useCallback((project) => {
+    setHtmlProject(project)
+    if (project.projectName && project.flowId) {
+      setCurrentProjectName(project.projectName)
+      setCurrentFlowId(project.flowId)
+    }
+    navigateTo('html-recipe')
+  }, [navigateTo])
 
-   const handleHtmlApplied = useCallback((result) => {
-     setHtmlApplied({
-       outputFile: result.outputFile,
-       previewHtml: result.previewHtml,
-       roundId: result.roundId,
-       slideCount: result.slideCount,
-       generationId: result.generationId
-     })
-     navigateTo('html-preview')
-   }, [navigateTo])
+  const handleHtmlApplied = useCallback((result) => {
+    setHtmlApplied({
+      outputFile:  result.outputFile,
+      previewHtml: result.previewHtml,
+      roundId:     result.roundId,
+      slideCount:  result.slideCount,
+    })
+    navigateTo('html-preview')
+  }, [navigateTo])
 
   const handleBackToHtmlRecipe = useCallback(() => {
     setHtmlApplied(null)
     navigateTo('html-recipe')
   }, [navigateTo])
 
-  const handleMetadataAssignmentStart = useCallback(() => {
+  const handlePreviewNext = useCallback(() => {
     navigateTo('html-metadata')
   }, [navigateTo])
 
-  const handleMetadataSaved = useCallback(async (metadata) => {
-    try {
-      const response = await fetch('/api/html-flow/save-project', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chainId: htmlProject.chainId,
-          projectName: htmlProject.projectName,
-          slideCount: htmlApplied.slideCount,
-          metadata,
-        }),
-      })
+  const handleMetadataFinish = useCallback(() => {
+    navigateTo('project-dashboard')
+  }, [navigateTo])
 
-      const result = await response.json()
-
-      if (!result.ok) {
-        setToast({ type: 'error', message: result.error })
-        return
-      }
-
-      setToast({
-        type: 'success',
-        message: `Project "${result.projectName}" saved with metadata!`,
-      })
-
-      // Reset state and go back to flow select
-      setActiveFlow(null)
-      setHtmlUploadSession(null)
-      setHtmlProject(null)
-      setHtmlApplied(null)
-      setHtmlRecipe('')
-      navigateTo('flow-select')
-    } catch (err) {
-      setToast({ type: 'error', message: err.message })
-    }
-  }, [htmlProject, htmlApplied, navigateTo, setToast])
-
-   const handleHtmlRecipeStateChange = useCallback((updates) => {
-     setHtmlRecipeState(prev => ({ ...prev, ...updates }))
-     // If recipeGenerationId is being set, also update htmlProject
-     if (updates.recipeGenerationId && htmlProject) {
-       setHtmlProject(prev => ({ ...prev, recipeGenerationId: updates.recipeGenerationId }))
-     }
-   }, [htmlProject])
+  const handleHtmlRecipeStateChange = useCallback((updates) => {
+    setHtmlRecipeState(prev => ({ ...prev, ...updates }))
+  }, [])
 
   const handleHtmlAiResponseChange = useCallback((aiResponse) => {
     setHtmlAiResponse(aiResponse)
@@ -184,13 +141,13 @@ export default function App() {
 
   // ── canNavigateTo guard ────────────────────────────────────────
   const canNavigateTo = useCallback((s) => {
-    if (s === 'project-landing') return true
+    if (s === 'project-landing')   return true
     if (s === 'project-dashboard') return !!currentProjectName
-    if (s === 'flow-select')  return true
-    if (s === 'html-upload')  return activeFlow === 'html' || step === 'html-recipe' || step === 'html-metadata' || !!currentFlowId
-    if (s === 'html-recipe')  return !!(htmlProject)
-    if (s === 'html-preview') return !!(htmlProject && htmlApplied)
-    if (s === 'html-metadata') return !!(htmlProject && htmlApplied)
+    if (s === 'flow-select')       return true
+    if (s === 'html-upload')       return activeFlow === 'html' || step === 'html-recipe' || !!currentFlowId
+    if (s === 'html-recipe')       return !!htmlProject
+    if (s === 'html-preview')      return !!(htmlProject && htmlApplied)
+    if (s === 'html-metadata')     return !!(htmlProject && htmlApplied)
     return false
   }, [activeFlow, htmlProject, htmlApplied, step, currentProjectName, currentFlowId])
 
@@ -199,8 +156,6 @@ export default function App() {
     timestamp:  new Date().toISOString(),
     step,
     activeFlow,
-
-    // Upload session — tree, selections, repeatable slides, raw HTML source
     uploadSession: htmlUploadSession
       ? {
           templateId:       htmlUploadSession.templateId,
@@ -214,23 +169,17 @@ export default function App() {
           rawHtml:          htmlUploadSession.rawHtml ?? '',
         }
       : null,
-
-    // Created project — zones and chain metadata
     project: htmlProject
       ? {
-          chainId:          htmlProject.chainId,
           projectName:      htmlProject.projectName,
+          flowId:           htmlProject.flowId,
           zoneCount:        htmlProject.zones?.length ?? 0,
           zones:            htmlProject.zones ?? [],
           selections:       htmlProject.selections ?? [],
           repeatableSlides: htmlProject.repeatableSlides ?? [],
         }
       : null,
-
-    // Last generated recipe string
-    recipe: htmlRecipe || null,
-
-    // Applied result — last output round
+    recipe:  htmlRecipe || null,
     applied: htmlApplied
       ? {
           roundId:    htmlApplied.roundId,
@@ -238,8 +187,6 @@ export default function App() {
           outputHtml: htmlApplied.previewHtml ?? '',
         }
       : null,
-
-    // AI response — JSON pasted by user and its validation result
     aiResponse: htmlAiResponse,
   }
 
@@ -247,13 +194,24 @@ export default function App() {
 
   // ── Step routing ───────────────────────────────────────────────
 
+  const handleNewFlow = useCallback(() => {
+    setCurrentFlowId(null)
+    setHtmlUploadSession(null)
+    setHtmlProject(null)
+    setHtmlApplied(null)
+    setHtmlRecipe('')
+    setHtmlRecipeState({ recipe: '', globalPrompt: '', jsonInput: '', recipeGenerationId: null })
+    setActiveFlow('html')
+    navigateTo('html-upload')
+  }, [navigateTo])
+
   if (step === 'project-landing') {
     return (
       <>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <ProjectLandingStep
           onProjectSelected={handleProjectSelected}
-          onCreateProject={handleCreateProject}
+          setToast={setToast}
         />
       </>
     )
@@ -266,7 +224,9 @@ export default function App() {
         <ProjectDashboardStep
           projectName={currentProjectName}
           onFlowSelected={handleFlowSelected}
+          onNewFlow={handleNewFlow}
           onBackToProjects={handleBackToProjects}
+          setToast={setToast}
         />
       </>
     )
@@ -293,8 +253,10 @@ export default function App() {
           initialSession={htmlUploadSession}
           onSessionChange={setHtmlUploadSession}
           onProjectCreated={handleHtmlProjectCreated}
-          onBack={handleBackToFlowSelect}
+          onBack={currentProjectName ? () => navigateTo('project-dashboard') : handleBackToProjects}
           setToast={setToast}
+          currentProjectName={currentProjectName}
+          currentFlowId={currentFlowId}
         />
       </>
     )
@@ -306,6 +268,8 @@ export default function App() {
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <HtmlRecipeStep
           project={htmlProject}
+          projectName={currentProjectName}
+          flowId={currentFlowId}
           step={step}
           canNavigateTo={canNavigateTo}
           navigateTo={navigateTo}
@@ -327,14 +291,13 @@ export default function App() {
       <>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <HtmlPreviewStep
-          project={htmlProject}
+          projectName={currentProjectName}
           applied={htmlApplied}
           step={step}
           canNavigateTo={canNavigateTo}
           navigateTo={navigateTo}
           onBack={handleBackToHtmlRecipe}
-          onStartNew={handleBackToFlowSelect}
-          onAssignMetadata={handleMetadataAssignmentStart}
+          onNext={handlePreviewNext}
           setToast={setToast}
           debugContext={debugContext}
         />
@@ -346,14 +309,15 @@ export default function App() {
     return (
       <>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
-        <MetadataAssignmentStep
-          project={htmlProject}
+        <HtmlMetadataStep
+          projectName={currentProjectName}
+          flowId={currentFlowId}
           applied={htmlApplied}
           step={step}
           canNavigateTo={canNavigateTo}
           navigateTo={navigateTo}
           onBack={() => navigateTo('html-preview')}
-          onNext={handleMetadataSaved}
+          onFinish={handleMetadataFinish}
           setToast={setToast}
           debugContext={debugContext}
         />

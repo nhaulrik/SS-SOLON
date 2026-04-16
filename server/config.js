@@ -3,10 +3,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export const CHAINS_DIR = process.env.CHAINS_DIR || path.join(__dirname, 'chains');
 export const PROJECTS_DIR = process.env.PROJECTS_DIR || path.join(__dirname, 'projects');
-
-export const RESOLVED_CHAINS_DIR = path.resolve(CHAINS_DIR);
 export const RESOLVED_PROJECTS_DIR = path.resolve(PROJECTS_DIR);
 
 /** Returns true only when `filePath` is strictly inside `resolvedBase`. */

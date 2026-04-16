@@ -2,17 +2,19 @@
  * server/lib/export-manager.js
  *
  * Phase 3 & 4A: Versioned Exports & Simplified Slide Metadata
+ * Phase 4E: Architecture Fix - Exports moved from chains to projects
  *
- * Manages versioned exports for HTML flow chains.
+ * Manages versioned exports for HTML flows.
  * Each export captures a generation round's output as individual slide files
  * with metadata, providing a full history of exported versions.
  *
- * Phase 4A: Simplified exports (no embedded relationships)
- * - Relationships are now managed separately in Phase 4B+ (Relationship Builder)
+ * Phase 4E: Exports now stored in projects directory (not chains)
+ * - Exports are part of the project workflow
+ * - Chains are now only used for structures and packages (Phase 4B/4C)
  * - Exports remain non-destructive and reusable across multiple structures
  *
- * Directory structure per chain:
- *   server/chains/<chainId>/exports/
+ * Directory structure per project:
+ *   server/projects/<projectName>/flows/<flowId>/exports/
  *     export-1/
  *       export.json        — export metadata (no relationships)
  *       project.json       — slide index
@@ -25,61 +27,83 @@
 
 import fs   from 'fs';
 import path from 'path';
-import { CHAINS_DIR, isInsideDir } from '../config.js';
+import { PROJECTS_DIR, isInsideDir } from '../config.js';
 
 // ── Security helpers ──────────────────────────────────────────────────────────
 
 /**
- * Validate a chainId and return safe chain directory path, or null.
+ * Validate a projectName and return safe project directory path, or null.
  */
-function resolveChainDir(chainId) {
-  if (!chainId || typeof chainId !== 'string') return null;
-  if (!/^[\w-]{1,100}$/.test(chainId)) return null;
-  const chainDir = path.join(CHAINS_DIR, chainId);
-  const resolved = path.resolve(CHAINS_DIR);
-  const resolvedChainDir = path.resolve(chainDir);
-  if (!resolvedChainDir.startsWith(resolved + path.sep) && resolvedChainDir !== resolved) return null;
-  return chainDir;
+function resolveProjectDir(projectName) {
+  if (!projectName || typeof projectName !== 'string') return null;
+  if (!/^[\w-]{1,100}$/.test(projectName)) return null;
+  const projectDir = path.join(PROJECTS_DIR, projectName);
+  const resolved = path.resolve(PROJECTS_DIR);
+  const resolvedProjectDir = path.resolve(projectDir);
+  if (!resolvedProjectDir.startsWith(resolved + path.sep) && resolvedProjectDir !== resolved) return null;
+  return projectDir;
+}
+
+/**
+ * Validate a flowId and return safe flow directory path, or null.
+ */
+function resolveFlowDir(projectName, flowId) {
+  const projectDir = resolveProjectDir(projectName);
+  if (!projectDir) return null;
+  if (!flowId || typeof flowId !== 'string') return null;
+  if (!/^[\w-]{1,100}$/.test(flowId)) return null;
+  const flowDir = path.join(projectDir, 'flows', flowId);
+  const resolvedProject = path.resolve(projectDir);
+  if (!path.resolve(flowDir).startsWith(resolvedProject + path.sep)) return null;
+  return flowDir;
 }
 
 /**
  * Validate an exportId and return safe export directory path, or null.
  */
-function resolveExportDir(chainId, exportId) {
-  const chainDir = resolveChainDir(chainId);
-  if (!chainDir) return null;
+function resolveExportDir(projectName, flowId, exportId) {
+  const flowDir = resolveFlowDir(projectName, flowId);
+  if (!flowDir) return null;
   if (!exportId || typeof exportId !== 'string') return null;
   if (!/^export-\d+$/.test(exportId)) return null;
-  const exportDir = path.join(chainDir, 'exports', exportId);
-  const resolvedChain = path.resolve(chainDir);
-  if (!path.resolve(exportDir).startsWith(resolvedChain + path.sep)) return null;
+  const exportDir = path.join(flowDir, 'exports', exportId);
+  const resolvedFlow = path.resolve(flowDir);
+  if (!path.resolve(exportDir).startsWith(resolvedFlow + path.sep)) return null;
   return exportDir;
 }
 
-// ── Chain I/O ─────────────────────────────────────────────────────────────────
+// ── Flow I/O ──────────────────────────────────────────────────────────────────
 
-function loadChain(chainId) {
-  const chainDir = resolveChainDir(chainId);
-  if (!chainDir) return null;
-  const chainPath = path.join(chainDir, 'chain.json');
-  if (!fs.existsSync(chainPath)) return null;
+/**
+ * Load flow.json from a project flow directory.
+ * Returns the parsed flow object, or null if not found or parse fails.
+ */
+function loadFlow(projectName, flowId) {
+  const flowDir = resolveFlowDir(projectName, flowId);
+  if (!flowDir) return null;
+  const flowPath = path.join(flowDir, 'flow.json');
+  if (!fs.existsSync(flowPath)) return null;
   try {
-    return JSON.parse(fs.readFileSync(chainPath, 'utf8'));
+    return JSON.parse(fs.readFileSync(flowPath, 'utf8'));
   } catch (err) {
-    console.error(`[export-manager] Failed to load chain ${chainId}:`, err.message);
+    console.error(`[export-manager] Failed to load flow ${projectName}/${flowId}:`, err.message);
     return null;
   }
 }
 
-function saveChain(chainId, chain) {
-  const chainDir = resolveChainDir(chainId);
-  if (!chainDir) return false;
-  const chainPath = path.join(chainDir, 'chain.json');
+/**
+ * Save flow.json to a project flow directory.
+ * Returns true on success, false on failure.
+ */
+function saveFlow(projectName, flowId, flow) {
+  const flowDir = resolveFlowDir(projectName, flowId);
+  if (!flowDir) return false;
+  const flowPath = path.join(flowDir, 'flow.json');
   try {
-    fs.writeFileSync(chainPath, JSON.stringify(chain, null, 2), 'utf8');
+    fs.writeFileSync(flowPath, JSON.stringify(flow, null, 2), 'utf8');
     return true;
   } catch (err) {
-    console.error(`[export-manager] Failed to save chain ${chainId}:`, err.message);
+    console.error(`[export-manager] Failed to save flow ${projectName}/${flowId}:`, err.message);
     return false;
   }
 }
@@ -145,21 +169,22 @@ function extractSlideTitle(sectionHtml, slideNumber) {
 /**
  * Create a versioned export from a generation round.
  *
- * @param {string} chainId       - The chain identifier
+ * @param {string} projectName   - The project name
+ * @param {string} flowId        - The flow identifier
  * @param {string} roundId       - The round ID from apply-content
  * @param {string} outputFile    - The output HTML file name (e.g. "output-<uuid>.html")
  * @param {Array}  slideMetadata - Optional array of { slideId, name, type } per slide
  * @returns {{ exportId, exportNumber, slideCount, exportDir } | null}
  */
-export function createExport(chainId, roundId, outputFile, slideMetadata = []) {
+export function createExport(projectName, flowId, roundId, outputFile, slideMetadata = []) {
   try {
-    if (!chainId || !roundId || !outputFile) {
-      throw new Error('chainId, roundId, and outputFile are required');
+    if (!projectName || !flowId || !roundId || !outputFile) {
+      throw new Error('projectName, flowId, roundId, and outputFile are required');
     }
 
-    const chain = loadChain(chainId);
-    if (!chain) {
-      throw new Error(`Chain ${chainId} not found`);
+    const flow = loadFlow(projectName, flowId);
+    if (!flow) {
+      throw new Error(`Flow ${projectName}/${flowId} not found`);
     }
 
     // Validate outputFile
@@ -167,8 +192,8 @@ export function createExport(chainId, roundId, outputFile, slideMetadata = []) {
       throw new Error('Invalid outputFile name');
     }
 
-    const chainDir = resolveChainDir(chainId);
-    const outputPath = path.join(chainDir, outputFile);
+    const flowDir = resolveFlowDir(projectName, flowId);
+    const outputPath = path.join(flowDir, outputFile);
     if (!fs.existsSync(outputPath)) {
       throw new Error(`Output file not found: ${outputFile}`);
     }
@@ -183,12 +208,12 @@ export function createExport(chainId, roundId, outputFile, slideMetadata = []) {
     }
 
     // Determine export number
-    const existingExports = chain.exports || [];
+    const existingExports = flow.exports || [];
     const exportNumber = existingExports.length + 1;
     const exportId = `export-${exportNumber}`;
 
     // Create exports directory
-    const exportsBaseDir = path.join(chainDir, 'exports');
+    const exportsBaseDir = path.join(flowDir, 'exports');
     const exportDir = path.join(exportsBaseDir, exportId);
     fs.mkdirSync(exportDir, { recursive: true });
 
@@ -230,9 +255,9 @@ export function createExport(chainId, roundId, outputFile, slideMetadata = []) {
         slides: slideFiles,
       },
       metadata: {
-        projectName: chain.projectName || '',
-        chainId,
-        templateFile: chain.templateFile || '',
+        projectName,
+        flowId,
+        templateFile: flow.templateFile || '',
       },
     };
     fs.writeFileSync(
@@ -243,7 +268,7 @@ export function createExport(chainId, roundId, outputFile, slideMetadata = []) {
 
      // Write project.json (slide index)
      const projectJson = {
-       name: chain.projectName || '',
+       name: projectName,
        exportId,
        exportNumber,
        exportedAt: createdAt,
@@ -262,7 +287,7 @@ export function createExport(chainId, roundId, outputFile, slideMetadata = []) {
         'utf8'
       );
 
-      // Update chain.json with export entry
+      // Update flow.json with export entry
       const exportEntry = {
         exportId,
         exportNumber,
@@ -278,20 +303,20 @@ export function createExport(chainId, roundId, outputFile, slideMetadata = []) {
         },
       };
 
-    if (!chain.exports) {
-      chain.exports = [];
+    if (!flow.exports) {
+      flow.exports = [];
     }
-    chain.exports.push(exportEntry);
-    chain.lastExport = {
+    flow.exports.push(exportEntry);
+    flow.lastExport = {
       exportId,
       createdAt,
       roundId,
       slideCount: sections.length,
     };
-    chain.updatedAt = new Date().toISOString();
+    flow.updatedAt = new Date().toISOString();
 
-    if (!saveChain(chainId, chain)) {
-      throw new Error('Failed to update chain.json with export entry');
+    if (!saveFlow(projectName, flowId, flow)) {
+      throw new Error('Failed to update flow.json with export entry');
     }
 
     return {
@@ -308,16 +333,17 @@ export function createExport(chainId, roundId, outputFile, slideMetadata = []) {
 }
 
 /**
- * List all exports for a chain.
+ * List all exports for a flow.
  *
- * @param {string} chainId
+ * @param {string} projectName
+ * @param {string} flowId
  * @returns {Array} Array of export summary objects, or empty array on failure.
  */
-export function listExports(chainId) {
+export function listExports(projectName, flowId) {
   try {
-    const chain = loadChain(chainId);
-    if (!chain) return [];
-    return (chain.exports || []).slice().reverse(); // newest first
+    const flow = loadFlow(projectName, flowId);
+    if (!flow) return [];
+    return (flow.exports || []).slice().reverse(); // newest first
   } catch (err) {
     console.error('[export-manager] listExports error:', err.message);
     return [];
@@ -327,13 +353,14 @@ export function listExports(chainId) {
 /**
  * Get detailed information about a specific export.
  *
- * @param {string} chainId
+ * @param {string} projectName
+ * @param {string} flowId
  * @param {string} exportId  e.g. "export-1"
  * @returns {object | null}  Full export.json contents, or null if not found.
  */
-export function getExport(chainId, exportId) {
+export function getExport(projectName, flowId, exportId) {
   try {
-    const exportDir = resolveExportDir(chainId, exportId);
+    const exportDir = resolveExportDir(projectName, flowId, exportId);
     if (!exportDir) return null;
 
     const exportJsonPath = path.join(exportDir, 'export.json');
@@ -349,13 +376,14 @@ export function getExport(chainId, exportId) {
 /**
  * Get the project.json (slide index) for an export.
  *
- * @param {string} chainId
+ * @param {string} projectName
+ * @param {string} flowId
  * @param {string} exportId
  * @returns {object | null}
  */
-export function getExportProjectIndex(chainId, exportId) {
+export function getExportProjectIndex(projectName, flowId, exportId) {
   try {
-    const exportDir = resolveExportDir(chainId, exportId);
+    const exportDir = resolveExportDir(projectName, flowId, exportId);
     if (!exportDir) return null;
 
     const projectJsonPath = path.join(exportDir, 'project.json');
@@ -372,16 +400,17 @@ export function getExportProjectIndex(chainId, exportId) {
  * Get the path to a specific slide file within an export.
  * Returns the absolute file path if valid and exists, or null.
  *
- * @param {string} chainId
+ * @param {string} projectName
+ * @param {string} flowId
  * @param {string} exportId
  * @param {string} slideFile  e.g. "slide-1.html"
  * @returns {string | null}
  */
-export function resolveSlideFilePath(chainId, exportId, slideFile) {
+export function resolveSlideFilePath(projectName, flowId, exportId, slideFile) {
   try {
     if (!slideFile || !/^slide-\d+\.html$/.test(slideFile)) return null;
 
-    const exportDir = resolveExportDir(chainId, exportId);
+    const exportDir = resolveExportDir(projectName, flowId, exportId);
     if (!exportDir) return null;
 
     const filePath = path.join(exportDir, slideFile);
@@ -397,16 +426,17 @@ export function resolveSlideFilePath(chainId, exportId, slideFile) {
 }
 
 /**
- * Get the count of exports for a chain.
+ * Get the count of exports for a flow.
  *
- * @param {string} chainId
+ * @param {string} projectName
+ * @param {string} flowId
  * @returns {number}
  */
-export function getExportCount(chainId) {
+export function getExportCount(projectName, flowId) {
   try {
-    const chain = loadChain(chainId);
-    if (!chain) return 0;
-    return (chain.exports || []).length;
+    const flow = loadFlow(projectName, flowId);
+    if (!flow) return 0;
+    return (flow.exports || []).length;
   } catch (err) {
     console.error('[export-manager] getExportCount error:', err.message);
     return 0;
@@ -415,38 +445,39 @@ export function getExportCount(chainId) {
 
 /**
  * Delete an export and its files from disk.
- * Also removes the entry from chain.json.
+ * Also removes the entry from flow.json.
  *
- * @param {string} chainId
+ * @param {string} projectName
+ * @param {string} flowId
  * @param {string} exportId
  * @returns {boolean}
  */
-export function deleteExport(chainId, exportId) {
+export function deleteExport(projectName, flowId, exportId) {
   try {
-    const exportDir = resolveExportDir(chainId, exportId);
+    const exportDir = resolveExportDir(projectName, flowId, exportId);
     if (!exportDir) return false;
 
-    const chain = loadChain(chainId);
-    if (!chain) return false;
+    const flow = loadFlow(projectName, flowId);
+    if (!flow) return false;
 
-    const exports = chain.exports || [];
+    const exports = flow.exports || [];
     const index = exports.findIndex(e => e.exportId === exportId);
     if (index === -1) return false;
 
-    // Remove from chain.json first
+    // Remove from flow.json first
     exports.splice(index, 1);
-    chain.exports = exports;
+    flow.exports = exports;
 
     // Update lastExport if needed
-    if (chain.lastExport?.exportId === exportId) {
+    if (flow.lastExport?.exportId === exportId) {
       const remaining = exports;
-      chain.lastExport = remaining.length > 0
+      flow.lastExport = remaining.length > 0
         ? { exportId: remaining[remaining.length - 1].exportId, createdAt: remaining[remaining.length - 1].createdAt, roundId: remaining[remaining.length - 1].roundId, slideCount: remaining[remaining.length - 1].slideCount }
         : null;
     }
 
-    chain.updatedAt = new Date().toISOString();
-    if (!saveChain(chainId, chain)) return false;
+    flow.updatedAt = new Date().toISOString();
+    if (!saveFlow(projectName, flowId, flow)) return false;
 
     // Remove directory from disk
     if (fs.existsSync(exportDir)) {
@@ -467,13 +498,14 @@ export function deleteExport(chainId, exportId) {
  * built-in zlib + manual zip format, or falls back to a plain JSON manifest
  * if zip construction fails.
  *
- * @param {string} chainId
+ * @param {string} projectName
+ * @param {string} flowId
  * @param {string} exportId
  * @returns {{ buffer: Buffer, filename: string } | null}
  */
-export function buildExportZip(chainId, exportId) {
+export function buildExportZip(projectName, flowId, exportId) {
   try {
-    const exportDir = resolveExportDir(chainId, exportId);
+    const exportDir = resolveExportDir(projectName, flowId, exportId);
     if (!exportDir) return null;
 
     if (!fs.existsSync(exportDir)) return null;
@@ -497,9 +529,8 @@ export function buildExportZip(chainId, exportId) {
     }
 
     const zipBuffer = buildZipBuffer(fileEntries);
-    const chain = loadChain(chainId);
-    const projectName = (chain?.projectName || 'export').replace(/[^a-z0-9_-]/gi, '_');
-    const filename = `${projectName}-${exportId}.zip`;
+    const safeName = (projectName || 'export').replace(/[^a-z0-9_-]/gi, '_');
+    const filename = `${safeName}-${exportId}.zip`;
 
     return { buffer: zipBuffer, filename };
   } catch (err) {

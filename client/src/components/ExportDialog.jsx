@@ -12,7 +12,8 @@ import styles from './ExportDialog.module.css';
 const SLIDE_TYPES = ['content', 'title', 'conclusion', 'other'];
 
 export default function ExportDialog({
-  chainId,
+  projectName,
+  flowId,
   roundId,
   outputFile,
   slideCount,
@@ -44,7 +45,7 @@ export default function ExportDialog({
   const handleExport = useCallback(async () => {
     setIsExporting(true);
     try {
-      const response = await fetch(`/api/html-flow/${chainId}/exports`, {
+      const response = await fetch(`/api/projects/${projectName}/flows/${flowId}/exports`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -73,7 +74,7 @@ export default function ExportDialog({
     } finally {
       setIsExporting(false);
     }
-  }, [chainId, roundId, outputFile, metadata, onExported, onClose, setToast]);
+  }, [projectName, flowId, roundId, outputFile, metadata, onExported, onClose, setToast]);
 
   // ── Render ─────────────────────────────────────────────────────────────────
   return (

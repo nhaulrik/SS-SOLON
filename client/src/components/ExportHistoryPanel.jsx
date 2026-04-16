@@ -29,17 +29,17 @@ function formatBytes(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-export default function ExportHistoryPanel({ chainId, refreshTrigger, setToast }) {
+export default function ExportHistoryPanel({ projectName, flowId, refreshTrigger, setToast }) {
   const [exports, setExports] = useState([]);
   const [loading, setLoading] = useState(false);
   const [expandedExport, setExpandedExport] = useState(null);
 
   // ── Load exports ───────────────────────────────────────────────────────────
   const loadExports = useCallback(async () => {
-    if (!chainId) return;
+    if (!projectName || !flowId) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/html-flow/${chainId}/exports`);
+      const res = await fetch(`/api/projects/${projectName}/flows/${flowId}/exports`);
       const data = await res.json();
       if (data.ok) {
         setExports(data.exports || []);
@@ -49,7 +49,7 @@ export default function ExportHistoryPanel({ chainId, refreshTrigger, setToast }
     } finally {
       setLoading(false);
     }
-  }, [chainId]);
+  }, [projectName, flowId]);
 
   useEffect(() => {
     loadExports();
@@ -57,28 +57,28 @@ export default function ExportHistoryPanel({ chainId, refreshTrigger, setToast }
 
   // ── Download handlers ──────────────────────────────────────────────────────
   const handleDownloadSlide = useCallback((exportId, slideFile) => {
-    const url = `/api/html-flow/${chainId}/exports/${exportId}/slides/${slideFile}`;
+    const url = `/api/projects/${projectName}/flows/${flowId}/exports/${exportId}/slides/${slideFile}`;
     const a = document.createElement('a');
     a.href = url;
     a.download = slideFile;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-  }, [chainId]);
+  }, [projectName, flowId]);
 
   const handleDownloadZip = useCallback((exportId) => {
-    const url = `/api/html-flow/${chainId}/exports/${exportId}/download`;
+    const url = `/api/projects/${projectName}/flows/${flowId}/exports/${exportId}/download`;
     const a = document.createElement('a');
     a.href = url;
     a.download = `export-${exportId}.zip`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-  }, [chainId]);
+  }, [projectName, flowId]);
 
   const handleDeleteExport = useCallback(async (exportId) => {
     try {
-      const res = await fetch(`/api/html-flow/${chainId}/exports/${exportId}`, {
+      const res = await fetch(`/api/projects/${projectName}/flows/${flowId}/exports/${exportId}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -92,7 +92,7 @@ export default function ExportHistoryPanel({ chainId, refreshTrigger, setToast }
     } catch (err) {
       setToast({ type: 'error', message: err.message });
     }
-  }, [chainId, expandedExport, setToast]);
+  }, [projectName, flowId, expandedExport, setToast]);
 
   // ── Render ─────────────────────────────────────────────────────────────────
   if (loading) {
@@ -163,14 +163,15 @@ export default function ExportHistoryPanel({ chainId, refreshTrigger, setToast }
                 </div>
               </div>
 
-              {/* Expanded slide list */}
-              {isExpanded && (
-                <ExportSlideList
-                  chainId={chainId}
-                  exportId={exp.exportId}
-                  onDownloadSlide={handleDownloadSlide}
-                />
-              )}
+               {/* Expanded slide list */}
+               {isExpanded && (
+                 <ExportSlideList
+                   projectName={projectName}
+                   flowId={flowId}
+                   exportId={exp.exportId}
+                   onDownloadSlide={handleDownloadSlide}
+                 />
+               )}
             </div>
           );
         })}
@@ -182,14 +183,14 @@ export default function ExportHistoryPanel({ chainId, refreshTrigger, setToast }
 /**
  * Lazy-loaded slide list for an expanded export.
  */
-function ExportSlideList({ chainId, exportId, onDownloadSlide }) {
+function ExportSlideList({ projectName, flowId, exportId, onDownloadSlide }) {
   const [slides, setSlides] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`/api/html-flow/${chainId}/exports/${exportId}/project`);
+        const res = await fetch(`/api/projects/${projectName}/flows/${flowId}/exports/${exportId}/project`);
         const data = await res.json();
         if (data.ok) {
           setSlides(data.project.slides || []);
@@ -202,7 +203,7 @@ function ExportSlideList({ chainId, exportId, onDownloadSlide }) {
       }
     }
     load();
-  }, [chainId, exportId]);
+  }, [projectName, flowId, exportId]);
 
   if (loading) {
     return <div className={styles.slideListLoading}>Loading slides...</div>;

@@ -1,14 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import fs from 'fs';
-import { CHAINS_DIR, PROJECTS_DIR } from './config.js';
+import { PROJECTS_DIR } from './config.js';
 import htmlFlowRoutes from './routes/html-flow.js';
 import projectsRoutes from './routes/projects.js';
 
-// Ensure runtime directories exist
-for (const dir of [CHAINS_DIR, PROJECTS_DIR]) {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-}
+// Ensure runtime directory exists
+if (!fs.existsSync(PROJECTS_DIR)) fs.mkdirSync(PROJECTS_DIR, { recursive: true });
 
 export const app = express();
 app.use(cors());

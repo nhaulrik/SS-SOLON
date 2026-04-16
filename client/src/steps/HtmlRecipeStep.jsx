@@ -4,8 +4,6 @@
  * Shows the AI recipe prompt, accepts the JSON response, validates it
  * against the zone list, and on success applies the content to the
  * HTML template (generating a patched output file).
- *
- * Layout mirrors RecipeStep.jsx from the PPTX flow.
  */
 
 import { useRef, useState, useCallback } from 'react'
@@ -13,119 +11,108 @@ import AppHeader   from '../components/AppHeader.jsx'
 import Breadcrumbs from '../components/Breadcrumbs.jsx'
 
 export default function HtmlRecipeStep({
-  project,          // { chainId, projectName, zones, templatePath }
+  project,          // { projectName, flowId, zones, selections }
+  projectName,
+  flowId,
   step,
   canNavigateTo,
   navigateTo,
-  onBack,           // () => void — back to zone review (start over)
-  onApplied,        // ({ outputFile, previewHtml, roundId, slideCount }) => void — advance to preview
-  onRecipeChange,   // (recipeString) => void — lifts recipe to App for debug context
-  onRecipeStateChange, // (updates) => void — updates preserved recipe state in App
-  onAiResponseChange, // (aiResponse) => void — lifts AI response to App for debug context
-  recipeState = { recipe: '', globalPrompt: '', jsonInput: '' }, // preserved state from App
+  onBack,
+  onApplied,        // ({ outputFile, previewHtml, roundId, slideCount }) => void
+  onRecipeChange,
+  onRecipeStateChange,
+  onAiResponseChange,
+  recipeState = { recipe: '', globalPrompt: '', jsonInput: '' },
   setToast,
   debugContext,
 }) {
-  const { chainId, projectName, selections = [], zones = [] } = project
-  // Use selections for display counts; zones are used server-side for recipe/validate/apply
+  const { selections = [], zones = [] } = project
 
-   // ── Recipe ────────────────────────────────────────────────────────────────
-   const [recipe,        setRecipe]        = useState(recipeState.recipe)
-   const [globalPrompt,  setGlobalPrompt]  = useState(recipeState.globalPrompt)
-   const [loadingRecipe, setLoadingRecipe] = useState(false)
+  // ── Recipe ────────────────────────────────────────────────────────────────
+  const [recipe,        setRecipe]        = useState(recipeState.recipe)
+  const [globalPrompt,  setGlobalPrompt]  = useState(recipeState.globalPrompt)
+  const [loadingRecipe, setLoadingRecipe] = useState(false)
 
   // ── JSON response ─────────────────────────────────────────────────────────
-  const [jsonInput,   setJsonInput]   = useState(recipeState.jsonInput)
-  const [validation,  setValidation]  = useState(null)   // { valid, error, missingFields }
-  const [applying,    setApplying]    = useState(false)
+  const [jsonInput,  setJsonInput]  = useState(recipeState.jsonInput)
+  const [validation, setValidation] = useState(null)
+  const [applying,   setApplying]   = useState(false)
 
   const validateTimerRef = useRef(null)
 
-   // ── Generate recipe ───────────────────────────────────────────────────────
-    const handleGenerateRecipe = useCallback(async () => {
-      setLoadingRecipe(true)
-      try {
-        const res = await fetch('/api/html-flow/generate-recipe', {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ chainId, globalPrompt }),
-        })
-        if (!res.ok) throw new Error(`Server error ${res.status}`)
-        const data = await res.json()
-        if (!data.ok) throw new Error(data.error || 'Failed to generate recipe')
-        setRecipe(data.recipe)
-        onRecipeChange?.(data.recipe)
-        onRecipeStateChange?.({ recipe: data.recipe, recipeGenerationId: data.generationId })
-      } catch (err) {
-        setToast({ message: 'Recipe generation failed: ' + err.message, type: 'error' })
-      } finally {
-        setLoadingRecipe(false)
-      }
-    }, [chainId, globalPrompt, setToast, onRecipeStateChange])
+  // ── Generate recipe ───────────────────────────────────────────────────────
+  const handleGenerateRecipe = useCallback(async () => {
+    setLoadingRecipe(true)
+    try {
+      const res = await fetch('/api/html-flow/generate-recipe', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ projectName, flowId, globalPrompt }),
+      })
+      if (!res.ok) throw new Error(`Server error ${res.status}`)
+      const data = await res.json()
+      if (!data.ok) throw new Error(data.error || 'Failed to generate recipe')
+      setRecipe(data.recipe)
+      onRecipeChange?.(data.recipe)
+      onRecipeStateChange?.({ recipe: data.recipe, recipeGenerationId: data.generationId })
+    } catch (err) {
+      setToast({ message: 'Recipe generation failed: ' + err.message, type: 'error' })
+    } finally {
+      setLoadingRecipe(false)
+    }
+  }, [projectName, flowId, globalPrompt, setToast, onRecipeStateChange, onRecipeChange])
 
   // ── Validate JSON (debounced) ─────────────────────────────────────────────
   const validateJson = useCallback(async (value) => {
-    if (!value.trim()) { 
+    if (!value.trim()) {
       setValidation(null)
       onAiResponseChange?.(null)
-      return 
+      return
     }
     try {
       const res = await fetch('/api/html-flow/validate-json', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ chainId, jsonString: value }),
+        body:    JSON.stringify({ projectName, flowId, jsonString: value }),
       })
       if (!res.ok) throw new Error(`Server error ${res.status}`)
       const data = await res.json()
       setValidation(data)
-      
-      // Update AI response in debug context
-      onAiResponseChange?.({
-        raw: value,
-        validated: true,
-        validationResult: data
-      })
+      onAiResponseChange?.({ raw: value, validated: true, validationResult: data })
     } catch (err) {
       const errorData = { valid: false, error: 'Validation failed: ' + err.message }
       setValidation(errorData)
-      
-      // Update AI response with error
-      onAiResponseChange?.({
-        raw: value,
-        validated: true,
-        validationResult: errorData
-      })
+      onAiResponseChange?.({ raw: value, validated: true, validationResult: errorData })
     }
-  }, [chainId, onAiResponseChange])
+  }, [projectName, flowId, onAiResponseChange])
 
-   const handleJsonChange = useCallback((value) => {
-     setJsonInput(value)
-     onRecipeStateChange?.({ jsonInput: value })
-     clearTimeout(validateTimerRef.current)
-     validateTimerRef.current = setTimeout(() => validateJson(value), 400)
-   }, [validateJson, onRecipeStateChange])
+  const handleJsonChange = useCallback((value) => {
+    setJsonInput(value)
+    onRecipeStateChange?.({ jsonInput: value })
+    clearTimeout(validateTimerRef.current)
+    validateTimerRef.current = setTimeout(() => validateJson(value), 400)
+  }, [validateJson, onRecipeStateChange])
 
-   // ── Apply content ─────────────────────────────────────────────────────────
-   const handleApply = useCallback(async () => {
-     if (!validation?.valid || applying) return
-     setApplying(true)
-     try {
-       const res = await fetch('/api/html-flow/apply-content', {
-         method:  'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body:    JSON.stringify({ chainId, jsonString: jsonInput }),
-       })
-       if (!res.ok) throw new Error(`Server error ${res.status}`)
-       const data = await res.json()
-       if (!data.ok) throw new Error(data.error || 'Apply failed')
-       onApplied({ outputFile: data.outputFile, previewHtml: data.previewHtml, roundId: data.roundId, slideCount: data.slideCount ?? 1, generationId: data.generationId })
-     } catch (err) {
-       setToast({ message: 'Apply failed: ' + err.message, type: 'error' })
-     } finally {
-       setApplying(false)
-     }
-   }, [chainId, jsonInput, validation, applying, onApplied, setToast])
+  // ── Apply content ─────────────────────────────────────────────────────────
+  const handleApply = useCallback(async () => {
+    if (!validation?.valid || applying) return
+    setApplying(true)
+    try {
+      const res = await fetch('/api/html-flow/apply-content', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ projectName, flowId, jsonString: jsonInput }),
+      })
+      if (!res.ok) throw new Error(`Server error ${res.status}`)
+      const data = await res.json()
+      if (!data.ok) throw new Error(data.error || 'Apply failed')
+      onApplied({ outputFile: data.outputFile, previewHtml: data.previewHtml, roundId: data.roundId, slideCount: data.slideCount ?? 1 })
+    } catch (err) {
+      setToast({ message: 'Apply failed: ' + err.message, type: 'error' })
+    } finally {
+      setApplying(false)
+    }
+  }, [projectName, flowId, jsonInput, validation, applying, onApplied, setToast])
 
   // ── Copy helpers ──────────────────────────────────────────────────────────
   const handleCopyRecipe = useCallback(() => {
@@ -138,14 +125,13 @@ export default function HtmlRecipeStep({
     setToast({ message: 'JSON copied!', type: 'success' })
   }, [jsonInput, setToast])
 
-  const displaySels = selections.length ? selections : zones
-  const totalCount  = displaySels.length
+  const totalCount = (selections.length || zones.length)
 
   return (
     <div className="app">
       <AppHeader
         title={projectName}
-        subtitle={`${totalCount} zone${totalCount > 1 ? 's' : ''} · Generate content with AI`}
+        subtitle={`${totalCount} zone${totalCount !== 1 ? 's' : ''} · Generate content with AI`}
         debugContext={debugContext}
       />
       <Breadcrumbs step={step} canNavigateTo={canNavigateTo} navigateTo={navigateTo} flow="html" />
@@ -159,22 +145,21 @@ export default function HtmlRecipeStep({
               <h3>Recipe Prompt</h3>
             </div>
 
-            {/* Global prompt */}
             <div className="html-recipe-global-prompt">
               <label className="html-recipe-global-label">
                 Global guidance
                 <span className="html-recipe-global-sub">Optional context prepended to the recipe</span>
               </label>
-               <textarea
-                 className="html-recipe-global-input"
-                 rows={2}
-                 value={globalPrompt}
-                 onChange={e => {
-                   setGlobalPrompt(e.target.value)
-                   onRecipeStateChange?.({ globalPrompt: e.target.value })
-                 }}
-                 placeholder='e.g. "Use formal language. Focus on EMEA market data."'
-               />
+              <textarea
+                className="html-recipe-global-input"
+                rows={2}
+                value={globalPrompt}
+                onChange={e => {
+                  setGlobalPrompt(e.target.value)
+                  onRecipeStateChange?.({ globalPrompt: e.target.value })
+                }}
+                placeholder='e.g. "Use formal language. Focus on EMEA market data."'
+              />
             </div>
 
             <button
@@ -192,7 +177,7 @@ export default function HtmlRecipeStep({
               </div>
             ) : (
               <div className="html-recipe-empty">
-                <p>Click "Generate recipe" to build the AI prompt from your {zones.length} zone{zones.length > 1 ? 's' : ''}.</p>
+                <p>Click "Generate recipe" to build the AI prompt from your {zones.length} zone{zones.length !== 1 ? 's' : ''}.</p>
               </div>
             )}
           </div>
@@ -216,7 +201,6 @@ export default function HtmlRecipeStep({
               />
             </div>
 
-            {/* Validation feedback */}
             {validation?.valid === false && (
               <div className="validation-status invalid">
                 <strong>{validation.error || 'Invalid JSON'}</strong>

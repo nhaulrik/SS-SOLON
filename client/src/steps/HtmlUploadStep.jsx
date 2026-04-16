@@ -24,6 +24,7 @@ export default function HtmlUploadStep({
   stepAnimClass, debugContext,
   initialSession, onSessionChange,
   onProjectCreated, onBack, setToast,
+  currentProjectName, currentFlowId,
 }) {
   const fileInputRef  = useRef(null)
 
@@ -62,10 +63,11 @@ export default function HtmlUploadStep({
   const [violations,          setViolations]          = useState([])
   const [promptCopied,        setPromptCopied]        = useState(false)
 
-  // ── Stage C: create project ───────────────────────────────────────────────
-  const [creating,      setCreating]      = useState(false)
-  const [projectName,   setProjectName]   = useState(initialSession?.projectName ?? '')
-  const [replaceArmed,  setReplaceArmed]  = useState(false)
+  // ── Stage C: proceed ─────────────────────────────────────────────────────
+  const [creating,     setCreating]     = useState(false)
+  const [replaceArmed, setReplaceArmed] = useState(false)
+  const [isExistingFlow, setIsExistingFlow] = useState(false)
+  const [loadingFlow,    setLoadingFlow]    = useState(false)
 
   // ── Editor (opt-in) ───────────────────────────────────────────────────────
   const [rawHtml,    setRawHtml]    = useState(initialSession?.rawHtml ?? '')
@@ -113,8 +115,6 @@ export default function HtmlUploadStep({
       setSelections(data.selections ?? [])
       setPreviewHtml(data.previewHtml)
       setRawHtml(html)
-      setProjectName(derivedName)
-
       syncSession({
         templateId:          data.templateId,
         fileName:            file.name,
@@ -125,7 +125,6 @@ export default function HtmlUploadStep({
         fullSlideGeneration: [],
         previewHtml:         data.previewHtml,
         rawHtml:             html,
-        projectName:         derivedName,
       })
     } catch (err) {
       setToast({ message: 'Upload error: ' + err.message, type: 'error' })
@@ -137,45 +136,81 @@ export default function HtmlUploadStep({
    const handleDrop        = useCallback((e) => { e.preventDefault(); handleFile(e.dataTransfer?.files?.[0]) }, [handleFile])
    const handleInputChange = useCallback((e) => { handleFile(e.target.files?.[0]) }, [handleFile])
 
-   // ── Re-sync server session when component mounts or templateId changes ────
-   // If the user navigates back to this step, we need to ensure the server still
-   // has the session. If the session was lost, we can't recover it, so we show
-   // an error and require re-upload.
-   // NOTE: This check is disabled for now because it was clearing state too aggressively.
-   // The server now keeps sessions alive for 2 hours, so we shouldn't need to check.
-   // TODO: Re-enable this check if we add session expiration handling.
+   // ── Load existing flow if opening from dashboard ──────────────────────────
    useEffect(() => {
-     // Disabled for now - sessions are kept alive on the server
-     return;
-     
-     if (!templateId) return;
-     
-     // Attempt to verify the session exists by calling update-selections with empty array
-     // This is a lightweight check that doesn't modify state
-     fetch('/api/html-flow/update-selections', {
-       method: 'PATCH',
-       headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({ templateId, selections: [] }),
-     })
-       .then(res => {
-         if (!res.ok && res.status === 404) {
-           // Session was lost on server - clear client state and show error
-           setTemplateId(null);
-           setTrees([]);
-           setSelections([]);
-           setRepeatableSlides([]);
-           setFullSlideGeneration([]);
-           setPreviewHtml('');
-           setToast({
-             message: 'Template session expired. Please re-upload your HTML file.',
-             type: 'warning',
-           });
+     if (currentProjectName && currentFlowId) {
+        const loadExistingFlow = async () => {
+          setLoadingFlow(true)
+          try {
+            const res = await fetch(`/api/html-flow/load-flow?projectName=${encodeURIComponent(currentProjectName)}&flowId=${encodeURIComponent(currentFlowId)}`)
+            if (res.ok) {
+              const data = await res.json()
+              console.log('[HtmlUploadStep] load-flow response:', data)
+              setFileName(data.fileName)
+              setSlideCount(data.slideCount)
+              setTrees(data.trees || [])
+              setSelections(data.selections || [])
+              setRepeatableSlides(data.repeatableSlides || [])
+              setFullSlideGeneration(data.fullSlideGeneration || [])
+              setPreviewHtml(data.previewHtml)
+              setIsExistingFlow(true)
+              if (data.violations?.length) {
+                console.log('[HtmlUploadStep] Setting violations:', data.violations)
+                setViolations(data.violations)
+              }
+           } else {
+             const errorData = await res.json()
+             setToast({ message: 'Failed to load flow: ' + (errorData.error || 'Unknown error'), type: 'error' })
+           }
+         } catch (err) {
+           setToast({ message: 'Error loading flow: ' + err.message, type: 'error' })
+         } finally {
+           setLoadingFlow(false)
          }
-       })
-       .catch(() => {
-         // Network error - don't clear state, just continue
-       });
-   }, [templateId, setToast])
+       }
+       loadExistingFlow()
+     }
+   }, [currentProjectName, currentFlowId, setToast])
+
+   // ── Re-sync server session when component mounts or templateId changes ────
+    // If the user navigates back to this step, we need to ensure the server still
+    // has the session. If the session was lost, we can't recover it, so we show
+    // an error and require re-upload.
+    // NOTE: This check is disabled for now because it was clearing state too aggressively.
+    // The server now keeps sessions alive for 2 hours, so we shouldn't need to check.
+    // TODO: Re-enable this check if we add session expiration handling.
+    useEffect(() => {
+      // Disabled for now - sessions are kept alive on the server
+      return;
+      
+      if (!templateId) return;
+      
+      // Attempt to verify the session exists by calling update-selections with empty array
+      // This is a lightweight check that doesn't modify state
+      fetch('/api/html-flow/update-selections', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ templateId, selections: [] }),
+      })
+        .then(res => {
+          if (!res.ok && res.status === 404) {
+            // Session was lost on server - clear client state and show error
+            setTemplateId(null);
+            setTrees([]);
+            setSelections([]);
+            setRepeatableSlides([]);
+            setFullSlideGeneration([]);
+            setPreviewHtml('');
+            setToast({
+              message: 'Template session expired. Please re-upload your HTML file.',
+              type: 'warning',
+            });
+          }
+        })
+        .catch(() => {
+          // Network error - don't clear state, just continue
+        });
+    }, [templateId, setToast])
 
   // ── Selections change (from tree panel) ──────────────────────────────────
   const handleSelectionsChange = useCallback((newSelections) => {
@@ -216,31 +251,54 @@ export default function HtmlUploadStep({
     }
   }, [templateId, syncSession])
 
-  // ── Create project ────────────────────────────────────────────────────────
-  const handleCreateProject = useCallback(async () => {
-    if (!templateId) return
-    setCreating(true)
-    try {
-      const res  = await fetch('/api/html-flow/create-project', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ templateId, selections, repeatableSlides, fullSlideGeneration, projectName })
-      })
-      const data = await res.json()
-      if (!res.ok || !data.ok) throw new Error(data.error || 'Failed to create project')
-      onProjectCreated({
-        chainId:              data.chainId,
-        projectName:          data.projectName,
-        selections:           data.selections,
-        zones:                data.zones,
-        repeatableSlides:     repeatableSlides,  // pass current client state
-        fullSlideGeneration:  fullSlideGeneration,  // pass current client state
-      })
-    } catch (err) {
-      setToast({ message: 'Create project failed: ' + err.message, type: 'error' })
-    } finally {
-      setCreating(false)
-    }
-  }, [templateId, selections, repeatableSlides, fullSlideGeneration, projectName, onProjectCreated, setToast])
+   // ── Proceed to recipe ─────────────────────────────────────────────────────
+   const handleProceed = useCallback(async () => {
+     setCreating(true)
+     try {
+       if (isExistingFlow && currentProjectName && currentFlowId) {
+         // Existing flow — load zones from server and proceed
+         const res = await fetch(`/api/projects/${encodeURIComponent(currentProjectName)}/flows/${encodeURIComponent(currentFlowId)}`)
+         if (!res.ok) throw new Error('Failed to load flow')
+         const data = await res.json()
+         const meta = data.flow?._metadata || {}
+         onProjectCreated({
+           projectName:         currentProjectName,
+           flowId:              currentFlowId,
+           selections:          meta.selections          || selections,
+           zones:               meta.zones               || [],
+           repeatableSlides:    meta.repeatableSlides    || repeatableSlides,
+           fullSlideGeneration: meta.fullSlideGeneration || fullSlideGeneration,
+         })
+       } else {
+         // New flow — create it inside the current project
+         if (!templateId || !currentProjectName) return
+         const res = await fetch('/api/html-flow/create-project', {
+           method: 'POST', headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({
+             templateId,
+             selections,
+             repeatableSlides,
+             fullSlideGeneration,
+             existingProjectName: currentProjectName,
+           })
+         })
+         const data = await res.json()
+         if (!res.ok || !data.ok) throw new Error(data.error || 'Failed to create flow')
+         onProjectCreated({
+           projectName:         data.projectName,
+           flowId:              data.flowId,
+           selections:          data.selections,
+           zones:               data.zones,
+           repeatableSlides,
+           fullSlideGeneration,
+         })
+       }
+     } catch (err) {
+       setToast({ message: err.message, type: 'error' })
+     } finally {
+       setCreating(false)
+     }
+   }, [isExistingFlow, currentProjectName, currentFlowId, templateId, selections, repeatableSlides, fullSlideGeneration, onProjectCreated, setToast])
 
   // ── Copy AI fix prompt ────────────────────────────────────────────────────
   const handleCopyPrompt = useCallback(() => {
@@ -301,8 +359,13 @@ ${highlightCss}
   // Allow proceeding if:
   // 1. User has made zone selections, OR
   // 2. User has marked at least one slide for "Generate Full Slide"
+  // AND either:
+  // - Creating new project with a name, OR
+  // - Using existing project with one selected
   const hasSelectionsOrFullSlide = selections.length > 0 || fullSlideGeneration.length > 0
-  const canProceed = templateId && hasSelectionsOrFullSlide && projectName.trim().length > 0
+  const canProceed = isExistingFlow
+    ? hasSelectionsOrFullSlide
+    : (templateId && hasSelectionsOrFullSlide)
 
   // ── Editor overlay ────────────────────────────────────────────────────────
   if (editorOpen && rawHtml) {
@@ -333,7 +396,7 @@ ${highlightCss}
           <div className="html-upload-left">
 
             {/* Upload zone */}
-            {!templateId ? (
+            {!(templateId || isExistingFlow) ? (
               <div
                 className={`upload-zone html-upload-zone${uploading ? ' upload-zone--loading' : ''}`}
                 role="button"
@@ -445,32 +508,22 @@ ${highlightCss}
                   onHighlight={setHighlightNodeId}
                 />
 
-                {/* Project footer */}
+                {/* Proceed footer */}
                 <div className="html-project-footer">
-                  <div className="form-group">
-                    <label className="form-label">Project name</label>
-                    <input
-                      className="form-input"
-                      type="text"
-                      value={projectName}
-                      onChange={e => { setProjectName(e.target.value); syncSession({ projectName: e.target.value }) }}
-                      placeholder="my-presentation"
-                    />
-                  </div>
                   <button
                     className="btn btn-primary"
-                    disabled={!canProceed || creating}
-                    onClick={handleCreateProject}
+                    disabled={!canProceed || creating || loadingFlow}
+                    onClick={handleProceed}
                     data-testid="create-project-btn"
                   >
-                    {creating ? 'Creating…' : <><span aria-hidden="true">→</span> Create Project</>}
+                    {loadingFlow ? 'Loading…' : creating ? 'Working…' : <><span aria-hidden="true">→</span> Next</>}
                   </button>
                 </div>
               </>
             )}
 
-            {/* Fatal violations (NO_SECTIONS) */}
-            {!templateId && violations.length > 0 && (
+            {/* Fatal violations (NO_SECTIONS) — only shown when no template is loaded at all */}
+            {!templateId && !isExistingFlow && violations.length > 0 && (
               <div className="html-violations">
                 <div className="html-violations-header">
                   <div className="html-violations-title-row">

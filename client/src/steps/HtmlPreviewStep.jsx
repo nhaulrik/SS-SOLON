@@ -8,42 +8,27 @@
 import { useCallback, useRef, useState, useMemo } from 'react'
 import AppHeader   from '../components/AppHeader.jsx'
 import Breadcrumbs from '../components/Breadcrumbs.jsx'
-import ExportDialog from '../components/ExportDialog.jsx'
-import ExportHistoryPanel from '../components/ExportHistoryPanel.jsx'
 import { generateScaledPreviewHtml } from '../utils/slidePreview.js'
 
 export default function HtmlPreviewStep({
-  project,      // { chainId, projectName, zones }
-  applied,      // { outputFile, previewHtml, roundId }
+  projectName,
+  applied,      // { outputFile, previewHtml, roundId, slideCount }
   step,
   canNavigateTo,
   navigateTo,
-  onBack,       // () => void — back to recipe step
-  onStartNew,   // () => void — back to flow selector
-  onAssignMetadata, // () => void — navigate to metadata assignment step
+  onBack,
+  onNext,
   setToast,
   debugContext,
 }) {
-  const { chainId, projectName } = project
-  const { outputFile, previewHtml, roundId, slideCount = 1 } = applied
+  const { previewHtml, slideCount = 1 } = applied
   const isMultiSlide = slideCount > 1
-
-  // ── Export state ──────────────────────────────────────────────────────────
-  const [showExportDialog, setShowExportDialog] = useState(false)
-  const [exportRefreshTrigger, setExportRefreshTrigger] = useState(0)
-
-  const handleExportDialogOpen = useCallback(() => setShowExportDialog(true), [])
-  const handleExportDialogClose = useCallback(() => setShowExportDialog(false), [])
-  const handleExported = useCallback(() => {
-    setExportRefreshTrigger(n => n + 1)
-  }, [])
 
   // ── Scale: identical to HtmlUploadStep ────────────────────────────────────
   // The wrapper uses padding-bottom:56.25% (aspect-ratio trick) so its height
   // is always derived from its width — stable across srcDoc changes, which
   // means the ResizeObserver never sees 0-height flicker during iframe reload.
   const [previewScale,  setPreviewScale]  = useState(1)
-  const [startNewArmed, setStartNewArmed] = useState(false)
   const roRef = useRef(null)
   const wrapperCallbackRef = useCallback((el) => {
     if (roRef.current) { roRef.current.disconnect(); roRef.current = null }
@@ -127,58 +112,11 @@ export default function HtmlPreviewStep({
            <button className="btn btn-link" onClick={onBack}>
              <span aria-hidden="true">←</span> Back to recipe
            </button>
-            <div className="html-preview-step-right-actions">
-              <button
-                className="btn btn-secondary"
-                onClick={handleExportDialogOpen}
-                data-testid="btn-export-slides"
-                title="Export slides as individual HTML files"
-              >
-                Export to Slides
-              </button>
-              <button 
-                className="btn btn-primary" 
-                onClick={onAssignMetadata}
-                data-testid="btn-assign-metadata"
-              >
-                Assign Metadata
-              </button>
-              <button
-                className={`btn ${startNewArmed ? 'btn-danger' : 'btn-secondary'}`}
-                aria-label={startNewArmed ? 'Click again to confirm starting a new project' : 'Start new project'}
-                onClick={() => {
-                  if (startNewArmed) { onStartNew() }
-                  else { setStartNewArmed(true); setTimeout(() => setStartNewArmed(false), 3000) }
-                }}
-                onBlur={() => setStartNewArmed(false)}
-              >
-                {startNewArmed ? 'Confirm — clear session' : 'Start new project'}
-              </button>
-            </div>
+           <button className="btn btn-primary" onClick={onNext}>
+             <span aria-hidden="true">→</span> Next
+           </button>
           </div>
-
-        {/* ── Export History ───────────────────────────────────────── */}
-        <div className="html-preview-step-export-history">
-          <ExportHistoryPanel
-            chainId={chainId}
-            refreshTrigger={exportRefreshTrigger}
-            setToast={setToast}
-          />
-        </div>
        </div>
-
-      {/* ── Export Dialog ────────────────────────────────────────────── */}
-      {showExportDialog && (
-        <ExportDialog
-          chainId={chainId}
-          roundId={roundId}
-          outputFile={outputFile}
-          slideCount={slideCount}
-          onClose={handleExportDialogClose}
-          onExported={handleExported}
-          setToast={setToast}
-        />
-      )}
      </div>
    )
 }

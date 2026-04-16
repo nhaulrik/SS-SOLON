@@ -26,7 +26,39 @@
 .subtitle {
   font-size: 16px;
   color: #a1a1aa;
-  margin: 0;
+  margin: 0 0 20px;
+}
+
+.newProjectForm {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.newProjectInput {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #f1f5f9;
+  width: 240px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.newProjectInput::placeholder {
+  color: #71717a;
+}
+
+.newProjectInput:focus {
+  border-color: rgba(96, 165, 250, 0.5);
+}
+
+.newProjectInput:disabled {
+  opacity: 0.5;
 }
 
 .errorBanner {

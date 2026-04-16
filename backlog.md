@@ -1,37 +1,58 @@
 # Development Backlog — SOLON Slide Studio
 
-**Last Updated**: 2026-04-15  
-**Current Status**: HTML Visual Flow — Block-Only Zones Refactor Complete (245 unit, 93 E2E tests passing)  
-**Active Branch**: `html-flow`
+**Last Updated**: 2026-04-17  
+**Current Status**: Full project/flow/export workflow complete. Navigation and step structure finalised.  
+**Active Branch**: `project-makeover`
 
 ---
 
 ## Current Sprint Status
 
-### ✅ Completed (2026-04-15)
-- **Block-Only Zones Refactor**: All zones unified under block-only model
-  - Removed leaf zones, content zones, static zones
-  - Removed zone type selector, conflict detection
-  - All zones now use `data-block` attributes and `type: 'block'`
-  - Simplified JSON format: `{ blocks: {...} }` instead of legacy `static` format
-  - Explicit ignored zones preservation in recipe ("ZONES TO PRESERVE" section)
-  
-- **Test Suite**: 100% passing
-  - 245 unit tests ✅
-  - 93 E2E tests ✅ (html-flow, html-preview-step, html-ignore-zones, html-repeatable, html-breadcrumbs, html-clear-all, html-editor)
-  - All test fixtures updated to new recipe format
+### ✅ Completed (2026-04-16 – 2026-04-17)
+- **Project & Flow Persistence** ✅ COMPLETE
+  - Projects created by name from the landing page (`POST /api/projects`)
+  - Flows created from the project dashboard ("New Flow" → upload step)
+  - Project context always injected from dashboard — no project selector inside the upload step
+  - Existing flows load from dashboard with zones intact (no re-upload required)
+  - `NO_ZONES` false positive suppressed when flow already has saved selections
+
+- **Navigation & Step Structure** ✅ COMPLETE
+  - Landing → create project → Dashboard (hub)
+  - Dashboard → New Flow → Upload/Zones → Recipe → Preview → Metadata → Dashboard
+  - Dashboard → Open existing flow → Upload/Zones (load-flow) → Recipe → Preview → Metadata → Dashboard
+  - "Finish" on the Metadata step returns to the project dashboard
+
+- **Metadata & Export Step** ✅ COMPLETE
+  - New `HtmlMetadataStep` (step 4 of HTML flow)
+  - Per-slide metadata: slideId, name, type
+  - "Export N Slides" triggers versioned export to `exports/` directory
+  - Export history panel with per-slide download and ZIP download
+  - Export removed from Preview step — Preview is now view-only
+
+- **Legacy Removal** ✅ COMPLETE
+  - Removed all `chainId`-based server code paths
+  - Removed `project.json` manifests, `templates/` directories, `zones.json` files
+  - Removed `generation-manager`, `structure-manager`, `package-manager`, `relationship-manager`
+  - Removed packaging/relationship UI components and old dialog components
+  - Projects discovered by filesystem scan only
+
+- **Block-Only Zones Refactor** ✅ COMPLETE
+  - All zones unified under block-only model (`type: 'block'`, `data-block` attributes)
+  - JSON format: `{ blocks: {...} }` — no legacy `static` format
+  - Ignored zones listed explicitly in recipe ("ZONES TO PRESERVE" section)
 
 ### 🎯 Next Steps (Immediate)
-1. **Merge to main**: PR review and merge of html-flow branch
-2. **Phase 2.1 - Critical Features** (2–3 weeks):
-   - ✅ **Full-Slide Content Generation** — Implementation plan ready (see `IMPLEMENTATION_PLAN_FULL_SLIDE_GENERATION.md`)
+1. **Merge to main**: PR review and merge of `project-makeover` branch
+2. **Test cleanup**: E2E and unit tests still reference `chainId`, old endpoints, `save-project` — needs a pass
+3. **Phase 2.1 - Critical Features** (2–3 weeks):
+   - [ ] Full-Slide Content Generation
    - [ ] Auto-Expand to Show Assigned Zones
-3. **Phase 2.2 - Advanced Zone Management** (3–4 weeks):
+4. **Phase 2.2 - Advanced Zone Management** (3–4 weeks):
    - Bulk zone operations
    - Zone templates & presets
    - Conditional zones
-4. **Phase 3**: Recipe Intelligence (AI suggestions, LLM integration)
-5. **Phase 4**: Output & Export (PDF, PPTX)
+5. **Phase 3**: Recipe Intelligence (AI suggestions, LLM integration)
+6. **Phase 4**: Output & Export (PDF, PPTX)
 
 ---
 
@@ -290,12 +311,12 @@
 ## Current Architecture
 
 ### Tech Stack
-- **Frontend**: React 18 + Vite (TypeScript-ready)
+- **Frontend**: React 18 + Vite
 - **Backend**: Node.js Express
 - **Testing**: Vitest (unit), Playwright (E2E)
-- **Styling**: CSS-in-JS (design tokens, dark theme)
+- **Styling**: CSS modules + design tokens (dark theme)
 - **Fonts**: Geist (UI), JetBrains Mono (code)
-- **State Management**: React hooks (no Redux/Zustand yet)
+- **State Management**: React hooks
 
 ### Directory Structure
 ```
@@ -304,61 +325,91 @@ SOLON/
 │   ├── src/
 │   │   ├── components/     # Reusable UI components
 │   │   ├── steps/          # Page-level step components
-│   │   ├── utils/          # Helpers (hooks, formatting)
+│   │   ├── utils/          # Helpers (slidePreview, etc.)
 │   │   ├── index.css       # Global styles + design tokens
-│   │   └── App.jsx         # Main app router
-│   ├── index.html          # Entry point
+│   │   └── App.jsx         # Main app router + step navigation
+│   ├── index.html
 │   └── package.json
 ├── server/                 # Express backend
-│   ├── __tests__/          # Unit tests
-│   ├── index.js            # Server entry
-│   └── routes/             # API endpoints (html-flow)
+│   ├── lib/                # project-manager, export-manager
+│   ├── routes/             # html-flow.js, projects.js
+│   ├── projects/           # Persisted project data (gitignored)
+│   │   └── <projectName>/
+│   │       └── flows/
+│   │           └── <flowId>/
+│   │               ├── flow.json
+│   │               ├── template.html
+│   │               ├── output-*.html
+│   │               └── exports/
+│   ├── config.js
+│   └── index.js
 ├── e2e/                    # Playwright E2E tests
-├── docs/                   # Specifications
 └── backlog.md              # This file
 ```
 
 ### Key Components
 
-#### Frontend
-- **FlowSelectStep**: Choose between PPTX Native or HTML Visual flow
-- **HtmlUploadStep**: Upload HTML template, extract DOM tree, assign zones
+#### Frontend Steps
+- **ProjectLandingStep**: List all projects; inline "New Project" form creates project by name
+- **ProjectDashboardStep**: List flows for a project; "New Flow" starts a new flow; open or delete per flow
+- **HtmlUploadStep**: Drop HTML file (new flow) or load existing flow; DOM tree with zone assignment; "Next →"
+- **HtmlRecipeStep**: Generate recipe, paste AI JSON, validate, apply content
+- **HtmlPreviewStep**: Multi-slide iframe preview; "Next →" proceeds to metadata
+- **HtmlMetadataStep**: Per-slide metadata (slideId, name, type); export to slides; export history; "Finish" → dashboard
+
+#### Frontend Sub-Components
 - **HtmlTreePanel**: Visual DOM tree with zone assignment UI
 - **HtmlEditorPanel**: CodeMirror editor with live preview
-- **HtmlRecipeStep**: Display generated recipe, paste AI JSON, validate
-- **HtmlPreviewStep**: Multi-slide preview with scroll-snap navigation
-- **DebugContextModal**: State snapshot for debugging (with focus trapping)
+- **ExportHistoryPanel**: List past exports for a flow with download/delete
+- **DebugContextModal**: Full state snapshot for debugging
 
-#### Backend
-- **POST /api/html-flow/upload-template**: Parse HTML, extract zones
-- **PATCH /api/html-flow/update-selections**: Persist zone edits
-- **POST /api/html-flow/create-project**: Create project with zones
+#### Backend Endpoints
+- **POST /api/projects**: Create a new project directory
+- **GET /api/projects**: List all projects
+- **GET /api/projects/:name**: Load project with flows
+- **DELETE /api/projects/:name**: Delete project
+- **GET/PATCH/DELETE /api/projects/:name/flows/:flowId**: Flow operations
+- **POST/GET /api/projects/:name/flows/:flowId/exports**: Create or list exports
+- **GET/.../exports/:id/...**: Download slides or ZIP
+- **DELETE/.../exports/:id**: Delete export
+- **POST /api/html-flow/upload-template**: Parse HTML, create flow inside existing project
+- **GET /api/html-flow/load-flow**: Load existing flow with saved selections
+- **PATCH /api/html-flow/update-selections**: Persist zone edits to flow.json
 - **POST /api/html-flow/generate-recipe**: Build AI prompt from zones
-- **POST /api/html-flow/validate-json**: Validate user's AI JSON response
-- **POST /api/html-flow/apply-content**: Patch HTML with AI content
-- **GET /api/html-flow/download/:chainId/:file**: Download output file
+- **POST /api/html-flow/validate-json**: Validate AI JSON response against zones
+- **POST /api/html-flow/apply-content**: Patch HTML with AI content, save output
 
 ### Data Flow
 ```
-Upload HTML
+Project Landing
+    ↓ "New Project" (name input) → POST /api/projects
+Project Dashboard  (empty)
+    ↓ "New Flow"
+HtmlUploadStep  [upload path]
+    — drop HTML file → POST /upload-template (creates flow in project)
+    — assign zones in DOM tree
+    — "Next →"
     ↓
-Extract DOM tree & zones
+  OR
+
+Project Landing → open project → Project Dashboard → "Open Flow"
+HtmlUploadStep  [load-flow path]
+    — GET /load-flow → template + saved zones restored
+    — "Next →"
     ↓
-Assign zones (leaf/block/repeatable)
+
+HtmlRecipeStep
+    — generate recipe prompt
+    — paste AI JSON, validate, apply content
     ↓
-Create project
+HtmlPreviewStep
+    — multi-slide iframe preview
+    — "Next →"
     ↓
-Generate recipe prompt
-    ↓
-User pastes AI JSON
-    ↓
-Validate JSON
-    ↓
-Apply content to HTML
-    ↓
-Preview multi-slide output
-    ↓
-Download PDF/HTML/PPTX
+HtmlMetadataStep
+    — assign slideId / name / type per slide
+    — "Export N Slides" → versioned export
+    — "Finish" → Project Dashboard
 ```
 
 ---
@@ -377,8 +428,8 @@ Download PDF/HTML/PPTX
 **Effort**: Medium (refactor ~3 days)
 
 #### Database Integration
-**Issue**: Currently all data is in-memory (lost on server restart).  
-**Impact**: Projects, history, audit logs are not persisted.  
+**Issue**: Data is persisted as JSON files on the local filesystem.  
+**Impact**: No multi-user support; no query/indexing; not suitable for cloud deployment as-is.  
 **Solution**: Add PostgreSQL + migrations for projects, zones, versions, audit logs.  
 **Effort**: Large (1–2 weeks)  
 **Blocking**: Phases 5 & 6
