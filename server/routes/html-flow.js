@@ -46,6 +46,18 @@ import {
   deleteExport,
   buildExportZip,
 } from '../lib/export-manager.js';
+import {
+  createStructure,
+  listStructures,
+  getStructure,
+  addNodeToStructure,
+  moveNode,
+  removeNodeFromStructure,
+  deleteStructure,
+  validateStructure,
+  getOrphanedSlidesForStructure,
+  getTreeVisualization,
+} from '../lib/structure-manager.js';
 
 const router = express.Router();
 
@@ -1309,6 +1321,216 @@ router.delete('/html-flow/:chainId/exports/:exportId', (req, res) => {
     return res.json({ ok: true });
   } catch (err) {
     console.error('[html-flow] delete-export error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// ── Phase 4B: Structure Management (Relationship Builder) ──────────────────
+
+/**
+ * POST /api/html-flow/:chainId/structures
+ * Create a new structure from selected exports.
+ */
+router.post('/html-flow/:chainId/structures', (req, res) => {
+  try {
+    const { chainId } = req.params;
+    const { name, description, exportIds } = req.body;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    if (!name || !Array.isArray(exportIds) || exportIds.length === 0) {
+      return res.status(400).json({
+        ok: false,
+        error: 'name and at least one exportId are required.',
+      });
+    }
+
+    const structureId = createStructure(chainId, name, description || '', exportIds);
+    if (!structureId) {
+      return res.status(400).json({ ok: false, error: 'Failed to create structure.' });
+    }
+
+    return res.json({ ok: true, structureId });
+  } catch (err) {
+    console.error('[html-flow] create-structure error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/structures
+ * List all structures for a chain.
+ */
+router.get('/html-flow/:chainId/structures', (req, res) => {
+  try {
+    const { chainId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const structures = listStructures(chainId);
+    return res.json({ ok: true, structures });
+  } catch (err) {
+    console.error('[html-flow] list-structures error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/structures/:structureId
+ * Get structure details with full tree.
+ */
+router.get('/html-flow/:chainId/structures/:structureId', (req, res) => {
+  try {
+    const { chainId, structureId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const structure = getStructure(chainId, structureId);
+    if (!structure) {
+      return res.status(404).json({ ok: false, error: 'Structure not found.' });
+    }
+
+    return res.json({ ok: true, structure });
+  } catch (err) {
+    console.error('[html-flow] get-structure error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * PUT /api/html-flow/:chainId/structures/:structureId
+ * Update structure (tree operations: add, move, remove nodes).
+ */
+router.put('/html-flow/:chainId/structures/:structureId', (req, res) => {
+  try {
+    const { chainId, structureId } = req.params;
+    const { operation, nodeId, parentId, slideRef, title, newParentId } = req.body;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    let structure = null;
+
+    switch (operation) {
+      case 'add_node':
+        if (!slideRef || !title) {
+          return res.status(400).json({ ok: false, error: 'slideRef and title are required.' });
+        }
+        structure = addNodeToStructure(chainId, structureId, parentId || null, slideRef, title);
+        break;
+
+      case 'move_node':
+        if (!nodeId || newParentId === undefined) {
+          return res.status(400).json({ ok: false, error: 'nodeId and newParentId are required.' });
+        }
+        structure = moveNode(chainId, structureId, nodeId, newParentId || null);
+        break;
+
+      case 'remove_node':
+        if (!nodeId) {
+          return res.status(400).json({ ok: false, error: 'nodeId is required.' });
+        }
+        structure = removeNodeFromStructure(chainId, structureId, nodeId);
+        break;
+
+      default:
+        return res.status(400).json({ ok: false, error: 'Invalid operation.' });
+    }
+
+    if (!structure) {
+      return res.status(400).json({ ok: false, error: `Failed to perform ${operation}.` });
+    }
+
+    return res.json({ ok: true, structure });
+  } catch (err) {
+    console.error('[html-flow] update-structure error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * DELETE /api/html-flow/:chainId/structures/:structureId
+ * Delete a structure.
+ */
+router.delete('/html-flow/:chainId/structures/:structureId', (req, res) => {
+  try {
+    const { chainId, structureId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const success = deleteStructure(chainId, structureId);
+    if (!success) {
+      return res.status(404).json({ ok: false, error: 'Structure not found or failed to delete.' });
+    }
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('[html-flow] delete-structure error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/structures/:structureId/validate
+ * Validate structure integrity.
+ */
+router.get('/html-flow/:chainId/structures/:structureId/validate', (req, res) => {
+  try {
+    const { chainId, structureId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const validation = validateStructure(chainId, structureId);
+    return res.json({ ok: true, validation });
+  } catch (err) {
+    console.error('[html-flow] validate-structure error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/structures/:structureId/tree
+ * Get tree visualization data for frontend rendering.
+ */
+router.get('/html-flow/:chainId/structures/:structureId/tree', (req, res) => {
+  try {
+    const { chainId, structureId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const tree = getTreeVisualization(chainId, structureId);
+    if (!tree) {
+      return res.status(404).json({ ok: false, error: 'Structure not found.' });
+    }
+
+    return res.json({ ok: true, tree });
+  } catch (err) {
+    console.error('[html-flow] get-tree-visualization error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/**
+ * GET /api/html-flow/:chainId/structures/:structureId/orphans
+ * Get orphaned slides for a structure.
+ */
+router.get('/html-flow/:chainId/structures/:structureId/orphans', (req, res) => {
+  try {
+    const { chainId, structureId } = req.params;
+
+    const chainDir = resolveChainDir(chainId);
+    if (!chainDir) return res.status(400).json({ ok: false, error: 'Invalid chainId.' });
+
+    const orphans = getOrphanedSlidesForStructure(chainId, structureId);
+    return res.json({ ok: true, orphans });
+  } catch (err) {
+    console.error('[html-flow] get-orphaned-slides error:', err);
     return res.status(500).json({ ok: false, error: err.message });
   }
 });
