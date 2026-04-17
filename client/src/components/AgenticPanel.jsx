@@ -1,22 +1,20 @@
 /**
  * AgenticPanel.jsx
  *
- * Streams agentic JSON generation via SSE (POST + fetch streaming).
- * On completion, calls onJsonReady(jsonString) to auto-fill the JSON
- * Response field in HtmlRecipeStep.
+ * Two-phase agentic generation with user confirmation between phases.
  *
- * Props:
- *   projectName     string
- *   recipe          string   — current recipe text (from HtmlRecipeStep)
- *   zones           Array
- *   repeatableSlides Array
- *   onJsonReady     (jsonString) => void
+ * State machine:
+ *   idle → planning → confirming → running → done
+ *                  ↘ error       ↗ cancel→idle  ↘ error
+ *
+ * /agentic/plan  — regular JSON, runs orchestrator, returns proposed plan
+ * /agentic/run   — SSE stream, runs parallel agents given the accepted plan
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import css from './AgenticPanel.module.css'
 
-// ── SSE reader (works with POST) ───────────────────────────────────────────────
+// ── SSE reader ─────────────────────────────────────────────────────────────────
 
 async function* readSSE(response) {
   const reader  = response.body.getReader()
@@ -29,7 +27,7 @@ async function* readSSE(response) {
     buffer += decoder.decode(value, { stream: true })
 
     const blocks = buffer.split('\n\n')
-    buffer = blocks.pop() // keep trailing incomplete block
+    buffer = blocks.pop()
 
     for (const block of blocks) {
       if (!block.trim()) continue
@@ -37,8 +35,7 @@ async function* readSSE(response) {
       let eventData = ''
       for (const line of block.split('\n')) {
         if (line.startsWith('event: ')) eventType = line.slice(7).trim()
-        // SSE spec: multiple data lines are concatenated with \n
-        if (line.startsWith('data: ')) eventData += (eventData ? '\n' : '') + line.slice(6)
+        if (line.startsWith('data: '))  eventData += (eventData ? '\n' : '') + line.slice(6)
       }
       if (eventData !== '') yield { type: eventType, data: eventData }
     }
@@ -61,25 +58,31 @@ function phaseIndex(id) {
 // ── Component ──────────────────────────────────────────────────────────────────
 
 export default function AgenticPanel({ projectName, recipe, zones, repeatableSlides, onJsonReady }) {
-  const [status,    setStatus]    = useState('idle')   // idle | running | done | error
+  // status: idle | planning | confirming | running | done | error
+  const [status,    setStatus]    = useState('idle')
   const [phase,     setPhase]     = useState('')
   const [logs,      setLogs]      = useState([])
-  const [agents,    setAgents]    = useState([])        // [{ id, label, state }]
+  const [agents,    setAgents]    = useState([])
   const [errorMsg,  setErrorMsg]  = useState('')
   const [elapsed,   setElapsed]   = useState(0)
 
-  const logEndRef   = useRef(null)
-  const timerRef    = useRef(null)
-  const abortRef    = useRef(null)
+  // Plan returned by /agentic/plan, held during confirming state
+  const [plan, setPlan] = useState(null)
+  // { instances, contextSummary, rationale, agentPlan, contextFiles }
 
-  const hasRecipe = recipe && recipe.trim().length > 0
+  const logEndRef = useRef(null)
+  const timerRef  = useRef(null)
+  const abortRef  = useRef(null)
+
+  const hasRecipe = Boolean(recipe?.trim())
+  const isActive  = status === 'planning' || status === 'running'
 
   // Auto-scroll log
   useEffect(() => {
     logEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [logs])
 
-  // Elapsed timer
+  // Elapsed timer — only ticks during the generation phase
   useEffect(() => {
     if (status === 'running') {
       timerRef.current = setInterval(() => setElapsed(e => e + 1), 1000)
@@ -89,81 +92,105 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
     return () => clearInterval(timerRef.current)
   }, [status])
 
-  const appendLog = (msg) => setLogs(prev => [...prev, msg])
-
-  const updateAgent = (id, state) =>
+  const appendLog    = (msg) => setLogs(prev => [...prev, msg])
+  const updateAgent  = (id, state) =>
     setAgents(prev => prev.map(a => a.id === id ? { ...a, state } : a))
 
-  const handleGenerate = useCallback(async () => {
-    if (!hasRecipe || status === 'running') return
+  // ── Phase 1: call /plan, pause for confirmation ────────────────────────────
 
-    // Reset
-    setStatus('running')
-    setPhase('')
+  const handleGenerate = useCallback(async () => {
+    if (!hasRecipe || isActive) return
+
+    setStatus('planning')
+    setPhase('analyzing')
+    setPlan(null)
     setLogs([])
     setAgents([])
     setErrorMsg('')
     setElapsed(0)
 
-    const controller = new AbortController()
-    abortRef.current = controller
-
     try {
-      const response = await fetch('/api/opencode/agentic', {
+      const response = await fetch('/api/opencode/agentic/plan', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({ projectName, recipe, zones, repeatableSlides }),
-        signal:  controller.signal,
       })
-
-      if (!response.ok) {
-        throw new Error(`Server error ${response.status}`)
-      }
+      if (!response.ok) throw new Error(`Server error ${response.status}`)
 
       for await (const { type, data } of readSSE(response)) {
         switch (type) {
-          case 'phase':
-            setPhase(data)
+          case 'phase': setPhase(data); break
+          case 'log':   appendLog(data); break
+          case 'plan':
+            setPlan(JSON.parse(data))
+            setStatus('confirming')
             break
-
-          case 'log':
-            appendLog(data)
-            break
-
-          case 'agents':
-            setAgents(JSON.parse(data))
-            break
-
-          case 'agent_update': {
-            const { id, state } = JSON.parse(data)
-            updateAgent(id, state)
-            break
-          }
-
-          case 'done':
-            setStatus('done')
-            onJsonReady?.(data)
-            break
-
           case 'error':
             setStatus('error')
             setErrorMsg(data)
             break
         }
       }
+    } catch (err) {
+      setStatus('error')
+      setErrorMsg(err.message)
+    }
+  }, [hasRecipe, isActive, projectName, recipe, zones, repeatableSlides])
 
+  // ── Phase 2: user accepted — call /run SSE stream ─────────────────────────
+
+  const handleAccept = useCallback(async () => {
+    if (!plan) return
+
+    setStatus('running')
+    setPhase('generating')
+    setLogs([])
+    setAgents([])
+    setElapsed(0)
+
+    const controller = new AbortController()
+    abortRef.current = controller
+
+    try {
+      const response = await fetch('/api/opencode/agentic/run', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          projectName,
+          recipe,
+          zones,
+          repeatableSlides,
+          instances:      plan.instances,
+          contextSummary: plan.contextSummary,
+        }),
+        signal: controller.signal,
+      })
+
+      if (!response.ok) throw new Error(`Server error ${response.status}`)
+
+      for await (const { type, data } of readSSE(response)) {
+        switch (type) {
+          case 'phase':        setPhase(data); break
+          case 'log':          appendLog(data); break
+          case 'agents':       setAgents(JSON.parse(data)); break
+          case 'agent_update': { const u = JSON.parse(data); updateAgent(u.id, u.state); break }
+          case 'done':         setStatus('done'); onJsonReady?.(data); break
+          case 'error':        setStatus('error'); setErrorMsg(data); break
+        }
+      }
     } catch (err) {
       if (err.name !== 'AbortError') {
         setStatus('error')
         setErrorMsg(err.message)
       }
     }
-  }, [hasRecipe, status, projectName, recipe, zones, repeatableSlides, onJsonReady])
+  }, [plan, projectName, recipe, zones, repeatableSlides, onJsonReady])
 
-  const handleReset = () => {
+  const handleCancel = () => {
     abortRef.current?.abort()
     setStatus('idle')
     setPhase('')
+    setPlan(null)
     setLogs([])
     setAgents([])
     setErrorMsg('')
@@ -189,31 +216,33 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
         The result is pasted directly into the JSON Response field above.
       </p>
 
-      {/* Trigger row */}
+      {/* ── Trigger row ─────────────────────────────────────────────────── */}
       <div className={css.triggerRow}>
         <button
-          className={`${css.generateBtn} ${status === 'running' ? css.running : ''}`}
-          onClick={status === 'running' ? undefined : handleGenerate}
-          disabled={!hasRecipe || status === 'running'}
+          className={`${css.generateBtn} ${isActive ? css.running : ''}`}
+          onClick={isActive ? undefined : handleGenerate}
+          disabled={!hasRecipe || isActive || status === 'confirming'}
         >
-          {status === 'running' ? 'Generating…' : '✦ Generate with AI'}
+          {status === 'planning'  ? 'Analysing…'     :
+           status === 'running'   ? 'Generating…'    :
+                                    '✦ Generate with AI'}
         </button>
 
-        {status === 'running' && (
-          <span className={css.timer}>{elapsed}s</span>
-        )}
+        {status === 'running' && <span className={css.timer}>{elapsed}s</span>}
 
         {!hasRecipe && status === 'idle' && (
           <span className={css.noRecipeHint}>Generate the recipe first ↑</span>
         )}
       </div>
 
-      {/* Phase stepper — visible once running */}
-      {(status === 'running' || status === 'done') && (
+      {/* ── Phase stepper ───────────────────────────────────────────────── */}
+      {(status === 'planning' || status === 'confirming' || status === 'running' || status === 'done') && (
         <div className={css.stepper}>
           {PHASES.map((p, i) => {
-            const isDone   = currentPhaseIdx > i || status === 'done'
-            const isActive = currentPhaseIdx === i && status === 'running'
+            const isDone   = (status === 'confirming' && i <= 1)
+                          || (currentPhaseIdx > i && status !== 'confirming')
+                          || status === 'done'
+            const isActive = currentPhaseIdx === i && (status === 'planning' || status === 'running')
             return (
               <div key={p.id} className={css.stepItem}>
                 <div className={`${css.stepDot} ${isDone ? css.done : ''} ${isActive ? css.active : ''}`}>
@@ -231,7 +260,44 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
         </div>
       )}
 
-      {/* Instance chips */}
+      {/* ── Confirmation card ────────────────────────────────────────────── */}
+      {status === 'confirming' && plan && (
+        <div className={css.confirmCard}>
+          <div className={css.confirmHeader}>
+            <span className={css.confirmIcon}>◎</span>
+            <span className={css.confirmTitle}>Ready to generate</span>
+          </div>
+
+          {plan.rationale && (
+            <p className={css.confirmRationale}>{plan.rationale}</p>
+          )}
+
+          <ul className={css.confirmList}>
+            {plan.agentPlan.map(a => (
+              <li key={a.id} className={css.confirmItem}>
+                <span className={css.confirmDot} />
+                {a.label}
+              </li>
+            ))}
+          </ul>
+
+          <p className={css.confirmCount}>
+            {plan.agentPlan.length} agent{plan.agentPlan.length !== 1 ? 's' : ''} will run in parallel
+            {plan.contextFiles > 0 && ` · ${plan.contextFiles} context file${plan.contextFiles !== 1 ? 's' : ''} loaded`}
+          </p>
+
+          <div className={css.confirmActions}>
+            <button className={css.acceptBtn} onClick={handleAccept}>
+              Accept &amp; Generate
+            </button>
+            <button className={css.cancelBtn} onClick={handleCancel}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Agent chips ──────────────────────────────────────────────────── */}
       {agents.length > 0 && (
         <div className={css.chipsSection}>
           <div className={css.chipsLabel}>Agents</div>
@@ -239,8 +305,8 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
             {agents.map(agent => (
               <div key={agent.id} className={`${css.chip} ${css[agent.state]}`}>
                 {agent.state === 'running' && <div className={css.chipSpinner} />}
-                {agent.state === 'done'    && '✓'}
-                {agent.state === 'error'   && '✕'}
+                {agent.state === 'done'    && '✓ '}
+                {agent.state === 'error'   && '✕ '}
                 {agent.label}
               </div>
             ))}
@@ -248,16 +314,13 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
         </div>
       )}
 
-      {/* Activity log */}
+      {/* ── Activity log ─────────────────────────────────────────────────── */}
       {logs.length > 0 && (
         <div className={css.logSection}>
           <div className={css.logLabel}>Activity</div>
           <div className={css.log}>
             {logs.map((line, i) => (
-              <span
-                key={i}
-                className={`${css.logLine} ${i === logs.length - 1 ? css.latest : ''}`}
-              >
+              <span key={i} className={`${css.logLine} ${i === logs.length - 1 ? css.latest : ''}`}>
                 {line}{'\n'}
               </span>
             ))}
@@ -266,7 +329,7 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
         </div>
       )}
 
-      {/* Success banner */}
+      {/* ── Success banner ───────────────────────────────────────────────── */}
       {status === 'done' && (
         <div className={css.successBanner}>
           <span>✓</span>
@@ -274,13 +337,13 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
         </div>
       )}
 
-      {/* Error banner */}
+      {/* ── Error banner ─────────────────────────────────────────────────── */}
       {status === 'error' && (
         <div className={css.errorBanner}>
           <strong>Generation failed</strong>
           {errorMsg}
           <div>
-            <button className={css.resetBtn} onClick={handleReset}>Try again</button>
+            <button className={css.resetBtn} onClick={handleCancel}>Try again</button>
           </div>
         </div>
       )}

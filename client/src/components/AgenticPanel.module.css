@@ -175,6 +175,110 @@
   50%       { box-shadow: 0 0 0 6px rgba(96, 165, 250, 0.08); }
 }
 
+/* ── Confirmation card ───────────────────────────────────────────────────── */
+
+.confirmCard {
+  margin-top: 20px;
+  padding: 18px 20px;
+  background: rgba(96, 165, 250, 0.06);
+  border: 1px solid rgba(96, 165, 250, 0.22);
+  border-radius: 10px;
+}
+
+.confirmHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.confirmIcon {
+  font-size: 16px;
+  color: #60a5fa;
+}
+
+.confirmTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.confirmRationale {
+  font-size: 13px;
+  color: #94a3b8;
+  margin: 0 0 14px 0;
+  line-height: 1.5;
+}
+
+.confirmList {
+  list-style: none;
+  margin: 0 0 12px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.confirmItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.confirmDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #60a5fa;
+  flex-shrink: 0;
+}
+
+.confirmCount {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0 0 16px 0;
+}
+
+.confirmActions {
+  display: flex;
+  gap: 10px;
+}
+
+.acceptBtn {
+  padding: 8px 20px;
+  border-radius: 7px;
+  border: none;
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.acceptBtn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.cancelBtn {
+  padding: 8px 16px;
+  border-radius: 7px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: transparent;
+  color: #71717a;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.cancelBtn:hover {
+  color: #a1a1aa;
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
 /* ── Instance chips ──────────────────────────────────────────────────────── */
 
 .chipsSection {

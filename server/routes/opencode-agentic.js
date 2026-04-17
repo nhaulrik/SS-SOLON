@@ -85,26 +85,32 @@ function buildBlocksPrompt(zones, repeatableSlides, contextSummary, repSet) {
     z => repSet.has(z.slideIndex) && z.unique === false && z.autoGenerate !== false && !z.ignored
   )
 
-  let prompt = `You generate static slide content for a presentation template.
+  let prompt = `You populate an HTML slide template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST use the EXACT same HTML elements, class names,
+attributes, and nesting depth as the template shown for that key. Only text content
+and src/href values may differ. Never simplify, flatten, add, or remove elements.
+Violating this breaks the slide layout irreparably.
 
 CONTEXT:
 ${contextSummary || 'No context provided.'}
 
-Return ONLY valid JSON:
+Return ONLY valid JSON (no markdown):
 {
-  "blocks": { "<key>": { "value": "<innerHTML>" } },
-  "slides": { "<slideKey>": { "shared": { "<key>": "<innerHTML>" } } }
+  "blocks": { "<key>": { "value": "<innerHTML matching template structure>" } },
+  "slides": { "<slideKey>": { "shared": { "<key>": "<innerHTML matching template structure>" } } }
 }
 Omit a section entirely if it has no zones.
 
 ZONES TO FILL:\n`
 
   if (blockZones.length > 0) {
-    prompt += '\n[BLOCK ZONES — static, one value each]\n'
+    prompt += '\n[BLOCK ZONES]\n'
     blockZones.forEach(z => {
-      prompt += `• "${z.key}"${z.prompt ? ` — ${z.prompt}` : ''}\n`
+      prompt += `\nKEY "${z.key}"${z.prompt ? ` — ${z.prompt}` : ''}\n`
       if (z.exampleHtml) {
-        prompt += `  Layout: ${z.exampleHtml.slice(0, 350).replace(/\n/g, ' ')}\n`
+        prompt += `Fill this template with real data (structure is a contract — do not alter it):\n${z.exampleHtml}\n`
       }
     })
   }
@@ -115,19 +121,18 @@ ZONES TO FILL:\n`
       const slideKey = repBySlide.get(z.slideIndex)?.key ?? `slide_${z.slideIndex}`
       ;(bySlide[slideKey] ??= []).push(z)
     })
-    prompt += '\n[SHARED ZONES — same on every slide clone]\n'
+    prompt += '\n[SHARED ZONES — same value on every slide clone]\n'
     for (const [slideKey, slideZones] of Object.entries(bySlide)) {
-      prompt += `Slide "${slideKey}":\n`
+      prompt += `\nSlide "${slideKey}":\n`
       slideZones.forEach(z => {
-        prompt += `• "${z.key}"${z.prompt ? ` — ${z.prompt}` : ''}\n`
+        prompt += `\nKEY "${z.key}"${z.prompt ? ` — ${z.prompt}` : ''}\n`
         if (z.exampleHtml) {
-          prompt += `  Layout: ${z.exampleHtml.slice(0, 350).replace(/\n/g, ' ')}\n`
+          prompt += `Fill this template with real data (structure is a contract — do not alter it):\n${z.exampleHtml}\n`
         }
       })
     }
   }
 
-  prompt += '\nRules: innerHTML only, no wrapping tags, preserve class names from layout references.'
   return prompt
 }
 
@@ -140,28 +145,35 @@ function buildInstancePrompt(zones, repeatableSlides, slideKey, instanceIndex, i
   )
 
   let prompt =
-    `You generate content for one slide instance in a presentation.
+    `You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST use the EXACT same HTML elements, class names,
+attributes, and nesting depth as the template shown for each key. Only text content
+and src/href values may differ. Never simplify, flatten, add, or remove elements.
+Violating this breaks the slide layout irreparably.
 
 CONTEXT:
 ${contextSummary || 'No context provided.'}
 
-Task: generate instance ${instanceIndex + 1} of ${instanceCount}. Each instance represents a distinct data item — use item number ${instanceIndex + 1} from the context.${rsConfig?.prompt ? `\nSlide guidance: ${rsConfig.prompt}` : ''}
+Task: populate instance ${instanceIndex + 1} of ${instanceCount}. Use data item number ${instanceIndex + 1} from the context.${rsConfig?.prompt ? `\nSlide guidance: ${rsConfig.prompt}` : ''}
 
-Return ONLY a JSON object with EXACTLY these keys (innerHTML values):
+Return ONLY a valid JSON object with EXACTLY these keys:
 {
 `
-  uniqueZones.forEach(z => { prompt += `  "${z.key}": "<innerHTML>",\n` })
+  uniqueZones.forEach(z => { prompt += `  "${z.key}": "<innerHTML matching template structure>",\n` })
   prompt += `}
 
-Zone descriptions:\n`
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):\n`
   uniqueZones.forEach(z => {
-    prompt += `• "${z.key}"${z.prompt ? `: ${z.prompt}` : ''}\n`
+    prompt += `\nKEY "${z.key}"${z.prompt ? ` — ${z.prompt}` : ''}:\n`
     if (z.exampleHtml) {
-      prompt += `  Layout: ${z.exampleHtml.slice(0, 400).replace(/\n/g, ' ')}\n`
+      prompt += `${z.exampleHtml}\n`
+    } else {
+      prompt += `(no template — generate appropriate innerHTML)\n`
     }
   })
 
-  prompt += `\nRules: innerHTML only, no wrapping tags, preserve class names. Use data specific to item ${instanceIndex + 1}.`
   return prompt
 }
 
@@ -196,30 +208,32 @@ function assembleResults(agentResults) {
   return assembled
 }
 
-// ── Route ──────────────────────────────────────────────────────────────────────
+// ── POST /agentic/plan — orchestration only, SSE stream ───────────────────────
+//
+// Streams log events while reading context and running the orchestrator.
+// Ends with a `plan` event containing the proposed generation plan, which the
+// client shows to the user for confirmation before calling /run.
 
-router.post('/agentic', async (req, res) => {
+router.post('/agentic/plan', async (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream; charset=utf-8')
   res.setHeader('Cache-Control', 'no-cache')
   res.setHeader('Connection', 'keep-alive')
   res.setHeader('X-Accel-Buffering', 'no')
   res.flushHeaders()
 
-  const log   = (msg)  => emit(res, 'log',          `${ts()}  ${msg}`)
-  const phase = (p)    => emit(res, 'phase',         p)
-  const done  = (json) => emit(res, 'done',          json)
-  const error = (msg)  => { emit(res, 'error', msg); res.end() }
+  const log   = (msg) => emit(res, 'log',   `${ts()}  ${msg}`)
+  const phase = (p)   => emit(res, 'phase', p)
+  const error = (msg) => { emit(res, 'error', msg); res.end() }
 
   try {
     const { projectName, recipe = '', zones = [], repeatableSlides = [] } = req.body
 
     if (!projectName) return error('projectName is required')
-    if (!recipe.trim()) return error('No recipe provided — generate the recipe first')
+    if (!recipe.trim()) return error('No recipe provided')
 
-    // ── Phase 1: Context ───────────────────────────────────────────────────
+    // Read context
     phase('analyzing')
     log('Reading AI Context files...')
-
     const projectDir = path.join(RESOLVED_PROJECTS_DIR, projectName)
     const context    = await readContextFiles(projectDir)
 
@@ -230,7 +244,7 @@ router.post('/agentic', async (req, res) => {
       log(`Found ${context.fileCount} file${context.fileCount !== 1 ? 's' : ''} (${kb}k chars)`)
     }
 
-    // ── Phase 2: Orchestration ─────────────────────────────────────────────
+    // Orchestrator
     phase('planning')
     log('Orchestrator: analysing recipe + context...')
 
@@ -243,7 +257,7 @@ router.post('/agentic', async (req, res) => {
     try {
       orchResult = parseJson(orchRaw.response)
     } catch {
-      return error(`Orchestrator returned invalid JSON.\nRaw: ${orchRaw.response.slice(0, 300)}`)
+      return error(`Orchestrator returned invalid JSON: ${orchRaw.response.slice(0, 200)}`)
     }
 
     const { instances = {}, contextSummary = '', rationale = '' } = orchResult
@@ -253,28 +267,75 @@ router.post('/agentic', async (req, res) => {
       log(`  ${key}: ${n} instance${n !== 1 ? 's' : ''}`)
     }
 
-    // ── Phase 3: Build agent plan ──────────────────────────────────────────
-    const repSet = new Set(repeatableSlides.map(rs => rs.slideIndex))
+    // Derive agent list for the confirmation card
+    const repSet    = new Set(repeatableSlides.map(rs => rs.slideIndex))
+    const hasBlocks = zones.some(z => !repSet.has(z.slideIndex) && z.autoGenerate !== false && !z.ignored)
+    const hasShared = zones.some(z => repSet.has(z.slideIndex) && z.unique === false && z.autoGenerate !== false && !z.ignored)
 
+    const agentPlan = []
+    if (hasBlocks || hasShared) agentPlan.push({ id: 'blocks', label: 'Blocks & Shared' })
+    for (const [slideKey, count] of Object.entries(instances)) {
+      for (let i = 0; i < count; i++) {
+        agentPlan.push({ id: `${slideKey}_${i}`, label: `${slideKey} — instance ${i + 1}` })
+      }
+    }
+
+    log(`Plan ready — ${agentPlan.length} agent${agentPlan.length !== 1 ? 's' : ''} queued`)
+
+    emit(res, 'plan', JSON.stringify({
+      instances,
+      contextSummary,
+      rationale,
+      agentPlan,
+      contextFiles: context.fileCount,
+    }))
+    res.end()
+
+  } catch (err) {
+    error(err.message)
+  }
+})
+
+// ── POST /agentic/run — parallel generation, SSE stream ───────────────────────
+//
+// Accepts the plan produced by /plan (instances + contextSummary already resolved)
+// and streams generation progress back as SSE events.
+
+router.post('/agentic/run', async (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream; charset=utf-8')
+  res.setHeader('Cache-Control', 'no-cache')
+  res.setHeader('Connection', 'keep-alive')
+  res.setHeader('X-Accel-Buffering', 'no')
+  res.flushHeaders()
+
+  const log   = (msg)  => emit(res, 'log',   `${ts()}  ${msg}`)
+  const phase = (p)    => emit(res, 'phase',  p)
+  const done  = (json) => emit(res, 'done',   json)
+  const error = (msg)  => { emit(res, 'error', msg); res.end() }
+
+  try {
+    const {
+      projectName,
+      recipe        = '',
+      zones         = [],
+      repeatableSlides = [],
+      instances     = {},
+      contextSummary = '',
+    } = req.body
+
+    if (!projectName) return error('projectName is required')
+    if (!recipe.trim()) return error('No recipe provided')
+
+    // ── Build agent list ───────────────────────────────────────────────────
+    const repSet    = new Set(repeatableSlides.map(rs => rs.slideIndex))
     const hasBlocks = zones.some(z => !repSet.has(z.slideIndex) && z.autoGenerate !== false && !z.ignored)
     const hasShared = zones.some(z => repSet.has(z.slideIndex) && z.unique === false && z.autoGenerate !== false && !z.ignored)
 
     const agents = []
-
-    if (hasBlocks || hasShared) {
-      agents.push({ id: 'blocks', type: 'blocks', label: 'Blocks & Shared' })
-    }
-
+    if (hasBlocks || hasShared) agents.push({ id: 'blocks', type: 'blocks', label: 'Blocks & Shared' })
     for (const [slideKey, count] of Object.entries(instances)) {
       for (let i = 0; i < count; i++) {
-        agents.push({
-          id:            `${slideKey}_${i}`,
-          type:          'instance',
-          slideKey,
-          instanceIndex: i,
-          instanceCount: count,
-          label:         `${slideKey} — #${i + 1}`,
-        })
+        agents.push({ id: `${slideKey}_${i}`, type: 'instance', slideKey, instanceIndex: i, instanceCount: count, label: `${slideKey} — #${i + 1}` })
       }
     }
 
@@ -284,7 +345,7 @@ router.post('/agentic', async (req, res) => {
     phase('generating')
     log(`Starting ${agents.length} parallel agent${agents.length !== 1 ? 's' : ''}...`)
 
-    // ── Phase 4: Parallel generation ───────────────────────────────────────
+    // ── Parallel generation ────────────────────────────────────────────────
     const agentResults = await Promise.all(agents.map(async (agent) => {
       emit(res, 'agent_update', { id: agent.id, state: 'running' })
       const t0 = Date.now()
@@ -306,22 +367,19 @@ router.post('/agentic', async (req, res) => {
       const secs = ((Date.now() - t0) / 1000).toFixed(1)
       emit(res, 'agent_update', { id: agent.id, state: 'done' })
       log(`${agent.label} done (${secs}s)`)
-
       return { agent, parsed }
     }))
 
-    // ── Phase 5: Assembly ──────────────────────────────────────────────────
+    // ── Assembly ───────────────────────────────────────────────────────────
     phase('assembling')
     log('Assembling final JSON...')
 
     const assembled  = assembleResults(agentResults)
-    // Compact JSON for SSE transport (no newlines = single data: line)
     const jsonString = JSON.stringify(assembled)
 
     const vResult = validateHtmlJson(jsonString, zones, repeatableSlides)
     if (vResult.missingFields?.length > 0) {
-      const preview = vResult.missingFields.slice(0, 3).join(', ')
-      log(`Warning: ${vResult.missingFields.length} missing field(s) — ${preview}`)
+      log(`Warning: ${vResult.missingFields.length} missing field(s) — ${vResult.missingFields.slice(0, 3).join(', ')}`)
     } else {
       log(`All fields populated (${vResult.foundFields?.length ?? 0} fields)`)
     }

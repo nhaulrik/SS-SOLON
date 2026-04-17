@@ -71,7 +71,12 @@ export async function readContextFiles(projectDir) {
     return { fileCount: 0, files: [], text: '', totalChars: 0 }
   }
 
-  const supported = filenames.filter(f => SUPPORTED_EXT.has(path.extname(f).toLowerCase()))
+  // Exclude Office temp/lock files (start with ~$) and other hidden files
+  const supported = filenames.filter(f =>
+    SUPPORTED_EXT.has(path.extname(f).toLowerCase()) &&
+    !f.startsWith('~$') &&
+    !f.startsWith('.')
+  )
   if (supported.length === 0) {
     return { fileCount: 0, files: [], text: '', totalChars: 0 }
   }
