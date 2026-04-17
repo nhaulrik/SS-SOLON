@@ -52,6 +52,26 @@ export default function HtmlRecipeStep({
   recipeState = { recipe: '', globalPrompt: '', jsonInput: '' },
   setToast,
   debugContext,
+  // Agentic state props
+  agenticStatus,
+  agenticPhase,
+  agenticLogs,
+  agenticAgents,
+  agenticErrorMsg,
+  agenticElapsed,
+  agenticSummaryMode,
+  agenticCustomPrompt,
+  agenticPlan,
+  // Agentic setter props
+  setAgenticStatus,
+  setAgenticPhase,
+  setAgenticLogs,
+  setAgenticAgents,
+  setAgenticErrorMsg,
+  setAgenticElapsed,
+  setAgenticSummaryMode,
+  setAgenticCustomPrompt,
+  setAgenticPlan,
 }) {
   const { selections = [], zones = [], repeatableSlides = [] } = project
 
@@ -329,6 +349,26 @@ export default function HtmlRecipeStep({
         recipe={recipe}
         zones={zones}
         repeatableSlides={repeatableSlides}
+        // State props
+        status={agenticStatus}
+        phase={agenticPhase}
+        logs={agenticLogs}
+        agents={agenticAgents}
+        errorMsg={agenticErrorMsg}
+        elapsed={agenticElapsed}
+        summaryMode={agenticSummaryMode}
+        customPrompt={agenticCustomPrompt}
+        plan={agenticPlan}
+        // Setter callbacks
+        setStatus={setAgenticStatus}
+        setPhase={setAgenticPhase}
+        setLogs={setAgenticLogs}
+        setAgents={setAgenticAgents}
+        setErrorMsg={setAgenticErrorMsg}
+        setElapsed={setAgenticElapsed}
+        setSummaryMode={setAgenticSummaryMode}
+        setCustomPrompt={setAgenticCustomPrompt}
+        setPlan={setAgenticPlan}
         onJsonReady={(json) => {
           handleJsonChange(json)
           setShouldAutoPreview(true)

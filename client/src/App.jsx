@@ -79,6 +79,17 @@ export default function App() {
   // ── AI response tracking (for debug context) ────────────────────
   const [htmlAiResponse, setHtmlAiResponse] = useState(null)
 
+  // ── Agentic generation state (persists across all navigation) ──────────────
+  const [agenticStatus,       setAgenticStatus]       = useState('idle')
+  const [agenticPhase,        setAgenticPhase]        = useState('')
+  const [agenticLogs,         setAgenticLogs]         = useState([])
+  const [agenticAgents,       setAgenticAgents]       = useState([])
+  const [agenticErrorMsg,     setAgenticErrorMsg]     = useState('')
+  const [agenticElapsed,      setAgenticElapsed]      = useState(0)
+  const [agenticSummaryMode,  setAgenticSummaryMode]  = useState('use')
+  const [agenticCustomPrompt, setAgenticCustomPrompt] = useState('')
+  const [agenticPlan,         setAgenticPlan]         = useState(null)
+
   // ── Global toast ───────────────────────────────────────────────
   const [toast, setToast] = useState(null)
 
@@ -235,22 +246,42 @@ export default function App() {
     return (
       <>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
-        <HtmlRecipeStep
-          project={htmlProject}
-          projectName={currentProjectName}
-          flowId={currentFlowId}
-          step={step}
-          canNavigateTo={canNavigateTo}
-          navigateTo={navigateTo}
-          onBack={handleBackToHtmlUpload}
-          onApplied={handleHtmlApplied}
-          onRecipeChange={setHtmlRecipe}
-          onRecipeStateChange={handleHtmlRecipeStateChange}
-          onAiResponseChange={handleHtmlAiResponseChange}
-          recipeState={htmlRecipeState}
-          setToast={setToast}
-          debugContext={debugContext}
-        />
+         <HtmlRecipeStep
+           project={htmlProject}
+           projectName={currentProjectName}
+           flowId={currentFlowId}
+           step={step}
+           canNavigateTo={canNavigateTo}
+           navigateTo={navigateTo}
+           onBack={handleBackToHtmlUpload}
+           onApplied={handleHtmlApplied}
+           onRecipeChange={setHtmlRecipe}
+           onRecipeStateChange={handleHtmlRecipeStateChange}
+           onAiResponseChange={handleHtmlAiResponseChange}
+           recipeState={htmlRecipeState}
+           setToast={setToast}
+           debugContext={debugContext}
+           // Agentic state
+           agenticStatus={agenticStatus}
+           agenticPhase={agenticPhase}
+           agenticLogs={agenticLogs}
+           agenticAgents={agenticAgents}
+           agenticErrorMsg={agenticErrorMsg}
+           agenticElapsed={agenticElapsed}
+           agenticSummaryMode={agenticSummaryMode}
+           agenticCustomPrompt={agenticCustomPrompt}
+           agenticPlan={agenticPlan}
+           // Agentic setters
+           setAgenticStatus={setAgenticStatus}
+           setAgenticPhase={setAgenticPhase}
+           setAgenticLogs={setAgenticLogs}
+           setAgenticAgents={setAgenticAgents}
+           setAgenticErrorMsg={setAgenticErrorMsg}
+           setAgenticElapsed={setAgenticElapsed}
+           setAgenticSummaryMode={setAgenticSummaryMode}
+           setAgenticCustomPrompt={setAgenticCustomPrompt}
+           setAgenticPlan={setAgenticPlan}
+         />
       </>
     )
   }

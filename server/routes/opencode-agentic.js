@@ -120,14 +120,16 @@ async function generateSummaries(projectDir, logFn, onlyFiles = null) {
 
 // ── Prompt builders ────────────────────────────────────────────────────────────
 
-function buildOrchestratorPrompt(recipe, contextText) {
+function buildOrchestratorPrompt(recipe, contextText, customPrompt) {
   const contextBlock = contextText
     ? `CONTEXT FILES:\n${contextText}`
     : 'CONTEXT: (no context files provided)'
 
+  const customBlock = customPrompt ? `\nUSER INSTRUCTIONS:\n${customPrompt}` : ''
+
   return `You are an orchestrator for a presentation slide generation system.
 
-${contextBlock}
+${contextBlock}${customBlock}
 
 RECIPE (the template that must be filled):
 ${recipe}
@@ -135,15 +137,17 @@ ${recipe}
 Your tasks:
 1. Read the context to determine how many instances to generate for each REPEATABLE SLIDE in the recipe. Base the count on actual data items (e.g. one instance per product, person, project listed in the context).
 2. Write a COMPACT CONTEXT SUMMARY (max 350 words) capturing all key data points that content-generating agents will need. This will be the ONLY context those agents receive — make it dense and complete.
+3. Generate meaningful names for each instance based on the context data (e.g. product names, person names, project titles). Return them in order.
 
 Return ONLY valid JSON (no markdown, no explanation):
 {
   "instances": { "<slideKey>": <number> },
+  "instanceNames": ["<name1>", "<name2>", ...],
   "contextSummary": "<concise structured summary of all data points>",
   "rationale": "<one sentence explaining instance count decision>"
 }
 
-If there are no repeatable slides, use: "instances": {}`
+If there are no repeatable slides, use: "instances": {} and "instanceNames": []`
 }
 
 function buildBlocksPrompt(zones, repeatableSlides, contextSummary, repSet) {
@@ -303,6 +307,7 @@ router.post('/agentic/plan', async (req, res) => {
       zones            = [],
       repeatableSlides = [],
       summaryMode      = 'use',   // 'use' | 'regenerate'
+      customPrompt     = '',
     } = req.body
 
     if (!projectName) return error('projectName is required')
@@ -347,7 +352,7 @@ router.post('/agentic/plan', async (req, res) => {
     phase('planning')
     log('Orchestrator: analysing recipe + context...')
 
-    const orchRaw = await callAi(buildOrchestratorPrompt(recipe, context.text), {
+    const orchRaw = await callAi(buildOrchestratorPrompt(recipe, context.text, customPrompt), {
       maxTokens: 2000,
       temperature: 0.3,
     })
@@ -359,7 +364,7 @@ router.post('/agentic/plan', async (req, res) => {
       return error(`Orchestrator returned invalid JSON: ${orchRaw.response.slice(0, 200)}`)
     }
 
-    const { instances = {}, contextSummary = '', rationale = '' } = orchResult
+    const { instances = {}, instanceNames = [], contextSummary = '', rationale = '' } = orchResult
 
     if (rationale) log(`Orchestrator: ${rationale}`)
     for (const [key, n] of Object.entries(instances)) {
@@ -373,9 +378,13 @@ router.post('/agentic/plan', async (req, res) => {
 
     const agentPlan = []
     if (hasBlocks || hasShared) agentPlan.push({ id: 'blocks', label: 'Blocks & Shared' })
+    
+    let nameIdx = 0
     for (const [slideKey, count] of Object.entries(instances)) {
       for (let i = 0; i < count; i++) {
-        agentPlan.push({ id: `${slideKey}_${i}`, label: `${slideKey} — instance ${i + 1}` })
+        const name = instanceNames[nameIdx] || `${slideKey} — instance ${i + 1}`
+        agentPlan.push({ id: `${slideKey}_${i}`, label: name })
+        nameIdx++
       }
     }
 
@@ -383,6 +392,7 @@ router.post('/agentic/plan', async (req, res) => {
 
     emit(res, 'plan', JSON.stringify({
       instances,
+      instanceNames,
       contextSummary,
       rationale,
       agentPlan,
@@ -419,6 +429,7 @@ router.post('/agentic/run', async (req, res) => {
       zones         = [],
       repeatableSlides = [],
       instances     = {},
+      instanceNames = [],
       contextSummary = '',
     } = req.body
 

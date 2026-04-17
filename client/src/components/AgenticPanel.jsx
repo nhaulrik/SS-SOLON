@@ -57,19 +57,35 @@ function phaseIndex(id) {
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
-export default function AgenticPanel({ projectName, recipe, zones, repeatableSlides, onJsonReady }) {
+export default function AgenticPanel({
+  projectName,
+  recipe,
+  zones,
+  repeatableSlides,
+  onJsonReady,
+  // State props
+  status,
+  phase,
+  logs,
+  agents,
+  errorMsg,
+  elapsed,
+  summaryMode,
+  customPrompt,
+  plan,
+  // Setters
+  setStatus,
+  setPhase,
+  setLogs,
+  setAgents,
+  setErrorMsg,
+  setElapsed,
+  setSummaryMode,
+  setCustomPrompt,
+  setPlan,
+}) {
   // status: idle | planning | confirming | running | done | error
-  const [status,      setStatus]      = useState('idle')
-  const [phase,       setPhase]       = useState('')
-  const [logs,        setLogs]        = useState([])
-  const [agents,      setAgents]      = useState([])
-  const [errorMsg,    setErrorMsg]    = useState('')
-  const [elapsed,     setElapsed]     = useState(0)
-  // 'use' = use saved summaries where available | 'regenerate' = generate + save new summaries
-  const [summaryMode, setSummaryMode] = useState('use')
-
   // Plan returned by /agentic/plan, held during confirming state
-  const [plan, setPlan] = useState(null)
   // { instances, contextSummary, rationale, agentPlan, contextFiles }
 
   const logEndRef = useRef(null)
@@ -115,7 +131,7 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
       const response = await fetch('/api/opencode/agentic/plan', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ projectName, recipe, zones, repeatableSlides, summaryMode }),
+        body:    JSON.stringify({ projectName, recipe, zones, repeatableSlides, summaryMode, customPrompt }),
       })
       if (!response.ok) throw new Error(`Server error ${response.status}`)
 
@@ -137,7 +153,7 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
       setStatus('error')
       setErrorMsg(err.message)
     }
-  }, [hasRecipe, isActive, projectName, recipe, zones, repeatableSlides, summaryMode])
+  }, [hasRecipe, isActive, projectName, recipe, zones, repeatableSlides, summaryMode, customPrompt, setStatus, setPhase, setLogs, setAgents, setErrorMsg, setElapsed, setPlan])
 
   // ── Phase 2: user accepted — call /run SSE stream ─────────────────────────
 
@@ -163,6 +179,7 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
           zones,
           repeatableSlides,
           instances:      plan.instances,
+          instanceNames:  plan.instanceNames,
           contextSummary: plan.contextSummary,
         }),
         signal: controller.signal,
@@ -186,7 +203,7 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
         setErrorMsg(err.message)
       }
     }
-  }, [plan, projectName, recipe, zones, repeatableSlides, onJsonReady])
+  }, [plan, projectName, recipe, zones, repeatableSlides, onJsonReady, setStatus, setPhase, setLogs, setAgents, setErrorMsg, setElapsed])
 
   const handleCancel = () => {
     abortRef.current?.abort()
@@ -244,6 +261,19 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
             ? 'Uses saved summaries if found, otherwise reads originals'
             : 'AI will summarise each file and save it — slower, but updates your summaries'}
         </span>
+      </div>
+
+      {/* ── Custom prompt textarea ────────────────────────────────────────── */}
+      <div className={css.customPromptSection}>
+        <label htmlFor="customPrompt" className={css.customPromptLabel}>Custom instructions (optional)</label>
+        <textarea
+          id="customPrompt"
+          className={css.customPromptTextarea}
+          value={customPrompt}
+          onChange={(e) => setCustomPrompt(e.target.value)}
+          disabled={isActive || status === 'confirming'}
+          placeholder="e.g. Generate 3 product slides focusing on the enterprise tier"
+        />
       </div>
 
       {/* ── Trigger row ─────────────────────────────────────────────────── */}
@@ -306,7 +336,7 @@ export default function AgenticPanel({ projectName, recipe, zones, repeatableSli
             {plan.agentPlan.map(a => (
               <li key={a.id} className={css.confirmItem}>
                 <span className={css.confirmDot} />
-                {a.label}
+                {a.id === 'blocks' ? a.label : <strong>{a.label}</strong>}
               </li>
             ))}
           </ul>
