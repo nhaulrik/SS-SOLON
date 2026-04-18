@@ -22,6 +22,7 @@
  */
 
 import express from 'express'
+import fs      from 'fs'
 import path    from 'path'
 import { callAi }                                                   from '../lib/ai-client.js'
 import { readContextFiles, readSingleContextFile, saveSummaryFile, getSummaryStatus } from '../lib/context-reader.js'
@@ -165,15 +166,16 @@ function buildOrchestratorPrompt(recipe, contextText, customPrompt) {
 
   const customBlock = customPrompt ? `\nUSER INSTRUCTIONS:\n${customPrompt}` : ''
 
+  const recipeBlock = recipe?.trim()
+    ? `\nRECIPE (the template that must be filled):\n${recipe}`
+    : ''
+
   return `You are an orchestrator for a presentation slide generation system.
 
-${contextBlock}${customBlock}
-
-RECIPE (the template that must be filled):
-${recipe}
+${contextBlock}${customBlock}${recipeBlock}
 
 Your tasks:
-1. Read the context to determine how many instances to generate for each REPEATABLE SLIDE in the recipe. Base the count on actual data items (e.g. one instance per product, person, project listed in the context).
+1. Read the context and instructions to determine how many instances to generate for each REPEATABLE SLIDE. Base the count on actual data items (e.g. one instance per product, person, project listed in the context).
 2. Write a COMPACT CONTEXT SUMMARY (max 350 words) capturing all key data points that content-generating agents will need. This will be the ONLY context those agents receive — make it dense and complete.
 3. Generate meaningful names for each instance based on the context data (e.g. product names, person names, project titles). Return them in order.
 
@@ -342,19 +344,19 @@ router.post('/agentic/plan', async (req, res) => {
   const phase = (p)   => emit(res, 'phase', p)
   const error = (msg) => { emit(res, 'error', msg); res.end() }
 
-  try {
-    const {
-      projectName,
-      recipe           = '',
-      zones            = [],
-      repeatableSlides = [],
-      summaryMode      = 'use',   // 'use' | 'regenerate'
-      summaryPrompt    = '',
-      contentPrompt    = '',
-    } = req.body
+   try {
+     const {
+       projectName,
+       flowId,
+       recipe           = '',
+       zones            = [],
+       repeatableSlides = [],
+       summaryMode      = 'use',   // 'use' | 'regenerate'
+       summaryPrompt    = '',
+       contentPrompt    = '',
+     } = req.body
 
     if (!projectName) return error('projectName is required')
-    if (!recipe.trim()) return error('No recipe provided')
 
     const projectDir = path.join(RESOLVED_PROJECTS_DIR, projectName)
 
@@ -412,6 +414,14 @@ router.post('/agentic/plan', async (req, res) => {
     }
 
     const { instances = {}, instanceNames = [], contextSummary = '', rationale = '' } = orchResult
+
+    // Save orchestrator prompt to flow folder
+    if (flowId) {
+      const flowDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId)
+      if (fs.existsSync(flowDir)) {
+        fs.writeFileSync(path.join(flowDir, 'ai-orchestrator-prompt.txt'), orchestratorPrompt, 'utf8')
+      }
+    }
 
     log(`Instances: ${JSON.stringify(instances)}`)
     log(`Context summary: ${contextSummary.length} chars`)
@@ -472,20 +482,20 @@ router.post('/agentic/run', async (req, res) => {
   const done  = (json) => emit(res, 'done',   json)
   const error = (msg)  => { emit(res, 'error', msg); res.end() }
 
-  try {
-    const {
-      projectName,
-      recipe        = '',
-      zones         = [],
-      repeatableSlides = [],
-      instances     = {},
-      instanceNames = [],
-      contextSummary = '',
-      contentPrompt    = '',
-    } = req.body
+   try {
+     const {
+       projectName,
+       flowId,
+       recipe        = '',
+       zones         = [],
+       repeatableSlides = [],
+       instances     = {},
+       instanceNames = [],
+       contextSummary = '',
+       contentPrompt    = '',
+     } = req.body
 
-    if (!projectName) return error('projectName is required')
-    if (!recipe.trim()) return error('No recipe provided')
+     if (!projectName) return error('projectName is required')
 
     // ── Build agent list ───────────────────────────────────────────────────
     const repSet    = new Set(repeatableSlides.map(rs => rs.slideIndex))
@@ -506,33 +516,45 @@ router.post('/agentic/run', async (req, res) => {
     phase('generating')
     log(`Starting ${agents.length} parallel agent${agents.length !== 1 ? 's' : ''}...`)
 
-    // ── Parallel generation ────────────────────────────────────────────────
-    const agentResults = await Promise.all(agents.map(async (agent) => {
-      emit(res, 'agent_update', { id: agent.id, state: 'running' })
-      const t0 = Date.now()
+     // ── Parallel generation ────────────────────────────────────────────────
+     const agentPrompts = []
+     const agentResults = await Promise.all(agents.map(async (agent) => {
+       emit(res, 'agent_update', { id: agent.id, state: 'running' })
+       const t0 = Date.now()
 
-      const prompt = agent.type === 'blocks'
-        ? buildBlocksPrompt(zones, repeatableSlides, contextSummary, repSet, contentPrompt)
-        : buildInstancePrompt(zones, repeatableSlides, agent.slideKey, agent.instanceIndex, agent.instanceCount, contextSummary, contentPrompt)
+       const prompt = agent.type === 'blocks'
+         ? buildBlocksPrompt(zones, repeatableSlides, contextSummary, repSet, contentPrompt)
+         : buildInstancePrompt(zones, repeatableSlides, agent.slideKey, agent.instanceIndex, agent.instanceCount, contextSummary, contentPrompt)
 
-      log(`[${agent.label}] Sending prompt (${prompt.length} chars)...`)
-      const result = await callAi(prompt, { maxTokens: 3000, temperature: 0.4 })
-      log(`[${agent.label}] Response received (${result.response.length} chars)`)
+       agentPrompts.push({ label: agent.label, type: agent.type, prompt })
 
-      let parsed
-      try {
-        parsed = parseJson(result.response)
-      } catch {
-        emit(res, 'agent_update', { id: agent.id, state: 'error' })
-        throw new Error(`Agent "${agent.label}" returned invalid JSON: ${result.response.slice(0, 120)}`)
-      }
+       log(`[${agent.label}] Sending prompt (${prompt.length} chars)...`)
+       const result = await callAi(prompt, { maxTokens: 3000, temperature: 0.4 })
+       log(`[${agent.label}] Response received (${result.response.length} chars)`)
 
-      log(`[${agent.label}] Parsed OK — ${Object.keys(parsed).length} top-level keys`)
-      const secs = ((Date.now() - t0) / 1000).toFixed(1)
-      emit(res, 'agent_update', { id: agent.id, state: 'done' })
-      log(`${agent.label} done (${secs}s)`)
-      return { agent, parsed }
-    }))
+       let parsed
+       try {
+         parsed = parseJson(result.response)
+       } catch {
+         emit(res, 'agent_update', { id: agent.id, state: 'error' })
+         throw new Error(`Agent "${agent.label}" returned invalid JSON: ${result.response.slice(0, 120)}`)
+       }
+
+       log(`[${agent.label}] Parsed OK — ${Object.keys(parsed).length} top-level keys`)
+       const secs = ((Date.now() - t0) / 1000).toFixed(1)
+       emit(res, 'agent_update', { id: agent.id, state: 'done' })
+       log(`${agent.label} done (${secs}s)`)
+       return { agent, parsed }
+     }))
+
+     // Save agent prompts to flow folder
+     if (flowId && agentPrompts.length > 0) {
+       const flowDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId)
+       if (fs.existsSync(flowDir)) {
+         const promptsContent = agentPrompts.map((ap, i) => `=== Agent ${i + 1}: ${ap.label} ===\n${ap.prompt}`).join('\n\n')
+         fs.writeFileSync(path.join(flowDir, 'ai-agent-prompts.txt'), promptsContent, 'utf8')
+       }
+     }
 
     // ── Assembly ───────────────────────────────────────────────────────────
     phase('assembling')

@@ -22,6 +22,7 @@ import { buildHtmlRecipe, validateHtmlJson } from '../lib/html-recipe-builder.js
 import { applyHtmlContent }                  from '../lib/html-patcher.js';
 import { buildSectionTree, flattenTree }      from '../lib/build-tree.js';
 import { selectionsToZones, resolveConflicts } from '../lib/selections-to-zones.js';
+import { getSummaryStatus } from '../lib/context-reader.js';
 import {
   createExport,
   listExports,
@@ -381,6 +382,59 @@ router.get('/html-flow/load-flow', (req, res) => {
   }
 });
 
+// ── GET /api/html-flow/context-files ──────────────────────────────────────────
+// List context files available in a project's AI Context/ folder.
+
+router.get('/html-flow/context-files', async (req, res) => {
+  try {
+    const { projectName } = req.query;
+
+    if (!projectName || !/^[\w-]{1,100}$/.test(projectName)) {
+      return res.status(400).json({ ok: false, error: 'projectName is required and must be valid.' });
+    }
+
+    const projectDir = path.join(PROJECTS_DIR, projectName);
+    const contextDir = path.join(projectDir, 'AI Context');
+
+    // If the AI Context folder doesn't exist, return empty list
+    if (!fs.existsSync(contextDir)) {
+      return res.json({ ok: true, files: [] });
+    }
+
+    // Get summary status for all files
+    const summaryStatus = await getSummaryStatus(projectDir);
+
+    // Read the directory and filter supported files
+    let filenames;
+    try {
+      filenames = fs.readdirSync(contextDir);
+    } catch {
+      return res.json({ ok: true, files: [] });
+    }
+
+    const SUPPORTED_EXT = new Set(['.txt', '.md', '.html', '.pdf', '.docx', '.xlsx', '.xls', '.csv']);
+    const SUMMARY_SUFFIX = '.summary.md';
+
+    const files = filenames
+      .filter(f =>
+        SUPPORTED_EXT.has(path.extname(f).toLowerCase()) &&
+        !f.startsWith('~$') &&
+        !f.startsWith('.') &&
+        !f.endsWith(SUMMARY_SUFFIX)
+      )
+      .map(name => ({
+        name,
+        ext: path.extname(name),
+        hasSummary: summaryStatus.get(name) ?? false,
+      }));
+
+    return res.json({ ok: true, files });
+  } catch (err) {
+    console.error('[html-flow] context-files error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
 // ── PATCH /api/html-flow/update-selections ────────────────────────────────────
 
 router.patch('/html-flow/update-selections', (req, res) => {
@@ -593,9 +647,9 @@ router.post('/html-flow/generate-recipe', (req, res) => {
       fs.writeFileSync(flowPath, JSON.stringify(flow, null, 2), 'utf8');
     }
 
-    const recipe = buildHtmlRecipe(zones, prompt, repSlides);
+     const recipe = buildHtmlRecipe(zones, prompt, repSlides);
 
-    return res.json({ ok: true, recipe, generationId: randomUUID() });
+      return res.json({ ok: true, recipe, generationId: randomUUID() });
   } catch (err) {
     console.error('[html-flow] generate-recipe error:', err);
     return res.status(500).json({ ok: false, error: err.message });

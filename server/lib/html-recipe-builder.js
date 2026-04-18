@@ -85,23 +85,34 @@ export function buildHtmlRecipe(zones, globalPrompt = '', repeatableSlides = [])
 
    const globalSection = globalPrompt ? `GLOBAL GUIDANCE:\n${globalPrompt}\n\n` : '';
 
-   // Partition zones (all are block zones now, excluding ignored zones and descendants of ignored zones)
-   const staticBlockZones = zones.filter(
-     z => !repSet.has(z.slideIndex) && isGenerated(z) && !isIgnoredOrDescendantOfIgnored(z, zones)
-   );
-   const repeatableZones = zones.filter(z => repSet.has(z.slideIndex) && isGenerated(z) && !isIgnoredOrDescendantOfIgnored(z, zones));
-   
-   // Collect ignored zones (for explicit preservation instructions)
-   const ignoredZones = zones.filter(z => isIgnoredOrDescendantOfIgnored(z, zones));
+    // Partition zones (all are block zones now, excluding ignored zones and descendants of ignored zones)
+    const staticBlockZones = zones.filter(
+      z => !repSet.has(z.slideIndex) && isGenerated(z) && !isIgnoredOrDescendantOfIgnored(z, zones)
+    );
+    const repeatableZones = zones.filter(z => repSet.has(z.slideIndex) && isGenerated(z) && !isIgnoredOrDescendantOfIgnored(z, zones));
+    
+    // Collect ignored zones (for explicit preservation instructions)
+    const ignoredZones = zones.filter(z => isIgnoredOrDescendantOfIgnored(z, zones));
 
-   let recipe = `INSTRUCTIONS:
+    // Build the output skeleton to show at the top
+    let skeletonParts = [];
+    if (staticBlockZones.length > 0) {
+      skeletonParts.push(`  "blocks": { ${staticBlockZones.map(z => `"${z.key}": {"value": "..."}`).join(', ')} }`);
+    }
+    if (repeatableZones.length > 0) {
+      const slideSkeletons = repeatableSlides.map(rs => `    "${rs.key}": { "instances": [...] }`).join(',\n');
+      skeletonParts.push(`  "slides": {\n${slideSkeletons}\n  }`);
+    }
+    const skeleton = skeletonParts.length > 0 ? `\nREQUIRED OUTPUT SKELETON (your response must match this structure exactly):\n{\n${skeletonParts.join(',\n')}\n}\n` : '';
+
+    let recipe = `INSTRUCTIONS:
 - Return ONLY valid JSON, no explanations or markdown
 - Use EXACT key names as provided - do NOT abbreviate or modify key names
 - Return the full innerHTML string for each zone
 - For repeatable slides, return both a "shared" object and an "instances" array
 - PRESERVE CONTENT: Do NOT modify or regenerate the content of ignored zones listed below
 
-${globalSection}GENERATE THE FOLLOWING DATA:\n`;
+${skeleton}${globalSection}GENERATE THE FOLLOWING DATA:\n`;
 
    let sectionNum = 1;
 
@@ -147,14 +158,14 @@ ${globalSection}GENERATE THE FOLLOWING DATA:\n`;
       const uniqueZones    = slideZones.filter(z => z.unique !== false);
       const nonUniqueZones = slideZones.filter(z => z.unique === false);
 
-      recipe += `\n${sectionNum}. REPEATABLE SLIDE — ${slideKey}\n`;
-      if (prompt) recipe += `PROMPT: "${prompt}"\n`;
-      sectionNum++;
+       recipe += `\n${sectionNum}. REPEATABLE SLIDE — "${slideKey}":\n`;
+       if (prompt) recipe += `PROMPT: "${prompt}"\n`;
+       sectionNum++;
 
-      // Shared values (non-unique)
-      if (nonUniqueZones.length > 0) {
-        recipe += `\n${sectionNum - 1}a. SHARED VALUES (same on every clone — generate once):\n`;
-        recipe += `{\n  "slides": {\n    "${slideKey}": {\n      "shared": {\n`;
+       // Shared values (non-unique)
+        if (nonUniqueZones.length > 0) {
+          recipe += `\n${sectionNum - 1}a. SHARED VALUES (same on every clone — generate once):\n`;
+          recipe += `{\n  "slides": {\n    "${slideKey}": {\n      "shared": {\n`;
         nonUniqueZones.forEach(z => {
           const hint = z.hint || `value for ${z.key}`;
           recipe += `        "${z.key}": "[HTML BLOCK]${z.prompt ? ` — ${z.prompt}` : ''}",\n`;
@@ -186,11 +197,11 @@ ${globalSection}GENERATE THE FOLLOWING DATA:\n`;
            recipe += z.exampleHtml + '\n';
          });
 
-         recipe += `\nReturn the full structure as:\n`;
-         recipe += `{\n  "slides": {\n    "${slideKey}": {\n`;
-         if (nonUniqueZones.length > 0) {
-           recipe += `      "shared": { ${nonUniqueZones.map(z => `"${z.key}": "..."`).join(', ')} },\n`;
-         }
+           recipe += `\nReturn the full structure as:\n`;
+           recipe += `{\n  "slides": {\n    "${slideKey}": {\n`;
+           if (nonUniqueZones.length > 0) {
+             recipe += `      "shared": { ${nonUniqueZones.map(z => `"${z.key}": "..."`).join(', ')} },\n`;
+           }
          recipe += `      "instances": [\n`;
          // Show multiple instance examples to reinforce the pattern
          for (let i = 0; i < Math.min(2, 2); i++) {
@@ -203,22 +214,24 @@ ${globalSection}GENERATE THE FOLLOWING DATA:\n`;
          recipe += `        // ... more instances following the same structure ...\n`;
          recipe += `      ]\n    }\n  }\n}\n`;
         }
-     });
-   }
+      });
+    }
 
-   recipe += `\nIMPORTANT:
+    recipe += `\nIMPORTANT:
 - blocks: innerHTML strings (valid HTML, no surrounding tags)
 - slides[key].shared: one value per non-unique key — same on every clone
 - slides[key].instances: array of N objects (AI decides N from context)
 - CRITICAL: Every instance object MUST include ALL unique keys — NO EXCEPTIONS
 - If a key is required in instance[0], it is required in instance[1], instance[2], etc.
 - Do NOT omit any key from any instance
-- All zone values: valid innerHTML only — no surrounding container tags`;
+- All zone values: valid innerHTML only — no surrounding container tags
+- REQUIRED TOP-LEVEL SLIDE KEYS: You MUST include ALL of these in your "slides" object: ${repeatableSlides.map(s => `"${s.key}"`).join(', ')}
+- The "slides" object MUST contain ALL of the above keys — missing any key is an error`;
 
-   return recipe;
-}
+    return recipe;
+  }
 
-// ── generateFullSlideRecipe ───────────────────────────────────────────────────
+  // ── generateFullSlideRecipe ───────────────────────────────────────────────────
 
 /**
  * Generate a recipe that includes ALL zones on a specific slide.
@@ -260,18 +273,30 @@ export function generateFullSlideRecipe(zones, slideIndex, globalPrompt = '', re
     z => z.slideIndex === slideIndex && isIgnoredOrDescendantOfIgnored(z, zones)
   );
 
-  if (slideZones.length === 0) {
-    return `INSTRUCTIONS:
+   if (slideZones.length === 0) {
+     return `INSTRUCTIONS:
 - Return ONLY valid JSON, no explanations or markdown
 
 ${globalSection}ERROR: No zones found on this slide.`;
-  }
+   }
 
-  // Separate into static and repeatable zones
-  const staticZones = slideZones.filter(z => !repSet.has(z.slideIndex));
-  const repeatableZonesOnSlide = slideZones.filter(z => repSet.has(z.slideIndex));
+   // Separate into static and repeatable zones
+   const staticZones = slideZones.filter(z => !repSet.has(z.slideIndex));
+   const repeatableZonesOnSlide = slideZones.filter(z => repSet.has(z.slideIndex));
 
-  let recipe = `INSTRUCTIONS:
+   // Build the output skeleton to show at the top
+   let skeletonParts = [];
+   if (staticZones.length > 0) {
+     skeletonParts.push(`  "blocks": { ${staticZones.map(z => `"${z.key}": {"value": "..."}`).join(', ')} }`);
+   }
+   if (repeatableZonesOnSlide.length > 0) {
+     const repSlide = repBySlide.get(slideIndex);
+     const slideKey = repSlide?.key || `slide_${slideIndex}`;
+     skeletonParts.push(`  "slides": {\n    "${slideKey}": { "instances": [...] }\n  }`);
+   }
+   const skeleton = skeletonParts.length > 0 ? `\nREQUIRED OUTPUT SKELETON (your response must match this structure exactly):\n{\n${skeletonParts.join(',\n')}\n}\n` : '';
+
+   let recipe = `INSTRUCTIONS:
 - Return ONLY valid JSON, no explanations or markdown
 - Use EXACT key names as provided - do NOT abbreviate or modify key names
 - Return the full innerHTML string for each zone
@@ -279,7 +304,7 @@ ${globalSection}ERROR: No zones found on this slide.`;
 - Generate ALL zones for this slide at once
 - PRESERVE CONTENT: Do NOT modify or regenerate the content of ignored zones listed below
 
-${globalSection}GENERATE ALL ZONES FOR THIS SLIDE:
+${skeleton}${globalSection}GENERATE ALL ZONES FOR THIS SLIDE:
 `;
 
   let sectionNum = 1;
@@ -310,16 +335,16 @@ ${globalSection}GENERATE ALL ZONES FOR THIS SLIDE:
     sectionNum++;
   }
 
-  // ── Repeatable zones on this slide ──────────────────────────────────────────
-  if (repeatableZonesOnSlide.length > 0) {
-    const repSlide = repBySlide.get(slideIndex);
-    const slideKey = repSlide?.key || `slide_${slideIndex}`;
-    const prompt = repSlide?.prompt || '';
+   // ── Repeatable zones on this slide ──────────────────────────────────────────
+   if (repeatableZonesOnSlide.length > 0) {
+     const repSlide = repBySlide.get(slideIndex);
+     const slideKey = repSlide?.key || `slide_${slideIndex}`;
+     const prompt = repSlide?.prompt || '';
 
-    recipe += `\n${sectionNum}. REPEATABLE SLIDE — ${slideKey}\n`;
-    if (prompt) recipe += `PROMPT: "${prompt}"\n`;
+      recipe += `\n${sectionNum}. REPEATABLE SLIDE — "${slideKey}":\n`;
+      if (prompt) recipe += `PROMPT: "${prompt}"\n`;
 
-    // Separate unique and non-unique zones
+     // Separate unique and non-unique zones
     const uniqueZones    = repeatableZonesOnSlide.filter(z => z.unique !== false);
     const nonUniqueZones = repeatableZonesOnSlide.filter(z => z.unique === false);
 
@@ -350,36 +375,38 @@ ${globalSection}GENERATE ALL ZONES FOR THIS SLIDE:
        });
        recipe += `}\n`;
 
-       recipe += `\nReturn the full structure as:\n{\n  "slides": {\n    "${slideKey}": {\n      "instances": [\n`;
-       // Show multiple instance examples to reinforce the pattern
-       for (let i = 0; i < Math.min(2, 2); i++) {
-         recipe += `        {\n`;
-         uniqueZones.forEach(z => {
-           recipe += `          "${z.key}": "...",\n`;
-         });
-         recipe += `        }${i === 1 ? '' : ','}\n`;
-       }
-       recipe += `        // ... more instances following the same structure ...\n`;
-       recipe += `      ]\n    }\n  }\n}\n`;
-     } else if (nonUniqueZones.length > 0) {
-       // Only shared, no instances needed
-       recipe += `\nReturn the full structure as:\n{\n  "slides": {\n    "${slideKey}": {\n      "shared": { ... }\n    }\n  }\n}\n`;
-      }
-    }
+         recipe += `\nReturn the full structure as:\n{\n  "slides": {\n    "${slideKey}": {\n      "instances": [\n`;
+        // Show multiple instance examples to reinforce the pattern
+        for (let i = 0; i < Math.min(2, 2); i++) {
+          recipe += `        {\n`;
+          uniqueZones.forEach(z => {
+            recipe += `          "${z.key}": "...",\n`;
+          });
+          recipe += `        }${i === 1 ? '' : ','}\n`;
+        }
+        recipe += `        // ... more instances following the same structure ...\n`;
+        recipe += `      ]\n    }\n  }\n}\n`;
+       } else if (nonUniqueZones.length > 0) {
+         // Only shared, no instances needed
+         recipe += `\nReturn the full structure as:\n{\n  "slides": {\n    "${slideKey}": {\n      "shared": { ... }\n    }\n  }\n}\n`;
+        }
+     }
 
-   recipe += `\nIMPORTANT:
+    recipe += `\nIMPORTANT:
 - blocks: innerHTML strings (valid HTML, no surrounding tags)
 - slides[key].shared: one value per non-unique key — same on every clone
 - slides[key].instances: array of N objects (AI decides N from context)
 - CRITICAL: Every instance object MUST include ALL unique keys — NO EXCEPTIONS
 - If a key is required in instance[0], it is required in instance[1], instance[2], etc.
 - Do NOT omit any key from any instance
-- All zone values: valid innerHTML only — no surrounding container tags`;
+- All zone values: valid innerHTML only — no surrounding container tags
+- REQUIRED TOP-LEVEL SLIDE KEYS: You MUST include ALL of these in your "slides" object: ${repeatableSlides.map(s => `"${s.key}"`).join(', ')}
+- The "slides" object MUST contain ALL of the above keys — missing any key is an error`;
 
-   return recipe;
-}
+    return recipe;
+  }
 
-// ── validateFullSlideJson ─────────────────────────────────────────────────────
+  // ── validateFullSlideJson ─────────────────────────────────────────────────────
 
 /**
  * Validate JSON for full-slide content generation.
@@ -453,16 +480,18 @@ function validateFullSlideJson(data, zones, slideIndex, repeatableSlides = []) {
     const slidesData = data.slides || {};
     const slideData = slidesData[slideKey];
 
-    if (!slideData) {
-      missingFields.push(`${slideKey} (missing)`);
-      return {
-        valid: false,
-        error: `Missing slide data for "${slideKey}"`,
-        foundFields,
-        missingFields,
-        instanceCount: 0,
-      };
-    }
+     if (!slideData) {
+       const foundKeys = Object.keys(slidesData || {});
+       const hint = foundKeys.length > 0 ? ` — AI used: ${foundKeys.map(k => `"${k}"`).join(', ')}` : '';
+       missingFields.push(`${slideKey} (missing${hint})`);
+       return {
+         valid: false,
+         error: `Missing slide data for "${slideKey}"`,
+         foundFields,
+         missingFields,
+         instanceCount: 0,
+       };
+     }
 
     // Detect format: new { shared, instances } vs legacy array
     const isNewFormat = !Array.isArray(slideData) && (slideData.instances !== undefined || slideData.shared !== undefined);
@@ -611,10 +640,12 @@ export function validateHtmlJson(jsonString, zones, repeatableSlides = [], optio
     const slideKey   = repSlide?.key || `slide_${slideIndex}`;
     const slideData  = slidesData[slideKey];
 
-    if (!slideData) {
-      missingFields.push(`${slideKey} (missing)`);
-      return;
-    }
+     if (!slideData) {
+       const foundKeys = Object.keys(slidesData || {});
+       const hint = foundKeys.length > 0 ? ` — AI used: ${foundKeys.map(k => `"${k}"`).join(', ')}` : '';
+       missingFields.push(`${slideKey} (missing${hint})`);
+       return;
+     }
 
     // Detect format: new { shared, instances } vs legacy array
     const isNewFormat = !Array.isArray(slideData) && (slideData.instances !== undefined || slideData.shared !== undefined);
