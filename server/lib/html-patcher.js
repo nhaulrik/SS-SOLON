@@ -192,12 +192,19 @@ function patchSection(section, zones, valueMap, inst, blocksData) {
     if (html !== undefined && html !== null) node.set_content(String(html));
   });
 
-  // Block zones: nodeId path (user-assigned block zones with no data-block attr)
-  zones.forEach(zone => {
-    if (!zone.autoGenerate || isIgnoredOrDescendantOfIgnored(zone, zones) || !zone.nodeId) return;
-    // Skip zones already handled via data-block above
-    if (section.querySelector(`[data-block="${zone.key}"]`)) return;
+  // Block zones: nodeId path (user-assigned block zones with no data-block attr).
+  // Sort shallowest first (fewest '>' segments) so parent zones are patched before
+  // their children — otherwise a parent patch would overwrite a child's work.
+  const nodeIdZones = zones
+    .filter(zone => zone.autoGenerate && !isIgnoredOrDescendantOfIgnored(zone, zones) && zone.nodeId)
+    .filter(zone => !section.querySelector(`[data-block="${zone.key}"]`))
+    .sort((a, b) => {
+      const depthA = (a.nodeId.match(/>/g) || []).length;
+      const depthB = (b.nodeId.match(/>/g) || []).length;
+      return depthA - depthB;
+    });
 
+  nodeIdZones.forEach(zone => {
     let html;
     if (inst) {
       html = inst[zone.key];

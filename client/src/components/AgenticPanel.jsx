@@ -71,7 +71,8 @@ export default function AgenticPanel({
   errorMsg,
   elapsed,
   summaryMode,
-  customPrompt,
+  summaryPrompt,
+  contentPrompt,
   plan,
   // Setters
   setStatus,
@@ -81,7 +82,8 @@ export default function AgenticPanel({
   setErrorMsg,
   setElapsed,
   setSummaryMode,
-  setCustomPrompt,
+  setSummaryPrompt,
+  setContentPrompt,
   setPlan,
 }) {
   // status: idle | planning | confirming | running | done | error
@@ -131,7 +133,7 @@ export default function AgenticPanel({
       const response = await fetch('/api/opencode/agentic/plan', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ projectName, recipe, zones, repeatableSlides, summaryMode, customPrompt }),
+        body:    JSON.stringify({ projectName, recipe, zones, repeatableSlides, summaryMode, summaryPrompt, contentPrompt }),
       })
       if (!response.ok) throw new Error(`Server error ${response.status}`)
 
@@ -153,7 +155,7 @@ export default function AgenticPanel({
       setStatus('error')
       setErrorMsg(err.message)
     }
-  }, [hasRecipe, isActive, projectName, recipe, zones, repeatableSlides, summaryMode, customPrompt, setStatus, setPhase, setLogs, setAgents, setErrorMsg, setElapsed, setPlan])
+  }, [hasRecipe, isActive, projectName, recipe, zones, repeatableSlides, summaryMode, summaryPrompt, contentPrompt, setStatus, setPhase, setLogs, setAgents, setErrorMsg, setElapsed, setPlan])
 
   // ── Phase 2: user accepted — call /run SSE stream ─────────────────────────
 
@@ -181,6 +183,7 @@ export default function AgenticPanel({
           instances:      plan.instances,
           instanceNames:  plan.instanceNames,
           contextSummary: plan.contextSummary,
+          contentPrompt,
         }),
         signal: controller.signal,
       })
@@ -263,14 +266,33 @@ export default function AgenticPanel({
         </span>
       </div>
 
-      {/* ── Custom prompt textarea ────────────────────────────────────────── */}
-      <div className={css.customPromptSection}>
-        <label htmlFor="customPrompt" className={css.customPromptLabel}>Custom instructions (optional)</label>
+      {/* ── Summary instructions ─────────────────────────────────────────── */}
+      <div className={css.promptSection}>
+        <label htmlFor="summaryPrompt" className={css.promptLabel}>
+          Summary instructions
+          <span className={css.promptHint}>Guides how context files are summarised</span>
+        </label>
         <textarea
-          id="customPrompt"
-          className={css.customPromptTextarea}
-          value={customPrompt}
-          onChange={(e) => setCustomPrompt(e.target.value)}
+          id="summaryPrompt"
+          className={css.promptTextarea}
+          value={summaryPrompt}
+          onChange={(e) => setSummaryPrompt(e.target.value)}
+          disabled={isActive || status === 'confirming'}
+          placeholder="e.g. Focus on pricing tiers, product names, and key metrics"
+        />
+      </div>
+
+      {/* ── Content instructions ─────────────────────────────────────────── */}
+      <div className={css.promptSection}>
+        <label htmlFor="contentPrompt" className={css.promptLabel}>
+          Content instructions
+          <span className={css.promptHint}>Guides what slide content the AI generates</span>
+        </label>
+        <textarea
+          id="contentPrompt"
+          className={css.promptTextarea}
+          value={contentPrompt}
+          onChange={(e) => setContentPrompt(e.target.value)}
           disabled={isActive || status === 'confirming'}
           placeholder="e.g. Generate 3 product slides focusing on the enterprise tier"
         />

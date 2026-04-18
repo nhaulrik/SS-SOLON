@@ -369,6 +369,8 @@ router.get('/html-flow/load-flow', (req, res) => {
       selections,
       repeatableSlides:    metadata.repeatableSlides    || [],
       fullSlideGeneration: metadata.fullSlideGeneration || [],
+      summaryPrompt:       flow.summaryPrompt           || '',
+      contentPrompt:       flow.contentPrompt           || '',
       previewHtml,
       violations: violations.length ? violations : undefined,
       isExistingFlow: true,
@@ -439,13 +441,14 @@ function autoDiscoverZonesForFullSlide(trees, fullSlideGeneration, existingSelec
       if (node.interesting || node.children?.length > 0) {
         const key = `auto_${node.id.replace(/[^a-z0-9]/gi, '_').toLowerCase()}`;
         result.push({
-          nodeId:       node.id,
-          slideIndex:   slideIdx,
-          zoneType:     'block',
+          nodeId:        node.id,
+          slideIndex:    slideIdx,
+          zoneType:      'block',
           key,
-          prompt:       '',
-          autoGenerate: true,
-          type:         'block',
+          prompt:        '',
+          autoGenerate:  true,
+          autoDiscovered: true,
+          type:          'block',
           ...(node.innerHTML ? { exampleHtml: node.innerHTML } : {}),
         });
         existingNodeIds.add(node.id);
@@ -528,6 +531,8 @@ router.post('/html-flow/create-project', (req, res) => {
       updatedAt:        new Date().toISOString(),
       status:           'active',
       globalPrompt:     '',
+      summaryPrompt:    '',
+      contentPrompt:    '',
       generations:      [],
       exports:          [],
       _metadata: {

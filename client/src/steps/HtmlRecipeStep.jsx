@@ -34,7 +34,8 @@ export default function HtmlRecipeStep({
   agenticErrorMsg,
   agenticElapsed,
   agenticSummaryMode,
-  agenticCustomPrompt,
+  agenticSummaryPrompt,
+  agenticContentPrompt,
   agenticPlan,
   // Agentic setter props
   setAgenticStatus,
@@ -44,7 +45,8 @@ export default function HtmlRecipeStep({
   setAgenticErrorMsg,
   setAgenticElapsed,
   setAgenticSummaryMode,
-  setAgenticCustomPrompt,
+  setAgenticSummaryPrompt,
+  setAgenticContentPrompt,
   setAgenticPlan,
 }) {
   const { selections = [], zones = [], repeatableSlides = [] } = project
@@ -69,7 +71,35 @@ export default function HtmlRecipeStep({
     window.scrollTo(0, 0)
   }, [])
 
+  // Initialise agentic prompts from persisted flow data (runs once on mount)
+  useEffect(() => {
+    if (project.summaryPrompt && !agenticSummaryPrompt) {
+      setAgenticSummaryPrompt(project.summaryPrompt)
+    }
+    if (project.contentPrompt && !agenticContentPrompt) {
+      setAgenticContentPrompt(project.contentPrompt)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const validateTimerRef = useRef(null)
+  const promptSaveTimerRef = useRef(null)
+
+  // Auto-save summary/content prompts to flow.json via PATCH (debounced)
+  const savePromptsToFlow = useCallback((summaryPrompt, contentPrompt) => {
+    clearTimeout(promptSaveTimerRef.current)
+    promptSaveTimerRef.current = setTimeout(async () => {
+      try {
+        await fetch(`/api/projects/${projectName}/flows/${flowId}`, {
+          method:  'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ summaryPrompt, contentPrompt }),
+        })
+      } catch {
+        // silent — prompts are non-critical
+      }
+    }, 600)
+  }, [projectName, flowId])
 
    // ── Generate recipe ───────────────────────────────────────────────────────
   const handleGenerateRecipe = useCallback(async () => {
@@ -319,19 +349,21 @@ export default function HtmlRecipeStep({
         agents={agenticAgents}
         errorMsg={agenticErrorMsg}
         elapsed={agenticElapsed}
-        summaryMode={agenticSummaryMode}
-        customPrompt={agenticCustomPrompt}
-        plan={agenticPlan}
-        // Setter callbacks
-        setStatus={setAgenticStatus}
-        setPhase={setAgenticPhase}
-        setLogs={setAgenticLogs}
-        setAgents={setAgenticAgents}
-        setErrorMsg={setAgenticErrorMsg}
-        setElapsed={setAgenticElapsed}
-        setSummaryMode={setAgenticSummaryMode}
-        setCustomPrompt={setAgenticCustomPrompt}
-        setPlan={setAgenticPlan}
+         summaryMode={agenticSummaryMode}
+         summaryPrompt={agenticSummaryPrompt}
+         contentPrompt={agenticContentPrompt}
+         plan={agenticPlan}
+         // Setter callbacks
+         setStatus={setAgenticStatus}
+         setPhase={setAgenticPhase}
+         setLogs={setAgenticLogs}
+         setAgents={setAgenticAgents}
+         setErrorMsg={setAgenticErrorMsg}
+         setElapsed={setAgenticElapsed}
+         setSummaryMode={setAgenticSummaryMode}
+         setSummaryPrompt={(v) => { setAgenticSummaryPrompt(v); savePromptsToFlow(v, agenticContentPrompt) }}
+         setContentPrompt={(v) => { setAgenticContentPrompt(v); savePromptsToFlow(agenticSummaryPrompt, v) }}
+         setPlan={setAgenticPlan}
         onJsonReady={(json) => {
           handleJsonChange(json)
           setToast({ message: 'JSON generated — review and apply when ready', type: 'success' })

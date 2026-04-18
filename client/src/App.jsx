@@ -86,9 +86,10 @@ export default function App() {
   const [agenticAgents,       setAgenticAgents]       = useState([])
   const [agenticErrorMsg,     setAgenticErrorMsg]     = useState('')
   const [agenticElapsed,      setAgenticElapsed]      = useState(0)
-  const [agenticSummaryMode,  setAgenticSummaryMode]  = useState('use')
-  const [agenticCustomPrompt, setAgenticCustomPrompt] = useState('')
-  const [agenticPlan,         setAgenticPlan]         = useState(null)
+  const [agenticSummaryMode,    setAgenticSummaryMode]    = useState('use')
+  const [agenticSummaryPrompt,  setAgenticSummaryPrompt]  = useState('')
+  const [agenticContentPrompt,  setAgenticContentPrompt]  = useState('')
+  const [agenticPlan,           setAgenticPlan]           = useState(null)
 
   // ── Global toast ───────────────────────────────────────────────
   const [toast, setToast] = useState(null)
@@ -269,7 +270,8 @@ export default function App() {
            agenticErrorMsg={agenticErrorMsg}
            agenticElapsed={agenticElapsed}
            agenticSummaryMode={agenticSummaryMode}
-           agenticCustomPrompt={agenticCustomPrompt}
+           agenticSummaryPrompt={agenticSummaryPrompt}
+           agenticContentPrompt={agenticContentPrompt}
            agenticPlan={agenticPlan}
            // Agentic setters
            setAgenticStatus={setAgenticStatus}
@@ -279,7 +281,8 @@ export default function App() {
            setAgenticErrorMsg={setAgenticErrorMsg}
            setAgenticElapsed={setAgenticElapsed}
            setAgenticSummaryMode={setAgenticSummaryMode}
-           setAgenticCustomPrompt={setAgenticCustomPrompt}
+           setAgenticSummaryPrompt={setAgenticSummaryPrompt}
+           setAgenticContentPrompt={setAgenticContentPrompt}
            setAgenticPlan={setAgenticPlan}
          />
       </>

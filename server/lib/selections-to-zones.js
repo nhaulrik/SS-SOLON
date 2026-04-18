@@ -108,10 +108,14 @@ export function resolveConflicts(selections) {
     const superseded = parentIds.some(parentId => {
       if (sel.nodeId === parentId) return false
       if (!sel.nodeId.startsWith(parentId + '>')) return false
-      
+
+      // Never supersede a zone the user explicitly assigned (only auto-discovered zones
+      // are removed when a parent zone also exists)
+      if (!sel.autoDiscovered) return false
+
       // If this child is ignored, don't supersede it
       if (sel.ignored) return false
-      
+
       return true
     })
     if (superseded) removed.push(sel)

@@ -252,12 +252,12 @@ export default function HtmlUploadStep({
      setCreating(true)
      try {
        if (isExistingFlow && currentProjectName && currentFlowId) {
-         // Persist any UI edits (e.g. Generation prompt) back to the server before proceeding.
-         fetch(`/api/projects/${encodeURIComponent(currentProjectName)}/flows/${encodeURIComponent(currentFlowId)}`, {
+         // Persist UI edits (selections with custom prompts, repeatableSlides) back to server.
+         await fetch(`/api/projects/${encodeURIComponent(currentProjectName)}/flows/${encodeURIComponent(currentFlowId)}`, {
            method: 'PATCH',
            headers: { 'Content-Type': 'application/json' },
-           body: JSON.stringify({ repeatableSlides }),
-         }).catch(() => {})
+           body: JSON.stringify({ repeatableSlides, selections }),
+         })
 
          // Load current zones from server (zone assignments live in flow.json)
          const res = await fetch(`/api/projects/${encodeURIComponent(currentProjectName)}/flows/${encodeURIComponent(currentFlowId)}`)
