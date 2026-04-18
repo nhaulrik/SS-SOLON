@@ -1,43 +1,63 @@
-# My Personal OpenCode Workflow Rules (Global)
+# SOLON Slide Studio - Agent Guidelines
 
-You MUST follow these rules on EVERY task, every time. They override any default behavior.
+**SOLON Slide Studio** is a slide content generation tool. Users upload HTML templates, assign content zones via a DOM tree UI, generate AI recipes, paste AI JSON responses, preview outputs, assign per-slide metadata (including hierarchical relationships), and export slides.
 
-## 1. Planning Phase (MANDATORY)
-- NEVER start coding or editing files until you have:
-  1. Created a clear, step-by-step plan.
-  2. Shown me the plan.
-  3. Received my explicit approval ("GO" / "approved" / "implement this").
-- Use Plan mode (Tab key) whenever possible for the initial planning.
 
-## 2. Implementation & Verification
-- After I approve the plan, implement in Build mode.
-- After you finish any functionality:
-  - Run the full build (`make build` or whatever the project uses).
-  - Run all tests (`make test` or `npm test`, etc.).
-  - Run linters if configured.
-  - Show me the exact commands you ran + their output.
-- If anything fails, fix it and repeat the checks.
+- Persist AI JSON responses and generations inside `flow.json`.
+- In `HtmlMetadataStep`: Add a user-friendly **drag-and-drop tree view** where all slides (regardless of template) start at root. Users can create parent-child hierarchies (e.g. Car Manufacturers → Car Models).
+- **Package / Export** feature is independent: "Package" button exports the tree structure + relationships to a user-named folder inside the project. Launchable directly from the **Project Dashboard**.
+- Remove all obsolete features: "replace file", "edit HTML", chain-based sessions, separate `zones.json`, `project.json` manifests, old packaging/relationship components.
 
-## 3. Manual Validation
-- Once the code builds and tests pass, do NOT consider the task complete.
-- Summarize exactly what you changed and ask me to review/validate it manually.
+## Architecture Overview
 
-## 4. Git / Commit Rules
-- NEVER commit or push anything without my explicit approval.
-- Never commit directly to main/master or protected branches.
-- Before proposing a commit, show me the diff (`git diff`) and the proposed commit message.
+**Backend**
+- Entry: `server/index.js` (Express)
+- Routes: `server/routes/projects.js` and `server/routes/html-flow.js`
+- Helpers: `server/lib/project-manager.js`, `server/lib/export-manager.js`
+- Key endpoints support project listing/creation, flow loading, zone selections, recipe generation, JSON validation, content apply, and exports.
 
-## 5. General Rules
-- Be extremely careful with file edits. Always read the file first if unsure.
-- If you need to run shell commands that modify the repo, explain them first.
-- If the task is big, break it into small, approved steps.
-- At the end of a session, remind me to export the session if I want traceability (`/export`).
-- At the end of a task, update the approapiate MD with your progress.
-- Run e2e tests for the relevant spec. Not all of them at once.
-- Be token efficient at all times
-- use md files to get up to speed with the project
+**Frontend**
+- React app with step-based flow:
+1. ProjectLandingStep
+2. ProjectDashboardStep
+3. HtmlEdit (DOM tree + zone assignment)
+4. HtmlRecipeStep (recipe + JSON paste/apply)
+5. HtmlPreviewStep
+6. HtmlMetadataStep (metadata + new tree-based relationships + export)
+- State lives in `flow.json._metadata` (selections, zones, trees, repeatableSlides, fullSlideGeneration, etc.).
 
-## 6. Use of sub-agents
-- the workflow should be to use Sonnet Vertex for planning tasks, and when implementation begins this work is delegated to sub-agents running Haiku Vertex
 
-Follow these rules religiously. If you ever feel like breaking one, ask me first.
+## Agent Usage Rules (Strict – for maximum efficiency)
+
+Always start by talking to `@orchestrator`.  
+It will output a short **Plan** and delegate implementation exclusively to fast Haiku sub-agents.
+
+### Available Sub-Agents
+
+- `@haiku-html` — Pure HTML template fixes (e.g. NO_ZONES validation → wrap each slide in `<section>`). Return **only** the corrected HTML, no extra text.
+- `@haiku-ui` — React/UI changes: layouts, scrolling behavior, default heights + expand, button removal, alignment, drag-and-drop tree view, making "generate full slide" active by default, improved relationship UI.
+- `@haiku-logic` — Backend & project logic: Project/Flow system, file/folder structure, JSON persistence, Package export functionality, hierarchy/relationship logic.
+- `@haiku-frontend` — General frontend tasks not covered by ui or html.
+
+### Guidelines for All Agents
+
+**Do**
+- Keep changes minimal, clean, and reliable.
+- Prefer filesystem persistence.
+- Store outputs and AI responses meaningfully inside project/flow folders.
+
+**Don't**
+- Re-introduce removed features.
+- Add unnecessary files or complexity.
+- Perform implementation directly — always follow delegation from orchestrator.
+- Produce long or verbose responses.
+
+## Development Workflow
+
+1. Describe the task to `@orchestrator`.
+2. It creates a minimal plan and delegates to the right `@haiku-*` agent.
+3. After changes, use read/bash tools only when necessary for verification.
+
+This setup ensures token-efficient, focused work while staying aligned with SOLON’s new Project-based architecture.
+
+Start every task by respecting the current `flow.json` structure and filesystem layout.
