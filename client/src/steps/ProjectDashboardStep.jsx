@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import styles from './ProjectDashboardStep.module.css'
-import SlideEditorTab from './SlideEditorTab'
+import SlideEditor from '../components/SlideEditor'
 
 /**
  * ProjectDashboardStep
@@ -304,10 +304,20 @@ export default function ProjectDashboardStep({
         )}
 
         {activeTab === 'editor' && (
-        <SlideEditorTab
-          projectName={projectName}
-          setToast={setToast}
-        />
+          exportsLoading
+            ? (
+              <div className={styles.loadingSpinner}>
+                <div className={styles.spinner}></div>
+                <p>Loading exports…</p>
+              </div>
+            )
+            : (
+              <SlideEditor
+                projectName={projectName}
+                initialExports={exports}
+                setToast={setToast}
+              />
+            )
         )}
 
         {activeTab === 'publish' && (

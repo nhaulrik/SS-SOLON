@@ -452,7 +452,12 @@ export default function SlideEditor({ projectName, initialExports, setToast }) {
                   const loading  = loadingExports.has(expKey)
                   return (
                     <div key={exp.exportId} className={styles.exportGroup}>
-                      <button className={styles.exportToggle} onClick={() => toggleExport(flow.flowId, exp.exportId)}>
+                      <button
+                        className={styles.exportToggle}
+                        onClick={() => toggleExport(flow.flowId, exp.exportId)}
+                        aria-expanded={expanded}
+                        aria-label={`${expanded ? 'Collapse' : 'Expand'} Export #${exp.exportNumber}, ${exp.slideCount} ${exp.slideCount === 1 ? 'slide' : 'slides'}`}
+                      >
                         <span className={styles.toggleIcon}>{expanded ? '▾' : '▸'}</span>
                         <span className={styles.exportName}>Export #{exp.exportNumber}</span>
                         <span className={styles.exportMeta}>
@@ -464,7 +469,11 @@ export default function SlideEditor({ projectName, initialExports, setToast }) {
                       {expanded && (
                         <div className={styles.slideList}>
                           {loading ? (
-                            <div className={styles.slidePlaceholder}>Loading…</div>
+                            <>
+                              <div className={styles.skeleton} />
+                              <div className={styles.skeleton} />
+                              <div className={styles.skeleton} />
+                            </>
                           ) : !exp.slides ? (
                             <div className={styles.slidePlaceholder}>—</div>
                           ) : exp.slides.length === 0 ? (
@@ -479,18 +488,28 @@ export default function SlideEditor({ projectName, initialExports, setToast }) {
                                 key={slide.file}
                                 className={`${styles.slideRow}${isActive ? ` ${styles.slideRowActive}` : ''}`}
                               >
-                                <input
-                                  type="checkbox"
-                                  className={styles.slideCheck}
-                                  checked={isChecked}
-                                  onChange={(e) => toggleSlideCheck(slideKey, e)}
-                                />
+                                <label className={styles.checkWrap}>
+                                  <input
+                                    type="checkbox"
+                                    className={styles.slideCheck}
+                                    checked={isChecked}
+                                    onChange={(e) => toggleSlideCheck(slideKey, e)}
+                                    aria-label={`Select ${slide.title || slide.file}`}
+                                  />
+                                </label>
                                 <button
                                   className={styles.slideBtn}
                                   onClick={() => openSlide(flow.flowId, exp.exportId, slide.file)}
                                 >
                                   <span className={styles.slideTitle}>{slide.title || slide.file}</span>
-                                  {isDirtyS && <span className={styles.slideDot}>●</span>}
+                                  {isDirtyS && (
+                                    <span
+                                      className={styles.slideDot}
+                                      role="img"
+                                      aria-label="Unsaved changes"
+                                      title="Unsaved changes"
+                                    >●</span>
+                                  )}
                                 </button>
                               </div>
                             )

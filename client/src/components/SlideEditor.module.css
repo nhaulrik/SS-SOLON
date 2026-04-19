@@ -1,13 +1,402 @@
+/* ── Shell ────────────────────────────────────────────────────────────────── */
+
 .editor {
   width: 100%;
   height: 100%;
   flex: 1;
   overflow: hidden;
   background: var(--bg-primary);
-  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
 }
 
-/* CodeMirror theme overrides */
+/* ── Top bar ─────────────────────────────────────────────────────────────── */
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 12px;
+  height: 38px;
+  min-height: 38px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.topBarLeft {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.topBarRight {
+  flex-shrink: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+.bcFlow   { color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bcSep    { color: var(--border-default); flex-shrink: 0; }
+.bcExport { color: var(--text-secondary); flex-shrink: 0; white-space: nowrap; }
+.bcSlide  { color: var(--text-primary); font-weight: 500; flex-shrink: 0; white-space: nowrap; }
+
+.dirtyBadge {
+  flex-shrink: 0;
+  margin-left: 6px;
+  font-size: 11px;
+  color: var(--error);
+}
+
+.noSelection {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.saveBtn {
+  padding: 5px 14px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  transition: background var(--transition-fast);
+  white-space: nowrap;
+}
+
+.saveBtn:hover:not(:disabled) { background: var(--accent-secondary); }
+.saveBtn:disabled              { opacity: 0.4; cursor: not-allowed; }
+.saveBtn:focus-visible         { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
+
+/* ── Body ─────────────────────────────────────────────────────────────────── */
+
+.body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Tree panel ──────────────────────────────────────────────────────────── */
+
+.treePanel {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.treeScroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) transparent;
+}
+
+.treeEmpty {
+  padding: 20px 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.flowGroup {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.flowLabel {
+  padding: 6px 12px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.exportGroup {}
+
+.exportToggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition-fast);
+  min-height: 36px;
+}
+
+.exportToggle:hover         { background: var(--bg-elevated); }
+.exportToggle:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: -2px; }
+
+.toggleIcon {
+  font-size: 10px;
+  color: var(--text-muted);
+  width: 10px;
+  flex-shrink: 0;
+}
+
+.exportName {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.exportMeta {
+  font-size: 10px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ── Slide list ──────────────────────────────────────────────────────────── */
+
+.slideList {
+  padding-left: 20px;
+  background: var(--bg-primary);
+}
+
+.slidePlaceholder {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Skeleton shimmer replaces "Loading…" text */
+.skeleton {
+  height: 13px;
+  border-radius: 3px;
+  background: var(--bg-tertiary);
+  margin: 7px 12px;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton:nth-child(2) { width: 75%; }
+.skeleton:nth-child(3) { width: 60%; }
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.85; }
+}
+
+.slideRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 8px 0 0;
+  min-height: 32px;
+  transition: background var(--transition-fast);
+}
+
+.slideRow:hover    { background: var(--bg-tertiary); }
+
+.slideRowActive {
+  background: color-mix(in oklch, var(--accent-primary) 10%, transparent);
+}
+
+.slideRowActive .slideTitle {
+  color: var(--accent-primary);
+  font-weight: 500;
+}
+
+/* Checkbox: visually 16×16, hit area expanded by label padding */
+.checkWrap {
+  display: flex;
+  align-items: center;
+  padding: 8px 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.slideCheck {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.slideBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px 4px;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  min-width: 0;
+}
+
+.slideBtn:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
+
+.slideTitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slideDot {
+  flex-shrink: 0;
+  font-size: 7px;
+  color: var(--error);
+  line-height: 1;
+}
+
+/* ── Tree footer ──────────────────────────────────────────────────────────── */
+
+.treeFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.selCount {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.forkBtn {
+  padding: 5px 12px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  transition: background var(--transition-fast);
+  white-space: nowrap;
+}
+
+.forkBtn:hover:not(:disabled) { background: var(--accent-secondary); }
+.forkBtn:disabled              { opacity: 0.4; cursor: not-allowed; }
+.forkBtn:focus-visible         { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
+
+/* ── Split area ───────────────────────────────────────────────────────────── */
+
+.splitArea {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.editorPane {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-primary);
+  min-width: 180px;
+}
+
+.paneLabel {
+  padding: 5px 12px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.paneEmpty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.cmHost {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Drag divider */
+.divider {
+  flex: 0 0 4px;
+  background: var(--border-subtle);
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition-fast);
+  user-select: none;
+}
+
+.divider:hover { background: color-mix(in oklch, var(--accent-primary) 40%, var(--border-subtle)); }
+
+.dividerHandle {
+  width: 2px;
+  height: 20px;
+  border-radius: 2px;
+  background: var(--border-default);
+  pointer-events: none;
+}
+
+/* ── Preview pane ─────────────────────────────────────────────────────────── */
+
+.previewPane {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-secondary);
+  min-width: 180px;
+}
+
+.previewWrapper {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.previewFrame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ── CodeMirror overrides ─────────────────────────────────────────────────── */
+
 :global(.cm-editor) {
   background: var(--bg-primary);
   color: var(--text-primary);
@@ -25,7 +414,7 @@
 }
 
 :global(.cm-activeLine) {
-  background: rgba(76, 175, 128, 0.05);
+  background: color-mix(in oklch, var(--accent-primary) 5%, transparent);
 }
 
 :global(.cm-cursor) {
@@ -33,11 +422,11 @@
 }
 
 :global(.cm-selectionBackground) {
-  background: rgba(76, 175, 128, 0.15);
+  background: color-mix(in oklch, var(--accent-primary) 15%, transparent);
 }
 
 :global(.cm-matchingBracket) {
-  background: rgba(76, 175, 128, 0.1);
+  background: color-mix(in oklch, var(--accent-primary) 10%, transparent);
   border: 1px solid var(--accent-primary);
 }
 
