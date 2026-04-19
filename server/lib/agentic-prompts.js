@@ -129,7 +129,7 @@ YOUR ROLE:
 - Every fact, number, name, and metric in your output MUST come from the SOURCE DATA.
 - Do not invent, estimate, or add data not present in the SOURCE DATA.
 - If a value shows "[DATA MISSING]", write that zone's value as "[DATA MISSING]" in the output.
-- Zone prompts describe what the zone should show — use the SOURCE DATA to fulfil them.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectation, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
 ${instructionsBlock}
 
 Return ONLY valid JSON (no markdown):
@@ -145,7 +145,7 @@ ZONES TO FILL:\n`
     prompt += '\n[BLOCK ZONES]\n'
     blockZones.forEach(z => {
        prompt += `\nKEY "${z.key}"\n`
-       if (z.prompt) prompt += `DATA QUERY (mandatory — resolve each field from the CONTEXT above, do not invent values):\n${z.prompt}\n`
+       if (z.prompt) prompt += `ZONE INSTRUCTIONS:\n${z.prompt}\n`
        if (z.exampleHtml) prompt += `TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):\n${z.exampleHtml}\n↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.\n`
      })
   }
@@ -161,7 +161,7 @@ ZONES TO FILL:\n`
       prompt += `\nSlide "${slideKey}":\n`
       slideZones.forEach(z => {
          prompt += `\nKEY "${z.key}"\n`
-         if (z.prompt) prompt += `DATA QUERY (mandatory — resolve each field from the CONTEXT above, do not invent values):\n${z.prompt}\n`
+         if (z.prompt) prompt += `ZONE INSTRUCTIONS:\n${z.prompt}\n`
          if (z.exampleHtml) prompt += `TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):\n${z.exampleHtml}\n↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.\n`
        })
     }
@@ -197,7 +197,7 @@ YOUR ROLE:
 - Every fact, number, name, and metric in your output MUST come from the SOURCE DATA above.
 - Do not invent, estimate, or add data not present in the SOURCE DATA.
 - If a value shows "[DATA MISSING]", write that zone's value as "[DATA MISSING]" in the output.
-- Zone prompts describe what the zone should show — use the SOURCE DATA to fulfil them.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
 
   Task: generate HTML content for slide instance ${instanceIndex + 1} of ${instanceCount} using the SOURCE DATA above.${rsConfig?.prompt ? `\nSlide guidance: ${rsConfig.prompt}` : ''}${contentPrompt ? `\nUser instructions: ${contentPrompt}` : ''}
 
@@ -210,7 +210,7 @@ Return ONLY a valid JSON object with EXACTLY these keys:
 TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):\n`
     uniqueZones.forEach(z => {
       prompt += `\nKEY "${z.key}":\n`
-      if (z.prompt) prompt += `DATA QUERY (mandatory — resolve each field from the CONTEXT above, do not invent values):\n${z.prompt}\n`
+      if (z.prompt) prompt += `ZONE INSTRUCTIONS:\n${z.prompt}\n`
       prompt += z.exampleHtml ? `TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):\n${z.exampleHtml}\n↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.\n` : `(no template — generate appropriate innerHTML)\n`
     })
 
