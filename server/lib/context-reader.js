@@ -396,8 +396,8 @@ export async function extractGroupedSlices(contextDir, column, groupValues, allF
   const TABULAR_EXT = new Set(['.xlsx', '.xls', '.csv'])
   const tabularFiles = allFilenames.filter(f => TABULAR_EXT.has(path.extname(f).toLowerCase()))
 
-  // Build per-group row buckets
-  const buckets = groupValues.map(() => [])
+  // Build per-group row buckets, keyed by sheet
+  const buckets = groupValues.map(() => ({})) // [{ "filename / sheetName": ["row...", ...] }]
   const blocksParts = []
   let matched = false
 
@@ -415,7 +415,6 @@ export async function extractGroupedSlices(contextDir, column, groupValues, allF
       if (rows.length === 0) continue
 
       const headers = Object.keys(rows[0])
-      // Case-insensitive column match
       const colKey = headers.find(h => h.trim().toLowerCase() === column.trim().toLowerCase())
 
       if (!colKey) {
@@ -428,16 +427,17 @@ export async function extractGroupedSlices(contextDir, column, groupValues, allF
       }
 
       matched = true
-      // Assign each row to the matching group bucket
+      const sliceKey = `${filename} / ${sheetName}`
+
       rows.forEach(row => {
         const rowVal = String(row[colKey] ?? '').trim()
         const idx = groupValues.findIndex(
           gv => gv.trim().toLowerCase() === rowVal.toLowerCase()
         )
         if (idx >= 0) {
-          // Format as header: value pairs for readability
+          buckets[idx][sliceKey] ??= []
           const line = headers.map(h => `${h}: ${String(row[h] ?? '')}`).join(' | ')
-          buckets[idx].push(line)
+          buckets[idx][sliceKey].push(line)
         }
       })
     }
@@ -445,10 +445,13 @@ export async function extractGroupedSlices(contextDir, column, groupValues, allF
 
   const slices = {}
   if (matched) {
-    // Include the header row description at the top of each slice
     groupValues.forEach((gv, i) => {
-      slices[i.toString()] = buckets[i].length > 0
-        ? buckets[i].join('\n')
+      const sheetMap = buckets[i]
+      const parts = Object.entries(sheetMap).map(([sheetLabel, rows]) =>
+        `[Sheet: ${sheetLabel}] (${rows.length} rows)\n${rows.join('\n')}`
+      )
+      slices[i.toString()] = parts.length > 0
+        ? parts.join('\n\n')
         : `[No rows found for group: ${gv}]`
     })
   }

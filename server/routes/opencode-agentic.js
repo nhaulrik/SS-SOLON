@@ -202,11 +202,15 @@ router.post('/agentic/plan', async (req, res) => {
       log('Warning: orchestrator did not return a grouping spec — slices will be empty')
     }
 
-    // Save orchestrator prompt for debugging
+    // Save orchestrator prompt and context slices for debugging
     if (flowId) {
       const flowDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId)
       if (fs.existsSync(flowDir)) {
         fs.writeFileSync(path.join(flowDir, 'ai-orchestrator-prompt.txt'), orchestratorPrompt, 'utf8')
+        const sliceLines = Object.entries(contextSlices).map(([key, text]) =>
+          `${'='.repeat(60)}\nSLICE KEY: ${key}\n${'='.repeat(60)}\n${text}`
+        ).join('\n\n')
+        fs.writeFileSync(path.join(flowDir, 'ai-context-slices.txt'), sliceLines, 'utf8')
       }
     }
 
