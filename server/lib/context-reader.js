@@ -22,20 +22,25 @@ const SUPPORTED_EXT = new Set(['.txt', '.md', '.html', '.pdf', '.docx', '.xlsx',
 export const SUMMARY_SUFFIX = '.summary.md'
 
 // Hard cap on total chars sent to the orchestrator.
-// 100k chars ≈ 25k tokens — well within Claude Haiku's context window.
-const MAX_TOTAL_CHARS = 100_000
+// 400k chars ≈ 100k tokens — allows full xlsx/xls data without truncation.
+const MAX_TOTAL_CHARS = 400_000
 
 // For non-tabular files (txt, md, html, pdf, docx), cap per file to avoid
 // one large document crowding out others.
-const MAX_TEXT_FILE_CHARS = 50_000
+const MAX_TEXT_FILE_CHARS = 400_000
 
 // ── Excel / CSV summariser ─────────────────────────────────────────────────────
 
 /**
  * Convert a worksheet to a structured text summary instead of raw CSV.
  * Preserves all distinct values; trims noise from blank rows/cells.
+ *
+ * @param {object} sheet       The worksheet object.
+ * @param {object} XLSX        The XLSX library instance.
+ * @param {string} sheetName   Name of the sheet.
+ * @param {boolean} [fullMode=false] When true, output all rows with full cell content (no row cap, no cell truncation).
  */
-function summariseSheet(sheet, XLSX, sheetName) {
+function summariseSheet(sheet, XLSX, sheetName, fullMode = false) {
   // Parse to array-of-arrays, skip completely blank rows
   const rows     = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' })
   const dataRows = rows.filter(row => row.some(cell => String(cell).trim() !== ''))
@@ -56,6 +61,17 @@ function summariseSheet(sheet, XLSX, sheetName) {
   const headers = activeColIdxs.map(i => allHeaders[i])
   const body    = allBody.map(row => activeColIdxs.map(i => String(row[i] ?? '').trim()))
 
+  // Full mode: output all rows as pipe-delimited lines with no truncation
+  if (fullMode) {
+    const lines = [`[Sheet: ${sheetName}]`]
+    lines.push(`Rows: ${body.length}   Columns: ${headers.length}`)
+    lines.push(`Headers: ${headers.join(' | ')}`)
+    lines.push('')
+    body.forEach(row => lines.push(row.join(' | ')))
+    return lines.join('\n')
+  }
+
+  // Default mode: summarise with unique values and sample rows
   const lines = [`[Sheet: ${sheetName}]`]
   lines.push(`Rows: ${body.length}   Columns: ${headers.length} (of ${allHeaders.length} total, ${allHeaders.length - headers.length} empty omitted)`)
   lines.push(`Headers: ${headers.join(' | ')}`)
@@ -97,32 +113,32 @@ async function readDocx(filePath) {
   return result.value ?? ''
 }
 
-async function readXlsx(filePath) {
+async function readXlsx(filePath, compact = false) {
   const { default: XLSX } = await import('xlsx')
   const workbook = XLSX.readFile(filePath)
   return workbook.SheetNames
-    .map(name => summariseSheet(workbook.Sheets[name], XLSX, name))
+    .map(name => summariseSheet(workbook.Sheets[name], XLSX, name, !compact))
     .join('\n\n')
 }
 
-async function readCsv(filePath) {
-  const { default: XLSX } = await import('xlsx')
-  const workbook = XLSX.readFile(filePath)
-  return summariseSheet(workbook.Sheets[workbook.SheetNames[0]], XLSX, path.basename(filePath))
+async function readCsv(filePath, compact = false) {
+   const { default: XLSX } = await import('xlsx')
+   const workbook = XLSX.readFile(filePath)
+   return summariseSheet(workbook.Sheets[workbook.SheetNames[0]], XLSX, path.basename(filePath), !compact)
 }
 
 async function readTextFile(filePath) {
   return fs.readFile(filePath, 'utf-8')
 }
 
-async function extractText(filePath) {
+async function extractText(filePath, compact = false) {
   const ext = path.extname(filePath).toLowerCase()
   switch (ext) {
     case '.pdf':  return readPdf(filePath)
     case '.docx': return readDocx(filePath)
     case '.xlsx':
-    case '.xls':  return readXlsx(filePath)
-    case '.csv':  return readCsv(filePath)
+    case '.xls':  return readXlsx(filePath, compact)
+    case '.csv':  return readCsv(filePath, compact)
     default:      return readTextFile(filePath)
   }
 }
@@ -256,7 +272,7 @@ export async function readContextFiles(projectDir, { useSummaries = false } = {}
 
         if (!text) {
           const ext     = path.extname(filename).toLowerCase()
-          const raw     = await extractText(path.join(contextDir, filename))
+          const raw     = await extractText(path.join(contextDir, filename), false)
           const isTabular = ext === '.xlsx' || ext === '.xls' || ext === '.csv'
           const limit   = isTabular ? MAX_TOTAL_CHARS : MAX_TEXT_FILE_CHARS
           const clipped = raw.trim()
@@ -301,5 +317,145 @@ export async function readContextFiles(projectDir, { useSummaries = false } = {}
     text:        parts.join('\n\n'),
     totalChars,
     summaryUsed,
+  }
+}
+
+/**
+ * Same as readContextFiles but uses compact (summarised) mode for tabular files.
+ * Produces a much smaller output suitable for the orchestrator's schema-identification step.
+ * Text files are read in full; Excel/CSV files are summarised (unique values + 50 sample rows).
+ */
+export async function readContextFilesCompact(projectDir) {
+  const contextDir = path.join(projectDir, 'AI Context')
+
+  let filenames
+  try {
+    filenames = await fs.readdir(contextDir)
+  } catch {
+    return { fileCount: 0, files: [], text: '', totalChars: 0 }
+  }
+
+  const supported = filenames.filter(f =>
+    SUPPORTED_EXT.has(path.extname(f).toLowerCase()) &&
+    !f.startsWith('~$') &&
+    !f.startsWith('.') &&
+    !f.endsWith(SUMMARY_SUFFIX)
+  )
+  if (supported.length === 0) return { fileCount: 0, files: [], text: '', totalChars: 0 }
+
+  const MAX_COMPACT_CHARS = 40_000
+
+  const fileContents = await Promise.all(
+    supported.map(async (filename) => {
+      try {
+        const raw     = await extractText(path.join(contextDir, filename), true) // compact=true
+        const clipped = raw.trim()
+        const text    = clipped.length > MAX_COMPACT_CHARS
+          ? clipped.slice(0, MAX_COMPACT_CHARS) + '\n[...truncated]'
+          : clipped
+        return { filename, text, ok: true }
+      } catch (err) {
+        return { filename, text: `[Error reading file: ${err.message}]`, ok: false }
+      }
+    })
+  )
+
+  const parts = []
+  let totalChars = 0
+  for (const { filename, text } of fileContents) {
+    const section = `=== ${filename} ===\n${text}`
+    parts.push(section)
+    totalChars += section.length + 2
+  }
+
+  return {
+    fileCount:  fileContents.length,
+    files:      fileContents.map(f => f.filename),
+    text:       parts.join('\n\n'),
+    totalChars,
+  }
+}
+
+/**
+ * Extract rows from all tabular files in the AI Context folder, grouped by a
+ * specific column value. Used after the orchestrator identifies the grouping
+ * dimension so that contextSlices are built deterministically from the real data.
+ *
+ * @param {string}   contextDir   Absolute path to the AI Context folder
+ * @param {string}   column       Column name to group by (exact match)
+ * @param {string[]} groupValues  Ordered list of group values (one per slide instance)
+ * @param {string[]} allFilenames All supported filenames in contextDir
+ * @returns {{ slices: Object, blocksText: string, matched: boolean }}
+ *   slices:     { "0": "rows...", "1": "rows...", ... }
+ *   blocksText: rows from files that don't contain the grouping column
+ *   matched:    true if the column was found in at least one file
+ */
+export async function extractGroupedSlices(contextDir, column, groupValues, allFilenames) {
+  const { default: XLSX } = await import('xlsx')
+
+  const TABULAR_EXT = new Set(['.xlsx', '.xls', '.csv'])
+  const tabularFiles = allFilenames.filter(f => TABULAR_EXT.has(path.extname(f).toLowerCase()))
+
+  // Build per-group row buckets
+  const buckets = groupValues.map(() => [])
+  const blocksParts = []
+  let matched = false
+
+  for (const filename of tabularFiles) {
+    const filePath = path.join(contextDir, filename)
+    let workbook
+    try {
+      workbook = XLSX.readFile(filePath)
+    } catch {
+      continue
+    }
+
+    for (const sheetName of workbook.SheetNames) {
+      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: '' })
+      if (rows.length === 0) continue
+
+      const headers = Object.keys(rows[0])
+      // Case-insensitive column match
+      const colKey = headers.find(h => h.trim().toLowerCase() === column.trim().toLowerCase())
+
+      if (!colKey) {
+        // This sheet doesn't have the grouping column — add all rows to blocks
+        const lines = [`=== ${filename} / ${sheetName} ===`]
+        lines.push(headers.join(' | '))
+        rows.forEach(row => lines.push(headers.map(h => String(row[h] ?? '')).join(' | ')))
+        blocksParts.push(lines.join('\n'))
+        continue
+      }
+
+      matched = true
+      // Assign each row to the matching group bucket
+      rows.forEach(row => {
+        const rowVal = String(row[colKey] ?? '').trim()
+        const idx = groupValues.findIndex(
+          gv => gv.trim().toLowerCase() === rowVal.toLowerCase()
+        )
+        if (idx >= 0) {
+          // Format as header: value pairs for readability
+          const line = headers.map(h => `${h}: ${String(row[h] ?? '')}`).join(' | ')
+          buckets[idx].push(line)
+        }
+      })
+    }
+  }
+
+  const slices = {}
+  if (matched) {
+    // Include the header row description at the top of each slice
+    groupValues.forEach((gv, i) => {
+      slices[i.toString()] = buckets[i].length > 0
+        ? buckets[i].join('\n')
+        : `[No rows found for group: ${gv}]`
+    })
+  }
+
+  return {
+    slices,
+    blocksText: blocksParts.join('\n\n'),
+    matched,
   }
 }

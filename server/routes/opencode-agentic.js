@@ -6,7 +6,7 @@
  *
  * Pipeline:
  *   1. Read AI Context files
- *   2. Orchestrator call  → instance counts + compact context summary
+ *   2. Orchestrator call  → instance counts + per-instance verbatim context slices
  *   3. Parallel agents    → blocks/shared agent + one agent per instance
  *   4. Assemble + validate → emit done with final JSON
  *
@@ -23,7 +23,7 @@ import express from 'express'
 import fs      from 'fs'
 import path    from 'path'
 import { callAi }              from '../lib/ai-client.js'
-import { readContextFiles, getSummaryStatus } from '../lib/context-reader.js'
+import { readContextFiles, readContextFilesCompact, extractGroupedSlices, getSummaryStatus } from '../lib/context-reader.js'
 import { validateHtmlJson }    from '../lib/html-recipe-builder.js'
 import { generateSummaries }   from '../lib/summary-generator.js'
 import {
@@ -75,47 +75,6 @@ function remapInstances(instances, repeatableSlides) {
   return result
 }
 
-/**
- * Normalize dataTable structure — the AI frequently returns slides as a plain array
- * instead of { instances: [...] }, and puts repeatable zone values in blocks.
- */
-function normalizeDataTable(dt, repSlides) {
-  if (!dt) return null
-  const normalized = { blocks: { ...(dt.blocks || {}) }, slides: {} }
-  const repKeys = new Set(repSlides.map(rs => rs.key))
-
-  // Normalize slides: wrap plain arrays into { instances: [...] }
-  for (const [slideKey, slideVal] of Object.entries(dt.slides || {})) {
-    if (Array.isArray(slideVal)) {
-      normalized.slides[slideKey] = { instances: slideVal }
-    } else if (slideVal && typeof slideVal === 'object') {
-      normalized.slides[slideKey] = slideVal
-    }
-  }
-
-  // Move any blocks keys that belong to repeatable slides into each instance
-  // (AI sometimes puts repeatable zone values in blocks instead of instances)
-  const blocksToMove = {}
-  for (const [blockKey, blockVal] of Object.entries(normalized.blocks)) {
-    blocksToMove[blockKey] = blockVal
-  }
-
-  // Only move blocks into instances if all zones are repeatable (no true block zones)
-  if (Object.keys(normalized.slides).length > 0 && Object.keys(blocksToMove).length > 0) {
-    for (const [slideKey, slideData] of Object.entries(normalized.slides)) {
-      if (slideData.instances) {
-        slideData.instances = slideData.instances.map(inst => ({
-          ...blocksToMove,
-          ...inst  // inst values override blocksToMove values (inst is more specific)
-        }))
-      }
-    }
-    // Clear blocks since they've been merged into instances
-    normalized.blocks = {}
-  }
-
-  return normalized
-}
 
 /**
  * Derive which zone categories are present given the current repeatable-slide set.
@@ -184,31 +143,24 @@ router.post('/agentic/plan', async (req, res) => {
      // ── Context / summaries ──────────────────────────────────────────────────
      phase('analyzing')
 
-     log('Reading AI Context files...')
-     const context = await readContextFiles(projectDir)
+     log('Reading AI Context files (compact schema)...')
+     const compactContext = await readContextFilesCompact(projectDir)
 
-    if (context.fileCount === 0) {
+    if (compactContext.fileCount === 0) {
       log('No context files found — proceeding without context')
     } else {
-      log(`Context files found: ${context.files?.join(', ') || '(none)'}`)
-      const kb = (context.totalChars / 1000).toFixed(1)
-      for (const [filename, source] of context.summaryUsed) {
-        log(`  ${filename} — ${source === 'summary' ? 'summary' : 'original (no summary)'}`)
-      }
-      log(`Total context: ${kb}k chars`)
+      log(`Context files: ${compactContext.files?.join(', ') || '(none)'}`)
+      log(`Compact schema: ${(compactContext.totalChars / 1000).toFixed(1)}k chars`)
     }
 
     // ── Orchestrator ─────────────────────────────────────────────────────────
     phase('planning')
-    log('Orchestrator: analysing recipe + context...')
+    log('Orchestrator: identifying grouping from schema...')
 
-    console.log('[agentic/plan] repeatableSlides:', JSON.stringify(repeatableSlides))
-    console.log('[agentic/plan] zones count:', zones.length)
-    console.log('[agentic/plan] zones slideIndexes:', zones.map(z => z.slideIndex))
-    const orchestratorPrompt = buildOrchestratorPrompt(recipe, context.text, contentPrompt, repeatableSlides, zones)
-    log(`Sending orchestrator prompt (${orchestratorPrompt.length} chars) to AI...`)
+    const orchestratorPrompt = buildOrchestratorPrompt(recipe, compactContext.text, contentPrompt, repeatableSlides)
+    log(`Orchestrator prompt: ${orchestratorPrompt.length} chars`)
 
-     const orchRaw = await callAi(orchestratorPrompt, { maxTokens: 6000, temperature: 0.3 })
+     const orchRaw = await callAi(orchestratorPrompt, { maxTokens: 1000, temperature: 0.1 })
     log(`Orchestrator response received (${orchRaw.response.length} chars)`)
 
     let orchResult
@@ -218,13 +170,37 @@ router.post('/agentic/plan', async (req, res) => {
       return error(`Orchestrator returned invalid JSON: ${orchRaw.response.slice(0, 200)}`)
     }
 
-      const { instances: rawInstances = {}, instanceNames = [], rationale = '', dataTable: rawDataTable = null } = orchResult
+      const { instances: rawInstances = {}, instanceNames = [], rationale = '', grouping = null } = orchResult
       const remappedInstances = remapInstances(rawInstances, repeatableSlides)
-      const dataTable = normalizeDataTable(rawDataTable, repeatableSlides)
-      
-      log('Normalized dataTable slides: ' + JSON.stringify(Object.keys(dataTable?.slides || {})))
-      console.log('[agentic/plan] dataTable:', JSON.stringify(dataTable, null, 2))
+
       console.log('[agentic/plan] instances:', JSON.stringify(rawInstances))
+      console.log('[agentic/plan] grouping:', JSON.stringify(grouping))
+
+    // ── Build contextSlices from real data (code-based, no AI) ───────────────
+    log('Extracting context slices from source files...')
+    const contextDir = path.join(projectDir, 'AI Context')
+    let contextSlices = {}
+
+    if (grouping?.column && grouping?.values?.length > 0) {
+      log(`Grouping by column "${grouping.column}" — ${grouping.values.length} group(s)`)
+      const { slices, blocksText, matched } = await extractGroupedSlices(
+        contextDir, grouping.column, grouping.values, compactContext.files
+      )
+      if (matched) {
+        contextSlices = { ...slices }
+        if (blocksText) contextSlices['blocks'] = blocksText
+        log(`Slices built: ${Object.keys(slices).length} instance slice(s)${blocksText ? ' + blocks' : ''}`)
+      } else {
+        log(`Warning: column "${grouping.column}" not found in any file — slices will be empty`)
+      }
+    } else if (grouping === null && repeatableSlides.length === 0) {
+      // No repeatable slides — read full context for the blocks agent
+      log('No repeatable slides — reading full context for blocks agent...')
+      const fullContext = await readContextFiles(projectDir)
+      if (fullContext.text) contextSlices['blocks'] = fullContext.text
+    } else {
+      log('Warning: orchestrator did not return a grouping spec — slices will be empty')
+    }
 
     // Save orchestrator prompt for debugging
     if (flowId) {
@@ -235,7 +211,7 @@ router.post('/agentic/plan', async (req, res) => {
     }
 
      log(`Instances: ${JSON.stringify(remappedInstances)}`)
-     log(`Data table: ${dataTable ? Object.keys(dataTable.blocks || {}).length + ' block zones, ' + Object.keys(dataTable.slides || {}).length + ' slide key(s)' : 'none'}`)
+     log(`Context slices: ${Object.keys(contextSlices).length} key(s) — ${Object.keys(contextSlices).join(', ') || '(none)'}`)
      log(`Instance names: ${instanceNames.join(', ') || '(none)'}`)
      if (rationale) log(`Orchestrator: ${rationale}`)
     for (const [key, n] of Object.entries(remappedInstances)) {
@@ -261,10 +237,10 @@ router.post('/agentic/plan', async (req, res) => {
       emit(res, 'plan', JSON.stringify({
         instances: remappedInstances,
         instanceNames,
-        dataTable,
+        contextSlices,
         rationale,
         agentPlan,
-        contextFiles: context.fileCount,
+        contextFiles: compactContext.fileCount,
       }))
     res.end()
 
@@ -290,7 +266,7 @@ router.post('/agentic/run', async (req, res) => {
         zones            = [],
         repeatableSlides = [],
         instances        = {},
-        dataTable        = null,
+        contextSlices    = {},
         contentPrompt    = '',
       } = req.body
 
@@ -304,9 +280,11 @@ router.post('/agentic/run', async (req, res) => {
     if (hasBlocks || hasShared) {
       agents.push({ id: 'blocks', type: 'blocks', label: 'Blocks & Shared' })
     }
+    let globalIdx = 0
     for (const [slideKey, count] of Object.entries(remappedInstances)) {
       for (let i = 0; i < count; i++) {
-        agents.push({ id: `${slideKey}_${i}`, type: 'instance', slideKey, instanceIndex: i, instanceCount: count, label: `${slideKey} — #${i + 1}` })
+        agents.push({ id: `${slideKey}_${i}`, type: 'instance', slideKey, instanceIndex: i, instanceCount: count, globalIndex: globalIdx, label: `${slideKey} — #${i + 1}` })
+        globalIdx++
       }
     }
 
@@ -324,22 +302,9 @@ router.post('/agentic/run', async (req, res) => {
         let agentContext = ''
 
         if (agent.type === 'blocks') {
-          if (dataTable?.blocks && Object.keys(dataTable.blocks).length > 0) {
-            const lines = ['RAW SOURCE DATA FOR THIS SLIDE (extracted verbatim from the spreadsheet — use these values to generate content):']
-            Object.entries(dataTable.blocks).forEach(([key, value]) => {
-              lines.push(`  ${key}: ${value}`)
-            })
-            agentContext = lines.join('\n')
-          }
+          agentContext = contextSlices['blocks'] || ''
         } else {
-          const instanceData = dataTable?.slides?.[agent.slideKey]?.instances?.[agent.instanceIndex]
-          if (instanceData && Object.keys(instanceData).length > 0) {
-            const lines = ['RAW SOURCE DATA FOR THIS SLIDE INSTANCE (extracted verbatim from the spreadsheet — use these values to generate content):']
-            Object.entries(instanceData).forEach(([key, value]) => {
-              lines.push(`  ${key}: ${value}`)
-            })
-            agentContext = lines.join('\n')
-          }
+          agentContext = contextSlices[agent.globalIndex.toString()] || ''
         }
 
        const prompt = agent.type === 'blocks'

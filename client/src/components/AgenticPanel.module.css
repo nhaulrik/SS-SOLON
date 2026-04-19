@@ -509,6 +509,17 @@
   color: #a1a1aa;
 }
 
+.logWaiting {
+  color: #52525b;
+  font-style: italic;
+  animation: logPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes logPulse {
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 1; }
+}
+
 /* ── Status banners ──────────────────────────────────────────────────────── */
 
 .successBanner {

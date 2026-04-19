@@ -86,7 +86,6 @@ export default function HtmlRecipeStep({
   const [agenticElapsedLocal, setAgenticElapsedLocal] = useState(0)
   const [agenticPlanLocal, setAgenticPlanLocal] = useState(null)
   const [agenticErrorMsgLocal, setAgenticErrorMsgLocal] = useState('')
-  const [editableContentTable, setEditableContentTable] = useState(null)
 
   // Reset scroll position on component mount to ensure user starts at top of page
   // This fixes autoscroll issues when navigating between recipe steps
@@ -362,7 +361,6 @@ export default function HtmlRecipeStep({
            case 'plan': {
              const planData = JSON.parse(data)
              setAgenticPlanLocal(planData)
-             setEditableContentTable(planData.dataTable ? JSON.parse(JSON.stringify(planData.dataTable)) : null)
              setAgenticStatus('confirming')
              break
            }
@@ -395,14 +393,12 @@ export default function HtmlRecipeStep({
           body: JSON.stringify({
             projectName,
             flowId,
-            recipe,
             zones,
             repeatableSlides,
             instances: agenticPlanLocal.instances,
             instanceNames: agenticPlanLocal.instanceNames,
-            dataTable: editableContentTable || agenticPlanLocal.dataTable,
+            contextSlices: agenticPlanLocal.contextSlices,
             contentPrompt: agenticContentPrompt,
-            selectedFiles,
           }),
         })
 
@@ -769,27 +765,16 @@ export default function HtmlRecipeStep({
                   <p className={agenticCss.confirmRationale}>{agenticPlanLocal.rationale}</p>
                 )}
 
-                {editableContentTable ? (
+                {agenticPlanLocal.contextSlices && Object.keys(agenticPlanLocal.contextSlices).length > 0 ? (
                     <div className={agenticCss.reviewTableWrapper}>
                       <ContentReviewTable
-                        contentTable={editableContentTable}
+                        contextSlices={agenticPlanLocal.contextSlices}
                         instanceNames={agenticPlanLocal.instanceNames || []}
-                        zones={zones}
-                        repeatableSlides={repeatableSlides}
-                        onChange={setEditableContentTable}
                       />
-                      {/* Status text below table */}
-                      <div style={{ fontSize: '12px', color: '#64748b', marginBottom: '12px', marginTop: '8px' }}>
-                        {editableContentTable.slides && Object.keys(editableContentTable.slides).length > 0 ? (
-                          <>✓ {agenticPlanLocal.instanceNames?.length || 0} slide instance{(agenticPlanLocal.instanceNames?.length || 0) !== 1 ? 's' : ''} mapped — review data above then generate</>
-                        ) : (
-                          <>ℹ All zones treated as shared content (no repeatable slides detected)</>
-                        )}
-                      </div>
                    </div>
                  ) : (
                    <p className={agenticCss.confirmRationale} style={{fontStyle:'italic'}}>
-                     No content table was returned. Generation will proceed without preview.
+                     No context slices were returned. Generation will proceed without data preview.
                    </p>
                  )}
 
@@ -821,16 +806,20 @@ export default function HtmlRecipeStep({
               </div>
             )}
 
-            {/* Activity log */}
-            {agenticLogsLocal.length > 0 && (
+            {/* Activity log — shown as soon as planning starts */}
+            {(agenticStatus === 'planning' || agenticStatus === 'running' || agenticStatus === 'done') && (
               <div className={agenticCss.logSection}>
                 <div className={agenticCss.logLabel}>Activity</div>
                 <div className={agenticCss.log}>
-                  {agenticLogsLocal.map((line, i) => (
-                    <span key={i} className={`${agenticCss.logLine} ${i === agenticLogsLocal.length - 1 ? agenticCss.latest : ''}`}>
-                      {line}{'\n'}
-                    </span>
-                  ))}
+                  {agenticLogsLocal.length === 0 ? (
+                    <span className={agenticCss.logWaiting}>Connecting to AI…</span>
+                  ) : (
+                    agenticLogsLocal.map((line, i) => (
+                      <span key={i} className={`${agenticCss.logLine} ${i === agenticLogsLocal.length - 1 ? agenticCss.latest : ''}`}>
+                        {line}{'\n'}
+                      </span>
+                    ))
+                  )}
                   <span ref={agenticLogEndRef} />
                 </div>
               </div>
