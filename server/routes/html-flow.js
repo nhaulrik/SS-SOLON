@@ -52,6 +52,8 @@ const pendingTemplates = new Map();
 function buildOutputPreviewHtml(html) {
   try {
     const root     = parse(html);
+    // Strip scripts so presentation frameworks don't clear the preview DOM
+    root.querySelectorAll('script').forEach(s => s.remove());
     const head     = root.querySelector('head');
     const sections = root.querySelectorAll('section');
     if (sections.length === 0) return html; // fallback: return as-is

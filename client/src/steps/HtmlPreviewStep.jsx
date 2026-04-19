@@ -5,10 +5,9 @@
  * download + "start new project" actions.
  */
 
-import { useCallback, useRef, useState, useMemo } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import AppHeader   from '../components/AppHeader.jsx'
 import Breadcrumbs from '../components/Breadcrumbs.jsx'
-import { generateScaledPreviewHtml } from '../utils/slidePreview.js'
 
 export default function HtmlPreviewStep({
   projectName,
@@ -25,9 +24,6 @@ export default function HtmlPreviewStep({
   const isMultiSlide = slideCount > 1
 
   // ── Scale: identical to HtmlUploadStep ────────────────────────────────────
-  // The wrapper uses padding-bottom:56.25% (aspect-ratio trick) so its height
-  // is always derived from its width — stable across srcDoc changes, which
-  // means the ResizeObserver never sees 0-height flicker during iframe reload.
   const [previewScale,  setPreviewScale]  = useState(1)
   const roRef = useRef(null)
   const wrapperCallbackRef = useCallback((el) => {
@@ -43,20 +39,11 @@ export default function HtmlPreviewStep({
   }, [])
 
   // ── Slide navigation (multi-slide only) ──────────────────────────────────
-  const [currentSlide, setCurrentSlide] = useState(1)
+   const [currentSlide, setCurrentSlide] = useState(1)
 
-  const goToSlide = useCallback((index) => {
-    setCurrentSlide(Math.max(1, Math.min(index, slideCount)))
-  }, [slideCount])
-
-  const scaledPreviewHtml = useMemo(() => {
-    // Use shared utility to generate scaled preview HTML.
-    // CSS transforms are applied right-to-left: scale runs first, then translateY.
-    // So translateY operates in post-scale (screen) space.
-    // To shift slide N to the top of the viewport we need to move up by
-    // (slideIndex - 1) * 720 * previewScale screen pixels.
-    return generateScaledPreviewHtml(previewHtml, currentSlide - 1, previewScale)
-  }, [previewHtml, previewScale, currentSlide])
+   const goToSlide = useCallback((index) => {
+     setCurrentSlide(Math.max(1, Math.min(index, slideCount)))
+   }, [slideCount])
 
 
 
@@ -70,15 +57,37 @@ export default function HtmlPreviewStep({
       <Breadcrumbs step={step} canNavigateTo={canNavigateTo} navigateTo={navigateTo} flow="html" />
 
       <div className="html-preview-step-layout">
-        {/* ── Preview ─────────────────────────────────────────────── */}
-         <div className="html-preview-step-frame-wrap" ref={wrapperCallbackRef}>
-           <iframe
-             className="html-preview-step-frame"
-             srcDoc={scaledPreviewHtml}
-             sandbox="allow-same-origin allow-scripts"
-             title="Output preview"
-           />
-         </div>
+         {/* ── Preview ─────────────────────────────────────────────── */}
+          {(() => {
+            const slideOffset = (currentSlide - 1) * 720
+            const wrapperStyle = {
+              width: '100%',
+              paddingBottom: `${(720 / 1280) * 100}%`,
+              position: 'relative',
+              overflow: 'hidden',
+            }
+            const iframeStyle = {
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '1280px',
+              height: `${720 * slideCount}px`,
+              border: 'none',
+              transform: `translateY(-${slideOffset}px) scale(${previewScale})`,
+              transformOrigin: 'top left',
+            }
+            return (
+              <div style={wrapperStyle} ref={wrapperCallbackRef}>
+                <iframe
+                   className="html-preview-step-frame"
+                   srcDoc={previewHtml}
+                   title="Output preview"
+                   sandbox="allow-same-origin"
+                   style={iframeStyle}
+                 />
+              </div>
+            )
+          })()}
 
         {/* ── Slide navigation (multi-slide only) ─────────────────── */}
         {isMultiSlide && (

@@ -234,20 +234,14 @@ export default function HtmlRecipeStep({
       const data = await res.json()
       if (!data.ok) throw new Error(data.error || 'Apply failed')
       
-      // Show success flash and auto-navigate
       setApplySuccess(true)
       onApplied({ outputFile: data.outputFile, previewHtml: data.previewHtml, roundId: data.roundId, slideCount: data.slideCount ?? 1 })
-      
-      // Auto-navigate to preview after 1500ms
-      setTimeout(() => {
-        navigateTo('preview')
-      }, 1500)
     } catch (err) {
       setToast({ message: 'Apply failed: ' + err.message, type: 'error' })
     } finally {
       setApplying(false)
     }
-  }, [projectName, flowId, jsonInput, validation, applying, onApplied, navigateTo, setToast])
+  }, [projectName, flowId, jsonInput, validation, applying, onApplied, setToast])
 
   // ── Copy helpers ──────────────────────────────────────────────────────────
   const handleCopyRecipe = useCallback(() => {

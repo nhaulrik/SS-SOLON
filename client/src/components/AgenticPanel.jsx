@@ -222,7 +222,6 @@ export default function AgenticPanel({
   const currentPhaseIdx = phaseIndex(phase)
 
   // ── Render ───────────────────────────────────────────────────────────────────
-
   return (
     <section className={css.panel}>
       <div className={css.header}>
