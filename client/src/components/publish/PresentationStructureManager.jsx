@@ -100,6 +100,26 @@ export default function PresentationStructureManager({ projectName, setToast }) 
     setStructures(prev => prev.map(s => s.id === activeStructureId ? { ...s, name: nameValue.trim() } : s))
   }
 
+  const handleDeleteStructure = async () => {
+    if (!activeStructureId) return
+    const name = activeStructure?.name || 'this structure'
+    if (!window.confirm(`Delete "${name}"? This cannot be undone.`)) return
+    try {
+      const res = await fetch(`/api/projects/${projectName}/presentation-structures/${activeStructureId}`, {
+        method: 'DELETE',
+      })
+      if (!res.ok) throw new Error('Failed to delete structure')
+      const remaining = structures.filter(s => s.id !== activeStructureId)
+      setStructures(remaining)
+      const next = remaining[0] || null
+      setActiveStructureId(next?.id || null)
+      setNameValue(next?.name || '')
+      setNameEditing(false)
+    } catch (err) {
+      setToast?.({ type: 'error', message: err.message })
+    }
+  }
+
   const handleSwitchStructure = (id) => {
     setActiveStructureId(id)
     const s = structures.find(s => s.id === id)
@@ -188,14 +208,24 @@ export default function PresentationStructureManager({ projectName, setToast }) 
             + New
           </button>
           {activeStructure && (
-            <button
-              className={styles.saveBtn}
-              onClick={() => handleSave({ slides: activeStructure.slides, tree: activeStructure.tree, levelNames: activeStructure.levelNames || [] })}
-              disabled={saving}
-              aria-label="Save structure"
-            >
-              {saving ? 'Saving…' : 'Save'}
-            </button>
+            <>
+              <button
+                className={styles.deleteBtn}
+                onClick={handleDeleteStructure}
+                aria-label="Delete structure"
+                title="Delete structure"
+              >
+                Delete
+              </button>
+              <button
+                className={styles.saveBtn}
+                onClick={() => handleSave({ slides: activeStructure.slides, tree: activeStructure.tree, levelNames: activeStructure.levelNames || [] })}
+                disabled={saving}
+                aria-label="Save structure"
+              >
+                {saving ? 'Saving…' : 'Save'}
+              </button>
+            </>
           )}
         </div>
       </div>

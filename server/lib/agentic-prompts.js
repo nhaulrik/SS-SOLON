@@ -77,10 +77,9 @@ SLIDE STRUCTURE:
 ${slidesBlock}
 
 YOUR TASKS:
-1. Count how many slide instances exist by counting unique groups in the data (e.g. unique initiative groups, products, projects).
-2. Identify the exact column name used to group the data (e.g. "Initiative Group").
-3. List the exact group value for each instance in order.
-4. Provide a human-readable name for each instance.
+1. Count how many slide instances exist by counting unique groups in the data based on the user input prompt.
+2. List the exact group value for each instance in order.
+3. Provide a human-readable name for each instance.
 
 Return ONLY valid JSON (no markdown, no explanation):
 {

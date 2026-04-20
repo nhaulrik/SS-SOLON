@@ -559,3 +559,54 @@
 .noResults strong {
   color: rgba(255, 255, 255, 0.55);
 }
+
+/* ── Delete buttons ──────────────────────────────────────────────────────────── */
+
+.exportHeader {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.deleteExportBtn {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 20px;
+  color: #999;
+  padding: 6px 12px;
+  line-height: 1;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 36px;
+}
+
+.deleteExportBtn:hover {
+  color: #E8544A;
+}
+
+.deleteSlideBtn {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+  color: #999;
+  padding: 8px 4px;
+  line-height: 1;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  margin-left: auto;
+}
+
+.deleteSlideBtn:hover {
+  color: #E8544A;
+}

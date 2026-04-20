@@ -591,6 +591,96 @@ export function forkExport(projectName, flowId, sourceExportId, slideFiles, over
 }
 
 /**
+ * Delete a single slide from an export.
+ * Removes the slide file from disk and updates project.json.
+ *
+ * @param {string} projectName
+ * @param {string} flowId
+ * @param {string} exportId
+ * @param {string} slideFile - e.g. "slide-1.html"
+ * @returns {{ ok: true } | { ok: false, error: string }}
+ */
+export function deleteSlide(projectName, flowId, exportId, slideFile) {
+  try {
+    // Validate slideFile parameter
+    if (!slideFile || !/^slide-\d+\.html$/.test(slideFile)) {
+      return { ok: false, error: 'Invalid slideFile parameter. Must match pattern: slide-N.html' };
+    }
+
+    const exportDir = resolveExportDir(projectName, flowId, exportId);
+    if (!exportDir) {
+      return { ok: false, error: 'Export not found' };
+    }
+
+    const slidePath = path.join(exportDir, slideFile);
+    const resolvedExportDir = path.resolve(exportDir);
+    if (!path.resolve(slidePath).startsWith(resolvedExportDir + path.sep)) {
+      return { ok: false, error: 'Invalid slide file path' };
+    }
+
+    // Check if slide file exists
+    if (!fs.existsSync(slidePath)) {
+      return { ok: false, error: `Slide file not found: ${slideFile}` };
+    }
+
+    // Load project.json
+    const projectJsonPath = path.join(exportDir, 'project.json');
+    if (!fs.existsSync(projectJsonPath)) {
+      return { ok: false, error: 'project.json not found' };
+    }
+
+    const projectJson = JSON.parse(fs.readFileSync(projectJsonPath, 'utf8'));
+
+    // Find and remove the slide from the slides array
+    const slideIndex = projectJson.slides.findIndex(s => s.file === slideFile);
+    if (slideIndex === -1) {
+      return { ok: false, error: `Slide ${slideFile} not found in project index` };
+    }
+
+    projectJson.slides.splice(slideIndex, 1);
+    projectJson.slideCount = projectJson.slides.length;
+
+    // Delete the slide file from disk
+    try {
+      fs.unlinkSync(slidePath);
+    } catch (err) {
+      return { ok: false, error: `Failed to delete slide file: ${err.message}` };
+    }
+
+    // Save updated project.json
+    try {
+      fs.writeFileSync(projectJsonPath, JSON.stringify(projectJson, null, 2), 'utf8');
+    } catch (err) {
+      return { ok: false, error: `Failed to update project.json: ${err.message}` };
+    }
+
+    // Update export.json if it exists
+    const exportJsonPath = path.join(exportDir, 'export.json');
+    if (fs.existsSync(exportJsonPath)) {
+      try {
+        const exportJson = JSON.parse(fs.readFileSync(exportJsonPath, 'utf8'));
+        if (exportJson.content?.slides) {
+          const exportSlideIndex = exportJson.content.slides.findIndex(s => s.file === slideFile);
+          if (exportSlideIndex !== -1) {
+            exportJson.content.slides.splice(exportSlideIndex, 1);
+            exportJson.content.slideCount = exportJson.content.slides.length;
+            fs.writeFileSync(exportJsonPath, JSON.stringify(exportJson, null, 2), 'utf8');
+          }
+        }
+      } catch (err) {
+        console.warn('[export-manager] Failed to update export.json:', err.message);
+        // Don't fail the operation if export.json update fails
+      }
+    }
+
+    return { ok: true };
+  } catch (err) {
+    console.error('[export-manager] deleteSlide error:', err.message);
+    return { ok: false, error: err.message };
+  }
+}
+
+/**
  * Delete an export and its files from disk.
  * Also removes the entry from flow.json.
  *

@@ -439,9 +439,106 @@ export default function SlideEditor({ projectName, initialExports, setToast }) {
       setToast?.({ type: 'success', message: 'New export created.' })
     } catch { setToast?.({ type: 'error', message: 'Export failed.' }) }
     finally  { setForking(false) }
-  }, [checkedSlides, forking, dirtySlides, projectName, setToast, loadExportSlides])
+   }, [checkedSlides, forking, dirtySlides, projectName, setToast, loadExportSlides])
 
-  // ── Split divider drag ───────────────────────────────────────────────────────
+   // ── Delete ───────────────────────────────────────────────────────────────────
+
+   const handleDeleteExport = useCallback(async (flowId, exportId) => {
+     const flow = flows.find(f => f.flowId === flowId)
+     const exp = flow?.exports.find(e => e.exportId === exportId)
+     if (!exp) return
+
+     const confirmed = window.confirm(
+       `Delete Export #${exp.exportNumber}?\n\nThis will remove all ${exp.slideCount} slide(s). This action cannot be undone.`
+     )
+     if (!confirmed) return
+
+     try {
+       const res = await fetch(
+         `/api/projects/${projectName}/flows/${flowId}/exports/${exportId}`,
+         { method: 'DELETE' }
+       )
+       if (!res.ok) throw new Error('Failed to delete export')
+
+       // Clear selection if deleted export is open
+       const [selFlowId, selExportId] = selectedKey?.split('::') ?? []
+       if (selFlowId === flowId && selExportId === exportId) {
+         setSelectedKey(null)
+       }
+
+       // Remove from flows
+       setFlows(prev => prev.map(f =>
+         f.flowId !== flowId ? f : {
+           ...f,
+           exports: f.exports.filter(e => e.exportId !== exportId),
+         }
+       ))
+
+       setToast?.({ type: 'success', message: `Export #${exp.exportNumber} deleted` })
+     } catch (err) {
+       setToast?.({ type: 'error', message: err.message })
+     }
+   }, [flows, selectedKey, projectName, setToast])
+
+   const handleDeleteSlide = useCallback(async (flowId, exportId, slideFile) => {
+     const flow = flows.find(f => f.flowId === flowId)
+     const exp = flow?.exports.find(e => e.exportId === exportId)
+     const slide = exp?.slides?.find(s => s.file === slideFile)
+     if (!slide) return
+
+     const confirmed = window.confirm(
+       `Delete slide "${slide.title || slideFile}"?\n\nThis action cannot be undone.`
+     )
+     if (!confirmed) return
+
+     try {
+       const res = await fetch(
+         `/api/projects/${projectName}/flows/${flowId}/exports/${exportId}/slides/${slideFile}`,
+         { method: 'DELETE' }
+       )
+       if (!res.ok) throw new Error('Failed to delete slide')
+
+       // Clear selection if deleted slide is open
+       const slideKey = `${flowId}::${exportId}::${slideFile}`
+       if (selectedKey === slideKey) {
+         setSelectedKey(null)
+       }
+
+       // Remove from flows
+       setFlows(prev => prev.map(f =>
+         f.flowId !== flowId ? f : {
+           ...f,
+           exports: f.exports.map(e =>
+             e.exportId !== exportId ? e : {
+               ...e,
+               slides: e.slides.filter(s => s.file !== slideFile),
+               slideCount: (e.slideCount || 0) - 1,
+             }
+           ),
+         }
+       ))
+
+       // Remove from dirty slides if present
+       setDirtySlides(prev => {
+         const next = { ...prev }
+         delete next[slideKey]
+         return next
+       })
+
+       // Remove from checked slides if present
+       setCheckedSlides(prev => {
+         const next = new Set(prev)
+         next.delete(slideKey)
+         return next
+       })
+
+       setToast?.({ type: 'success', message: 'Slide deleted' })
+     } catch (err) {
+       setToast?.({ type: 'error', message: err.message })
+     }
+   }, [flows, selectedKey, projectName, setToast])
+
+   // ── Split divider drag ───────────────────────────────────────────────────────
 
   const onDividerMouseDown = useCallback((e) => {
     e.preventDefault()
@@ -598,19 +695,30 @@ export default function SlideEditor({ projectName, initialExports, setToast }) {
                   const loading  = loadingExports.has(expKey)
                   return (
                     <div key={exp.exportId} className={styles.exportGroup}>
-                      <button
-                        className={styles.exportToggle}
-                        onClick={() => toggleExport(flow.flowId, exp.exportId)}
-                        aria-expanded={expanded}
-                        aria-label={`${expanded ? 'Collapse' : 'Expand'} Export #${exp.exportNumber}, ${exp.slideCount} ${exp.slideCount === 1 ? 'slide' : 'slides'}`}
-                      >
-                        <span className={styles.toggleIcon}>{expanded ? '▾' : '▸'}</span>
-                        <span className={styles.exportName}>Export #{exp.exportNumber}</span>
-                        <span className={styles.exportMeta}>
-                          {exp.slideCount} {exp.slideCount === 1 ? 'slide' : 'slides'}
-                          {exp.createdAt ? ` · ${new Date(exp.createdAt).toLocaleDateString()}` : ''}
-                        </span>
-                      </button>
+                       <div className={styles.exportHeader}>
+                         <button
+                           className={styles.exportToggle}
+                           onClick={() => toggleExport(flow.flowId, exp.exportId)}
+                           aria-expanded={expanded}
+                           aria-label={`${expanded ? 'Collapse' : 'Expand'} Export #${exp.exportNumber}, ${exp.slideCount} ${exp.slideCount === 1 ? 'slide' : 'slides'}`}
+                         >
+                           <span className={styles.toggleIcon}>{expanded ? '▾' : '▸'}</span>
+                           <span className={styles.exportName}>Export #{exp.exportNumber}</span>
+                           <span className={styles.exportMeta}>
+                             {exp.slideCount} {exp.slideCount === 1 ? 'slide' : 'slides'}
+                             {exp.createdAt ? ` · ${new Date(exp.createdAt).toLocaleDateString()}` : ''}
+                           </span>
+                         </button>
+                         <button
+                           className={styles.deleteExportBtn}
+                           onClick={(e) => {
+                             e.stopPropagation()
+                             handleDeleteExport(flow.flowId, exp.exportId)
+                           }}
+                           title="Delete export"
+                           aria-label="Delete export"
+                         >×</button>
+                       </div>
 
                       {expanded && (
                         <div className={styles.slideList}>
@@ -686,19 +794,28 @@ export default function SlideEditor({ projectName, initialExports, setToast }) {
                                     }
                                   }}
                                 />
-                                {isDirtyS && (
-                                  <span
-                                    className={styles.slideDot}
-                                    role="img"
-                                    aria-label="Unsaved changes"
-                                    title="Unsaved changes"
-                                  >●</span>
-                                )}
-                              </div>
-                            )
-                          })}
-                        </div>
-                      )}
+                                 {isDirtyS && (
+                                   <span
+                                     className={styles.slideDot}
+                                     role="img"
+                                     aria-label="Unsaved changes"
+                                     title="Unsaved changes"
+                                   >●</span>
+                                 )}
+                                 <button
+                                   className={styles.deleteSlideBtn}
+                                   onClick={(e) => {
+                                     e.stopPropagation()
+                                     handleDeleteSlide(flow.flowId, exp.exportId, slide.file)
+                                   }}
+                                   title="Delete slide"
+                                   aria-label="Delete slide"
+                                 >×</button>
+                               </div>
+                             )
+                           })}
+                         </div>
+                       )}
                     </div>
                   )
                 })}

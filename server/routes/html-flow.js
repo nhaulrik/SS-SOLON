@@ -31,6 +31,7 @@ import {
   resolveSlideFilePath,
   getExportCount,
   deleteExport,
+  deleteSlide,
   buildExportZip,
   forkExport,
   updateSlideTitle,
@@ -947,6 +948,22 @@ router.patch('/projects/:projectName/flows/:flowId/exports/:exportId/slides/:sli
     return res.json({ ok: true });
   } catch (err) {
     console.error('[html-flow] patch-slide error:', err);
+    return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+router.delete('/projects/:projectName/flows/:flowId/exports/:exportId/slides/:slideFile', (req, res) => {
+  try {
+    const { projectName, flowId, exportId, slideFile } = req.params;
+
+    const result = deleteSlide(projectName, flowId, exportId, slideFile);
+    if (!result.ok) {
+      return res.status(404).json({ ok: false, error: result.error });
+    }
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('[html-flow] delete-slide error:', err);
     return res.status(500).json({ ok: false, error: err.message });
   }
 });
