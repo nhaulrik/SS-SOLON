@@ -71,11 +71,12 @@ router.get('/:projectName/presentation-structures/:structureId', async (req, res
 router.patch('/:projectName/presentation-structures/:structureId', async (req, res) => {
   try {
     const { projectName, structureId } = req.params;
-    const { name, slides, tree } = req.body;
+    const { name, slides, tree, levelNames } = req.body;
     const patch = {};
-    if (name   !== undefined) patch.name   = name;
-    if (slides !== undefined) patch.slides = slides;
-    if (tree   !== undefined) patch.tree   = tree;
+    if (name        !== undefined) patch.name       = name;
+    if (slides      !== undefined) patch.slides     = slides;
+    if (tree        !== undefined) patch.tree       = tree;
+    if (levelNames  !== undefined) patch.levelNames = levelNames;
     const updated = updateStructure(projectName, structureId, patch);
     return res.json(updated);
   } catch (err) {

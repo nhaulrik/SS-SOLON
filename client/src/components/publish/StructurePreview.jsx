@@ -13,7 +13,7 @@ function flattenTreeForPreview(tree, slides, depth = 0) {
   return result
 }
 
-export default function StructurePreview({ slides, tree, projectName }) {
+export default function StructurePreview({ slides, tree, levelNames, projectName }) {
   const flat = useMemo(() => flattenTreeForPreview(tree, slides), [tree, slides])
 
   return (
@@ -55,7 +55,11 @@ export default function StructurePreview({ slides, tree, projectName }) {
                   <span className={styles.slideTitle}>{slide?.title || 'Untitled'}</span>
                   <span className={styles.slideMeta}>
                     {slide?.exportId} · Slide {slide?.slideIndex}
-                    {depth > 0 && <span className={styles.depthBadge}>Level {depth}</span>}
+                    {((levelNames || [])[depth] || depth > 0) && (
+                      <span className={styles.depthBadge}>
+                        {(levelNames || [])[depth] || `Level ${depth}`}
+                      </span>
+                    )}
                   </span>
                 </div>
               </div>

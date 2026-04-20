@@ -15,6 +15,7 @@
  *       "slides": [
  *         { "id": "sr-<uuid>", "flowId": "...", "exportId": "...", "slideIndex": 1, "title": "Slide 1" }
  *       ],
+ *       "levelNames": ["Chapter", "Section"],
  *       "tree": [
  *         { "slideRefId": "sr-<uuid>", "children": [] }
  *       ]
@@ -95,9 +96,10 @@ export function updateStructure(projectName, structureId, patch) {
   const existing = data.structures[idx];
   const updated = {
     ...existing,
-    ...(patch.name   !== undefined ? { name:   patch.name   } : {}),
-    ...(patch.slides !== undefined ? { slides: patch.slides } : {}),
-    ...(patch.tree   !== undefined ? { tree:   patch.tree   } : {}),
+    ...(patch.name        !== undefined ? { name:       patch.name       } : {}),
+    ...(patch.slides      !== undefined ? { slides:     patch.slides     } : {}),
+    ...(patch.tree        !== undefined ? { tree:       patch.tree       } : {}),
+    ...(patch.levelNames  !== undefined ? { levelNames: patch.levelNames } : {}),
     updatedAt: new Date().toISOString(),
   };
   data.structures[idx] = updated;

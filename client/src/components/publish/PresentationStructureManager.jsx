@@ -115,8 +115,15 @@ export default function PresentationStructureManager({ projectName, setToast }) 
   }, [activeStructureId])
 
   const handleSaveTree = useCallback(async (slides, tree) => {
-    await handleSave({ slides, tree })
-  }, [activeStructureId, handleSave])
+    const current = structures.find(s => s.id === activeStructureId)
+    await handleSave({ slides, tree, levelNames: current?.levelNames || [] })
+  }, [activeStructureId, handleSave, structures])
+
+  const handleUpdateLevelNames = useCallback((levelNames) => {
+    setStructures(prev => prev.map(s =>
+      s.id === activeStructureId ? { ...s, levelNames } : s
+    ))
+  }, [activeStructureId])
 
   if (loading) {
     return (
@@ -183,7 +190,7 @@ export default function PresentationStructureManager({ projectName, setToast }) 
           {activeStructure && (
             <button
               className={styles.saveBtn}
-              onClick={() => handleSave({ slides: activeStructure.slides, tree: activeStructure.tree })}
+              onClick={() => handleSave({ slides: activeStructure.slides, tree: activeStructure.tree, levelNames: activeStructure.levelNames || [] })}
               disabled={saving}
               aria-label="Save structure"
             >
@@ -219,7 +226,9 @@ export default function PresentationStructureManager({ projectName, setToast }) 
             <TreeBuilder
               slides={activeStructure.slides || []}
               tree={activeStructure.tree || []}
+              levelNames={activeStructure.levelNames || []}
               onChange={handleUpdateTree}
+              onLevelNamesChange={handleUpdateLevelNames}
               onSave={handleSaveTree}
             />
           </div>
@@ -229,6 +238,7 @@ export default function PresentationStructureManager({ projectName, setToast }) 
             <StructurePreview
               slides={activeStructure.slides || []}
               tree={activeStructure.tree || []}
+              levelNames={activeStructure.levelNames || []}
               projectName={projectName}
             />
           </div>

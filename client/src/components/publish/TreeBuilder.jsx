@@ -22,7 +22,6 @@ function removeFromTree(tree, slideRefId) {
 }
 
 function nestUnderParent(tree, childIds, parentId) {
-  // Remove children from their current positions
   let newTree = tree
   const childNodes = []
   for (const id of childIds) {
@@ -30,7 +29,6 @@ function nestUnderParent(tree, childIds, parentId) {
     if (found) childNodes.push(found)
     newTree = removeFromTree(newTree, id)
   }
-  // Insert under parent
   return insertUnderParent(newTree, parentId, childNodes)
 }
 
@@ -70,20 +68,29 @@ function moveToRoot(tree, slideRefIds, afterId = null) {
 
 // ── Component ──────────────────────────────────────────────────────────────────
 
-export default function TreeBuilder({ slides, tree, onChange, onSave }) {
+export default function TreeBuilder({ slides, tree, levelNames, onChange, onLevelNamesChange, onSave }) {
   const [selectedIds, setSelectedIds] = useState(new Set())
   const [settingParentMode, setSettingParentMode] = useState(false)
-  const [dragOverId, setDragOverId] = useState(null) // node being dragged over
+  const [dragOverId, setDragOverId] = useState(null)
   const [dragOverZone, setDragOverZone] = useState(null) // 'before' | 'into' | 'after'
   const dragSourceIds = useRef(new Set())
 
   const flat = flattenTree(tree, slides)
 
+  // Derive how many depth levels exist in the current tree
+  const maxDepth = flat.length > 0 ? Math.max(...flat.map(f => f.depth)) : 0
+  const depthLevels = Array.from({ length: maxDepth + 1 }, (_, i) => i)
+
+  const handleLevelNameChange = useCallback((depth, value) => {
+    const next = [...(levelNames || [])]
+    next[depth] = value
+    onLevelNamesChange(next)
+  }, [levelNames, onLevelNamesChange])
+
   const toggleSelect = useCallback((id, event) => {
     setSelectedIds(prev => {
       const next = new Set(prev)
       if (event?.shiftKey && prev.size > 0) {
-        // Shift-click: select range
         const flatIds = flat.map(f => f.node.slideRefId)
         const lastSelected = [...prev].pop()
         const fromIdx = flatIds.indexOf(lastSelected)
@@ -116,7 +123,6 @@ export default function TreeBuilder({ slides, tree, onChange, onSave }) {
   // ── Drag and drop ──────────────────────────────────────────────────────────
 
   const handleDragStart = useCallback((e, slideRefId) => {
-    // If the dragged node is not in selection, make it the only selection
     if (!selectedIds.has(slideRefId)) {
       setSelectedIds(new Set([slideRefId]))
       dragSourceIds.current = new Set([slideRefId])
@@ -144,7 +150,7 @@ export default function TreeBuilder({ slides, tree, onChange, onSave }) {
     setDragOverId(null)
     setDragOverZone(null)
     const sourceIds = [...dragSourceIds.current]
-    if (sourceIds.includes(targetId)) return // can't drop on self
+    if (sourceIds.includes(targetId)) return
 
     let newTree
     if (zone === 'into') {
@@ -204,6 +210,28 @@ export default function TreeBuilder({ slides, tree, onChange, onSave }) {
         </div>
       </div>
 
+      {/* ── Level names editor ── */}
+      <div className={styles.levelNamesSection}>
+        <span className={styles.levelNamesSectionLabel}>Level Names</span>
+        <div className={styles.levelNamesList}>
+          {depthLevels.map(depth => (
+            <div key={depth} className={styles.levelNameRow}>
+              <span className={styles.levelNameDepth}>
+                {depth === 0 ? 'Root' : `Level ${depth}`}
+              </span>
+              <input
+                className={styles.levelNameInput}
+                value={(levelNames || [])[depth] || ''}
+                onChange={e => handleLevelNameChange(depth, e.target.value)}
+                placeholder={depth === 0 ? 'e.g. Chapter' : depth === 1 ? 'e.g. Section' : 'e.g. Slide'}
+                maxLength={40}
+                aria-label={`Name for ${depth === 0 ? 'root' : `level ${depth}`}`}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
       {settingParentMode && (
         <div className={styles.setParentHint}>
           Click any node to make it the parent of {selectedIds.size} selected slides
@@ -214,6 +242,7 @@ export default function TreeBuilder({ slides, tree, onChange, onSave }) {
         {flat.map(({ node, slide, depth }) => {
           const isSelected = selectedIds.has(node.slideRefId)
           const isDragTarget = dragOverId === node.slideRefId
+          const levelLabel = (levelNames || [])[depth]
           return (
             <div
               key={node.slideRefId}
@@ -250,6 +279,9 @@ export default function TreeBuilder({ slides, tree, onChange, onSave }) {
                 <span className={styles.depthIndicator} aria-hidden="true">
                   {'└ '.repeat(depth)}
                 </span>
+                {levelLabel && (
+                  <span className={styles.nodeLevelTag}>{levelLabel}</span>
+                )}
                 <span className={styles.nodeTitle}>{slide?.title || node.slideRefId}</span>
                 <span className={styles.nodeMeta}>{slide?.exportId} · {slide?.slideIndex}</span>
                 <button

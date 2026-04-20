@@ -88,6 +88,68 @@
   outline-offset: 2px;
 }
 
+/* ── Level names section ── */
+.levelNamesSection {
+  padding: 8px var(--space-md);
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(10, 31, 27, 0.35);
+  flex-shrink: 0;
+}
+
+.levelNamesSectionLabel {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.levelNamesList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.levelNameRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.levelNameDepth {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  width: 52px;
+  flex-shrink: 0;
+}
+
+.levelNameInput {
+  flex: 1;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--text-primary);
+  background: rgba(20, 47, 41, 0.6);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  padding: 3px 8px;
+  outline: none;
+  transition: border-color 0.15s, background-color 0.15s;
+  min-width: 0;
+}
+
+.levelNameInput:focus {
+  border-color: var(--accent-primary);
+  background: rgba(20, 47, 41, 0.9);
+}
+
+.levelNameInput::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
 /* ── Set parent hint ── */
 .setParentHint {
   padding: 8px var(--space-md);
@@ -231,6 +293,19 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.nodeLevelTag {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(115, 170, 135, 0.12);
+  border: 1px solid rgba(115, 170, 135, 0.2);
+  color: var(--accent-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
 }
 
 .nodeMeta {
