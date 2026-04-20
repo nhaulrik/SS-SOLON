@@ -39,7 +39,7 @@ function buildPreviewSrcDoc(html, scale) {
   if (!html) return ''
   const s = typeof scale === 'number' && scale > 0 ? scale : 1
 
-  const injection = `<style>
+   const injection = `<style>
 html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:#0a0f1a;display:block}
 #solon-slide-shell{position:absolute;top:0;left:0;width:1280px;height:720px;transform-origin:top left;transform:scale(${s});overflow:hidden}
 </style>
@@ -75,7 +75,14 @@ function makeEditable(el){
   el.addEventListener('blur',function(){el.contentEditable='false';el.style.outline='none';el.style.backgroundColor='';window.parent.postMessage({type:'solon-edit',selector:getSelectorPath(el),newText:el.innerText},'*')});
   el.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();el.blur()}});
 }
-document.querySelectorAll('*').forEach(makeEditable);
+function initEditable(){
+  document.querySelectorAll('*').forEach(makeEditable);
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',initEditable);
+}else{
+  initEditable();
+}
 })();
 </script>`
 
