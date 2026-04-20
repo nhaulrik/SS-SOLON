@@ -13,6 +13,11 @@ export default function PresentationStructureManager({ projectName, setToast }) 
   const [saving, setSaving] = useState(false)
   const [nameEditing, setNameEditing] = useState(false)
   const [nameValue, setNameValue] = useState('')
+  const [showPublishDialog, setShowPublishDialog] = useState(false)
+  const [publishName, setPublishName] = useState('')
+  const [publishError, setPublishError] = useState('')
+  const [isPublishing, setIsPublishing] = useState(false)
+  const [publishSuccess, setPublishSuccess] = useState(false)
 
   const activeStructure = structures.find(s => s.id === activeStructureId) || null
 
@@ -145,6 +150,50 @@ export default function PresentationStructureManager({ projectName, setToast }) 
     ))
   }, [activeStructureId])
 
+  const sanitizeName = (name) => {
+    return name.trim().replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '')
+  }
+
+  const isValidPresentationName = (name) => {
+    return /^[a-zA-Z0-9_-]+$/.test(name) && name.length > 0
+  }
+
+  const handlePublishClick = () => {
+    const defaultName = sanitizeName(activeStructure?.name || 'presentation')
+    setPublishName(defaultName)
+    setPublishError('')
+    setPublishSuccess(false)
+    setShowPublishDialog(true)
+  }
+
+  const handlePublish = async () => {
+    if (!isValidPresentationName(publishName)) {
+      setPublishError('Name must contain only letters, numbers, hyphens, and underscores')
+      return
+    }
+    setIsPublishing(true)
+    try {
+      const res = await fetch(`/api/projects/${projectName}/presentations`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: publishName, structureId: activeStructure.id }),
+      })
+      if (!res.ok) throw new Error('Failed to publish presentation')
+      setPublishSuccess(true)
+      setTimeout(() => {
+        setShowPublishDialog(false)
+        setPublishName('')
+        setPublishError('')
+        setPublishSuccess(false)
+        setToast?.({ type: 'success', message: '✓ Presentation published! View it in the Presentations tab.' })
+      }, 1500)
+    } catch (err) {
+      setPublishError(err.message)
+    } finally {
+      setIsPublishing(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className={styles.loadingState}>
@@ -225,6 +274,15 @@ export default function PresentationStructureManager({ projectName, setToast }) 
               >
                 {saving ? 'Saving…' : 'Save'}
               </button>
+              <button
+                className={styles.publishBtn}
+                onClick={handlePublishClick}
+                disabled={isPublishing}
+                aria-label="Publish presentation"
+                title="Publish presentation"
+              >
+                {isPublishing ? 'Publishing…' : '🚀 Publish'}
+              </button>
             </>
           )}
         </div>
@@ -274,6 +332,64 @@ export default function PresentationStructureManager({ projectName, setToast }) 
           </div>
         </div>
       ) : null}
+
+      {/* ── Publish Presentation Dialog ────────────────────────────────── */}
+      {showPublishDialog && (
+        <div className={styles.dialogOverlay}>
+          <div className={styles.dialog}>
+            <div className={styles.dialogHeader}>
+              <h2>Publish Presentation</h2>
+            </div>
+            <div className={styles.dialogBody}>
+              {publishSuccess ? (
+                <p style={{ color: 'var(--success)', textAlign: 'center', margin: 0 }}>
+                  ✓ Published! View in the Presentations tab.
+                </p>
+              ) : (
+                <>
+                  <label htmlFor="publish-name-input">Presentation name</label>
+                  <input
+                    id="publish-name-input"
+                    type="text"
+                    value={publishName}
+                    onChange={e => {
+                      setPublishName(e.target.value)
+                      setPublishError('')
+                    }}
+                    placeholder="my-presentation"
+                    disabled={isPublishing}
+                    autoFocus
+                  />
+                  {publishError && <div className={styles.dialogError}>{publishError}</div>}
+                </>
+              )}
+            </div>
+            <div className={styles.dialogActions}>
+              <button
+                className={styles.dialogCancel}
+                onClick={() => {
+                  setShowPublishDialog(false)
+                  setPublishName('')
+                  setPublishError('')
+                  setPublishSuccess(false)
+                }}
+                disabled={isPublishing}
+              >
+                Cancel
+              </button>
+              {!publishSuccess && (
+                <button
+                  className={styles.dialogPublish}
+                  onClick={handlePublish}
+                  disabled={isPublishing || !isValidPresentationName(publishName)}
+                >
+                  {isPublishing ? 'Publishing…' : 'Publish'}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

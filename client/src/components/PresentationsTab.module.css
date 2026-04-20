@@ -1,0 +1,358 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-md);
+}
+
+.card {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.5));
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-4px);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+  flex: 1;
+  word-break: break-word;
+}
+
+.renameInput {
+  flex: 1;
+  padding: var(--space-sm) 12px;
+  border: 1px solid var(--accent-primary);
+  border-radius: var(--radius-xs);
+  background: rgba(15, 23, 42, 0.8);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.renameInput:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(76, 175, 128, 0.1);
+}
+
+.cardMeta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.metaItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metaLabel {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.metaValue {
+  font-size: 13px;
+  color: var(--accent-primary);
+  font-weight: 500;
+}
+
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.openButton {
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-xs);
+  padding: var(--space-xs) 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+  flex: 1;
+  min-width: 70px;
+  min-height: 36px;
+}
+
+.openButton:hover {
+  filter: brightness(1.1);
+}
+
+.openButton:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.renameButton {
+  background-color: rgba(76, 175, 128, 0.1);
+  color: var(--accent-primary);
+  border: 1px solid rgba(76, 175, 128, 0.2);
+  border-radius: var(--radius-xs);
+  padding: var(--space-xs) 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  flex: 1;
+  min-width: 70px;
+  min-height: 36px;
+}
+
+.renameButton:hover {
+  background-color: rgba(76, 175, 128, 0.2);
+  border-color: rgba(76, 175, 128, 0.4);
+}
+
+.renameButton:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+.deleteButton {
+  background-color: rgba(229, 62, 62, 0.08);
+  color: var(--color-danger, #e53e3e);
+  border: 1px solid rgba(229, 62, 62, 0.2);
+  border-radius: var(--radius-xs);
+  padding: var(--space-xs) 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  flex: 1;
+  min-width: 70px;
+  min-height: 36px;
+}
+
+.deleteButton:hover {
+  background-color: rgba(229, 62, 62, 0.15);
+  border-color: rgba(229, 62, 62, 0.4);
+}
+
+.deleteButton:focus-visible {
+  outline: 2px solid var(--color-danger, #e53e3e);
+  outline-offset: 2px;
+}
+
+.deleteConfirmButton {
+  background-color: rgba(229, 62, 62, 0.15);
+  color: var(--color-danger, #e53e3e);
+  border: 1px solid rgba(229, 62, 62, 0.45);
+  border-radius: var(--radius-xs);
+  padding: var(--space-xs) 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  flex: 1;
+  min-width: 70px;
+  min-height: 36px;
+}
+
+.deleteConfirmButton:hover {
+  background-color: rgba(229, 62, 62, 0.25);
+  border-color: rgba(229, 62, 62, 0.65);
+}
+
+.deleteConfirmButton:focus-visible {
+  outline: 2px solid var(--color-danger, #e53e3e);
+  outline-offset: 2px;
+}
+
+.confirmButton {
+  background-color: rgba(34, 197, 94, 0.15);
+  color: var(--success, #22c55e);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: var(--radius-xs);
+  padding: var(--space-xs) 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmButton:hover {
+  background-color: rgba(34, 197, 94, 0.25);
+  border-color: rgba(34, 197, 94, 0.6);
+}
+
+.confirmButton:focus-visible {
+  outline: 2px solid var(--success, #22c55e);
+  outline-offset: 2px;
+}
+
+.cancelButton {
+  background-color: rgba(148, 163, 184, 0.1);
+  color: var(--text-secondary);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: var(--radius-xs);
+  padding: var(--space-xs) 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cancelButton:hover {
+  background-color: rgba(148, 163, 184, 0.2);
+  border-color: rgba(148, 163, 184, 0.4);
+}
+
+.cancelButton:focus-visible {
+  outline: 2px solid var(--text-secondary);
+  outline-offset: 2px;
+}
+
+/* Empty State */
+.emptyState {
+  padding: var(--space-xl);
+  text-align: center;
+  background-color: rgba(76, 175, 128, 0.05);
+  border: 1px dashed rgba(76, 175, 128, 0.2);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.emptyIcon {
+  font-size: 48px;
+}
+
+.emptyState p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+/* Loading State */
+.loadingSpinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  min-height: 300px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(76, 175, 128, 0.2);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingSpinner p {
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+/* Error State */
+.errorContainer {
+  padding: var(--space-xl);
+  text-align: center;
+  background-color: rgba(229, 62, 62, 0.05);
+  border: 1px dashed rgba(229, 62, 62, 0.2);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.errorContainer p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.retryButton {
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-xs);
+  padding: var(--space-sm) 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s;
+  min-height: 36px;
+}
+
+.retryButton:hover {
+  filter: brightness(1.1);
+}
+
+.retryButton:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardActions {
+    flex-direction: column;
+  }
+
+  .openButton,
+  .renameButton,
+  .deleteButton,
+  .deleteConfirmButton {
+    flex: none;
+    width: 100%;
+  }
+}

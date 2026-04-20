@@ -27,7 +27,7 @@
 
 import fs   from 'fs';
 import path from 'path';
-import { resolveFlowDir, loadFlow, saveFlow } from './project-manager.js';
+import { resolveFlowDir, loadFlow, saveFlow, resolveProjectDir } from './project-manager.js';
 import { EXPORT_ID_RE }                       from './validation.js';
 
 // ── Path helpers ──────────────────────────────────────────────────────────────
@@ -875,4 +875,364 @@ function getCrc32Table() {
     _crc32Table[i] = c;
   }
   return _crc32Table;
+}
+
+// ── Presentation Publishing ───────────────────────────────────────────────────
+
+/**
+ * Resolve all slide nodes from a tree structure.
+ * Returns a lean tree (no HTML content) and a flat map of slide files.
+ * 
+ * @param {Array} tree - Array of tree nodes: { slideRefId, label?, children[] }
+ * @param {Array} slidesRegistry - Array of slide entries: { id, flowId, exportId, slideIndex, title }
+ * @param {string} projectDir - Absolute path to the project directory
+ * @returns {{ resolvedTree: Array, slideFiles: Object }} Lean tree and slide content map
+ */
+function resolveSlideNodes(tree, slidesRegistry, projectDir) {
+  if (!Array.isArray(tree)) return { resolvedTree: [], slideFiles: {} };
+  if (!Array.isArray(slidesRegistry)) return { resolvedTree: [], slideFiles: {} };
+
+  // Build lookup map: slideRefId -> slide entry
+  const slideMap = {};
+  for (const slide of slidesRegistry) {
+    if (slide.id) {
+      slideMap[slide.id] = slide;
+    }
+  }
+
+  const slideFiles = {};
+
+  // Recursively resolve tree nodes
+  function resolveNode(node) {
+    const slideRefId = node.slideRefId;
+    const slideEntry = slideMap[slideRefId];
+    
+    // Determine label: use slide.title from registry, fallback to node.label, then slideRefId
+    let label = slideRefId;
+    if (slideEntry && slideEntry.title) {
+      label = slideEntry.title;
+    } else if (node.label) {
+      label = node.label;
+    }
+
+    const resolved = {
+      id: slideRefId,
+      label: label,
+      hasSlide: false,
+      children: [],
+    };
+
+    // Try to resolve the slide content
+    if (slideEntry && slideEntry.flowId && slideEntry.exportId && slideEntry.slideIndex) {
+      const slideFilePath = path.join(
+        projectDir,
+        'flows',
+        slideEntry.flowId,
+        'exports',
+        slideEntry.exportId,
+        `slide-${slideEntry.slideIndex}.html`
+      );
+
+      try {
+        if (fs.existsSync(slideFilePath)) {
+          const htmlContent = fs.readFileSync(slideFilePath, 'utf8');
+          slideFiles[slideRefId] = htmlContent;
+          resolved.hasSlide = true;
+        }
+      } catch (err) {
+        console.warn(`[export-manager] Failed to read slide file: ${slideFilePath}`, err.message);
+      }
+    }
+
+    // Recursively resolve children
+    if (Array.isArray(node.children)) {
+      for (const child of node.children) {
+        resolved.children.push(resolveNode(child));
+      }
+    }
+
+    return resolved;
+  }
+
+  const resolvedTree = tree.map(node => resolveNode(node));
+  return { resolvedTree, slideFiles };
+}
+
+/**
+ * Publish a presentation by bundling slides from the project's tree structure.
+ *
+ * @param {string} projectName - The project name (e.g. "my-project")
+ * @param {string} presentationName - The presentation name (e.g. "my-presentation")
+ * @param {string} structureId - The structure ID to publish (e.g. "ps-99c47e0e-...")
+ * @returns {{ ok: true, outputPath, slideCount, publishedAt } | { ok: false, error: string }}
+ */
+export function publishPresentation(projectName, presentationName, structureId) {
+  try {
+    // Validate inputs
+    if (!projectName || typeof projectName !== 'string') {
+      throw new Error('projectName is required');
+    }
+    if (!presentationName || typeof presentationName !== 'string') {
+      throw new Error('presentationName is required');
+    }
+    if (!structureId || typeof structureId !== 'string') {
+      throw new Error('structureId is required');
+    }
+
+    const projectDir = resolveProjectDir(projectName);
+    if (!projectDir || !fs.existsSync(projectDir)) {
+      throw new Error(`Project "${projectName}" not found`);
+    }
+
+    // Read presentation-structures.json
+    const structuresPath = path.join(projectDir, 'presentation-structures.json');
+    if (!fs.existsSync(structuresPath)) {
+      throw new Error('No presentation structures found in project');
+    }
+
+    let structures;
+    try {
+      structures = JSON.parse(fs.readFileSync(structuresPath, 'utf8'));
+    } catch (err) {
+      throw new Error(`Failed to parse presentation-structures.json: ${err.message}`);
+    }
+
+    // Find structure by ID
+    const structure = (structures.structures || []).find(s => s.id === structureId);
+    if (!structure) {
+      throw new Error(`Structure not found: ${structureId}`);
+    }
+
+    if (!structure.tree) {
+      throw new Error('Presentation structure has no tree');
+    }
+
+    // Resolve all slide nodes from the tree
+    const { resolvedTree, slideFiles } = resolveSlideNodes(structure.tree, structure.slides || [], projectDir);
+
+    // Check that at least one slide was found
+    if (Object.keys(slideFiles).length === 0) {
+      throw new Error('No slides found in presentation tree');
+    }
+
+    const publishedAt = new Date().toISOString();
+
+    // Create presentations directory structure
+    const presentationsDir = path.join(projectDir, 'presentations');
+    const presentationDir = path.join(presentationsDir, presentationName);
+    const slidesDir = path.join(presentationDir, 'slides');
+    fs.mkdirSync(slidesDir, { recursive: true });
+
+    // Write individual slide files
+    for (const [slideRefId, htmlContent] of Object.entries(slideFiles)) {
+      const slidePath = path.join(slidesDir, `${slideRefId}.html`);
+      fs.writeFileSync(slidePath, htmlContent, 'utf8');
+    }
+
+    // Build and write index.html
+    const indexHtml = buildPresentationHtml(resolvedTree, presentationName, publishedAt);
+    const indexPath = path.join(presentationDir, 'index.html');
+    fs.writeFileSync(indexPath, indexHtml, 'utf8');
+
+    // Write meta.json
+    const metaJson = {
+      name: presentationName,
+      publishedAt,
+      slideCount: Object.keys(slideFiles).length,
+      structureId,
+      structureName: structure.name,
+    };
+    const metaPath = path.join(presentationDir, 'meta.json');
+    fs.writeFileSync(metaPath, JSON.stringify(metaJson, null, 2), 'utf8');
+
+    return {
+      ok: true,
+      outputPath: indexPath,
+      slideCount: Object.keys(slideFiles).length,
+      publishedAt,
+    };
+  } catch (err) {
+    console.error('[export-manager] publishPresentation error:', err.message);
+    return { ok: false, error: err.message };
+  }
+}
+
+/**
+ * Build the presentation HTML document.
+ * Produces a complete, self-contained two-panel layout with sidebar navigation and iframe scaling.
+ *
+ * @param {Array} resolvedTree - Resolved tree nodes: { id, label, hasSlide, children[] }
+ * @param {string} presentationName - The presentation name
+ * @param {string} publishedAt - ISO timestamp
+ * @returns {string} Complete HTML document
+ */
+function buildPresentationHtml(resolvedTree, presentationName, publishedAt) {
+  const presentationData = {
+    tree: resolvedTree,
+    meta: {
+      name: presentationName,
+      publishedAt,
+    },
+  };
+  const dataJson = JSON.stringify(presentationData);
+
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>${escapeHtml(presentationName)}</title>
+  <script>
+    window.__PRESENTATION__ = ${dataJson};
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; font-family: system-ui, sans-serif; background: #13131f; color: #cdd6f4; }
+    #pres-header { height: 48px; background: #1e1e2e; border-bottom: 1px solid #313244; display: flex; align-items: center; padding: 0 20px; font-size: 15px; font-weight: 600; color: #cdd6f4; flex-shrink: 0; }
+    #pres-body { display: flex; height: calc(100vh - 48px); }
+    #sidebar { width: 260px; background: #1e1e2e; border-right: 1px solid #313244; overflow-y: auto; padding: 12px 8px; flex-shrink: 0; }
+    #content { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #13131f; position: relative; padding: 24px; }
+    #slide-frame { width: 1280px; height: 720px; border: none; transform-origin: top left; background: #fff; }
+    .tree-node { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 13px; color: #a6adc8; user-select: none; }
+    .tree-node:hover { background: rgba(205,214,244,0.07); color: #cdd6f4; }
+    .tree-node.active { background: rgba(137,180,250,0.15); color: #89b4fa; }
+    .tree-node .icon { font-size: 10px; width: 12px; flex-shrink: 0; color: #6c7086; }
+    .tree-node .dot { width: 6px; height: 6px; border-radius: 50%; background: #45475a; flex-shrink: 0; }
+    .tree-node.has-slide .dot { background: #89b4fa; }
+    .tree-children { padding-left: 16px; }
+    .tree-children.hidden { display: none; }
+  </style>
+</head>
+<body>
+  <header id="pres-header">${escapeHtml(presentationName)}</header>
+  <div id="pres-body">
+    <aside id="sidebar"><div id="tree-root"></div></aside>
+    <main id="content"><iframe id="slide-frame"></iframe></main>
+  </div>
+  <script>
+(function() {
+  const data = window.__PRESENTATION__;
+  if (!data) { console.error('No presentation data'); return; }
+
+  const frame = document.getElementById('slide-frame');
+  const content = document.getElementById('content');
+
+  function scaleFrame() {
+    const w = content.clientWidth - 48;
+    const h = content.clientHeight - 48;
+    const scaleW = w / 1280;
+    const scaleH = h / 720;
+    const scale = Math.min(scaleW, scaleH, 1);
+    frame.style.transform = 'scale(' + scale + ')';
+    const scaledW = 1280 * scale;
+    const scaledH = 720 * scale;
+    frame.style.marginLeft = Math.max(0, (content.clientWidth - scaledW) / 2 - 24) + 'px';
+    frame.style.marginTop = Math.max(0, (content.clientHeight - scaledH) / 2 - 24) + 'px';
+  }
+  window.addEventListener('resize', scaleFrame);
+
+  function firstSlide(nodes) {
+    for (const n of nodes) {
+      if (n.hasSlide) return n;
+      const found = firstSlide(n.children || []);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  let activeId = null;
+  function navigate(id) {
+    activeId = id;
+    frame.src = 'slides/' + id + '.html';
+    document.querySelectorAll('.tree-node').forEach(el => el.classList.remove('active'));
+    const el = document.querySelector('[data-id="' + id + '"]');
+    if (el) el.classList.add('active');
+  }
+
+  function buildTree(nodes, container) {
+    nodes.forEach(function(node) {
+      const wrap = document.createElement('div');
+      const row = document.createElement('div');
+      row.className = 'tree-node' + (node.hasSlide ? ' has-slide' : '');
+      row.dataset.id = node.id;
+
+      const icon = document.createElement('span');
+      icon.className = 'icon';
+      const hasChildren = node.children && node.children.length > 0;
+      icon.textContent = hasChildren ? '▶' : '';
+      row.appendChild(icon);
+
+      const dot = document.createElement('span');
+      dot.className = 'dot';
+      row.appendChild(dot);
+
+      const label = document.createElement('span');
+      label.textContent = node.label;
+      row.appendChild(label);
+
+      const childWrap = document.createElement('div');
+      childWrap.className = 'tree-children hidden';
+
+      if (hasChildren) {
+        buildTree(node.children, childWrap);
+        icon.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const hidden = childWrap.classList.toggle('hidden');
+          icon.textContent = hidden ? '▶' : '▼';
+        });
+      }
+
+      row.addEventListener('click', function() {
+        if (node.hasSlide) {
+          navigate(node.id);
+        } else {
+          const first = firstSlide(node.children || []);
+          if (first) navigate(first.id);
+          if (hasChildren) {
+            childWrap.classList.remove('hidden');
+            icon.textContent = '▼';
+          }
+        }
+      });
+
+      wrap.appendChild(row);
+      wrap.appendChild(childWrap);
+      container.appendChild(wrap);
+    });
+  }
+
+  const root = document.getElementById('tree-root');
+  buildTree(data.tree, root);
+
+  const first = firstSlide(data.tree);
+  if (first) {
+    navigate(first.id);
+    document.querySelectorAll('.tree-children').forEach(el => {
+      el.classList.remove('hidden');
+    });
+    document.querySelectorAll('.tree-node .icon').forEach(el => {
+      if (el.textContent === '▶') el.textContent = '▼';
+    });
+    navigate(first.id);
+  }
+
+  frame.addEventListener('load', scaleFrame);
+  scaleFrame();
+})();
+  </script>
+</body>
+</html>`;
+}
+
+/**
+ * Escape HTML special characters.
+ */
+function escapeHtml(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }

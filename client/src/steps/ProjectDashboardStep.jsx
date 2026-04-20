@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import styles from './ProjectDashboardStep.module.css'
 import SlideEditor from '../components/SlideEditor'
 import PresentationStructureManager from '../components/publish/PresentationStructureManager'
+import PresentationsTab from '../components/PresentationsTab'
 
 /**
  * ProjectDashboardStep
@@ -126,27 +127,33 @@ export default function ProjectDashboardStep({
         </div>
       </div>
 
-      {/* Tab bar */}
-      <div className={styles.tabs}>
-        <button
-          className={`${styles.tab}${activeTab === 'flows' ? ` ${styles.active}` : ''}`}
-          onClick={() => setActiveTab('flows')}
-        >
-          Flows
-        </button>
-        <button
-          className={`${styles.tab}${activeTab === 'editor' ? ` ${styles.active}` : ''}`}
-          onClick={() => setActiveTab('editor')}
-        >
-          Editor
-        </button>
-        <button
-          className={`${styles.tab}${activeTab === 'publish' ? ` ${styles.active}` : ''}`}
-          onClick={() => setActiveTab('publish')}
-        >
-          Publish
-        </button>
-      </div>
+       {/* Tab bar */}
+       <div className={styles.tabs}>
+         <button
+           className={`${styles.tab}${activeTab === 'flows' ? ` ${styles.active}` : ''}`}
+           onClick={() => setActiveTab('flows')}
+         >
+           Flows
+         </button>
+         <button
+           className={`${styles.tab}${activeTab === 'editor' ? ` ${styles.active}` : ''}`}
+           onClick={() => setActiveTab('editor')}
+         >
+           Editor
+         </button>
+         <button
+           className={`${styles.tab}${activeTab === 'publish' ? ` ${styles.active}` : ''}`}
+           onClick={() => setActiveTab('publish')}
+         >
+           Publish
+         </button>
+         <button
+           className={`${styles.tab}${activeTab === 'presentations' ? ` ${styles.active}` : ''}`}
+           onClick={() => setActiveTab('presentations')}
+         >
+           Presentations
+         </button>
+       </div>
 
       <div className={styles.content}>
         {activeTab === 'flows' && (
@@ -286,6 +293,10 @@ export default function ProjectDashboardStep({
           <div className={styles.publishSectionFull}>
             <PresentationStructureManager projectName={projectName} setToast={setToast} />
           </div>
+        )}
+
+        {activeTab === 'presentations' && (
+          <PresentationsTab projectName={projectName} setToast={setToast} />
         )}
 
       </div>
