@@ -38,9 +38,34 @@
     height: 96px;
     background: #1a3c3a;
     display: flex;
-    align-items: center;
-    padding: 0 44px;
+    align-items: stretch;
+    padding: 0;
     justify-content: space-between;
+  }
+  .header-left {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+  }
+  .pi-badge {
+    background: #FF6359;
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 44px;
+    flex: 1;
   }
   .header-label {
     font-size: 10px;
@@ -66,6 +91,7 @@
     display: flex;
     align-items: center;
     gap: 0;
+    padding-right: 44px;
   }
   .header-stat {
     text-align: center;
@@ -521,9 +547,12 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-left">
-      <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
-      <div class="header-title">Core Revenue Management Capabilities</div>
-      <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
     </div>
     <div class="header-right">
       <div class="header-stat">
@@ -532,12 +561,12 @@
       </div>
       <div class="header-divider"></div>
       <div class="header-stat">
-        <div class="header-stat-value">6</div>
+        <div class="header-stat-value">5</div>
         <div class="header-stat-label">Initiatives</div>
       </div>
       <div class="header-divider"></div>
       <div class="header-stat">
-        <div class="header-stat-value">38</div>
+        <div class="header-stat-value">35</div>
         <div class="header-stat-label">Features</div>
       </div>
       <div class="logo">Netcompany</div>
@@ -583,25 +612,19 @@
         <div class="section-title">Priority Split</div>
         <div class="section-body">
           <div class="priority-stacked-bar">
-            <div class="prio-seg" style="width:42%; background:#FF6359;">P1</div>
-            <div class="prio-seg" style="width:35%; background:#F0A500;">P2</div>
-            <div class="prio-seg" style="width:23%; background:#2C4A48;">P3</div>
+            <div class="prio-seg" style="width:55%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:45%; background:#F0A500;">P2</div>
           </div>
           <div class="prio-legend">
             <div class="prio-legend-item">
               <div class="prio-swatch" style="background:#FF6359;"></div>
               <span class="prio-legend-text">Must Have</span>
-              <span class="prio-legend-pct">42% · 16 features</span>
+              <span class="prio-legend-pct">55% · 21 features</span>
             </div>
             <div class="prio-legend-item">
               <div class="prio-swatch" style="background:#F0A500;"></div>
               <span class="prio-legend-text">Should Have</span>
-              <span class="prio-legend-pct">35% · 13 features</span>
-            </div>
-            <div class="prio-legend-item">
-              <div class="prio-swatch" style="background:#2C4A48;"></div>
-              <span class="prio-legend-text">Nice to Have</span>
-              <span class="prio-legend-pct">23% · 9 features</span>
+              <span class="prio-legend-pct">45% · 17 features</span>
             </div>
           </div>
         </div>
@@ -705,22 +728,6 @@
               </td>
               <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
               <td><span class="feat-count">4</span></td>
-            </tr>
-            <tr>
-              <td>
-                <div class="init-name">Exemptions</div>
-                <div class="init-desc">Exemption rules, configurable thresholds, event triggers</div>
-              </td>
-              <td><span class="effort-pill">390h</span></td>
-              <td><span class="pi-text">PI 28</span></td>
-              <td>
-                <span class="status-badge">
-                  <span class="status-dot" style="background:#BBBBBB;"></span>
-                  To Do
-                </span>
-              </td>
-              <td><span class="prio-badge" style="background:#2C4A48;">P3</span></td>
-              <td><span class="feat-count">3</span></td>
             </tr>
             <tr>
               <td>

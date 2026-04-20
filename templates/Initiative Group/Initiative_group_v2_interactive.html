@@ -38,9 +38,36 @@
     height: 96px;
     background: #1a3c3a;
     display: flex;
-    align-items: center;
-    padding: 0 44px;
+    align-items: stretch;
+    padding: 0;
     justify-content: space-between;
+  }
+  .header-left {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+  }
+  .pi-badge {
+    background: linear-gradient(90deg, #FF6359 0%, #FF6359 30%, white 50%, #FF6359 70%, #FF6359 100%);
+    background-size: 1000px 100%;
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    animation: shimmer 30s infinite;
+  }
+  .header-text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 44px;
+    flex: 1;
   }
   .header-label {
     font-size: 10px;
@@ -66,6 +93,7 @@
     display: flex;
     align-items: center;
     gap: 0;
+    padding-right: 44px;
   }
   .header-stat {
     text-align: center;
@@ -548,6 +576,15 @@
     to { transform: rotate(360deg); }
   }
 
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
   .table-spinner {
     position: absolute;
     top: 0;
@@ -865,12 +902,6 @@
     border: 1px solid #FFD580;
   }
 
-  .modal-stat-badge.priority-p3 {
-    background: #f0f5f2;
-    color: #2C4A48;
-    border: 1px solid #B8D5D0;
-  }
-
   .modal-stat-dot {
     width: 8px;
     height: 8px;
@@ -947,9 +978,12 @@
   <!-- HEADER -->
   <div class="header">
     <div class="header-left">
-      <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
-      <div class="header-title">Core Revenue Management Capabilities</div>
-      <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
     </div>
     <div class="header-right">
       <div class="header-stat">
@@ -958,12 +992,12 @@
       </div>
       <div class="header-divider"></div>
       <div class="header-stat">
-        <div class="header-stat-value">6</div>
+        <div class="header-stat-value">5</div>
         <div class="header-stat-label">Initiatives</div>
       </div>
       <div class="header-divider"></div>
       <div class="header-stat">
-        <div class="header-stat-value">38</div>
+        <div class="header-stat-value">35</div>
         <div class="header-stat-label">Features</div>
       </div>
       <div class="logo">Netcompany</div>
@@ -1009,25 +1043,19 @@
         <div class="section-title">Priority Split</div>
         <div class="section-body">
           <div class="priority-stacked-bar">
-            <div class="prio-seg" style="width:42%; background:#FF6359;">P1</div>
-            <div class="prio-seg" style="width:35%; background:#F0A500;">P2</div>
-            <div class="prio-seg" style="width:23%; background:#2C4A48;">P3</div>
+            <div class="prio-seg" style="width:55%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:45%; background:#F0A500;">P2</div>
           </div>
           <div class="prio-legend">
             <div class="prio-legend-item">
               <div class="prio-swatch" style="background:#FF6359;"></div>
               <span class="prio-legend-text">Must Have</span>
-              <span class="prio-legend-pct">42% · 16 features</span>
+              <span class="prio-legend-pct">55% · 21 features</span>
             </div>
             <div class="prio-legend-item">
               <div class="prio-swatch" style="background:#F0A500;"></div>
               <span class="prio-legend-text">Should Have</span>
-              <span class="prio-legend-pct">35% · 13 features</span>
-            </div>
-            <div class="prio-legend-item">
-              <div class="prio-swatch" style="background:#2C4A48;"></div>
-              <span class="prio-legend-text">Nice to Have</span>
-              <span class="prio-legend-pct">23% · 9 features</span>
+              <span class="prio-legend-pct">45% · 17 features</span>
             </div>
           </div>
         </div>
@@ -1136,22 +1164,6 @@
               </td>
               <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
               <td><span class="feat-count">4</span></td>
-            </tr>
-            <tr>
-              <td>
-                <div class="init-name">Exemptions</div>
-                <div class="init-desc">Exemption rules, configurable thresholds, event triggers</div>
-              </td>
-              <td><span class="effort-pill">390h</span></td>
-              <td><span class="pi-text">PI 28</span></td>
-              <td>
-                <span class="status-badge">
-                  <span class="status-dot" style="background:#BBBBBB;"></span>
-                  To Do
-                </span>
-              </td>
-              <td><span class="prio-badge" style="background:#2C4A48;">P3</span></td>
-              <td><span class="feat-count">3</span></td>
             </tr>
             <tr>
               <td>
@@ -1266,14 +1278,6 @@
       description: 'Interest calculation, credit unallocated payment segments. Enhances the financial engine to calculate credit/reimbursement interest specifically for unallocated payment segments, ensuring taxpayers are properly credited for overpayments.',
       epics: ['Interest Calculation', 'Penalty Management', 'Credit Processing', 'Unallocated Segments']
     },
-    'Exemptions': {
-      effort: '390h',
-      status: 'To Do',
-      priority: 'P3',
-      features: 3,
-      description: 'Exemption rules, configurable thresholds, event triggers. Provides flexible framework for managing tax exemptions with customizable rules and threshold-based automation.',
-      epics: ['Exemption Rules Engine', 'Configurable Thresholds', 'Event Triggers', 'Rule Management']
-    },
     'Tax Accounts': {
       effort: 'TBD',
       status: 'To Do',
@@ -1314,8 +1318,6 @@
       priorityBadge.classList.add('priority-p1');
     } else if (data.priority === 'P2') {
       priorityBadge.classList.add('priority-p2');
-    } else if (data.priority === 'P3') {
-      priorityBadge.classList.add('priority-p3');
     }
 
     const featuresContainer = document.getElementById('modalFeatures');
