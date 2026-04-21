@@ -66,10 +66,19 @@ function extractSections(html) {
 }
 
 /**
- * Build a self-contained HTML document for a single slide.
- * Embeds the head content (styles, fonts) from the original template.
+ * Extract all <script> tags from an HTML string.
+ * Returns the concatenated script tags as a string.
  */
-function buildSlideHtml(slideNumber, sectionHtml, headContent) {
+function extractScripts(html) {
+  const matches = html.match(/<script[^>]*>[\s\S]*?<\/script>/g);
+  return matches ? matches.join('\n') : '';
+}
+
+/**
+ * Build a self-contained HTML document for a single slide.
+ * Embeds the head content (styles, fonts) and scripts from the original template.
+ */
+function buildSlideHtml(slideNumber, sectionHtml, headContent, scripts) {
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -80,6 +89,7 @@ ${headContent}
 </head>
 <body>
 ${sectionHtml}
+${scripts}
 </body>
 </html>`;
 }
@@ -155,6 +165,7 @@ export function createExport(projectName, flowId, roundId, outputFile, slideMeta
     // Read patched HTML
     const patchedHtml = fs.readFileSync(outputPath, 'utf8');
     const headContent = extractHeadContent(patchedHtml);
+    const scripts = extractScripts(patchedHtml);
     const sections = extractSections(patchedHtml);
 
     if (sections.length === 0) {
@@ -208,7 +219,7 @@ export function createExport(projectName, flowId, roundId, outputFile, slideMeta
       }
       usedFileNames.add(fileName);
 
-      const slideHtml = buildSlideHtml(slideNumber, sections[i], headContent);
+      const slideHtml = buildSlideHtml(slideNumber, sections[i], headContent, scripts);
       const slidePath = path.join(exportDir, fileName);
       fs.writeFileSync(slidePath, slideHtml, 'utf8');
 
