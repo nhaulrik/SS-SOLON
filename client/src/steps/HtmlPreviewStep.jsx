@@ -40,20 +40,6 @@ export default function HtmlPreviewStep({
    }, [roundId, previewHtml])
 
 
-  // ── Scale: identical to HtmlUploadStep ────────────────────────────────────
-  const [previewScale,  setPreviewScale]  = useState(1)
-  const roRef = useRef(null)
-  const wrapperCallbackRef = useCallback((el) => {
-    if (roRef.current) { roRef.current.disconnect(); roRef.current = null }
-    if (!el) return
-    const measure = () => {
-      const { width } = el.getBoundingClientRect()
-      if (width > 0) setPreviewScale(width / 1280)
-    }
-    measure()
-    roRef.current = new ResizeObserver(measure)
-    roRef.current.observe(el)
-  }, [])
 
   // ── Slide navigation (multi-slide only) ──────────────────────────────────
    const [currentSlide, setCurrentSlide] = useState(1)
@@ -119,7 +105,72 @@ export default function HtmlPreviewStep({
      }
    }
 
-   // Inject editing script into iframe after it loads
+   // Extract and show only the current slide
+  const getSingleSlideHtml = useCallback(() => {
+    if (!srcDoc) return ''
+
+    try {
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(srcDoc, 'text/html')
+
+      // Find slides: try section first, then .slide divs
+      let slides = Array.from(doc.querySelectorAll('section'))
+      if (slides.length === 0) {
+        slides = Array.from(doc.querySelectorAll('.slide'))
+      }
+
+      // If still no slides found, try nested divs in shell
+      if (slides.length === 0) {
+        const shell = doc.querySelector('#solon-slide-shell')
+        if (shell) {
+          slides = Array.from(shell.children).filter(el => el.tagName === 'SECTION' || el.classList.contains('slide'))
+        }
+      }
+
+      if (slides.length === 0) {
+        console.warn('[HtmlPreviewStep] No slide containers found, returning full preview')
+        return srcDoc
+      }
+
+      // Extract the current slide
+      const slideIdx = Math.max(0, Math.min(currentSlide - 1, slides.length - 1))
+      const currentSlide_el = slides[slideIdx]
+      if (!currentSlide_el) {
+        console.warn('[HtmlPreviewStep] Could not get slide at index', slideIdx)
+        return srcDoc
+      }
+
+      // Preserve head content for all original styles
+      const head = doc.querySelector('head')
+      const headContent = head ? head.innerHTML : ''
+
+      return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+${headContent}
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+</style>
+</head>
+<body>
+${currentSlide_el.outerHTML}
+</body>
+</html>`
+    } catch (e) {
+      console.error('[HtmlPreviewStep] Error extracting slide:', e)
+      return srcDoc
+    }
+  }, [srcDoc, currentSlide])
+
+  // Inject editing script into iframe after it loads
    const handleIframeLoad = useCallback(() => {
      const iframe = iframeRef.current
      if (!iframe?.contentDocument) return
@@ -244,38 +295,33 @@ export default function HtmlPreviewStep({
 
       <div className="html-preview-step-layout">
          {/* ── Preview ─────────────────────────────────────────────── */}
-          {(() => {
-            const slideOffset = (currentSlide - 1) * 720
-            const wrapperStyle = {
-              width: '100%',
-              paddingBottom: `${(720 / 1280) * 100}%`,
-              position: 'relative',
-              overflow: 'hidden',
-            }
-            const iframeStyle = {
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '1280px',
-              height: `${720 * slideCount}px`,
-              border: 'none',
-              transform: `scale(${previewScale}) translateY(-${slideOffset}px)`,
-              transformOrigin: 'top left',
-            }
-            return (
-             <div style={wrapperStyle} ref={wrapperCallbackRef}>
-                 <iframe
-                    ref={iframeRef}
-                    className="html-preview-step-frame"
-                    srcDoc={srcDoc}
-                    title="Output preview"
-                    sandbox="allow-same-origin allow-scripts"
-                    onLoad={handleIframeLoad}
-                    style={iframeStyle}
-                  />
-               </div>
-            )
-          })()}
+          <div style={{
+            width: '100%',
+            height: 'auto',
+            minHeight: '400px',
+            paddingBottom: '56.25%',
+            position: 'relative',
+            overflow: 'hidden',
+            background: '#f5f5f5',
+            marginBottom: '24px',
+          }}>
+            <iframe
+              ref={iframeRef}
+              className="html-preview-step-frame"
+              srcDoc={getSingleSlideHtml()}
+              title="Output preview"
+              sandbox="allow-same-origin allow-scripts"
+              onLoad={handleIframeLoad}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                border: 'none',
+              }}
+            />
+          </div>
 
         {/* ── Slide navigation (multi-slide only) ─────────────────── */}
         {isMultiSlide && (
