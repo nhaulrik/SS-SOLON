@@ -305,6 +305,8 @@ export default function PublishTreeWorkspace({
   const [dragOverZone, setDragOverZone] = useState(null)
   const [dragOverRoot, setDragOverRoot] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
+  const [isCatalogDrag, setIsCatalogDrag] = useState(false)
+  const [catalogDropLinePos, setCatalogDropLinePos] = useState(null)
   const dragSourceId = useRef(null)
   const dragSourceType = useRef(null)
   const workspaceRef = useRef(null)
@@ -393,6 +395,10 @@ export default function PublishTreeWorkspace({
   const handleNodeDragOver = useCallback((e, targetId) => {
     e.preventDefault()
     e.stopPropagation()
+    
+    const isCatalog = e.dataTransfer.types.includes('application/x-solon-catalog')
+    setIsCatalogDrag(isCatalog)
+    
     if (dragSourceId.current === targetId) return
 
     const rect = e.currentTarget.getBoundingClientRect()
@@ -408,6 +414,17 @@ export default function PublishTreeWorkspace({
     setDragOverId(targetId)
     setDragOverZone(zone)
     setDragOverRoot(false)
+    
+    // For catalog drops, show insertion line at the computed position
+    if (isCatalog) {
+      if (zone === 'before') {
+        setCatalogDropLinePos({ top: rect.top - workspaceRef.current?.getBoundingClientRect().top, nodeId: targetId })
+      } else if (zone === 'after') {
+        setCatalogDropLinePos({ top: rect.bottom - workspaceRef.current?.getBoundingClientRect().top, nodeId: targetId })
+      } else {
+        setCatalogDropLinePos(null)
+      }
+    }
   }, [])
 
   const handleDrop = useCallback((e, targetId) => {
@@ -419,6 +436,8 @@ export default function PublishTreeWorkspace({
     setDragOverZone(null)
     setDragOverRoot(false)
     setIsDragging(false)
+    setIsCatalogDrag(false)
+    setCatalogDropLinePos(null)
 
     if (dragSourceType.current === 'internal') {
       const sourceId = dragSourceId.current
@@ -426,16 +445,48 @@ export default function PublishTreeWorkspace({
       const newTree = moveNodes(tree, [sourceId], targetId, zone)
       onChange(slides, newTree)
     } else if (dragSourceType.current === 'external') {
-      // external drop onto a specific node — nest under it if zone=into, else append to root
-      try {
-        const dataStr = e.dataTransfer.getData('application/json')
-        if (dataStr && onExternalDrop) {
-          const droppedSlides = JSON.parse(dataStr)
-          if (Array.isArray(droppedSlides)) {
-            onExternalDrop(droppedSlides, targetId, zone)
+      // Try catalog drop first (application/x-solon-catalog)
+      const catalogData = e.dataTransfer.getData('application/x-solon-catalog')
+      if (catalogData) {
+        try {
+          const payload = JSON.parse(catalogData)
+          if (onExternalDrop) {
+            // Convert catalog payload to slides array
+            let droppedSlides = []
+            if (payload.type === 'group' && payload.slides) {
+              droppedSlides = payload.slides.map(s => ({
+                id: `sr-${globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)}`,
+                flowId: s.flowId,
+                exportId: s.exportId,
+                slideIndex: s.slideIndex,
+                title: s.title,
+              }))
+            } else if (payload.type === 'slide') {
+              droppedSlides = [{
+                id: `sr-${globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)}`,
+                flowId: payload.flowId,
+                exportId: payload.exportId,
+                slideIndex: payload.slideIndex,
+                title: payload.title,
+              }]
+            }
+            if (droppedSlides.length > 0) {
+              onExternalDrop(droppedSlides, targetId, zone)
+            }
           }
-        }
-      } catch { /* ignore */ }
+        } catch { /* ignore */ }
+      } else {
+        // Fallback to application/json for backward compatibility
+        try {
+          const dataStr = e.dataTransfer.getData('application/json')
+          if (dataStr && onExternalDrop) {
+            const droppedSlides = JSON.parse(dataStr)
+            if (Array.isArray(droppedSlides)) {
+              onExternalDrop(droppedSlides, targetId, zone)
+            }
+          }
+        } catch { /* ignore */ }
+      }
     }
 
     dragSourceId.current = null
@@ -447,6 +498,8 @@ export default function PublishTreeWorkspace({
     setDragOverZone(null)
     setDragOverRoot(false)
     setIsDragging(false)
+    setIsCatalogDrag(false)
+    setCatalogDropLinePos(null)
     dragSourceId.current = null
     dragSourceType.current = null
   }, [])
@@ -455,6 +508,10 @@ export default function PublishTreeWorkspace({
 
   const handleWorkspaceDragOver = useCallback((e) => {
     e.preventDefault()
+    
+    const isCatalog = e.dataTransfer.types.includes('application/x-solon-catalog')
+    setIsCatalogDrag(isCatalog)
+    
     // Only handle if not already over a node
     if (dragSourceType.current !== 'internal') {
       dragSourceType.current = 'external'
@@ -466,6 +523,8 @@ export default function PublishTreeWorkspace({
   const handleWorkspaceDragLeave = useCallback((e) => {
     if (!workspaceRef.current?.contains(e.relatedTarget)) {
       setDragOverRoot(false)
+      setIsCatalogDrag(false)
+      setCatalogDropLinePos(null)
     }
   }, [])
 
@@ -473,20 +532,58 @@ export default function PublishTreeWorkspace({
     e.preventDefault()
     setDragOverRoot(false)
     setIsDragging(false)
+    setIsCatalogDrag(false)
+    setCatalogDropLinePos(null)
+    
     if (dragSourceType.current === 'internal') {
       dragSourceId.current = null
       dragSourceType.current = null
       return
     }
-    try {
-      const dataStr = e.dataTransfer.getData('application/json')
-      if (dataStr && onExternalDrop) {
-        const droppedSlides = JSON.parse(dataStr)
-        if (Array.isArray(droppedSlides)) {
-          onExternalDrop(droppedSlides)
+    
+    // Try catalog drop first (application/x-solon-catalog)
+    const catalogData = e.dataTransfer.getData('application/x-solon-catalog')
+    if (catalogData) {
+      try {
+        const payload = JSON.parse(catalogData)
+        if (onExternalDrop) {
+          // Convert catalog payload to slides array
+          let droppedSlides = []
+          if (payload.type === 'group' && payload.slides) {
+            droppedSlides = payload.slides.map(s => ({
+              id: `sr-${globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)}`,
+              flowId: s.flowId,
+              exportId: s.exportId,
+              slideIndex: s.slideIndex,
+              title: s.title,
+            }))
+          } else if (payload.type === 'slide') {
+            droppedSlides = [{
+              id: `sr-${globalThis.crypto?.randomUUID?.() || Math.random().toString(36).slice(2)}`,
+              flowId: payload.flowId,
+              exportId: payload.exportId,
+              slideIndex: payload.slideIndex,
+              title: payload.title,
+            }]
+          }
+          if (droppedSlides.length > 0) {
+            onExternalDrop(droppedSlides)
+          }
         }
-      }
-    } catch { /* ignore */ }
+      } catch { /* ignore */ }
+    } else {
+      // Fallback to application/json for backward compatibility
+      try {
+        const dataStr = e.dataTransfer.getData('application/json')
+        if (dataStr && onExternalDrop) {
+          const droppedSlides = JSON.parse(dataStr)
+          if (Array.isArray(droppedSlides)) {
+            onExternalDrop(droppedSlides)
+          }
+        }
+      } catch { /* ignore */ }
+    }
+    
     dragSourceId.current = null
     dragSourceType.current = null
   }, [onExternalDrop])
@@ -556,50 +653,60 @@ export default function PublishTreeWorkspace({
         onDrop={handleWorkspaceDrop}
         role="tree"
       >
-        {slides.length === 0 ? (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>⊕</div>
-            <p className={styles.emptyTitle}>No slides in this structure</p>
-            <p className={styles.emptyHint}>Drag slides from the catalog, or select and click "Add to Tree"</p>
-          </div>
-        ) : tree.length === 0 ? (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>⊕</div>
-            <p className={styles.emptyTitle}>Drop slides here to build your hierarchy</p>
-          </div>
-        ) : (
-          <div className={styles.treeList}>
-            {tree.map(node => (
-              <TreeNode
-                key={node.slideRefId}
-                node={node}
-                slides={slides}
-                depth={0}
-                parentId={null}
-                flatList={flat}
-                levelNames={levelNames}
-                expandedIds={expandedIds}
-                editingNodeId={editingNodeId}
-                editingNodeValue={editingNodeValue}
-                dragOverId={dragOverId}
-                dragOverZone={dragOverZone}
-                isDragging={isDragging}
-                onToggleExpand={toggleExpanded}
-                onStartEditNode={startEditingNode}
-                onFinishEditNode={finishEditingNode}
-                onEditValueChange={setEditingNodeValue}
-                onRemove={handleRemove}
-                onIndent={handleIndent}
-                onOutdent={handleOutdent}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-                onNodeDragOver={handleNodeDragOver}
-                onDrop={handleDrop}
-                setEditingNodeId={setEditingNodeId}
-              />
-            ))}
-          </div>
-        )}
+       {slides.length === 0 ? (
+           <div className={styles.emptyState}>
+             <div className={styles.emptyIcon}>⊕</div>
+             <p className={styles.emptyTitle}>No slides in this structure</p>
+             <p className={styles.emptyHint}>Drag slides from the catalog, or select and click "Add to Tree"</p>
+           </div>
+         ) : tree.length === 0 ? (
+           <div className={`${styles.emptyDropZone} ${dragOverRoot ? styles.emptyDropZoneActive : ''}`}>
+             <div className={styles.emptyIcon}>⊕</div>
+             <p className={styles.emptyTitle}>Drag slides or groups here to build your presentation</p>
+           </div>
+         ) : (
+           <>
+             <div className={styles.treeList}>
+               {tree.map(node => (
+                 <TreeNode
+                   key={node.slideRefId}
+                   node={node}
+                   slides={slides}
+                   depth={0}
+                   parentId={null}
+                   flatList={flat}
+                   levelNames={levelNames}
+                   expandedIds={expandedIds}
+                   editingNodeId={editingNodeId}
+                   editingNodeValue={editingNodeValue}
+                   dragOverId={dragOverId}
+                   dragOverZone={dragOverZone}
+                   isDragging={isDragging}
+                   onToggleExpand={toggleExpanded}
+                   onStartEditNode={startEditingNode}
+                   onFinishEditNode={finishEditingNode}
+                   onEditValueChange={setEditingNodeValue}
+                   onRemove={handleRemove}
+                   onIndent={handleIndent}
+                   onOutdent={handleOutdent}
+                   onDragStart={handleDragStart}
+                   onDragEnd={handleDragEnd}
+                   onNodeDragOver={handleNodeDragOver}
+                   onDrop={handleDrop}
+                   setEditingNodeId={setEditingNodeId}
+                 />
+               ))}
+             </div>
+             {isCatalogDrag && catalogDropLinePos && (
+               <div
+                 className={styles.insertionLine}
+                 style={{ top: `${catalogDropLinePos.top}px` }}
+               >
+                 <div className={styles.insertionLineDot} />
+               </div>
+             )}
+           </>
+         )}
       </div>
     </div>
   )

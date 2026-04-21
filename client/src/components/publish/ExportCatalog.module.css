@@ -49,6 +49,7 @@
   align-items: center;
   gap: 0;
   padding: 0;
+  transition: opacity 0.12s;
 }
 
 .exportCheckboxLabel {
@@ -136,7 +137,7 @@
   gap: var(--space-sm);
   padding: 7px 12px 7px 32px;
   cursor: pointer;
-  transition: background-color 0.12s;
+  transition: background-color 0.12s, opacity 0.12s;
   min-height: 36px;
 }
 
@@ -287,6 +288,17 @@
   font-size: 12px;
   padding: 0 4px;
   user-select: none;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.slideRow:hover .dragHandle,
+.exportHeader:hover .dragHandle {
+  opacity: 1;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
 }
 
 .checkboxLabel {

@@ -89,7 +89,40 @@ export default function ExportCatalog({ exports, loading, activeSlides, onAddSli
     }
 
     e.dataTransfer.effectAllowed = 'copy'
+    // Set both MIME types for compatibility
     e.dataTransfer.setData('application/json', JSON.stringify(slidesToDrag))
+    e.dataTransfer.setData('application/x-solon-catalog', JSON.stringify({
+      type: 'slide',
+      flowId: exp.flowId,
+      exportId: exp.exportId,
+      slideIndex: slide.slideIndex,
+      title: slide.title,
+    }))
+  }
+
+  const handleGroupDragStart = (e, exp) => {
+    const slides = (exp.slides || []).map(slide => ({
+      flowId: exp.flowId,
+      exportId: exp.exportId,
+      slideIndex: slide.slideIndex,
+      title: slide.title,
+    }))
+
+    const payload = {
+      type: 'group',
+      flowId: exp.flowId,
+      exportId: exp.exportId,
+      flowName: exp.flowName,
+      slides,
+    }
+
+    e.dataTransfer.effectAllowed = 'copy'
+    e.dataTransfer.setData('application/x-solon-catalog', JSON.stringify(payload))
+    e.currentTarget.style.opacity = '0.5'
+  }
+
+  const handleDragEnd = (e) => {
+    e.currentTarget.style.opacity = '1'
   }
 
   if (loading) {
@@ -131,34 +164,40 @@ export default function ExportCatalog({ exports, loading, activeSlides, onAddSli
           const selectedInExport = exportSlideKeys.filter(k => selectedKeys.has(k)).length
           const allInExportSelected = exportSlideKeys.length > 0 && exportSlideKeys.every(k => selectedKeys.has(k))
 
-          return (
-            <div key={`${exp.flowId}::${exp.exportId}`} className={styles.exportGroup}>
-              <div className={styles.exportHeader}>
-                <label className={styles.exportCheckboxLabel}>
-                  <input
-                    type="checkbox"
-                    className={styles.checkbox}
-                    checked={allInExportSelected}
-                    onChange={() => toggleAllInExport(exp)}
-                    aria-label={`Select all slides in ${exp.exportId}`}
-                  />
-                </label>
-                <button
-                  className={styles.exportToggle}
-                  onClick={() => toggleExport(exp.exportId)}
-                  aria-expanded={isExpanded}
-                  aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${exp.exportId}`}
-                >
-                  <span className={styles.expandIcon}>{isExpanded ? '▾' : '▸'}</span>
-                  <span className={styles.exportName}>{exp.flowName}</span>
-                  <span className={styles.exportMeta}>
-                    {exp.exportName || exp.exportId} · {(exp.slides || []).length} slides
-                    {selectedInExport > 0 && (
-                      <span className={styles.selectedBadge}>{selectedInExport} selected</span>
-                    )}
-                  </span>
-                </button>
-              </div>
+           return (
+             <div key={`${exp.flowId}::${exp.exportId}`} className={styles.exportGroup}>
+               <div
+                 className={styles.exportHeader}
+                 draggable
+                 onDragStart={(e) => handleGroupDragStart(e, exp)}
+                 onDragEnd={handleDragEnd}
+               >
+                 <span className={styles.dragHandle}>⠿</span>
+                 <label className={styles.exportCheckboxLabel}>
+                   <input
+                     type="checkbox"
+                     className={styles.checkbox}
+                     checked={allInExportSelected}
+                     onChange={() => toggleAllInExport(exp)}
+                     aria-label={`Select all slides in ${exp.exportId}`}
+                   />
+                 </label>
+                 <button
+                   className={styles.exportToggle}
+                   onClick={() => toggleExport(exp.exportId)}
+                   aria-expanded={isExpanded}
+                   aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${exp.exportId}`}
+                 >
+                   <span className={styles.expandIcon}>{isExpanded ? '▾' : '▸'}</span>
+                   <span className={styles.exportName}>{exp.flowName}</span>
+                   <span className={styles.exportMeta}>
+                     {exp.exportName || exp.exportId} · {(exp.slides || []).length} slides
+                     {selectedInExport > 0 && (
+                       <span className={styles.selectedBadge}>{selectedInExport} selected</span>
+                     )}
+                   </span>
+                 </button>
+               </div>
 
               {isExpanded && (
                 <div className={styles.slideList}>
@@ -167,27 +206,28 @@ export default function ExportCatalog({ exports, loading, activeSlides, onAddSli
                     const isChecked = selectedKeys.has(key)
                     const isAlreadyAdded = activeSlideKeys.has(key)
                     return (
-                      <div
-                        key={key}
-                        className={`${styles.slideRow} ${isChecked ? styles.slideRowChecked : ''} ${isAlreadyAdded ? styles.slideRowAdded : ''}`}
-                        draggable={!isAlreadyAdded}
-                        onDragStart={(e) => handleDragStart(e, exp, slide)}
-                      >
-                        {!isAlreadyAdded && <span className={styles.dragHandle}>⠿</span>}
-                        <label className={styles.checkboxLabel}>
-                          <input
-                            type="checkbox"
-                            className={styles.checkbox}
-                            checked={isChecked}
-                            onChange={() => toggleSlide(key)}
-                            disabled={isAlreadyAdded}
-                            aria-label={`Select ${slide.title}`}
-                          />
-                        </label>
-                        <span className={styles.slideIndex}>{slide.slideIndex}</span>
-                        <span className={styles.slideTitle}>{slide.title}</span>
-                        {isAlreadyAdded && <span className={styles.addedBadge}>Added</span>}
-                      </div>
+                       <div
+                         key={key}
+                         className={`${styles.slideRow} ${isChecked ? styles.slideRowChecked : ''} ${isAlreadyAdded ? styles.slideRowAdded : ''}`}
+                         draggable
+                         onDragStart={(e) => handleDragStart(e, exp, slide)}
+                         onDragEnd={handleDragEnd}
+                       >
+                         <span className={styles.dragHandle}>⠿</span>
+                         <label className={styles.checkboxLabel}>
+                           <input
+                             type="checkbox"
+                             className={styles.checkbox}
+                             checked={isChecked}
+                             onChange={() => toggleSlide(key)}
+                             disabled={isAlreadyAdded}
+                             aria-label={`Select ${slide.title}`}
+                           />
+                         </label>
+                         <span className={styles.slideIndex}>{slide.slideIndex}</span>
+                         <span className={styles.slideTitle}>{slide.title}</span>
+                         {isAlreadyAdded && <span className={styles.addedBadge}>Added</span>}
+                       </div>
                     )
                   })}
                 </div>

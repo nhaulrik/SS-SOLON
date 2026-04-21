@@ -287,11 +287,30 @@ export default function PresentationStructureManager({ projectName, setToast }) 
               onChange={handleUpdateTree}
               onLevelNamesChange={handleUpdateLevelNames}
               onSave={handleSaveTree}
-              onExternalDrop={(droppedSlides) => {
-                const merged = mergeSlides(activeStructure.slides || [], droppedSlides)
-                const newTree = appendToTree(activeStructure.tree || [], droppedSlides.map(s => s.id))
-                handleUpdateTree(merged, newTree)
-              }}
+               onExternalDrop={(droppedSlides, targetId, zone) => {
+                 const merged = mergeSlides(activeStructure.slides || [], droppedSlides)
+                 const slideIds = droppedSlides.map(s => s.id)
+                 
+                 let newTree = activeStructure.tree || []
+                 
+                 if (!targetId) {
+                   // No target: append to root
+                   newTree = appendToTree(newTree, slideIds)
+                 } else if (droppedSlides.length === 1) {
+                   // Single slide: insert at position
+                   const node = { slideRefId: slideIds[0], children: [] }
+                   newTree = insertNodeAtPosition(newTree, [node], targetId, zone)
+                 } else {
+                   // Group drop: nest as a group (first slide is parent, rest are children)
+                   const parentNode = {
+                     slideRefId: slideIds[0],
+                     children: slideIds.slice(1).map(id => ({ slideRefId: id, children: [] }))
+                   }
+                   newTree = insertNodeAtPosition(newTree, [parentNode], targetId, zone)
+                 }
+                 
+                 handleUpdateTree(merged, newTree)
+               }}
             />
           </div>
         </div>
@@ -335,4 +354,37 @@ function mergeSlides(existing, newSlides) {
 
 function appendToTree(tree, slideRefIds) {
   return [...tree, ...slideRefIds.map(id => ({ slideRefId: id, children: [] }))]
+}
+
+function insertNodeAtPosition(tree, nodesToInsert, targetId, zone) {
+  // Insert nodes at a position relative to targetId
+  // zone: 'before', 'after', or 'into'
+  
+  if (zone === 'into') {
+    // Insert as children of targetId
+    return tree.map(node => {
+      if (node.slideRefId === targetId) {
+        return { ...node, children: [...(node.children || []), ...nodesToInsert] }
+      }
+      return { ...node, children: insertNodeAtPosition(node.children || [], nodesToInsert, targetId, zone) }
+    })
+  } else {
+    // Insert as sibling before or after targetId
+    const result = []
+    for (const node of tree) {
+      if (node.slideRefId === targetId) {
+        if (zone === 'before') {
+          result.push(...nodesToInsert, node)
+        } else {
+          result.push(node, ...nodesToInsert)
+        }
+      } else {
+        result.push({
+          ...node,
+          children: insertNodeAtPosition(node.children || [], nodesToInsert, targetId, zone)
+        })
+      }
+    }
+    return result
+  }
 }
