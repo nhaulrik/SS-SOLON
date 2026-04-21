@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solon Tax – Feature Catalog</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f3;
+      color: #1a3c3a;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #1a3c3a 0%, #2C4A48 100%);
+      color: white;
+      padding: 12px 20px;
+      border-bottom: 5px solid #FF6359;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pi-badge {
+      background: #FF6359;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .title-text h1 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .title-text p {
+      font-size: 10px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .header-stats {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #FF6359;
+    }
+
+    .stat-label {
+      font-size: 9px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .logo {
+      font-size: 9px;
+      color: #7fb3af;
+      font-weight: 700;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    aside {
+      width: 280px;
+      background: white;
+      border-right: 1px solid #e8e8e0;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sidebar-section {
+      border-bottom: 1px solid #e8e8e0;
+      padding-bottom: 12px;
+    }
+
+    .sidebar-section:last-child {
+      border-bottom: none;
+    }
+
+    .sidebar-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: #1a3c3a;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-item {
+      font-size: 11px;
+      padding: 6px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #666;
+    }
+
+    .sidebar-item:hover {
+      background: #f5f5f3;
+    }
+
+    .sidebar-badge {
+      font-size: 9px;
+      font-weight: 700;
+      color: #FF6359;
+    }
+
+    /* ── MAIN CONTENT ── */
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* ── CARD GRID ── */
+    .card {
+      background: white;
+      border-radius: 6px;
+      padding: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      border-left: 3px solid #FF6359;
+      transition: all 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    .card-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1a3c3a;
+      margin-bottom: 6px;
+    }
+
+    .card-text {
+      font-size: 10px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .card-meta {
+      font-size: 9px;
+      color: #999;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #f0f0ec;
+    }
+
+    /* ── BENEFIT CARD ── */
+    .benefit-card {
+      grid-column: span 1;
+    }
+
+    .benefit-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: #FF6359;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    /* ── EPIC CARD ── */
+    .epic-card {
+      grid-column: span 1;
+    }
+
+    /* ── FULL WIDTH SECTIONS ── */
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* ── PROGRESS SECTION ── */
+    .progress-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .progress-item {
+      background: white;
+      padding: 12px;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .progress-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: #1a3c3a;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .progress-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+    }
+
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .progress-label {
+      flex: 1;
+      color: #666;
+    }
+
+    .progress-count {
+      font-size: 9px;
+      font-weight: 700;
+      color: #FF6359;
+    }
+
+    /* ── STACKED BAR ── */
+    .bar {
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .bar-seg {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: white;
+    }
+
+    /* ── VALUE BOX ── */
+    .value-item {
+      background: white;
+      padding: 12px;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      border-left: 3px solid #FF6359;
+    }
+
+    .value-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: #1a3c3a;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .value-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .value-list li {
+      font-size: 10px;
+      color: #666;
+      padding-left: 14px;
+      position: relative;
+      line-height: 1.4;
+    }
+
+    .value-list li::before {
+      content: '•';
+      position: absolute;
+      left: 4px;
+      color: #FF6359;
+      font-weight: 700;
+    }
+
+    /* ── TABLE ── */
+    .table-wrapper {
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10px;
+    }
+
+    thead {
+      background: linear-gradient(135deg, #1a3c3a 0%, #2C4A48 100%);
+    }
+
+    thead th {
+      padding: 8px;
+      text-align: left;
+      font-size: 9px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #f0f0ec;
+      transition: background 0.2s;
+    }
+
+    tbody tr:hover {
+      background: #fafaf8;
+    }
+
+    tbody td {
+      padding: 8px;
+      color: #333;
+      vertical-align: middle;
+    }
+
+    .init-name {
+      font-weight: 700;
+      color: #1a3c3a;
+      margin-bottom: 2px;
+    }
+
+    .init-desc {
+      font-size: 9px;
+      color: #888;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #e8f0ef;
+      color: #1a3c3a;
+      font-weight: 600;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      border: 1px solid #d0e5e2;
+      white-space: nowrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 9px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .prio {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 16px;
+      border-radius: 3px;
+      font-size: 8px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .count {
+      font-weight: 700;
+      color: #1a3c3a;
+      text-align: center;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #999;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #1a3c3a;
+      color: #7fb3af;
+      padding: 8px 20px;
+      font-size: 9px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      border-top: 3px solid #FF6359;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-title">
+    <div class="pi-badge">PI 28</div>
+    <div class="title-text">
+      <h1>Solon Tax Roadmap</h1>
+      <p>Feature Catalog · 2026</p>
+    </div>
+  </div>
+  <div class="header-stats">
+    <div class="stat">
+      <div class="stat-value">23.2k</div>
+      <div class="stat-label">Hours</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">12</div>
+      <div class="stat-label">Init.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">57</div>
+      <div class="stat-label">Features</div>
+    </div>
+    <div class="logo">Netcompany</div>
+  </div>
+</header>
+
+<!-- MAIN LAYOUT -->
+<div class="container">
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Benefits</div>
+      <div class="sidebar-item">
+        <span>Tech Debt</span>
+        <span class="sidebar-badge">01</span>
+      </div>
+      <div class="sidebar-item">
+        <span>Critical Upgrades</span>
+        <span class="sidebar-badge">02</span>
+      </div>
+      <div class="sidebar-item">
+        <span>Revenue Mgmt</span>
+        <span class="sidebar-badge">03</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Progress</div>
+      <div class="sidebar-item">
+        <span>Done</span>
+        <span class="sidebar-badge">7</span>
+      </div>
+      <div class="sidebar-item">
+        <span>In Progress</span>
+        <span class="sidebar-badge">28</span>
+      </div>
+      <div class="sidebar-item">
+        <span>In Analysis</span>
+        <span class="sidebar-badge">14</span>
+      </div>
+      <div class="sidebar-item">
+        <span>To Do</span>
+        <span class="sidebar-badge">8</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Priority</div>
+      <div class="sidebar-item">
+        <span>Must Have (P1)</span>
+        <span class="sidebar-badge">58%</span>
+      </div>
+      <div class="sidebar-item">
+        <span>Should Have (P2)</span>
+        <span class="sidebar-badge">42%</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-title">Group</div>
+      <div class="sidebar-item">
+        <span>Maintainability</span>
+        <span class="sidebar-badge">3</span>
+      </div>
+      <div class="sidebar-item">
+        <span>Revenue Mgmt</span>
+        <span class="sidebar-badge">5</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- WHY IT MATTERS -->
+    <div class="card benefit-card">
+      <div class="benefit-number">01</div>
+      <div class="card-title">Tech Debt Reduction</div>
+      <div class="card-text">Restructures revenue-management-be-custom to hexagonal architecture improving maintainability and reducing technical debt across teams.</div>
+    </div>
+
+    <div class="card benefit-card">
+      <div class="benefit-number">02</div>
+      <div class="card-title">Critical Upgrades</div>
+      <div class="card-text">Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>
+    </div>
+
+    <div class="card benefit-card">
+      <div class="benefit-number">03</div>
+      <div class="card-title">Revenue Enablement</div>
+      <div class="card-text">End-to-end taxpayer lifecycle management with automated billing, assessments, and penalty calculations.</div>
+    </div>
+
+    <!-- EMPTY CELL -->
+    <div style="grid-column: span 1;"></div>
+
+    <!-- PROGRESS & PRIORITY -->
+    <div class="card full-width">
+      <div class="progress-grid">
+        <div class="progress-item">
+          <div class="progress-title">Overall Progress</div>
+          <div class="progress-list">
+            <div class="progress-row">
+              <div class="progress-dot" style="background:#2C4A48;"></div>
+              <span class="progress-label">Done</span>
+              <span class="progress-count">7</span>
+            </div>
+            <div class="progress-row">
+              <div class="progress-dot" style="background:#FF6359;"></div>
+              <span class="progress-label">In Progress</span>
+              <span class="progress-count">28</span>
+            </div>
+            <div class="progress-row">
+              <div class="progress-dot" style="background:#F0A500;"></div>
+              <span class="progress-label">In Analysis</span>
+              <span class="progress-count">14</span>
+            </div>
+            <div class="progress-row">
+              <div class="progress-dot" style="background:#E0E0DC;"></div>
+              <span class="progress-label">To Do</span>
+              <span class="progress-count">8</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-item">
+          <div class="progress-title">Priority Distribution</div>
+          <div class="bar" style="margin-top: 8px;">
+            <div class="bar-seg" style="width:58%; background:#FF6359;">P1</div>
+            <div class="bar-seg" style="width:42%; background:#F0A500;">P2</div>
+          </div>
+          <div class="progress-list">
+            <div class="progress-row">
+              <div class="progress-dot" style="background:#FF6359;"></div>
+              <span class="progress-label">Must Have</span>
+              <span class="progress-count">58%</span>
+            </div>
+            <div class="progress-row">
+              <div class="progress-dot" style="background:#F0A500;"></div>
+              <span class="progress-label">Should Have</span>
+              <span class="progress-count">42%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KEY EPICS & FEATURES -->
+    <div class="card epic-card">
+      <div class="card-title">Hexagonal Architecture</div>
+      <div class="card-text">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns.</div>
+    </div>
+
+    <div class="card epic-card">
+      <div class="card-title">Java 25 Upgrade</div>
+      <div class="card-text">Migrate codebase to Java 25 for latest features, virtual threads, and pattern matching.</div>
+    </div>
+
+    <div class="card epic-card">
+      <div class="card-title">Spring Boot 4.x</div>
+      <div class="card-text">Upgrade to latest Spring Boot with enhanced observability and native compilation support.</div>
+    </div>
+
+    <div class="card epic-card">
+      <div class="card-title">Oracle 26ai</div>
+      <div class="card-text">Migrate to Oracle 26ai for AI-powered optimization and advanced analytics.</div>
+    </div>
+
+    <div class="card epic-card">
+      <div class="card-title">Tech Debt (Multi-Team)</div>
+      <div class="card-text">Systematic improvements across ATH, EOS, SPA, HEL, and DAID teams.</div>
+    </div>
+
+    <div class="card epic-card">
+      <div class="card-title">Config Management</div>
+      <div class="card-text">Tool for safely packaging and migrating configs across environments.</div>
+    </div>
+
+    <!-- BUSINESS VALUE -->
+    <div class="value-item full-width">
+      <div class="value-title">Business Value</div>
+      <ul class="value-list">
+        <li>Enables end-to-end taxpayer lifecycle management from registration through accounting</li>
+        <li>Reduces manual caseworker effort via automated billing and assessments</li>
+        <li>Directly supports project delivery and future market opportunities</li>
+      </ul>
+    </div>
+
+    <div class="value-item full-width">
+      <div class="value-title">Market Relevance</div>
+      <ul class="value-list">
+        <li>Core dependency for all current and pipeline Solon Tax implementations</li>
+        <li>Strengthens competitive position as a full-featured platform</li>
+        <li>€200M+ in future project pipeline contingent on platform completeness</li>
+      </ul>
+    </div>
+
+    <!-- INITIATIVES TABLE -->
+    <div class="card full-width">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:26%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:14%">PI Window</th>
+              <th style="width:16%">Status</th>
+              <th style="width:10%">Prio</th>
+              <th style="width:8%">Feat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Hexagonal Architecture</div>
+                <div class="init-desc">Revenue restructuring</div>
+              </td>
+              <td><span class="pill">1,200h</span></td>
+              <td>PI 28-29</td>
+              <td><span class="badge"><span class="dot" style="background:#FF6359;"></span>In Progress</span></td>
+              <td><span class="prio" style="background:#FF6359;">P1</span></td>
+              <td><span class="count">7</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Java 25 Upgrade</div>
+                <div class="init-desc">Language migration</div>
+              </td>
+              <td><span class="pill">800h</span></td>
+              <td>PI 28-29</td>
+              <td><span class="badge"><span class="dot" style="background:#F0A500;"></span>In Analysis</span></td>
+              <td><span class="prio" style="background:#FF6359;">P1</span></td>
+              <td><span class="count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Registration</div>
+                <div class="init-desc">Party identifiers</div>
+              </td>
+              <td><span class="pill">11.9k</span></td>
+              <td>PI 27-28</td>
+              <td><span class="badge"><span class="dot" style="background:#FF6359;"></span>In Progress</span></td>
+              <td><span class="prio" style="background:#FF6359;">P1</span></td>
+              <td><span class="count">14</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Taxpayer Accounting</div>
+                <div class="init-desc">General ledger core</div>
+              </td>
+              <td><span class="pill">8,064h</span></td>
+              <td>PI 28-29</td>
+              <td><span class="badge"><span class="dot" style="background:#F0A500;"></span>In Analysis</span></td>
+              <td><span class="prio" style="background:#FF6359;">P1</span></td>
+              <td><span class="count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Billing &amp; Assessments</div>
+                <div class="init-desc">Instalment plans</div>
+              </td>
+              <td><span class="pill">2,880h</span></td>
+              <td>PI 27-28</td>
+              <td><span class="badge"><span class="dot" style="background:#FF6359;"></span>In Progress</span></td>
+              <td><span class="prio" style="background:#F0A500;">P2</span></td>
+              <td><span class="count">6</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Penalty &amp; Interest</div>
+                <div class="init-desc">Interest calculation</div>
+              </td>
+              <td><span class="pill">TBD</span></td>
+              <td>PI 29-30</td>
+              <td><span class="badge"><span class="dot" style="background:#BBBBBB;"></span>To Do</span></td>
+              <td><span class="prio" style="background:#F0A500;">P2</span></td>
+              <td><span class="count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Tax Accounts</div>
+                <div class="init-desc">Account setup</div>
+              </td>
+              <td><span class="pill">TBD</span></td>
+              <td>PI 29</td>
+              <td><span class="badge"><span class="dot" style="background:#BBBBBB;"></span>To Do</span></td>
+              <td><span class="prio" style="background:#FF6359;">P1</span></td>
+              <td><span class="count">2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  Solon Tax Product Roadmap 2026 · Confidential · Executive Steering Committee
+</footer>
+
+</body>
+</html>

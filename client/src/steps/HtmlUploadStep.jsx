@@ -26,27 +26,17 @@ export default function HtmlUploadStep({
 }) {
   const fileInputRef  = useRef(null)
 
-  // ── Preview scale: measure wrapper width, inject scale into srcDoc ──────
-  // Use a callback ref so the ResizeObserver attaches as soon as the wrapper
-  // div mounts (which only happens after previewHtml is set).
-  const [previewScale, setPreviewScale] = useState(1)
-  const roRef = useRef(null)
-  const wrapperCallbackRef = useCallback((el) => {
-    if (roRef.current) { roRef.current.disconnect(); roRef.current = null }
-    if (!el) return
-    const measure = () => {
-      const { width } = el.getBoundingClientRect()
-      if (width > 0) setPreviewScale(width / 1280)
-    }
-    measure()
-    roRef.current = new ResizeObserver(measure)
-    roRef.current.observe(el)
-  }, [])
+  // ── Preview: controlled container size + derived scale ───────────────────
+  const [containerSize, setContainerSize] = useState(null) // { width, height }
+  const [previewScale,  setPreviewScale]  = useState(1)
+  const slideDimsRef    = useRef({ width: 1280, height: 720 })
+  const containerSizeRef = useRef(null) // stable ref for drag handler
+  const panelRef        = useRef(null)  // measures initial available width
 
-   // ── Highlight: tree hover → preview iframe ────────────────────────────────
-   const [highlightNodeId, setHighlightNodeId] = useState(null)
+  // ── Highlight: tree hover → preview iframe ────────────────────────────────
+  const [highlightNodeId, setHighlightNodeId] = useState(null)
 
-   // ── Key selection mode ─────────────────────────────────────────────────────
+  // ── Key selection mode ─────────────────────────────────────────────────────
   // ── Stage A: file selection ───────────────────────────────────────────────
   const [fileName,  setFileName]  = useState(initialSession?.fileName  ?? '')
   const [uploading, setUploading] = useState(false)
@@ -68,6 +58,80 @@ export default function HtmlUploadStep({
   const [loadingFlow,    setLoadingFlow]    = useState(false)
 
    const [rawHtml,    setRawHtml]    = useState(initialSession?.rawHtml ?? '')
+
+  // Parse slide dims and initialise container size whenever a new file is loaded.
+  useEffect(() => {
+    if (!previewHtml) return
+    let sw = 1280, sh = 720
+    try {
+      const parser = new DOMParser()
+      const doc = parser.parseFromString(previewHtml, 'text/html')
+      const shell = doc.getElementById('solon-slide-shell')
+      if (shell) {
+        sw = parseInt(shell.style.width,  10) || 1280
+        sh = parseInt(shell.style.height, 10) || 720
+      }
+    } catch {}
+    slideDimsRef.current = { width: sw, height: sh }
+
+    // Fit initial container to the panel's available width.
+    const panelW = panelRef.current?.getBoundingClientRect().width ?? sw
+    const initScale = panelW / sw
+    const newSize = { width: Math.round(panelW), height: Math.round(sh * initScale) }
+    containerSizeRef.current = newSize
+    setContainerSize(newSize)
+  }, [previewHtml])
+
+  // Derive scale from container size using both dimensions.
+  useEffect(() => {
+    if (!containerSize) return
+    const { width: sw, height: sh } = slideDimsRef.current
+    const scale = Math.min(containerSize.width / sw, containerSize.height / sh)
+    setPreviewScale(Math.max(0.05, scale))
+  }, [containerSize])
+
+  // After iframe loads, measure actual shell height and resize container to fit.
+  const handlePreviewLoad = useCallback((e) => {
+    try {
+      const shell = e.target.contentDocument?.getElementById('solon-slide-shell')
+      if (!shell) return
+      const naturalH = shell.scrollHeight
+      if (naturalH <= 0) return
+      slideDimsRef.current = { ...slideDimsRef.current, height: naturalH }
+      // Resize container so the full content fits at the current scale.
+      const scale = containerSize ? containerSize.width / slideDimsRef.current.width : 1
+      const newSize = {
+        width:  containerSizeRef.current?.width ?? slideDimsRef.current.width,
+        height: Math.round(naturalH * scale),
+      }
+      containerSizeRef.current = newSize
+      setContainerSize(newSize)
+    } catch {}
+  }, [containerSize])
+
+  // Drag-to-resize handler — reads start values from ref to avoid stale closures.
+  const handleResizeMouseDown = useCallback((e) => {
+    e.preventDefault()
+    const startX  = e.clientX
+    const startY  = e.clientY
+    const startW  = containerSizeRef.current?.width  ?? 400
+    const startH  = containerSizeRef.current?.height ?? 300
+
+    const onMove = (mv) => {
+      const newSize = {
+        width:  Math.max(160, startW + mv.clientX - startX),
+        height: Math.max(90,  startH + mv.clientY - startY),
+      }
+      containerSizeRef.current = newSize
+      setContainerSize(newSize)
+    }
+    const onUp = () => {
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseup',   onUp)
+    }
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseup',   onUp)
+  }, [])
 
   // ── Sync session state up to App.jsx ─────────────────────────────────────
   const syncSession = useCallback((patch) => {
@@ -318,11 +382,11 @@ export default function HtmlUploadStep({
    }, [violations])
 
    // ── Preview HTML with highlight injection ─────────────────────────────────
-   // Inject a <style> that highlights the hovered tree node by data-solon-id,
-   // and a <script> that posts back when the user hovers elements in the iframe.
-   const highlightedPreviewHtml = useMemo(() => {
-     if (!previewHtml) return ''
-     const highlightCss = highlightNodeId ? `
+  // Scale is applied to the iframe element itself — do NOT inject scale CSS here.
+  // Only inject the highlight style and a minimal body reset.
+  const highlightedPreviewHtml = useMemo(() => {
+    if (!previewHtml) return ''
+    const highlightCss = highlightNodeId ? `
 [data-solon-id="${CSS.escape(highlightNodeId)}"] {
    outline: 3px solid #4CAF80 !important;
    outline-offset: 2px !important;
@@ -332,20 +396,17 @@ export default function HtmlUploadStep({
    z-index: 9999 !important;
 }` : ''
 
-     // Bake the scale into the srcDoc as a <style> block.
-     // previewScale = wrapperWidth / 1280 — computed by ResizeObserver.
-     // This avoids any iframe scripts or sandbox permissions.
-     const injection = `<style>
-#solon-slide-shell { transform: scale(${previewScale}); }
+    const injection = `<style>
+html, body { margin: 0; padding: 0; overflow: hidden; }
 [data-solon-id] { cursor: pointer; }
 [data-solon-id]:hover { outline: 1px dashed rgba(76,175,128,0.5); }
 ${highlightCss}
 </style>`
 
-     return previewHtml.includes('</head>')
-       ? previewHtml.replace('</head>', injection + '</head>')
-       : injection + previewHtml
-   }, [previewHtml, highlightNodeId, previewScale])
+    return previewHtml.includes('</head>')
+      ? previewHtml.replace('</head>', injection + '</head>')
+      : injection + previewHtml
+  }, [previewHtml, highlightNodeId])
 
   // ── Can proceed ───────────────────────────────────────────────────────────
   // Allow proceeding if:
@@ -503,7 +564,7 @@ ${highlightCss}
 
           {/* ── Right: slide preview ──────────────────────────────────── */}
           {previewHtml && (
-            <div className="html-preview-panel">
+            <div className="html-preview-panel" ref={panelRef}>
               <div className="html-preview-label">
                 Slide 1 preview
                 {highlightNodeId && (
@@ -512,16 +573,43 @@ ${highlightCss}
                   </span>
                 )}
               </div>
-              <div className="html-preview-frame-wrapper" ref={wrapperCallbackRef}>
-                <iframe
-                  className="html-preview-frame"
-                  srcDoc={highlightedPreviewHtml}
-                  sandbox="allow-same-origin allow-scripts"
-                  title="Slide preview"
+
+              <div
+                className="html-preview-frame-wrapper"
+                style={containerSize
+                  ? { width: containerSize.width, height: containerSize.height }
+                  : { width: '100%', minHeight: 120 }
+                }
+              >
+                {/* Slide at native size, centered and scaled to fit the container */}
+                <div style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  width:  `${slideDimsRef.current.width}px`,
+                  height: `${slideDimsRef.current.height}px`,
+                  transform: `translate(-50%, -50%) scale(${previewScale})`,
+                  transformOrigin: 'center center',
+                }}>
+                  <iframe
+                    className="html-preview-frame"
+                    srcDoc={highlightedPreviewHtml}
+                    sandbox="allow-same-origin allow-scripts"
+                    title="Slide preview"
+                    onLoad={handlePreviewLoad}
+                  />
+                </div>
+
+                {/* Drag handle — bottom-right corner */}
+                <div
+                  className="html-preview-resize-handle"
+                  onMouseDown={handleResizeMouseDown}
+                  title="Drag to resize"
                 />
               </div>
+
               <p className="html-preview-note">
-                Hover a tree node to highlight it here.
+                Drag the corner handle to resize · Hover a tree node to highlight it
               </p>
             </div>
           )}

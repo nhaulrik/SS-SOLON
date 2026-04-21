@@ -1138,24 +1138,40 @@ select:focus-visible {
 }
 
 .html-preview-frame-wrapper {
-  width: 100%;
-  padding-bottom: 56.25%;   /* 16:9 aspect ratio — height derived from width */
-  height: 0;
   position: relative;
-  border-radius: var(--radius-md);
   overflow: hidden;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border-subtle);
   background: var(--bg-canvas);
 }
 
 .html-preview-frame {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   border: none;
   display: block;
+}
+
+.html-preview-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  cursor: se-resize;
+  z-index: 10;
+  opacity: 0.4;
+  transition: opacity 0.15s;
+  /* Three diagonal lines — classic resize grip */
+  background-image:
+    linear-gradient(135deg, transparent 40%, var(--text-muted) 40%, var(--text-muted) 55%, transparent 55%),
+    linear-gradient(135deg, transparent 60%, var(--text-muted) 60%, var(--text-muted) 75%, transparent 75%),
+    linear-gradient(135deg, transparent 80%, var(--text-muted) 80%, var(--text-muted) 95%, transparent 95%);
+}
+
+.html-preview-resize-handle:hover,
+.html-preview-resize-handle:active {
+  opacity: 1;
 }
 
 .html-preview-note {

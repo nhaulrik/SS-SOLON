@@ -157,19 +157,11 @@ function buildPreviewHtml(html, tree) {
 <meta charset="UTF-8"/>
 ${headContent}
 <style>
-  /* Solon preview shell — controls the viewport, not the slide content */
-  html, body {
-    margin: 0; padding: 0;
-    width: 100%; height: 100%;
-    overflow: hidden;
-    background: #000;
-    display: block;
-  }
+  html, body { margin: 0; padding: 0; background: #000; display: block; }
   #solon-slide-shell {
     position: absolute;
     top: 0; left: 0;
-    width: 1280px; height: 720px;
-    overflow: hidden;
+    width: 1280px;
     transform-origin: top left;
   }
 </style>
