@@ -33,6 +33,81 @@ export default function ProjectDashboardStep({
   const [exports,         setExports]         = useState([])
   const [exportsLoading,  setExportsLoading]  = useState(false)
 
+  // Flows table state
+  const [filterText, setFilterText] = useState('')
+  const [sortBy, setSortBy] = useState(null) // 'name' | 'template' | null
+  const [sortOrder, setSortOrder] = useState('asc') // 'asc' | 'desc'
+
+  // Helper: Get template pill class based on filename — hash-based, no hardcoded names
+  const getTemplatePillClass = (templateFilename) => {
+    const name = (templateFilename || 'template.html').toLowerCase()
+    const palette = [
+      styles.templatePillBlue,
+      styles.templatePillCyan,
+      styles.templatePillEmerald,
+      styles.templatePillGreen,
+      styles.templatePillIndigo,
+      styles.templatePillOrange,
+      styles.templatePillPink,
+      styles.templatePillPurple,
+      styles.templatePillRed,
+      styles.templatePillViolet,
+      styles.templatePillGray,
+    ]
+    let hash = 5381
+    for (let i = 0; i < name.length; i++) {
+      hash = ((hash << 5) + hash) ^ name.charCodeAt(i)
+      hash |= 0
+    }
+    return palette[Math.abs(hash) % palette.length]
+  }
+
+  // Helper: Handle column header click for sorting
+  const handleSortClick = (column) => {
+    if (sortBy === column) {
+      if (sortOrder === 'asc') {
+        setSortOrder('desc')
+      } else {
+        setSortBy(null)
+        setSortOrder('asc')
+      }
+    } else {
+      setSortBy(column)
+      setSortOrder('asc')
+    }
+  }
+
+  // Helper: Get sort indicator for column header
+  const getSortIndicator = (column) => {
+    if (sortBy !== column) return null
+    return sortOrder === 'asc' ? ' ↑' : ' ↓'
+  }
+
+  // Helper: Filter flows by name
+  const getFilteredFlows = (flows) => {
+    return flows.filter(f =>
+      (f.name || f.flowId).toLowerCase().includes(filterText.toLowerCase())
+    )
+  }
+
+  // Helper: Sort flows by selected column
+  const getSortedFlows = (flows) => {
+    const sorted = [...flows].sort((a, b) => {
+      if (sortBy === 'name') {
+        const aVal = (a.name || a.flowId).toLowerCase()
+        const bVal = (b.name || b.flowId).toLowerCase()
+        return sortOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal)
+      }
+      if (sortBy === 'template') {
+        const aVal = (a.templateFilename || 'template.html').toLowerCase()
+        const bVal = (b.templateFilename || 'template.html').toLowerCase()
+        return sortOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal)
+      }
+      return 0
+    })
+    return sorted
+  }
+
   const loadExports = async () => {
     try {
       const res = await fetch(`/api/projects/${projectName}`)
@@ -116,6 +191,8 @@ export default function ProjectDashboardStep({
   }
 
   const flows = project.flows || []
+  const filteredFlows = getFilteredFlows(flows)
+  const sortedFlows = getSortedFlows(filteredFlows)
 
   return (
     <div className={styles.container}>
@@ -198,79 +275,123 @@ export default function ProjectDashboardStep({
             </form>
           </div>
 
-          {flows.length === 0 ? (
-            <div className={styles.emptyState}>
-              <p>No flows yet. Enter a name above to create your first flow.</p>
-            </div>
-          ) : (
-            <div className={styles.flowsGrid}>
-              {flows.map((flow) => (
-                <div key={flow.flowId} className={styles.flowCard}>
-                  <div className={styles.flowCardHeader}>
-                    <h3 className={styles.flowName}>{flow.name || flow.flowId}</h3>
-                    <span className={styles.flowStatus}>{flow.status}</span>
-                  </div>
-
-                  <div className={styles.flowMeta}>
-                    <div className={styles.metaItem}>
-                      <span className={styles.metaLabel}>Template:</span>
-                      <span className={styles.metaValue}>{flow.templateFilename || 'template.html'}</span>
-                    </div>
-                    <div className={styles.metaItem}>
-                      <span className={styles.metaLabel}>Zones:</span>
-                      <span className={styles.metaValue}>
-                        {flow._metadata?.zones?.length ?? flow._metadata?.selections?.length ?? '—'}
-                      </span>
-                    </div>
-                    <div className={styles.metaItem}>
-                      <span className={styles.metaLabel}>Created:</span>
-                      <span className={styles.metaValue}>{new Date(flow.createdAt).toLocaleDateString()}</span>
-                    </div>
-                    <div className={styles.metaItem}>
-                      <span className={styles.metaLabel}>Generations:</span>
-                      <span className={styles.metaValue}>{flow.generations?.length || '—'}</span>
-                    </div>
-                  </div>
-
-                  <div className={styles.templateActions}>
+           {flows.length === 0 ? (
+              <div className={styles.emptyState}>
+                <p>No flows yet. Enter a name above to create your first flow.</p>
+              </div>
+            ) : (
+              <>
+                <div className={styles.flowsTableFilter}>
+                  <input
+                    type="text"
+                    className={styles.flowsFilterInput}
+                    placeholder="Filter flows…"
+                    value={filterText}
+                    onChange={(e) => setFilterText(e.target.value)}
+                    aria-label="Filter flows by name"
+                  />
+                  {filterText && (
                     <button
-                      className={styles.flowOpenButton}
-                      onClick={() => onFlowSelected(flow.flowId)}
-                      aria-label={`Open flow ${flow.name || flow.flowId}`}
+                      className={styles.flowsFilterClear}
+                      onClick={() => setFilterText('')}
+                      aria-label="Clear filter"
                     >
-                      Open Flow
+                      ×
                     </button>
-                    {confirmDeleteId === flow.flowId ? (
-                      <>
-                        <button
-                          className={styles.confirmDeleteButton}
-                          onClick={() => handleDeleteFlow(flow.flowId)}
-                          aria-label={`Confirm delete flow ${flow.name || flow.flowId}`}
-                        >
-                          Delete
-                        </button>
-                        <button
-                          className={styles.actionButton}
-                          onClick={() => setConfirmDeleteId(null)}
-                          aria-label="Cancel delete"
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    ) : (
-                      <button
-                        className={styles.deleteButton}
-                        onClick={() => setConfirmDeleteId(flow.flowId)}
-                        aria-label={`Delete flow ${flow.name || flow.flowId}`}
-                      >
-                        Delete
-                      </button>
-                    )}
-                  </div>
+                  )}
+                  <span className={styles.flowsFilterCount}>
+                    {filteredFlows.length} of {flows.length} flows
+                  </span>
                 </div>
-              ))}
-            </div>
-          )}
+
+                {filteredFlows.length === 0 ? (
+                  <div className={styles.emptyState}>
+                    <p>No flows match your filter.</p>
+                  </div>
+                ) : (
+                  <table className={styles.flowsTable}>
+                    <thead>
+                      <tr>
+                        <th
+                          className={styles.sortable}
+                          onClick={() => handleSortClick('name')}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => e.key === 'Enter' && handleSortClick('name')}
+                        >
+                          Flow Name{getSortIndicator('name')}
+                        </th>
+                        <th
+                          className={styles.sortable}
+                          onClick={() => handleSortClick('template')}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => e.key === 'Enter' && handleSortClick('template')}
+                        >
+                          Template{getSortIndicator('template')}
+                        </th>
+                        <th>Zones</th>
+                        <th>Created</th>
+                        <th>Generations</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sortedFlows.map((flow) => (
+                        <tr key={flow.flowId} className={styles.flowTableRow}>
+                          <td className={styles.flowTableName}>{flow.name || flow.flowId}</td>
+                          <td className={styles.flowTableCell}>
+                            <span className={`${styles.templatePill} ${getTemplatePillClass(flow.templateFilename)}`}>
+                              {flow.templateFilename || 'template.html'}
+                            </span>
+                          </td>
+                          <td className={styles.flowTableCell}>
+                            {flow._metadata?.zones?.length ?? flow._metadata?.selections?.length ?? '—'}
+                          </td>
+                          <td className={styles.flowTableCell}>{new Date(flow.createdAt).toLocaleDateString()}</td>
+                          <td className={styles.flowTableCell}>{flow.generations?.length || '—'}</td>
+                          <td className={styles.flowTableActions}>
+                            <button
+                              className={styles.flowOpenButton}
+                              onClick={() => onFlowSelected(flow.flowId)}
+                              aria-label={`Open flow ${flow.name || flow.flowId}`}
+                            >
+                              Open Flow
+                            </button>
+                            {confirmDeleteId === flow.flowId ? (
+                              <>
+                                <button
+                                  className={styles.confirmDeleteButton}
+                                  onClick={() => handleDeleteFlow(flow.flowId)}
+                                  aria-label={`Confirm delete flow ${flow.name || flow.flowId}`}
+                                >
+                                  Delete
+                                </button>
+                                <button
+                                  className={styles.actionButton}
+                                  onClick={() => setConfirmDeleteId(null)}
+                                  aria-label="Cancel delete"
+                                >
+                                  Cancel
+                                </button>
+                              </>
+                            ) : (
+                              <button
+                                className={styles.deleteButton}
+                                onClick={() => setConfirmDeleteId(flow.flowId)}
+                                aria-label={`Delete flow ${flow.name || flow.flowId}`}
+                              >
+                                Delete
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </>
+            )}
         </section>
         )}
 
