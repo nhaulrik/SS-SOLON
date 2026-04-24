@@ -310,7 +310,7 @@ router.post('/html-flow/upload-template', (req, res) => {
       templateId,
       slideCount,
       trees,
-      selections,
+      selections: [],
       violations: violations.length ? violations : undefined,
       previewHtml,
     });
@@ -354,16 +354,12 @@ router.get('/html-flow/load-flow', (req, res) => {
     const metadata = flow._metadata || {};
 
     // Parse the template to get a fresh DOM tree.
-    const { slideCount, trees, selections: parsedSelections, violations: parsedViolations } = parseTemplate(html);
+    // We only use the tree and violations from parseTemplate — never the
+    // auto-parsed selections (which come from data-zone/data-block HTML attrs).
+    // Real zone assignments always live exclusively in _metadata.selections.
+    const { slideCount, trees, violations: parsedViolations } = parseTemplate(html);
 
-    // Prefer saved selections from metadata over re-parsed ones.
-    // Templates where zones were assigned via the tree UI have no data-zone attrs,
-    // so parseTemplate returns empty selections — but real assignments live in
-    // _metadata.selections.
-    const savedSelections = metadata.selections;
-    const selections = (Array.isArray(savedSelections) && savedSelections.length > 0)
-      ? savedSelections
-      : parsedSelections;
+    const selections = Array.isArray(metadata.selections) ? metadata.selections : [];
 
     // NO_ZONES is a false positive when we have saved selections — the zones just
     // aren't embedded as HTML attributes.

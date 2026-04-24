@@ -2,15 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<title>SOLON TAX ROADMAP 2026 – Scope Overview</title>
+<title>SOLON TAX ROADMAP 2026 – Steerco</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Inter", "Segoe UI", sans-serif; }
 
   body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
+    background: #e5e5e5;
+    padding: 40px;
+    gap: 40px;
   }
 
   /* ── CANVAS ── */
@@ -22,6 +24,7 @@
     flex-direction: column;
     overflow: hidden;
     position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   }
 
   /* Left coral accent rule */
@@ -43,7 +46,6 @@
     display: flex;
     align-items: center;
     padding: 0 52px;
-    gap: 0;
     justify-content: space-between;
   }
 
@@ -66,22 +68,11 @@
     gap: 32px;
   }
 
-  .header-tag {
-    font-size: 11px;
-    font-weight: 700;
-    color: #FF6359;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    border: 1px solid rgba(255,99,89,0.4);
-    padding: 4px 14px;
-    border-radius: 4px;
-  }
-
   .header-logo {
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 800;
     letter-spacing: 2.5px;
-    color: rgba(127,179,175,0.6);
+    color: rgba(127,179,175,0.8);
     text-transform: uppercase;
   }
 
@@ -103,7 +94,6 @@
     justify-content: center;
     padding: 0 52px;
     border-right: 2px solid #f0f0ec;
-    gap: 0;
   }
 
   .scope-eyebrow {
@@ -121,6 +111,17 @@
     color: #1a3c3a;
     line-height: 1;
     letter-spacing: -5px;
+    display: flex;
+    align-items: baseline;
+    gap: 15px;
+  }
+  
+  .scope-old {
+    font-size: 48px;
+    color: #aaa;
+    text-decoration: line-through;
+    font-weight: 600;
+    letter-spacing: -2px;
   }
 
   .scope-label {
@@ -144,7 +145,6 @@
     flex-direction: column;
     justify-content: center;
     padding: 0 48px;
-    gap: 0;
   }
 
   .req-title {
@@ -221,12 +221,11 @@
   }
 
   /* ════════════════════════════════
-     ROW 3 — PI BREAKDOWN (~380px)
+     ROW 3 — CARD BREAKDOWN (~380px)
   ════════════════════════════════ */
   .pi-section {
     flex: 1;
     display: flex;
-    gap: 0;
     padding: 24px 46px;
     gap: 20px;
     background: #fafaf8;
@@ -239,14 +238,13 @@
     padding: 24px 26px;
     display: flex;
     flex-direction: column;
-    gap: 0;
     box-shadow: 0 2px 16px rgba(0,0,0,0.07);
     border-top: 4px solid;
     position: relative;
     overflow: hidden;
   }
 
-  .pi-card.pi28 { border-top-color: #FF6359; }
+  .pi-card.pi28 { border-top-color: #aaa; }
   .pi-card.pi29 { border-top-color: #2C8A84; }
   .pi-card.pi30 { border-top-color: #7fb3af; }
 
@@ -258,20 +256,20 @@
   }
 
   .pi-name {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 800;
     letter-spacing: -1px;
     line-height: 1;
   }
 
-  .pi-name.pi28 { color: #FF6359; }
+  .pi-name.pi28 { color: #555; }
   .pi-name.pi29 { color: #2C8A84; }
   .pi-name.pi30 { color: #7fb3af; }
 
   .pi-period {
     font-size: 15px;
     color: #aaa;
-    margin-top: 3px;
+    margin-top: 6px;
     font-weight: 400;
   }
 
@@ -284,88 +282,27 @@
     text-align: right;
   }
 
-  .pi-hours-lbl {
-    font-size: 11px;
-    color: #bbb;
-    text-align: right;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-top: 2px;
-  }
-
-  /* Mini requester bar */
-  .pi-req-lbl {
-    font-size: 13px;
-    color: #aaa;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-  }
-
-  .pi-mini-bar {
-    height: 24px;
-    display: flex;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 8px;
-  }
-
-  .pi-mini-seg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 700;
-    color: rgba(255,255,255,0.9);
-  }
-
-  .pi-mini-seg.grc { background: #FF6359; }
-  .pi-mini-seg.gtm { background: #2C8A84; }
-  .pi-mini-seg.oth { background: #7fb3af; }
-
-  .pi-mini-legend {
-    display: flex;
-    gap: 14px;
-    margin-bottom: 14px;
-  }
-
-  .pi-mini-leg-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 16px;
-    color: #777;
-  }
-
-  .pi-mini-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-
-  /* Initiative groups */
   .pi-groups-lbl {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     color: #aaa;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    margin-bottom: 8px;
-    padding-top: 10px;
+    margin-bottom: 12px;
+    padding-top: 12px;
     border-top: 1px solid #f0f0ec;
   }
 
   .pi-groups {
-    font-size: 15px;
+    font-size: 16px;
     color: #333;
-    line-height: 1.7;
-    font-weight: 400;
+    line-height: 1.8;
+    font-weight: 500;
   }
 
   .pi-groups span {
     display: block;
-    padding-left: 12px;
+    padding-left: 14px;
     position: relative;
   }
 
@@ -373,22 +310,84 @@
     content: '';
     position: absolute;
     left: 0;
-    top: 10px;
-    width: 5px;
-    height: 5px;
+    top: 11px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    background: #FF6359;
+    background: #1a3c3a;
+  }
+  .pi-card.pi28 .pi-groups span::before { background: #aaa; }
+  .pi-card.pi29 .pi-groups span::before { background: #2C8A84; }
+  .pi-card.pi30 .pi-groups span::before { background: #7fb3af; }
+
+  /* ════════════════════════════════
+     TABLE STYLES (SLIDE 2)
+  ════════════════════════════════ */
+  .table-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    width: 100%;
+    border-top: 4px solid #1a3c3a;
+  }
+
+  .scope-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .scope-table th {
+    text-align: right;
+    padding: 16px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 2px solid #1a3c3a;
+  }
+
+  .scope-table th:first-child { text-align: left; color: #1a3c3a; }
+
+  .scope-table td {
+    text-align: right;
+    padding: 14px 12px;
+    font-size: 15px;
+    color: #555;
+    border-bottom: 1px solid #f0f0ec;
+  }
+
+  .scope-table td:first-child {
+    text-align: left;
+    font-weight: 600;
+    color: #1a3c3a;
+  }
+
+  .scope-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .scope-table .total-row td {
+    font-weight: 800;
+    color: #1a3c3a;
+    font-size: 18px;
+    border-top: 2px solid #1a3c3a;
+    padding-top: 20px;
+  }
+  
+  .highlight-col {
+    background-color: rgba(44, 138, 132, 0.05);
   }
 </style>
 </head>
 <body>
-<section>
-<div class="slide">
 
-  <!-- ── ROW 1: HEADER ── -->
+<!-- ── SLIDE 1: BACKLOG EVOLUTION ── -->
+<div class="slide">
   <div class="header">
     <div>
-      <div class="header-title">SOLON TAX ROADMAP 2026 – Scope Overview</div>
+      <div class="header-title">SOLON TAX ROADMAP 2026 – Scope Evolution</div>
       <div class="header-meta">Executive Steering Committee · April 2026</div>
     </div>
     <div class="header-right">
@@ -396,158 +395,197 @@
     </div>
   </div>
 
-  <!-- ── ROW 2: TOP STORY ── -->
   <div class="top-story">
-
     <!-- Left: Total Scope -->
     <div class="scope-side">
-      <div class="scope-eyebrow">Total 2026 Scope</div>
-      <div class="scope-big">102k</div>
-      <div class="scope-label">Estimated hours across all initiatives</div>
-      <div class="scope-sub">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>
+      <div class="scope-eyebrow">Updated 2026 Scope Estimate</div>
+      <div class="scope-big"><span class="scope-old">245k</span> 259k</div>
+      <div class="scope-label">Total estimated hours after backlog refinement</div>
+      <div class="scope-sub">Includes 194k Backlog + Management & Other Activities</div>
     </div>
 
-    <!-- Right: Requester Distribution -->
+    <!-- Right: Requester Distribution (Current Backlog) -->
     <div class="requester-side">
-      <div class="req-title">Scope by Requester</div>
-
+      <div class="req-title">Current Backlog by Requester (194k)</div>
       <div class="req-bar">
-        <div class="req-seg grc" style="width:53%;">53%</div>
-        <div class="req-seg gtm" style="width:4%;">4%</div>
-        <div class="req-seg oth" style="width:42%;">42%</div>
+        <div class="req-seg grc" style="width:38%;">38%</div>
+        <div class="req-seg gtm" style="width:2%;">2%</div>
+        <div class="req-seg oth" style="width:60%;">60%</div>
       </div>
-
       <div class="req-legend">
         <div class="req-leg-item">
           <div class="req-leg-dot-row">
             <div class="req-leg-dot" style="background:#FF6359;"></div>
-            <span class="req-leg-name">GRC</span>
+            <span class="req-leg-name">GRC (Greek)</span>
           </div>
-          <div class="req-leg-pct">53%</div>
-          <div class="req-leg-hrs">54,1236h · Project-driven</div>
+          <div class="req-leg-pct">74k</div>
         </div>
         <div class="req-leg-item">
           <div class="req-leg-dot-row">
             <div class="req-leg-dot" style="background:#2C8A84;"></div>
             <span class="req-leg-name">GTM</span>
           </div>
-          <div class="req-leg-pct">4%</div>
-          <div class="req-leg-hrs">4,356h · Market-driven</div>
+          <div class="req-leg-pct">4.8k</div>
         </div>
         <div class="req-leg-item">
           <div class="req-leg-dot-row">
             <div class="req-leg-dot" style="background:#7fb3af;"></div>
-            <span class="req-leg-name">Other</span>
+            <span class="req-leg-name">Other (Internal)</span>
           </div>
-          <div class="req-leg-pct">42%</div>
-          <div class="req-leg-hrs">43,278h · Internal / NFR</div>
+          <div class="req-leg-pct">116k</div>
         </div>
       </div>
     </div>
-
   </div>
 
-  <!-- ── ROW 3: PI BREAKDOWN ── -->
   <div class="pi-section">
-
-    <!-- PI28 -->
+    <!-- Card 1 -->
     <div class="pi-card pi28">
       <div class="pi-card-top">
         <div>
-          <div class="pi-name pi28">PI28</div>
-          <div class="pi-period">Active</div>
+          <div class="pi-name pi28">February Baseline</div>
+          <div class="pi-period">Pre-refinement Estimates</div>
         </div>
-        <div>
-          <div class="pi-hours">37k</div>
-          <div class="pi-hours-lbl">Est. Hours</div>
-        </div>
+        <div class="pi-hours">245k</div>
       </div>
-      <div class="pi-req-lbl">By Requester</div>
-      <div class="pi-mini-bar">
-        <div class="pi-mini-seg grc" style="width:57%;">57%</div>
-        <div class="pi-mini-seg gtm" style="width:11%;">11%</div>
-        <div class="pi-mini-seg oth" style="width:32%;">32%</div>
-      </div>
-      <div class="pi-mini-legend">
-        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#FF6359;"></div>GRC 21k</div>
-        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#2C8A84;"></div>GTM 4k</div>
-        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#7fb3af;"></div>Other 12k</div>
-      </div>
-      <div class="pi-groups-lbl">Non-GRC Scope</div>
+      <div class="pi-groups-lbl" style="margin-top: 20px;">Original Distribution</div>
       <div class="pi-groups">
-        <span>Core Revenue Management</span>
-        <span>Core Self-Service</span>
-        <span>Core Supporting Capabilities</span>
-        <span>Non-Functional Coverage</span>
+        <span><strong>155,000h</strong> requested by GRC</span>
+        <span><strong>90,000h</strong> requested by Others (GTM/PD)</span>
       </div>
     </div>
 
-    <!-- PI29 -->
+    <!-- Card 2 -->
     <div class="pi-card pi29">
       <div class="pi-card-top">
         <div>
-          <div class="pi-name pi29">PI29</div>
-          <div class="pi-period">Q3 2026 · Planned</div>
+          <div class="pi-name pi29">Current Backlog</div>
+          <div class="pi-period">Refined Feature Work</div>
         </div>
-        <div>
-          <div class="pi-hours">43k</div>
-          <div class="pi-hours-lbl">Est. Hours</div>
-        </div>
+        <div class="pi-hours">194k</div>
       </div>
-      <div class="pi-req-lbl">By Requester</div>
-      <div class="pi-mini-bar">
-        <div class="pi-mini-seg grc" style="width:52%;">58%</div>
-        <div class="pi-mini-seg gtm" style="width:30%;">1%</div>
-        <div class="pi-mini-seg oth" style="width:18%;">42%</div>
-      </div>
-      <div class="pi-mini-legend">
-        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#FF6359;"></div>GRC 25k</div>
-        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#2C8A84;"></div>GTM 0,5k</div>
-        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#7fb3af;"></div>Other 18k</div>
-      </div>
-      <div class="pi-groups-lbl">Non-GRC Scope</div>
+      <div class="pi-groups-lbl">Spread Across 5 Initiatives</div>
       <div class="pi-groups">
+        <span>Core Data Hub Capabilities</span>
         <span>Core Revenue Management</span>
-        <span>Core Self-Service</span>
-        <span>Core Supporting Capabilities</span>
-        <span>Non-Functional Coverage</span>
+        <span>Core Self Service Capabilities</span>
+        <span>Non-Functional Requirement Coverage</span>
+        <span>Reference Implementation</span>
       </div>
     </div>
 
-    <!-- PI30 -->
+    <!-- Card 3 -->
     <div class="pi-card pi30">
       <div class="pi-card-top">
         <div>
-          <div class="pi-name pi30">PI30</div>
-          <div class="pi-period">Q4 2026 · Outlook</div>
+          <div class="pi-name pi30">Additional Scope</div>
+          <div class="pi-period">Required to support delivery</div>
         </div>
-        <div>
-          <div class="pi-hours">22k</div>
-          <div class="pi-hours-lbl">Est. Hours</div>
-        </div>
+        <div class="pi-hours">65k</div>
       </div>
-      <div class="pi-req-lbl">By Requester</div>
-      <div class="pi-mini-bar">
-        <div class="pi-mini-seg grc" style="width:50%;">36%</div>
-        <div class="pi-mini-seg gtm" style="width:28%;">0%</div>
-        <div class="pi-mini-seg oth" style="width:22%;">59%</div>
-      </div>
-      <div class="pi-mini-legend">
-        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#FF6359;"></div>GRC 8k</div>
-        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#2C8A84;"></div>GTM 0</div>
-        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#7fb3af;"></div>Other 13k</div>
-      </div>
-      <div class="pi-groups-lbl">Non-GRC Scope</div>
+      <div class="pi-groups-lbl" style="margin-top: 20px;">Breakdown</div>
       <div class="pi-groups">
-        <span>Core Revenue Management</span>
-        <span>Core Supporting Capabilities</span>
-        <span>Non-Functional Coverage</span>
+        <span>Management: <strong>28,000h</strong></span>
+        <span>Other activities: <strong>37,000h</strong></span>
       </div>
     </div>
+  </div>
+</div>
 
+<!-- ── SLIDE 2: SCOPE BREAKDOWN TABLE ── -->
+<div class="slide">
+  <div class="header">
+    <div>
+      <div class="header-title">SOLON TAX ROADMAP 2026 – Non-GRC Value Delivery</div>
+      <div class="header-meta">Executive Steering Committee · April 2026</div>
+    </div>
+    <div class="header-right">
+      <span class="header-logo">Netcompany</span>
+    </div>
   </div>
 
+  <div class="top-story" style="height: 140px; border-bottom: none;">
+    <div class="scope-side" style="border-right: none; padding-right: 52px; flex: 1;">
+      <div class="scope-label" style="font-size: 18px; line-height: 1.5; color: #333;">
+        <strong>Strategic Value Beyond GRC:</strong> While the GRC (Greek) team accounts for a significant portion of the roadmap, over <strong>120,000 hours</strong> are dedicated to GTM and internal Product (Other) initiatives. The table below outlines exactly where this non-GRC value is being delivered across our core initiative groups in 2026.
+      </div>
+    </div>
+  </div>
+
+  <div class="pi-section" style="align-items: flex-start; padding-top: 0;">
+    <div class="table-container">
+      <table class="scope-table">
+        <thead>
+          <tr>
+            <th>Initiative Group</th>
+            <th style="color: #FF6359;">GRC (Greek)</th>
+            <th style="color: #2C8A84;" class="highlight-col">GTM</th>
+            <th style="color: #7fb3af;" class="highlight-col">Other (Internal)</th>
+            <th style="color: #1a3c3a;">Grand Total Hours 2026</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CORE DATA HUB CAPABILITIES</td>
+            <td>6,613</td>
+            <td class="highlight-col">-</td>
+            <td class="highlight-col">-</td>
+            <td style="font-weight: 700;">6,613</td>
+          </tr>
+          <tr>
+            <td>CORE REVENUE MANAGEMENT CAPABILITIES</td>
+            <td>13,012</td>
+            <td class="highlight-col" style="font-weight: 700; color: #2C8A84;">4,307</td>
+            <td class="highlight-col" style="font-weight: 700; color: #7fb3af;">827</td>
+            <td style="font-weight: 700;">18,146</td>
+          </tr>
+          <tr>
+            <td>CORE SELF SERVICE CAPABILITIES</td>
+            <td>5,882</td>
+            <td class="highlight-col">-</td>
+            <td class="highlight-col" style="font-weight: 700; color: #7fb3af;">4,299</td>
+            <td style="font-weight: 700;">10,181</td>
+          </tr>
+          <tr>
+            <td>CORE SUPPORTING CAPABILITIES</td>
+            <td>15,560</td>
+            <td class="highlight-col">-</td>
+            <td class="highlight-col" style="font-weight: 700; color: #7fb3af;">4,125</td>
+            <td style="font-weight: 700;">19,684</td>
+          </tr>
+          <tr>
+            <td>NON-FUNCTIONAL REQUIREMENT COVERAGE</td>
+            <td>29,755</td>
+            <td class="highlight-col">-</td>
+            <td class="highlight-col" style="font-weight: 700; color: #7fb3af;">31,745</td>
+            <td style="font-weight: 700;">61,501</td>
+          </tr>
+          <tr>
+            <td>OTHER ACTIVITIES</td>
+            <td>480</td>
+            <td class="highlight-col">-</td>
+            <td class="highlight-col" style="font-weight: 700; color: #7fb3af;">72,514</td>
+            <td style="font-weight: 700;">72,994</td>
+          </tr>
+          <tr>
+            <td>REFERENCE IMPLEMENTATIONS</td>
+            <td>2,596</td>
+            <td class="highlight-col" style="font-weight: 700; color: #2C8A84;">477</td>
+            <td class="highlight-col" style="font-weight: 700; color: #7fb3af;">2,688</td>
+            <td style="font-weight: 700;">5,760</td>
+          </tr>
+          <tr class="total-row">
+            <td>Grand Total (Backlog)</td>
+            <td>73,898</td>
+            <td class="highlight-col" style="color: #2C8A84;">4,784</td>
+            <td class="highlight-col" style="color: #7fb3af;">116,198</td>
+            <td>194,879</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-</section>
+
 </body>
 </html>
