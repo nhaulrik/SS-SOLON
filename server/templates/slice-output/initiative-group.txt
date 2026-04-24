@@ -1,0 +1,37 @@
+TEMPLATE_NAME: Initiative Group Summary
+TEMPLATE_DESCRIPTION: Roadmap initiative group with feature counts and effort breakdown by phase
+
+---
+
+=== {{ROADMAP_GROUP}} ===
+
+=== Feature Counts === [~30 words]
+Total Features Across All Initiatives: {{TOTAL_FEATURE_COUNT}}
+
+{{#EACH_INITIATIVE}}
+Initiative: {{INITIATIVE_NAME}}
+Feature Count: {{FEATURE_COUNT}}
+Features:
+{{FEATURE_LIST}}
+{{/EACH_INITIATIVE}}
+
+=== Effort Estimates by Initiative === [~80 words]
+
+{{#EACH_INITIATIVE}}
+{{INITIATIVE_NAME}}
+Total Estimate: {{TOTAL_HOURS}} hours
+- Build: {{BUILD}}
+- Analysis & Design: {{ANALYSIS}}
+- Test Preparation: {{TEST_PREP}}
+- Test Execution: {{TEST_EXEC}}
+- Finalization (e2e testing, regression, stabilization, IAT): {{FINALIZATION}}
+- Bugfix: {{BUGFIX}}
+
+{{/EACH_INITIATIVE}}
+
+=== Summary === [~100 words]
+Roadmap Group: {{ROADMAP_GROUP}}
+Total Effort Across All Initiatives: {{GRAND_TOTAL}} hours
+Number of Initiatives: {{INITIATIVE_COUNT}}
+Number of Features: {{TOTAL_FEATURE_COUNT}}
+Requester: {{REQUESTER}}

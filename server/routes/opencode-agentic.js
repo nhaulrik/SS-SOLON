@@ -23,15 +23,16 @@ import express from 'express'
 import fsp     from 'fs/promises'
 import path    from 'path'
 import { callAi }              from '../lib/ai-client.js'
-import { readContextFiles, readContextFilesCompact, extractGroupedSlices, getSummaryStatus } from '../lib/context-reader.js'
+import { readContextFiles, readContextFilesCompact, buildInstanceSlices, getSummaryStatus } from '../lib/context-reader.js'
 import { validateHtmlJson }    from '../lib/html-recipe-builder.js'
 import { generateSummaries }   from '../lib/summary-generator.js'
 import {
   buildOrchestratorPrompt,
   buildBlocksPrompt,
   buildInstancePrompt,
+  buildSlicerPrompt,
 } from '../lib/agentic-prompts.js'
-import { RESOLVED_PROJECTS_DIR } from '../config.js'
+import { RESOLVED_PROJECTS_DIR, SLICE_TEMPLATES_DIR } from '../config.js'
 
 const router = express.Router()
 
@@ -214,21 +215,7 @@ function initSse(res) {
   res.flushHeaders()
 }
 
-/**
- * The AI frequently renames repeatable-slide keys despite instructions.
- * Correct by position: map returned keys back to the user-defined ones.
- */
-function remapInstances(instances, repeatableSlides) {
-  if (repeatableSlides.length === 0) return { ...instances }
-  const expectedKeys = repeatableSlides.map(rs => rs.key)
-  const returnedKeys = Object.keys(instances)
-  const result = {}
-  expectedKeys.forEach((key, i) => {
-    const aiKey = returnedKeys[i] ?? returnedKeys[0]
-    result[key] = instances[key] ?? instances[aiKey] ?? 1
-  })
-  return result
-}
+
 
 
 /**
@@ -241,28 +228,6 @@ function buildRepSetInfo(zones, repeatableSlides) {
   return { repSet, hasBlocks, hasShared }
 }
 
-/**
- * Parse a customInput string for explicit sheet name directives.
- * Recognises patterns like:
- *   sheet "2026 Estimates"
- *   sheet '2026 Estimates'
- *   only sheet "2026 Estimates"
- *   use only sheet "2026 Estimates"
- *   sheets "Sheet1", "Sheet2"
- *
- * Returns a Set of lowercase sheet names, or null if no directive found.
- */
-function parseSheetFilter(customInput) {
-  if (!customInput) return null
-  // Match: sheet(s) followed by one or more quoted names
-  const pattern = /\bsheets?\s+(?:"([^"]+)"|'([^']+)')/gi
-  const names = []
-  let match
-  while ((match = pattern.exec(customInput)) !== null) {
-    names.push((match[1] || match[2]).trim().toLowerCase())
-  }
-  return names.length > 0 ? new Set(names) : null
-}
 
 function assembleResults(agentResults) {
   const assembled = {}
@@ -303,40 +268,62 @@ router.post('/agentic/plan', async (req, res) => {
   const error = (msg) => { emit(res, 'error', msg); res.end() }
 
    try {
-     const {
-       projectName,
-       flowId,
-       recipe           = '',
-       zones            = [],
-       repeatableSlides = [],
-       summaryMode      = 'use',
-       summaryPrompt    = '',
-       contentPrompt    = '',
-       customInput      = '',
-       selectedFiles    = [],
-     } = req.body
+      const {
+        projectName,
+        flowId,
+        recipe              = '',
+        zones               = [],
+        repeatableSlides    = [],
+        summaryMode         = 'use',
+        summaryPrompt       = '',
+        contentPrompt       = '',
+        customInput         = '',
+        selectedFiles       = [],
+        sliceOutputTemplate = null,
+      } = req.body
 
-     if (!projectName) return error('projectName is required')
+      if (!projectName) return error('projectName is required')
+      if (!sliceOutputTemplate) return error('sliceOutputTemplate is required — select a slice output template before generating.')
+
+      // ── Purge stale debug files from previous run ────────────────────────────
+      if (flowId) {
+        const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+        try {
+          await fsp.mkdir(debugDir, { recursive: true })
+          const existing = await fsp.readdir(debugDir)
+          const stale = existing.filter(f => f.endsWith('.txt'))
+          await Promise.all(stale.map(f => fsp.unlink(path.join(debugDir, f))))
+          if (stale.length > 0) log(`Purged ${stale.length} stale debug file(s) from previous run`)
+        } catch (err) {
+          log(`Warning: could not purge stale files: ${err.message}`)
+        }
+      }
 
      console.log('[agentic/plan] Request body:', JSON.stringify({ projectName, customInput, contentPrompt }, null, 2))
 
      const projectDir = path.join(RESOLVED_PROJECTS_DIR, projectName)
+
+     // ── Load slice output template ────────────────────────────────────────────
+     let sliceTemplateBody = null
+     try {
+       const templatePath = path.join(SLICE_TEMPLATES_DIR, sliceOutputTemplate)
+       const templateRaw = await fsp.readFile(templatePath, 'utf-8')
+       const separatorIdx = templateRaw.indexOf('\n---\n')
+       sliceTemplateBody = separatorIdx !== -1 ? templateRaw.slice(separatorIdx + 5).trim() : templateRaw.trim()
+       log(`Slice output template loaded: "${sliceOutputTemplate}" (${sliceTemplateBody.length} chars)`)
+     } catch (err) {
+       return error(`Slice output template "${sliceOutputTemplate}" could not be read: ${err.message}`)
+     }
 
      // ── Context / summaries ──────────────────────────────────────────────────
        phase('analyzing')
 
        log(`Custom input received: ${customInput ? `"${customInput.substring(0, 50)}..."` : '(empty)'}`)
 
-    // ── Sheet filter: parse customInput for explicit sheet directives ─────────
-    const sheetFilter = parseSheetFilter(customInput || contentPrompt)
-    if (sheetFilter) {
-      log(`Sheet filter detected: ${[...sheetFilter].join(', ')}`)
-    }
-
     // ── Fast path: no repeatable slides — skip orchestrator entirely ──────────
     if (repeatableSlides.length === 0) {
       log('No repeatable slides — skipping orchestrator, reading full context directly...')
-      const fullContext = await readContextFiles(projectDir, { selectedFiles, sheetFilter })
+      const fullContext = await readContextFiles(projectDir, { selectedFiles })
 
       if (fullContext.fileCount === 0) {
         log('No context files found — proceeding without context')
@@ -347,15 +334,11 @@ router.post('/agentic/plan', async (req, res) => {
 
       // Persist full context to disk so /run can re-read it without a browser round-trip
       if (flowId) {
-        const flowDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId)
+        const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
         try {
-          await fsp.mkdir(flowDir, { recursive: true })
-          const sliceLines = `${'='.repeat(60)}\nSLICE KEY: blocks\n${'='.repeat(60)}\n${fullContext.text || ''}`
-          await Promise.all([
-            fsp.writeFile(path.join(flowDir, 'ai-context-blocks.txt'), fullContext.text || '', 'utf8'),
-            fsp.writeFile(path.join(flowDir, 'ai-context-slices.txt'), sliceLines, 'utf8'),
-          ])
-          log(`Saved full context to disk for /run to re-read`)
+          await fsp.mkdir(debugDir, { recursive: true })
+          await fsp.writeFile(path.join(debugDir, 'ai-slice-blocks.txt'), fullContext.text || '', 'utf8')
+          log(`Saved full context as debug/ai-slice-blocks.txt`)
         } catch (err) {
           console.error(`[agentic/plan] Failed to save context: ${err.message}`)
           log(`Warning: Failed to save context to disk: ${err.message}`)
@@ -368,11 +351,9 @@ router.post('/agentic/plan', async (req, res) => {
 
       log(`Plan ready — ${agentPlan.length} agent${agentPlan.length !== 1 ? 's' : ''} queued (no orchestrator)`)
 
-      // contextSlices is intentionally omitted — /run will re-read from disk
       emit(res, 'plan', JSON.stringify({
         instances: {},
         instanceNames: [],
-        contextSlices: null,
         rationale: 'No repeatable slides — full context passed directly to blocks agent.',
         agentPlan,
         contextFiles: fullContext.fileCount,
@@ -382,7 +363,7 @@ router.post('/agentic/plan', async (req, res) => {
 
     // ── Orchestrator path: repeatable slides present ──────────────────────────
     log('Reading AI Context files (compact schema for orchestrator)...')
-    const compactContext = await readContextFilesCompact(projectDir, { selectedFiles, sheetFilter })
+    const compactContext = await readContextFilesCompact(projectDir, { selectedFiles })
 
     if (compactContext.fileCount === 0) {
       log('No context files found — proceeding without context')
@@ -395,9 +376,9 @@ router.post('/agentic/plan', async (req, res) => {
      phase('planning')
      log('Orchestrator: identifying grouping from schema...')
 
-     const promptToUse = customInput || contentPrompt
-     console.log('[agentic/plan] Building orchestrator prompt with:', { customInput: customInput?.substring(0, 50), contentPrompt: contentPrompt?.substring(0, 50), promptToUse: promptToUse?.substring(0, 50) })
-     const orchestratorPrompt = buildOrchestratorPrompt(recipe, compactContext.text, promptToUse, repeatableSlides)
+      const promptToUse = customInput || contentPrompt
+      console.log('[agentic/plan] Building orchestrator prompt with:', { customInput: customInput?.substring(0, 50), contentPrompt: contentPrompt?.substring(0, 50), promptToUse: promptToUse?.substring(0, 50) })
+      const orchestratorPrompt = buildOrchestratorPrompt(recipe, compactContext.text, promptToUse, repeatableSlides)
      log(`Orchestrator prompt: ${orchestratorPrompt.length} chars`)
 
       let orchResult
@@ -414,60 +395,93 @@ router.post('/agentic/plan', async (req, res) => {
        return error(`Orchestrator returned invalid JSON.\n${parseErr.message}`)
      }
 
-      const { instances: rawInstances = {}, instanceNames = [], rationale = '', grouping = null } = orchResult
-      const remappedInstances = remapInstances(rawInstances, repeatableSlides)
+       const { instances: rawInstances = {}, instanceNames = [], instanceKeys = [], rationale = '' } = orchResult
 
-      console.log('[agentic/plan] instances:', JSON.stringify(rawInstances))
-      console.log('[agentic/plan] grouping:', JSON.stringify(grouping))
+       // Validate instanceKeys length matches total instance count
+       const totalInstances = Object.values(rawInstances).reduce((s, n) => s + n, 0)
+       let resolvedInstanceKeys = instanceKeys
+       if (instanceKeys.length !== totalInstances) {
+         log(`Warning: instanceKeys length (${instanceKeys.length}) does not match total instances (${totalInstances}) — falling back to instanceNames`)
+         resolvedInstanceKeys = instanceNames
+       }
 
-    // ── Build contextSlices from real data (code-based, no AI) ───────────────
-    log('Extracting context slices from source files...')
-    const contextDir = path.join(projectDir, 'AI Context')
-    let contextSlices = {}
+       // Remap instances by position to correct slide keys (AI may rename keys)
+       const remappedInstances = {}
+       const expectedKeys = repeatableSlides.map(rs => rs.key)
+       const returnedKeys = Object.keys(rawInstances)
+       expectedKeys.forEach((key, i) => {
+         const aiKey = returnedKeys[i] ?? returnedKeys[0]
+         remappedInstances[key] = rawInstances[key] ?? rawInstances[aiKey] ?? 1
+       })
 
-    if (grouping?.column && grouping?.values?.length > 0) {
-      log(`Grouping by column "${grouping.column}" — ${grouping.values.length} group(s)`)
-      const { slices, blocksText, matched } = await extractGroupedSlices(
-        contextDir, grouping.column, grouping.values, compactContext.files
-      )
-      if (matched) {
-        contextSlices = { ...slices }
-        if (blocksText) contextSlices['blocks'] = blocksText
-        log(`Slices built: ${Object.keys(slices).length} instance slice(s)${blocksText ? ' + blocks' : ''}`)
-      } else {
-        log(`Warning: column "${grouping.column}" not found in any file — falling back to full context`)
-        const fullContext = await readContextFiles(projectDir, { selectedFiles, sheetFilter })
-        if (fullContext.text) contextSlices['blocks'] = fullContext.text
-        log(`Fallback: loaded full context (${fullContext.text?.length ?? 0} chars) into blocks slice`)
-      }
-    } else {
-      log('Orchestrator returned null grouping — reading full context for blocks agent...')
-      const fullContext = await readContextFiles(projectDir, { selectedFiles, sheetFilter })
-      if (fullContext.text) contextSlices['blocks'] = fullContext.text
-      log(`Full context loaded: ${fullContext.text?.length ?? 0} chars`)
-    }
+       console.log('[agentic/plan] instances:', JSON.stringify(rawInstances))
 
-    // Save orchestrator prompt and context slices for debugging
-    if (flowId) {
-      const flowDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId)
-      try {
-        await fsp.mkdir(flowDir, { recursive: true })
-        const sliceLines = Object.entries(contextSlices).map(([key, text]) =>
-          `${'='.repeat(60)}\nSLICE KEY: ${key}\n${'='.repeat(60)}\n${text}`
-        ).join('\n\n')
-        await Promise.all([
-          fsp.writeFile(path.join(flowDir, 'ai-orchestrator-prompt.txt'), orchestratorPrompt, 'utf8'),
-          fsp.writeFile(path.join(flowDir, 'ai-context-slices.txt'), sliceLines, 'utf8'),
-        ])
-        log(`Saved orchestrator prompt and ${Object.keys(contextSlices).length} context slice(s) to disk`)
-      } catch (err) {
-        console.error(`[agentic/plan] Failed to save slices: ${err.message}`)
-        log(`Warning: Failed to save slices to disk: ${err.message}`)
-      }
-    }
+     // ── Build instance slices from real data (v2: intent-driven, exhaustive) ──
+     log('Building instance slices (v2)...')
+     const contextDir = path.join(projectDir, 'AI Context')
+     const { slices, blocksText } = await buildInstanceSlices(
+       contextDir,
+       resolvedInstanceKeys,
+       compactContext.files,
+     )
+     log(`Instance slices built: ${Object.keys(slices).length} instance(s)`)
+
+     // AI slicer: run per instance to extract and structure data using the output template
+     if (Object.keys(slices).length > 0) {
+       log('AI-structuring instance slices using output template (parallel)...')
+       const slicerResults = await Promise.all(
+         Object.entries(slices).map(async ([idx, rawText]) => {
+           const instanceName = instanceNames[parseInt(idx)] || resolvedInstanceKeys[parseInt(idx)] || `instance-${idx}`
+           const cappedRaw = rawText.length > 80_000
+             ? rawText.slice(0, 80_000) + '\n[...raw data capped for AI slicer]'
+             : rawText
+           const slicerPrompt = buildSlicerPrompt(instanceName, cappedRaw, sliceTemplateBody)
+           log(`  Slicing instance [${idx}]: "${instanceName}" (${cappedRaw.length} chars raw)`)
+           const { response } = await callAi(slicerPrompt, { temperature: 0.1, maxTokens: 2000 })
+           log(`  Instance [${idx}] structured: ${response.length} chars`)
+           return [idx, response.trim()]
+         })
+       )
+       slicerResults.forEach(([idx, text]) => { slices[idx] = text })
+       log(`AI-focused ${slicerResults.length} instance slice(s)`)
+     }
+
+     // Save slice files to disk with new naming convention
+     if (flowId) {
+       const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+       try {
+         await fsp.mkdir(debugDir, { recursive: true })
+
+         // Helper to make filesystem-safe slug from instance name
+         const toSlug = (name) => String(name)
+           .toLowerCase()
+           .replace(/[^a-z0-9]+/g, '-')
+           .replace(/^-+|-+$/g, '')
+           .slice(0, 40)
+
+         const writeOps = [
+           fsp.writeFile(path.join(debugDir, 'ai-orchestrator-prompt.txt'), orchestratorPrompt, 'utf8'),
+           fsp.writeFile(path.join(debugDir, 'ai-slice-blocks.txt'), blocksText || '', 'utf8'),
+         ]
+
+         // Write one named slice file per instance
+         Object.entries(slices).forEach(([idx, text]) => {
+           const name = instanceNames[parseInt(idx)] || `instance-${idx}`
+           const slug = toSlug(name)
+           const filename = `ai-slice-instance-${idx}-${slug}.txt`
+           writeOps.push(fsp.writeFile(path.join(debugDir, filename), text, 'utf8'))
+         })
+
+         await Promise.all(writeOps)
+         log(`Saved orchestrator prompt + ${Object.keys(slices).length} instance slice(s) + blocks slice to debug/`)
+       } catch (err) {
+         console.error(`[agentic/plan] Failed to save slices: ${err.message}`)
+         log(`Warning: Failed to save slices to disk: ${err.message}`)
+       }
+     }
 
      log(`Instances: ${JSON.stringify(remappedInstances)}`)
-     log(`Context slices: ${Object.keys(contextSlices).length} key(s) — ${Object.keys(contextSlices).join(', ') || '(none)'}`)
+      log(`Context slices: ${Object.keys(slices).length} key(s) — ${Object.keys(slices).join(', ') || '(none)'}`)
      log(`Instance names: ${instanceNames.join(', ') || '(none)'}`)
      if (rationale) log(`Orchestrator: ${rationale}`)
     for (const [key, n] of Object.entries(remappedInstances)) {
@@ -490,14 +504,13 @@ router.post('/agentic/plan', async (req, res) => {
 
     log(`Plan ready — ${agentPlan.length} agent${agentPlan.length !== 1 ? 's' : ''} queued`)
 
-      emit(res, 'plan', JSON.stringify({
-        instances: remappedInstances,
-        instanceNames,
-        contextSlices,
-        rationale,
-        agentPlan,
-        contextFiles: compactContext.fileCount,
-      }))
+       emit(res, 'plan', JSON.stringify({
+         instances: remappedInstances,
+         instanceNames,
+         rationale,
+         agentPlan,
+         contextFiles: compactContext.fileCount,
+       }))
     res.end()
 
   } catch (err) {
@@ -516,43 +529,65 @@ router.post('/agentic/run', async (req, res) => {
   const done  = (json) => emit(res, 'done',   json)
   const error = (msg)  => { emit(res, 'error', msg); res.end() }
 
-   try {
-       const {
-         projectName,
-         flowId,
-         zones            = [],
-         repeatableSlides = [],
-         instances        = {},
-         contextSlices    = {},
-         contentPrompt    = '',
-         customInput      = '',
-       } = req.body
+    try {
+        const {
+          projectName,
+          flowId,
+          zones            = [],
+          repeatableSlides = [],
+          instances        = {},
+          contentPrompt    = '',
+          customInput      = '',
+        } = req.body
 
-    if (!projectName) return error('projectName is required')
+     if (!projectName) return error('projectName is required')
 
-    const remappedInstances = remapInstances(instances, repeatableSlides)
+     const remappedInstances = {}
+     const expectedKeys = repeatableSlides.map(rs => rs.key)
+     const returnedKeys = Object.keys(instances)
+     expectedKeys.forEach((key, i) => {
+       const aiKey = returnedKeys[i] ?? returnedKeys[0]
+       remappedInstances[key] = instances[key] ?? instances[aiKey] ?? 1
+     })
+     // If no repeatable slides, use instances as-is
+     if (repeatableSlides.length === 0) Object.assign(remappedInstances, instances)
     const { repSet, hasBlocks, hasShared } = buildRepSetInfo(zones, repeatableSlides)
 
-    // ── Resolve context slices ────────────────────────────────────────────────
-    // When contextSlices is null the /plan fast-path was used (no repeatable slides).
-    // Re-read the persisted blocks context from disk instead of relying on the
-    // browser round-trip, which avoids sending large payloads through the client.
-    let resolvedSlices = contextSlices
-    if (!contextSlices || Object.keys(contextSlices).length === 0) {
-      if (flowId) {
-        const blocksFile = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'ai-context-blocks.txt')
-        try {
-          const blocksText = await fsp.readFile(blocksFile, 'utf8')
-          resolvedSlices = { blocks: blocksText }
-          log(`Re-read blocks context from disk: ${blocksText.length} chars`)
-        } catch {
-          log('Warning: no ai-context-blocks.txt found — context will be empty')
-          resolvedSlices = {}
-        }
-      } else {
-        resolvedSlices = {}
-      }
-    }
+     // ── Read slice files from disk ────────────────────────────────────────────
+     // Slices are always read from disk — the browser never carries slice content.
+     const resolvedSlices = {}
+     if (flowId) {
+       const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+       try {
+         const debugFiles = await fsp.readdir(debugDir)
+
+         // Read blocks slice
+         const blocksFile = debugFiles.find(f => f === 'ai-slice-blocks.txt')
+         if (blocksFile) {
+           resolvedSlices['blocks'] = await fsp.readFile(path.join(debugDir, blocksFile), 'utf8')
+           log(`Read blocks slice: ${resolvedSlices['blocks'].length} chars`)
+         } else {
+           log('Warning: ai-slice-blocks.txt not found — blocks agent will have no context')
+         }
+
+         // Read instance slices by index prefix
+         const instanceFiles = debugFiles.filter(f => /^ai-slice-instance-\d+-.+\.txt$/.test(f))
+         await Promise.all(instanceFiles.map(async (filename) => {
+           const idxMatch = filename.match(/^ai-slice-instance-(\d+)-/)
+           if (idxMatch) {
+             const idx = idxMatch[1]
+             resolvedSlices[idx] = await fsp.readFile(path.join(debugDir, filename), 'utf8')
+             log(`Read instance slice [${idx}]: ${resolvedSlices[idx].length} chars (${filename})`)
+           }
+         }))
+
+         log(`Total slices loaded from disk: ${Object.keys(resolvedSlices).length}`)
+       } catch (err) {
+         log(`Warning: failed to read slice files from disk: ${err.message}`)
+       }
+     } else {
+       log('Warning: no flowId — cannot read slice files from disk, context will be empty')
+     }
 
     // ── Build agent list ──────────────────────────────────────────────────────
     const agents = []
@@ -595,9 +630,9 @@ router.post('/agentic/run', async (req, res) => {
          }
          console.log(`[agentic/run][${agent.label}] Context preview: ${agentContext.slice(0, 200)}`)
 
-         const prompt = agent.type === 'blocks'
-           ? buildBlocksPrompt(zones, repeatableSlides, agentContext, repSet, customInput || contentPrompt)
-           : buildInstancePrompt(zones, repeatableSlides, agent.slideKey, agent.instanceIndex, agent.instanceCount, agentContext, customInput || contentPrompt)
+          const prompt = agent.type === 'blocks'
+            ? buildBlocksPrompt(zones, repeatableSlides, agentContext, repSet, customInput || contentPrompt)
+            : buildInstancePrompt(zones, repeatableSlides, agent.slideKey, agent.instanceIndex, agent.instanceCount, agentContext, customInput || contentPrompt)
 
          console.log(`[agentic/run][${agent.label}] Prompt length: ${prompt.length} chars`)
          if (prompt.length > 2_000_000) {
@@ -632,12 +667,12 @@ router.post('/agentic/run', async (req, res) => {
 
     // Save agent prompts for debugging
     if (flowId) {
-      const flowDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId)
+      const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
       try {
-        await fsp.mkdir(flowDir, { recursive: true })
+        await fsp.mkdir(debugDir, { recursive: true })
         const content = agentResults.map((r, i) => `=== Agent ${i + 1}: ${r.agent.label} ===\n${r.prompt}`).join('\n\n')
-        await fsp.writeFile(path.join(flowDir, 'ai-agent-prompts.txt'), content, 'utf8')
-        log(`Saved ${agentResults.length} agent prompt(s) to disk`)
+        await fsp.writeFile(path.join(debugDir, 'ai-agent-prompts.txt'), content, 'utf8')
+        log(`Saved ${agentResults.length} agent prompt(s) to debug/`)
       } catch (err) {
         console.error(`[agentic/run] Failed to save agent prompts: ${err.message}`)
         log(`Warning: Failed to save agent prompts: ${err.message}`)
@@ -667,6 +702,27 @@ router.post('/agentic/run', async (req, res) => {
   } catch (err) {
     log(`FATAL ERROR: ${err.stack || err.message}`)
     error(err.message)
+  }
+})
+
+// ── GET /slice-templates — list available slice output templates ──────────────
+router.get('/slice-templates', async (req, res) => {
+  try {
+    const files = await fsp.readdir(SLICE_TEMPLATES_DIR)
+    const templates = []
+    for (const file of files.filter(f => f.endsWith('.txt'))) {
+      const raw = await fsp.readFile(path.join(SLICE_TEMPLATES_DIR, file), 'utf-8')
+      const nameLine = raw.match(/^TEMPLATE_NAME:\s*(.+)$/m)
+      const descLine = raw.match(/^TEMPLATE_DESCRIPTION:\s*(.+)$/m)
+      templates.push({
+        filename: file,
+        name: nameLine ? nameLine[1].trim() : file.replace('.txt', ''),
+        description: descLine ? descLine[1].trim() : '',
+      })
+    }
+    res.json(templates)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
   }
 })
 

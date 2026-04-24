@@ -112,18 +112,10 @@ async function readDocx(filePath) {
   return result.value ?? ''
 }
 
-async function readXlsx(filePath, compact = false, sheetFilter = null) {
+async function readXlsx(filePath, compact = false) {
   const { default: XLSX } = await import('xlsx')
   const workbook = XLSX.readFile(filePath)
-  // sheetFilter: Set of lowercase sheet names to include; null = all sheets
-  const names = sheetFilter
-    ? workbook.SheetNames.filter(n => sheetFilter.has(n.trim().toLowerCase()))
-    : workbook.SheetNames
-  if (names.length === 0) {
-    const available = workbook.SheetNames.join(', ')
-    return `[No matching sheets found. Available sheets: ${available}]`
-  }
-  return names
+  return workbook.SheetNames
     .map(name => summariseSheet(workbook.Sheets[name], XLSX, name, !compact))
     .join('\n\n')
 }
@@ -138,13 +130,13 @@ async function readTextFile(filePath) {
   return fs.readFile(filePath, 'utf-8')
 }
 
-async function extractText(filePath, compact = false, sheetFilter = null) {
+async function extractText(filePath, compact = false) {
   const ext = path.extname(filePath).toLowerCase()
   switch (ext) {
     case '.pdf':  return readPdf(filePath)
     case '.docx': return readDocx(filePath)
     case '.xlsx':
-    case '.xls':  return readXlsx(filePath, compact, sheetFilter)
+    case '.xls':  return readXlsx(filePath, compact)
     case '.csv':  return readCsv(filePath, compact)
     default:      return readTextFile(filePath)
   }
@@ -231,7 +223,7 @@ export async function getSummaryStatus(projectDir) {
  * @returns {{ fileCount, files, text, totalChars, summaryUsed }}
  *   summaryUsed: Map<filename, 'summary'|'original'>
  */
-export async function readContextFiles(projectDir, { useSummaries = false, selectedFiles = [], sheetFilter = null } = {}) {
+export async function readContextFiles(projectDir, { useSummaries = false, selectedFiles = [] } = {}) {
   const contextDir = path.join(projectDir, 'AI Context')
 
   let filenames
@@ -282,7 +274,7 @@ export async function readContextFiles(projectDir, { useSummaries = false, selec
 
         if (!text) {
           const ext     = path.extname(filename).toLowerCase()
-          const raw     = await extractText(path.join(contextDir, filename), false, sheetFilter)
+          const raw     = await extractText(path.join(contextDir, filename), false)
           const isTabular = ext === '.xlsx' || ext === '.xls' || ext === '.csv'
           const limit   = isTabular ? MAX_TOTAL_CHARS : MAX_TEXT_FILE_CHARS
           const clipped = raw.trim()
@@ -335,7 +327,7 @@ export async function readContextFiles(projectDir, { useSummaries = false, selec
  * Produces a much smaller output suitable for the orchestrator's schema-identification step.
  * Text files are read in full; Excel/CSV files are summarised (unique values + 50 sample rows).
  */
-export async function readContextFilesCompact(projectDir, { selectedFiles = [], sheetFilter = null } = {}) {
+export async function readContextFilesCompact(projectDir, { selectedFiles = [] } = {}) {
   const contextDir = path.join(projectDir, 'AI Context')
 
   let filenames
@@ -366,7 +358,7 @@ export async function readContextFilesCompact(projectDir, { selectedFiles = [], 
   const fileContents = await Promise.all(
     supported.map(async (filename) => {
       try {
-        const raw     = await extractText(path.join(contextDir, filename), true, sheetFilter) // compact=true
+        const raw     = await extractText(path.join(contextDir, filename), true)
         const clipped = raw.trim()
         const text    = clipped.length > MAX_COMPACT_CHARS
           ? clipped.slice(0, MAX_COMPACT_CHARS) + '\n[...truncated]'
@@ -479,4 +471,216 @@ export async function extractGroupedSlices(contextDir, column, groupValues, allF
     blocksText: blocksParts.join('\n\n'),
     matched,
   }
+}
+
+/**
+ * Build instance-specific context slices for multiple instances by searching for
+ * instance keys in tabular data. Each instance gets a slice with:
+ * - Layer 1: Rows from instance-specific sheets (containing the instance key)
+ * - Layer 2: All rows from reference sheets (no instance keys found)
+ * - Layer 3: Document layer (non-tabular files)
+ *
+ * @param {string}   contextDir      Absolute path to the AI Context folder
+ * @param {string[]} instanceKeys    Search terms for each instance (e.g. ["acme", "globex"])
+ * @param {string[]} allFilenames    All supported filenames in contextDir
+ * @param {object}   [opts]
+ * @param {boolean}  [opts.useSummaries=false]  If true, prefer .summary.md files for document layer
+ * @returns {Promise<{ slices: Object, blocksText: string }>}
+ *   slices:     { "0": "...", "1": "...", ... } — one per instance, zero-indexed string keys
+ *   blocksText: All tabular files in full + all document files (capped at 400k chars)
+ */
+export async function buildInstanceSlices(
+  contextDir,
+  instanceKeys,
+  allFilenames,
+  opts = {}
+) {
+  const { useSummaries = false } = opts
+  const { default: XLSX } = await import('xlsx')
+
+  const TABULAR_EXT = new Set(['.xlsx', '.xls', '.csv'])
+  const NON_TABULAR_EXT = new Set(['.txt', '.md', '.html', '.pdf', '.docx'])
+
+  // Step 1: Separate tabular vs non-tabular files
+  const tabularFiles = allFilenames.filter(f => TABULAR_EXT.has(path.extname(f).toLowerCase()))
+  const nonTabularFiles = allFilenames.filter(f => NON_TABULAR_EXT.has(path.extname(f).toLowerCase()))
+
+  // Step 2: Load all tabular files once and classify sheets
+  const sheetData = [] // { filename, sheetName, rows, isInstanceSpecific }
+  const referenceSheets = [] // Same structure, but isInstanceSpecific = false
+  const blocksParts = [] // For blocksText
+
+  for (const filename of tabularFiles) {
+    const filePath = path.join(contextDir, filename)
+    let workbook
+    try {
+      workbook = XLSX.readFile(filePath)
+    } catch {
+      continue
+    }
+
+    for (const sheetName of workbook.SheetNames) {
+      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: '' })
+      const dataRows = rows.filter(row => row.some(cell => String(cell).trim() !== ''))
+
+      if (dataRows.length === 0) continue
+
+      // Step 3: Classify sheet as instance-specific or reference
+      const isInstanceSpecific = dataRows.some(row =>
+        row.some(cell =>
+          instanceKeys.some(key =>
+            String(cell).toLowerCase().includes(key.toLowerCase())
+          )
+        )
+      )
+
+      const sheetInfo = {
+        filename,
+        sheetName,
+        rows: dataRows,
+        isInstanceSpecific,
+      }
+
+      if (isInstanceSpecific) {
+        sheetData.push(sheetInfo)
+      } else {
+        referenceSheets.push(sheetInfo)
+      }
+
+      // For blocksText: include all rows from this sheet
+      const lines = [`[File: ${filename} / Sheet: ${sheetName}]`]
+      dataRows.forEach(row => lines.push(row.join(' | ')))
+      blocksParts.push(lines.join('\n'))
+    }
+  }
+
+  // Step 4: Build Layer 1 (instance-specific rows) for each instance
+  const instanceLayer1 = instanceKeys.map(() => [])
+
+  for (const { filename, sheetName, rows } of sheetData) {
+    const headerRow = rows[0]
+    const dataRows = rows.slice(1)
+
+    for (let i = 0; i < instanceKeys.length; i++) {
+      const instanceKey = instanceKeys[i]
+      const matchingRows = dataRows.filter(row =>
+        row.some(cell =>
+          String(cell).toLowerCase().includes(instanceKey.toLowerCase())
+        )
+      )
+
+      if (matchingRows.length > 0) {
+        const lines = [`[File: ${filename} / Sheet: ${sheetName}]`]
+        lines.push(headerRow.join(' | '))
+        matchingRows.forEach(row => lines.push(row.join(' | ')))
+        instanceLayer1[i].push(lines.join('\n'))
+      }
+    }
+  }
+
+  // Step 5: Build Layer 2 (reference sheets) — identical for all instances
+  const layer2Parts = []
+  for (const { filename, sheetName, rows } of referenceSheets) {
+    const lines = [`[Reference: ${filename} / Sheet: ${sheetName}]`]
+    rows.forEach(row => lines.push(row.join(' | ')))
+    layer2Parts.push(lines.join('\n'))
+  }
+  const layer2Text = layer2Parts.join('\n\n')
+
+  // Step 6: Build Layer 3 (document layer) — identical for all instances
+  const layer3Parts = []
+  for (const filename of nonTabularFiles) {
+    const filePath = path.join(contextDir, filename)
+    let text = ''
+
+    if (useSummaries) {
+      const summaryPath = summaryFilePath(contextDir, filename)
+      try {
+        text = (await fs.readFile(summaryPath, 'utf-8')).trim()
+      } catch {
+        // Summary not found, fall back to extractText
+      }
+    }
+
+    if (!text) {
+      try {
+        text = await extractText(filePath)
+      } catch {
+        text = `[Error reading file: ${filename}]`
+      }
+    }
+
+    const trimmed = text.trim()
+    const capped = trimmed.length > 400_000
+      ? trimmed.slice(0, 400_000) + '\n[...document truncated at 400k chars]'
+      : trimmed
+
+    layer3Parts.push(`=== ${filename} ===\n${capped}`)
+  }
+  const layer3Text = layer3Parts.join('\n\n')
+
+  // Step 7: Assemble each instance slice with 800k char budget
+  const slices = {}
+  const SLICE_BUDGET = 800_000
+
+  for (let i = 0; i < instanceKeys.length; i++) {
+    const parts = []
+    let charCount = 0
+
+    // Check if Layer 1 is empty for this instance
+    const layer1Text = instanceLayer1[i].join('\n\n')
+    if (layer1Text === '') {
+      const noRowsNotice = `[No instance-specific tabular rows found for: "${instanceKeys[i]}"]\n[Reference data and document context are provided below.]\n\n`
+      parts.push(noRowsNotice)
+      charCount += noRowsNotice.length
+    }
+
+    // Add Layer 1 (instance-specific rows)
+    if (layer1Text) {
+      if (charCount + layer1Text.length > SLICE_BUDGET) {
+        parts.push('[...slice budget reached — remaining content omitted]')
+        slices[i.toString()] = parts.join('')
+        continue
+      }
+      parts.push(layer1Text)
+      charCount += layer1Text.length + 2
+    }
+
+    // Add Layer 2 (reference sheets)
+    if (layer2Text) {
+      if (charCount + layer2Text.length > SLICE_BUDGET) {
+        parts.push('[...slice budget reached — remaining content omitted]')
+        slices[i.toString()] = parts.join('\n\n')
+        continue
+      }
+      parts.push(layer2Text)
+      charCount += layer2Text.length + 2
+    }
+
+    // Add Layer 3 (document layer)
+    if (layer3Text) {
+      if (charCount + layer3Text.length > SLICE_BUDGET) {
+        parts.push('[...slice budget reached — remaining content omitted]')
+        slices[i.toString()] = parts.join('\n\n')
+        continue
+      }
+      parts.push(layer3Text)
+      charCount += layer3Text.length + 2
+    }
+
+    slices[i.toString()] = parts.join('\n\n')
+  }
+
+  // Step 8: Build blocksText (all tabular files in full + all document files)
+  const blocksParts2 = []
+  blocksParts2.push(blocksParts.join('\n\n'))
+  blocksParts2.push(layer3Text)
+
+  let blocksText = blocksParts2.join('\n\n')
+  if (blocksText.length > 400_000) {
+    blocksText = blocksText.slice(0, 400_000) + '\n[...blocks context limit reached — remaining content omitted]'
+  }
+
+  // Step 9: Return
+  return { slices, blocksText }
 }

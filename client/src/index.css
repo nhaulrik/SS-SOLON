@@ -1734,6 +1734,15 @@ select:focus-visible {
   cursor: not-allowed;
 }
 
+.agentic-prompt-hint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted, #888);
+  letter-spacing: 0.01em;
+}
+
+
+
 .agentic-generate-section {
   display: flex;
   align-items: center;
@@ -1763,6 +1772,38 @@ select:focus-visible {
   opacity: 0.45;
   cursor: not-allowed;
   transform: none;
+}
+
+.agentic-prompt-hint--required {
+  color: var(--color-error, #ef4444);
+  font-style: italic;
+}
+
+.agentic-template-select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  background: var(--bg-input, #fff);
+  color: var(--text-primary, #1a202c);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.agentic-template-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.agentic-template-select--empty {
+  border-color: var(--color-error, #ef4444);
+  color: var(--text-muted, #888);
+}
+
+.agentic-template-required-hint {
+  font-size: 0.75rem;
+  color: var(--color-error, #ef4444);
+  margin-left: 8px;
 }
 
 .agentic-generate-btn.running {

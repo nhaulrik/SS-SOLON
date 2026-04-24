@@ -87,9 +87,13 @@ export default function HtmlRecipeStep({
   const [agenticPlanLocal, setAgenticPlanLocal] = useState(null)
   const [agenticErrorMsgLocal, setAgenticErrorMsgLocal] = useState('')
 
-  // Agentic custom input & previous response toggle
-  const [agenticCustomInput, setAgenticCustomInput] = useState(project?.agenticCustomInput || '')
-  const [usePreviousResponse, setUsePreviousResponse] = useState(false)
+   // Agentic custom input & previous response toggle
+   const [agenticCustomInput, setAgenticCustomInput] = useState(project?.agenticCustomInput || '')
+   const [usePreviousResponse, setUsePreviousResponse] = useState(false)
+
+   // Slice output template
+   const [sliceTemplates, setSliceTemplates] = useState([])
+   const [sliceOutputTemplate, setSliceOutputTemplate] = useState(project?.sliceOutputTemplate || null)
 
   // Ref for debouncing custom input save
   const customInputSaveTimerRef = useRef(null)
@@ -99,13 +103,6 @@ export default function HtmlRecipeStep({
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
-
-  // Load context files when Agentic tab is shown
-  useEffect(() => {
-    if (activeTab === 'agentic' && contextFiles.length === 0) {
-      fetchContextFiles()
-    }
-  }, [activeTab])
 
   // Fetch context files from backend
   const fetchContextFiles = useCallback(async () => {
@@ -130,9 +127,24 @@ export default function HtmlRecipeStep({
     } finally {
       setLoadingContextFiles(false)
     }
-  }, [projectName, project.selectedContextFiles, setToast])
+   }, [projectName, project.selectedContextFiles, setToast])
 
-  // Save selected files to flow
+   // Load context files and slice templates when Agentic tab is shown
+   useEffect(() => {
+     if (activeTab === 'agentic') {
+       if (contextFiles.length === 0) {
+         fetchContextFiles()
+       }
+       if (sliceTemplates.length === 0) {
+         fetch('/api/opencode/slice-templates')
+           .then(r => r.json())
+           .then(data => setSliceTemplates(Array.isArray(data) ? data : []))
+           .catch(() => {})
+       }
+     }
+   }, [activeTab, fetchContextFiles])
+
+   // Save selected files to flow
    const saveSelectedFilesToFlow = useCallback(async (files) => {
      try {
        await fetch(`/api/projects/${projectName}/flows/${flowId}`, {
@@ -143,6 +155,17 @@ export default function HtmlRecipeStep({
      } catch {
        // silent — context files selection is non-critical
      }
+   }, [projectName, flowId])
+
+   const saveSliceOutputTemplateToFlow = useCallback(async (filename) => {
+     if (!projectName || !flowId) return
+     try {
+       await fetch(`/api/projects/${projectName}/flows/${flowId}`, {
+         method: 'PATCH',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ sliceOutputTemplate: filename }),
+       })
+     } catch { /* non-critical */ }
    }, [projectName, flowId])
 
    const savePromptsToFlow = useCallback(async (summaryPrompt, contentPrompt) => {
@@ -380,22 +403,23 @@ export default function HtmlRecipeStep({
      setAgenticElapsedLocal(0)
 
      try {
-       const response = await fetch('/api/opencode/agentic/plan', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({
-           projectName,
-           flowId,
-           recipe,
-           zones,
-           repeatableSlides,
-           summaryMode: agenticSummaryMode,
-           summaryPrompt: agenticSummaryPrompt,
-           contentPrompt: agenticContentPrompt,
-           customInput: agenticCustomInput,
-           selectedFiles,
-         }),
-       })
+        const response = await fetch('/api/opencode/agentic/plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            projectName,
+            flowId,
+            recipe,
+            zones,
+            repeatableSlides,
+            summaryMode: agenticSummaryMode,
+            summaryPrompt: agenticSummaryPrompt,
+            contentPrompt: agenticContentPrompt,
+            customInput: agenticCustomInput,
+            selectedFiles,
+            sliceOutputTemplate,
+          }),
+        })
       if (!response.ok) throw new Error(`Server error ${response.status}`)
 
       for await (const { type, data } of readSSE(response)) {
@@ -422,7 +446,7 @@ export default function HtmlRecipeStep({
        setAgenticStatus('error')
        setAgenticErrorMsgLocal(err.message)
      }
-   }, [isAgenticActive, projectName, recipe, zones, repeatableSlides, agenticSummaryMode, agenticSummaryPrompt, agenticContentPrompt, selectedFiles, setAgenticStatus])
+    }, [isAgenticActive, projectName, recipe, zones, repeatableSlides, agenticSummaryMode, agenticSummaryPrompt, agenticContentPrompt, selectedFiles, setAgenticStatus])
 
   // Agentic: Phase 2 — user accepted, call /run SSE stream
   const handleAgenticAccept = useCallback(async () => {
@@ -435,21 +459,20 @@ export default function HtmlRecipeStep({
     setAgenticElapsedLocal(0)
 
     try {
-        const response = await fetch('/api/opencode/agentic/run', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            projectName,
-            flowId,
-            zones,
-            repeatableSlides,
-            instances: agenticPlanLocal.instances,
-            instanceNames: agenticPlanLocal.instanceNames,
-            contextSlices: agenticPlanLocal.contextSlices,
-            contentPrompt: agenticContentPrompt,
-            customInput: agenticCustomInput,
-          }),
-        })
+         const response = await fetch('/api/opencode/agentic/run', {
+           method: 'POST',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({
+             projectName,
+             flowId,
+             zones,
+             repeatableSlides,
+             instances: agenticPlanLocal.instances,
+             instanceNames: agenticPlanLocal.instanceNames,
+             contentPrompt: agenticContentPrompt,
+             customInput: agenticCustomInput,
+           }),
+         })
 
       if (!response.ok) throw new Error(`Server error ${response.status}`)
 
@@ -489,7 +512,7 @@ export default function HtmlRecipeStep({
          setAgenticErrorMsgLocal(err.message)
        }
      }
-   }, [agenticPlanLocal, projectName, recipe, zones, repeatableSlides, agenticContentPrompt, selectedFiles, handleJsonChange, saveAgenticJsonResponseToFlow, setToast, setAgenticStatus])
+    }, [agenticPlanLocal, projectName, recipe, zones, repeatableSlides, agenticContentPrompt, selectedFiles, handleJsonChange, saveAgenticJsonResponseToFlow, setToast, setAgenticStatus])
 
   // Agentic: Cancel/reset
   const handleAgenticCancel = () => {
@@ -743,22 +766,48 @@ export default function HtmlRecipeStep({
               )}
             </div>
 
-            {/* B. Custom Prompt Textarea (hidden if using previous response) */}
+            {/* B. Slice output template selector */}
             {!usePreviousResponse && (
               <div className="agentic-prompt-section">
-                <label htmlFor="agenticCustomInput" className="agentic-prompt-label">
-                  What should the AI generate?
+                <label htmlFor="sliceOutputTemplate" className="agentic-prompt-label">
+                  Slice output template
+                  <span className="agentic-prompt-hint agentic-prompt-hint--required">Required</span>
                 </label>
-                <textarea
-                  id="agenticCustomInput"
-                  className="agentic-prompt-textarea"
-                  value={agenticCustomInput}
-                  onChange={(e) => handleAgenticCustomInputChange(e.target.value)}
+                <select
+                  id="sliceOutputTemplate"
+                  className={`agentic-template-select${!sliceOutputTemplate ? ' agentic-template-select--empty' : ''}`}
+                  value={sliceOutputTemplate || ''}
+                  onChange={e => {
+                    const val = e.target.value || null
+                    setSliceOutputTemplate(val)
+                    saveSliceOutputTemplateToFlow(val)
+                  }}
                   disabled={isAgenticActive || agenticStatus === 'confirming'}
-                  placeholder="Describe the slides you want — tone, focus, number of instances, anything specific…"
-                />
+                >
+                  <option value="">— Select a template —</option>
+                  {sliceTemplates.map(t => (
+                    <option key={t.filename} value={t.filename} title={t.description}>{t.name}</option>
+                  ))}
+                </select>
               </div>
             )}
+
+            {/* C. Custom Prompt Textarea (hidden if using previous response) */}
+             {!usePreviousResponse && (
+               <div className="agentic-prompt-section">
+                 <label htmlFor="agenticCustomInput" className="agentic-prompt-label">
+                   What should the AI generate?
+                 </label>
+                 <textarea
+                   id="agenticCustomInput"
+                   className="agentic-prompt-textarea"
+                   value={agenticCustomInput}
+                   onChange={(e) => handleAgenticCustomInputChange(e.target.value)}
+                   disabled={isAgenticActive || agenticStatus === 'confirming'}
+                   placeholder="Describe the slides you want — tone, focus, number of instances, anything specific…"
+                 />
+               </div>
+             )}
 
             {/* C. Generate with AI button + inline agentic UI (hidden if using previous response) */}
             {!usePreviousResponse && (
@@ -766,12 +815,16 @@ export default function HtmlRecipeStep({
                  <button
                    className={`agentic-generate-btn ${isAgenticActive ? 'running' : ''}`}
                    onClick={isAgenticActive ? undefined : handleAgenticGenerate}
-                   disabled={isAgenticActive || agenticStatus === 'confirming'}
+                   disabled={isAgenticActive || agenticStatus === 'confirming' || !sliceOutputTemplate}
+                   title={!sliceOutputTemplate ? 'Select a slice output template first' : undefined}
                  >
                   {agenticStatus === 'planning' ? 'Analysing…' :
                    agenticStatus === 'running' ? 'Generating…' :
                    '✦ Generate with AI'}
                 </button>
+                {!sliceOutputTemplate && agenticStatus === 'idle' && (
+                  <span className="agentic-template-required-hint">Select a slice output template to enable generation</span>
+                )}
 
                 {agenticStatus === 'running' && (
                   <span className={agenticCss.timer}>{agenticElapsedLocal}s</span>
