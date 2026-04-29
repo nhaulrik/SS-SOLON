@@ -1,0 +1,82 @@
+TEMPLATE_NAME: Initiative Detail
+TEMPLATE_DESCRIPTION: Single roadmap initiative — strategic case and feature breakdown for steerco prioritisation
+
+---
+
+=== {{ROADMAP_INITIATIVE}} ===
+
+=== Summary ===
+Roadmap Initiative: {{INITIATIVE_NAME}}
+[Read from the "Roadmap Initiative" column in the Full Features sheet. Match exactly to the slide instance name.]
+
+Roadmap Initiative Group: {{INITIATIVE_GROUP_NAME}}
+[Read from the "Roadmap Initiative Group" column — the parent group this initiative belongs to.]
+
+PI: {{PI}}
+[Read the most common PI value across features in this initiative from the "PI" column. Format as "PI 28" (with space).]
+
+Total Effort: {{TOTAL_HOURS}} hours
+[Read from the "Estimate Pivot" sheet, column "Sum of Estimate", in the row where column A matches this initiative name. Match case-insensitively. Round to nearest whole number — NEVER output a decimal. Do NOT sum raw rows — use only the pre-computed pivot value. If not found in pivot, sum the Estimate column for all matching rows in Full Features and round to whole number.]
+
+Feature Count: {{FEATURE_COUNT}}
+[Count ALL rows in Full Features where the "Roadmap Initiative" column value is an EXACT string match to this initiative name. No partial matches, no substring matches, no fuzzy matching. The full cell value must equal the initiative name exactly (case-insensitive). Do not count rows from other initiatives.]
+
+Requester: {{REQUESTER}}
+[Read the most common non-blank value in the "Requester" column across all features in this initiative. If multiple requesters exist, list them comma-separated.]
+
+=== Feature Progress ===
+[Read the row from the "Progress Pivot" sheet where column A matches this initiative name exactly. Copy counts for each status column that has a non-zero value. Do NOT invent — only report what is in the pivot row.]
+In Design: {{STATUS_IN_DESIGN}}
+In Progress: {{STATUS_IN_PROGRESS}}
+Ready for Dev: {{STATUS_READY_FOR_DEV}}
+HLD: {{STATUS_HLD}}
+To Do: {{STATUS_TO_DO}}
+Under Analysis: {{STATUS_UNDER_ANALYSIS}}
+Waiting Analysis Approval: {{STATUS_WAITING_ANALYSIS}}
+Waiting Solution Approval: {{STATUS_WAITING_SOLUTION}}
+Total Features: {{STATUS_GRAND_TOTAL}}
+
+=== Feature Priority ===
+[Read from the "Priority Pivot" sheet, in the row where column A matches this initiative name. Report all priority columns.]
+P1: {{PRIORITY_P1}}
+P2: {{PRIORITY_P2}}
+P3: {{PRIORITY_P3}}
+Total Features: {{PRIORITY_GRAND_TOTAL}}
+
+=== Strategic Case — Why Prioritise This Initiative === [~250 words]
+[Synthesise 3 distinct strategic reasons from the "Features Description" fields of all features in this initiative. Strip all Jira markup ({color:...}, *, **, #, etc.) before reading. Each reason must represent a different angle: e.g. operational impact, technical necessity, business risk of delay, dependency enablement, or platform strategic value. Draw only from content in the Features Description column — do NOT invent. If descriptions are sparse, use the feature names and requester to infer business context.]
+
+Reason 01 Title: {{REASON_01_TITLE}}
+[~5 words — a bold, action-oriented title for the first strategic reason]
+Reason 01 Text: {{REASON_01_TEXT}}
+[MAX 20 words — one tight sentence. No filler. Stop at 20 words hard limit.]
+
+Reason 02 Title: {{REASON_02_TITLE}}
+[~5 words]
+Reason 02 Text: {{REASON_02_TEXT}}
+[MAX 20 words — one tight sentence. No filler. Stop at 20 words hard limit.]
+
+Reason 03 Title: {{REASON_03_TITLE}}
+[~5 words]
+Reason 03 Text: {{REASON_03_TEXT}}
+[MAX 20 words — one tight sentence. No filler. Stop at 20 words hard limit.]
+
+=== Key Features === [ordered by Estimate descending, TBD/missing effort last, maximum 6]
+[List the top 6 features from this initiative sorted by the "Estimate" column descending. Only include rows where the "Roadmap Initiative" column is an EXACT string match to this initiative name — no partial or fuzzy matches. Features with blank or TBD estimates go last. Read feature names from "Roadmap Feature", descriptions from "Features Description" (strip all Jira markup), status from "Feature Status", and effort from "Estimate". If there are fewer than 6 matching features, list ONLY the ones that exist — NEVER invent or fabricate features to reach 6. Output exactly as many features as exist in the data, no more.]
+
+{{#EACH_FEATURE}}
+Feature Index: {{FEATURE_INDEX}}
+[Sequential label: "Epic 01", "Epic 02", etc.]
+Feature Name: {{FEATURE_NAME}}
+[Read verbatim from the "Roadmap Feature" column]
+Feature Description: {{FEATURE_DESCRIPTION}}
+[~25 words — one concise sentence stating what this feature delivers. Strip all Jira markup ({color:...}, *, **, #, h1., etc.) completely. Plain English only.]
+Feature Status: {{FEATURE_STATUS}}
+[Read verbatim from the "Feature Status" column. Exact values: "HLD", "In Design", "In Progress", "Ready for Dev", "To Do", "Under Analysis", "Waiting Analysis Approval", "Waiting Solution Approval". If blank write "To Do".]
+Feature Status Color: {{FEATURE_STATUS_COLOR}}
+[Map the status to a hex color: "In Progress" → #F0A500, "In Design" → #4A90D9, "HLD" → #4A90D9, "Ready for Dev" → #4CAF50, "To Do" → #CCCCCC, "Under Analysis" → #9B59B6, "Waiting Analysis Approval" → #E67E22, "Waiting Solution Approval" → #E67E22. If blank → #CCCCCC.]
+Feature Effort: {{FEATURE_EFFORT}}
+[Read from the "Estimate" column. Format as whole number with "h" suffix, e.g. "640h". If blank or zero write "TBD".]
+Feature Priority: {{FEATURE_PRIORITY}}
+[Read from the "Feature Priority" column. Capitalise: "P1", "P2", "P3". If blank write "P2".]
+{{/EACH_FEATURE}}

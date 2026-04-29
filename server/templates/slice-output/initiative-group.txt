@@ -9,6 +9,7 @@ TEMPLATE_DESCRIPTION: Roadmap initiative group with feature counts and effort br
 Total Unique Features Across All Initiatives: {{TOTAL_FEATURE_COUNT}}
 
 {{#EACH_INITIATIVE}}
+[Order all initiative blocks by Total Hours PI28 descending — highest effort first. Initiatives with TBD or missing effort values go last.]
 Initiative: {{INITIATIVE_NAME}}
 Unique Feature Count: {{FEATURE_COUNT}}
 Features:
@@ -49,11 +50,31 @@ Total Features: {{PRIORITY_GRAND_TOTAL}}
 Roadmap Group: {{ROADMAP_GROUP}}
 [Look for the column "roadmap initiative group"]
 Total Effort Across All Initiatives: {{GRAND_TOTAL}} hours
-[Read this value from the "Pivot" sheet, column "Roadmap Initiative Group Estimates", in the bold/group-level row where column A matches this initiative group name. Do NOT sum — use only the pre-computed pivot total.]
+[Read this value from the "Estimate Pivot" sheet, column "Roadmap Initiative Group Estimates", in the bold/group-level row where column A matches this initiative group name. Do NOT sum — use only the pre-computed pivot total.]
 Number of Unique Initiatives: {{INITIATIVE_COUNT}}
 Number of Features: {{TOTAL_FEATURE_COUNT}}
-[Look for the coulmn "IRM" and count all items within the "roadmap initiative group"]
+[Look for the column "IRM" and count all items within the "roadmap initiative group"]
 Requester: {{REQUESTER}}
 [Look for the requester in the column "Requester"]
+
+Group-Level Feature Progress:
+[Read the group-level subtotal row from the "Progress Pivot" sheet where column A matches this initiative group name exactly. This row contains pre-computed totals across all initiatives — do NOT sum the per-initiative rows above. Report each status column that has a non-zero value. Omit zero or blank columns.]
+HLD: {{GROUP_STATUS_HLD}}
+In Design: {{GROUP_STATUS_IN_DESIGN}}
+In Progress: {{GROUP_STATUS_IN_PROGRESS}}
+Ready for Dev: {{GROUP_STATUS_READY_FOR_DEV}}
+To Do: {{GROUP_STATUS_TO_DO}}
+Under Analysis: {{GROUP_STATUS_UNDER_ANALYSIS}}
+Waiting Analysis Approval: {{GROUP_STATUS_WAITING_ANALYSIS}}
+Waiting Solution Approval: {{GROUP_STATUS_WAITING_SOLUTION}}
+Total Features: {{GROUP_STATUS_GRAND_TOTAL}}
+
+Group-Level Feature Priority:
+[Read the group-level subtotal row from the "Priority Pivot" sheet where column A matches this initiative group name exactly. Do NOT sum per-initiative rows. Report all priority columns.]
+P1: {{GROUP_PRIORITY_P1}}
+P2: {{GROUP_PRIORITY_P2}}
+P3: {{GROUP_PRIORITY_P3}}
+Total Features: {{GROUP_PRIORITY_GRAND_TOTAL}}
+
 Description of initiative group: {{INITIATIVE_GROUP_DESCRIPTION}}
 [~120 words — summarize the strategic purpose and overall scope of this initiative group. Highlight the highest-effort initiatives and any cross-initiative themes. Note shared dependencies, delivery phases, or risks that affect multiple initiatives. Draw from description, notes, summary, or objective columns across all initiatives in the group.]

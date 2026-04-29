@@ -97,8 +97,10 @@ export default function HtmlPreviewStep({
        const data = await response.json()
        if (data.previewHtml) {
          // Update App-level state so navigating away and back shows the edited HTML.
-         // Do NOT update srcDoc — the iframe already has the correct content.
          onPreviewHtmlChange?.(data.previewHtml)
+         // Also sync local srcDoc so slide navigation re-parses the edited HTML.
+         // Safe here because the user has already blurred (edit is committed).
+         setSrcDoc(data.previewHtml)
        }
      } catch (err) {
        console.error('[HtmlPreviewStep] Error saving edited HTML:', err)

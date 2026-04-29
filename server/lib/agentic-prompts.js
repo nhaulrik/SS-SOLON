@@ -121,12 +121,14 @@ export function buildBlocksPrompt(zones, repeatableSlides, contextSummary, repSe
 
 STRUCTURAL CONTRACT (read before anything else):
 Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
-- Keep the exact same HTML elements, class names, attributes, and nesting depth.
-- Replicate the same number of list items, bullet points, sections, and metric blocks as shown in the template.
-- If the template has 4 bullets — output 4 bullets. If it has 3 sections — output 3 sections.
-- Only text content and src/href values may differ from the template.
-- Never add, remove, flatten, or restructure elements.
-- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
 - Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
 Violating this breaks the slide layout irreparably.
 
@@ -159,7 +161,7 @@ ZONES TO FILL:\n`
     blockZones.forEach(z => {
       prompt += `\nKEY "${z.key}"\n`
       if (z.prompt) prompt += `ZONE INSTRUCTIONS:\n${z.prompt}\n`
-      if (z.exampleHtml) prompt += `TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):\n${z.exampleHtml}\n↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.\n`
+      if (z.exampleHtml) prompt += `TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):\n${z.exampleHtml}\n↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.\n`
     })
   }
 
@@ -175,7 +177,7 @@ ZONES TO FILL:\n`
       slideZones.forEach(z => {
         prompt += `\nKEY "${z.key}"\n`
         if (z.prompt) prompt += `ZONE INSTRUCTIONS:\n${z.prompt}\n`
-        if (z.exampleHtml) prompt += `TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):\n${z.exampleHtml}\n↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.\n`
+        if (z.exampleHtml) prompt += `TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):\n${z.exampleHtml}\n↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.\n`
       })
     }
   }
@@ -196,12 +198,14 @@ export function buildInstancePrompt(zones, repeatableSlides, slideKey, instanceI
 
 STRUCTURAL CONTRACT (read before anything else):
 Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
-- Keep the exact same HTML elements, class names, attributes, and nesting depth.
-- Replicate the same number of list items, bullet points, sections, and metric blocks as shown in the template.
-- If the template has 4 bullets — output 4 bullets. If it has 3 sections — output 3 sections.
-- Only text content and src/href values may differ from the template.
-- Never add, remove, flatten, or restructure elements.
-- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
 - Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
 Violating this breaks the slide layout irreparably.
 
@@ -233,7 +237,7 @@ TEMPLATES PER KEY (structure is a contract — fill with data, do not alter stru
   uniqueZones.forEach(z => {
     prompt += `\nKEY "${z.key}":\n`
     if (z.prompt) prompt += `ZONE INSTRUCTIONS:\n${z.prompt}\n`
-     prompt += z.exampleHtml ? `TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):\n${z.exampleHtml}\n↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.\n` : `(no template — generate appropriate innerHTML)\n`
+     prompt += z.exampleHtml ? `TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):\n${z.exampleHtml}\n↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.\n` : `(no template — generate appropriate innerHTML)\n`
    })
 
    return prompt

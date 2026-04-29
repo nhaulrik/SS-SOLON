@@ -310,7 +310,13 @@ export default function HtmlUploadStep({
         body: JSON.stringify({ templateId, selections: [] })
       }).catch(() => {})
     }
-  }, [templateId, syncSession])
+    if (isExistingFlow && currentProjectName && currentFlowId) {
+      fetch(`/api/projects/${encodeURIComponent(currentProjectName)}/flows/${encodeURIComponent(currentFlowId)}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ selections: [], repeatableSlides: [], fullSlideGeneration: [] })
+      }).catch(() => {})
+    }
+  }, [templateId, syncSession, isExistingFlow, currentProjectName, currentFlowId])
 
    // ── Proceed to recipe ─────────────────────────────────────────────────────
    const handleProceed = useCallback(async () => {
