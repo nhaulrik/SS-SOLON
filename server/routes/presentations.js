@@ -15,7 +15,7 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
-import { resolveProjectDir } from '../lib/project-manager.js';
+import { resolveProjectDir, loadProject } from '../lib/project-manager.js';
 import { publishPresentation } from '../lib/export-manager.js';
 import { PROJECTS_DIR } from '../config.js';
 
@@ -287,6 +287,69 @@ router.delete('/:projectName/presentations/:name', (req, res) => {
   } catch (err) {
     console.error('[presentations] DELETE error:', err);
     return res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+// ── GET /api/projects/:projectName/export-catalog ─────────────────────────────
+
+router.get('/:projectName/export-catalog', async (req, res) => {
+  try {
+    const { projectName } = req.params;
+    const projectData = await loadProject(projectName);
+    const flows = projectData?.project?.flows || projectData?.flows || [];
+    const projectDir = resolveProjectDir(projectName);
+
+    const exports = [];
+
+    for (const flow of flows) {
+      const flowId   = flow.flowId;
+      const flowName = flow.name || flowId;
+      const exportsDir = path.join(projectDir, 'flows', flowId, 'exports');
+
+      if (!fs.existsSync(exportsDir)) continue;
+
+      let exportDirs;
+      try {
+        exportDirs = fs.readdirSync(exportsDir).filter(d => {
+          try { return fs.statSync(path.join(exportsDir, d)).isDirectory(); } catch { return false; }
+        });
+      } catch { continue; }
+
+      for (const exportId of exportDirs) {
+        const exportJsonPath = path.join(exportsDir, exportId, 'export.json');
+        if (!fs.existsSync(exportJsonPath)) continue;
+
+        let exportData;
+        try { exportData = JSON.parse(fs.readFileSync(exportJsonPath, 'utf8')); } catch { continue; }
+
+        const slides = (exportData.content?.slides || []).map(s => ({
+          slideIndex: s.index,
+          title:      s.title || `Slide ${s.index}`,
+          file:       s.file,
+          size:       s.size || 0,
+        }));
+
+        exports.push({
+          flowId,
+          flowName,
+          exportId:     exportData.exportId || exportId,
+          exportNumber: exportData.exportNumber || 0,
+          createdAt:    exportData.createdAt || null,
+          slides,
+        });
+      }
+    }
+
+    exports.sort((a, b) => {
+      if (a.flowId < b.flowId) return -1;
+      if (a.flowId > b.flowId) return 1;
+      return (a.exportNumber || 0) - (b.exportNumber || 0);
+    });
+
+    return res.json({ exports });
+  } catch (err) {
+    console.error('[presentations] GET export-catalog error:', err.message);
+    return res.status(500).json({ error: err.message });
   }
 });
 

@@ -6,7 +6,6 @@ import path from 'path';
 import { PROJECTS_DIR } from './config.js';
 import htmlFlowRoutes from './routes/html-flow.js';
 import projectsRoutes from './routes/projects.js';
-import publishRoutes  from './routes/publish.js';
 import aiProxyRoutes from './routes/ai-proxy.js';
 import agenticRoutes   from './routes/opencode-agentic.js';
 import presentationStructuresRoutes from './routes/presentation-structures.js';
@@ -21,7 +20,6 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
 app.use('/api/projects', projectsRoutes);
-app.use('/api/projects', publishRoutes);
 app.use('/api/projects', presentationStructuresRoutes);
 app.use('/api/projects', presentationsRoutes);
 app.use('/api', htmlFlowRoutes);

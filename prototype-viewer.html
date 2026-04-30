@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PI 28 Roadmap — SOLON Viewer (Prototype)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0a0e27;
+      --surface:     #111827;
+      --surface-2:   #1a2332;
+      --teal:        #2C4A48;
+      --teal-light:  #3a6360;
+      --coral:       #FF6359;
+      --coral-dim:   #cc4f46;
+      --text:        #e2e8f0;
+      --text-muted:  #94a3b8;
+      --border:      rgba(255,255,255,0.08);
+      --sidebar-w:   260px;
+      --topbar-h:    52px;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* ── Top bar ── */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--topbar-h);
+      background: var(--teal);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 16px;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    #topbar .logo {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--coral);
+      flex-shrink: 0;
+    }
+
+    #topbar .divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,0.2);
+      flex-shrink: 0;
+    }
+
+    #topbar .project-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+
+    #topbar .meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    #topbar .meta-item {
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      white-space: nowrap;
+    }
+
+    #topbar .meta-item strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── Layout ── */
+    #layout {
+      display: flex;
+      height: 100vh;
+      padding-top: var(--topbar-h);
+    }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    #sidebar::-webkit-scrollbar { width: 4px; }
+    #sidebar::-webkit-scrollbar-track { background: transparent; }
+    #sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+
+    .group-header {
+      padding: 14px 14px 6px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+    }
+
+    .group-header:first-child { border-top: none; }
+
+    .slide-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-left: 3px solid transparent;
+    }
+
+    .slide-item:hover { background: var(--surface-2); }
+
+    .slide-item.active {
+      background: rgba(44, 74, 72, 0.4);
+      border-left-color: var(--coral);
+    }
+
+    .slide-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      background: var(--surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .slide-item.active .slide-num {
+      background: var(--coral);
+      color: #fff;
+    }
+
+    .slide-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .slide-item.active .slide-label { color: var(--text); }
+
+    /* ── Main canvas area ── */
+    #main {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      background: var(--bg);
+    }
+
+    #slide-wrapper {
+      position: absolute;
+      top: 0; left: 0;
+      transform-origin: top left;
+    }
+
+    #slide-frame {
+      border: none;
+      display: block;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+      width: 1280px;
+      height: 720px;
+    }
+
+    /* ── Nav controls ── */
+    #nav-controls {
+      position: fixed;
+      bottom: 24px;
+      left: calc(var(--sidebar-w) / 2 + var(--sidebar-w));
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(17, 24, 39, 0.9);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 8px 16px;
+      z-index: 50;
+    }
+
+    .nav-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .nav-btn:hover { background: var(--teal-light); border-color: var(--teal-light); }
+    .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+    }
+
+    #zoom-level {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      min-width: 38px;
+      text-align: center;
+      user-select: none;
+    }
+
+    #slide-counter {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      min-width: 60px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div id="topbar">
+  <span class="logo">SOLON</span>
+  <div class="divider"></div>
+  <span class="project-name">PI 28 Roadmap</span>
+  <div class="meta">
+    <span class="meta-item"><strong id="tb-slides">—</strong> slides</span>
+    <span class="meta-item">Published 29 April 2026</span>
+  </div>
+</div>
+
+<div id="layout">
+  <nav id="sidebar" role="navigation" aria-label="Slide list"></nav>
+  <main id="main">
+    <div id="slide-wrapper">
+      <iframe id="slide-frame" title="Slide viewer" sandbox="allow-scripts allow-same-origin"></iframe>
+    </div>
+  </main>
+</div>
+
+<div id="nav-controls">
+  <button class="nav-btn" id="btn-prev" aria-label="Previous slide" title="Previous (←)">&#8592;</button>
+  <span id="slide-counter">— / —</span>
+  <button class="nav-btn" id="btn-next" aria-label="Next slide" title="Next (→)">&#8594;</button>
+  <div class="nav-divider"></div>
+  <button class="nav-btn" id="btn-zoom-out" title="Zoom out">&#8722;</button>
+  <span id="zoom-level">100%</span>
+  <button class="nav-btn" id="btn-zoom-in" title="Zoom in">&#43;</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Sample slides (stand-ins for real srcdoc content) ────────────────────────
+  // In production these are baked from actual export HTML files.
+  // Here we use placeholder slide HTML that matches the SOLON visual style.
+
+  function makePlaceholderSlide(index, title, subtitle, accentColor, bodyHtml) {
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;width:1280px;height:720px;overflow:hidden;background:#fff;}
+</style>
+</head>
+<body>
+<section style="width:1280px;height:720px;overflow:hidden;display:flex;flex-direction:column;">
+  <div style="height:7px;background:${accentColor};flex-shrink:0;"></div>
+  <div style="height:88px;background:#1a3c3a;display:flex;align-items:stretch;flex-shrink:0;">
+    <div style="background:${accentColor};color:#fff;font-size:20px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:0 28px;display:flex;align-items:center;flex-shrink:0;">PI 28</div>
+    <div style="flex:1;display:flex;align-items:center;justify-content:space-between;padding:0 44px;">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(255,99,89,.85);text-transform:uppercase;margin-bottom:7px;">Feature Catalog</div>
+        <div style="font-size:30px;font-weight:800;color:#fff;letter-spacing:-.5px;line-height:1;">${title}</div>
+        <div style="font-size:13px;font-weight:300;color:rgba(255,255,255,.3);margin-top:5px;">${subtitle}</div>
+      </div>
+      <div style="font-size:13px;font-weight:800;letter-spacing:3px;color:#7fb3af;text-transform:uppercase;">Netcompany</div>
+    </div>
+  </div>
+  <div style="flex:1;background:#eceae4;padding:32px 40px;display:flex;flex-direction:column;gap:20px;">
+    ${bodyHtml}
+  </div>
+  <div style="height:28px;background:#1a3c3a;display:flex;align-items:center;justify-content:space-between;padding:0 48px;flex-shrink:0;">
+    <span style="font-size:10px;color:#7fb3af;letter-spacing:1.5px;text-transform:uppercase;">Solon Tax Product Roadmap 2026</span>
+    <span style="font-size:10px;color:#7fb3af;letter-spacing:1.5px;text-transform:uppercase;">Slide ${index}</span>
+  </div>
+</section>
+</body></html>`;
+  }
+
+  function kpiRow(items) {
+    return `<div style="display:flex;gap:16px;">` +
+      items.map(([val, lbl, color]) =>
+        `<div style="flex:1;background:#fff;border-radius:8px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.07);text-align:center;">
+          <div style="font-size:36px;font-weight:900;color:${color};letter-spacing:-1px;">${val}</div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#aaa;margin-top:6px;">${lbl}</div>
+        </div>`
+      ).join('') + `</div>`;
+  }
+
+  function descCard(title, text, color) {
+    return `<div style="flex:1;background:#fff;border-radius:8px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.07);border-top:4px solid ${color};">
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:${color};margin-bottom:10px;">${title}</div>
+      <div style="font-size:13px;color:#4a5568;line-height:1.65;">${text}</div>
+    </div>`;
+  }
+
+  const SLIDES = [
+    {
+      groupLabel: 'Front Page',
+      title: 'PI 28 – Solon Tax Product Roadmap',
+      srcdoc: makePlaceholderSlide(1,
+        'Solon Tax Product Roadmap',
+        'Capability coverage overview across all initiative groups · April 2026',
+        '#FF6359',
+        kpiRow([
+          ['56K', 'Total Scope', '#FF6359'],
+          ['6',   'Initiative Groups', '#1a3c3a'],
+          ['42',  'Initiatives', '#2C8A84'],
+          ['185', 'Features', '#7fb3af'],
+        ])
+      ),
+    },
+    {
+      groupLabel: 'Initiative Groups',
+      title: 'NFR Coverage',
+      srcdoc: makePlaceholderSlide(2,
+        'Non-Functional Requirements',
+        'Platform-wide hardening raising Solon to enterprise production standards',
+        '#FF6359',
+        `<div style="display:flex;gap:16px;flex:1;">
+          ${descCard('Description', 'Platform-wide hardening raising Solon to enterprise production standards across all deployments.', '#FF6359')}
+          ${descCard('Priority Drivers', 'Security hardening, reliability &amp; performance improvements, and end-to-end traceability.', '#FF6359')}
+          ${descCard('Metrics', '<b style="font-size:28px;color:#FF6359;">17.6k</b> hours across <b>10</b> initiatives and <b>67</b> features.', '#FF6359')}
+        </div>`
+      ),
+    },
+    {
+      groupLabel: 'Initiative Groups',
+      title: 'Core Revenue Management',
+      srcdoc: makePlaceholderSlide(3,
+        'Core Revenue Management',
+        'Advancing accuracy across the full revenue lifecycle',
+        '#1a3c3a',
+        `<div style="display:flex;gap:16px;flex:1;">
+          ${descCard('Description', 'Advancing accuracy across the full revenue lifecycle to meet the demands of live revenue authority operations.', '#1a3c3a')}
+          ${descCard('Priority Drivers', 'Instalment billing, penalty calculations &amp; taxpayer account reconciliation.', '#1a3c3a')}
+          ${descCard('Metrics', '<b style="font-size:28px;color:#1a3c3a;">8.8k</b> hours across <b>5</b> initiatives and <b>20</b> features.', '#1a3c3a')}
+        </div>`
+      ),
+    },
+    {
+      groupLabel: 'Initiative Groups',
+      title: 'Core Supporting Capabilities',
+      srcdoc: makePlaceholderSlide(4,
+        'Core Supporting Capabilities',
+        'Strengthening the operational backbone for caseworkers and revenue officials',
+        '#2C8A84',
+        `<div style="display:flex;gap:16px;flex:1;">
+          ${descCard('Description', 'Strengthening the operational backbone supporting day-to-day caseworker and revenue official workflows.', '#2C8A84')}
+          ${descCard('Priority Drivers', 'Case assignment, document management &amp; reporting toolchain.', '#2C8A84')}
+          ${descCard('Metrics', '<b style="font-size:28px;color:#2C8A84;">5.3k</b> hours across <b>9</b> initiatives and <b>28</b> features.', '#2C8A84')}
+        </div>`
+      ),
+    },
+    {
+      groupLabel: 'Initiative Groups',
+      title: 'Core Self Service',
+      srcdoc: makePlaceholderSlide(5,
+        'Core Self Service Capabilities',
+        'Expanding the taxpayer portal to increase digital channel adoption',
+        '#7fb3af',
+        `<div style="display:flex;gap:16px;flex:1;">
+          ${descCard('Description', 'Expanding the taxpayer portal to increase digital channel adoption and reduce counter service pressure.', '#7fb3af')}
+          ${descCard('Priority Drivers', '3rd-party access, self-service reporting, account overview &amp; form attachment handling.', '#7fb3af')}
+          ${descCard('Metrics', '<b style="font-size:28px;color:#7fb3af;">4.4k</b> hours across <b>2</b> initiatives and <b>11</b> features.', '#7fb3af')}
+        </div>`
+      ),
+    },
+    {
+      groupLabel: 'Initiative Groups',
+      title: 'Reference Implementations',
+      srcdoc: makePlaceholderSlide(6,
+        'Reference Implementations',
+        'Delivery-ready blueprints for new revenue authority client engagements',
+        '#F0A500',
+        `<div style="display:flex;gap:16px;flex:1;">
+          ${descCard('Description', 'Delivery-ready blueprints accelerating go-live for new revenue authority client engagements.', '#F0A500')}
+          ${descCard('Priority Drivers', 'VAT, Personal Income Tax &amp; self-service filing blueprints for rapid client deployment.', '#F0A500')}
+          ${descCard('Metrics', '<b style="font-size:28px;color:#F0A500;">0.9k</b> hours across <b>5</b> initiatives and <b>9</b> features.', '#F0A500')}
+        </div>`
+      ),
+    },
+    {
+      groupLabel: 'Initiative Groups',
+      title: 'Other Activities',
+      srcdoc: makePlaceholderSlide(7,
+        'Other Activities',
+        'Essential operational investment sustaining delivery pace and quality',
+        '#8BA8A6',
+        `<div style="display:flex;gap:16px;flex:1;">
+          ${descCard('Description', 'Essential operational investment sustaining delivery pace and quality across all PI 28 teams.', '#8BA8A6')}
+          ${descCard('Priority Drivers', 'Programme management, preventive maintenance &amp; release coordination across all teams.', '#8BA8A6')}
+          ${descCard('Metrics', '<b style="font-size:28px;color:#8BA8A6;">18.8k</b> hours across <b>11</b> initiatives and <b>48</b> features.', '#8BA8A6')}
+        </div>`
+      ),
+    },
+  ];
+
+  // ── State ────────────────────────────────────────────────────────────────────
+  let current  = 0;
+  let zoomScale = null; // null = auto-fit
+
+  // ── DOM refs ─────────────────────────────────────────────────────────────────
+  const sidebar   = document.getElementById('sidebar');
+  const frame     = document.getElementById('slide-frame');
+  const wrapper   = document.getElementById('slide-wrapper');
+  const counter   = document.getElementById('slide-counter');
+  const btnPrev   = document.getElementById('btn-prev');
+  const btnNext   = document.getElementById('btn-next');
+  const btnZoomIn  = document.getElementById('btn-zoom-in');
+  const btnZoomOut = document.getElementById('btn-zoom-out');
+  const zoomLabel  = document.getElementById('zoom-level');
+  const tbSlides  = document.getElementById('tb-slides');
+
+  // ── Slide sizing ─────────────────────────────────────────────────────────────
+  const SLIDE_W = 1280, SLIDE_H = 720;
+
+  function autoScale() {
+    const main   = document.getElementById('main');
+    const availW = main.clientWidth  - 48;
+    const availH = main.clientHeight - 80;
+    return Math.min(availW / SLIDE_W, availH / SLIDE_H, 1);
+  }
+
+  function scaleSlide() {
+    const s = zoomScale !== null ? zoomScale : autoScale();
+
+    frame.style.width  = SLIDE_W + 'px';
+    frame.style.height = SLIDE_H + 'px';
+
+    const scaledW = SLIDE_W * s;
+    const scaledH = SLIDE_H * s;
+    const main    = document.getElementById('main');
+    const tx = (main.clientWidth  - scaledW) / 2;
+    const ty = (main.clientHeight - scaledH) / 2;
+
+    wrapper.style.width           = SLIDE_W + 'px';
+    wrapper.style.height          = SLIDE_H + 'px';
+    wrapper.style.transformOrigin = 'top left';
+    wrapper.style.transform       = `translate(${tx}px, ${ty}px) scale(${s})`;
+
+    zoomLabel.textContent = Math.round(s * 100) + '%';
+  }
+
+  window.addEventListener('resize', scaleSlide);
+
+  // ── Zoom ─────────────────────────────────────────────────────────────────────
+  const ZOOM_STEPS = [0.25, 0.33, 0.5, 0.67, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 1.75, 2];
+
+  btnZoomIn.addEventListener('click', () => {
+    const cur = zoomScale !== null ? zoomScale : autoScale();
+    const next = ZOOM_STEPS.find(s => s > cur + 0.01);
+    if (next) { zoomScale = next; scaleSlide(); }
+  });
+
+  btnZoomOut.addEventListener('click', () => {
+    const cur = zoomScale !== null ? zoomScale : autoScale();
+    const prev = [...ZOOM_STEPS].reverse().find(s => s < cur - 0.01);
+    if (prev) { zoomScale = prev; scaleSlide(); }
+  });
+
+  // Double-click main to reset zoom
+  document.getElementById('main').addEventListener('dblclick', () => {
+    zoomScale = null;
+    scaleSlide();
+  });
+
+  // ── Boot ─────────────────────────────────────────────────────────────────────
+  tbSlides.textContent = SLIDES.length;
+  buildSidebar();
+  goTo(0);
+
+  // ── Sidebar ──────────────────────────────────────────────────────────────────
+  function buildSidebar() {
+    sidebar.innerHTML = '';
+    let lastGroup = null;
+
+    SLIDES.forEach((slide, idx) => {
+      if (slide.groupLabel !== lastGroup) {
+        lastGroup = slide.groupLabel;
+        const hdr = document.createElement('div');
+        hdr.className = 'group-header';
+        hdr.textContent = slide.groupLabel;
+        sidebar.appendChild(hdr);
+      }
+
+      const item = document.createElement('div');
+      item.className = 'slide-item';
+      item.dataset.idx = idx;
+      item.setAttribute('role', 'button');
+      item.setAttribute('tabindex', '0');
+      item.setAttribute('aria-label', 'Slide ' + (idx + 1) + ': ' + slide.title);
+
+      const num = document.createElement('div');
+      num.className = 'slide-num';
+      num.textContent = idx + 1;
+
+      const lbl = document.createElement('div');
+      lbl.className = 'slide-label';
+      lbl.textContent = slide.title;
+
+      item.appendChild(num);
+      item.appendChild(lbl);
+      item.addEventListener('click', () => goTo(idx));
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goTo(idx); }
+      });
+
+      sidebar.appendChild(item);
+    });
+  }
+
+  // ── Navigation ───────────────────────────────────────────────────────────────
+  function goTo(idx) {
+    if (idx < 0 || idx >= SLIDES.length) return;
+    current = idx;
+
+    frame.srcdoc = SLIDES[idx].srcdoc;
+    scaleSlide();
+
+    counter.textContent = (idx + 1) + ' / ' + SLIDES.length;
+    btnPrev.disabled = idx === 0;
+    btnNext.disabled = idx === SLIDES.length - 1;
+
+    sidebar.querySelectorAll('.slide-item').forEach(el => {
+      el.classList.toggle('active', Number(el.dataset.idx) === idx);
+    });
+
+    const activeEl = sidebar.querySelector('.slide-item.active');
+    if (activeEl) activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
+
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowLeft'  || e.key === 'PageUp')   goTo(current - 1);
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') goTo(current + 1);
+    if (e.key === 'Home') goTo(0);
+    if (e.key === 'End')  goTo(SLIDES.length - 1);
+  });
+
+})();
+</script>
+</body>
+</html>

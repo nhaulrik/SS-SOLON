@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>PI 28 Roadmap – Sample C r2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Inter',sans-serif;
+    background:#d0cfcb;
+    display:flex; justify-content:center; align-items:center;
+    min-height:100vh; padding:20px;
+  }
+
+  /* ── CANVAS 1280×720 ── */
+  .slide {
+    width:1280px; height:720px;
+    background:#ffffff;
+    overflow:hidden;
+    box-shadow:0 16px 56px rgba(0,0,0,.24);
+    display:flex; flex-direction:column;
+  }
+
+  .top-bar { height:7px; background:#FF6359; flex-shrink:0; }
+
+  /* ── HEADER 88px ── */
+  .header {
+    height:88px; background:#1a3c3a;
+    display:flex; align-items:stretch; flex-shrink:0;
+  }
+  .pi-badge {
+    background:#FF6359;
+    color:#fff;
+    font-size:20px; font-weight:800;
+    letter-spacing:1.5px; text-transform:uppercase;
+    padding:0 28px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .header-body { flex:1; display:flex; align-items:center; justify-content:space-between; padding:0 44px; }
+  .h-eyebrow { font-size:11px; font-weight:700; letter-spacing:3px; color:rgba(255,99,89,.85); text-transform:uppercase; margin-bottom:7px; }
+  .h-title { font-size:30px; font-weight:800; color:#fff; letter-spacing:-.5px; line-height:1; }
+  .h-sub { font-size:13px; font-weight:300; color:rgba(255,255,255,.3); margin-top:5px; }
+  .h-right {
+    text-align:right;
+    position:relative;
+    display:flex; flex-direction:column; justify-content:center;
+    padding-right:4px;
+  }
+  .h-right::before {
+    content:'SOLON';
+    position:absolute;
+    right:-18px; top:50%;
+    transform:translateY(-50%);
+    font-size:5.2rem; font-weight:900; letter-spacing:-0.04em;
+    color:rgba(255,255,255,0.055);
+    pointer-events:none; user-select:none;
+    line-height:1;
+  }
+  .h-logo { font-size:13px; font-weight:800; letter-spacing:3px; color:#7fb3af; text-transform:uppercase; margin-bottom:5px; position:relative; z-index:1; }
+
+  /* ── HERO KPI BAND 76px (full-width, from v2b) ── */
+  .hero {
+    height:76px;
+    background:linear-gradient(135deg,#152f2d 0%,#1f3d3a 55%,#2c4a48 100%);
+    display:flex; align-items:stretch; flex-shrink:0;
+    border-bottom:1px solid rgba(0,0,0,.22);
+  }
+  .kpi { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; position:relative; }
+  .kpi+.kpi::before { content:''; position:absolute; left:0; top:22%; bottom:22%; width:1px; background:rgba(255,255,255,.1); }
+  .kpi-val { font-size:34px; font-weight:900; letter-spacing:-1.5px; color:#fff; line-height:1; }
+  .kpi-val.accent { color:#FF6359; }
+  .kpi-unit { font-size:15px; font-weight:300; color:rgba(255,255,255,.4); margin-left:2px; }
+  .kpi-lbl { font-size:11px; font-weight:700; letter-spacing:2px; color:rgba(255,255,255,.35); text-transform:uppercase; }
+
+  /* ── CONTENT ROW — flex:1 ── */
+  .content { flex:1; display:flex; overflow:hidden; }
+
+  /* ═══════════════════════════════════
+     LEFT PANEL — dark, 348px
+     Top: PI Summary
+     Bottom: donut + legend (bottom-anchored)
+  ═══════════════════════════════════ */
+  .left-panel {
+    width:348px; flex-shrink:0;
+    background:linear-gradient(175deg,#162e2c 0%,#1a3c3a 40%,#1f4440 100%);
+    display:flex; flex-direction:column;
+    border-right:1px solid rgba(0,0,0,.2);
+  }
+
+  /* ── Top: PI Summary ── */
+  .lp-top { padding:14px 28px 0; flex-shrink:0; }
+
+  .lp-summary-label {
+    font-size:15px; font-weight:700; letter-spacing:.2px;
+    color:#fff; margin-bottom:10px;
+  }
+  .lp-summary {
+    font-size:12.5px; font-weight:400; line-height:1.68;
+    color:rgba(255,255,255,.72);
+    margin-bottom:26px;
+  }
+
+  /* ── Bottom: donut + legend, anchored to bottom ── */
+  .lp-bottom {
+    margin-top:auto;
+    padding:0 28px 18px;
+    display:flex; flex-direction:column; align-items:center;
+  }
+
+  .lp-alloc-label {
+    font-size:15px; font-weight:700; letter-spacing:.2px;
+    color:#fff;
+    margin-bottom:10px; align-self:flex-start;
+  }
+
+  /* Donut via conic-gradient */
+  .donut-wrap { position:relative; width:146px; height:146px; flex-shrink:0; margin-bottom:10px; }
+  .donut {
+    width:146px; height:146px; border-radius:50%;
+    background:conic-gradient(
+      #8BA8A6   0%    33.7%,
+      #FF6359   33.7% 65.2%,
+      #1a3c3a   65.2% 81%,
+      #2C8A84   81%   90.6%,
+      #7fb3af   90.6% 98.4%,
+      #F0A500   98.4% 100%
+    );
+  }
+  .donut::after {
+    content:'';
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:88px; height:88px; border-radius:50%;
+    background:#1c3e3c;
+  }
+  .donut-center {
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    z-index:2; text-align:center; pointer-events:none;
+  }
+  .donut-center-val { font-size:22px; font-weight:900; letter-spacing:-1px; color:#fff; line-height:1; }
+  .donut-center-val .accent { color:#FF6359; }
+  .donut-center-lbl { font-size:9px; font-weight:600; letter-spacing:1.5px; color:rgba(255,255,255,.38); text-transform:uppercase; margin-top:3px; }
+
+  /* Legend */
+  .lp-legend { display:flex; flex-direction:column; gap:5px; width:100%; }
+  .leg-row { display:flex; align-items:center; gap:10px; }
+  .leg-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+  .leg-name { font-size:13px; font-weight:500; color:rgba(255,255,255,.65); flex:1; }
+  .leg-pct { font-size:14px; font-weight:800; color:rgba(255,255,255,.9); width:44px; text-align:right; }
+  .leg-hrs { font-size:14px; font-weight:400; color:rgba(255,255,255,.45); width:42px; text-align:right; }
+
+  /* ═══════════════════════════
+     RIGHT PANEL — cards 2×3
+  ═══════════════════════════ */
+  .right-panel {
+    flex:1; background:#eceae4;
+    padding:10px; display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(2,1fr);
+    gap:9px;
+  }
+
+  .cat-card {
+    background:#fff; border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,.07);
+    overflow:hidden; display:flex; flex-direction:column;
+  }
+  .card-header {
+    flex-shrink:0; padding:9px 16px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .card-header-name {
+    font-size:12px; font-weight:800; color:rgba(255,255,255,.95);
+    text-transform:uppercase; letter-spacing:.4px; line-height:1.3; flex:1;
+  }
+  .card-header-pct {
+    font-size:20px; font-weight:900; color:rgba(255,255,255,.9);
+    letter-spacing:-.5px; flex-shrink:0;
+  }
+  .card-body {
+    flex:1; display:flex; flex-direction:column;
+    padding:10px 16px 10px;
+  }
+  .card-section { flex-shrink:0; margin-bottom:7px; }
+  .card-section-lbl {
+    font-size:8px; font-weight:700; letter-spacing:1.6px;
+    text-transform:uppercase; color:#bbb; margin-bottom:4px;
+  }
+  .card-desc {
+    font-size:11.5px; font-weight:400; color:#4a5568;
+    line-height:1.55;
+  }
+  .card-drivers {
+    font-size:11.5px; font-weight:500; color:#2d3748;
+    line-height:1.45; padding-left:12px; position:relative;
+  }
+  .card-drivers::before {
+    content:'▸'; position:absolute; left:0;
+    font-size:8px; color:#bbb; top:2px;
+  }
+  .card-stats {
+    display:flex; align-items:center; gap:0;
+    margin-top:auto; padding-top:8px; flex-shrink:0;
+  }
+  .cs { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; position:relative; }
+  .cs+.cs::before { content:''; position:absolute; left:0; top:10%; bottom:10%; width:1px; background:#f0efe9; }
+  .cs-val { font-size:24px; font-weight:900; line-height:1; letter-spacing:-.8px; }
+  .cs-lbl { font-size:9px; font-weight:600; color:#ccc; text-transform:uppercase; letter-spacing:.8px; }
+  .card-bar { height:2px; border-radius:1px; margin-top:8px; background:#f2f1ed; flex-shrink:0; }
+  .card-bar-fill { height:100%; border-radius:1px; }
+
+  /* ── FOOTER 28px ── */
+  .footer {
+    height:28px; background:#1a3c3a;
+    display:flex; align-items:center;
+    justify-content:space-between; padding:0 48px; flex-shrink:0;
+  }
+  .ft { font-size:10px; color:#7fb3af; letter-spacing:1.5px; text-transform:uppercase; }
+</style>
+</head>
+<body>
+<section>
+<div class="slide">
+  <div class="top-bar"></div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="pi-badge">PI 28</div>
+    <div class="header-body">
+      <div>
+        <div class="h-eyebrow">Feature Catalog</div>
+        <div class="h-title">Solon Tax Product Roadmap</div>
+        <div class="h-sub">Capability coverage overview across all initiative groups · April 2026</div>
+      </div>
+      <div class="h-right">
+        <div class="h-logo">Netcompany</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO KPI BAND (full-width) -->
+  <div class="hero">
+    <div class="kpi">
+      <div style="display:flex;align-items:baseline;gap:3px;line-height:1;">
+        <span class="kpi-val accent">56K</span>
+      </div>
+      <div class="kpi-lbl">Total Scope</div>
+    </div>
+    <div class="kpi"><span class="kpi-val">6</span><div class="kpi-lbl">Initiative Groups</div></div>
+    <div class="kpi"><span class="kpi-val">42</span><div class="kpi-lbl">Initiatives</div></div>
+    <div class="kpi"><span class="kpi-val">185</span><div class="kpi-lbl">Features</div></div>
+
+  </div>
+
+  <!-- CONTENT ROW -->
+  <div class="content">
+
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+
+      <!-- Top: PI 28 Summary -->
+      <div class="lp-top">
+        <div class="lp-summary-label">PI 28 Summary</div>
+        <div class="lp-summary">PI 28 concentrates the majority of its investment on platform hardening — security, maintainability, reliability and usability — while advancing core revenue management and strengthening both the taxpayer self-service channel and day-to-day operational capabilities.</div>
+      </div>
+
+      <!-- Bottom: Donut + Legend (bottom-anchored) -->
+      <div class="lp-bottom">
+        <div class="donut-wrap">
+          <div class="donut"></div>
+          <div class="donut-center">
+            <div class="donut-center-val"><span class="accent">55.8</span><span style="font-size:11px;font-weight:300;color:rgba(255,255,255,.38);">k</span></div>
+            <div class="donut-center-lbl">Total Hrs</div>
+          </div>
+        </div>
+
+        <div class="lp-alloc-label">Hour Allocation</div>
+
+        <div class="lp-legend">
+          <div class="leg-row">
+            <div class="leg-dot" style="background:#8BA8A6;"></div>
+            <div class="leg-name">Other Activities</div>
+            <div class="leg-pct">33.7%</div>
+            <div class="leg-hrs">18.8k</div>
+          </div>
+          <div class="leg-row">
+            <div class="leg-dot" style="background:#FF6359;"></div>
+            <div class="leg-name">NFR Coverage</div>
+            <div class="leg-pct">31.5%</div>
+            <div class="leg-hrs">17.6k</div>
+          </div>
+          <div class="leg-row">
+            <div class="leg-dot" style="background:#1a3c3a;border:1px solid rgba(255,255,255,.18);"></div>
+            <div class="leg-name">Revenue Management</div>
+            <div class="leg-pct">15.8%</div>
+            <div class="leg-hrs">8.8k</div>
+          </div>
+          <div class="leg-row">
+            <div class="leg-dot" style="background:#2C8A84;"></div>
+            <div class="leg-name">Supporting Capabilities</div>
+            <div class="leg-pct">9.6%</div>
+            <div class="leg-hrs">5.3k</div>
+          </div>
+          <div class="leg-row">
+            <div class="leg-dot" style="background:#7fb3af;"></div>
+            <div class="leg-name">Self Service</div>
+            <div class="leg-pct">7.8%</div>
+            <div class="leg-hrs">4.4k</div>
+          </div>
+          <div class="leg-row">
+            <div class="leg-dot" style="background:#F0A500;"></div>
+            <div class="leg-name">Reference Impl</div>
+            <div class="leg-pct">1.5%</div>
+            <div class="leg-hrs">0.9k</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: 2×3 cards -->
+    <div class="right-panel">
+
+      <!-- NFR Coverage -->
+      <div class="cat-card">
+        <div class="card-header" style="background:#FF6359;">
+          <div class="card-header-name">Non-Functional Requirements</div>
+          <div class="card-header-pct">32%</div>
+        </div>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-lbl">Description</div>
+            <div class="card-desc">Platform-wide hardening raising Solon to enterprise production standards across all deployments.</div>
+          </div>
+          <div class="card-section">
+            <div class="card-section-lbl">Priority Drivers</div>
+            <div class="card-drivers">Security hardening, reliability &amp; performance improvements, and end-to-end traceability.</div>
+          </div>
+          <div class="card-stats">
+            <div class="cs"><div class="cs-val" style="color:#FF6359;">17.6k</div><div class="cs-lbl">Hours</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">10</div><div class="cs-lbl">Initiatives</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">67</div><div class="cs-lbl">Features</div></div>
+          </div>
+          <div class="card-bar"><div class="card-bar-fill" style="width:31.5%;background:#FF6359;"></div></div>
+        </div>
+      </div>
+
+      <!-- Core Revenue Management -->
+      <div class="cat-card">
+        <div class="card-header" style="background:#1a3c3a;">
+          <div class="card-header-name">Core Revenue Management</div>
+          <div class="card-header-pct">16%</div>
+        </div>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-lbl">Description</div>
+            <div class="card-desc">Advancing accuracy across the full revenue lifecycle to meet the demands of live revenue authority operations.</div>
+          </div>
+          <div class="card-section">
+            <div class="card-section-lbl">Priority Drivers</div>
+            <div class="card-drivers">Instalment billing, penalty calculations &amp; taxpayer account reconciliation.</div>
+          </div>
+          <div class="card-stats">
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">8.8k</div><div class="cs-lbl">Hours</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">5</div><div class="cs-lbl">Initiatives</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">20</div><div class="cs-lbl">Features</div></div>
+          </div>
+          <div class="card-bar"><div class="card-bar-fill" style="width:15.8%;background:#1a3c3a;"></div></div>
+        </div>
+      </div>
+
+      <!-- Core Supporting Capabilities -->
+      <div class="cat-card">
+        <div class="card-header" style="background:#2C8A84;">
+          <div class="card-header-name">Core Supporting Capabilities</div>
+          <div class="card-header-pct">10%</div>
+        </div>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-lbl">Description</div>
+            <div class="card-desc">Strengthening the operational backbone supporting day-to-day caseworker and revenue official workflows.</div>
+          </div>
+          <div class="card-section">
+            <div class="card-section-lbl">Priority Drivers</div>
+            <div class="card-drivers">Case assignment, document management &amp; reporting toolchain.</div>
+          </div>
+          <div class="card-stats">
+            <div class="cs"><div class="cs-val" style="color:#2C8A84;">5.3k</div><div class="cs-lbl">Hours</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">9</div><div class="cs-lbl">Initiatives</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">28</div><div class="cs-lbl">Features</div></div>
+          </div>
+          <div class="card-bar"><div class="card-bar-fill" style="width:9.6%;background:#2C8A84;"></div></div>
+        </div>
+      </div>
+
+      <!-- Core Self Service -->
+      <div class="cat-card">
+        <div class="card-header" style="background:#7fb3af;">
+          <div class="card-header-name">Core Self Service Capabilities</div>
+          <div class="card-header-pct">8%</div>
+        </div>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-lbl">Description</div>
+            <div class="card-desc">Expanding the taxpayer portal to increase digital channel adoption and reduce counter service pressure.</div>
+          </div>
+          <div class="card-section">
+            <div class="card-section-lbl">Priority Drivers</div>
+            <div class="card-drivers">3rd-party access, self-service reporting, account overview &amp; form attachment handling.</div>
+          </div>
+          <div class="card-stats">
+            <div class="cs"><div class="cs-val" style="color:#7fb3af;">4.4k</div><div class="cs-lbl">Hours</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">2</div><div class="cs-lbl">Initiatives</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">11</div><div class="cs-lbl">Features</div></div>
+          </div>
+          <div class="card-bar"><div class="card-bar-fill" style="width:7.8%;background:#7fb3af;"></div></div>
+        </div>
+      </div>
+
+      <!-- Reference Implementations -->
+      <div class="cat-card">
+        <div class="card-header" style="background:#F0A500;">
+          <div class="card-header-name">Reference Implementations</div>
+          <div class="card-header-pct">2%</div>
+        </div>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-lbl">Description</div>
+            <div class="card-desc">Delivery-ready blueprints accelerating go-live for new revenue authority client engagements.</div>
+          </div>
+          <div class="card-section">
+            <div class="card-section-lbl">Priority Drivers</div>
+            <div class="card-drivers">VAT, Personal Income Tax &amp; self-service filing blueprints for rapid client deployment.</div>
+          </div>
+          <div class="card-stats">
+            <div class="cs"><div class="cs-val" style="color:#F0A500;">0.9k</div><div class="cs-lbl">Hours</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">5</div><div class="cs-lbl">Initiatives</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">9</div><div class="cs-lbl">Features</div></div>
+          </div>
+          <div class="card-bar"><div class="card-bar-fill" style="width:1.5%;background:#F0A500;"></div></div>
+        </div>
+      </div>
+
+      <!-- Other Activities -->
+      <div class="cat-card">
+        <div class="card-header" style="background:#8BA8A6;">
+          <div class="card-header-name">Other Activities</div>
+          <div class="card-header-pct">34%</div>
+        </div>
+        <div class="card-body">
+          <div class="card-section">
+            <div class="card-section-lbl">Description</div>
+            <div class="card-desc">Essential operational investment sustaining delivery pace and quality across all PI 28 teams.</div>
+          </div>
+          <div class="card-section">
+            <div class="card-section-lbl">Priority Drivers</div>
+            <div class="card-drivers">Programme management, preventive maintenance &amp; release coordination across all teams.</div>
+          </div>
+          <div class="card-stats">
+            <div class="cs"><div class="cs-val" style="color:#8BA8A6;">18.8k</div><div class="cs-lbl">Hours</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">11</div><div class="cs-lbl">Initiatives</div></div>
+            <div class="cs"><div class="cs-val" style="color:#1a3c3a;">48</div><div class="cs-lbl">Features</div></div>
+          </div>
+          <div class="card-bar"><div class="card-bar-fill" style="width:33.7%;background:#8BA8A6;"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="ft">Solon Tax Product Roadmap 2026</span>
+    <span class="ft">Netcompany</span>
+  </div>
+
+</div>
+</section>
+</body>
+</html>
