@@ -15,19 +15,13 @@
 
 import fs from 'fs/promises'
 import path from 'path'
+import { MAX_CONTEXT_CHARS, MAX_TEXT_FILE_CHARS, EXCEL_MAX_CELL_LENGTH } from '../../config.js'
 
 const SUPPORTED_EXT = new Set(['.txt', '.md', '.html', '.pdf', '.docx', '.xlsx', '.xls', '.csv'])
 
 // Suffix used for AI-generated summary files
 export const SUMMARY_SUFFIX = '.summary.md'
 
-// Hard cap on total chars sent to the orchestrator.
-// 400k chars ≈ 100k tokens — allows full xlsx/xls data without truncation.
-const MAX_TOTAL_CHARS = 400_000
-
-// For non-tabular files (txt, md, html, pdf, docx), cap per file to avoid
-// one large document crowding out others.
-const MAX_TEXT_FILE_CHARS = 400_000
 
 // ── Excel / CSV summariser ─────────────────────────────────────────────────────
 
@@ -80,7 +74,7 @@ function summariseSheet(sheet, XLSX, sheetName, fullMode = false) {
   headers.forEach((header, colIdx) => {
     const values = [...new Set(body.map(row => row[colIdx]).filter(Boolean))]
     if (values.length === 0) return
-    const capped  = values.map(v => v.length > 500 ? v.slice(0, 500) + '…' : v)
+    const capped  = values.map(v => v.length > EXCEL_MAX_CELL_LENGTH ? v.slice(0, EXCEL_MAX_CELL_LENGTH) + '…' : v)
     const preview = capped.length > 60
       ? capped.slice(0, 60).join(' | ') + ` … (+${values.length - 60} more)`
       : capped.join(' | ')
@@ -91,7 +85,7 @@ function summariseSheet(sheet, XLSX, sheetName, fullMode = false) {
   lines.push('')
   lines.push('Sample rows (up to 50):')
   body.slice(0, 50).forEach(row =>
-    lines.push(row.map(v => v.length > 500 ? v.slice(0, 500) + '…' : v).join(' | '))
+    lines.push(row.map(v => v.length > EXCEL_MAX_CELL_LENGTH ? v.slice(0, EXCEL_MAX_CELL_LENGTH) + '…' : v).join(' | '))
   )
 
   return lines.join('\n')
@@ -275,8 +269,8 @@ export async function readContextFiles(projectDir, { useSummaries = false, selec
         if (!text) {
           const ext     = path.extname(filename).toLowerCase()
           const raw     = await extractText(path.join(contextDir, filename), false)
-          const isTabular = ext === '.xlsx' || ext === '.xls' || ext === '.csv'
-          const limit   = isTabular ? MAX_TOTAL_CHARS : MAX_TEXT_FILE_CHARS
+          const hasTabularExt = ext === '.xlsx' || ext === '.xls' || ext === '.csv'
+          const limit   = hasTabularExt ? MAX_CONTEXT_CHARS : MAX_TEXT_FILE_CHARS
           const clipped = raw.trim()
           text = clipped.length > limit
             ? clipped.slice(0, limit) + '\n[...truncated]'
@@ -301,8 +295,8 @@ export async function readContextFiles(projectDir, { useSummaries = false, selec
     const header  = `=== ${filename}${label} ===`
     const section = `${header}\n${text}`
 
-    if (totalChars + section.length > MAX_TOTAL_CHARS) {
-      const remaining = MAX_TOTAL_CHARS - totalChars
+    if (totalChars + section.length > MAX_CONTEXT_CHARS) {
+      const remaining = MAX_CONTEXT_CHARS - totalChars
       if (remaining > 200) {
         parts.push(section.slice(0, remaining) + '\n[...total context limit reached]')
         totalChars += remaining

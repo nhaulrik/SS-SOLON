@@ -15,8 +15,8 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
-import { resolveProjectDir, loadProject } from '../lib/project-manager.js';
-import { publishPresentation } from '../lib/export-manager.js';
+import { resolveProjectDir, loadProject } from '../lib/project/project-manager.js';
+import { publishPresentation } from '../lib/presentation/presentation-publisher.js';
 import { PROJECTS_DIR } from '../config.js';
 
 const router = express.Router();

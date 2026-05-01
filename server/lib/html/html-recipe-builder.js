@@ -18,7 +18,7 @@
  * All zones include their full exampleHtml — no truncation.
  */
 
-import { isIgnoredOrDescendantOfIgnored } from './zone-utils.js'
+import { isIgnoredOrDescendantOfIgnored } from '../zones/zone-utils.js'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -51,12 +51,12 @@ export function buildHtmlRecipe(zones, globalPrompt = '', repeatableSlides = [])
   const repSet = repeatableSlideIndexSet(zones, repeatableSlides);
 
   // Build a lookup: slideIndex → repeatableSlide entry
-  const repBySlide = new Map();
-  repeatableSlides.forEach(rs => repBySlide.set(rs.slideIndex, rs));
+  const repeatableBySlide = new Map();
+  repeatableSlides.forEach(rs => repeatableBySlide.set(rs.slideIndex, rs));
   if (repeatableSlides.length === 0) {
     zones.filter(z => z.isRepeatable).forEach(z => {
-      if (!repBySlide.has(z.slideIndex)) {
-        repBySlide.set(z.slideIndex, {
+      if (!repeatableBySlide.has(z.slideIndex)) {
+        repeatableBySlide.set(z.slideIndex, {
           slideIndex: z.slideIndex,
           key: `slide_${z.slideIndex}`,
           prompt: '',
@@ -82,8 +82,8 @@ export function buildHtmlRecipe(zones, globalPrompt = '', repeatableSlides = [])
       skeletonParts.push(`  "blocks": { ${staticBlockZones.map(z => `"${z.key}": {"value": "..."}`).join(', ')} }`);
     }
     if (repeatableZones.length > 0) {
-      const slideSkeletons = repeatableSlides.map(rs => `    "${rs.key}": { "instances": [...] }`).join(',\n');
-      skeletonParts.push(`  "slides": {\n${slideSkeletons}\n  }`);
+      const slideSkeletonLines = repeatableSlides.map(rs => `    "${rs.key}": { "instances": [...] }`).join(',\n');
+      skeletonParts.push(`  "slides": {\n${slideSkeletonLines}\n  }`);
     }
     const skeleton = skeletonParts.length > 0 ? `\nREQUIRED OUTPUT SKELETON (your response must match this structure exactly):\n{\n${skeletonParts.join(',\n')}\n}\n` : '';
 
@@ -132,9 +132,9 @@ ${skeleton}${globalSection}GENERATE THE FOLLOWING DATA:\n`;
 
     Object.entries(bySlide).forEach(([slideIdxStr, slideZones]) => {
       const slideIndex = parseInt(slideIdxStr);
-      const repSlide   = repBySlide.get(slideIndex);
-      const slideKey   = repSlide?.key || `slide_${slideIndex}`;
-      const prompt     = repSlide?.prompt || '';
+      const repeatableSlide   = repeatableBySlide.get(slideIndex);
+      const slideKey   = repeatableSlide?.key || `slide_${slideIndex}`;
+      const prompt     = repeatableSlide?.prompt || '';
 
       // Partition into unique (per-instance) and non-unique (shared)
       const uniqueZones    = slideZones.filter(z => z.unique !== false);
@@ -229,12 +229,12 @@ export function generateFullSlideRecipe(zones, slideIndex, globalPrompt = '', re
   const repSet = repeatableSlideIndexSet(zones, repeatableSlides);
 
   // Build a lookup: slideIndex → repeatableSlide entry
-  const repBySlide = new Map();
-  repeatableSlides.forEach(rs => repBySlide.set(rs.slideIndex, rs));
+  const repeatableBySlide = new Map();
+  repeatableSlides.forEach(rs => repeatableBySlide.set(rs.slideIndex, rs));
   if (repeatableSlides.length === 0) {
     zones.filter(z => z.isRepeatable).forEach(z => {
-      if (!repBySlide.has(z.slideIndex)) {
-        repBySlide.set(z.slideIndex, {
+      if (!repeatableBySlide.has(z.slideIndex)) {
+        repeatableBySlide.set(z.slideIndex, {
           slideIndex: z.slideIndex,
           key: `slide_${z.slideIndex}`,
           prompt: '',
@@ -272,8 +272,8 @@ ${globalSection}ERROR: No zones found on this slide.`;
      skeletonParts.push(`  "blocks": { ${staticZones.map(z => `"${z.key}": {"value": "..."}`).join(', ')} }`);
    }
    if (repeatableZonesOnSlide.length > 0) {
-     const repSlide = repBySlide.get(slideIndex);
-     const slideKey = repSlide?.key || `slide_${slideIndex}`;
+     const repeatableSlide = repeatableBySlide.get(slideIndex);
+     const slideKey = repeatableSlide?.key || `slide_${slideIndex}`;
      skeletonParts.push(`  "slides": {\n    "${slideKey}": { "instances": [...] }\n  }`);
    }
    const skeleton = skeletonParts.length > 0 ? `\nREQUIRED OUTPUT SKELETON (your response must match this structure exactly):\n{\n${skeletonParts.join(',\n')}\n}\n` : '';
@@ -319,9 +319,9 @@ ${skeleton}${globalSection}GENERATE ALL ZONES FOR THIS SLIDE:
 
    // ── Repeatable zones on this slide ──────────────────────────────────────────
    if (repeatableZonesOnSlide.length > 0) {
-     const repSlide = repBySlide.get(slideIndex);
-     const slideKey = repSlide?.key || `slide_${slideIndex}`;
-     const prompt = repSlide?.prompt || '';
+     const repeatableSlide = repeatableBySlide.get(slideIndex);
+     const slideKey = repeatableSlide?.key || `slide_${slideIndex}`;
+     const prompt = repeatableSlide?.prompt || '';
 
       recipe += `\n${sectionNum}. REPEATABLE SLIDE — "${slideKey}":\n`;
       if (prompt) recipe += `PROMPT: "${prompt}"\n`;
@@ -407,12 +407,12 @@ function validateFullSlideJson(data, zones, slideIndex, repeatableSlides = []) {
    const repSet = repeatableSlideIndexSet(validZones, repeatableSlides);
 
    // Build lookup: slideIndex → repeatableSlide
-   const repBySlide = new Map();
-   repeatableSlides.forEach(rs => repBySlide.set(rs.slideIndex, rs));
+   const repeatableBySlide = new Map();
+   repeatableSlides.forEach(rs => repeatableBySlide.set(rs.slideIndex, rs));
    if (repeatableSlides.length === 0) {
      validZones.filter(z => z.isRepeatable).forEach(z => {
-       if (!repBySlide.has(z.slideIndex)) {
-         repBySlide.set(z.slideIndex, {
+       if (!repeatableBySlide.has(z.slideIndex)) {
+         repeatableBySlide.set(z.slideIndex, {
            slideIndex: z.slideIndex,
            key: `slide_${z.slideIndex}`,
            prompt: '',
@@ -457,8 +457,8 @@ function validateFullSlideJson(data, zones, slideIndex, repeatableSlides = []) {
   // Validate repeatable zones
   const repeatableZones = slideZones.filter(z => repSet.has(z.slideIndex));
   if (repeatableZones.length > 0) {
-    const repSlide = repBySlide.get(slideIndex);
-    const slideKey = repSlide?.key || `slide_${slideIndex}`;
+    const repeatableSlide = repeatableBySlide.get(slideIndex);
+    const slideKey = repeatableSlide?.key || `slide_${slideIndex}`;
     const slidesData = data.slides || {};
     const slideData = slidesData[slideKey];
 
@@ -579,12 +579,12 @@ export function validateHtmlJson(jsonString, zones, repeatableSlides = [], optio
     const repSet = repeatableSlideIndexSet(validZones, repeatableSlides);
 
    // Build lookup: slideIndex → repeatableSlide
-   const repBySlide = new Map();
-   repeatableSlides.forEach(rs => repBySlide.set(rs.slideIndex, rs));
+   const repeatableBySlide = new Map();
+   repeatableSlides.forEach(rs => repeatableBySlide.set(rs.slideIndex, rs));
     if (repeatableSlides.length === 0) {
       validZones.filter(z => z.isRepeatable).forEach(z => {
-        if (!repBySlide.has(z.slideIndex)) {
-          repBySlide.set(z.slideIndex, {
+        if (!repeatableBySlide.has(z.slideIndex)) {
+          repeatableBySlide.set(z.slideIndex, {
             slideIndex: z.slideIndex,
             key: `slide_${z.slideIndex}`,
             prompt: '',
@@ -618,8 +618,8 @@ export function validateHtmlJson(jsonString, zones, repeatableSlides = [], optio
 
   Object.entries(bySlide).forEach(([slideIdxStr, slideZones]) => {
     const slideIndex = parseInt(slideIdxStr);
-    const repSlide   = repBySlide.get(slideIndex);
-    const slideKey   = repSlide?.key || `slide_${slideIndex}`;
+    const repeatableSlide   = repeatableBySlide.get(slideIndex);
+    const slideKey   = repeatableSlide?.key || `slide_${slideIndex}`;
     const slideData  = slidesData[slideKey];
 
      if (!slideData) {

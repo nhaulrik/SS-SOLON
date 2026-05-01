@@ -11,7 +11,7 @@ import {
   flattenTree,
   findNodeById,
   descendantIds,
-} from '../lib/build-tree.js';
+} from '../lib/html/build-tree.js';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 

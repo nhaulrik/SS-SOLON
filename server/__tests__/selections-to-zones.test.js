@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { selectionsToZones, resolveConflicts } from '../lib/selections-to-zones.js';
+import { selectionsToZones, resolveConflicts } from '../lib/zones/selections-to-zones.js';
 
 // ── Factories ─────────────────────────────────────────────────────────────────
 

@@ -13,7 +13,10 @@
  *   flattenTree(tree) → Node[]
  *   findNodeById(tree, id) → Node | null
  *   descendantIds(node) → string[]
+ *   extractSlideNamesFromHtml(html) → { index, name }[]
  */
+
+import { parse } from 'node-html-parser'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -260,4 +263,19 @@ export function descendantIds(node) {
   }
   collect(node.children)
   return ids
+}
+
+/**
+ * Generate generic slide names for sections in HTML.
+ * Returns an array of { index, name }.
+ */
+export function extractSlideNamesFromHtml(html) {
+  try {
+    const root = parse(html);
+    const sections = root.querySelectorAll('section');
+
+    return sections.map((_, idx) => ({ index: idx + 1, name: `Slide ${idx + 1}` }));
+  } catch {
+    return [];
+  }
 }

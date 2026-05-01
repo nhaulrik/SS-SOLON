@@ -11,8 +11,8 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { buildHtmlRecipe, generateFullSlideRecipe, validateHtmlJson } from '../lib/html-recipe-builder.js';
-import { resolveConflicts } from '../lib/selections-to-zones.js';
+import { buildHtmlRecipe, generateFullSlideRecipe, validateHtmlJson } from '../lib/html/html-recipe-builder.js';
+import { resolveConflicts } from '../lib/zones/selections-to-zones.js';
 
 // ── Zone factories ─────────────────────────────────────────────────────────────
 

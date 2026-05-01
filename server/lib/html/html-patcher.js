@@ -14,7 +14,7 @@
  */
 
 import { parse }                            from 'node-html-parser'
-import { isIgnoredOrDescendantOfIgnored }  from './zone-utils.js'
+import { isIgnoredOrDescendantOfIgnored }  from '../zones/zone-utils.js'
 
 /**
  * Apply AI JSON to an HTML template string.
@@ -29,16 +29,16 @@ export function applyHtmlContent(templateHtml, data, zones, repeatableSlides = [
   const root = parse(templateHtml, { comment: true });
 
   // Build a lookup: slideIndex → repeatableSlide entry
-  const repBySlide = new Map();
-  repeatableSlides.forEach(rs => repBySlide.set(rs.slideIndex, rs));
+  const repeatableBySlide = new Map();
+  repeatableSlides.forEach(rs => repeatableBySlide.set(rs.slideIndex, rs));
 
   // Determine which slide indices are repeatable
-  const repSlideIndices = new Set();
+  const repeatableSlideIndices = new Set();
   if (repeatableSlides.length > 0) {
-    repeatableSlides.forEach(rs => repSlideIndices.add(rs.slideIndex));
+    repeatableSlides.forEach(rs => repeatableSlideIndices.add(rs.slideIndex));
   } else {
     // Backward compat: derive from zone.isRepeatable flag
-    zones.forEach(z => { if (z.isRepeatable) repSlideIndices.add(z.slideIndex); });
+    zones.forEach(z => { if (z.isRepeatable) repeatableSlideIndices.add(z.slideIndex); });
   }
 
   const blocksData     = data.blocks    || {};
@@ -49,11 +49,11 @@ export function applyHtmlContent(templateHtml, data, zones, repeatableSlides = [
   sections.forEach((section, idx) => {
     const slideIndex = idx + 1;
 
-    if (repSlideIndices.has(slideIndex)) {
+    if (repeatableSlideIndices.has(slideIndex)) {
       // ── Repeatable slide ───────────────────────────────────────────────────
       const slideZones = zones.filter(z => z.slideIndex === slideIndex);
-      const repSlide   = repBySlide.get(slideIndex);
-      const slideKey   = repSlide?.key || `slide_${slideIndex}`;
+      const repeatableSlide   = repeatableBySlide.get(slideIndex);
+      const slideKey   = repeatableSlide?.key || `slide_${slideIndex}`;
       const slideData  = slidesData[slideKey];
 
       // Detect format

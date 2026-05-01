@@ -5,6 +5,8 @@
  * No Express, no I/O — only string construction.
  */
 
+import { MAX_ORCHESTRATOR_CONTEXT_CHARS } from '../../config.js'
+
 function capContext(text, maxChars) {
   const content = text || 'No source data provided.'
   return content.length > maxChars
@@ -108,7 +110,7 @@ Start your response with { and end it with }.
 }
 
 export function buildBlocksPrompt(zones, repeatableSlides, contextSummary, repSet, contentPrompt = '') {
-  const repBySlide = new Map(repeatableSlides.map(rs => [rs.slideIndex, rs]))
+  const repeatableBySlide = new Map(repeatableSlides.map(rs => [rs.slideIndex, rs]))
 
   const blockZones  = zones.filter(z => !repSet.has(z.slideIndex) && z.autoGenerate !== false && !z.ignored)
   const sharedZones = zones.filter(z => repSet.has(z.slideIndex) && z.unique === false && z.autoGenerate !== false && !z.ignored)
@@ -168,7 +170,7 @@ ZONES TO FILL:\n`
   if (sharedZones.length > 0) {
     const bySlide = {}
     sharedZones.forEach(z => {
-      const slideKey = repBySlide.get(z.slideIndex)?.key ?? `slide_${z.slideIndex}`
+      const slideKey = repeatableBySlide.get(z.slideIndex)?.key ?? `slide_${z.slideIndex}`
       ;(bySlide[slideKey] ??= []).push(z)
     })
     prompt += '\n[SHARED ZONES — same value on every slide clone]\n'
@@ -192,7 +194,7 @@ export function buildInstancePrompt(zones, repeatableSlides, slideKey, instanceI
     z => z.slideIndex === slideIdx && z.unique !== false && z.autoGenerate !== false && !z.ignored
   )
   // Cap context to prevent oversized prompts per instance
-  const contextBlock = capContext(contextSummary, 500_000)
+  const contextBlock = capContext(contextSummary, MAX_ORCHESTRATOR_CONTEXT_CHARS)
 
   let prompt = `You populate one slide instance in a presentation template with real content.
 

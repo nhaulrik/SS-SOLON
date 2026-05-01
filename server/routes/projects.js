@@ -19,8 +19,8 @@ import {
   deleteFlow,
   resolveProjectDir,
   resolveFlowDir,
-} from '../lib/project-manager.js';
-import { selectionsToZones, resolveConflicts } from '../lib/selections-to-zones.js';
+} from '../lib/project/project-manager.js';
+import { selectionsToZones, resolveConflicts } from '../lib/zones/selections-to-zones.js';
 
 const router = express.Router();
 

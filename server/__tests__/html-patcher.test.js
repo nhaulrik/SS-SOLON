@@ -12,7 +12,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { applyHtmlContent } from '../lib/html-patcher.js';
+import { applyHtmlContent } from '../lib/html/html-patcher.js';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 

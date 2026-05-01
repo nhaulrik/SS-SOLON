@@ -27,7 +27,7 @@
 import fs   from 'fs';
 import path from 'path';
 import crypto from 'crypto';
-import { resolveProjectDir } from './project-manager.js';
+import { resolveProjectDir } from '../project/project-manager.js';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 

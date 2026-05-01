@@ -20,7 +20,7 @@ import {
   createStructure,
   updateStructure,
   deleteStructure,
-} from '../lib/presentation-structure-manager.js';
+} from '../lib/presentation/presentation-structure-manager.js';
 
 const router = express.Router({ mergeParams: true });
 

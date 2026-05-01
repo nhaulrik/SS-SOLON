@@ -22,16 +22,16 @@
 import express from 'express'
 import fsp     from 'fs/promises'
 import path    from 'path'
-import { callAi }              from '../lib/ai-client.js'
-import { readContextFiles, readContextFilesCompact, getSummaryStatus } from '../lib/context-reader.js'
-import { validateHtmlJson }    from '../lib/html-recipe-builder.js'
-import { generateSummaries }   from '../lib/summary-generator.js'
+import { callAi }              from '../lib/ai/ai-client.js'
+import { readContextFiles, readContextFilesCompact, getSummaryStatus } from '../lib/ai/context-reader.js'
+import { validateHtmlJson }    from '../lib/html/html-recipe-builder.js'
+import { generateSummaries }   from '../lib/ai/summary-generator.js'
 import {
   buildOrchestratorPrompt,
   buildBlocksPrompt,
   buildInstancePrompt,
   buildSlicerPrompt,
-} from '../lib/agentic-prompts.js'
+} from '../lib/ai/agentic-prompts.js'
 import { RESOLVED_PROJECTS_DIR, SLICE_TEMPLATES_DIR } from '../config.js'
 
 const router = express.Router()
@@ -450,43 +450,31 @@ router.post('/agentic/plan', async (req, res) => {
 
        console.log('[agentic/plan] instances:', JSON.stringify(rawInstances))
 
-     // ── Single AI slicer call: extract structured data for all instances at once ──
+     // ── Per-instance slicer calls (parallel) ─────────────────────────────────
      const blocksText = fullContext.text
      const slices = {}
-     let slicerPrompt = null
+     const slicerPrompts = []
 
-      if (instanceNames.length > 0) {
-        const cappedRaw = fullContext.text.length > 300_000
-          ? fullContext.text.slice(0, 300_000) + '\n[...raw data capped for AI slicer]'
-          : fullContext.text
-        log(`AI-structuring ${instanceNames.length} instance(s) in one slicer call (${cappedRaw.length} chars input)...`)
-        slicerPrompt = buildSlicerPrompt(instanceNames, cappedRaw, sliceTemplateBody)
-        log(`Slicer prompt: ${slicerPrompt.length} chars`)
-        const { response: slicerResponse, finishReason: slicerFinishReason } = await callAi(slicerPrompt, { temperature: 0.1, maxTokens: 8000 })
-        log(`Slicer response: ${slicerResponse.length} chars (finish_reason: ${slicerFinishReason})`)
-        
-        if (slicerFinishReason === 'length') {
-          log(`⚠️  WARNING: Slicer response was cut off due to max_tokens limit. Some instances may have incomplete data.`)
-        } else if (slicerFinishReason !== 'stop') {
-          log(`⚠️  WARNING: Slicer response ended with unexpected finish_reason: ${slicerFinishReason}`)
-        }
+     if (instanceNames.length > 0) {
+       const cappedRaw = fullContext.text.length > 300_000
+         ? fullContext.text.slice(0, 300_000) + '\n[...raw data capped for AI slicer]'
+         : fullContext.text
+       log(`AI-structuring ${instanceNames.length} instance(s) sequentially (${cappedRaw.length} chars input each)...`)
 
-       // Parse response: split on [SLIDE_INSTANCE_N] delimiters
-       const instanceRegex = /\[SLIDE_INSTANCE_(\d+)\]/g
-       const parsedSections = []
-       let lastName = null, lastEnd = 0, m
-       while ((m = instanceRegex.exec(slicerResponse)) !== null) {
-         if (lastName !== null) parsedSections[lastName] = slicerResponse.slice(lastEnd, m.index).trim()
-         lastName = parseInt(m[1]) - 1
-         lastEnd = m.index + m[0].length
+       for (let i = 0; i < instanceNames.length; i++) {
+         const name = instanceNames[i]
+         const prompt = buildSlicerPrompt([name], cappedRaw, sliceTemplateBody)
+         slicerPrompts.push({ index: i, name, prompt })
+         try {
+           const { response } = await callAi(prompt, { temperature: 0.1, maxTokens: 8000 })
+           log(`  Slicer [${i}] "${name}": ${response.length} chars`)
+           const stripped = response.replace(/^\s*\[SLIDE_INSTANCE_\d+\]\s*/i, '').trim()
+           slices[i.toString()] = stripped || `[No data extracted for instance: "${name}"]`
+         } catch (err) {
+           console.error(`[agentic/plan] Slicer failed for instance [${i}] "${name}": ${err.message}`)
+           slices[i.toString()] = `[Slicer error for instance: "${name}": ${err.message}]`
+         }
        }
-       if (lastName !== null) parsedSections[lastName] = slicerResponse.slice(lastEnd).trim()
-
-       instanceNames.forEach((name, i) => {
-         const text = parsedSections[i] || `[No data extracted for instance: "${name}"]`
-         slices[i.toString()] = text
-         log(`  Instance [${i}] "${name}": ${text.length} chars`)
-       })
        log(`Slicer complete: ${Object.keys(slices).length} instance slice(s) extracted`)
      }
 
@@ -506,7 +494,10 @@ router.post('/agentic/plan', async (req, res) => {
          const writeOps = [
            fsp.writeFile(path.join(debugDir, 'ai-orchestrator-prompt.txt'), orchestratorPrompt, 'utf8'),
            fsp.writeFile(path.join(debugDir, 'ai-slice-blocks.txt'), blocksText || '', 'utf8'),
-           ...(slicerPrompt ? [fsp.writeFile(path.join(debugDir, 'ai-slicer-prompt.txt'), slicerPrompt, 'utf8')] : []),
+           ...slicerPrompts.map(({ index, name, prompt }) => {
+             const slug = toSlug(name)
+             return fsp.writeFile(path.join(debugDir, `ai-slicer-prompt-${index}-${slug}.txt`), prompt, 'utf8')
+           }),
          ]
 
          // Write one named slice file per instance

@@ -17,7 +17,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { PROJECTS_DIR, RESOLVED_PROJECTS_DIR, isInsideDir } from '../config.js';
+import { PROJECTS_DIR, RESOLVED_PROJECTS_DIR, isInsideDir } from '../../config.js';
 
 // ── Path helpers ─────────────────────────────────────────────────────────────
 

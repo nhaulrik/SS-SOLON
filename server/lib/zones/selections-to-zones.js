@@ -42,11 +42,11 @@
  */
 export function selectionsToZones(selections, repeatableSlides = []) {
   // Build a fast lookup: slideIndex → repeatableSlide entry
-  const repBySlide = new Map()
-  repeatableSlides.forEach(rs => repBySlide.set(rs.slideIndex, rs))
+  const repeatableBySlide = new Map()
+  repeatableSlides.forEach(rs => repeatableBySlide.set(rs.slideIndex, rs))
 
    return selections.map((sel, idx) => {
-      const isRepeatable = repBySlide.has(sel.slideIndex)
+      const isRepeatable = repeatableBySlide.has(sel.slideIndex)
 
       return {
         // Discriminant
@@ -123,4 +123,63 @@ export function resolveConflicts(selections) {
   })
 
   return { resolved, removed }
+}
+
+/**
+ * Auto-discover zones for full-slide generation.
+ *
+ * When a slide is marked for full-slide generation, automatically create zones
+ * for all interesting, non-leaf nodes that aren't already assigned a zone.
+ * This enables content generation for the entire slide structure without
+ * requiring explicit manual zone definition.
+ */
+export function autoDiscoverZonesForFullSlide(trees, fullSlideGeneration, existingSelections) {
+  if (!Array.isArray(fullSlideGeneration) || fullSlideGeneration.length === 0) {
+    return existingSelections;
+  }
+
+  const result = [...existingSelections];
+  const existingNodeIds = new Set(existingSelections.map(s => s.nodeId));
+
+  function flattenTree(nodes) {
+    const flat = [];
+    function visit(arr) {
+      for (const n of arr) {
+        flat.push(n);
+        if (n.children?.length) visit(n.children);
+      }
+    }
+    visit(nodes);
+    return flat;
+  }
+
+  for (const slideIdx of fullSlideGeneration) {
+    const treeIdx = slideIdx - 1;
+    if (treeIdx < 0 || treeIdx >= trees.length) continue;
+
+    const allNodes = flattenTree(trees[treeIdx]);
+
+    for (const node of allNodes) {
+      if (existingNodeIds.has(node.id)) continue;
+      if (node.leaf) continue;
+
+      if (node.interesting || node.children?.length > 0) {
+        const key = `auto_${node.id.replace(/[^a-z0-9]/gi, '_').toLowerCase()}`;
+        result.push({
+          nodeId:        node.id,
+          slideIndex:    slideIdx,
+          zoneType:      'block',
+          key,
+          prompt:        '',
+          autoGenerate:  true,
+          autoDiscovered: true,
+          type:          'block',
+          ...(node.innerHTML ? { exampleHtml: node.innerHTML } : {}),
+        });
+        existingNodeIds.add(node.id);
+      }
+    }
+  }
+
+  return result;
 }

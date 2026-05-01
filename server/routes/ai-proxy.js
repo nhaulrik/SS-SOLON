@@ -6,7 +6,7 @@
  */
 
 import express from 'express';
-import { callAi } from '../lib/ai-client.js';
+import { callAi } from '../lib/ai/ai-client.js';
 
 const router = express.Router();
 
