@@ -1,0 +1,39 @@
+=== PENALTY & INTEREST ===
+
+=== Summary ===
+Roadmap Initiative: PENALTY & INTEREST
+Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES
+PI: PI 28
+Total Effort: 2986.9 hours
+Feature Count: 1
+
+Requester: GTM
+
+=== Feature Progress ===
+Waiting Analysis Approval: 1
+Total Features: 1
+
+=== Feature Priority ===
+P2: 1
+Total Features: 1
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Complete Credit Interest Calculation Accuracy
+Reason 01 Text: Include unallocated payment segments in credit interest calculations to ensure taxpayers receive proper interest on all credit amounts.
+
+Reason 02 Title: Support Tax Account Implementations
+Reason 02 Text: Enable accurate interest calculation for tax account scenarios where liability amendments create unallocated payment segments requiring interest accrual.
+
+Reason 03 Title: Ensure Regulatory Compliance
+Reason 03 Text: Comply with tax authority requirements for fair interest treatment on taxpayer funds held by revenue authorities across all payment scenarios.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Enhance Credit Interest Calculation to include unallocated payment segments
+Feature Description: Update CREDIT_INT rule to calculate reimbursement interest on credit unallocated payment segments for accurate tax account interest calculations.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 2987h
+Feature Priority: P2

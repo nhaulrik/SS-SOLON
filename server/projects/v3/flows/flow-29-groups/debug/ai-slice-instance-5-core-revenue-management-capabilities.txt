@@ -1,0 +1,269 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (5 rows)
+Issue Type: Feature | IRM: IRM-30828 | Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES | Roadmap Initiative: EXEMPTIONS | Roadmap Feature: Introduce Exemptions | Requester: GRC | PI: PI29 | Estimate: 130 | Feature Priority: p3 | Feature Status: To Do | Features Description: As a revenue authority I need to be able to implement Policy-driven exclusions for assessments and other liabilities ti the taxpayers to promote sectors, fairness, or development goals. (Other examples on their purposes :  Encourage social or economic development. , support specific sectors or vulnerable groups. , simplify tax administration for low-value cases. align with policy objectives (e.g., promoting investment, education, or sustainability) ) .
+
+The exceptions may be of several *types* e.g. 
+*Geographic* exemptions : to develop special zones
+*Activity* exemptions : develop verticals based on Taxpayer activities exemptions  
+*Party type* exemptions , *Party size* exemptions
+
+*Introduction*
+
+Already applied in system 
+*Waivers:* Relief based on a discretionary decision to "forgive" or "cancel" a debt (mostly interest or penalty) 
+It is applied after liability is assessed but before payment.
+Amount is no longer collectible
+
+{*}Write-offs{*}: An accounting action to remove an uncollectible debt from active accounts (not the same as forgiveness).
+It is applied after the debt is confirmed and collectible. 
+Amount is legally due but no longer pursued. 
+
+*Suppression:* 
+A temporary hold or administrative decision to suppress or defer issuing an assessment , interest.
+It is applied during the assessment/process. 
+The due amount exists but it is not communicated or enforced yet.  
+
+New :
+*Exemption:* 
+A lawful exclusion from a tax obligation defined in legislation or policy.
+It is applied before a due amount/liability arises. 
+(e.g. Charitable organizations are exempt from income tax.)
+The tax {*}never becomes due{*}—it’s not assessed or recorded as payable.
+
+[Revenue type Registration]->  Apply Exemptions
+[Obligations] ->  Exempt items excluded
+Other: 
+[Assessment]->  Suppressions may be applied
+[Billing & Payment] ->   Waivers may be issued
+[Collection/ Enforcement]->  Write-offs recorded
+[Audit & Compliance]-> for all
+ 
+
+*Functional Requirements*
+
+*Admin :*
+I can define Exception types [ Type, Status,  Period or permanent ,  Can be applied manually?,  Approvers list or profiles,  filters on how to define related audience/scope, filters on what will be exemptions requested, define details on the policy applied , legal reason/decision ]
+
+I can apply Exceptions to taxpayers massively.  [Workflow,  Approvals,  Keep attachments, Keep contacts  , RTR and Obligations status , StartDate, EndDate, Status, Reason , timestamp, batch id ] 
+ * Define approvers lists or profiles
+ * Define approval process
+ * Functionality on permanent or time defined exceptions
+ * Define Legal bases
+ * How to define scope
+ * How to define targeted actions
+ * Validations should be applied.
+
+*User :*
+I can apply Exceptions to taxpayers manually.  
+
+*Addiitonally,*  
+ * New statuses for Obligations
+ * Balances review
+ * Forms updated filters with exceptions
+ * Traceability 
+ * I can report on the exemptions applied
+Issue Type: Feature | IRM: IRM-39021 | Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES | Roadmap Initiative: TAX ACCOUNTS | Roadmap Feature: Export Filtered List Table to Excel /GL Accounts  List pages | Requester: Other | PI: PI29 | Estimate: 746.9 | Feature Priority: p1 | Feature Status: To Do | Features Description: As a revenue authority officer I need to be able to export list of GL Accounts with filters as selected in GL Accounts list view. 
+(Export similar to  [https://jira.intrasoft-intl.com/browse/IRM-29306] )
+
+ 
+
+*Functional Rquirements*
+ - In  GL Accounts List Page, user is able to filter GL accounts , and then easily click to export the list in excel file. 
+Same mechanism is now used in Parties list page
+
+ 
+
+------------------------------------------------------------------------------------
+
+*Documentation*
+
+All configuration options, split strategies, and rule evaluation logic must be fully documented.
+
+Documentation must include (where applicable) :
+ * Usage and Configuration examples
+ * Reference implementations
+ * Operational guidelines , Performance considerations
+
+ 
+
+*Non functional requirements*
+
+The solution must maintain or improve the product’s:
+
+*Performance* – large datasets and multi-sheet evaluation must not degrade processing times
+*Security* – no exposure of sensitive configuration data
+*Accessibility* – configuration screens and documentation must remain accessible
+*Usability* – splitting logic must be understandable and maintainable by admins
+Additionally:
+The team must collaborate with domain specialists to validate the above.
+
+All Definition of Done ({*}DoD{*}) criteria must be met.
+Issue Type: Feature | IRM: IRM-38308 | Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES | Roadmap Initiative: TAX ACCOUNTS | Roadmap Feature: Introduce a Threshold Amount Field in Revenue Type Registration to support Tax Account | Requester: GTM | PI: PI29 | Estimate: 507.5 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: As a revenue officer I should be able to define a threshold amount for a revenue type registration so that the system can support Tax Account implementation. 
+
+*Introduction* 
+
+This analysis outlines the requirements for introducing a threshold amount field in the Revenue Type Registration entity to support Tax Account functionality in Solon Tax. The threshold field will enable implementation teams to configure automatic threshold determination rules while maintaining manual editability during the initial implementation phase. 
+
+The threshold amount will be used in Tax Account scenarios where specific monetary limits determine processing behavior, validation rules, or reporting requirements. This field provides the foundation for threshold-based business logic while allowing implementation teams flexibility in defining automatic calculation rules.
+
+*Functional Business Requirements*
+
+Add a new field thresholdAmount to the Revenue Type Registration entity that:
+
+> Stores a monetary threshold value for tax account processing
+> Supports decimal precision for accurate financial calculations
+> Allows null values (optional field)
+> Is editable by users during creation and updates
+> Can be automatically populated by system rules (future enhancement)
+
+
+
+This enhancement provides the foundational threshold capability required for Tax Account implementations while maintaining the flexibility needed for diverse implementation requirements and future automatic rule integration.
+
+*Documentation*
+Document all the above adjustments for introducing a threshold amount filed in revenue type registration.
+
+ 
+
+*Non functional requirements*
+Performance , Security, Traceability, Accessibility, Usability  DODs should be fulfilled. 
+Issue Type: Feature | IRM: IRM-30362 | Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES | Roadmap Initiative: TAXPAYER ACCOUNTING | Roadmap Feature: GL decisions table - Ensure extensibility and high volume support of decisions /Functionality & Reference Implementation | Requester: GRC | PI: PI29 | Estimate: 1493.1 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an administrator responsible for configuring the GL Decision Table (Accountant table), iI need to support the extensibility of the solution. 
+I need to introduce additional parameters that control how GL accounts are split across multiple files or tables. This is required to support very high volumes of decision lines and complex business rules.
+I need to allow custom adapters to be used on how rules are created and selected to generate journal entries. 
+
+These parameters will allow the system to efficiently handle hundreds of special cases, reduce the size and complexity of individual GL decision tables, and improve maintainability by splitting configurations into multiple, logically grouped records. 
+
+A realistic number of GL decision lines with the assumption that legacy GLs will be removed from time to time, is 200.000 lines
+
+ 
+
+*Functional Requirements* 
+
+
++*1.* Some suggestions on how to support high volumes of rules:+ 
+
+*A) GL Decision Line Volume Support*
+ * Decision rule sheets must support modern XLSX row limits (1,048,576+ rows), not legacy XLS limits (65,536 rows).
+ * The system should support the use of multiple decision lines per transaction (multi-lines), where applicable.
+
+*B) Split GL Decision Tables Across Multiple Sheets or Files*
+ * As an admin/configurator, I must be able to define and use more than one spreadsheet or files for GL Decision Tables.
+ * Splitting must be rule-driven and configurable.
+
+*C) Rule Evaluation Mechanism*
+
+The system must determine which spreadsheet(s) to read based on configured split rules.
+One FT may require reading:
+
+A single sheet, or Multiple sheets, depending on customer-defined configuration.
+Rule evaluation must be deterministic and transparent (traceable which sheets were evaluated).
+
+ 
+
+*D)   Reference Implementation Split Strategies (Examples)*
+ * The system should support splitting GL decision tables based on configurable parameters, such as FT Origin, RTR relation with Claimants etc: 
+ ** Segment type of Origin  of Financial transactions (ft_origin_cl) , splitting spreadsheets for Bill segments, Payment segments, Allocation Segments. 
+One sheet for Segment type = Bill segment, one for Payment Segments, one Allocation Segments
+ ** If Claimant related (if the revenue type registration is related to a claimant) 
+Use a dedicated spreadsheet containing claimant-specific GL mappings.
+i.e., If a revenue type is related to a specific claimant, the system reads only the claimant-specific sheet.
+ ** The revenue type, Domain
+Certification-related mappings in one sheet. 
+All other revenue/tax types in separate sheets.
+Additional Parameters as reference implementation in GL Decision Table [https://jira.intrasoft-intl.com/browse/IRM-37721] 
+ ** Considerations : Customers may also add a rule, to read for every FT,  2 or more sheets,  as the rules sheet may split per Ledger.   (The system reads from two or more sheets per FT, e.g. one per Ledger.) 
+Other cases may include parameters to split on segment type category/subcategory or revenue type details and some of these details may be also captured in data areas.
+
+
++2. Expandability+
+
+*E) Customers are able to use custom in process implementation*
+Be able to adjust a custom implementation in process to run in order  to create journal entries. Interface (as in allocation) to feed the results in Solon Journal entries
+
+ 
+
+*Documentation*
+
+All configuration options, split strategies, and rule evaluation logic must be fully documented.
+
+Documentation must include:
+ * Usage and Configuration examples
+ * Reference implementations
+ * Operational guidelines , Performance considerations
+
+*Non functional requirements*
+
+The solution must maintain or improve the product’s:
+
+*Performance* – large datasets and multi-sheet evaluation must not degrade processing times
+*Security* – no exposure of sensitive configuration data
+*Accessibility* – configuration screens and documentation must remain accessible
+*Usability* – splitting logic must be understandable and maintainable by admins
+Additionally:
+The team must collaborate with domain specialists to validate the above.
+
+All Definition of Done ({*}DoD{*}) criteria must be met.
+Issue Type: Feature | IRM: IRM-37844 | Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES | Roadmap Initiative: TAXPAYER ACCOUNTING | Roadmap Feature: GL decisions table - Multiline rules and additional parameters /Functionality & Reference Implementation | Requester: GRC | PI: PI29 | Estimate: 1493.1 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an administrator responsible for defining the Accountant table details, I need to introduce additional parameters that determine how GL accounts are selected based on the accounting rules of FT types. Specifically, I need to support differentiating GL accounting rules according to the claimant, revenue type, and bill segment type categorization. 
+
+These new parameters will enable the system to efficiently handle the many hundreds of special cases that must be supported, reduce the size of the GL decision table and the number of FT types, and overall improve the system’s maintainability and administration.
+
+ 
+
+*Functional Requirements* 
+
+ 
+
+*Valid From/To columns*
+ * Add columns Valid from / Valid to (as Datetime ) in GL Decision Table(s)
+ * if empty valid from to is empty , consider line as valid.
+ * Rules should consider the validity based on these fields.
+ * Advise in documentation and code the format of the field. 
+
+ 
+
+*Multilines* 
+
+In several situations one FT may be detailed in several gl accounts i.e., several journal entries lines. 
+Similarly to what is implemented in Assessments calculation lines, because of different cost centers , several gl accounts should be changed in one transaction based on a rule on how to split these amounts.  
+ * In GL decision spreadsheets, Define of an Accounting rule included many lines to finally define the journal entries needed. 
+ * Add an indication per line like line 1,2,3
+ * Define the rule on how to split the amount (e.g. per percentage to original FT amount. the total amount should be same as FT amount or an error will block the journal entries creation because of FT validation rules ) .
+
+!image-2026-03-02-23-45-16-740.png|width=688,height=278!
+
+*Rules logic*
+ * If the parameter/condition is empty, it should be ignored by the rules. 
+ * Rules should search for all the lines that the conditions are fulfilled and check the valid from to.
+ * GL Account Code for Gain/loss may be null and should be ignored in primary currency mode. 
+
+ 
+
+*Customers may add new parameters as columns in gl decision tabels and use in drools*
+ * Customers should know based on documented instructions,  how to add their own parameters in the Gl_decision drools sheets and use them in relevant drools rules.
+ *  *Reference implementation* /example columns
+ ** Revenue Type,
+ ** Accounting Date
+ ** Claimant? (Yes /No)  ,  Claimant type/ID    
+ ** Segment Type (Bill segment, Payment, Allocation) , Segment Category     Segment Subcategory    
+ ** (as -is) FT Type Category  , Financial Transaction Accounting Date 
+ ** Action (Create . Cancel)
+ ** Add a no functional logic "Notes" column
+ * Customers should be able to add their own parameters and get the parameters from FT record.
+ ** Columns for  Custom Parameter A (e.g. Reference year), Custom Parameter B  (e.g. DOY) , Custom Parameter C    (these may be ignored if customers can add their columns if/when needed.  
+ ** Considerations : Customers may need to add conditions/Parameters on FT details, or Party details, or RTR details and these details may be also captured in data areas.  
+
+ 
+
+*Correction future proof for multicurrency*
+Replace the one column GL Account Code for Gain/loss with 2 
+GL Account Code for Gain/loss/ CREDIT (MAKE IT NULLABLE)    
+GL Account Code for Gain/loss/ DEBIT (MAKE IT NULLABLE) , leave it null in reference implementation sheet. 
+
+ 
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+*Non functional requirements*
+Performance , Security, Accessibility, Usability  DODs should be fulfilled. 

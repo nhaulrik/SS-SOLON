@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Combined-Structure-v7</title>
+  <script>
+    window.__PRESENTATION__ = {"tree":[{"id":"sr-1a2f31bd-dede-47df-830b-58d2c0287eac","label":"Core Revenue Management Capabilities","hasSlide":true,"children":[]},{"id":"sr-806d5919-0d1c-4185-882e-8b326e95de63","label":"Core Self Service Capabilities","hasSlide":true,"children":[]},{"id":"sr-e1f74c2f-9069-46f1-868f-ef51d44f18bc","label":"Core Supporting Capabilities","hasSlide":true,"children":[]},{"id":"sr-5be9903d-c7b8-4aa1-b38b-83c7a4fcb7c7","label":"Non-Functional Requirement Coverage","hasSlide":true,"children":[]},{"id":"sr-7c5c3bd3-96c7-4447-ae8b-91dabb53bf5e","label":"Reference Implementations","hasSlide":true,"children":[]}],"meta":{"name":"Combined-Structure-v7","publishedAt":"2026-04-21T20:57:43.913Z"}};
+  </script>
+  <style>
+    :root {
+      --green-deep: #1a3c3a;
+      --green-mid: #2C4A48;
+      --green-light: #7fb3af;
+      --green-pale: #e8ebe8;
+      --red: #FF6359;
+      --amber: #F0A500;
+      --text-body: #3d5c5a;
+      --text-muted: #7a9896;
+      --bg-page: #2C4A48;
+      --bg-card: #ffffff;
+      --border: #dde3dd;
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes nodeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes borderTrace {
+      from {
+        background-position: 0% 0%;
+      }
+      to {
+        background-position: 200% 0%;
+      }
+    }
+
+    @keyframes dotPulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      width: 100%;
+      height: 100%;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-body);
+      overflow: hidden;
+    }
+
+    #pres-header {
+       height: 56px;
+       background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 100%);
+       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       padding: 0 20px;
+       font-size: 16px;
+       font-weight: 600;
+       letter-spacing: 0.3px;
+       color: #fff;
+       text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+       flex-shrink: 0;
+       position: relative;
+       animation: fadeInDown 0.6s var(--ease-out-expo);
+       overflow: hidden;
+     }
+
+    #pres-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--red) 0%, #ff9c96 25%, var(--red) 50%, var(--amber) 100%);
+      background-size: 200% 100%;
+      animation: borderTrace 12s linear infinite;
+    }
+
+    #pres-body {
+      display: flex;
+      height: calc(100vh - 56px);
+    }
+
+    #sidebar {
+       width: 280px;
+       background: var(--bg-page);
+       border-right: 2px solid var(--green-mid);
+       overflow-y: auto;
+       padding: 16px 8px;
+       flex-shrink: 0;
+       box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+       position: relative;
+       z-index: 100;
+       transition: transform 0.3s var(--ease-out-quart), box-shadow 0.3s var(--ease-out-quart);
+       transform: translateX(0);
+       will-change: transform;
+     }
+
+     #sidebar.collapsed {
+        transform: translateX(-280px);
+      }
+
+    #sidebar.collapsed.hover-revealed {
+       transform: translateX(0);
+       box-shadow: 2px 0 16px rgba(0, 0, 0, 0.15);
+     }
+
+    .sidebar-toggle {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 6px;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        z-index: 101;
+        transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        flex-shrink: 0;
+      }
+
+    .sidebar-toggle:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: scale(1.05);
+      }
+
+    .sidebar-toggle:focus {
+        outline: 2px solid rgba(255, 255, 255, 0.6);
+        outline-offset: 2px;
+      }
+
+    .toggle-icon {
+       display: flex;
+       align-items: center;
+       justify-content: center;
+     }
+
+    #sidebar::-webkit-scrollbar {
+       width: 6px;
+     }
+
+    #sidebar::-webkit-scrollbar-track {
+       background: transparent;
+     }
+
+    #sidebar::-webkit-scrollbar-thumb {
+       background: rgba(127, 179, 175, 0.3);
+       border-radius: 3px;
+     }
+
+    #sidebar::-webkit-scrollbar-thumb:hover {
+       background: rgba(127, 179, 175, 0.5);
+     }
+
+    #content {
+       flex: 1;
+       overflow: hidden;
+       background: var(--bg-card);
+       position: relative;
+       animation: fadeIn 0.5s var(--ease-out-expo) 0.2s both;
+       transition: flex 0.3s var(--ease-out-quart);
+     }
+
+    #pres-body.sidebar-collapsed #content {
+       flex: 1;
+     }
+
+    #slide-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: var(--bg-card);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+    }
+
+    .tree-node {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-muted);
+      user-select: none;
+      border-left: 2px solid transparent;
+      margin-left: -2px;
+      transition: background 0.15s var(--ease-out-quart), color 0.15s var(--ease-out-quart), transform 0.15s var(--ease-out-quart);
+      animation: nodeSlideIn 0.4s var(--ease-out-expo) backwards;
+    }
+
+    .tree-node:hover {
+      background: rgba(127, 179, 175, 0.08);
+      color: var(--text-body);
+      transform: translateY(-1px);
+    }
+
+    .tree-node.active {
+      background: rgba(255, 99, 89, 0.08);
+      color: var(--red);
+      border-left-color: var(--red);
+      font-weight: 600;
+    }
+
+    .tree-node .icon {
+      font-size: 11px;
+      width: 16px;
+      flex-shrink: 0;
+      color: var(--text-muted);
+      transition: transform 0.2s var(--ease-out-quart), color 0.15s var(--ease-out-quart);
+    }
+
+    .tree-node:hover .icon {
+      color: var(--red);
+    }
+
+    .tree-node .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      flex-shrink: 0;
+      transition: background 0.15s var(--ease-out-quart), transform 0.2s var(--ease-out-quart);
+    }
+
+    .tree-node.has-slide .dot {
+      background: var(--red);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+
+    .tree-children {
+      padding-left: 16px;
+      max-height: 1000px;
+      transition: max-height 0.3s var(--ease-out-quart), opacity 0.3s var(--ease-out-quart);
+      opacity: 1;
+    }
+
+    .tree-children.hidden {
+      max-height: 0;
+      opacity: 0;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+   <header id="pres-header">
+      <span>Combined-Structure-v7</span>
+      <button class="sidebar-toggle" aria-label="Toggle navigation sidebar" aria-expanded="false" title="Toggle sidebar">
+        <span class="toggle-icon">⋮</span>
+      </button>
+    </header>
+    <div id="pres-body">
+      <aside id="sidebar">
+        <div id="tree-root"></div>
+      </aside>
+      <main id="content"><iframe id="slide-frame"></iframe></main>
+    </div>
+   <script>
+(function() {
+  const data = window.__PRESENTATION__;
+  if (!data) { console.error('No presentation data'); return; }
+
+  const frame = document.getElementById('slide-frame');
+  const content = document.getElementById('content');
+  const sidebar = document.getElementById('sidebar');
+  const presBody = document.getElementById('pres-body');
+  const toggleButton = document.querySelector('.sidebar-toggle');
+
+  // ── Sidebar State Management ──
+  let sidebarCollapsed = false;
+  let revealTimeout = null;
+  const REVEAL_THRESHOLD = 20;
+  const REVEAL_HIDE_DELAY = 300;
+
+  // Load sidebar state from localStorage
+  function loadSidebarState() {
+    try {
+      const saved = localStorage.getItem('solon-sidebar-collapsed');
+      if (saved === 'true') {
+        sidebarCollapsed = true;
+        sidebar.classList.add('collapsed');
+        presBody.classList.add('sidebar-collapsed');
+        updateToggleButton();
+      }
+    } catch (e) {
+      // localStorage may be unavailable
+    }
+  }
+
+  // Save sidebar state to localStorage
+  function saveSidebarState() {
+    try {
+      localStorage.setItem('solon-sidebar-collapsed', sidebarCollapsed);
+    } catch (e) {
+      // localStorage may be unavailable
+    }
+  }
+
+  // Update toggle button state
+  function updateToggleButton() {
+    if (toggleButton) {
+      toggleButton.setAttribute('aria-expanded', !sidebarCollapsed);
+    }
+  }
+
+   // Toggle sidebar handler
+   function toggleSidebar() {
+     sidebarCollapsed = !sidebarCollapsed;
+     
+     if (sidebarCollapsed) {
+       sidebar.classList.add('collapsed');
+       presBody.classList.add('sidebar-collapsed');
+       console.log('[DEBUG] Sidebar collapsed - transform should be translateX(-280px)');
+     } else {
+       sidebar.classList.remove('collapsed');
+       sidebar.classList.remove('hover-revealed');
+       presBody.classList.remove('sidebar-collapsed');
+       console.log('[DEBUG] Sidebar expanded - transform should be translateX(0)');
+     }
+     
+     // Force reflow to ensure CSS is applied
+     void sidebar.offsetHeight;
+     
+     const computed = window.getComputedStyle(sidebar);
+     console.log('[DEBUG] Current transform:', computed.transform);
+     
+     updateToggleButton();
+     saveSidebarState();
+   }
+
+   // Toggle button click handler
+   console.log('[DEBUG] Setting up toggle button handler');
+   const btn = document.querySelector('.sidebar-toggle');
+   console.log('[DEBUG] Button element found:', btn);
+   
+   if (btn) {
+     btn.addEventListener('click', function(e) {
+       console.log('[DEBUG] Button CLICKED - calling toggleSidebar()');
+       e.preventDefault();
+       e.stopPropagation();
+       toggleSidebar();
+     });
+     
+     // Also add a direct onclick handler as backup
+     btn.onclick = function(e) {
+       console.log('[DEBUG] Button onclick handler fired');
+       e.preventDefault();
+       e.stopPropagation();
+       toggleSidebar();
+       return false;
+     };
+     
+     btn.addEventListener('keydown', function(e) {
+       if (e.key === 'Enter' || e.key === ' ') {
+         e.preventDefault();
+         toggleSidebar();
+       }
+     });
+     console.log('[DEBUG] Button handlers attached successfully');
+   } else {
+     console.error('[ERROR] Toggle button NOT FOUND - cannot attach handler');
+   }
+
+  // Hover reveal handler
+  document.addEventListener('mousemove', function(e) {
+    if (!sidebarCollapsed) return;
+    
+    if (e.clientX < REVEAL_THRESHOLD) {
+      clearTimeout(revealTimeout);
+      sidebar.classList.add('hover-revealed');
+    } else {
+      revealTimeout = setTimeout(function() {
+        sidebar.classList.remove('hover-revealed');
+      }, REVEAL_HIDE_DELAY);
+    }
+  });
+
+  function scaleFrame() {
+    try {
+      const slideContent = frame.contentDocument || frame.contentWindow.document;
+      if (!slideContent) return;
+
+      // Reset slide body to prevent overflow and scrollbars
+      const bodyEl = slideContent.body;
+      if (bodyEl) {
+        bodyEl.style.minHeight = 'auto';
+        bodyEl.style.padding = '0';
+        bodyEl.style.margin = '0';
+        bodyEl.style.overflow = 'hidden';
+        bodyEl.style.background = 'transparent';
+      }
+
+      // Reset html too
+      const htmlEl = slideContent.documentElement;
+      if (htmlEl) {
+        htmlEl.style.overflow = 'hidden';
+      }
+
+      // Override slide element background
+      const slideEl = slideContent.querySelector('.slide');
+      if (slideEl) {
+        slideEl.style.background = '#ffffff';
+      }
+    } catch (e) {
+      // On error, just let it be
+    }
+  }
+  window.addEventListener('resize', scaleFrame);
+
+  function firstSlide(nodes) {
+    for (const n of nodes) {
+      if (n.hasSlide) return n;
+      const found = firstSlide(n.children || []);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  let activeId = null;
+  function navigate(id) {
+    activeId = id;
+    frame.src = 'slides/' + id + '.html';
+    document.querySelectorAll('.tree-node').forEach(el => el.classList.remove('active'));
+    const el = document.querySelector('[data-id="' + id + '"]');
+    if (el) el.classList.add('active');
+  }
+
+  function buildTree(nodes, container) {
+    nodes.forEach(function(node) {
+      const wrap = document.createElement('div');
+      const row = document.createElement('div');
+      row.className = 'tree-node' + (node.hasSlide ? ' has-slide' : '');
+      row.dataset.id = node.id;
+
+      const icon = document.createElement('span');
+      icon.className = 'icon';
+      const hasChildren = node.children && node.children.length > 0;
+      icon.textContent = hasChildren ? '▶' : '';
+      row.appendChild(icon);
+
+      const dot = document.createElement('span');
+      dot.className = 'dot';
+      row.appendChild(dot);
+
+      const label = document.createElement('span');
+      label.textContent = node.label;
+      row.appendChild(label);
+
+      const childWrap = document.createElement('div');
+      childWrap.className = 'tree-children hidden';
+
+      if (hasChildren) {
+        buildTree(node.children, childWrap);
+        icon.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const hidden = childWrap.classList.toggle('hidden');
+          icon.textContent = hidden ? '▶' : '▼';
+        });
+      }
+
+      row.addEventListener('click', function() {
+        if (node.hasSlide) {
+          navigate(node.id);
+        } else {
+          const first = firstSlide(node.children || []);
+          if (first) navigate(first.id);
+          if (hasChildren) {
+            childWrap.classList.remove('hidden');
+            icon.textContent = '▼';
+          }
+        }
+      });
+
+      wrap.appendChild(row);
+      wrap.appendChild(childWrap);
+      container.appendChild(wrap);
+    });
+  }
+
+  // Load sidebar state before building tree
+  loadSidebarState();
+
+  const root = document.getElementById('tree-root');
+  buildTree(data.tree, root);
+
+  // Add listener before navigating
+  frame.addEventListener('load', scaleFrame);
+
+  const first = firstSlide(data.tree);
+  if (first) {
+    navigate(first.id);
+    document.querySelectorAll('.tree-children').forEach(el => {
+      el.classList.remove('hidden');
+    });
+    document.querySelectorAll('.tree-node .icon').forEach(el => {
+      if (el.textContent === '▶') el.textContent = '▼';
+    });
+    navigate(first.id);
+  }
+})();
+  </script>
+</body>
+</html>

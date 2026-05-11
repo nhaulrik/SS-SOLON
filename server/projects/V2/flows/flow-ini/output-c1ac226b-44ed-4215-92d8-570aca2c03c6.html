@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Revenue Management – Feature Catalog</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 7px;
+    background: #FF6359;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: absolute;
+    top: 7px; left: 0; right: 0;
+    height: 96px;
+    background: #1a3c3a;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+  .header-left {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+  }
+  .pi-badge {
+    background: #FF6359;
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 44px;
+    flex: 1;
+  }
+  .header-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #FF6359;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    margin-bottom: 3px;
+  }
+  .header-subtitle {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    padding-right: 44px;
+  }
+  .header-stat {
+    text-align: center;
+    padding: 0 28px;
+  }
+  .header-stat-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: #FF6359;
+    line-height: 1;
+  }
+  .header-stat-label {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .header-divider {
+    width: 1px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+  }
+  .logo {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #7fb3af;
+    text-transform: uppercase;
+  }
+
+  /* ── BODY ── */
+  .body {
+    position: absolute;
+    top: 103px;
+    left: 0; right: 0;
+    bottom: 30px;
+    display: grid;
+    grid-template-columns: 1fr 316px;
+    gap: 14px;
+    padding: 14px 14px 20px 14px;
+    background: #e8e8e4;
+  }
+
+  /* ── LEFT: TABLE ── */
+  .table-wrap-outer {
+    position: relative;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .table-wrap {
+    overflow-y: auto;
+    flex: 1;
+    direction: rtl;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+  }
+  .table-wrap::-webkit-scrollbar { width: 10px; }
+  .table-wrap::-webkit-scrollbar-track { background: #e8f0ef; border-radius: 0 8px 8px 0; }
+  .table-wrap::-webkit-scrollbar-thumb { background: #2C4A48; border-radius: 6px; border: 2px solid #e8f0ef; }
+  .table-wrap::-webkit-scrollbar-thumb:hover { background: #FF6359; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    direction: ltr;
+  }
+  thead tr {
+    background: linear-gradient(135deg, #1a3c3a 0%, #2C4A48 100%);
+  }
+  thead th {
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #1a3c3a;
+  }
+  thead th.sortable {
+    cursor: pointer;
+    user-select: none;
+  }
+  thead th.sortable:hover { background: #254f4c; }
+  thead th.sort-asc::after  { content: ' ↑'; color: #FF6359; }
+  thead th.sort-desc::after { content: ' ↓'; color: #FF6359; }
+  thead th:last-child { background: #2C4A48; }
+  thead th:first-child { border-radius: 8px 0 0 0; }
+  thead th:last-child  { border-radius: 0 8px 0 0; }
+  tbody tr {
+    border-bottom: 1px solid #f0f0ec;
+    transition: background-color 0.2s ease;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #fafaf8; }
+  tbody tr:nth-child(even) { background: white; }
+  tbody td {
+    padding: 12px 14px;
+    color: #333;
+    vertical-align: middle;
+  }
+  .init-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a3c3a;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+  }
+  .init-desc {
+    font-size: 10.5px;
+    color: #888;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  .effort-pill {
+    display: inline-block;
+    background: #e8f0ef;
+    color: #1a3c3a;
+    font-weight: 700;
+    font-size: 10.5px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    white-space: nowrap;
+    border: 1px solid #d0e5e2;
+  }
+  .pi-text {
+    font-size: 11px;
+    color: #444;
+    font-weight: 500;
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #2C4A48;
+  }
+  .status-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .prio-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; height: 20px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .feat-count {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2C4A48;
+    text-align: center;
+    display: block;
+  }
+
+  /* ── RIGHT: VALUE PANELS ── */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 0;
+  }
+  .value-card {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  .value-card:hover {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.11);
+  }
+  .card-stripe {
+    width: 5px;
+    flex-shrink: 0;
+  }
+  .card-stripe.coral { background: #FF6359; }
+  .card-stripe.teal  { background: #1a3c3a; }
+  .card-inner {
+    flex: 1;
+    padding: 14px 16px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .card-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0ec;
+    flex-shrink: 0;
+  }
+  .card-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a3c3a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .card-subtitle {
+    font-size: 10px;
+    color: #aaa;
+    font-weight: 400;
+  }
+  .card-kpi {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+  .kpi-number {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .kpi-number.coral { color: #FF6359; }
+  .kpi-number.teal  { color: #1a3c3a; }
+  .kpi-label {
+    font-size: 7.5px;
+    font-weight: 500;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-top: 3px;
+    text-align: right;
+  }
+  .value-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex: 1;
+    justify-content: space-evenly;
+    padding-bottom: 14px;
+  }
+  .value-bullets li {
+    font-size: 11.5px;
+    color: #4a4a4a;
+    padding-left: 15px;
+    position: relative;
+    line-height: 1.45;
+  }
+  .value-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 6px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .value-bullets.coral-dots li::before { background: #FF6359; }
+  .value-bullets.teal-dots  li::before { background: #1a3c3a; }
+
+  /* ── FOOTER ── */
+  .slide-footer {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    background: #1a3c3a;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px;
+  }
+  .footer-text {
+    font-size: 10px;
+    color: #7fb3af;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog</div>
+        <div class="header-title">CORE SUPPORTING CAPABILITIES</div>
+        <div class="header-subtitle">Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">5342.8</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">3</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">12</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="table-wrap-outer">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32%">Initiative</th>
+            <th style="width:13%" class="sortable" data-col="1">Effort</th>
+            <th style="width:17%" class="sortable" data-col="2">PI</th>
+            <th style="width:20%" class="sortable" data-col="3">Status</th>
+            <th style="width:10%" class="sortable" data-col="4">Priority</th>
+            <th style="width:8%" class="sortable" data-col="5">Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="init-name">REFERENCE DATA</div>
+              <div class="init-desc">This initiative covers code list management capabilities, including importing code lists, exporting code lists, enhancing code flexibility with historical validity, and maintaining audit trails for codelists and codelist items. It supports reference data governance, historical accuracy, and compliance for evolving classifications. Dependencies include reference data UI, audit logging, and version/validity handling.</div>
+            </td>
+            <td><span class="effort-pill">606.9h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">4</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">USER &amp; 3RD PARTY ACCESS MANAGEMENT</div>
+              <div class="init-desc">This initiative implements and extends representation management across RM and SS, including agreements, services, rights, dates, lifecycle, multilevel delegation, attachments, and metadata such as source system and external timestamps. It also adds timezone-aware validity and supports configurable permissions and workflow-like lifecycle behavior for authorizations. Dependencies include existing LT branch functionality and related representation stories.</div>
+            </td>
+            <td><span class="effort-pill">3530.9h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">5</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">DOCUMENT MANAGEMENT INTEGRATION</div>
+              <div class="init-desc">This initiative covers digital signature validation of attachments, system-generated PDF signing through BPMN, and GDPR-related encryption/decryption and access restriction capabilities for personal data. It focuses on secure document handling, auditable signing, and access control for sensitive content across UI, logs, forms, cases, and message stores.</div>
+            </td>
+            <td><span class="effort-pill">2090.9h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">3</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+
+    
+    <div class="right-panel">
+
+      
+      <div class="value-card">
+        <div class="card-stripe coral"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Business Value</div>
+              <div class="card-subtitle">Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class="value-bullets coral-dots">
+            <li>Core supporting capabilities across reference data, access management, and document management integration</li>
+            <li>Governance, auditability, configurability, and secure handling of sensitive or regulated data</li>
+            <li>Shared dependencies include existing LT branch implementations, audit logging, UI and backend consistency, and access-control enforcement</li>
+          </ul>
+        </div>
+      </div>
+
+      
+      <div class="value-card">
+        <div class="card-stripe teal"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Market Relevance</div>
+              <div class="card-subtitle">Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class="value-bullets teal-dots">
+            <li>Foundational platform functionality across reference data, user and third-party access management, and document management integration</li>
+            <li>Strong emphasis on representations, identity/time validity, digital signatures, and GDPR controls</li>
+            <li>The largest effort areas are USER &amp; 3RD PARTY ACCESS MANAGEMENT and DOCUMENT MANAGEMENT INTEGRATION</li>
+          </ul>
+        </div>
+      </div>
+
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">CORE SUPPORTING CAPABILITIES</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog</div>
+        <div class="header-title">REFERENCE IMPLEMENTATIONS</div>
+        <div class="header-subtitle">Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">857.7</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="table-wrap-outer">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32%">Initiative</th>
+            <th style="width:13%" class="sortable" data-col="1">Effort</th>
+            <th style="width:17%" class="sortable" data-col="2">PI</th>
+            <th style="width:20%" class="sortable" data-col="3">Status</th>
+            <th style="width:10%" class="sortable" data-col="4">Priority</th>
+            <th style="width:8%" class="sortable" data-col="5">Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="init-name">SELF SERVICE FILING &amp; PAYMENTS</div>
+              <div class="init-desc">Self service user capabilities for filing and payments, including viewing payment obligations, submitting payment forms, seeing payment history and details, initiating payments from the portal, and viewing filing obligation details. The work is tightly related to taxpayer portal flows and payment processing, with references to wireframes and downstream features for receipts, refunds, and related filings.</div>
+            </td>
+            <td><span class="effort-pill">376.4h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                Waiting Analysis Approval
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">5</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">VAT</div>
+              <div class="init-desc">VAT-related reference implementations supporting the VAT return warning for intracommunity transactions and a VAT Tax Account reference implementation. These features provide demo-ready VAT portal flows and tax account configuration, including reconciliation periods, balances, and payment/debt handling for future tax account implementations.</div>
+            </td>
+            <td><span class="effort-pill">430.5h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                HLD
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">2</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">SELF SERVICE ACCOUNT OVERVIEW</div>
+              <div class="init-desc">A self service taxpayer account overview reference implementation that shows registration details, balances by tax type, obligations, and latest notifications. It is intended to support account overview use cases and reuse wireframes and requirements related to taxpayer self-service visibility.</div>
+            </td>
+            <td><span class="effort-pill">8h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                Waiting Analysis Approval
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#F0A500;">P3</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">APPLICATION PROCESSES</div>
+              <div class="init-desc">Application process support for enforcing four-eye approval workflows in Solon Tax. The feature is positioned as a generic workflow capability for business processes, enabling configuration of approval steps, roles, transitions, escalation, and auditability for maker-checker style controls.</div>
+            </td>
+            <td><span class="effort-pill">42h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                Waiting Analysis Approval
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#F0A500;">P3</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">PIT</div>
+              <div class="init-desc">A small PIT support item for saving a declaration form in ISS where calculated tax is displayed before submission and the form can be saved as a draft. The scope is narrowly focused on Greek demo support.</div>
+            </td>
+            <td><span class="effort-pill">0.8h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#F0A500;"></span>
+                Ready for Dev
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+
+    
+    <div class="right-panel">
+
+      
+      <div class="value-card">
+        <div class="card-stripe coral"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Business Value</div>
+              <div class="card-subtitle">Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class="value-bullets coral-dots">
+            <li>This initiative group contains demo-oriented and reusable reference implementations for self-service filing and payments, VAT-specific flows, self service account overview, and application process workflows.</li>
+            <li>The largest effort sits in SELF SERVICE FILING &amp; PAYMENTS, followed by VAT, with smaller support items for application process approvals and PIT draft-saving functionality.</li>
+            <li>The shared theme is to establish concrete end-to-end examples for portal interactions, tax account behavior, and workflow controls that can be reused or adapted across implementations.</li>
+          </ul>
+        </div>
+      </div>
+
+      
+      <div class="value-card">
+        <div class="card-stripe teal"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Market Relevance</div>
+              <div class="card-subtitle">Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class="value-bullets teal-dots">
+            <li>Roadmap Group: REFERENCE IMPLEMENTATIONS</li>
+            <li>Number of Unique Initiatives: 5</li>
+            <li>Number of Features: 10</li>
+          </ul>
+        </div>
+      </div>
+
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog</div>
+        <div class="header-title">NON-FUNCTIONAL REQUIREMENT COVERAGE</div>
+        <div class="header-subtitle">Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">17562.100000000002</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">9</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">41</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="table-wrap-outer">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32%">Initiative</th>
+            <th style="width:13%" class="sortable" data-col="1">Effort</th>
+            <th style="width:17%" class="sortable" data-col="2">PI</th>
+            <th style="width:20%" class="sortable" data-col="3">Status</th>
+            <th style="width:10%" class="sortable" data-col="4">Priority</th>
+            <th style="width:8%" class="sortable" data-col="5">Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="init-name">ACCESSIBILITY</div>
+              <div class="init-desc">This enabler focuses on improving the accessibility of the Solon Tax application in alignment with recognized standards. Enhancements implemented during this PI aim to ensure that users of all abilities can effectively interact with the system, in compliance with WCAG 2.1 AA and EN 301 549 guidelines. Enabler includes effort for UI/UX Accessibility Audit activities.</div>
+            </td>
+            <td><span class="effort-pill">268.79999999999995h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                To Do
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">7</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">MAINTAINABILITY</div>
+              <div class="init-desc">Multiple enablers and refactoring initiatives aimed at reducing technical debt, improving modularity, enabling packaging/versioning of configuration items, supporting documentation portals, hexagonal architecture alignment, code standardization, and dev-experience improvements. Several items are POC/WIP or depend on analysis/design outcomes, with cross-cutting impacts on delivery tooling, local setup, and long-term maintainability.</div>
+            </td>
+            <td><span class="effort-pill">4579.800000000001h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">10</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">USABILITY</div>
+              <div class="init-desc">UI/UX improvement stream covering search, navigation, page headers, view/edit distinction, filter placement, dropdown consistency, look and feel refresh, schema changes, and multiple reusable UI patterns. The work spans broader Solon product experience refinements and a set of ICARUS-driven UI improvement enablers across teams.</div>
+            </td>
+            <td><span class="effort-pill">2976h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">15</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">SECURITY</div>
+              <div class="init-desc">Security coverage includes GDPR access restriction, row-level access, public availability configuration, encryption/decryption handling, API hardening, and access control governance. These items focus on protecting personal data, enforcing classification-based permissions, and securing public/exposed services while maintaining compatibility with UI, APIs, logs, and message stores.</div>
+            </td>
+            <td><span class="effort-pill">2758.8h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">PERFORMANCE EFFICIENCY</div>
+              <div class="init-desc">Performance-focused work addresses known bottlenecks and resource utilization issues, including task assignment performance, reference data caching, green coding guidelines, CI/CD optimization, and general performance improvements. The goal is to reduce response times and improve throughput under large-volume and high-concurrency usage patterns.</div>
+            </td>
+            <td><span class="effort-pill">955.2h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                To Do
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">3</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">TRACEABILITY</div>
+              <div class="init-desc">Traceability enablers cover audit trail and logging enhancements, including statute-of-limitation auditability, general logging improvements, and audit trail grouping for related records across modules. This supports compliance, diagnostics, and end-to-end visibility of changes and runtime behavior.</div>
+            </td>
+            <td><span class="effort-pill">2259.2000000000003h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">RELIABILITY</div>
+              <div class="init-desc">Reliability work addresses data integrity, optimistic locking, distributed transaction error handling, and concurrent modification safety. It focuses on preventing inconsistent updates in registry and taxpayer flows and on providing safe retry/reload behavior for UI, batch, and BPMN-based processes.</div>
+            </td>
+            <td><span class="effort-pill">2688h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">2</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">OPERABILITY</div>
+              <div class="init-desc">Operability-related work covers service call proxying and documentation enhancements for runtime integration behavior. It supports generic proxy service invocation from RM and SS to backend or third-party systems.</div>
+            </td>
+            <td><span class="effort-pill">59.5h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                To Do
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">EXTENSIBILITY</div>
+              <div class="init-desc">Extensibility work introduces user-defined characteristics for financial transaction types, enabling schema extension through data areas and API support so implementations can add custom business data without altering core product models.</div>
+            </td>
+            <td><span class="effort-pill">156.8h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+
+    
+    <div class="right-panel">
+
+      
+      <div class="value-card">
+        <div class="card-stripe coral"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Business Value</div>
+              <div class="card-subtitle">Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class="value-bullets coral-dots">
+            <li>Cross-cutting quality enablers across accessibility, maintainability, usability, security, performance, traceability, reliability, operability, and extensibility</li>
+            <li>Largest effort areas are maintainability, usability, security, reliability, and performance</li>
+            <li>Many items are foundational enablers or documentation/technical-debt initiatives</li>
+          </ul>
+        </div>
+      </div>
+
+      
+      <div class="value-card">
+        <div class="card-stripe teal"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Market Relevance</div>
+              <div class="card-subtitle">Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class="value-bullets teal-dots">
+            <li>Supports a broad platform-hardening agenda across teams, architecture, and delivery tooling</li>
+            <li>Improves compliance, diagnostics, data protection, and runtime behavior across the Solon Tax platform</li>
+            <li>Enables alignment on non-functional requirements before implementation</li>
+          </ul>
+        </div>
+      </div>
+
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">NON-FUNCTIONAL REQUIREMENT COVERAGE</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">8839.699999999999</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">12</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">25</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="table-wrap-outer">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32%">Initiative</th>
+            <th style="width:13%" class="sortable" data-col="1">Effort</th>
+            <th style="width:17%" class="sortable" data-col="2">PI</th>
+            <th style="width:20%" class="sortable" data-col="3">Status</th>
+            <th style="width:10%" class="sortable" data-col="4">Priority</th>
+            <th style="width:8%" class="sortable" data-col="5">Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="init-name">BILLING, ASSESSMENTS AND INSTALLMENTS</div>
+              <div class="init-desc">N/A</div>
+            </td>
+            <td><span class="effort-pill">1120 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">2</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">TAXPAYER ACCOUNTING</div>
+              <div class="init-desc">N/A</div>
+            </td>
+            <td><span class="effort-pill">1813.1 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">2</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">REGISTRATION</div>
+              <div class="init-desc">N/A</div>
+            </td>
+            <td><span class="effort-pill">2389.8 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">3</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">TAX ACCOUNTS</div>
+              <div class="init-desc">N/A</div>
+            </td>
+            <td><span class="effort-pill">529.9 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">3</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">PENALTY &amp; INTEREST</div>
+              <div class="init-desc">N/A</div>
+            </td>
+            <td><span class="effort-pill">2986.9 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">0</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">CORE SELF SERVICE CAPABILITIES</div>
+              <div class="init-desc">N/A</div>
+            </td>
+            <td><span class="effort-pill">4366.1 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">6</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">USER &amp; 3RD PARTY ACCESS MANAGEMENT</div>
+              <div class="init-desc">N/A</div>
+            </td>
+            <td><span class="effort-pill">3530.9 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">5</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">SELF SERVICE FILING &amp; PAYMENTS</div>
+              <div class="init-desc">N/A</div>
+            </td>
+            <td><span class="effort-pill">376.4 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">SELF SERVICE ACCOUNT OVERVIEW</div>
+              <div class="init-desc">N/A</div>
+            </td>
+            <td><span class="effort-pill">8 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">0</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">CORE SUPPORTING CAPABILITIES</div>
+              <div class="init-desc">HLD, Waiting Analysis Approval, Waiting Solution Approval, To Do, Under Analysis, In Progress, In Design, Ready for Dev</div>
+            </td>
+            <td><span class="effort-pill">5342.8 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                HLD: 1, Waiting Analysis Approval: 1, Waiting Solution Approval: 0, To Do: 1, Under Analysis: 1, In Progress: 1, In Design: 0, Ready for Dev: 0
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">4</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">REFERENCE IMPLEMENTATIONS</div>
+              <div class="init-desc">HLD, Waiting Analysis Approval, Waiting Solution Approval, To Do, Under Analysis, In Progress, In Design, Ready for Dev</div>
+            </td>
+            <td><span class="effort-pill">857.7 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                HLD: 1, Waiting Analysis Approval: 0, Waiting Solution Approval: 0, To Do: 1, Under Analysis: 0, In Progress: 0, In Design: 0, Ready for Dev: 1
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">3</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">PIT</div>
+              <div class="init-desc">N/A</div>
+            </td>
+            <td><span class="effort-pill">0.8 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                N/A
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+
+    
+    <div class="right-panel">
+
+      
+      <div class="value-card">
+        <div class="card-stripe coral"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Business Value</div>
+              <div class="card-subtitle">Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class="value-bullets coral-dots">
+            <li>Core Revenue Management Capabilities covers the main revenue domain capabilities across billing, assessments, installments, taxpayer accounting, registration, tax accounts, and penalty/interest.</li>
+            <li>The highest-effort initiatives in this group include Penalty &amp; Interest, Billing/Assessments/Installments, and Taxpayer Accounting, with substantial work also in Registration and Tax Accounts.</li>
+            <li>The scope spans both core backend logic and supporting UI/reference implementation work, including tax account overviews, GL decision logic, revenue type extensions, hierarchy views, and tax account/payment flows.</li>
+          </ul>
+        </div>
+      </div>
+
+      
+      <div class="value-card">
+        <div class="card-stripe teal"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Market Relevance</div>
+              <div class="card-subtitle">Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class="value-bullets teal-dots">
+            <li>Shared themes include financial transaction handling, period-based accounting, configurability, and integration with self service capabilities.</li>
+            <li>Platform completeness is a prerequisite condition cited in new-market RFP evaluation criteria.</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform in active tenders.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Core Revenue Management Capabilities</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog</div>
+        <div class="header-title">OTHER ACTIVITIES</div>
+        <div class="header-subtitle">Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">18794.2</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">9</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">24</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="table-wrap-outer">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32%">Initiative</th>
+            <th style="width:13%" class="sortable" data-col="1">Effort</th>
+            <th style="width:17%" class="sortable" data-col="2">PI</th>
+            <th style="width:20%" class="sortable" data-col="3">Status</th>
+            <th style="width:10%" class="sortable" data-col="4">Priority</th>
+            <th style="width:8%" class="sortable" data-col="5">Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="init-name">CEREMONIES AND TRAININGS</div>
+              <div class="init-desc">Training and ceremonies effort for multiple squads/teams in PI28, with dedicated allocations for Baldur, Loki, Helios, Sif, Spartans, Eos, Athena, Daedalus, Arc, and Atlas. This supports team coordination, ceremonies, and enablement activities across the program.</div>
+            </td>
+            <td><span class="effort-pill">3000 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                [DATA MISSING]
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#CCCCCC;">[DATA MISSING]</span></td>
+            <td><span class="feat-count">8</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">MANAGEMENT</div>
+              <div class="init-desc">[DATA MISSING]</div>
+            </td>
+            <td><span class="effort-pill">9115.2 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                [DATA MISSING]
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#CCCCCC;">[DATA MISSING]</span></td>
+            <td><span class="feat-count">6</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">PREVENTIVE MAINTENANCE</div>
+              <div class="init-desc">Bugs related to older Features/PIs and preventive maintenance across multiple teams, including ARC, BAL, SIF, Test Team, EOS, ATH, HEL, SPA, DAED, and ATL. This effort is aimed at addressing legacy defects and keeping existing functionality stable.</div>
+            </td>
+            <td><span class="effort-pill">2960 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                [DATA MISSING]
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#CCCCCC;">[DATA MISSING]</span></td>
+            <td><span class="feat-count">8</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">PRODUCT SUPPORT</div>
+              <div class="init-desc">Demo Solon Tax Azure environment upgrade and clean installation support.</div>
+            </td>
+            <td><span class="effort-pill">551 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                [DATA MISSING]
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#CCCCCC;">[DATA MISSING]</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">PROJECT SUPPORT</div>
+              <div class="init-desc">Support activities for projects, including PD Support to projects GR, PSD Service Requests, and Unplanned support to projects.</div>
+            </td>
+            <td><span class="effort-pill">560 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                [DATA MISSING]
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#CCCCCC;">[DATA MISSING]</span></td>
+            <td><span class="feat-count">3</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">RELEASE ACTIVITIES</div>
+              <div class="init-desc">Release management activities for PI28, including hotfix release, intermediate release, and release management for x.x.x.</div>
+            </td>
+            <td><span class="effort-pill">1120 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                [DATA MISSING]
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#CCCCCC;">[DATA MISSING]</span></td>
+            <td><span class="feat-count">3</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">SECURITY</div>
+              <div class="init-desc">Security-focused activities, including PenTest hardening of API requests with allowed expression patterns and security defect/improvement management.</div>
+            </td>
+            <td><span class="effort-pill">560 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                [DATA MISSING]
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#CCCCCC;">[DATA MISSING]</span></td>
+            <td><span class="feat-count">4</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">SUPPORT TO PDM</div>
+              <div class="init-desc">Support to PdM before feature creation in PI28.</div>
+            </td>
+            <td><span class="effort-pill">80 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                [DATA MISSING]
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#CCCCCC;">[DATA MISSING]</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">TECHNOLOGY MANAGEMENT</div>
+              <div class="init-desc">Technology management version upgrades for PI28.</div>
+            </td>
+            <td><span class="effort-pill">208 hours</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                [DATA MISSING]
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#CCCCCC;">[DATA MISSING]</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+
+    
+    <div class="right-panel">
+
+      
+      <div class="value-card">
+        <div class="card-stripe coral"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Business Value</div>
+              <div class="card-subtitle">Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class="value-bullets coral-dots">
+            <li>Other Activities contains non-feature delivery work such as ceremonies and trainings, management, preventive maintenance, project and product support, release activities, security work, technology management, and support to product management.</li>
+            <li>The largest effort items are MANAGEMENT, CEREMONIES AND TRAININGS, and PREVENTIVE MAINTENANCE, showing that this group is largely operational and enablement-oriented rather than product feature development.</li>
+            <li>It also includes ongoing support for teams, hotfixes, upgrades, and security remediation.</li>
+          </ul>
+        </div>
+      </div>
+
+      
+      <div class="value-card">
+        <div class="card-stripe teal"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Market Relevance</div>
+              <div class="card-subtitle">Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class="value-bullets teal-dots">
+            <li>Roadmap Group: OTHER ACTIVITIES</li>
+            <li>Total Effort Across All Initiatives: 18794.2 hours</li>
+            <li>Number of Unique Initiatives: 9</li>
+          </ul>
+        </div>
+      </div>
+
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">OTHER ACTIVITIES</span>
+    <span class="footer-text">Other</span></div>
+</section>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog</div>
+        <div class="header-title">CORE SELF SERVICE CAPABILITIES</div>
+        <div class="header-subtitle">Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4366.1</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">4</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">14</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="table-wrap-outer">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32%">Initiative</th>
+            <th style="width:13%" class="sortable" data-col="1">Effort</th>
+            <th style="width:17%" class="sortable" data-col="2">PI</th>
+            <th style="width:20%" class="sortable" data-col="3">Status</th>
+            <th style="width:10%" class="sortable" data-col="4">Priority</th>
+            <th style="width:8%" class="sortable" data-col="5">Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="init-name">USER &amp; 3RD PARTY ACCESS MANAGEMENT</div>
+              <div class="init-desc">Represents the set of features for managing representations, agreements, user rights, and related attachments between taxpayers and representatives across RM and SS. It includes validity periods, 2-way and multilevel authorization, agreement services, access to APIs, additional metadata, and digital signatures. The work depends on LT branch review/merge opportunities and must align RM and SS behavior, including auditability, permissions, record locking, and related representation enhancements.</div>
+            </td>
+            <td><span class="effort-pill">3530.9h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#F0A500;"></span>
+                In Design
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">6</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">SELF SERVICE FILING &amp; PAYMENTS</div>
+              <div class="init-desc">Covers self service flows for filing obligations and payments, including viewing filing obligation details, current payment obligations, payment submission, payment history, payment details, and related receipt/document actions. It provides the user-facing SS experience for selecting liabilities, creating payment forms, saving drafts, submitting payments, and inspecting filing-related documents and outcomes.</div>
+            </td>
+            <td><span class="effort-pill">376.4h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                Under Analysis
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">5</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">SELF SERVICE SERVICES MANAGEMENT</div>
+              <div class="init-desc">Focuses on supporting operational services in self service, including generating and running operational reports and contacts in SS, and managing form/document interactions before and after saving. It is tied to enabling digital signature-related API calls and broader SS service execution patterns.</div>
+            </td>
+            <td><span class="effort-pill">835.2h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#F0A500;"></span>
+                In Design
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">2</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">SELF SERVICE ACCOUNT OVERVIEW</div>
+              <div class="init-desc">Provides a taxpayer account overview for self service users, showing taxpayer registration details, balances per tax type, obligations over time, and latest notifications. It is a reference implementation area with low effort but important UI visibility into account status and related actions.</div>
+            </td>
+            <td><span class="effort-pill">8h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                Waiting Analysis Approval
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">1</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+
+    
+    <div class="right-panel">
+
+      
+      <div class="value-card">
+        <div class="card-stripe coral"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Business Value</div>
+              <div class="card-subtitle">Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class="value-bullets coral-dots">
+            <li>Taxpayer-facing self service for representations, filing and payment workflows, account overview, and service execution</li>
+            <li>Largest effort is in User &amp; 3rd Party Access Management, driven by representation, agreement, and digital-signature-related functionality</li>
+            <li>Supports RM and SS alignment with dependencies on auditability, locking, document handling, and reuse of LT branch implementations</li>
+          </ul>
+        </div>
+      </div>
+
+      
+      <div class="value-card">
+        <div class="card-stripe teal"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Market Relevance</div>
+              <div class="card-subtitle">Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class="value-bullets teal-dots">
+            <li>Core Self Service Capabilities covers the taxpayer-facing and admin-enabling functionality across RM and SS</li>
+            <li>Self Service Filing &amp; Payments adds the core taxpayer journey for obligations, payment initiation, payment history, and filing details</li>
+            <li>Self Service Services Management supports operational service execution such as reports and attachments</li>
+          </ul>
+        </div>
+      </div>
+
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">CORE SELF SERVICE CAPABILITIES</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+
+<script>
+  const STATUS_ORDER = { 'In Progress': 0, 'In Analysis': 1, 'To Do': 2 };
+
+  function getCellValue(row, col, type) {
+    const td = row.querySelectorAll('td')[col];
+    if (type === 'pi') {
+      const text = td.querySelector('.pi-text').textContent.trim();
+      return parseInt(text.replace(/\D/g, ''), 10);
+    }
+    if (type === 'effort') {
+      const text = td.querySelector('.effort-pill').textContent.trim();
+      if (text === 'TBD') return Infinity;
+      return parseInt(text.replace(/[^0-9]/g, ''), 10);
+    }
+    if (type === 'status') {
+      const text = td.querySelector('.status-badge').textContent.trim();
+      return STATUS_ORDER[text] ?? 99;
+    }
+    if (type === 'priority') {
+      const text = td.querySelector('.prio-badge').textContent.trim();
+      return parseInt(text.replace(/\D/g, ''), 10);
+    }
+    if (type === 'number') {
+      return parseInt(td.querySelector('.feat-count').textContent.trim(), 10);
+    }
+    return td.textContent.trim();
+  }
+
+  function sortBy(th, ascending, animate) {
+    const col   = parseInt(th.dataset.col, 10);
+    const type  = th.dataset.type;
+    const tbody = th.closest('table').querySelector('tbody');
+    const rows  = Array.from(tbody.querySelectorAll('tr'));
+
+    // FLIP — record positions before sort
+    const first = animate ? new Map(rows.map(r => [r, r.getBoundingClientRect().top])) : null;
+
+    rows.sort((a, b) => {
+      const va = getCellValue(a, col, type);
+      const vb = getCellValue(b, col, type);
+      if (va === vb) return 0;
+      return (va < vb ? -1 : 1) * (ascending ? 1 : -1);
+    });
+
+    rows.forEach(r => tbody.appendChild(r));
+
+    document.querySelectorAll('thead th.sortable').forEach(h => h.classList.remove('sort-asc', 'sort-desc'));
+    th.classList.add(ascending ? 'sort-asc' : 'sort-desc');
+
+    if (!animate) return;
+
+    // FLIP — invert + play
+    rows.forEach(r => {
+      const prevTop = first.get(r);
+      const nextTop = r.getBoundingClientRect().top;
+      const delta   = prevTop - nextTop;
+      if (delta === 0) return;
+
+      r.animate(
+        [
+          { transform: `translateY(${delta}px)`, opacity: 0.55 },
+          { transform: 'translateY(0)',           opacity: 1    }
+        ],
+        { duration: 380, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'none' }
+      );
+    });
+  }
+
+  document.querySelectorAll('thead th.sortable').forEach(th => {
+    let asc = false;
+    th.addEventListener('click', () => {
+      asc = !asc;
+      sortBy(th, asc, true);
+    });
+  });
+
+  // Default: sort by Effort descending (no animation on load)
+  const effortTh = document.querySelector('thead th[data-type="effort"]');
+  sortBy(effortTh, false, false);
+</script>
+</body>
+</html>

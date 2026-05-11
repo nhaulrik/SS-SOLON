@@ -1,0 +1,61 @@
+{
+  "exportId": "initiative-groups-1",
+  "exportNumber": 1,
+  "exportName": "initiative-groups",
+  "createdAt": "2026-04-20T21:03:54.134Z",
+  "source": {
+    "roundId": "aeba248a-5863-4ed9-8a30-0351fc5adf7e",
+    "outputFile": "output-aeba248a-5863-4ed9-8a30-0351fc5adf7e.html"
+  },
+  "content": {
+    "slideCount": 5,
+    "totalSize": 99761,
+    "slides": [
+      {
+        "index": 1,
+        "file": "core-revenue-management-capabilities.html",
+        "size": 20275,
+        "title": "Core Revenue Management Capabilities",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "core-self-service-capabilities.html",
+        "size": 18024,
+        "title": "Core Self Service Capabilities",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "core-supporting-capabilities.html",
+        "size": 22114,
+        "title": "Core Supporting Capabilities",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "non-functional-requirement-coverage.html",
+        "size": 20029,
+        "title": "Non-Functional Requirement Coverage",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "reference-implementations.html",
+        "size": 19319,
+        "title": "Reference Implementations",
+        "slideId": "slide-5",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "Nikolajs_project",
+    "flowId": "flow-initiative-group",
+    "templateFile": ""
+  }
+}

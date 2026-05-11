@@ -1,0 +1,51 @@
+{
+  "name": "V2",
+  "exportId": "initiative-groups-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-04-28T18:03:56.065Z",
+  "slideCount": 6,
+  "slides": [
+    {
+      "index": 1,
+      "file": "core-supporting-capabilities.html",
+      "slideId": "slide-1",
+      "title": "CORE SUPPORTING CAPABILITIES",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "reference-implementations.html",
+      "slideId": "slide-2",
+      "title": "REFERENCE IMPLEMENTATIONS",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "non-functional-requirement-coverage.html",
+      "slideId": "slide-3",
+      "title": "NON-FUNCTIONAL REQUIREMENT COVERAGE",
+      "type": "content"
+    },
+    {
+      "index": 4,
+      "file": "core-revenue-management-capabilities.html",
+      "slideId": "slide-4",
+      "title": "CORE REVENUE MANAGEMENT CAPABILITIES",
+      "type": "content"
+    },
+    {
+      "index": 5,
+      "file": "other-activities.html",
+      "slideId": "slide-5",
+      "title": "OTHER ACTIVITIES",
+      "type": "content"
+    },
+    {
+      "index": 6,
+      "file": "core-self-service-capabilities.html",
+      "slideId": "slide-6",
+      "title": "CORE SELF SERVICE CAPABILITIES",
+      "type": "content"
+    }
+  ]
+}

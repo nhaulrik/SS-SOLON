@@ -1,0 +1,457 @@
+=== Agent 1: slide_1 — #1 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML elements, class names, attributes, and nesting depth.
+- Replicate the same number of list items, bullet points, sections, and metric blocks as shown in the template.
+- If the template has 4 bullets — output 4 bullets. If it has 3 sections — output 3 sections.
+- Only text content and src/href values may differ from the template.
+- Never add, remove, flatten, or restructure elements.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: Estimates.xlsx / Estimates] (1 rows)
+Initiative Group: REFERENCE IMPLEMENTATIONS | Initiative: VAT | Initiative Total Hours: 461
+
+[Sheet: Roadmap_JIRA.csv / Sheet1] (2 rows)
+IRM: IRM-38759 | Initiative Group: REFERENCE IMPLEMENTATIONS | Initiative: VAT | Epic: Reference Implemenation - VAT | Roadmap Feature: VAT Tax Account Reference Implementation | Status: HLD | Requester: GTM | Calculated PI: PI28 | Final Original Estimate: 159 | Priority: p1 | Enriched Jira Features.Summary: VAT Tax Account Reference Implementation | Enriched Jira Features.Description: As a revenue officer, I would like to add debts and payments to a tax account, so that I am able to demo how Solon supports a VAT account (i.e., Tax Account only for VAT).
+
+*Introduction* 
+
+This feature aims to create the necessary configuration for a Tax Account reference imp[lementation. The Overview of the Tax Account that is needed in all implementations using a Tax Account is in scope of feature ... 
+
+*Functional Requirements*
+
+*Core Configuration Requirements*
+ # *Revenue Type Configuration*
+
+ * *"VAT for Tax Account" Revenue Type* with flags:
+ * taxAccount: true - Enable tax account functionality
+ * reconciliationPeriod: true - Enable reconciliation period support
+
+ * {*}Revenue Type Category{*}: PERIODIC
+ * {*}Revenue Type Actions{*}: FILING, PAYMENT
+ * {*}Calendar Integration{*}: Link to appropriate revenue calendars{*}{{*}}
+
+ 
+ * *"VAT for Tax Account Ad hoc" Revenue Type* with flags:
+
+ * 
+ ** taxAccount: true - Enable tax account functionality
+ ** reconciliationPeriod: true - Enable reconciliation period support
+
+ * {*}Revenue Type Category{*}: Ad Hoc
+ * {*}Revenue Type Actions{*}: PAYMENT
+
+ 
+ # *Reconciliation Period Management*
+
+ * *Reconciliation Period Entity* configuration with:
+ * Period codes (e.g., "2024M1", "2024M2")
+ * Start and end dates for each period
+ * Active/Inactive status management
+
+ * *Revenue Type Registration Reconciliation Period* linking:
+ * Opening and closing balances per period
+ * Party informed indicator
+
+ # *Financial Transaction-Reconciliation period*
+
+ * {*}FT Reconciliation Period Link{*}: Enable FTs to reference reconciliation periods
+ * {*}Automatic Period Assignment{*}: Link FTs to reconciliation periods based on creation date
+ * {*}Validation Rules{*}: Ensure only revenue types with reconciliationPeriod: true can link to periods
+
+ # *Tax Account UI Configuration*
+
+ * {*}Specialized UI Schema{*}: entitySubType: 'TaxAcc_RP' for Revenue Type Registration
+ * {*}Balance Display{*}: Show opening/closing balances per reconciliation period
+ * {*}Period Timeline{*}: Visual representation of reconciliation periods
+ * {*}Balance Update Interface{*}: Enable manual balance adjustments with audit trail
+
+*Business Process Requirements*
+ # *Balance Management*
+
+ * {*}Opening Balance Recording{*}: Support initial balance entry per reconciliation period
+ * {*}Closing Balance Calculation{*}: Automatic calculation based on transactions and adjustments
+ * {*}Balance Transfer{*}: Opening balance of next period equals closing balance of previous period
+ * {*}Manual Adjustments{*}: Allow authorized balance corrections with proper validation
+
+ # *Debt and Payment Processing*
+
+ * {*}Debt Recording{*}: Create financial transactions for VAT liabilities
+ * {*}Payment Processing{*}: Record and allocate VAT payments to specific periods
+ * {*}Cross-Period Allocation{*}: Support payment allocation across multiple reconciliation periods
+ * {*}Interest and Penalty Calculation{*}: Apply to overdue amounts per period
+
+ 
+
+*Documentation*
+Document all the above configuration for introducing a reference implementation for the Tax Account is vital for Demos and future implementation needs. 
+
+ 
+
+  | Enriched Jira Features.Benefit Hypothesis: By enhancing Solon Tax with a reference implementation for VAT Tax Account functionality, we will enable revenue officers to efficiently manage VAT debts and payments through reconciliation periods, providing a comprehensive demonstration of Solon Tax's capability to support requirements for VAT Tax Account. | Enriched Jira Features.Acceptance Criteria:  Revenue Type VAT is configured with both taxAccount and reconciliationPeriod flags enabled
+ Reconciliation periods can be created, updated, and linked to VAT revenue type registrations
+ Financial transactions automatically link to appropriate reconciliation periods based on creation date
+ Opening and closing balances can be recorded and maintained per reconciliation period
+ Tax Account UI displays comprehensive period timeline with balance information
+ Revenue officers can add debts (assessments) and record payments against specific reconciliation periods
+ Balance calculations are accurate across period boundaries
+ Party informed status can be tracked and updated per reconciliation period
+ System validates that only reconciliation-period-enabled revenue types support period functionality
+ Audit trail captures all balance changes and period-related activities
+
+Documentation on the configuration guide for the necessary configuration needed to have the reference implementation of the Tax Account up and running. 
+IRM: IRM-38710 | Initiative Group: REFERENCE IMPLEMENTATIONS | Initiative: VAT | Epic: Reference Implemenation - VAT | Roadmap Feature: VAT Return Form - Warning for Intracommunity Transaction Enhancement | Status: Waiting Analysis Approval | Requester: GTM | Calculated PI: PI28 | Final Original Estimate: 80 | Priority: p2 | Enriched Jira Features.Summary: VAT Return Form - Warning for Intracommunity Transaction Enhancement | Enriched Jira Features.Description: As a RM User, I would like to see a warning when I fill in intracommunity transaction fields in the VAT Return Form, so that I am informed of my obligations to submit the corresponding VIES Statement in the respective deadline.
+
+*Introduction* 
+
+This feature enhances the VAT Return Form by implementing a warning mechanism for intracommunity transactions. The enhancement includes field label corrections to enhance understanding of these fields and a business-critical warning to ensure taxpayers comply with VIES Statement submission requirements. 
+
+ 
+
+*Functional Requirements*
+
+*Field Label Corrections*
+The following field labels in the VAT Return Form will be renamed to accurately reflect their purpose:
+
+VAT on Sales Section:
+
+TOTAL SALES BUYER OBLIGATED ? Intracommunity Sales
+TOTAL SALES BUYER NOT OBLIGATED ? Intracommunity Sales without VAT
+VAT on Purchases Section:
+
+TOTAL PURCHASES BUYER OBLIGED FOR VAT ? Intracommunity Purchases
+TOTAL PURCHASES BUYER NOT OBLIGED FOR VAT ? Intracommunity Purchases without VAT
+
+
+
+*Warning Implementation*
+When any of the intracommunity transaction fields contain values, the system shall display a warning message:
+
+Warning Message:
+
+"For these transactions, in addition to the VAT return, you are required to submit the corresponding *VIES Statement* by the 25th day of the following month."
+
+Warning Behavior:
+ * Warning appears when any intracommunity field has a non-zero value
+ * User can proceed with form submission despite the warning
+ * Warning persists until form is submitted or fields are cleared | Enriched Jira Features.Benefit Hypothesis: This enhancement aims to showcase an example of Solon Tax capability for warnings. Business case aims to reduce taxpayer compliance errors by providing clear field labeling and proactive warnings about VIES Statement obligations. | Enriched Jira Features.Acceptance Criteria: h3. Field Label Updates
+
+All four intracommunity transaction fields display updated labels as specified below: 
+
+VAT on Sales Section:
+
+{{TOTAL SALES BUYER OBLIGATED}} ? *{{Intracommunity Sales}}*
+
+{{TOTAL SALES BUYER NOT OBLIGATED}} ? *{{Intracommunity Sales without VAT}}*
+VAT on Purchases Section:
+
+{{TOTAL PURCHASES BUYER OBLIGED FOR VAT}} ? *{{Intracommunity Purchases}}*
+
+{{TOTAL PURCHASES BUYER NOT OBLIGED FOR VAT}} ? *{{Intracommunity Purchases without VAT}}*
+ * Labels are consistent across all form views (edit, read-only, validation)
+ * Field functionality remains unchanged - only labels are updated
+
+h3. Warning Implementation
+
+When any of the intracommunity transaction fields contain values, the system shall display a warning message:
+
+*Warning Message:*
+{quote}"For these transactions, in addition to the VAT return, you are required to submit the corresponding *VIES Statement* by the 25th day of the following month."
+{quote}
+h3. Warning Display Logic
+ * Warning appears when any intracommunity field (Amount or Adjustment) contains non-zero values
+ * Warning message displays the exact text specified above with "{*}VIES Statement{*}" in bold
+ * Warning is classified as a warning (not error) allowing form submission to proceed
+ * No impact on existing form functionality or performance
+
+h3. Warning Persistence
+ * Warning remains visible throughout form editing session
+ * Warning disappears when all intracommunity fields are cleared/set to zero
+ * Warning does not prevent form validation, saving, or submission
+
+h3. User Experience
+ * Warning appears in the standard warning notification area
+ * Warning uses appropriate warning styling (amber/yellow color scheme)
+ * Warning includes appropriate warning icon
+ * Warning message is clearly readable and professionally formatted
+
+[Sheet: Roadmap_JIRA.xlsx / Jira Data] (2 rows)
+IRM: IRM-38759 | Initiative Group: REFERENCE IMPLEMENTATIONS | Initiative: VAT | Epic: Reference Implemenation - VAT | Roadmap Feature: VAT Tax Account Reference Implementation | Status: HLD | Requester: GTM | Calculated PI: PI28 | Final Original Estimate: 159 | Priority: p1 | Enriched Jira Features.Summary: VAT Tax Account Reference Implementation | Enriched Jira Features.Description: As a revenue officer, I would like to add debts and payments to a tax account, so that I am able to demo how Solon supports a VAT account (i.e., Tax Account only for VAT).
+
+*Introduction* 
+
+This feature aims to create the necessary configuration for a Tax Account reference imp[lementation. The Overview of the Tax Account that is needed in all implementations using a Tax Account is in scope of feature ... 
+
+*Functional Requirements*
+
+*Core Configuration Requirements*
+ # *Revenue Type Configuration*
+
+ * *"VAT for Tax Account" Revenue Type* with flags:
+ * taxAccount: true - Enable tax account functionality
+ * reconciliationPeriod: true - Enable reconciliation period support
+
+ * {*}Revenue Type Category{*}: PERIODIC
+ * {*}Revenue Type Actions{*}: FILING, PAYMENT
+ * {*}Calendar Integration{*}: Link to appropriate revenue calendars{*}{{*}}
+
+ 
+ * *"VAT for Tax Account Ad hoc" Revenue Type* with flags:
+
+ * 
+ ** taxAccount: true - Enable tax account functionality
+ ** reconciliationPeriod: true - Enable reconciliation period support
+
+ * {*}Revenue Type Category{*}: Ad Hoc
+ * {*}Revenue Type Actions{*}: PAYMENT
+
+ 
+ # *Reconciliation Period Management*
+
+ * *Reconciliation Period Entity* configuration with:
+ * Period codes (e.g., "2024M1", "2024M2")
+ * Start and end dates for each period
+ * Active/Inactive status management
+
+ * *Revenue Type Registration Reconciliation Period* linking:
+ * Opening and closing balances per period
+ * Party informed indicator
+
+ # *Financial Transaction-Reconciliation period*
+
+ * {*}FT Reconciliation Period Link{*}: Enable FTs to reference reconciliation periods
+ * {*}Automatic Period Assignment{*}: Link FTs to reconciliation periods based on creation date
+ * {*}Validation Rules{*}: Ensure only revenue types with reconciliationPeriod: true can link to periods
+
+ # *Tax Account UI Configuration*
+
+ * {*}Specialized UI Schema{*}: entitySubType: 'TaxAcc_RP' for Revenue Type Registration
+ * {*}Balance Display{*}: Show opening/closing balances per reconciliation period
+ * {*}Period Timeline{*}: Visual representation of reconciliation periods
+ * {*}Balance Update Interface{*}: Enable manual balance adjustments with audit trail
+
+*Business Process Requirements*
+ # *Balance Management*
+
+ * {*}Opening Balance Recording{*}: Support initial balance entry per reconciliation period
+ * {*}Closing Balance Calculation{*}: Automatic calculation based on transactions and adjustments
+ * {*}Balance Transfer{*}: Opening balance of next period equals closing balance of previous period
+ * {*}Manual Adjustments{*}: Allow authorized balance corrections with proper validation
+
+ # *Debt and Payment Processing*
+
+ * {*}Debt Recording{*}: Create financial transactions for VAT liabilities
+ * {*}Payment Processing{*}: Record and allocate VAT payments to specific periods
+ * {*}Cross-Period Allocation{*}: Support payment allocation across multiple reconciliation periods
+ * {*}Interest and Penalty Calculation{*}: Apply to overdue amounts per period
+
+ 
+
+*Documentation*
+Document all the above configuration for introducing a reference implementation for the Tax Account is vital for Demos and future implementation needs. 
+
+ 
+
+  | Enriched Jira Features.Benefit Hypothesis: By enhancing Solon Tax with a reference implementation for VAT Tax Account functionality, we will enable revenue officers to efficiently manage VAT debts and payments through reconciliation periods, providing a comprehensive demonstration of Solon Tax's capability to support requirements for VAT Tax Account. | Enriched Jira Features.Acceptance Criteria: • Revenue Type VAT is configured with both taxAccount and reconciliationPeriod flags enabled
+• Reconciliation periods can be created, updated, and linked to VAT revenue type registrations
+• Financial transactions automatically link to appropriate reconciliation periods based on creation date
+• Opening and closing balances can be recorded and maintained per reconciliation period
+• Tax Account UI displays comprehensive period timeline with balance information
+• Revenue officers can add debts (assessments) and record payments against specific reconciliation periods
+• Balance calculations are accurate across period boundaries
+• Party informed status can be tracked and updated per reconciliation period
+• System validates that only reconciliation-period-enabled revenue types support period functionality
+• Audit trail captures all balance changes and period-related activities
+
+Documentation on the configuration guide for the necessary configuration needed to have the reference implementation of the Tax Account up and running. 
+IRM: IRM-38710 | Initiative Group: REFERENCE IMPLEMENTATIONS | Initiative: VAT | Epic: Reference Implemenation - VAT | Roadmap Feature: VAT Return Form - Warning for Intracommunity Transaction Enhancement | Status: Waiting Analysis Approval | Requester: GTM | Calculated PI: PI28 | Final Original Estimate: 80 | Priority: p2 | Enriched Jira Features.Summary: VAT Return Form - Warning for Intracommunity Transaction Enhancement | Enriched Jira Features.Description: As a RM User, I would like to see a warning when I fill in intracommunity transaction fields in the VAT Return Form, so that I am informed of my obligations to submit the corresponding VIES Statement in the respective deadline.
+
+*Introduction* 
+
+This feature enhances the VAT Return Form by implementing a warning mechanism for intracommunity transactions. The enhancement includes field label corrections to enhance understanding of these fields and a business-critical warning to ensure taxpayers comply with VIES Statement submission requirements. 
+
+ 
+
+*Functional Requirements*
+
+*Field Label Corrections*
+The following field labels in the VAT Return Form will be renamed to accurately reflect their purpose:
+
+VAT on Sales Section:
+
+TOTAL SALES BUYER OBLIGATED → Intracommunity Sales
+TOTAL SALES BUYER NOT OBLIGATED → Intracommunity Sales without VAT
+VAT on Purchases Section:
+
+TOTAL PURCHASES BUYER OBLIGED FOR VAT → Intracommunity Purchases
+TOTAL PURCHASES BUYER NOT OBLIGED FOR VAT → Intracommunity Purchases without VAT
+
+
+
+*Warning Implementation*
+When any of the intracommunity transaction fields contain values, the system shall display a warning message:
+
+Warning Message:
+
+"For these transactions, in addition to the VAT return, you are required to submit the corresponding *VIES Statement* by the 25th day of the following month."
+
+Warning Behavior:
+ * Warning appears when any intracommunity field has a non-zero value
+ * User can proceed with form submission despite the warning
+ * Warning persists until form is submitted or fields are cleared | Enriched Jira Features.Benefit Hypothesis: This enhancement aims to showcase an example of Solon Tax capability for warnings. Business case aims to reduce taxpayer compliance errors by providing clear field labeling and proactive warnings about VIES Statement obligations. | Enriched Jira Features.Acceptance Criteria: h3. Field Label Updates
+
+All four intracommunity transaction fields display updated labels as specified below: 
+
+VAT on Sales Section:
+
+{{TOTAL SALES BUYER OBLIGATED}} → *{{Intracommunity Sales}}*
+
+{{TOTAL SALES BUYER NOT OBLIGATED}} → *{{Intracommunity Sales without VAT}}*
+VAT on Purchases Section:
+
+{{TOTAL PURCHASES BUYER OBLIGED FOR VAT}} → *{{Intracommunity Purchases}}*
+
+{{TOTAL PURCHASES BUYER NOT OBLIGED FOR VAT}} → *{{Intracommunity Purchases without VAT}}*
+ * Labels are consistent across all form views (edit, read-only, validation)
+ * Field functionality remains unchanged - only labels are updated
+
+h3. Warning Implementation
+
+When any of the intracommunity transaction fields contain values, the system shall display a warning message:
+
+*Warning Message:*
+{quote}"For these transactions, in addition to the VAT return, you are required to submit the corresponding *VIES Statement* by the 25th day of the following month."
+{quote}
+h3. Warning Display Logic
+ * Warning appears when any intracommunity field (Amount or Adjustment) contains non-zero values
+ * Warning message displays the exact text specified above with "{*}VIES Statement{*}" in bold
+ * Warning is classified as a warning (not error) allowing form submission to proceed
+ * No impact on existing form functionality or performance
+
+h3. Warning Persistence
+ * Warning remains visible throughout form editing session
+ * Warning disappears when all intracommunity fields are cleared/set to zero
+ * Warning does not prevent form validation, saving, or submission
+
+h3. User Experience
+ * Warning appears in the standard warning notification area
+ * Warning uses appropriate warning styling (amber/yellow color scheme)
+ * Warning includes appropriate warning icon
+ * Warning message is clearly readable and professionally formatted
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, and metric in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA.
+- If a value shows "[DATA MISSING]", write that zone's value as "[DATA MISSING]" in the output.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 1 of 1 using the SOURCE DATA above.
+User instructions: I expect 1 instances.
+Generate only slides for each  "initiative" found under the "initiative group" called "REFERENCE IMPLEMENTATIONS" in "Estimates.xlsx". 
+"Total hours" value for the "initiative" can be found in the "Estimates.xlsx" where the value is in the "Initiative Total Hours" column.
+
+Dont halucinate numbers. If you cannot find or calculate them, Write [NO DATA].
+
+Return ONLY a valid JSON object with EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">7</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Tech Debt Reduction</div>
+            <div class="benefit-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Critical Upgrades</div>
+            <div class="benefit-text">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Configuration Management</div>
+            <div class="benefit-text">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Hexagonal Architecture Refactor</div>
+            <div class="theme-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Java 25 Upgrade</div>
+            <div class="theme-desc">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Spring Boot 4.x.x Migration</div>
+            <div class="theme-desc">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Oracle 26ai Database</div>
+            <div class="theme-desc">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Tech Debt Across Teams</div>
+            <div class="theme-desc">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Config Items Management</div>
+            <div class="theme-desc">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.

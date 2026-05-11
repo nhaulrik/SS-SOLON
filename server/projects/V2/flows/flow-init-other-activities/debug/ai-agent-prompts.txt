@@ -1,0 +1,2490 @@
+=== Agent 1: slide_1 — #1 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== ARK ===
+
+=== Summary ===
+Roadmap Initiative: ARK
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 80 hours
+Feature Count: 3
+Requester: Other
+
+=== Feature Progress ===
+To Do: 1
+Waiting Analysis Approval: 1
+Total Features: 2
+
+=== Feature Priority ===
+P3: 2
+Total Features: 2
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enforce Architectural Standards Automatically
+Reason 01 Text: Prevent architectural decay through automated CI enforcement of programming guidelines and code quality rules.
+
+Reason 02 Title: Standardise Development Guidelines Across Teams
+Reason 02 Text: Curate baseline programming guidelines for Spring, Kafka, and other technologies used in Solon Tax.
+
+Reason 03 Title: Reduce Manual Code Review Burden
+Reason 03 Text: Shift architectural validation from manual review to automated checks, improving consistency and developer velocity.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Augment additional Guidelines for items not covered in template (Spring/Spring Boot/Kafka etc)
+Feature Description: Document curated Solon-specific programming guidelines extending baseline templates for Spring, Kafka, and related technologies.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: TBD
+Feature Priority: P3
+
+Feature Index: Epic 02
+Feature Name: Enforce applicable guidelines in CI
+Feature Description: Encapsulate CI enforcement of Sonar rules, code lint/format rules, ArchUnit tests, and configurable code intercepts.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: TBD
+Feature Priority: P3
+
+Feature Index: Epic 03
+Feature Name: Bugs related to older Features/PIs - ARC (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for ARC team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 80h
+Feature Priority: P3
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 1 of 10 using the SOURCE DATA above.
+User instructions: An instance for all initiatives under "other activities": 
+ARK
+CEREMONIES AND TRAININGS
+CORRECTIVE MAINTENANCE
+MANAGEMENT
+PREVENTIVE MAINTENANCE
+PRODUCT SUPPORT
+PROJECT SUPPORT
+RELEASE ACTIVITIES
+SECURITY
+SUPPORT TO PDM
+TECHNOLOGY MANAGEMENT
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,580</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Tech Debt Reduction</div>
+          <div class="reason-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Critical Platform Upgrades</div>
+          <div class="reason-text">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Configuration Management</div>
+          <div class="reason-text">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Hexagonal Architecture Refactor</div>
+          <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,200h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Java 25 Upgrade</div>
+          <div class="epic-desc">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">640h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Spring Boot 4.x Migration</div>
+          <div class="epic-desc">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">480h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Oracle 26ai Database Migration</div>
+          <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">420h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Cross-Team UI Tech Debt</div>
+          <div class="epic-desc">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">220h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Config Items Management Tool</div>
+          <div class="epic-desc">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">380h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 2: slide_1 — #2 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== CEREMONIES AND TRAININGS ===
+
+=== Summary ===
+Roadmap Initiative: CEREMONIES AND TRAININGS
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 3000 hours
+Feature Count: 10
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Maintain Team Alignment and Knowledge Transfer
+Reason 01 Text: Regular ceremonies and training sessions ensure distributed teams stay synchronized on product direction and technical standards.
+
+Reason 02 Title: Onboard New Team Members Efficiently
+Reason 02 Text: Structured training programs reduce ramp-up time for new developers and delivery team members joining Solon Tax.
+
+Reason 03 Title: Build Shared Understanding of Architecture
+Reason 03 Text: Ceremonies reinforce hexagonal architecture principles and development practices across all delivery teams.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Ceremonies and Trainings - Baldur - (Current PI28)
+Feature Description: Ceremonies and training activities for Baldur team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+Feature Index: Epic 02
+Feature Name: Ceremonies and Trainings - Loki - (Current PI28)
+Feature Description: Ceremonies and training activities for Loki team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+Feature Index: Epic 03
+Feature Name: Ceremonies and Trainings - Helios - (Current PI28)
+Feature Description: Ceremonies and training activities for Helios team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+Feature Index: Epic 04
+Feature Name: Ceremonies and Trainings - Sif - (Current PI28)
+Feature Description: Ceremonies and training activities for Sif team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+Feature Index: Epic 05
+Feature Name: Ceremonies and Trainings - Spartans - (Current PI28)
+Feature Description: Ceremonies and training activities for Spartans team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+Feature Index: Epic 06
+Feature Name: Ceremonies and Trainings - Eos - (Current PI28)
+Feature Description: Ceremonies and training activities for Eos team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 2 of 10 using the SOURCE DATA above.
+User instructions: An instance for all initiatives under "other activities": 
+ARK
+CEREMONIES AND TRAININGS
+CORRECTIVE MAINTENANCE
+MANAGEMENT
+PREVENTIVE MAINTENANCE
+PRODUCT SUPPORT
+PROJECT SUPPORT
+RELEASE ACTIVITIES
+SECURITY
+SUPPORT TO PDM
+TECHNOLOGY MANAGEMENT
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,580</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Tech Debt Reduction</div>
+          <div class="reason-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Critical Platform Upgrades</div>
+          <div class="reason-text">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Configuration Management</div>
+          <div class="reason-text">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Hexagonal Architecture Refactor</div>
+          <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,200h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Java 25 Upgrade</div>
+          <div class="epic-desc">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">640h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Spring Boot 4.x Migration</div>
+          <div class="epic-desc">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">480h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Oracle 26ai Database Migration</div>
+          <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">420h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Cross-Team UI Tech Debt</div>
+          <div class="epic-desc">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">220h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Config Items Management Tool</div>
+          <div class="epic-desc">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">380h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 3: slide_1 — #3 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== CORRECTIVE MAINTENANCE ===
+
+=== Summary ===
+Roadmap Initiative: CORRECTIVE MAINTENANCE
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 560 hours
+Feature Count: 1
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Resolve Production Incidents Rapidly
+Reason 01 Text: Dedicated corrective maintenance capacity ensures critical production defects are addressed within agreed SLAs.
+
+Reason 02 Title: Maintain System Stability and Availability
+Reason 02 Text: Proactive incident response prevents cascading failures and protects revenue authority operations.
+
+Reason 03 Title: Build Customer Confidence in Platform
+Reason 03 Text: Fast, effective incident resolution demonstrates product maturity and commitment to customer success.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: PSD Incidents (Current PI28) - Corrective Maintenance - x.x.x
+Feature Description: Address production incidents and critical defects reported by PSD teams during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 560h
+Feature Priority: P2
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 3 of 10 using the SOURCE DATA above.
+User instructions: An instance for all initiatives under "other activities": 
+ARK
+CEREMONIES AND TRAININGS
+CORRECTIVE MAINTENANCE
+MANAGEMENT
+PREVENTIVE MAINTENANCE
+PRODUCT SUPPORT
+PROJECT SUPPORT
+RELEASE ACTIVITIES
+SECURITY
+SUPPORT TO PDM
+TECHNOLOGY MANAGEMENT
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,580</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Tech Debt Reduction</div>
+          <div class="reason-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Critical Platform Upgrades</div>
+          <div class="reason-text">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Configuration Management</div>
+          <div class="reason-text">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Hexagonal Architecture Refactor</div>
+          <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,200h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Java 25 Upgrade</div>
+          <div class="epic-desc">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">640h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Spring Boot 4.x Migration</div>
+          <div class="epic-desc">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">480h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Oracle 26ai Database Migration</div>
+          <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">420h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Cross-Team UI Tech Debt</div>
+          <div class="epic-desc">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">220h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Config Items Management Tool</div>
+          <div class="epic-desc">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">380h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 4: slide_1 — #4 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== MANAGEMENT ===
+
+=== Summary ===
+Roadmap Initiative: MANAGEMENT
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 9115 hours
+Feature Count: 13
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Ensure Effective Program Governance
+Reason 01 Text: Product management, development leadership, and PMO oversight maintain alignment with strategic roadmap and delivery commitments.
+
+Reason 02 Title: Enable Cross-Team Coordination
+Reason 02 Text: Technical architecture, implementation leads, and DevOps coordination ensure seamless integration across distributed delivery teams.
+
+Reason 03 Title: Support Delivery Excellence
+Reason 03 Text: Service desk, test management, and implementation leadership provide operational support for successful project execution.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Product Development Management
+Feature Description: Product development management oversight and coordination for current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 1296h
+Feature Priority: P2
+
+Feature Index: Epic 02
+Feature Name: Product Management PdM
+Feature Description: Product management activities and strategic planning for current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 1944h
+Feature Priority: P2
+
+Feature Index: Epic 03
+Feature Name: Product Architect
+Feature Description: Technical architecture leadership and design oversight for current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 864h
+Feature Priority: P2
+
+Feature Index: Epic 04
+Feature Name: Product Test Manager
+Feature Description: Test management and quality assurance oversight for current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 432h
+Feature Priority: P2
+
+Feature Index: Epic 05
+Feature Name: Product Implementaions Leads (PIL)
+Feature Description: Implementation leadership coordination across all delivery teams for current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 1728h
+Feature Priority: P2
+
+Feature Index: Epic 06
+Feature Name: PIL2 TL - Daedalus, Athena, Spartans
+Feature Description: Team lead management for Daedalus, Athena, and Spartans implementation teams.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 389h
+Feature Priority: P2
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 4 of 10 using the SOURCE DATA above.
+User instructions: An instance for all initiatives under "other activities": 
+ARK
+CEREMONIES AND TRAININGS
+CORRECTIVE MAINTENANCE
+MANAGEMENT
+PREVENTIVE MAINTENANCE
+PRODUCT SUPPORT
+PROJECT SUPPORT
+RELEASE ACTIVITIES
+SECURITY
+SUPPORT TO PDM
+TECHNOLOGY MANAGEMENT
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,580</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Tech Debt Reduction</div>
+          <div class="reason-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Critical Platform Upgrades</div>
+          <div class="reason-text">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Configuration Management</div>
+          <div class="reason-text">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Hexagonal Architecture Refactor</div>
+          <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,200h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Java 25 Upgrade</div>
+          <div class="epic-desc">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">640h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Spring Boot 4.x Migration</div>
+          <div class="epic-desc">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">480h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Oracle 26ai Database Migration</div>
+          <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">420h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Cross-Team UI Tech Debt</div>
+          <div class="epic-desc">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">220h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Config Items Management Tool</div>
+          <div class="epic-desc">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">380h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 5: slide_1 — #5 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== PREVENTIVE MAINTENANCE ===
+
+=== Summary ===
+Roadmap Initiative: PREVENTIVE MAINTENANCE
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 2960 hours
+Feature Count: 9
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Reduce Technical Debt Accumulation
+Reason 01 Text: Proactive bug fixes and preventive maintenance prevent defects from compounding into larger architectural problems.
+
+Reason 02 Title: Improve System Reliability and Performance
+Reason 02 Text: Addressing known issues before they escalate reduces production incidents and improves user experience.
+
+Reason 03 Title: Enable Faster Future Development
+Reason 03 Text: Maintaining code quality and fixing legacy issues reduces friction for new feature development.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Bugs related to older Features/PIs - BAL (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for BAL team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+Feature Index: Epic 02
+Feature Name: Bugs related to older Features/PIs - SIF (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for SIF team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+Feature Index: Epic 03
+Feature Name: Bugs related to older Features/PIs - Test Team (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes identified by test team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 80h
+Feature Priority: P2
+
+Feature Index: Epic 04
+Feature Name: Bugs related to older Features/PIs - EOS (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for EOS team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+Feature Index: Epic 05
+Feature Name: Bugs related to older Features/PIs - ATH (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for ATH team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+Feature Index: Epic 06
+Feature Name: Bugs related to older Features/PIs - HEL (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for HEL team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 5 of 10 using the SOURCE DATA above.
+User instructions: An instance for all initiatives under "other activities": 
+ARK
+CEREMONIES AND TRAININGS
+CORRECTIVE MAINTENANCE
+MANAGEMENT
+PREVENTIVE MAINTENANCE
+PRODUCT SUPPORT
+PROJECT SUPPORT
+RELEASE ACTIVITIES
+SECURITY
+SUPPORT TO PDM
+TECHNOLOGY MANAGEMENT
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,580</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Tech Debt Reduction</div>
+          <div class="reason-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Critical Platform Upgrades</div>
+          <div class="reason-text">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Configuration Management</div>
+          <div class="reason-text">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Hexagonal Architecture Refactor</div>
+          <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,200h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Java 25 Upgrade</div>
+          <div class="epic-desc">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">640h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Spring Boot 4.x Migration</div>
+          <div class="epic-desc">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">480h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Oracle 26ai Database Migration</div>
+          <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">420h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Cross-Team UI Tech Debt</div>
+          <div class="epic-desc">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">220h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Config Items Management Tool</div>
+          <div class="epic-desc">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">380h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 6: slide_1 — #6 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== PRODUCT SUPPORT ===
+
+=== Summary ===
+Roadmap Initiative: PRODUCT SUPPORT
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 551 hours
+Feature Count: 1
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Support Customer Environment Stability
+Reason 01 Text: Demo environment upgrades and maintenance ensure customers can test and validate new features safely.
+
+Reason 02 Title: Enable Effective Product Demonstrations
+Reason 02 Text: Clean, functional demo environments support sales, training, and customer evaluation activities.
+
+Reason 03 Title: Reduce Customer Onboarding Friction
+Reason 03 Text: Well-maintained demo environments accelerate customer proof-of-concept and implementation timelines.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Demo Solon Tax Azure environment upgrade / clean installation
+Feature Description: Upgrade and clean installation of Solon Tax demo environment on Azure infrastructure.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 551h
+Feature Priority: P2
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 6 of 10 using the SOURCE DATA above.
+User instructions: An instance for all initiatives under "other activities": 
+ARK
+CEREMONIES AND TRAININGS
+CORRECTIVE MAINTENANCE
+MANAGEMENT
+PREVENTIVE MAINTENANCE
+PRODUCT SUPPORT
+PROJECT SUPPORT
+RELEASE ACTIVITIES
+SECURITY
+SUPPORT TO PDM
+TECHNOLOGY MANAGEMENT
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,580</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Tech Debt Reduction</div>
+          <div class="reason-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Critical Platform Upgrades</div>
+          <div class="reason-text">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Configuration Management</div>
+          <div class="reason-text">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Hexagonal Architecture Refactor</div>
+          <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,200h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Java 25 Upgrade</div>
+          <div class="epic-desc">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">640h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Spring Boot 4.x Migration</div>
+          <div class="epic-desc">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">480h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Oracle 26ai Database Migration</div>
+          <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">420h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Cross-Team UI Tech Debt</div>
+          <div class="epic-desc">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">220h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Config Items Management Tool</div>
+          <div class="epic-desc">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">380h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 7: slide_1 — #7 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== PROJECT SUPPORT ===
+
+=== Summary ===
+Roadmap Initiative: PROJECT SUPPORT
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 560 hours
+Feature Count: 2
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Unblock Project Delivery Bottlenecks
+Reason 01 Text: Dedicated project support capacity resolves implementation blockers and accelerates customer delivery timelines.
+
+Reason 02 Title: Transfer Product Knowledge to Delivery Teams
+Reason 01 Text: Direct support from product team to projects builds implementation capability and reduces dependency.
+
+Reason 03 Title: Gather Real-World Implementation Feedback
+Reason 03 Text: Project support interactions surface product gaps and inform future feature prioritization.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: PD Support to projects GR (Current PI28)
+Feature Description: Dedicated product support to Greece project delivery team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 80h
+Feature Priority: P2
+
+Feature Index: Epic 02
+Feature Name: Unplanned support to projects - Unofficial Project Support (Current PI28)
+Feature Description: Unplanned and unofficial support requests from project teams during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 7 of 10 using the SOURCE DATA above.
+User instructions: An instance for all initiatives under "other activities": 
+ARK
+CEREMONIES AND TRAININGS
+CORRECTIVE MAINTENANCE
+MANAGEMENT
+PREVENTIVE MAINTENANCE
+PRODUCT SUPPORT
+PROJECT SUPPORT
+RELEASE ACTIVITIES
+SECURITY
+SUPPORT TO PDM
+TECHNOLOGY MANAGEMENT
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,580</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Tech Debt Reduction</div>
+          <div class="reason-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Critical Platform Upgrades</div>
+          <div class="reason-text">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Configuration Management</div>
+          <div class="reason-text">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Hexagonal Architecture Refactor</div>
+          <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,200h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Java 25 Upgrade</div>
+          <div class="epic-desc">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">640h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Spring Boot 4.x Migration</div>
+          <div class="epic-desc">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">480h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Oracle 26ai Database Migration</div>
+          <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">420h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Cross-Team UI Tech Debt</div>
+          <div class="epic-desc">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">220h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Config Items Management Tool</div>
+          <div class="epic-desc">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">380h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 8: slide_1 — #8 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== RELEASE ACTIVITIES ===
+
+=== Summary ===
+Roadmap Initiative: RELEASE ACTIVITIES
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 1120 hours
+Feature Count: 3
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Ensure Controlled, Quality Release Cycles
+Reason 01 Text: Release management processes and intermediate releases maintain product stability and customer confidence.
+
+Reason 02 Title: Enable Rapid Hotfix Deployment
+Reason 02 Text: Hotfix release capability allows critical production issues to be resolved without waiting for major releases.
+
+Reason 03 Title: Maintain Release Documentation and Traceability
+Reason 03 Text: Release management activities ensure all changes are documented, tested, and traceable for compliance.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Hotfix release (Current PI28) - x.x.x
+Feature Description: Hotfix release management and deployment for critical issues during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 80h
+Feature Priority: P2
+
+Feature Index: Epic 02
+Feature Name: Intermediate release (Current PI28) - x.x.x
+Feature Description: Intermediate release management and deployment during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+Feature Index: Epic 03
+Feature Name: Release Management for x.x.x (Current PI28)
+Feature Description: Comprehensive release management activities for current PI28 release cycle.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 720h
+Feature Priority: P2
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 8 of 10 using the SOURCE DATA above.
+User instructions: An instance for all initiatives under "other activities": 
+ARK
+CEREMONIES AND TRAININGS
+CORRECTIVE MAINTENANCE
+MANAGEMENT
+PREVENTIVE MAINTENANCE
+PRODUCT SUPPORT
+PROJECT SUPPORT
+RELEASE ACTIVITIES
+SECURITY
+SUPPORT TO PDM
+TECHNOLOGY MANAGEMENT
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,580</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Tech Debt Reduction</div>
+          <div class="reason-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Critical Platform Upgrades</div>
+          <div class="reason-text">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Configuration Management</div>
+          <div class="reason-text">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Hexagonal Architecture Refactor</div>
+          <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,200h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Java 25 Upgrade</div>
+          <div class="epic-desc">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">640h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Spring Boot 4.x Migration</div>
+          <div class="epic-desc">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">480h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Oracle 26ai Database Migration</div>
+          <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">420h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Cross-Team UI Tech Debt</div>
+          <div class="epic-desc">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">220h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Config Items Management Tool</div>
+          <div class="epic-desc">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">380h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 9: slide_1 — #9 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== SECURITY ===
+
+=== Summary ===
+Roadmap Initiative: SECURITY
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 560 hours
+Feature Count: 2
+Requester: GRC, Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+P1: 1
+Total Features: 1
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Harden API Security Against Injection Attacks
+Reason 01 Text: Penetration test findings require expression pattern validation to prevent code injection and unauthorized access.
+
+Reason 02 Title: Manage Security Defects and Improvements
+Reason 02 Text: Dedicated security defect management ensures vulnerabilities are prioritized and resolved systematically.
+
+Reason 03 Title: Maintain Compliance with Security Standards
+Reason 03 Text: Proactive security improvements demonstrate commitment to protecting taxpayer data and revenue authority systems.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: PenTest - Harden API requests with expression patterns allowed
+Feature Description: Analyze API input parameters and add regular expressions to prevent injection attacks and unauthorized access.
+Feature Status: Ready for Dev
+Feature Status Color: #4CAF50
+Feature Effort: 80h
+Feature Priority: P1
+
+Feature Index: Epic 02
+Feature Name: Security Defect/Improvement Management (Current PI28)
+Feature Description: Manage security defects, improvements, and vulnerability remediation during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 480h
+Feature Priority: P2
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 9 of 10 using the SOURCE DATA above.
+User instructions: An instance for all initiatives under "other activities": 
+ARK
+CEREMONIES AND TRAININGS
+CORRECTIVE MAINTENANCE
+MANAGEMENT
+PREVENTIVE MAINTENANCE
+PRODUCT SUPPORT
+PROJECT SUPPORT
+RELEASE ACTIVITIES
+SECURITY
+SUPPORT TO PDM
+TECHNOLOGY MANAGEMENT
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,580</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Tech Debt Reduction</div>
+          <div class="reason-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Critical Platform Upgrades</div>
+          <div class="reason-text">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Configuration Management</div>
+          <div class="reason-text">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Hexagonal Architecture Refactor</div>
+          <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,200h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Java 25 Upgrade</div>
+          <div class="epic-desc">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">640h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Spring Boot 4.x Migration</div>
+          <div class="epic-desc">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">480h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Oracle 26ai Database Migration</div>
+          <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">420h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Cross-Team UI Tech Debt</div>
+          <div class="epic-desc">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">220h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Config Items Management Tool</div>
+          <div class="epic-desc">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">380h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 10: slide_1 — #10 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+- Populate every data element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== SUPPORT TO PDM ===
+
+=== Summary ===
+Roadmap Initiative: SUPPORT TO PDM
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 80 hours
+Feature Count: 1
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enable Product Definition and Planning
+Reason 01 Text: Support to product definition management ensures roadmap clarity and feature requirements are well-articulated.
+
+Reason 02 Title: Facilitate Cross-Functional Alignment
+Reason 01 Text: PDM support activities coordinate product vision across delivery teams and stakeholders.
+
+Reason 03 Title: Improve Feature Specification Quality
+Reason 03 Text: Pre-feature creation support ensures requirements are complete before development begins, reducing rework.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Support to PdM - Before Feature Creation (Current PI28)
+Feature Description: Product definition management support activities prior to feature creation during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 80h
+Feature Priority: P2
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 10 of 10 using the SOURCE DATA above.
+User instructions: An instance for all initiatives under "other activities": 
+ARK
+CEREMONIES AND TRAININGS
+CORRECTIVE MAINTENANCE
+MANAGEMENT
+PREVENTIVE MAINTENANCE
+PRODUCT SUPPORT
+PROJECT SUPPORT
+RELEASE ACTIVITIES
+SECURITY
+SUPPORT TO PDM
+TECHNOLOGY MANAGEMENT
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,580</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Tech Debt Reduction</div>
+          <div class="reason-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Critical Platform Upgrades</div>
+          <div class="reason-text">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Configuration Management</div>
+          <div class="reason-text">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Hexagonal Architecture Refactor</div>
+          <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,200h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Java 25 Upgrade</div>
+          <div class="epic-desc">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">640h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Spring Boot 4.x Migration</div>
+          <div class="epic-desc">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">480h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Oracle 26ai Database Migration</div>
+          <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">420h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Cross-Team UI Tech Debt</div>
+          <div class="epic-desc">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">220h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Config Items Management Tool</div>
+          <div class="epic-desc">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">380h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.

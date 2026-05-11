@@ -1,0 +1,44 @@
+{
+  "name": "v3",
+  "exportId": "28-core-revenue-3",
+  "exportNumber": 3,
+  "exportedAt": "2026-05-06T08:47:26.995Z",
+  "slideCount": 5,
+  "slides": [
+    {
+      "index": 1,
+      "file": "billing-assessments-and-installments.html",
+      "slideId": "slide-1",
+      "title": "BILLING, ASSESSMENTS AND INSTALLMENTS",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "penalty-interest.html",
+      "slideId": "slide-2",
+      "title": "PENALTY & INTEREST",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "registration.html",
+      "slideId": "slide-3",
+      "title": "REGISTRATION",
+      "type": "content"
+    },
+    {
+      "index": 4,
+      "file": "tax-accounts.html",
+      "slideId": "slide-4",
+      "title": "TAX ACCOUNTS",
+      "type": "content"
+    },
+    {
+      "index": 5,
+      "file": "taxpayer-accounting.html",
+      "slideId": "slide-5",
+      "title": "TAXPAYER ACCOUNTING",
+      "type": "content"
+    }
+  ]
+}

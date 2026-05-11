@@ -1,0 +1,216 @@
+=== OTHER ACTIVITIES ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 47
+
+Initiative: ARK
+Unique Feature Count: 2
+Features:
+IRM-27731, IRM-27733
+
+Initiative: CEREMONIES AND TRAININGS
+Unique Feature Count: 10
+Features:
+IRM-41111, IRM-41112, IRM-41113, IRM-41114, IRM-41115, IRM-41117, IRM-41118, IRM-41119, IRM-41120, IRM-41325
+
+Initiative: CORRECTIVE MAINTENANCE
+Unique Feature Count: 1
+Features:
+IRM-39215
+
+Initiative: MANAGEMENT
+Unique Feature Count: 11
+Features:
+PLACEHOLDER (Product Development Management, Product Management PdM, Product Architect, Product Test Manager, Product Implementations Leads, PIL2 TL, PIL3 TL, PIL4, Technical Architecture and engineering, PMO & Analysis Lead, DevOps, Service Desk)
+
+Initiative: PREVENTIVE MAINTENANCE
+Unique Feature Count: 6
+Features:
+IRM-38694, IRM-38695, IRM-39203, IRM-39204, IRM-39209, IRM-39211, IRM-39214, IRM-41331, IRM-41464
+
+Initiative: PRODUCT SUPPORT
+Unique Feature Count: 1
+Features:
+IRM-26754
+
+Initiative: PROJECT SUPPORT
+Unique Feature Count: 2
+Features:
+IRM-39199, IRM-39219
+
+Initiative: RELEASE ACTIVITIES
+Unique Feature Count: 3
+Features:
+IRM-39212, IRM-39213, IRM-39220
+
+Initiative: SECURITY
+Unique Feature Count: 1
+Features:
+IRM-39221
+
+Initiative: SUPPORT TO PDM
+Unique Feature Count: 1
+Features:
+IRM-39196
+
+Initiative: TECHNOLOGY MANAGEMENT
+Unique Feature Count: 1
+Features:
+IRM-39223
+
+=== Effort Estimates by Initiative ===
+
+ARK
+Total Hours PI28: 80 hours
+Description of initiative: Architecture and guidelines enhancements including augmentation of programming guidelines for items not covered in template (Spring/Spring Boot/Kafka) and enforcement of applicable guidelines in CI. Produces curated Solon version of programming guidelines template with additional information specific to Solon. Enforces application of Sonar rules, automatic code lint/format rules, ArchUnit tests, and configurable code intercepts through CI pipeline.
+
+Feature Progress:
+Waiting Analysis Approval: 1
+To Do: 1
+Total Features: 2
+
+Feature Priority:
+P3: 1
+Total Features: 1
+
+CEREMONIES AND TRAININGS
+Total Hours PI28: 3000 hours
+Description of initiative: Ceremonies and trainings across ten delivery teams (Baldur, Loki, Helios, Sif, Spartans, Eos, Athena, Daedalus, Arc, Atlas). Allocates 300 hours per team for ceremonies, standups, planning, retrospectives, and team training activities. Ensures consistent team coordination and knowledge sharing across distributed delivery organization.
+
+Feature Progress:
+N/A
+Total Features: 10
+
+Feature Priority:
+N/A
+Total Features: 0
+
+CORRECTIVE MAINTENANCE
+Total Hours PI28: 560 hours
+Description of initiative: PSD incidents corrective maintenance addressing production defects and issues. Allocates effort for investigation, resolution, and deployment of fixes for incidents reported by project support teams.
+
+Feature Progress:
+N/A
+Total Features: 1
+
+Feature Priority:
+N/A
+Total Features: 0
+
+MANAGEMENT
+Total Hours PI28: 9115.2 hours
+Description of initiative: Product development management including Product Development Management, Product Management, Product Architect, Product Test Manager, Product Implementations Leads, Technical Architecture and engineering, PMO & Analysis Lead, DevOps, and Service Desk roles. Allocates effort for strategic planning, architecture decisions, implementation oversight, quality assurance leadership, and operational support across the product organization.
+
+Feature Progress:
+N/A
+Total Features: 11
+
+Feature Priority:
+N/A
+Total Features: 0
+
+PREVENTIVE MAINTENANCE
+Total Hours PI28: 2960 hours
+Description of initiative: Preventive maintenance addressing bugs related to older features/PIs across multiple delivery teams (BAL, SIF, EOS, HEL, SPA, ATH, ATL, Loki). Allocates effort for defect identification, analysis, and resolution to reduce technical debt and improve system stability. Distributed across teams with focus on proactive issue management.
+
+Feature Progress:
+N/A
+Total Features: 9
+
+Feature Priority:
+N/A
+Total Features: 0
+
+PRODUCT SUPPORT
+Total Hours PI28: 551 hours
+Description of initiative: Demo Solon Tax Azure environment upgrade and clean installation. Supports demonstration environment maintenance and infrastructure updates for product showcases and customer demonstrations.
+
+Feature Progress:
+N/A
+Total Features: 1
+
+Feature Priority:
+N/A
+Total Features: 0
+
+PROJECT SUPPORT
+Total Hours PI28: 560 hours
+Description of initiative: Project support including PD support to projects GR and unplanned support to projects. Allocates effort for unofficial project support addressing ad-hoc requests and issues from implementation projects.
+
+Feature Progress:
+N/A
+Total Features: 2
+
+Feature Priority:
+N/A
+Total Features: 0
+
+RELEASE ACTIVITIES
+Total Hours PI28: 1120 hours
+Description of initiative: Release management activities including hotfix release, intermediate release, and release management for current PI28. Allocates effort for release planning, coordination, testing, and deployment activities.
+
+Feature Progress:
+N/A
+Total Features: 3
+
+Feature Priority:
+N/A
+Total Features: 0
+
+SECURITY
+Total Hours PI28: 560 hours
+Description of initiative: Security defect and improvement management addressing security-related issues and enhancements. Allocates effort for security vulnerability assessment, remediation, and security feature implementation.
+
+Feature Progress:
+N/A
+Total Features: 1
+
+Feature Priority:
+N/A
+Total Features: 0
+
+SUPPORT TO PDM
+Total Hours PI28: 80 hours
+Description of initiative: Support to Product Development Management before feature creation. Allocates effort for analysis, planning, and preparation activities supporting product management decision-making.
+
+Feature Progress:
+N/A
+Total Features: 1
+
+Feature Priority:
+N/A
+Total Features: 0
+
+TECHNOLOGY MANAGEMENT
+Total Hours PI28: 208 hours
+Description of initiative: Technology management including version upgrades. Allocates effort for evaluation, planning, and implementation of technology stack upgrades and dependency updates.
+
+Feature Progress:
+N/A
+Total Features: 1
+
+Feature Priority:
+N/A
+Total Features: 0
+
+=== Summary === [~250 words]
+Roadmap Group: OTHER ACTIVITIES
+Total Effort Across All Initiatives: 18794.2 hours
+Number of Unique Initiatives: 10
+Number of Features: 47
+Requester: GRC, Other
+
+Group-Level Feature Progress:
+To Do: 1
+Waiting Analysis Approval: 1
+N/A: 45
+Total Features: 47
+
+Group-Level Feature Priority:
+P3: 1
+N/A: 46
+Total Features: 47
+
+Description of initiative group: OTHER ACTIVITIES encompasses 18,794.2 hours of effort across ten initiatives supporting product operations, team coordination, and infrastructure management. Management is the highest-effort initiative (9,115.2 hours) covering product development management, product management, architecture, quality assurance leadership, and operational roles. Ceremonies and Trainings (3,000 hours) allocates 300 hours per delivery team for coordination and knowledge sharing across ten teams. Preventive Maintenance (2,960 hours) addresses bugs in older features across multiple teams. Release Activities (1,120 hours) covers hotfix, intermediate, and full release management. Corrective Maintenance (560 hours) addresses production incidents. Project Support (560 hours) provides unofficial support to implementation projects. Security (560 hours) manages security defects and improvements. Product Support (551 hours) maintains demonstration environments. Technology Management (208 hours) handles version upgrades. ARK (80 hours) enhances programming guidelines and CI enforcement. Support to PDM (80 hours) provides pre-feature analysis. Cross-initiative themes include distributed team coordination, proactive quality management, and operational excellence. Most activities (45) have no specific feature tracking, reflecting operational and management nature. Only 2 features are tracked (ARK initiatives) with 1 in Waiting Analysis Approval and 1 in To Do status. This initiative group represents essential organizational infrastructure supporting feature delivery and product quality.
+
+---

@@ -1,0 +1,160 @@
+You are a data schema analyst for a slide generation system.
+Your ONLY job is to identify how data should be grouped into slide instances.
+Do NOT copy rows. Do NOT generate content. Just identify the grouping.
+
+CONTEXT DATA SCHEMA:
+=== 2026 High Level Scope.xlsx ===
+[Sheet: 2026 Estimates]
+Rows: 57   Columns: 2 (of 18 total, 16 empty omitted)
+Headers: Sum of Estimate | Column Labels
+
+Sum of Estimate: Row Labels | CORE DATA HUB CAPABILITIES | CORE REVENUE MANAGEMENT CAPABILITIES | CORE SELF SERVICE CAPABILITIES | CORE SUPPORTING CAPABILITIES | NON-FUNCTIONAL REQUIREMENT COVERAGE | OTHER ACTIVITIES | REFERENCE IMPLEMENTATIONS | Grand Total Hours 2026
+Column Labels: PI27 | GRC | 120 | 2826.3 | 264.3 | 1050.1 | 881.6 | 448 | 195.7 | 1993.6000000000001 | 1190.8000000000002 | 1430.1 | 37.6 | 329 | 2295.0000000000005 | 6.4 | 300.49999999999994 | 160 | 2188.5 | 1280.3000000000002 | 756.5999999999999 | 17754.4
+
+Sample rows (up to 50):
+ | PI27
+Row Labels | GRC
+CORE DATA HUB CAPABILITIES | 
+CORE DATA HUB CAPABILITIES | 
+CORE REVENUE MANAGEMENT CAPABILITIES | 120
+CORE REVENUE MANAGEMENT CAPABILITIES | 
+CORE REVENUE MANAGEMENT CAPABILITIES | 
+CORE REVENUE MANAGEMENT CAPABILITIES | 2826.3
+CORE REVENUE MANAGEMENT CAPABILITIES | 
+CORE REVENUE MANAGEMENT CAPABILITIES | 264.3
+CORE SELF SERVICE CAPABILITIES | 1050.1
+CORE SELF SERVICE CAPABILITIES | 881.6
+CORE SUPPORTING CAPABILITIES | 448
+CORE SUPPORTING CAPABILITIES | 
+CORE SUPPORTING CAPABILITIES | 195.7
+CORE SUPPORTING CAPABILITIES | 
+CORE SUPPORTING CAPABILITIES | 1993.6000000000001
+CORE SUPPORTING CAPABILITIES | 1190.8000000000002
+CORE SUPPORTING CAPABILITIES | 
+CORE SUPPORTING CAPABILITIES | 1430.1
+CORE SUPPORTING CAPABILITIES | 37.6
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 329
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 2295.0000000000005
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 6.4
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 300.49999999999994
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 160
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 2188.5
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 1280.3000000000002
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 756.5999999999999
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+REFERENCE IMPLEMENTATIONS | 
+
+[Sheet: Sheet1]
+Rows: 1426   Columns: 8 (of 8 total, 0 empty omitted)
+Headers: IRM | Roadmap Initiative Group | Roadmap Initiative | Roadmap Feature | Roadmap Item | Estimate | Requester | PI
+
+IRM: IRM-11539 | IRM-12464 | IRM-12465 | IRM-16272 | IRM-16273 | IRM-16516 | IRM-17620 | IRM-17803 | IRM-18729 | IRM-18730 | IRM-19256 | IRM-19514 | IRM-20329 | IRM-20399 | IRM-25436 | IRM-26090 | IRM-26949 | IRM-26951 | IRM-27340 | IRM-27731 | IRM-27733 | IRM-28301 | IRM-28302 | IRM-28303 | IRM-28521 | IRM-29268 | IRM-29306 | IRM-29317 | IRM-29344 | IRM-29430 | IRM-29434 | IRM-29513 | IRM-29547 | IRM-29663 | IRM-29710 | IRM-29998 | IRM-30255 | IRM-30334 | IRM-30356 | IRM-30357 | IRM-30358 | IRM-30360 | IRM-30362 | IRM-30366 | IRM-30369 | IRM-30371 | IRM-30372 | IRM-30376 | IRM-30378 | IRM-30402 | IRM-30403 | IRM-30418 | IRM-30419 | IRM-30421 | IRM-30464 | IRM-30525 | IRM-30526 | IRM-30561 | IRM-30635 | IRM-30636 … (+248 more)
+Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES | CORE SUPPORTING CAPABILITIES | REFERENCE IMPLEMENTATIONS | NON-FUNCTIONAL REQUIREMENT COVERAGE | OTHER ACTIVITIES | CORE DATA HUB CAPABILITIES | CORE SELF SERVICE CAPABILITIES
+Roadmap Initiative: REGISTRATION | CASE MANAGEMENT | PIT | SELF SERVICE ACCOUNT OVERVIEW | TRACEABILITY | RELIABILITY | REFERENCE DATA | BILLING, ASSESSMENTS AND INSTALLMENTS | SECURITY | SELF SERVICE FILING & PAYMENTS | MAINTAINABILITY | CONTACT MANAGEMENT | ARK | DOCUMENT MANAGEMENT INTEGRATION | USABILITY | PENALTY & INTEREST | APPLICATION PROCESSES | OPERATIONAL REPORTING | PAYE | AEOI, VIDA & OTHER DATA EXCHANGE | TAXPAYER ACCOUNTING | PERFORMANCE EFFICIENCY | FORM PROCESSING | CONTENT MANAGEMENT INTEGRATION | UI CONFIGURATION | ACCESSIBILITY | TRAINING | APPSEC TEAM | BATCH PROCESSING ENHANCEMENTS | SELF SERVICE SERVICES MANAGEMENT | EXEMPTIONS | AEOI, VIDA & OTHER DATA STORAGE | EXTENSIBILITY | OPERABILITY | USER & 3RD PARTY ACCESS MANAGEMENT | DEVOPS | TEST SUITE OPTIMIZATION | TAX ACCOUNTS | VAT | DOCUMENTATION | CIT | MANAGEMENT | RELEASE ACTIVITIES | PRODUCT SUPPORT | MANAGEMENT TIME | CORRECTIVE MAINTENANCE | PROJECT SUPPORT | PREVENTIVE MAINTENANCE | TECHNOLOGY MANAGEMENT | CEREMONIES AND TRAININGS | SUPPORT TO PDM | PMO & Analysis | Business Owners
+Roadmap Feature: View Organizational structure and taxpayers hierarchy structure – User / Part 1 of 2 | Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | PIT - File Original Personal Income Tax Return from Self Service – User | PIT - Amend Original Personal Income Tax Return from Self Service – User | SS  Payments - See Taxpayer Account Overview - User - Part 3 - Open/Edit Registration Details | Support Audit Trail for Statute of Limitation Date modifications in IRM - Admin | Analysis : When Fts/Journal Entries creation fails, admin can re-create them using a system process | Import Code Lists - Admin | Export Code List | PIT -  Support saving a declaration form in ISS where calculated tax is displayed prior submitting | Add and Maintain Ad-hoc Obligations – Pay Instalment Actions and Categories | Data Security - Restrict Access to Personal Data GDPR- Admin (based on data classifications) - Part 1/4 | PenTest - Harden API requests with expression patterns allowed | SS Enhancements - Refactor existing self service pages to work through services implementation - part 4 / Important | Technology Management - Breaking Changes for Solon 3.0.0 (Current PI27) | Assign Unique Number to Incoming and Outgoing Documents | Send Outbound Message Manually to Multiple Recipients - Admin | Filtering Relating Codelist items in tree view - Part 3 (leftover) | Augment additional Guidelines for items not covered in template (Spring/Spring Boot/Kafka etc) | Enforce applicable guidelines in CI | Documents Management - Manage Party Role Documents - Admin | Documents Management - Self Service - Manage My Documents - User | Documents Management - Revenue management - Manage Party Role Documents  - User | Generic component - Support for Embedded 3rd-Party Digital Signature and Document Preview Components in RM pages | POC/Fixed effort - Config Items Management ( Packaging & versioning) : Enable delivery teams to safely and selectively migrate configurations across environments | Export Filtered List Table to Excel /Registration List pages | Codelists : Translatable Metadata/Attributes labels | Codelists : Attributes Field types and codelist relation | Enhance Credit Interest Calculation to include unallocated payment segments | Display and search by Source and timestamp columns in Codelists, Parties and Addresses | Support four-eye principle in Solon Tax - Approval Workflow | Allowed Unicode characters to be used in 'Code' fields of configuration records (Registration/Taxpayer Accounting) | Solon Tax logging enhancements | Support row level security  - Allowed Operations per Operational Report Type | Automatically distribute Operational Report in list of recipients | Support an AI-assisted JSON schema generation mechanism within Form Designer | PIT  &  Pay as you earn | Vida PoC - Flow and example  integrations | AI in RM | AI in SS | Data visibility permissions / Row level access, per hierarchical level of users in teams | GL decisions table - Ensure extensibility and high volume support of decisions /Functionality & Reference Implementation | Party Identifiers - Country parameter and Validations | Additional Details in Registry changes to relate and define declaration ID and state | Additional Name Elements | Row level security example for human tasks   / Reference Implementation | Performance -Work on the known issues with performance in tasks assignment | Integration with Luminus (BRA & Audit support) | SS Enhancements - Full process of Drools | SS Enhancements - CMS Integration | Configurable Home Page widgets  in RM | Improve the search experience - RM | Compliance with accessibility standards (WCAG 2.1 AA and EN 301 549) | Technology Management - Upgrade SOLON Tax Java version to 25 | Training environment | Training material and courses | After POC - Config Items Management ( Packaging & versioning) : Enable delivery teams to safely and selectively migrate configurations across environments /WIP | SOLON TAX Application Security Core Enablement | SOLONTAX Supply Chain Security Enablement … (+277 more)
+Roadmap Item: Build | Test Preperation | Test Execution | Finalization (e2e testing, regression, stabilization, IAT) | Bugfix | Analysis & Design | Management | Other Activities
+Estimate: 42.7 | 21.4 | 17.1 | 140 | 42 | 70 | 56 | 46.7 | 14 | 23.4 | 18.7 | 26.7 | 8 | 13.4 | 10.7 | 213.3 | 64 | 106.6 | 85.3 | 2.7 | 0.8 | 1.4 | 1.1 | 293.3 | 88 | 146.6 | 117.3 | 434.7 | 130.4 | 217.4 | 173.9 | 266.7 | 80 | 133.4 | 106.7 | 373.3 | 112 | 186.6 | 149.3 | 69.3 | 34.6 | 27.7 | 253.3 | 76 | 126.6 | 101.3 | 40 | 20 | 16 | 50.6 | 40.5 | 0 | 38 | 19 | 15.2 | 46 | 23 | 18.4 | 160 | 37.3 … (+166 more)
+Requester: GRC | Other | GTM
+PI: PI27 | PI29 | PI28 | PI30
+
+Sample rows (up to 50):
+IRM-11539 | CORE REVENUE MANAGEMENT CAPABILITIES | REGISTRATION | View Organizational structure and taxpayers hierarchy structure – User / Part 1 of 2 | Build | 42.7 | GRC | PI27
+IRM-11539 | CORE REVENUE MANAGEMENT CAPABILITIES | REGISTRATION | View Organizational structure and taxpayers hierarchy structure – User / Part 1 of 2 | Test Preperation | 21.4 | GRC | PI27
+IRM-11539 | CORE REVENUE MANAGEMENT CAPABILITIES | REGISTRATION | View Organizational structure and taxpayers hierarchy structure – User / Part 1 of 2 | Test Execution | 17.1 | GRC | PI27
+IRM-11539 | CORE REVENUE MANAGEMENT CAPABILITIES | REGISTRATION | View Organizational structure and taxpayers hierarchy structure – User / Part 1 of 2 | Finalization (e2e testing, regression, stabilization, IAT) | 17.1 | GRC | PI27
+IRM-11539 | CORE REVENUE MANAGEMENT CAPABILITIES | REGISTRATION | View Organizational structure and taxpayers hierarchy structure – User / Part 1 of 2 | Bugfix | 21.4 | GRC | PI27
+IRM-12464 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | Build | 140 | GRC | PI29
+IRM-12464 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | Analysis & Design | 42 | GRC | PI28
+IRM-12464 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | Test Preperation | 70 | GRC | PI29
+IRM-12464 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | Test Execution | 56 | GRC | PI29
+IRM-12464 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | Finalization (e2e testing, regression, stabilization, IAT) | 56 | GRC | PI29
+IRM-12464 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | Bugfix | 70 | GRC | PI29
+IRM-12465 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | Build | 140 | GRC | PI29
+IRM-12465 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | Analysis & Design | 42 | GRC | PI28
+IRM-12465 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | Test Preperation | 70 | GRC | PI29
+IRM-12465 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | Test Execution | 56 | GRC | PI29
+IRM-12465 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | Finalization (e2e testing, regression, stabilization, IAT) | 56 | GRC | PI29
+IRM-12465 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | Bugfix | 70 | GRC | PI29
+IRM-16272 | REFERENCE IMPLEMENTATIONS | PIT | PIT - File Original Personal Income Tax Return from Self Service – User | Build | 46.7 | Other | PI30
+IRM-16272 | REFERENCE IMPLEMENTATIONS | PIT | PIT - File Original Personal Income Tax Return from Self Service – User | Analysis & Design | 14 | Other | PI29
+IRM-16272 | REFERENCE IMPLEMENTATIONS | PIT | PIT - File Original Personal Income Tax Return from Self Service – User | Test Preperation | 23.4 | Other | PI30
+IRM-16272 | REFERENCE IMPLEMENTATIONS | PIT | PIT - File Original Personal Income Tax Return from Self Service – User | Test Execution | 18.7 | Other | PI30
+IRM-16272 | REFERENCE IMPLEMENTATIONS | PIT | PIT - File Original Personal Income Tax Return from Self Service – User | Finalization (e2e testing, regression, stabilization, IAT) | 18.7 | Other | PI30
+IRM-16272 | REFERENCE IMPLEMENTATIONS | PIT | PIT - File Original Personal Income Tax Return from Self Service – User | Bugfix | 23.4 | Other | PI30
+IRM-16273 | REFERENCE IMPLEMENTATIONS | PIT | PIT - Amend Original Personal Income Tax Return from Self Service – User | Build | 46.7 | Other | PI30
+IRM-16273 | REFERENCE IMPLEMENTATIONS | PIT | PIT - Amend Original Personal Income Tax Return from Self Service – User | Analysis & Design | 14 | Other | PI29
+IRM-16273 | REFERENCE IMPLEMENTATIONS | PIT | PIT - Amend Original Personal Income Tax Return from Self Service – User | Test Preperation | 23.4 | Other | PI30
+IRM-16273 | REFERENCE IMPLEMENTATIONS | PIT | PIT - Amend Original Personal Income Tax Return from Self Service – User | Test Execution | 18.7 | Other | PI30
+IRM-16273 | REFERENCE IMPLEMENTATIONS | PIT | PIT - Amend Original Personal Income Tax Return from Self Service – User | Finalization (e2e testing, regression, stabilization, IAT) | 18.7 | Other | PI30
+IRM-16273 | REFERENCE IMPLEMENTATIONS | PIT | PIT - Amend Original Personal Income Tax Return from Self Service – User | Bugfix | 23.4 | Other | PI30
+IRM-16516 | REFERENCE IMPLEMENTATIONS | SELF SERVICE ACCOUNT OVERVIEW | SS  Payments - See Taxpayer Account Overview - User - Part 3 - Open/Edit Registration Details | Build | 26.7 | Other | PI29
+IRM-16516 | REFERENCE IMPLEMENTATIONS | SELF SERVICE ACCOUNT OVERVIEW | SS  Payments - See Taxpayer Account Overview - User - Part 3 - Open/Edit Registration Details | Analysis & Design | 8 | Other | PI28
+IRM-16516 | REFERENCE IMPLEMENTATIONS | SELF SERVICE ACCOUNT OVERVIEW | SS  Payments - See Taxpayer Account Overview - User - Part 3 - Open/Edit Registration Details | Test Preperation | 13.4 | Other | PI29
+IRM-16516 | REFERENCE IMPLEMENTATIONS | SELF SERVICE ACCOUNT OVERVIEW | SS  Payments - See Taxpayer Account Overview - User - Part 3 - Open/Edit Registration Details | Test Execution | 10.7 | Other | PI29
+IRM-16516 | REFERENCE IMPLEMENTATIONS | SELF SERVICE ACCOUNT OVERVIEW | SS  Payments - See Taxpayer Account Overview - User - Part 3 - Open/Edit Registration Details | Finalization (e2e testing, regression, stabilization, IAT) | 10.7 | Other | PI29
+IRM-16516 | REFERENCE IMPLEMENTATIONS | SELF SERVICE ACCOUNT OVERVIEW | SS  Payments - See Taxpayer Account Overview - User - Part 3 - Open/Edit Registration Details | Bugfix | 13.4 | Other | PI29
+IRM-17620 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | Support Audit Trail for Statute of Limitation Date modifications in IRM - Admin | Build | 213.3 | Other | PI29
+IRM-17620 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | Support Audit Trail for Statute of Limitation Date modifications in IRM - Admin | Analysis & Design | 64 | Other | PI28
+IRM-17620 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | Support Audit Trail for Statute of Limitation Date modifications in IRM - Admin | Test Preperation | 106.6 | Other | PI29
+IRM-17620 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | Support Audit Trail for Statute of Limitation Date modifications in IRM - Admin | Test Execution | 85.3 | Other | PI29
+IRM-17620 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | Support Audit Trail for Statute of Limitation Date modifications in IRM - Admin | Finalization (e2e testing, regression, stabilization, IAT) | 85.3 | Other | PI29
+IRM-17620 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | Support Audit Trail for Statute of Limitation Date modifications in IRM - Admin | Bugfix | 106.6 | Other | PI29
+IRM-17803 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | Analysis : When Fts/Journal Entries creation fails, admin can re-create them using a system process | Build | 46.7 | GRC | PI30
+IRM-17803 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | Analysis : When Fts/Journal Entries creation fails, admin can re-create them using a system process | Analysis & Design | 14 | GRC | PI29
+IRM-17803 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | Analysis : When Fts/Journal Entries creation fails, admin can re-create them using a system process | Test Preperation | 23.4 | GRC | PI30
+IRM-17803 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | Analysis : When Fts/Journal Entries creation fails, admin can re-create them using a system process | Test Execution | 18.7 | GRC | PI30
+IRM-17803 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | Analysis : When Fts/Journal Entries creation fails, admin can re-create them using a system process | Finalization (e2e testing, regression, stabilization, IAT) | 18.7 | GRC | PI30
+IRM-17803 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | Analysis : When Fts/Journal Entries creation fails, admin can re-create them using a system process | Bugfix | 23.4 | GRC | PI30
+IRM-18729 | CORE SUPPORTING CAPABILITIES | REFERENCE DATA | Import Code Lists - Admin | Build | 140 | GRC | PI29
+IRM-18729 | CORE SUPPORTING CAPABILITIES | REFERENCE DATA | Import Code Lists - Admin | Analysis & Design | 42 | GRC | PI28
+IRM-18729 | CORE SUPPORTING CAPABILITIES | REFERENCE DATA | Import Code Lists - Admin | Test Preperation | 70 | GRC | PI29
+
+SLIDE STRUCTURE:
+(no repeatable slides — all content is shared)
+
+YOUR TASKS:
+1. Count how many slide instances exist by counting unique groups in the data based on the user input prompt.
+2. List the exact group value for each instance in order.
+3. Provide a human-readable name for each instance.
+
+RULES:
+- instanceNames must have the same length as the total instance count
+- grouping.values must have the same length as instanceNames
+- grouping.column must be the exact column header from the data (case-sensitive)
+- grouping.values must be exact cell values from the data (case-sensitive)
+- If there are no repeatable slides, return grouping as null
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+{
+  "instances": {},
+  "instanceNames": ["<name0>", "<name1>", ...],
+  "rationale": "<one sentence: how many instances and why>",
+  "grouping": {
+    "column": "<exact column name used to group rows>",
+    "values": ["<exact group value 0>", "<exact group value 1>", ...]
+  }
+}

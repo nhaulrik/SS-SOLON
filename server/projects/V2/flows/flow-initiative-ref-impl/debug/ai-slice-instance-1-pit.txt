@@ -1,0 +1,40 @@
+=== ROADMAP_INITIATIVE ===
+
+=== Summary ===
+Roadmap Initiative: PIT
+Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS
+PI: PI 28
+Total Effort: 1 hours
+Feature Count: 1
+Requester: GRC
+
+=== Feature Progress ===
+Ready for Dev: 1
+Total Features: 1
+
+=== Feature Priority ===
+P1: 1
+Total Features: 1
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Support Greek Demo Requirements
+Reason 01 Text: Enable taxpayers to view calculated tax in declaration forms prior submission and save as draft.
+
+Reason 02 Title: Enhance User Experience
+Reason 02 Text: Allow form preview with calculations before final submission, reducing errors and improving taxpayer confidence.
+
+Reason 03 Title: Enable Draft Form Management
+Reason 03 Text: Support temporary saving of declaration forms for later completion and submission in taxpayer portal.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: PIT - Support saving a declaration form in ISS where calculated tax is displayed prior submitting
+Feature Description: Enable taxpayers to see calculated tax in declaration forms prior submitting and save as draft form for later submission.
+Feature Status: Ready for Dev
+Feature Status Color: #4CAF50
+Feature Effort: 1h
+Feature Priority: P1
+
+---

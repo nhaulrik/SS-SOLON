@@ -1,0 +1,79 @@
+{
+  "name": "V2",
+  "exportId": "init-non-funct-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-04-29T08:07:43.337Z",
+  "slideCount": 10,
+  "slides": [
+    {
+      "index": 1,
+      "file": "accessibility.html",
+      "slideId": "slide-1",
+      "title": "Accessibility",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "extensibility.html",
+      "slideId": "slide-2",
+      "title": "Extensibility",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "maintainability.html",
+      "slideId": "slide-3",
+      "title": "Maintainability",
+      "type": "content"
+    },
+    {
+      "index": 4,
+      "file": "operability.html",
+      "slideId": "slide-4",
+      "title": "Operability",
+      "type": "content"
+    },
+    {
+      "index": 5,
+      "file": "performance-efficiency.html",
+      "slideId": "slide-5",
+      "title": "Performance Efficiency",
+      "type": "content"
+    },
+    {
+      "index": 6,
+      "file": "reliability.html",
+      "slideId": "slide-6",
+      "title": "Reliability",
+      "type": "content"
+    },
+    {
+      "index": 7,
+      "file": "security.html",
+      "slideId": "slide-7",
+      "title": "Security",
+      "type": "content"
+    },
+    {
+      "index": 8,
+      "file": "test-suite-optimization.html",
+      "slideId": "slide-8",
+      "title": "Test Suite Optimization",
+      "type": "content"
+    },
+    {
+      "index": 9,
+      "file": "traceability.html",
+      "slideId": "slide-9",
+      "title": "Traceability",
+      "type": "content"
+    },
+    {
+      "index": 10,
+      "file": "usability.html",
+      "slideId": "slide-10",
+      "title": "Usability",
+      "type": "content"
+    }
+  ]
+}

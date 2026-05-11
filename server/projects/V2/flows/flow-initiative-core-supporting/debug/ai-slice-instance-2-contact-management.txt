@@ -1,0 +1,58 @@
+=== CONTACT MANAGEMENT ===
+
+=== Summary ===
+Roadmap Initiative: CONTACT MANAGEMENT
+Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES
+PI: PI 28
+Total Effort: 882.7 hours
+Feature Count: 3
+Requester: GRC
+
+=== Feature Progress ===
+HLD: 1
+Waiting Analysis Approval: 2
+Total Features: 3
+
+=== Feature Priority ===
+P1: 2
+P3: 1
+Total Features: 3
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Ensure Legal Document Compliance
+Reason 01 Text: Automatic assignment of unique registration numbers to incoming and outgoing documents ensures compliance with legal requirements for document identification, enabling audit trails and regulatory reporting across all document types.
+
+Reason 02 Title: Enable Multi-Recipient Communication
+Reason 02 Text: Capability to send outbound messages to multiple recipients simultaneously with template-based content variation ensures consistent communication with taxpayers, representatives, and agents while reducing manual effort.
+
+Reason 03 Title: Support Flexible Contact Distribution
+Reason 03 Text: Admin-configurable rules for recipient selection and message generation enable organisations to define complex communication workflows, supporting diverse business scenarios without code changes.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Assign Unique Number to Incoming and Outgoing Documents
+Feature Description: Enable administrators to define rules generating unique reference IDs for documents with configurable formatting, supporting legal compliance and document identification requirements.
+Feature Status: HLD
+Feature Status Color: #4A90D9
+Feature Effort: 709.1h
+Feature Priority: P1
+
+Feature Index: Epic 02
+Feature Name: Send Outbound Message Manually to Multiple Recipients - User
+Feature Description: Allow revenue officials to send outbound messages to multiple recipients with file upload support, manual selection, and template-based content variation per recipient type.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 79.2h
+Feature Priority: P1
+
+Feature Index: Epic 03
+Feature Name: Define and Maintain Contact Types - Select Recipients - Admin
+Feature Description: Enable administrators to define rules determining which recipient types receive copies of outbound messages under specific circumstances with dynamic recipient selection logic.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 42h
+Feature Priority: P3
+
+---

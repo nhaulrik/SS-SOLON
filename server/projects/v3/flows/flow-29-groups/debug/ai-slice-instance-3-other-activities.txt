@@ -1,0 +1,144 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (44 rows)
+Issue Type: Feature | IRM: IRM-30636 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: APPSEC TEAM | Roadmap Feature: SOLONTAX Supply Chain Security Enablement | Requester: Other | PI: PI29 | Estimate: 240 | Feature Priority: p3 | Feature Status: To Do | Features Description: This enabler targets the end-to-end improvement of software supply chain security across development operations by adopting related best practices (CIS benchmark, NIST SSDF, SLSA, OWASP SCVS).{*}Scope includes:{*}
+
+*1. Benchmark Assessment*
+ * Conduct an initial assessment of existing software supply chain processes and tools against the CIS benchmark control families (Governance, Source Code, Build, Dependencies, Deployment, Monitoring).
+ * Identify compliance gaps and improvement areas.
+
+*2. Governance & Policy Definition*
+ * Update a Supply Chain Security practices in the security plan.
+ * Establish ownership, maintenance procedures, and periodic review cycles.
+
+*3. Source Code & Dependency Security*
+ * Enforce secure repository configurations (signed commits, branch protection, access control).
+ * Integrate Software Composition Analysis (SCA) and open-source dependency validation.
+ * Generate and maintain Software Bill of Materials (SBOMs) for all products.
+
+*4. Build & CI/CD Pipeline Hardening*
+ * Review and harden CI/CD configurations per CIS benchmark controls:
+ ** Credential and secret management
+ ** Build agent isolation
+ ** Artifact integrity validation
+ ** Controlled use of third-party build steps/plugins
+ ** Enable artifact signing and reproducible builds.
+
+*5. Artifact & Deployment Integrity*
+ * Enforce signed artifacts and signature verification during deployments.
+ * Apply access and retention controls for artifact repositories.
+
+*6. Monitoring, Compliance & Continuous Improvement*
+ * Automate CIS benchmark validation where possible.
+ * Conduct regular re-assessments and track remediation progress.
+ * Provide compliance dashboards and evidence for audits.
+Issue Type: Feature | IRM: IRM-30635 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: APPSEC TEAM | Roadmap Feature: SOLON TAX Application Security Core Enablement  | Requester: Other | PI: PI29 | Estimate: 0.1 | Feature Priority: p3 | Feature Status: In Progress | Features Description: This enabler covers all recurring application security assurance activities executed annually and per Program Increment (PI) to maintain a consistent, compliant, and resilient security posture across all products.
+
+*Scope includes:*
+h4. Annual activities
+ * Application security training for development teams.
+
+ * Product threat model updates.
+
+ * Security requirements compliance assessments (OWASP ASVS Trust Level 3).
+
+h4. Per-PI activities
+ * Secure Architecture and Secure Design definition support.
+
+ * Threat modeling for new features and existing components.
+
+ * Secure code review for critical and high-risk features.
+
+ * DevSecOps automation maintenance and configuration (SAST, SCA, DAST, Container Image Scanning, Secret Scanning).
+
+ * Vulnerability management monitoring, resolution advisory, and reporting.
+
+ * Security verification testing against newly implemented features.
+
+ * Handling of security service requests from clients and projects, including support for external assessments, questionnaires, penetration testing evidence, and product security clarifications.
+
+h4. Continuous evolution (tooling, methodology, practices)
+ * Enhancements in policies and configurations for automated security testing to increase accuracy and coverage.
+
+ * Adaptation of threat modeling techniques and secure coding practices based on evolving standards and frameworks.
+
+ * Research and Proof of Concept (PoC) evaluations of new application security testing tools to identify opportunities for automation, scalability, and improved detection capabilities.
+
+h4. Governance and support
+ * Provide security-related input to tender documentation.
+
+ * Participate in internal and external audits, providing technical and procedural security evidence.
+
+ * Participate in meetings and security review boards as required.
+Issue Type: Feature | IRM: IRM-30639 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: APPSEC TEAM | Roadmap Feature: Horizontal Security Controls Design Specification & Documentation | Requester: Other | PI: PI29 | Estimate: 160 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: This enabler focuses on ensuring the product’s security design and specification documentation meets the requirements defined in OWASP ASVS 5.0, improving transparency, audit readiness, and maintainability.
+
+The activity involves reviewing, updating, and formalizing the product’s design documentation across key domains to ensure it aligns with secure design expectations and is kept current with architectural and functional changes.
+h3. *Key Objectives:*
+ * Establish and maintain comprehensive security design and specification documentation in alignment with OWASP ASVS 5.0 requirements.
+ * Perform a gap analysis against ASVS 5.0 to identify missing, incomplete, or outdated security documentation.
+ * Define and document security controls, expected behaviors, and rationale for all key areas (validation, authentication, authorization, data protection, configuration, secure coding, and logging).
+ * Ensure that design specifications accurately reflect implemented controls and are updated whenever architectural or functional changes occur.
+ * Introduce a structured and version-controlled documentation framework (e.g., via Confluence or repository) to ensure traceability and controlled updates.
+ * Integrate documentation reviews into the product’s regular development and release cadence (e.g., per PI or major release).
+ * Improve alignment between threat models, design specifications, and verification activities to support audits and ongoing assurance.
+Issue Type: Feature | IRM: IRM-27731 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: ARK | Roadmap Feature: Augment additional Guidelines for items not covered in template (Spring/Spring Boot/Kafka etc) | Requester: Other | PI: PI29 | Estimate:  | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: Document attached (TBC) includes the templated view of what Netcompany provides as a baseline documentation of what the programming guidelines should include for every product curated for Solon tax. This Enabler below should generate the curated Solon version of the template IRM-27729 .
+
+ End goal is to produce a new document including additional information specific to Solon.
+
+Raw version of the curated document can be found here:  https://goto.netcompany.com/cases/GTE2768/GREPDSOLON/DocumentLibrary/00%20-%20NC%20Methodology%20for%20SOLON/01%20-%20Documents%20Preparation/DD160%20Programming%20guidelines/DD160%20-%20Programming%20Guidelines%20-%20Java%20shared%20latest.docx
+Issue Type: Feature | IRM: IRM-27733 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: ARK | Roadmap Feature: Enforce applicable guidelines in CI | Requester: Other | PI: PI29 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: Goal of this enabler is to encapsulate all actions, tasks and stories to enforce the application of the below CI guidelines:
+ # Sonar rules
+ # Automatic code lint/format rules
+ # ArchUnit tests
+ # Add configurable code intercepts to e.g. flag excessive IO within a single transaction.
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: Business Owners | Roadmap Feature: Business Owners | Requester: Other | PI: PI29 | Estimate: 1800 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: CEREMONIES AND TRAININGS | Roadmap Feature: Ceremonies and Trainings (Current PI29) | Requester: Other | PI: PI29 | Estimate: 3200 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-35184 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: CEREMONIES AND TRAININGS | Roadmap Feature: Ceremonies and Trainings (Current PI27) | Requester: Other | PI: PI29 | Estimate: 0 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: CORRECTIVE MAINTENANCE | Roadmap Feature: CORRECTIVE MAINTENANCE PI29 | Requester: Other | PI: PI29 | Estimate: 560 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-35280 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: PI27 DevOPs Meetings and Training | Requester: Other | PI: PI29 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: Plan and deliver a series of DevOps meetings and training sessions to align teams on CI/CD best practices, Infrastructure as Code, observability, security/compliance, and incident response.
+Issue Type: Feature | IRM: IRM-35283 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: Pi27 DevOps Evolution | Requester: Other | PI: PI29 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: Enhancements on tools, pipelines, automations
+Issue Type: Feature | IRM: IRM-35282 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: PI27 DevOps Cluster Upgrades | Requester: Other | PI: PI29 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: Upgrade of Solon Tax's existing clusters 
+Issue Type: Feature | IRM: IRM-35281 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: PI27 DevOps - Infrastructure and Maintenance activities | Requester: Other | PI: PI29 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: Infrastructure and maintenance requests originating from DevOps 
+Issue Type: Feature | IRM: IRM-35519 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: PI27 DBA Activities and Environment Support | Requester: Other | PI: PI29 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: PI27 DBA Activities and Environment Support
+Issue Type: Feature | IRM: IRM-39515 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DOCUMENTATION | Roadmap Feature: Tooling | Internal Documents Review Process - DRAFT MR | Requester: Other | PI: PI29 | Estimate:  | Feature Priority: p3 | Feature Status: In Design | Features Description: Internal Documents Review Process by means of DRAFT MR.
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Delivery | Requester: Other | PI: PI29 | Estimate: 432 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Development Management | Requester: Other | PI: PI29 | Estimate: 1296 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Management PdM | Requester: Other | PI: PI29 | Estimate: 1944 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Architect | Requester: Other | PI: PI29 | Estimate: 864 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Test Manager | Requester: Other | PI: PI29 | Estimate: 432 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Implementaions Leads (PIL) | Requester: Other | PI: PI29 | Estimate: 1728 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: PIL2 TL - Daedalus, Athena, Spartans | Requester: Other | PI: PI29 | Estimate: 388.8 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: PIL3 TL - Helios, EOS, Selene | Requester: Other | PI: PI29 | Estimate: 388.8 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: PIL4 - Sif, Baldur | Requester: Other | PI: PI29 | Estimate: 259.2 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Technical Architecture and engineering | Requester: Other | PI: PI29 | Estimate: 1036.8 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: PMO & Analysis Lead | Requester: Other | PI: PI29 | Estimate: 432 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: DevOps | Requester: Other | PI: PI29 | Estimate: 129.6 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Service Desk | Requester: Other | PI: PI29 | Estimate: 216 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PMO & Analysis | Roadmap Feature: WoW and Governance | Requester: Other | PI: PI29 | Estimate: 864 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PMO & Analysis | Roadmap Feature: AgenticAI track 1 | Requester: Other | PI: PI29 | Estimate: 1296 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PREVENTIVE MAINTENANCE | Roadmap Feature: PREVENTIVE MAINTENANCE PI30 | Requester: Other | PI: PI29 | Estimate: 2400 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PROJECT SUPPORT | Roadmap Feature: Project Support PI29 | Requester: Other | PI: PI29 | Estimate: 560 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-33186 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PROJECT SUPPORT | Roadmap Feature: PSD Service Requests (Current PI27) - Official Project Support | Requester: Other | PI: PI29 | Estimate: 160 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-33187 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PROJECT SUPPORT | Roadmap Feature: Unplanned support to projects - Unofficial Project Support (Current PI27) | Requester: Other | PI: PI29 | Estimate: 16 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-34483 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PROJECT SUPPORT | Roadmap Feature: PD Support to projects GR (Current PI27) | Requester: Other | PI: PI29 | Estimate: 160 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: RELEASE ACTIVITIES | Roadmap Feature: Release Management PI29 | Requester: Other | PI: PI29 | Estimate: 432 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: RELEASE ACTIVITIES | Roadmap Feature: Release Activities PI29 | Requester: Other | PI: PI29 | Estimate: 400 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-33182 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: RELEASE ACTIVITIES | Roadmap Feature: Intermediate release (Current PI27) - x.x.x | Requester: Other | PI: PI29 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-33387 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: RELEASE ACTIVITIES | Roadmap Feature: Hotfix release (Current PI27) - x.x.x | Requester: Other | PI: PI29 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-20399 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: SECURITY | Roadmap Feature: PenTest - Harden API requests with expression patterns allowed | Requester: Other | PI: PI29 | Estimate: 746.9 | Feature Priority: p1 | Feature Status: Ready for Dev | Features Description: Finding from Penetration tests -> [https://dojopro.devsecop/finding/78124] (AOs have access in Defect Dojo)
+ # Go through the APIs and DTOs
+ # Analyze the input parameters
+ # Add relevant regular expressions for allowing certain input and avoid attacks, such as injections
+ # Pay special attention to fields of Codes (i.e. Note Type Code, Party Type Code, etc.) which can be links with redirects (already addressed by IRM-29547)
+
+ 
+
+ 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: SECURITY | Roadmap Feature: Security Defect/Improvement Management (Current PI29) | Requester: Other | PI: PI29 | Estimate: 480 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-36982 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: SUPPORT TO PDM | Roadmap Feature: Support to PdM - Before Feature Creation (Current PI27) | Requester: Other | PI: PI29 | Estimate: 8 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-30526 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: TRAINING | Roadmap Feature: Training material and courses | Requester: Other | PI: PI29 | Estimate: 80 | Feature Priority: p3 | Feature Status: To Do | Features Description: * Training material (presentation, documentation & videos)
+ * Hands-on exercises
+ * Classroom sessions (4 rounds per year - 10 days/round)
+
+Curriculum is presented in the attached slide. PD is expected to cover the scope of the column on the right and offer support (approx. 30%) for the remaining scope
+Issue Type: Feature | IRM: IRM-30525 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: TRAINING | Roadmap Feature: Training environment | Requester: Other | PI: PI29 | Estimate: 130 | Feature Priority: p3 | Feature Status: To Do | Features Description: Setup and maintenance of a dedicated environment for training purposes. 
+
+ 

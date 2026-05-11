@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Slide 3</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Revenue Management – Feature Catalog</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 7px;
+    background: #FF6359;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: absolute;
+    top: 7px; left: 0; right: 0;
+    height: 96px;
+    background: #1a3c3a;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+  .header-left {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+  }
+  .pi-badge {
+    background: #FF6359;
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 44px;
+    flex: 1;
+  }
+  .header-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #FF6359;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    margin-bottom: 3px;
+  }
+  .header-subtitle {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    padding-right: 44px;
+  }
+  .header-stat {
+    text-align: center;
+    padding: 0 28px;
+  }
+  .header-stat-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: #FF6359;
+    line-height: 1;
+  }
+  .header-stat-label {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .header-divider {
+    width: 1px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+  }
+  .logo {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #7fb3af;
+    text-transform: uppercase;
+  }
+
+  /* ── BODY ── */
+  .body {
+    position: absolute;
+    top: 103px;
+    left: 0; right: 0;
+    bottom: 30px;
+    display: grid;
+    grid-template-columns: 1fr 316px;
+    gap: 14px;
+    padding: 14px 14px 20px 14px;
+    background: #e8e8e4;
+  }
+
+  /* ── LEFT: TABLE ── */
+  .table-wrap-outer {
+    position: relative;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .table-wrap {
+    overflow-y: auto;
+    flex: 1;
+    direction: rtl;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+  }
+  .table-wrap::-webkit-scrollbar { width: 10px; }
+  .table-wrap::-webkit-scrollbar-track { background: #e8f0ef; border-radius: 0 8px 8px 0; }
+  .table-wrap::-webkit-scrollbar-thumb { background: #2C4A48; border-radius: 6px; border: 2px solid #e8f0ef; }
+  .table-wrap::-webkit-scrollbar-thumb:hover { background: #FF6359; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    direction: ltr;
+  }
+  thead tr {
+    background: linear-gradient(135deg, #1a3c3a 0%, #2C4A48 100%);
+  }
+  thead th {
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #1a3c3a;
+  }
+  thead th.sortable {
+    cursor: pointer;
+    user-select: none;
+  }
+  thead th.sortable:hover { background: #254f4c; }
+  thead th.sort-asc::after  { content: ' ↑'; color: #FF6359; }
+  thead th.sort-desc::after { content: ' ↓'; color: #FF6359; }
+  thead th:last-child { background: #2C4A48; }
+  thead th:first-child { border-radius: 8px 0 0 0; }
+  thead th:last-child  { border-radius: 0 8px 0 0; }
+  tbody tr {
+    border-bottom: 1px solid #f0f0ec;
+    transition: background-color 0.2s ease;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #fafaf8; }
+  tbody tr:nth-child(even) { background: white; }
+  tbody td {
+    padding: 12px 14px;
+    color: #333;
+    vertical-align: middle;
+  }
+  .init-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a3c3a;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+  }
+  .init-desc {
+    font-size: 10.5px;
+    color: #888;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  .effort-pill {
+    display: inline-block;
+    background: #e8f0ef;
+    color: #1a3c3a;
+    font-weight: 700;
+    font-size: 10.5px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    white-space: nowrap;
+    border: 1px solid #d0e5e2;
+  }
+  .pi-text {
+    font-size: 11px;
+    color: #444;
+    font-weight: 500;
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #2C4A48;
+  }
+  .status-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .prio-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; height: 20px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .feat-count {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2C4A48;
+    text-align: center;
+    display: block;
+  }
+
+  /* ── RIGHT: VALUE PANELS ── */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 0;
+  }
+  .value-card {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  .value-card:hover {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.11);
+  }
+  .card-stripe {
+    width: 5px;
+    flex-shrink: 0;
+  }
+  .card-stripe.coral { background: #FF6359; }
+  .card-stripe.teal  { background: #1a3c3a; }
+  .card-inner {
+    flex: 1;
+    padding: 14px 16px 20px 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .card-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0ec;
+    flex-shrink: 0;
+  }
+  .card-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a3c3a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .card-subtitle {
+    font-size: 10px;
+    color: #aaa;
+    font-weight: 400;
+  }
+  .card-kpi {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+  .kpi-number {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .kpi-number.coral { color: #FF6359; }
+  .kpi-number.teal  { color: #1a3c3a; }
+  .kpi-label {
+    font-size: 7.5px;
+    font-weight: 500;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-top: 3px;
+    text-align: right;
+  }
+  .value-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex: 1;
+    justify-content: space-evenly;
+    padding-bottom: 14px;
+  }
+  .value-bullets li {
+    font-size: 11.5px;
+    color: #4a4a4a;
+    padding-left: 15px;
+    position: relative;
+    line-height: 1.45;
+  }
+  .value-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 6px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .value-bullets.coral-dots li::before { background: #FF6359; }
+  .value-bullets.teal-dots  li::before { background: #1a3c3a; }
+
+  /* ── FOOTER ── */
+  .slide-footer {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    background: #1a3c3a;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px;
+  }
+  .footer-text {
+    font-size: 10px;
+    color: #7fb3af;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+</style>
+
+</head>
+<body>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog</div>
+        <div class="header-title">Non-Functional Requirement Coverage</div>
+        <div class="header-subtitle">Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">17,562</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">67</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="table-wrap-outer">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:32%">Initiative</th>
+            <th style="width:13%" class="sortable" data-col="1">Effort</th>
+            <th style="width:17%" class="sortable" data-col="2">PI</th>
+            <th style="width:20%" class="sortable" data-col="3">Status</th>
+            <th style="width:10%" class="sortable" data-col="4">Priority</th>
+            <th style="width:8%" class="sortable" data-col="5">Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="init-name">Security</div>
+              <div class="init-desc">GDPR compliance, data protection, field masking, row-level security, API hardening</div>
+            </td>
+            <td><span class="effort-pill">2,758.8h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#F0A500;"></span>
+                In Design
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">6</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Traceability</div>
+              <div class="init-desc">Audit logging, log sanitization, audit trail display, compliance capabilities</div>
+            </td>
+            <td><span class="effort-pill">2,259.2h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                Waiting Analysis Approval
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">5</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Maintainability</div>
+              <div class="init-desc">Technical debt, ArchUnit integration, configuration management, documentation portal</div>
+            </td>
+            <td><span class="effort-pill">4,579.8h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#F0A500;"></span>
+                In Design
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">11</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Usability</div>
+              <div class="init-desc">Search improvements, registry enhancements, field indicators, UX refinements</div>
+            </td>
+            <td><span class="effort-pill">2,976h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                To Do
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">15</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Performance Efficiency</div>
+              <div class="init-desc">Caching optimization, green coding, CI/CD improvements, performance measurement</div>
+            </td>
+            <td><span class="effort-pill">955.2h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                To Do
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">4</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Reliability</div>
+              <div class="init-desc">Record locking, optimistic locking, error handling, conflict detection</div>
+            </td>
+            <td><span class="effort-pill">2,688h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#F0A500;"></span>
+                In Design
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">2</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Accessibility</div>
+              <div class="init-desc">WCAG 2.1 AA compliance, EN 301 549 standards, accessibility audits</div>
+            </td>
+            <td><span class="effort-pill">268.8h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                To Do
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">7</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Test Suite Optimization</div>
+              <div class="init-desc">Automation testing, API tests, regression testing, technical debt resolution</div>
+            </td>
+            <td><span class="effort-pill">860h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#CCCCCC;"></span>
+                To Do
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+            <td><span class="feat-count">6</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Operability</div>
+              <div class="init-desc">Proxy services, backend API operations, service call documentation</div>
+            </td>
+            <td><span class="effort-pill">59.5h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#F0A500;"></span>
+                Ready for Dev
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">2</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Extensibility</div>
+              <div class="init-desc">User-defined characteristics, custom information extension, extensibility framework</div>
+            </td>
+            <td><span class="effort-pill">156.8h</span></td>
+            <td><span class="pi-text">PI 28</span></td>
+            <td>
+              <span class="status-badge">
+                <span class="status-dot" style="background:#4A90D9;"></span>
+                HLD
+              </span>
+            </td>
+            <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+            <td><span class="feat-count">2</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+
+    
+    <div class="right-panel">
+
+      
+      <div class="value-card">
+        <div class="card-stripe coral"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Business Value</div>
+              <div class="card-subtitle">Quality attributes &amp; system resilience</div>
+            </div>
+          </div>
+          <ul class="value-bullets coral-dots">
+            <li>Multi-layered data protection and access control mechanisms ensure GDPR compliance and sensitive data security</li>
+            <li>Enhanced audit logging and traceability enable comprehensive compliance monitoring and regulatory adherence</li>
+            <li>Improved code quality and maintainability reduce technical debt and accelerate future development velocity</li>
+          </ul>
+        </div>
+      </div>
+
+      
+      <div class="value-card">
+        <div class="card-stripe teal"></div>
+        <div class="card-inner">
+          <div class="card-header-row">
+            <div class="card-title-group">
+              <div class="card-title">Market Relevance</div>
+              <div class="card-subtitle">Competitive positioning &amp; platform maturity</div>
+            </div>
+          </div>
+          <ul class="value-bullets teal-dots">
+            <li>WCAG 2.1 AA accessibility compliance expands addressable market and ensures inclusive user experience</li>
+            <li>Performance optimization and reliability improvements strengthen platform stability for mission-critical deployments</li>
+            <li>Comprehensive quality framework positions product as enterprise-grade solution across all jurisdictions</li>
+          </ul>
+        </div>
+      </div>
+
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<script>
+  const STATUS_ORDER = { 'In Progress': 0, 'In Analysis': 1, 'To Do': 2 };
+
+  function getCellValue(row, col, type) {
+    const td = row.querySelectorAll('td')[col];
+    if (type === 'pi') {
+      const text = td.querySelector('.pi-text').textContent.trim();
+      return parseInt(text.replace(/\D/g, ''), 10);
+    }
+    if (type === 'effort') {
+      const text = td.querySelector('.effort-pill').textContent.trim();
+      if (text === 'TBD') return Infinity;
+      return parseInt(text.replace(/[^0-9]/g, ''), 10);
+    }
+    if (type === 'status') {
+      const text = td.querySelector('.status-badge').textContent.trim();
+      return STATUS_ORDER[text] ?? 99;
+    }
+    if (type === 'priority') {
+      const text = td.querySelector('.prio-badge').textContent.trim();
+      return parseInt(text.replace(/\D/g, ''), 10);
+    }
+    if (type === 'number') {
+      return parseInt(td.querySelector('.feat-count').textContent.trim(), 10);
+    }
+    return td.textContent.trim();
+  }
+
+  function sortBy(th, ascending, animate) {
+    const col   = parseInt(th.dataset.col, 10);
+    const type  = th.dataset.type;
+    const tbody = th.closest('table').querySelector('tbody');
+    const rows  = Array.from(tbody.querySelectorAll('tr'));
+
+    // FLIP — record positions before sort
+    const first = animate ? new Map(rows.map(r => [r, r.getBoundingClientRect().top])) : null;
+
+    rows.sort((a, b) => {
+      const va = getCellValue(a, col, type);
+      const vb = getCellValue(b, col, type);
+      if (va === vb) return 0;
+      return (va < vb ? -1 : 1) * (ascending ? 1 : -1);
+    });
+
+    rows.forEach(r => tbody.appendChild(r));
+
+    document.querySelectorAll('thead th.sortable').forEach(h => h.classList.remove('sort-asc', 'sort-desc'));
+    th.classList.add(ascending ? 'sort-asc' : 'sort-desc');
+
+    if (!animate) return;
+
+    // FLIP — invert + play
+    rows.forEach(r => {
+      const prevTop = first.get(r);
+      const nextTop = r.getBoundingClientRect().top;
+      const delta   = prevTop - nextTop;
+      if (delta === 0) return;
+
+      r.animate(
+        [
+          { transform: `translateY(${delta}px)`, opacity: 0.55 },
+          { transform: 'translateY(0)',           opacity: 1    }
+        ],
+        { duration: 380, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'none' }
+      );
+    });
+  }
+
+  document.querySelectorAll('thead th.sortable').forEach(th => {
+    let asc = false;
+    th.addEventListener('click', () => {
+      asc = !asc;
+      sortBy(th, asc, true);
+    });
+  });
+
+  // Default: sort by Effort descending (no animation on load)
+  const effortTh = document.querySelector('thead th[data-type="effort"]');
+  sortBy(effortTh, false, false);
+</script>
+</body>
+</html>

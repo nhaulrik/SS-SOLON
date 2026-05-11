@@ -1,0 +1,44 @@
+{
+  "name": "Nikolajs_project",
+  "exportId": "initiative-groups-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-04-20T21:03:54.134Z",
+  "slideCount": 5,
+  "slides": [
+    {
+      "index": 1,
+      "file": "core-revenue-management-capabilities.html",
+      "slideId": "slide-1",
+      "title": "Core Revenue Management Capabilities",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "core-self-service-capabilities.html",
+      "slideId": "slide-2",
+      "title": "Core Self Service Capabilities",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "core-supporting-capabilities.html",
+      "slideId": "slide-3",
+      "title": "Core Supporting Capabilities",
+      "type": "content"
+    },
+    {
+      "index": 4,
+      "file": "non-functional-requirement-coverage.html",
+      "slideId": "slide-4",
+      "title": "Non-Functional Requirement Coverage",
+      "type": "content"
+    },
+    {
+      "index": 5,
+      "file": "reference-implementations.html",
+      "slideId": "slide-5",
+      "title": "Reference Implementations",
+      "type": "content"
+    }
+  ]
+}

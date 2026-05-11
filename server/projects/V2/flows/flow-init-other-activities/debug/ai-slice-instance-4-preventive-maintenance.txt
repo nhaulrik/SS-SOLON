@@ -1,0 +1,78 @@
+=== PREVENTIVE MAINTENANCE ===
+
+=== Summary ===
+Roadmap Initiative: PREVENTIVE MAINTENANCE
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 2960 hours
+Feature Count: 9
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Reduce Technical Debt Accumulation
+Reason 01 Text: Proactive bug fixes and preventive maintenance prevent defects from compounding into larger architectural problems.
+
+Reason 02 Title: Improve System Reliability and Performance
+Reason 02 Text: Addressing known issues before they escalate reduces production incidents and improves user experience.
+
+Reason 03 Title: Enable Faster Future Development
+Reason 03 Text: Maintaining code quality and fixing legacy issues reduces friction for new feature development.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Bugs related to older Features/PIs - BAL (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for BAL team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+Feature Index: Epic 02
+Feature Name: Bugs related to older Features/PIs - SIF (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for SIF team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+Feature Index: Epic 03
+Feature Name: Bugs related to older Features/PIs - Test Team (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes identified by test team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 80h
+Feature Priority: P2
+
+Feature Index: Epic 04
+Feature Name: Bugs related to older Features/PIs - EOS (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for EOS team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+Feature Index: Epic 05
+Feature Name: Bugs related to older Features/PIs - ATH (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for ATH team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+Feature Index: Epic 06
+Feature Name: Bugs related to older Features/PIs - HEL (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for HEL team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+---

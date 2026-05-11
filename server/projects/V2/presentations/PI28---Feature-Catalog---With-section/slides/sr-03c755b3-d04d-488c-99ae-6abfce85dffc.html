@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Slide 8</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maintainability Enhancements – Feature Catalog</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 7px;
+    background: #FF6359;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: absolute;
+    top: 7px; left: 0; right: 0;
+    height: 96px;
+    background: #1a3c3a;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+  .header-left {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+  }
+  .pi-badge {
+    background: #FF6359;
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 44px;
+    flex: 1;
+  }
+  .header-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #FF6359;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    margin-bottom: 3px;
+  }
+  .header-subtitle {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    padding-right: 44px;
+  }
+  .header-stat {
+    text-align: center;
+    padding: 0 28px;
+  }
+  .header-stat-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: #FF6359;
+    line-height: 1;
+  }
+  .header-stat-value.text-stat {
+    font-size: 30px;
+  }
+  .header-stat-label {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .header-divider {
+    width: 1px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  /* ── BODY: two panels, flush, no gap ── */
+  .body {
+    position: absolute;
+    top: 103px; left: 0; right: 0; bottom: 30px;
+    display: grid;
+    grid-template-columns: 348px 1fr;
+  }
+
+  /* ══ LEFT: STRATEGIC CASE ══ */
+  .strategic-panel {
+    background: linear-gradient(160deg, #1f4845 0%, #132e2c 100%);
+    padding: 24px 26px 22px 28px;
+    display: flex;
+    flex-direction: column;
+    border-right: 4px solid #FF6359;
+  }
+  .sp-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: #FF6359;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .reason {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+  }
+  .reason-num {
+    font-size: 48px;
+    font-weight: 800;
+    color: #FF6359;
+    line-height: 0.85;
+    opacity: 0.85;
+    flex-shrink: 0;
+    width: 48px;
+  }
+  .reason-body { flex: 1; padding-top: 4px; }
+  .reason-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 7px;
+    letter-spacing: 0.1px;
+    line-height: 1.2;
+  }
+  .reason-text {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+  }
+  .reason-rule {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 16px 0;
+    flex-shrink: 0;
+  }
+
+  /* ══ RIGHT: EPICS ══ */
+  .epics-panel {
+    background: #f7f6f3;
+    padding: 22px 28px 18px 26px;
+    display: flex;
+    flex-direction: column;
+  }
+  .ep-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: #1a3c3a;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+  }
+  .ep-label-rule {
+    width: 44px;
+    height: 3px;
+    background: #FF6359;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+  }
+  .epics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    flex: 1;
+    min-height: 0;
+    column-gap: 0;
+    row-gap: 0;
+  }
+  .epic-cell {
+    padding: 16px 18px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(26,60,58,0.1);
+    border-bottom: 1px solid rgba(26,60,58,0.1);
+  }
+  .epic-cell:nth-child(3n)   { border-right: none; }
+  .epic-cell:nth-child(n+4)  { border-bottom: none; }
+  .epic-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a3c3a;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .epic-desc {
+    font-size: 11px;
+    color: #666;
+    line-height: 1.55;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+  }
+  .epic-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-shrink: 0;
+  }
+  .status-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  }
+  .status-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #444;
+    letter-spacing: 0.2px;
+  }
+  .effort-tag {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 800;
+    color: #1a3c3a;
+    background: #ddecea;
+    padding: 3px 11px;
+    border-radius: 8px;
+    border: 1.5px solid #b0d4d0;
+    letter-spacing: 0.2px;
+  }
+
+  /* ── FOOTER ── */
+  .slide-footer {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    background: #1a3c3a;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px;
+  }
+  .footer-text {
+    font-size: 10px;
+    color: #7fb3af;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+</style>
+
+</head>
+<body>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">REFERENCE DATA</div>
+        <div class="header-subtitle">CORE SUPPORTING CAPABILITIES · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">606.9</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">3</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Code List Import/Export Capability</div>
+          <div class="reason-text">Structured import and export of code lists with validation enables organisations to manage reference data externally, supporting data migration, integration with external systems, and bulk updates.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Support EU Tax Code Evolution</div>
+          <div class="reason-text">Enhanced code list flexibility allowing same code with different descriptions across validity periods ensures compliance with EU tax code updates like NACE Rev. 2.1 harmonisation requirements.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Improve Reference Data Visibility</div>
+          <div class="reason-text">Display and search capabilities for source and timestamp columns enable users to track reference data provenance and modifications, supporting audit requirements and data quality management.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Enhance codelist items codes flexibility and historical track in Solon Tax</div>
+          <div class="epic-desc">Enable code list items to have same code with different descriptions across non-overlapping validity periods, supporting EU tax code evolution and historical accuracy requirements.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">522.9h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Import Code Lists - Admin</div>
+          <div class="epic-desc">Enable administrators to upload structured code list files with validation, supporting addition of new code lists, items, and updates to existing configurations without deletion capability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">42h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Export Code List</div>
+          <div class="epic-desc">Enable administrators to download code list information with related items in structured formats with language selection, supporting external editing and integration with other tools.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">42h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+
+</body>
+</html>

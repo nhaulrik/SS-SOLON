@@ -1,0 +1,57 @@
+=== ARK ===
+
+=== Summary ===
+Roadmap Initiative: ARK
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 80 hours
+Feature Count: 3
+Requester: Other
+
+=== Feature Progress ===
+To Do: 1
+Waiting Analysis Approval: 1
+Total Features: 2
+
+=== Feature Priority ===
+P3: 2
+Total Features: 2
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enforce Architectural Standards Automatically
+Reason 01 Text: Prevent architectural decay through automated CI enforcement of programming guidelines and code quality rules.
+
+Reason 02 Title: Standardise Development Guidelines Across Teams
+Reason 02 Text: Curate baseline programming guidelines for Spring, Kafka, and other technologies used in Solon Tax.
+
+Reason 03 Title: Reduce Manual Code Review Burden
+Reason 03 Text: Shift architectural validation from manual review to automated checks, improving consistency and developer velocity.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Augment additional Guidelines for items not covered in template (Spring/Spring Boot/Kafka etc)
+Feature Description: Document curated Solon-specific programming guidelines extending baseline templates for Spring, Kafka, and related technologies.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: TBD
+Feature Priority: P3
+
+Feature Index: Epic 02
+Feature Name: Enforce applicable guidelines in CI
+Feature Description: Encapsulate CI enforcement of Sonar rules, code lint/format rules, ArchUnit tests, and configurable code intercepts.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: TBD
+Feature Priority: P3
+
+Feature Index: Epic 03
+Feature Name: Bugs related to older Features/PIs - ARC (Current PI28) - Preventive Maintenance
+Feature Description: Address preventive maintenance and bug fixes for ARC team in current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 80h
+Feature Priority: P3
+
+---

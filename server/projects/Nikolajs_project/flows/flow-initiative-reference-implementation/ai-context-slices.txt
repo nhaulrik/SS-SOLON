@@ -1,0 +1,333 @@
+============================================================
+SLICE KEY: 0
+============================================================
+[Sheet: Estimates.xlsx / Estimates] (1 rows)
+Initiative Group: REFERENCE IMPLEMENTATIONS | Initiative: VAT | Initiative Total Hours: 461
+
+[Sheet: Roadmap_JIRA.csv / Sheet1] (2 rows)
+IRM: IRM-38759 | Initiative Group: REFERENCE IMPLEMENTATIONS | Initiative: VAT | Epic: Reference Implemenation - VAT | Roadmap Feature: VAT Tax Account Reference Implementation | Status: HLD | Requester: GTM | Calculated PI: PI28 | Final Original Estimate: 159 | Priority: p1 | Enriched Jira Features.Summary: VAT Tax Account Reference Implementation | Enriched Jira Features.Description: As a revenue officer, I would like to add debts and payments to a tax account, so that I am able to demo how Solon supports a VAT account (i.e., Tax Account only for VAT).
+
+*Introduction* 
+
+This feature aims to create the necessary configuration for a Tax Account reference imp[lementation. The Overview of the Tax Account that is needed in all implementations using a Tax Account is in scope of feature ... 
+
+*Functional Requirements*
+
+*Core Configuration Requirements*
+ # *Revenue Type Configuration*
+
+ * *"VAT for Tax Account" Revenue Type* with flags:
+ * taxAccount: true - Enable tax account functionality
+ * reconciliationPeriod: true - Enable reconciliation period support
+
+ * {*}Revenue Type Category{*}: PERIODIC
+ * {*}Revenue Type Actions{*}: FILING, PAYMENT
+ * {*}Calendar Integration{*}: Link to appropriate revenue calendars{*}{{*}}
+
+ 
+ * *"VAT for Tax Account Ad hoc" Revenue Type* with flags:
+
+ * 
+ ** taxAccount: true - Enable tax account functionality
+ ** reconciliationPeriod: true - Enable reconciliation period support
+
+ * {*}Revenue Type Category{*}: Ad Hoc
+ * {*}Revenue Type Actions{*}: PAYMENT
+
+ 
+ # *Reconciliation Period Management*
+
+ * *Reconciliation Period Entity* configuration with:
+ * Period codes (e.g., "2024M1", "2024M2")
+ * Start and end dates for each period
+ * Active/Inactive status management
+
+ * *Revenue Type Registration Reconciliation Period* linking:
+ * Opening and closing balances per period
+ * Party informed indicator
+
+ # *Financial Transaction-Reconciliation period*
+
+ * {*}FT Reconciliation Period Link{*}: Enable FTs to reference reconciliation periods
+ * {*}Automatic Period Assignment{*}: Link FTs to reconciliation periods based on creation date
+ * {*}Validation Rules{*}: Ensure only revenue types with reconciliationPeriod: true can link to periods
+
+ # *Tax Account UI Configuration*
+
+ * {*}Specialized UI Schema{*}: entitySubType: 'TaxAcc_RP' for Revenue Type Registration
+ * {*}Balance Display{*}: Show opening/closing balances per reconciliation period
+ * {*}Period Timeline{*}: Visual representation of reconciliation periods
+ * {*}Balance Update Interface{*}: Enable manual balance adjustments with audit trail
+
+*Business Process Requirements*
+ # *Balance Management*
+
+ * {*}Opening Balance Recording{*}: Support initial balance entry per reconciliation period
+ * {*}Closing Balance Calculation{*}: Automatic calculation based on transactions and adjustments
+ * {*}Balance Transfer{*}: Opening balance of next period equals closing balance of previous period
+ * {*}Manual Adjustments{*}: Allow authorized balance corrections with proper validation
+
+ # *Debt and Payment Processing*
+
+ * {*}Debt Recording{*}: Create financial transactions for VAT liabilities
+ * {*}Payment Processing{*}: Record and allocate VAT payments to specific periods
+ * {*}Cross-Period Allocation{*}: Support payment allocation across multiple reconciliation periods
+ * {*}Interest and Penalty Calculation{*}: Apply to overdue amounts per period
+
+ 
+
+*Documentation*
+Document all the above configuration for introducing a reference implementation for the Tax Account is vital for Demos and future implementation needs. 
+
+ 
+
+  | Enriched Jira Features.Benefit Hypothesis: By enhancing Solon Tax with a reference implementation for VAT Tax Account functionality, we will enable revenue officers to efficiently manage VAT debts and payments through reconciliation periods, providing a comprehensive demonstration of Solon Tax's capability to support requirements for VAT Tax Account. | Enriched Jira Features.Acceptance Criteria:  Revenue Type VAT is configured with both taxAccount and reconciliationPeriod flags enabled
+ Reconciliation periods can be created, updated, and linked to VAT revenue type registrations
+ Financial transactions automatically link to appropriate reconciliation periods based on creation date
+ Opening and closing balances can be recorded and maintained per reconciliation period
+ Tax Account UI displays comprehensive period timeline with balance information
+ Revenue officers can add debts (assessments) and record payments against specific reconciliation periods
+ Balance calculations are accurate across period boundaries
+ Party informed status can be tracked and updated per reconciliation period
+ System validates that only reconciliation-period-enabled revenue types support period functionality
+ Audit trail captures all balance changes and period-related activities
+
+Documentation on the configuration guide for the necessary configuration needed to have the reference implementation of the Tax Account up and running. 
+IRM: IRM-38710 | Initiative Group: REFERENCE IMPLEMENTATIONS | Initiative: VAT | Epic: Reference Implemenation - VAT | Roadmap Feature: VAT Return Form - Warning for Intracommunity Transaction Enhancement | Status: Waiting Analysis Approval | Requester: GTM | Calculated PI: PI28 | Final Original Estimate: 80 | Priority: p2 | Enriched Jira Features.Summary: VAT Return Form - Warning for Intracommunity Transaction Enhancement | Enriched Jira Features.Description: As a RM User, I would like to see a warning when I fill in intracommunity transaction fields in the VAT Return Form, so that I am informed of my obligations to submit the corresponding VIES Statement in the respective deadline.
+
+*Introduction* 
+
+This feature enhances the VAT Return Form by implementing a warning mechanism for intracommunity transactions. The enhancement includes field label corrections to enhance understanding of these fields and a business-critical warning to ensure taxpayers comply with VIES Statement submission requirements. 
+
+ 
+
+*Functional Requirements*
+
+*Field Label Corrections*
+The following field labels in the VAT Return Form will be renamed to accurately reflect their purpose:
+
+VAT on Sales Section:
+
+TOTAL SALES BUYER OBLIGATED ? Intracommunity Sales
+TOTAL SALES BUYER NOT OBLIGATED ? Intracommunity Sales without VAT
+VAT on Purchases Section:
+
+TOTAL PURCHASES BUYER OBLIGED FOR VAT ? Intracommunity Purchases
+TOTAL PURCHASES BUYER NOT OBLIGED FOR VAT ? Intracommunity Purchases without VAT
+
+
+
+*Warning Implementation*
+When any of the intracommunity transaction fields contain values, the system shall display a warning message:
+
+Warning Message:
+
+"For these transactions, in addition to the VAT return, you are required to submit the corresponding *VIES Statement* by the 25th day of the following month."
+
+Warning Behavior:
+ * Warning appears when any intracommunity field has a non-zero value
+ * User can proceed with form submission despite the warning
+ * Warning persists until form is submitted or fields are cleared | Enriched Jira Features.Benefit Hypothesis: This enhancement aims to showcase an example of Solon Tax capability for warnings. Business case aims to reduce taxpayer compliance errors by providing clear field labeling and proactive warnings about VIES Statement obligations. | Enriched Jira Features.Acceptance Criteria: h3. Field Label Updates
+
+All four intracommunity transaction fields display updated labels as specified below: 
+
+VAT on Sales Section:
+
+{{TOTAL SALES BUYER OBLIGATED}} ? *{{Intracommunity Sales}}*
+
+{{TOTAL SALES BUYER NOT OBLIGATED}} ? *{{Intracommunity Sales without VAT}}*
+VAT on Purchases Section:
+
+{{TOTAL PURCHASES BUYER OBLIGED FOR VAT}} ? *{{Intracommunity Purchases}}*
+
+{{TOTAL PURCHASES BUYER NOT OBLIGED FOR VAT}} ? *{{Intracommunity Purchases without VAT}}*
+ * Labels are consistent across all form views (edit, read-only, validation)
+ * Field functionality remains unchanged - only labels are updated
+
+h3. Warning Implementation
+
+When any of the intracommunity transaction fields contain values, the system shall display a warning message:
+
+*Warning Message:*
+{quote}"For these transactions, in addition to the VAT return, you are required to submit the corresponding *VIES Statement* by the 25th day of the following month."
+{quote}
+h3. Warning Display Logic
+ * Warning appears when any intracommunity field (Amount or Adjustment) contains non-zero values
+ * Warning message displays the exact text specified above with "{*}VIES Statement{*}" in bold
+ * Warning is classified as a warning (not error) allowing form submission to proceed
+ * No impact on existing form functionality or performance
+
+h3. Warning Persistence
+ * Warning remains visible throughout form editing session
+ * Warning disappears when all intracommunity fields are cleared/set to zero
+ * Warning does not prevent form validation, saving, or submission
+
+h3. User Experience
+ * Warning appears in the standard warning notification area
+ * Warning uses appropriate warning styling (amber/yellow color scheme)
+ * Warning includes appropriate warning icon
+ * Warning message is clearly readable and professionally formatted
+
+[Sheet: Roadmap_JIRA.xlsx / Jira Data] (2 rows)
+IRM: IRM-38759 | Initiative Group: REFERENCE IMPLEMENTATIONS | Initiative: VAT | Epic: Reference Implemenation - VAT | Roadmap Feature: VAT Tax Account Reference Implementation | Status: HLD | Requester: GTM | Calculated PI: PI28 | Final Original Estimate: 159 | Priority: p1 | Enriched Jira Features.Summary: VAT Tax Account Reference Implementation | Enriched Jira Features.Description: As a revenue officer, I would like to add debts and payments to a tax account, so that I am able to demo how Solon supports a VAT account (i.e., Tax Account only for VAT).
+
+*Introduction* 
+
+This feature aims to create the necessary configuration for a Tax Account reference imp[lementation. The Overview of the Tax Account that is needed in all implementations using a Tax Account is in scope of feature ... 
+
+*Functional Requirements*
+
+*Core Configuration Requirements*
+ # *Revenue Type Configuration*
+
+ * *"VAT for Tax Account" Revenue Type* with flags:
+ * taxAccount: true - Enable tax account functionality
+ * reconciliationPeriod: true - Enable reconciliation period support
+
+ * {*}Revenue Type Category{*}: PERIODIC
+ * {*}Revenue Type Actions{*}: FILING, PAYMENT
+ * {*}Calendar Integration{*}: Link to appropriate revenue calendars{*}{{*}}
+
+ 
+ * *"VAT for Tax Account Ad hoc" Revenue Type* with flags:
+
+ * 
+ ** taxAccount: true - Enable tax account functionality
+ ** reconciliationPeriod: true - Enable reconciliation period support
+
+ * {*}Revenue Type Category{*}: Ad Hoc
+ * {*}Revenue Type Actions{*}: PAYMENT
+
+ 
+ # *Reconciliation Period Management*
+
+ * *Reconciliation Period Entity* configuration with:
+ * Period codes (e.g., "2024M1", "2024M2")
+ * Start and end dates for each period
+ * Active/Inactive status management
+
+ * *Revenue Type Registration Reconciliation Period* linking:
+ * Opening and closing balances per period
+ * Party informed indicator
+
+ # *Financial Transaction-Reconciliation period*
+
+ * {*}FT Reconciliation Period Link{*}: Enable FTs to reference reconciliation periods
+ * {*}Automatic Period Assignment{*}: Link FTs to reconciliation periods based on creation date
+ * {*}Validation Rules{*}: Ensure only revenue types with reconciliationPeriod: true can link to periods
+
+ # *Tax Account UI Configuration*
+
+ * {*}Specialized UI Schema{*}: entitySubType: 'TaxAcc_RP' for Revenue Type Registration
+ * {*}Balance Display{*}: Show opening/closing balances per reconciliation period
+ * {*}Period Timeline{*}: Visual representation of reconciliation periods
+ * {*}Balance Update Interface{*}: Enable manual balance adjustments with audit trail
+
+*Business Process Requirements*
+ # *Balance Management*
+
+ * {*}Opening Balance Recording{*}: Support initial balance entry per reconciliation period
+ * {*}Closing Balance Calculation{*}: Automatic calculation based on transactions and adjustments
+ * {*}Balance Transfer{*}: Opening balance of next period equals closing balance of previous period
+ * {*}Manual Adjustments{*}: Allow authorized balance corrections with proper validation
+
+ # *Debt and Payment Processing*
+
+ * {*}Debt Recording{*}: Create financial transactions for VAT liabilities
+ * {*}Payment Processing{*}: Record and allocate VAT payments to specific periods
+ * {*}Cross-Period Allocation{*}: Support payment allocation across multiple reconciliation periods
+ * {*}Interest and Penalty Calculation{*}: Apply to overdue amounts per period
+
+ 
+
+*Documentation*
+Document all the above configuration for introducing a reference implementation for the Tax Account is vital for Demos and future implementation needs. 
+
+ 
+
+  | Enriched Jira Features.Benefit Hypothesis: By enhancing Solon Tax with a reference implementation for VAT Tax Account functionality, we will enable revenue officers to efficiently manage VAT debts and payments through reconciliation periods, providing a comprehensive demonstration of Solon Tax's capability to support requirements for VAT Tax Account. | Enriched Jira Features.Acceptance Criteria: • Revenue Type VAT is configured with both taxAccount and reconciliationPeriod flags enabled
+• Reconciliation periods can be created, updated, and linked to VAT revenue type registrations
+• Financial transactions automatically link to appropriate reconciliation periods based on creation date
+• Opening and closing balances can be recorded and maintained per reconciliation period
+• Tax Account UI displays comprehensive period timeline with balance information
+• Revenue officers can add debts (assessments) and record payments against specific reconciliation periods
+• Balance calculations are accurate across period boundaries
+• Party informed status can be tracked and updated per reconciliation period
+• System validates that only reconciliation-period-enabled revenue types support period functionality
+• Audit trail captures all balance changes and period-related activities
+
+Documentation on the configuration guide for the necessary configuration needed to have the reference implementation of the Tax Account up and running. 
+IRM: IRM-38710 | Initiative Group: REFERENCE IMPLEMENTATIONS | Initiative: VAT | Epic: Reference Implemenation - VAT | Roadmap Feature: VAT Return Form - Warning for Intracommunity Transaction Enhancement | Status: Waiting Analysis Approval | Requester: GTM | Calculated PI: PI28 | Final Original Estimate: 80 | Priority: p2 | Enriched Jira Features.Summary: VAT Return Form - Warning for Intracommunity Transaction Enhancement | Enriched Jira Features.Description: As a RM User, I would like to see a warning when I fill in intracommunity transaction fields in the VAT Return Form, so that I am informed of my obligations to submit the corresponding VIES Statement in the respective deadline.
+
+*Introduction* 
+
+This feature enhances the VAT Return Form by implementing a warning mechanism for intracommunity transactions. The enhancement includes field label corrections to enhance understanding of these fields and a business-critical warning to ensure taxpayers comply with VIES Statement submission requirements. 
+
+ 
+
+*Functional Requirements*
+
+*Field Label Corrections*
+The following field labels in the VAT Return Form will be renamed to accurately reflect their purpose:
+
+VAT on Sales Section:
+
+TOTAL SALES BUYER OBLIGATED → Intracommunity Sales
+TOTAL SALES BUYER NOT OBLIGATED → Intracommunity Sales without VAT
+VAT on Purchases Section:
+
+TOTAL PURCHASES BUYER OBLIGED FOR VAT → Intracommunity Purchases
+TOTAL PURCHASES BUYER NOT OBLIGED FOR VAT → Intracommunity Purchases without VAT
+
+
+
+*Warning Implementation*
+When any of the intracommunity transaction fields contain values, the system shall display a warning message:
+
+Warning Message:
+
+"For these transactions, in addition to the VAT return, you are required to submit the corresponding *VIES Statement* by the 25th day of the following month."
+
+Warning Behavior:
+ * Warning appears when any intracommunity field has a non-zero value
+ * User can proceed with form submission despite the warning
+ * Warning persists until form is submitted or fields are cleared | Enriched Jira Features.Benefit Hypothesis: This enhancement aims to showcase an example of Solon Tax capability for warnings. Business case aims to reduce taxpayer compliance errors by providing clear field labeling and proactive warnings about VIES Statement obligations. | Enriched Jira Features.Acceptance Criteria: h3. Field Label Updates
+
+All four intracommunity transaction fields display updated labels as specified below: 
+
+VAT on Sales Section:
+
+{{TOTAL SALES BUYER OBLIGATED}} → *{{Intracommunity Sales}}*
+
+{{TOTAL SALES BUYER NOT OBLIGATED}} → *{{Intracommunity Sales without VAT}}*
+VAT on Purchases Section:
+
+{{TOTAL PURCHASES BUYER OBLIGED FOR VAT}} → *{{Intracommunity Purchases}}*
+
+{{TOTAL PURCHASES BUYER NOT OBLIGED FOR VAT}} → *{{Intracommunity Purchases without VAT}}*
+ * Labels are consistent across all form views (edit, read-only, validation)
+ * Field functionality remains unchanged - only labels are updated
+
+h3. Warning Implementation
+
+When any of the intracommunity transaction fields contain values, the system shall display a warning message:
+
+*Warning Message:*
+{quote}"For these transactions, in addition to the VAT return, you are required to submit the corresponding *VIES Statement* by the 25th day of the following month."
+{quote}
+h3. Warning Display Logic
+ * Warning appears when any intracommunity field (Amount or Adjustment) contains non-zero values
+ * Warning message displays the exact text specified above with "{*}VIES Statement{*}" in bold
+ * Warning is classified as a warning (not error) allowing form submission to proceed
+ * No impact on existing form functionality or performance
+
+h3. Warning Persistence
+ * Warning remains visible throughout form editing session
+ * Warning disappears when all intracommunity fields are cleared/set to zero
+ * Warning does not prevent form validation, saving, or submission
+
+h3. User Experience
+ * Warning appears in the standard warning notification area
+ * Warning uses appropriate warning styling (amber/yellow color scheme)
+ * Warning includes appropriate warning icon
+ * Warning message is clearly readable and professionally formatted

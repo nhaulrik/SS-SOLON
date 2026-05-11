@@ -1,0 +1,1999 @@
+{
+  "flowId": "flow-initiative-non-functional",
+  "name": "initiative-non-functional",
+  "projectId": "49447fad-c7a1-4e99-8d79-58e6d8b882fc",
+  "templateId": "9fb87b35-486c-42c2-b78f-5ec4ee3f701b",
+  "templateFilename": "initiative_template_v3.html",
+  "createdAt": "2026-04-29T07:52:44.390Z",
+  "updatedAt": "2026-05-01T08:34:27.241Z",
+  "status": "active",
+  "globalPrompt": "",
+  "summaryPrompt": "",
+  "contentPrompt": "",
+  "sliceOutputTemplate": "initiative.txt",
+  "generations": [
+    {
+      "id": "8ffe03ab-e032-45c1-8afd-2abab6732f82",
+      "appliedAt": "2026-04-29T07:54:26.347Z",
+      "outputFile": "output-8ffe03ab-e032-45c1-8afd-2abab6732f82.html",
+      "jsonInput": "{\"slides\":{\"slide_1\":{\"instances\":[{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">Accessibility</div>\\n        <div class=\\\"header-subtitle\\\">Non-Functional Requirement Coverage · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">448</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">8</div>\\n        <div class=\\\"header-stat-label\\\">Features</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value text-stat\\\">Other, GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\">\\n      <div class=\\\"sp-label\\\">Strategic Case</div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">01</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Regulatory Compliance and Legal Obligation</div>\\n          <div class=\\\"reason-text\\\">WCAG 2.1 AA and EN 301 549 standards mandate accessible digital services for all users.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">02</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Inclusive User Experience Across Abilities</div>\\n          <div class=\\\"reason-text\\\">Accessibility improvements ensure revenue authority users and taxpayers of all abilities can effectively interact.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class",
+      "slideNames": [
+        {
+          "index": 1,
+          "name": "Accessibility",
+          "keyMissing": false
+        },
+        {
+          "index": 2,
+          "name": "Extensibility",
+          "keyMissing": false
+        },
+        {
+          "index": 3,
+          "name": "Maintainability",
+          "keyMissing": false
+        },
+        {
+          "index": 4,
+          "name": "Operability",
+          "keyMissing": false
+        },
+        {
+          "index": 5,
+          "name": "Performance Efficiency",
+          "keyMissing": false
+        },
+        {
+          "index": 6,
+          "name": "Reliability",
+          "keyMissing": false
+        },
+        {
+          "index": 7,
+          "name": "Security",
+          "keyMissing": false
+        },
+        {
+          "index": 8,
+          "name": "Test Suite Optimization",
+          "keyMissing": false
+        },
+        {
+          "index": 9,
+          "name": "Traceability",
+          "keyMissing": false
+        },
+        {
+          "index": 10,
+          "name": "Usability",
+          "keyMissing": false
+        }
+      ]
+    },
+    {
+      "id": "6c4c6eca-7595-4345-977c-4d8af693e489",
+      "appliedAt": "2026-04-29T08:04:03.237Z",
+      "outputFile": "output-6c4c6eca-7595-4345-977c-4d8af693e489.html",
+      "jsonInput": "{\"slides\":{\"slide_1\":{\"instances\":[{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">Accessibility</div>\\n        <div class=\\\"header-subtitle\\\">Non-Functional Requirement Coverage · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">269</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">7</div>\\n        <div class=\\\"header-stat-label\\\">Features</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value text-stat\\\">Other, GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\">\\n      <div class=\\\"sp-label\\\">Strategic Case</div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">01</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Regulatory Compliance and Legal Obligation</div>\\n          <div class=\\\"reason-text\\\">WCAG 2.1 AA and EN 301 549 standards mandate accessible systems for all users globally.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">02</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Inclusive User Experience Across Abilities</div>\\n          <div class=\\\"reason-text\\\">Accessibility improvements ensure revenue authority users and taxpayers of all abilities interact effectively.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"r",
+      "slideNames": [
+        {
+          "index": 1,
+          "name": "Accessibility",
+          "keyMissing": false
+        },
+        {
+          "index": 2,
+          "name": "Extensibility",
+          "keyMissing": false
+        },
+        {
+          "index": 3,
+          "name": "Maintainability",
+          "keyMissing": false
+        },
+        {
+          "index": 4,
+          "name": "Operability",
+          "keyMissing": false
+        },
+        {
+          "index": 5,
+          "name": "Performance Efficiency",
+          "keyMissing": false
+        },
+        {
+          "index": 6,
+          "name": "Reliability",
+          "keyMissing": false
+        },
+        {
+          "index": 7,
+          "name": "Security",
+          "keyMissing": false
+        },
+        {
+          "index": 8,
+          "name": "Test Suite Optimization",
+          "keyMissing": false
+        },
+        {
+          "index": 9,
+          "name": "Traceability",
+          "keyMissing": false
+        },
+        {
+          "index": 10,
+          "name": "Usability",
+          "keyMissing": false
+        }
+      ]
+    }
+  ],
+  "exports": [],
+  "_metadata": {
+    "selections": [
+      {
+        "nodeId": "div.header",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-left\">\n      <div class=\"pi-badge\">PI 28</div>\n      <div class=\"header-text-section\">\n        <div class=\"header-label\">Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>\n      </div>\n    </div>\n    <div class=\"header-right\">\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">4,580</div>\n        <div class=\"header-stat-label\">Total Hours</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">10</div>\n        <div class=\"header-stat-label\">Features</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value text-stat\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>\n      </div>\n    </div>"
+      },
+      {
+        "nodeId": "div.body",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"strategic-panel\">\n      <div class=\"sp-label\">Strategic Case</div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">01</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Tech Debt Reduction</div>\n          <div class=\"reason-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>\n        </div>\n      </div>\n\n      <div class=\"reason-rule\"></div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">02</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Critical Platform Upgrades</div>\n          <div class=\"reason-text\">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>\n        </div>\n      </div>\n\n      <div class=\"reason-rule\"></div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">03</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Configuration Management</div>\n          <div class=\"reason-text\">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>\n        </div>\n      </div>\n    </div>\n\n    \n    <div class=\"epics-panel\">\n      <div class=\"ep-label\">Key Features</div>\n      <div class=\"ep-label-rule\"></div>\n      <div class=\"epics-grid\">\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Hexagonal Architecture Refactor</div>\n          <div class=\"epic-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Java 25 Upgrade</div>\n          <div class=\"epic-desc\">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Spring Boot 4.x Migration</div>\n          <div class=\"epic-desc\">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Oracle 26ai Database Migration</div>\n          <div class=\"epic-desc\">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Cross-Team UI Tech Debt</div>\n          <div class=\"epic-desc\">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Config Items Management Tool</div>\n          <div class=\"epic-desc\">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>\n          </div>\n        </div>\n\n      </div>\n    </div>"
+      },
+      {
+        "nodeId": "div.slide-footer",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_footer",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span class=\"footer-text\">Solon Tax Product Roadmap 2026</span>\n    <span class=\"footer-text\">Netcompany</span>"
+      },
+      {
+        "nodeId": "div.header>div.header-left",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_left",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-badge\">PI 28</div>\n      <div class=\"header-text-section\">\n        <div class=\"header-label\">Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>\n      </div>"
+      },
+      {
+        "nodeId": "div.header>div.header-left>div.header-text-section",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_left_div_header_text_section",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-label\">Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>"
+      },
+      {
+        "nodeId": "div.header>div.header-right",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_right",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-stat\">\n        <div class=\"header-stat-value\">4,580</div>\n        <div class=\"header-stat-label\">Total Hours</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">10</div>\n        <div class=\"header-stat-label\">Features</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value text-stat\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>\n      </div>"
+      },
+      {
+        "nodeId": "div.header>div.header-right>div.header-stat",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_right_div_header_stat",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-stat-value\">4,580</div>\n        <div class=\"header-stat-label\">Total Hours</div>"
+      },
+      {
+        "nodeId": "div.header>div.header-right>div.header-stat[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_right_div_header_stat_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-stat-value\">10</div>\n        <div class=\"header-stat-label\">Features</div>"
+      },
+      {
+        "nodeId": "div.header>div.header-right>div.header-stat[2]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_right_div_header_stat_2_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-stat-value text-stat\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>"
+      },
+      {
+        "nodeId": "div.body>div.strategic-panel",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_strategic_panel",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"sp-label\">Strategic Case</div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">01</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Tech Debt Reduction</div>\n          <div class=\"reason-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>\n        </div>\n      </div>\n\n      <div class=\"reason-rule\"></div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">02</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Critical Platform Upgrades</div>\n          <div class=\"reason-text\">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>\n        </div>\n      </div>\n\n      <div class=\"reason-rule\"></div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">03</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Configuration Management</div>\n          <div class=\"reason-text\">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>\n        </div>\n      </div>"
+      },
+      {
+        "nodeId": "div.body>div.strategic-panel>div.reason",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_strategic_panel_div_reason",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"reason-num\">01</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Tech Debt Reduction</div>\n          <div class=\"reason-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>\n        </div>"
+      },
+      {
+        "nodeId": "div.body>div.strategic-panel>div.reason>div.reason-body",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_strategic_panel_div_reason_div_reason_body",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"reason-title\">Tech Debt Reduction</div>\n          <div class=\"reason-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>"
+      },
+      {
+        "nodeId": "div.body>div.strategic-panel>div.reason[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_strategic_panel_div_reason_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"reason-num\">02</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Critical Platform Upgrades</div>\n          <div class=\"reason-text\">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>\n        </div>"
+      },
+      {
+        "nodeId": "div.body>div.strategic-panel>div.reason[1]>div.reason-body",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_strategic_panel_div_reason_1__div_reason_body",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"reason-title\">Critical Platform Upgrades</div>\n          <div class=\"reason-text\">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>"
+      },
+      {
+        "nodeId": "div.body>div.strategic-panel>div.reason[2]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_strategic_panel_div_reason_2_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"reason-num\">03</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Configuration Management</div>\n          <div class=\"reason-text\">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>\n        </div>"
+      },
+      {
+        "nodeId": "div.body>div.strategic-panel>div.reason[2]>div.reason-body",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_strategic_panel_div_reason_2__div_reason_body",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"reason-title\">Configuration Management</div>\n          <div class=\"reason-text\">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"ep-label\">Key Features</div>\n      <div class=\"ep-label-rule\"></div>\n      <div class=\"epics-grid\">\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Hexagonal Architecture Refactor</div>\n          <div class=\"epic-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Java 25 Upgrade</div>\n          <div class=\"epic-desc\">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Spring Boot 4.x Migration</div>\n          <div class=\"epic-desc\">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Oracle 26ai Database Migration</div>\n          <div class=\"epic-desc\">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Cross-Team UI Tech Debt</div>\n          <div class=\"epic-desc\">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Config Items Management Tool</div>\n          <div class=\"epic-desc\">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>\n          </div>\n        </div>\n\n      </div>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"epic-cell\">\n          <div class=\"epic-name\">Hexagonal Architecture Refactor</div>\n          <div class=\"epic-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Java 25 Upgrade</div>\n          <div class=\"epic-desc\">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Spring Boot 4.x Migration</div>\n          <div class=\"epic-desc\">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Oracle 26ai Database Migration</div>\n          <div class=\"epic-desc\">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Cross-Team UI Tech Debt</div>\n          <div class=\"epic-desc\">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Config Items Management Tool</div>\n          <div class=\"epic-desc\">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>\n          </div>\n        </div>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"epic-name\">Hexagonal Architecture Refactor</div>\n          <div class=\"epic-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>\n          </div>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell>div.epic-meta",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_div_epic_meta",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"epic-name\">Java 25 Upgrade</div>\n          <div class=\"epic-desc\">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>\n          </div>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[1]>div.epic-meta",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_1__div_epic_meta",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[2]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_2_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"epic-name\">Spring Boot 4.x Migration</div>\n          <div class=\"epic-desc\">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>\n          </div>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[2]>div.epic-meta",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_2__div_epic_meta",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[3]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_3_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"epic-name\">Oracle 26ai Database Migration</div>\n          <div class=\"epic-desc\">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>\n          </div>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[3]>div.epic-meta",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_3__div_epic_meta",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[4]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_4_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"epic-name\">Cross-Team UI Tech Debt</div>\n          <div class=\"epic-desc\">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>\n          </div>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[4]>div.epic-meta",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_4__div_epic_meta",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[5]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_5_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"epic-name\">Config Items Management Tool</div>\n          <div class=\"epic-desc\">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>\n          </div>"
+      },
+      {
+        "nodeId": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[5]>div.epic-meta",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_epics_panel_div_epics_grid_div_epic_cell_5__div_epic_meta",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>"
+      }
+    ],
+    "zones": [
+      {
+        "zoneType": "block",
+        "key": "auto_div_header",
+        "nodeId": "div.header",
+        "slideIndex": 1,
+        "type": "block",
+        "hint": "",
+        "autoGenerate": true,
+        "prompt": "",
+        "exampleHtml": "<div class=\"header-left\">\n      <div class=\"pi-badge\">PI 28</div>\n      <div class=\"header-text-section\">\n        <div class=\"header-label\">Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>\n      </div>\n    </div>\n    <div class=\"header-right\">\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">4,580</div>\n        <div class=\"header-stat-label\">Total Hours</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">10</div>\n        <div class=\"header-stat-label\">Features</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value text-stat\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>\n      </div>\n    </div>",
+        "isRepeatable": true,
+        "repeatableKey": null,
+        "unique": true,
+        "ignored": false,
+        "elementOrder": 0,
+        "originalText": ""
+      },
+      {
+        "zoneType": "block",
+        "key": "auto_div_body",
+        "nodeId": "div.body",
+        "slideIndex": 1,
+        "type": "block",
+        "hint": "",
+        "autoGenerate": true,
+        "prompt": "",
+        "exampleHtml": "<div class=\"strategic-panel\">\n      <div class=\"sp-label\">Strategic Case</div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">01</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Tech Debt Reduction</div>\n          <div class=\"reason-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>\n        </div>\n      </div>\n\n      <div class=\"reason-rule\"></div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">02</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Critical Platform Upgrades</div>\n          <div class=\"reason-text\">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>\n        </div>\n      </div>\n\n      <div class=\"reason-rule\"></div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">03</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Configuration Management</div>\n          <div class=\"reason-text\">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>\n        </div>\n      </div>\n    </div>\n\n    \n    <div class=\"epics-panel\">\n      <div class=\"ep-label\">Key Features</div>\n      <div class=\"ep-label-rule\"></div>\n      <div class=\"epics-grid\">\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Hexagonal Architecture Refactor</div>\n          <div class=\"epic-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Java 25 Upgrade</div>\n          <div class=\"epic-desc\">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Spring Boot 4.x Migration</div>\n          <div class=\"epic-desc\">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Oracle 26ai Database Migration</div>\n          <div class=\"epic-desc\">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Cross-Team UI Tech Debt</div>\n          <div class=\"epic-desc\">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Config Items Management Tool</div>\n          <div class=\"epic-desc\">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>\n          </div>\n        </div>\n\n      </div>\n    </div>",
+        "isRepeatable": true,
+        "repeatableKey": null,
+        "unique": true,
+        "ignored": false,
+        "elementOrder": 1,
+        "originalText": ""
+      },
+      {
+        "zoneType": "block",
+        "key": "auto_div_slide_footer",
+        "nodeId": "div.slide-footer",
+        "slideIndex": 1,
+        "type": "block",
+        "hint": "",
+        "autoGenerate": true,
+        "prompt": "",
+        "exampleHtml": "<span class=\"footer-text\">Solon Tax Product Roadmap 2026</span>\n    <span class=\"footer-text\">Netcompany</span>",
+        "isRepeatable": true,
+        "repeatableKey": null,
+        "unique": true,
+        "ignored": false,
+        "elementOrder": 2,
+        "originalText": ""
+      }
+    ],
+    "repeatableSlides": [
+      {
+        "slideIndex": 1,
+        "key": "slide_1",
+        "prompt": ""
+      }
+    ],
+    "fullSlideGeneration": [
+      0,
+      1
+    ],
+    "trees": [
+      [
+        {
+          "id": "div.top-bar",
+          "tag": "div",
+          "classes": [
+            "top-bar"
+          ],
+          "label": "div.top-bar",
+          "textPreview": "",
+          "innerHTML": "",
+          "children": [],
+          "isLeaf": true,
+          "interesting": false,
+          "chrome": true,
+          "depth": 0,
+          "slideIndex": 1
+        },
+        {
+          "id": "div.header",
+          "tag": "div",
+          "classes": [
+            "header"
+          ],
+          "label": "div.header",
+          "textPreview": "",
+          "innerHTML": "<div class=\"header-left\">\n      <div class=\"pi-badge\">PI 28</div>\n      <div class=\"header-text-section\">\n        <div class=\"header-label\">Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>\n      </div>\n    </div>\n    <div class=\"header-right\">\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">4,580</div>\n        <div class=\"header-stat-label\">Total Hours</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">10</div>\n        <div class=\"header-stat-label\">Features</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value text-stat\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>\n      </div>\n    </div>",
+          "children": [
+            {
+              "id": "div.header>div.header-left",
+              "tag": "div",
+              "classes": [
+                "header-left"
+              ],
+              "label": "div.header-left",
+              "textPreview": "",
+              "innerHTML": "<div class=\"pi-badge\">PI 28</div>\n      <div class=\"header-text-section\">\n        <div class=\"header-label\">Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>\n      </div>",
+              "children": [
+                {
+                  "id": "div.header>div.header-left>div.pi-badge",
+                  "tag": "div",
+                  "classes": [
+                    "pi-badge"
+                  ],
+                  "label": "div.pi-badge",
+                  "textPreview": "PI 28",
+                  "innerHTML": "PI 28",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-left>div.header-text-section",
+                  "tag": "div",
+                  "classes": [
+                    "header-text-section"
+                  ],
+                  "label": "div.header-text-section",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"header-label\">Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026</div>",
+                  "children": [
+                    {
+                      "id": "div.header>div.header-left>div.header-text-section>div.header-label",
+                      "tag": "div",
+                      "classes": [
+                        "header-label"
+                      ],
+                      "label": "div.header-label",
+                      "textPreview": "Roadmap Initiative",
+                      "innerHTML": "Roadmap Initiative",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.header>div.header-left>div.header-text-section>div.header-title",
+                      "tag": "div",
+                      "classes": [
+                        "header-title"
+                      ],
+                      "label": "div.header-title",
+                      "textPreview": "Maintainability Enhancements",
+                      "innerHTML": "Maintainability Enhancements",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.header>div.header-left>div.header-text-section>div.header-subtitle",
+                      "tag": "div",
+                      "classes": [
+                        "header-subtitle"
+                      ],
+                      "label": "div.header-subtitle",
+                      "textPreview": "Technology Upgrades & Technical Debt Reduction · Solon Tax 2026",
+                      "innerHTML": "Technology Upgrades &amp; Technical Debt Reduction · Solon Tax 2026",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                }
+              ],
+              "isLeaf": false,
+              "interesting": true,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            },
+            {
+              "id": "div.header>div.header-right",
+              "tag": "div",
+              "classes": [
+                "header-right"
+              ],
+              "label": "div.header-right",
+              "textPreview": "",
+              "innerHTML": "<div class=\"header-stat\">\n        <div class=\"header-stat-value\">4,580</div>\n        <div class=\"header-stat-label\">Total Hours</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">10</div>\n        <div class=\"header-stat-label\">Features</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value text-stat\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>\n      </div>",
+              "children": [
+                {
+                  "id": "div.header>div.header-right>div.header-stat",
+                  "tag": "div",
+                  "classes": [
+                    "header-stat"
+                  ],
+                  "label": "div.header-stat",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"header-stat-value\">4,580</div>\n        <div class=\"header-stat-label\">Total Hours</div>",
+                  "children": [
+                    {
+                      "id": "div.header>div.header-right>div.header-stat>div.header-stat-value",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-value"
+                      ],
+                      "label": "div.header-stat-value",
+                      "textPreview": "4,580",
+                      "innerHTML": "4,580",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.header>div.header-right>div.header-stat>div.header-stat-label",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-label"
+                      ],
+                      "label": "div.header-stat-label",
+                      "textPreview": "Total Hours",
+                      "innerHTML": "Total Hours",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-right>div.header-divider",
+                  "tag": "div",
+                  "classes": [
+                    "header-divider"
+                  ],
+                  "label": "div.header-divider",
+                  "textPreview": "",
+                  "innerHTML": "",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": true,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-right>div.header-stat[1]",
+                  "tag": "div",
+                  "classes": [
+                    "header-stat"
+                  ],
+                  "label": "div.header-stat",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"header-stat-value\">10</div>\n        <div class=\"header-stat-label\">Features</div>",
+                  "children": [
+                    {
+                      "id": "div.header>div.header-right>div.header-stat[1]>div.header-stat-value",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-value"
+                      ],
+                      "label": "div.header-stat-value",
+                      "textPreview": "10",
+                      "innerHTML": "10",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.header>div.header-right>div.header-stat[1]>div.header-stat-label",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-label"
+                      ],
+                      "label": "div.header-stat-label",
+                      "textPreview": "Features",
+                      "innerHTML": "Features",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-right>div.header-divider[1]",
+                  "tag": "div",
+                  "classes": [
+                    "header-divider"
+                  ],
+                  "label": "div.header-divider",
+                  "textPreview": "",
+                  "innerHTML": "",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": true,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-right>div.header-stat[2]",
+                  "tag": "div",
+                  "classes": [
+                    "header-stat"
+                  ],
+                  "label": "div.header-stat",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"header-stat-value text-stat\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>",
+                  "children": [
+                    {
+                      "id": "div.header>div.header-right>div.header-stat[2]>div.header-stat-value.text-stat",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-value",
+                        "text-stat"
+                      ],
+                      "label": "div.header-stat-value.text-stat",
+                      "textPreview": "GRC",
+                      "innerHTML": "GRC",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.header>div.header-right>div.header-stat[2]>div.header-stat-label",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-label"
+                      ],
+                      "label": "div.header-stat-label",
+                      "textPreview": "Requester",
+                      "innerHTML": "Requester",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                }
+              ],
+              "isLeaf": false,
+              "interesting": true,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            }
+          ],
+          "isLeaf": false,
+          "interesting": true,
+          "chrome": false,
+          "depth": 0,
+          "slideIndex": 1
+        },
+        {
+          "id": "div.body",
+          "tag": "div",
+          "classes": [
+            "body"
+          ],
+          "label": "div.body",
+          "textPreview": "",
+          "innerHTML": "<div class=\"strategic-panel\">\n      <div class=\"sp-label\">Strategic Case</div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">01</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Tech Debt Reduction</div>\n          <div class=\"reason-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>\n        </div>\n      </div>\n\n      <div class=\"reason-rule\"></div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">02</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Critical Platform Upgrades</div>\n          <div class=\"reason-text\">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>\n        </div>\n      </div>\n\n      <div class=\"reason-rule\"></div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">03</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Configuration Management</div>\n          <div class=\"reason-text\">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>\n        </div>\n      </div>\n    </div>\n\n    \n    <div class=\"epics-panel\">\n      <div class=\"ep-label\">Key Features</div>\n      <div class=\"ep-label-rule\"></div>\n      <div class=\"epics-grid\">\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Hexagonal Architecture Refactor</div>\n          <div class=\"epic-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Java 25 Upgrade</div>\n          <div class=\"epic-desc\">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Spring Boot 4.x Migration</div>\n          <div class=\"epic-desc\">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Oracle 26ai Database Migration</div>\n          <div class=\"epic-desc\">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Cross-Team UI Tech Debt</div>\n          <div class=\"epic-desc\">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Config Items Management Tool</div>\n          <div class=\"epic-desc\">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>\n          </div>\n        </div>\n\n      </div>\n    </div>",
+          "children": [
+            {
+              "id": "div.body>div.strategic-panel",
+              "tag": "div",
+              "classes": [
+                "strategic-panel"
+              ],
+              "label": "div.strategic-panel",
+              "textPreview": "",
+              "innerHTML": "<div class=\"sp-label\">Strategic Case</div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">01</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Tech Debt Reduction</div>\n          <div class=\"reason-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>\n        </div>\n      </div>\n\n      <div class=\"reason-rule\"></div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">02</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Critical Platform Upgrades</div>\n          <div class=\"reason-text\">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>\n        </div>\n      </div>\n\n      <div class=\"reason-rule\"></div>\n\n      <div class=\"reason\">\n        <div class=\"reason-num\">03</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Configuration Management</div>\n          <div class=\"reason-text\">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>\n        </div>\n      </div>",
+              "children": [
+                {
+                  "id": "div.body>div.strategic-panel>div.sp-label",
+                  "tag": "div",
+                  "classes": [
+                    "sp-label"
+                  ],
+                  "label": "div.sp-label",
+                  "textPreview": "Strategic Case",
+                  "innerHTML": "Strategic Case",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.body>div.strategic-panel>div.reason",
+                  "tag": "div",
+                  "classes": [
+                    "reason"
+                  ],
+                  "label": "div.reason",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"reason-num\">01</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Tech Debt Reduction</div>\n          <div class=\"reason-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>\n        </div>",
+                  "children": [
+                    {
+                      "id": "div.body>div.strategic-panel>div.reason>div.reason-num",
+                      "tag": "div",
+                      "classes": [
+                        "reason-num"
+                      ],
+                      "label": "div.reason-num",
+                      "textPreview": "01",
+                      "innerHTML": "01",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.body>div.strategic-panel>div.reason>div.reason-body",
+                      "tag": "div",
+                      "classes": [
+                        "reason-body"
+                      ],
+                      "label": "div.reason-body",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"reason-title\">Tech Debt Reduction</div>\n          <div class=\"reason-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.</div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.strategic-panel>div.reason>div.reason-body>div.reason-title",
+                          "tag": "div",
+                          "classes": [
+                            "reason-title"
+                          ],
+                          "label": "div.reason-title",
+                          "textPreview": "Tech Debt Reduction",
+                          "innerHTML": "Tech Debt Reduction",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.strategic-panel>div.reason>div.reason-body>div.reason-text",
+                          "tag": "div",
+                          "classes": [
+                            "reason-text"
+                          ],
+                          "label": "div.reason-text",
+                          "textPreview": "Restructures revenue-management-be-custom to hexagonal architecture, improving m…",
+                          "innerHTML": "Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across all delivery teams.",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.body>div.strategic-panel>div.reason-rule",
+                  "tag": "div",
+                  "classes": [
+                    "reason-rule"
+                  ],
+                  "label": "div.reason-rule",
+                  "textPreview": "",
+                  "innerHTML": "",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.body>div.strategic-panel>div.reason[1]",
+                  "tag": "div",
+                  "classes": [
+                    "reason"
+                  ],
+                  "label": "div.reason",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"reason-num\">02</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Critical Platform Upgrades</div>\n          <div class=\"reason-text\">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>\n        </div>",
+                  "children": [
+                    {
+                      "id": "div.body>div.strategic-panel>div.reason[1]>div.reason-num",
+                      "tag": "div",
+                      "classes": [
+                        "reason-num"
+                      ],
+                      "label": "div.reason-num",
+                      "textPreview": "02",
+                      "innerHTML": "02",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.body>div.strategic-panel>div.reason[1]>div.reason-body",
+                      "tag": "div",
+                      "classes": [
+                        "reason-body"
+                      ],
+                      "label": "div.reason-body",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"reason-title\">Critical Platform Upgrades</div>\n          <div class=\"reason-text\">Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.</div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.strategic-panel>div.reason[1]>div.reason-body>div.reason-title",
+                          "tag": "div",
+                          "classes": [
+                            "reason-title"
+                          ],
+                          "label": "div.reason-title",
+                          "textPreview": "Critical Platform Upgrades",
+                          "innerHTML": "Critical Platform Upgrades",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.strategic-panel>div.reason[1]>div.reason-body>div.reason-text",
+                          "tag": "div",
+                          "classes": [
+                            "reason-text"
+                          ],
+                          "label": "div.reason-text",
+                          "textPreview": "Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure…",
+                          "innerHTML": "Implements Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure, supported, and performant for current and future jurisdictions.",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.body>div.strategic-panel>div.reason-rule[1]",
+                  "tag": "div",
+                  "classes": [
+                    "reason-rule"
+                  ],
+                  "label": "div.reason-rule",
+                  "textPreview": "",
+                  "innerHTML": "",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.body>div.strategic-panel>div.reason[2]",
+                  "tag": "div",
+                  "classes": [
+                    "reason"
+                  ],
+                  "label": "div.reason",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"reason-num\">03</div>\n        <div class=\"reason-body\">\n          <div class=\"reason-title\">Configuration Management</div>\n          <div class=\"reason-text\">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>\n        </div>",
+                  "children": [
+                    {
+                      "id": "div.body>div.strategic-panel>div.reason[2]>div.reason-num",
+                      "tag": "div",
+                      "classes": [
+                        "reason-num"
+                      ],
+                      "label": "div.reason-num",
+                      "textPreview": "03",
+                      "innerHTML": "03",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.body>div.strategic-panel>div.reason[2]>div.reason-body",
+                      "tag": "div",
+                      "classes": [
+                        "reason-body"
+                      ],
+                      "label": "div.reason-body",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"reason-title\">Configuration Management</div>\n          <div class=\"reason-text\">Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.</div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.strategic-panel>div.reason[2]>div.reason-body>div.reason-title",
+                          "tag": "div",
+                          "classes": [
+                            "reason-title"
+                          ],
+                          "label": "div.reason-title",
+                          "textPreview": "Configuration Management",
+                          "innerHTML": "Configuration Management",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.strategic-panel>div.reason[2]>div.reason-body>div.reason-text",
+                          "tag": "div",
+                          "classes": [
+                            "reason-text"
+                          ],
+                          "label": "div.reason-text",
+                          "textPreview": "Introduces a dedicated Config Items Management tool for safely packaging and mig…",
+                          "innerHTML": "Introduces a dedicated Config Items Management tool for safely packaging and migrating configurations across environments without manual risk.",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                }
+              ],
+              "isLeaf": false,
+              "interesting": true,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            },
+            {
+              "id": "div.body>div.epics-panel",
+              "tag": "div",
+              "classes": [
+                "epics-panel"
+              ],
+              "label": "div.epics-panel",
+              "textPreview": "",
+              "innerHTML": "<div class=\"ep-label\">Key Features</div>\n      <div class=\"ep-label-rule\"></div>\n      <div class=\"epics-grid\">\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Hexagonal Architecture Refactor</div>\n          <div class=\"epic-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Java 25 Upgrade</div>\n          <div class=\"epic-desc\">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Spring Boot 4.x Migration</div>\n          <div class=\"epic-desc\">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Oracle 26ai Database Migration</div>\n          <div class=\"epic-desc\">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Cross-Team UI Tech Debt</div>\n          <div class=\"epic-desc\">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Config Items Management Tool</div>\n          <div class=\"epic-desc\">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>\n          </div>\n        </div>\n\n      </div>",
+              "children": [
+                {
+                  "id": "div.body>div.epics-panel>div.ep-label",
+                  "tag": "div",
+                  "classes": [
+                    "ep-label"
+                  ],
+                  "label": "div.ep-label",
+                  "textPreview": "Key Features",
+                  "innerHTML": "Key Features",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.body>div.epics-panel>div.ep-label-rule",
+                  "tag": "div",
+                  "classes": [
+                    "ep-label-rule"
+                  ],
+                  "label": "div.ep-label-rule",
+                  "textPreview": "",
+                  "innerHTML": "",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.body>div.epics-panel>div.epics-grid",
+                  "tag": "div",
+                  "classes": [
+                    "epics-grid"
+                  ],
+                  "label": "div.epics-grid",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"epic-cell\">\n          <div class=\"epic-name\">Hexagonal Architecture Refactor</div>\n          <div class=\"epic-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Java 25 Upgrade</div>\n          <div class=\"epic-desc\">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Spring Boot 4.x Migration</div>\n          <div class=\"epic-desc\">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Oracle 26ai Database Migration</div>\n          <div class=\"epic-desc\">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Cross-Team UI Tech Debt</div>\n          <div class=\"epic-desc\">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>\n          </div>\n        </div>\n\n        <div class=\"epic-cell\">\n          <div class=\"epic-name\">Config Items Management Tool</div>\n          <div class=\"epic-desc\">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>\n          </div>\n        </div>",
+                  "children": [
+                    {
+                      "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell",
+                      "tag": "div",
+                      "classes": [
+                        "epic-cell"
+                      ],
+                      "label": "div.epic-cell",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"epic-name\">Hexagonal Architecture Refactor</div>\n          <div class=\"epic-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>\n          </div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell>div.epic-name",
+                          "tag": "div",
+                          "classes": [
+                            "epic-name"
+                          ],
+                          "label": "div.epic-name",
+                          "textPreview": "Hexagonal Architecture Refactor",
+                          "innerHTML": "Hexagonal Architecture Refactor",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell>div.epic-desc",
+                          "tag": "div",
+                          "classes": [
+                            "epic-desc"
+                          ],
+                          "label": "div.epic-desc",
+                          "textPreview": "Restructure revenue-management-be-custom to clean hexagonal architecture with im…",
+                          "innerHTML": "Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling.",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell>div.epic-meta",
+                          "tag": "div",
+                          "classes": [
+                            "epic-meta"
+                          ],
+                          "label": "div.epic-meta",
+                          "textPreview": "",
+                          "innerHTML": "<span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">1,200h</span>",
+                          "children": [
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell>div.epic-meta>span.status-dot",
+                              "tag": "span",
+                              "classes": [
+                                "status-dot"
+                              ],
+                              "label": "span.status-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell>div.epic-meta>span.status-text",
+                              "tag": "span",
+                              "classes": [
+                                "status-text"
+                              ],
+                              "label": "span.status-text",
+                              "textPreview": "In Design",
+                              "innerHTML": "In Design",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell>div.epic-meta>span.effort-tag",
+                              "tag": "span",
+                              "classes": [
+                                "effort-tag"
+                              ],
+                              "label": "span.effort-tag",
+                              "textPreview": "1,200h",
+                              "innerHTML": "1,200h",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[1]",
+                      "tag": "div",
+                      "classes": [
+                        "epic-cell"
+                      ],
+                      "label": "div.epic-cell",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"epic-name\">Java 25 Upgrade</div>\n          <div class=\"epic-desc\">Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>\n          </div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[1]>div.epic-name",
+                          "tag": "div",
+                          "classes": [
+                            "epic-name"
+                          ],
+                          "label": "div.epic-name",
+                          "textPreview": "Java 25 Upgrade",
+                          "innerHTML": "Java 25 Upgrade",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[1]>div.epic-desc",
+                          "tag": "div",
+                          "classes": [
+                            "epic-desc"
+                          ],
+                          "label": "div.epic-desc",
+                          "textPreview": "Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and s…",
+                          "innerHTML": "Migrate codebase to Java 25 to leverage virtual threads, pattern matching, and significant performance improvements for high-volume tax operations.",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[1]>div.epic-meta",
+                          "tag": "div",
+                          "classes": [
+                            "epic-meta"
+                          ],
+                          "label": "div.epic-meta",
+                          "textPreview": "",
+                          "innerHTML": "<span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">640h</span>",
+                          "children": [
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[1]>div.epic-meta>span.status-dot",
+                              "tag": "span",
+                              "classes": [
+                                "status-dot"
+                              ],
+                              "label": "span.status-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[1]>div.epic-meta>span.status-text",
+                              "tag": "span",
+                              "classes": [
+                                "status-text"
+                              ],
+                              "label": "span.status-text",
+                              "textPreview": "In Progress",
+                              "innerHTML": "In Progress",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[1]>div.epic-meta>span.effort-tag",
+                              "tag": "span",
+                              "classes": [
+                                "effort-tag"
+                              ],
+                              "label": "span.effort-tag",
+                              "textPreview": "640h",
+                              "innerHTML": "640h",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[2]",
+                      "tag": "div",
+                      "classes": [
+                        "epic-cell"
+                      ],
+                      "label": "div.epic-cell",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"epic-name\">Spring Boot 4.x Migration</div>\n          <div class=\"epic-desc\">Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>\n          </div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[2]>div.epic-name",
+                          "tag": "div",
+                          "classes": [
+                            "epic-name"
+                          ],
+                          "label": "div.epic-name",
+                          "textPreview": "Spring Boot 4.x Migration",
+                          "innerHTML": "Spring Boot 4.x Migration",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[2]>div.epic-desc",
+                          "tag": "div",
+                          "classes": [
+                            "epic-desc"
+                          ],
+                          "label": "div.epic-desc",
+                          "textPreview": "Upgrade to Spring Boot 4.x with enhanced observability, native compilation suppo…",
+                          "innerHTML": "Upgrade to Spring Boot 4.x with enhanced observability, native compilation support, improved dependency management, and critical security patches.",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[2]>div.epic-meta",
+                          "tag": "div",
+                          "classes": [
+                            "epic-meta"
+                          ],
+                          "label": "div.epic-meta",
+                          "textPreview": "",
+                          "innerHTML": "<span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">480h</span>",
+                          "children": [
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[2]>div.epic-meta>span.status-dot",
+                              "tag": "span",
+                              "classes": [
+                                "status-dot"
+                              ],
+                              "label": "span.status-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[2]>div.epic-meta>span.status-text",
+                              "tag": "span",
+                              "classes": [
+                                "status-text"
+                              ],
+                              "label": "span.status-text",
+                              "textPreview": "In Progress",
+                              "innerHTML": "In Progress",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[2]>div.epic-meta>span.effort-tag",
+                              "tag": "span",
+                              "classes": [
+                                "effort-tag"
+                              ],
+                              "label": "span.effort-tag",
+                              "textPreview": "480h",
+                              "innerHTML": "480h",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[3]",
+                      "tag": "div",
+                      "classes": [
+                        "epic-cell"
+                      ],
+                      "label": "div.epic-cell",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"epic-name\">Oracle 26ai Database Migration</div>\n          <div class=\"epic-desc\">Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>\n          </div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[3]>div.epic-name",
+                          "tag": "div",
+                          "classes": [
+                            "epic-name"
+                          ],
+                          "label": "div.epic-name",
+                          "textPreview": "Oracle 26ai Database Migration",
+                          "innerHTML": "Oracle 26ai Database Migration",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[3]>div.epic-desc",
+                          "tag": "div",
+                          "classes": [
+                            "epic-desc"
+                          ],
+                          "label": "div.epic-desc",
+                          "textPreview": "Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analyt…",
+                          "innerHTML": "Migrate to Oracle 26ai to harness AI-powered query optimisation, advanced analytics, and improved performance for high-volume tax transaction processing.",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[3]>div.epic-meta",
+                          "tag": "div",
+                          "classes": [
+                            "epic-meta"
+                          ],
+                          "label": "div.epic-meta",
+                          "textPreview": "",
+                          "innerHTML": "<span class=\"status-dot\" style=\"background:#CCCCCC;\"></span>\n            <span class=\"status-text\">To Do</span>\n            <span class=\"effort-tag\">420h</span>",
+                          "children": [
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[3]>div.epic-meta>span.status-dot",
+                              "tag": "span",
+                              "classes": [
+                                "status-dot"
+                              ],
+                              "label": "span.status-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[3]>div.epic-meta>span.status-text",
+                              "tag": "span",
+                              "classes": [
+                                "status-text"
+                              ],
+                              "label": "span.status-text",
+                              "textPreview": "To Do",
+                              "innerHTML": "To Do",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[3]>div.epic-meta>span.effort-tag",
+                              "tag": "span",
+                              "classes": [
+                                "effort-tag"
+                              ],
+                              "label": "span.effort-tag",
+                              "textPreview": "420h",
+                              "innerHTML": "420h",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[4]",
+                      "tag": "div",
+                      "classes": [
+                        "epic-cell"
+                      ],
+                      "label": "div.epic-cell",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"epic-name\">Cross-Team UI Tech Debt</div>\n          <div class=\"epic-desc\">Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>\n          </div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[4]>div.epic-name",
+                          "tag": "div",
+                          "classes": [
+                            "epic-name"
+                          ],
+                          "label": "div.epic-name",
+                          "textPreview": "Cross-Team UI Tech Debt",
+                          "innerHTML": "Cross-Team UI Tech Debt",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[4]>div.epic-desc",
+                          "tag": "div",
+                          "classes": [
+                            "epic-desc"
+                          ],
+                          "label": "div.epic-desc",
+                          "textPreview": "Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, …",
+                          "innerHTML": "Systematic UI improvements and technical debt reduction spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[4]>div.epic-meta",
+                          "tag": "div",
+                          "classes": [
+                            "epic-meta"
+                          ],
+                          "label": "div.epic-meta",
+                          "textPreview": "",
+                          "innerHTML": "<span class=\"status-dot\" style=\"background:#F0A500;\"></span>\n            <span class=\"status-text\">In Progress</span>\n            <span class=\"effort-tag\">220h</span>",
+                          "children": [
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[4]>div.epic-meta>span.status-dot",
+                              "tag": "span",
+                              "classes": [
+                                "status-dot"
+                              ],
+                              "label": "span.status-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[4]>div.epic-meta>span.status-text",
+                              "tag": "span",
+                              "classes": [
+                                "status-text"
+                              ],
+                              "label": "span.status-text",
+                              "textPreview": "In Progress",
+                              "innerHTML": "In Progress",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[4]>div.epic-meta>span.effort-tag",
+                              "tag": "span",
+                              "classes": [
+                                "effort-tag"
+                              ],
+                              "label": "span.effort-tag",
+                              "textPreview": "220h",
+                              "innerHTML": "220h",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[5]",
+                      "tag": "div",
+                      "classes": [
+                        "epic-cell"
+                      ],
+                      "label": "div.epic-cell",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"epic-name\">Config Items Management Tool</div>\n          <div class=\"epic-desc\">Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.</div>\n          <div class=\"epic-meta\">\n            <span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>\n          </div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[5]>div.epic-name",
+                          "tag": "div",
+                          "classes": [
+                            "epic-name"
+                          ],
+                          "label": "div.epic-name",
+                          "textPreview": "Config Items Management Tool",
+                          "innerHTML": "Config Items Management Tool",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[5]>div.epic-desc",
+                          "tag": "div",
+                          "classes": [
+                            "epic-desc"
+                          ],
+                          "label": "div.epic-desc",
+                          "textPreview": "Dedicated tool for safely packaging, versioning, and migrating configurations ac…",
+                          "innerHTML": "Dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production without manual intervention.",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[5]>div.epic-meta",
+                          "tag": "div",
+                          "classes": [
+                            "epic-meta"
+                          ],
+                          "label": "div.epic-meta",
+                          "textPreview": "",
+                          "innerHTML": "<span class=\"status-dot\" style=\"background:#4A90D9;\"></span>\n            <span class=\"status-text\">In Design</span>\n            <span class=\"effort-tag\">380h</span>",
+                          "children": [
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[5]>div.epic-meta>span.status-dot",
+                              "tag": "span",
+                              "classes": [
+                                "status-dot"
+                              ],
+                              "label": "span.status-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[5]>div.epic-meta>span.status-text",
+                              "tag": "span",
+                              "classes": [
+                                "status-text"
+                              ],
+                              "label": "span.status-text",
+                              "textPreview": "In Design",
+                              "innerHTML": "In Design",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.epics-panel>div.epics-grid>div.epic-cell[5]>div.epic-meta>span.effort-tag",
+                              "tag": "span",
+                              "classes": [
+                                "effort-tag"
+                              ],
+                              "label": "span.effort-tag",
+                              "textPreview": "380h",
+                              "innerHTML": "380h",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                }
+              ],
+              "isLeaf": false,
+              "interesting": true,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            }
+          ],
+          "isLeaf": false,
+          "interesting": true,
+          "chrome": false,
+          "depth": 0,
+          "slideIndex": 1
+        },
+        {
+          "id": "div.slide-footer",
+          "tag": "div",
+          "classes": [
+            "slide-footer"
+          ],
+          "label": "div.slide-footer",
+          "textPreview": "",
+          "innerHTML": "<span class=\"footer-text\">Solon Tax Product Roadmap 2026</span>\n    <span class=\"footer-text\">Netcompany</span>",
+          "children": [
+            {
+              "id": "div.slide-footer>span.footer-text",
+              "tag": "span",
+              "classes": [
+                "footer-text"
+              ],
+              "label": "span.footer-text",
+              "textPreview": "Solon Tax Product Roadmap 2026",
+              "innerHTML": "Solon Tax Product Roadmap 2026",
+              "children": [],
+              "isLeaf": true,
+              "interesting": false,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            },
+            {
+              "id": "div.slide-footer>span.footer-text[1]",
+              "tag": "span",
+              "classes": [
+                "footer-text"
+              ],
+              "label": "span.footer-text",
+              "textPreview": "Netcompany",
+              "innerHTML": "Netcompany",
+              "children": [],
+              "isLeaf": true,
+              "interesting": false,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            }
+          ],
+          "isLeaf": false,
+          "interesting": true,
+          "chrome": false,
+          "depth": 0,
+          "slideIndex": 1
+        }
+      ]
+    ],
+    "slideCount": 1
+  },
+  "agenticCustomInput": "an instance for each initiatie under \"NON-FUNCTIONAL REQUIREMENT COVERAGE\": \nACCESSIBILITY\nEXTENSIBILITY\nMAINTAINABILITY\nOPERABILITY\nPERFORMANCE EFFICIENCY\nRELIABILITY\nSECURITY\nTEST SUITE OPTIMIZATION\nTRACEABILITY\nUSABILITY\n",
+  "agenticJsonResponse": "{\"slides\":{\"slide_1\":{\"instances\":[{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">Accessibility</div>\\n        <div class=\\\"header-subtitle\\\">Non-Functional Requirement Coverage · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">269</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">7</div>\\n        <div class=\\\"header-stat-label\\\">Features</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value text-stat\\\">Other, GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\">\\n      <div class=\\\"sp-label\\\">Strategic Case</div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">01</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Regulatory Compliance and Legal Obligation</div>\\n          <div class=\\\"reason-text\\\">WCAG 2.1 AA and EN 301 549 standards mandate accessible systems for all users globally.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">02</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Inclusive User Experience Across Abilities</div>\\n          <div class=\\\"reason-text\\\">Accessibility improvements ensure revenue authority users and taxpayers of all abilities interact effectively.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">03</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Platform Maturity and Market Competitiveness</div>\\n          <div class=\\\"reason-text\\\">Accessibility enhancements strengthen Solon Tax market position and demonstrate commitment to inclusive design.</div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"epics-panel\\\">\\n      <div class=\\\"ep-label\\\">Key Features</div>\\n      <div class=\\\"ep-label-rule\\\"></div>\\n      <div class=\\\"epics-grid\\\">\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Accessibility Improvements (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Improve accessibility of Solon Tax application in alignment with WCAG 2.1 AA and EN 301 549 guidelines.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">TBD</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Accessibility Improvements - DAID (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Improve accessibility of Solon Tax application in alignment with WCAG 2.1 AA and EN 301 549 guidelines.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">90h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Accessibility Improvements - HEL (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Improve accessibility of Solon Tax application in alignment with WCAG 2.1 AA and EN 301 549 guidelines.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">TBD</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Accessibility Improvements - SPA (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Improve accessibility of Solon Tax application in alignment with WCAG 2.1 AA and EN 301 549 guidelines.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">90h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Accessibility Improvements - EOS (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Improve accessibility of Solon Tax application in alignment with WCAG 2.1 AA and EN 301 549 guidelines.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">TBD</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Accessibility Improvements - ATH (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Improve accessibility of Solon Tax application in alignment with WCAG 2.1 AA and EN 301 549 guidelines.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">90h</span>\\n          </div>\\n        </div>\\n\\n      </div>\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026</span>\\n    <span class=\\\"footer-text\\\">Netcompany</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">EXTENSIBILITY</div>\\n        <div class=\\\"header-subtitle\\\">NON-FUNCTIONAL REQUIREMENT COVERAGE · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">157</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">2</div>\\n        <div class=\\\"header-stat-label\\\">Features</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value text-stat\\\">GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\">\\n      <div class=\\\"sp-label\\\">Strategic Case</div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">01</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Enable Custom Business Logic Without Core Modification</div>\\n          <div class=\\\"reason-text\\\">Data area extensibility allows implementations to add custom fields and characteristics without modifying product code.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">02</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Support Diverse Implementation Requirements</div>\\n          <div class=\\\"reason-text\\\">Financial transaction type customization enables projects to capture domain-specific metadata and business rules flexibly.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">03</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Reduce Technical Debt and Maintenance Burden</div>\\n          <div class=\\\"reason-text\\\">Extensible architecture patterns reduce future refactoring costs and enable faster project delivery cycles.</div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"epics-panel\\\">\\n      <div class=\\\"ep-label\\\">Key Features</div>\\n      <div class=\\\"ep-label-rule\\\"></div>\\n      <div class=\\\"epics-grid\\\">\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Enable user-defined characteristics (Data Area) for Financial transaction Type</div>\\n          <div class=\\\"epic-desc\\\">Allow revenue authority admins to extend financial transaction type data schema with custom fields and characteristics.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#4A90D9;\\\"></span>\\n            <span class=\\\"status-text\\\">HLD</span>\\n            <span class=\\\"effort-tag\\\">157h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Define User-Defined Characteristics for Payment Event - Admin</div>\\n          <div class=\\\"epic-desc\\\">Enable admins to define and maintain user-defined characteristics for payment events with validation and grouping.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span>\\n            <span class=\\\"status-text\\\">Waiting Analysis Approval</span>\\n            <span class=\\\"effort-tag\\\">TBD</span>\\n          </div>\\n        </div>\\n\\n      </div>\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026</span>\\n    <span class=\\\"footer-text\\\">Netcompany</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">MAINTAINABILITY</div>\\n        <div class=\\\"header-subtitle\\\">NON-FUNCTIONAL REQUIREMENT COVERAGE · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">4,580</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">15</div>\\n        <div class=\\\"header-stat-label\\\">Features</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value text-stat\\\">Other, GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\">\\n      <div class=\\\"sp-label\\\">Strategic Case</div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">01</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Reduce Technical Debt and Architectural Decay</div>\\n          <div class=\\\"reason-text\\\">ArchUnit enforcement and hexagonal architecture alignment prevent code drift and maintain long-term system health.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">02</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Improve Developer Experience and Onboarding</div>\\n          <div class=\\\"reason-text\\\">Enhanced local setup, programming guidelines, and CI/CD optimization reduce friction and accelerate team productivity.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">03</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Enable Sustainable Long-Term Product Evolution</div>\\n          <div class=\\\"reason-text\\\">Configuration management, documentation integration, and code quality standards establish foundation for scalable growth.</div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"epics-panel\\\">\\n      <div class=\\\"ep-label\\\">Key Features</div>\\n      <div class=\\\"ep-label-rule\\\"></div>\\n      <div class=\\\"epics-grid\\\">\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">POC/Fixed effort - Config Items Management (Packaging &amp; versioning): Enable delivery teams to safely and selectively migrate configurations across environments</div>\\n          <div class=\\\"epic-desc\\\">Enable delivery teams to safely migrate configurations across environments with versioning, dependency checks, and rollback capabilities.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span>\\n            <span class=\\\"status-text\\\">Waiting Analysis Approval</span>\\n            <span class=\\\"effort-tag\\\">2,240h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">After POC - Config Items Management (Packaging &amp; versioning): Enable delivery teams to safely and selectively migrate configurations across environments /WIP</div>\\n          <div class=\\\"epic-desc\\\">Post-POC configuration management implementation with enhanced governance, approval flows, and operational reporting.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">1,280h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Introduce ArchUnit</div>\\n          <div class=\\\"epic-desc\\\">Integrate ArchUnit library to automatically enforce architectural guidelines and prevent code violations in CI/CD pipeline.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#4A90D9;\\\"></span>\\n            <span class=\\\"status-text\\\">In Design</span>\\n            <span class=\\\"effort-tag\\\">373h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Restructure revenue-management-be-custom to align with Hexagonal Architecture</div>\\n          <div class=\\\"epic-desc\\\">Restructure custom module to follow hexagonal architecture principles and align with main product standards.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">21h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Extend Length in Comment Fields Across Entities</div>\\n          <div class=\\\"epic-desc\\\">Expand comment field character limits from 255 to 2000 characters across all system entities.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span>\\n            <span class=\\\"status-text\\\">Waiting Analysis Approval</span>\\n            <span class=\\\"effort-tag\\\">21h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Integrate Self-Contained Documentation Portal into Solon Tax Deliverable</div>\\n          <div class=\\\"epic-desc\\\">Package and deploy self-contained documentation portal within standard Solon Tax product deliverables for offline access.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">48h</span>\\n          </div>\\n        </div>\\n\\n      </div>\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026</span>\\n    <span class=\\\"footer-text\\\">Netcompany</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">OPERABILITY</div>\\n        <div class=\\\"header-subtitle\\\">NON-FUNCTIONAL REQUIREMENT COVERAGE</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">60</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">1</div>\\n        <div class=\\\"header-stat-label\\\">Features</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value text-stat\\\">GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\">\\n      <div class=\\\"sp-label\\\">Strategic Case</div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">01</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Enable Flexible Service Integration Architecture</div>\\n          <div class=\\\"reason-text\\\">Proxy service capabilities allow self-service and revenue management systems to call backend APIs and third-party services generically.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">02</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Support Cross-System Validation and Data Exchange</div>\\n          <div class=\\\"reason-text\\\">Service proxy pattern enables real-time validation from external systems during form creation and entity operations.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">03</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Reduce Custom Integration Development Effort</div>\\n          <div class=\\\"reason-text\\\">Generic proxy service framework eliminates need for custom point-to-point integrations for each external system.</div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"epics-panel\\\">\\n      <div class=\\\"ep-label\\\">Key Features</div>\\n      <div class=\\\"ep-label-rule\\\"></div>\\n      <div class=\\\"epics-grid\\\">\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Call proxy services /RM &amp; SS - Documentation</div>\\n          <div class=\\\"epic-desc\\\">Enable generic proxy service calls from self-service and revenue management to backend APIs and third-party systems.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#4CAF50;\\\"></span>\\n            <span class=\\\"status-text\\\">Ready for Dev</span>\\n            <span class=\\\"effort-tag\\\">60h</span>\\n          </div>\\n        </div>\\n\\n      </div>\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026</span>\\n    <span class=\\\"footer-text\\\">Netcompany</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\"><div class=\\\"pi-badge\\\">PI 28</div><div class=\\\"header-text-section\\\"><div class=\\\"header-label\\\">Roadmap Initiative</div><div class=\\\"header-title\\\">Performance Efficiency</div><div class=\\\"header-subtitle\\\">Non-Functional Requirement Coverage · Solon Tax 2026</div></div></div><div class=\\\"header-right\\\"><div class=\\\"header-stat\\\"><div class=\\\"header-stat-value\\\">955</div><div class=\\\"header-stat-label\\\">Total Hours</div></div><div class=\\\"header-divider\\\"></div><div class=\\\"header-stat\\\"><div class=\\\"header-stat-value\\\">5</div><div class=\\\"header-stat-label\\\">Features</div></div><div class=\\\"header-divider\\\"></div><div class=\\\"header-stat\\\"><div class=\\\"header-stat-value text-stat\\\">Other, GRC</div><div class=\\\"header-stat-label\\\">Requester</div></div></div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\"><div class=\\\"sp-label\\\">Strategic Case</div><div class=\\\"reason\\\"><div class=\\\"reason-num\\\">01</div><div class=\\\"reason-body\\\"><div class=\\\"reason-title\\\">Resolve Known Task Assignment Performance Bottlenecks</div><div class=\\\"reason-text\\\">Measure and fix performance issues in task assignment functionality to support peak volumes of 5000 tasks per hour.</div></div></div><div class=\\\"reason-rule\\\"></div><div class=\\\"reason\\\"><div class=\\\"reason-num\\\">02</div><div class=\\\"reason-body\\\"><div class=\\\"reason-title\\\">Optimize Reference Data Retrieval at Scale</div><div class=\\\"reason-text\\\">Implement caching layer for static reference data to eliminate redundant database queries and improve system responsiveness.</div></div></div><div class=\\\"reason-rule\\\"></div><div class=\\\"reason\\\"><div class=\\\"reason-num\\\">03</div><div class=\\\"reason-body\\\"><div class=\\\"reason-title\\\">Establish Green Coding and Resource Optimization Standards</div><div class=\\\"reason-text\\\">Define green coding guidelines and CI/CD optimizations to reduce resource consumption and environmental impact.</div></div></div></div><div class=\\\"epics-panel\\\"><div class=\\\"ep-label\\\">Key Features</div><div class=\\\"ep-label-rule\\\"></div><div class=\\\"epics-grid\\\"><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">Performance -Work on the known issues with performance in tasks assignment</div><div class=\\\"epic-desc\\\">Measure, investigate, and fix known performance issues in task assignment functionality for high-volume scenarios.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span><span class=\\\"status-text\\\">Waiting Analysis Approval</span><span class=\\\"effort-tag\\\">38h</span></div></div><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">Reference Data - Implement Enhanced Caching for Reference Data Microservice</div><div class=\\\"epic-desc\\\">Implement caching layer in reference data microservice to eliminate redundant database queries for static datasets.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span><span class=\\\"status-text\\\">Waiting Solution Approval</span><span class=\\\"effort-tag\\\">224h</span></div></div><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">Green coding Programming Guidelines</div><div class=\\\"epic-desc\\\">Define and document green coding principles for Java, JavaScript, Rego, Drools, Helm, Maven, SQL, and Liquibase.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span><span class=\\\"status-text\\\">To Do</span><span class=\\\"effort-tag\\\">224h</span></div></div><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">Green coding CI/CD flow optimization</div><div class=\\\"epic-desc\\\">Review and optimize CI/CD processes to reduce build frequency, optimize caching, and improve resource utilization.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span><span class=\\\"status-text\\\">To Do</span><span class=\\\"effort-tag\\\">21h</span></div></div><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">Performance improvements (Current PI28)</div><div class=\\\"epic-desc\\\">Address performance issues and optimize system responsiveness across Solon Tax application.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span><span class=\\\"status-text\\\">To Do</span><span class=\\\"effort-tag\\\">448h</span></div></div></div></div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026</span><span class=\\\"footer-text\\\">Netcompany</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">RELIABILITY</div>\\n        <div class=\\\"header-subtitle\\\">NON-FUNCTIONAL REQUIREMENT COVERAGE · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">2,688</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">2</div>\\n        <div class=\\\"header-stat-label\\\">Features</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value text-stat\\\">Other</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\">\\n      <div class=\\\"sp-label\\\">Strategic Case</div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">01</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Ensure Data Integrity in Distributed Transactions</div>\\n          <div class=\\\"reason-text\\\">Implement strong error handling for synchronous operations spanning multiple microservices to prevent data inconsistency.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">02</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Support Concurrent Record Modifications Safely</div>\\n          <div class=\\\"reason-text\\\">Optimistic locking with version control prevents conflicts when multiple users or processes modify records simultaneously.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">03</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Build Trust in System Data Accuracy</div>\\n          <div class=\\\"reason-text\\\">Robust error handling and conflict resolution mechanisms ensure revenue authority can rely on system data integrity.</div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"epics-panel\\\">\\n      <div class=\\\"ep-label\\\">Key Features</div>\\n      <div class=\\\"ep-label-rule\\\"></div>\\n      <div class=\\\"epics-grid\\\">\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Data Integrity improvements. Error handling in synchronous operations that involve distributed transactions / Registry, Taxpayer</div>\\n          <div class=\\\"epic-desc\\\">Introduce strong error handling for synchronous operations involving distributed transactions across registry and taxpayer microservices.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#4A90D9;\\\"></span>\\n            <span class=\\\"status-text\\\">HLD</span>\\n            <span class=\\\"effort-tag\\\">1493h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Record Locking - Apply logic to Party record</div>\\n          <div class=\\\"epic-desc\\\">Implement optimistic locking mechanism for party records to manage concurrent modifications and prevent data conflicts.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#4A90D9;\\\"></span>\\n            <span class=\\\"status-text\\\">In Design</span>\\n            <span class=\\\"effort-tag\\\">1195h</span>\\n          </div>\\n        </div>\\n\\n      </div>\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026</span>\\n    <span class=\\\"footer-text\\\">Netcompany</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">Security</div>\\n        <div class=\\\"header-subtitle\\\">Non-Functional Requirement Coverage · [DATA MISSING]</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">2,759</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">8</div>\\n        <div class=\\\"header-stat-label\\\">Features</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value text-stat\\\">GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\">\\n      <div class=\\\"sp-label\\\">Strategic Case</div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">01</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Enforce GDPR Compliance and Data Protection</div>\\n          <div class=\\\"reason-text\\\">Restrict access to sensitive personal data through classification levels and role-based permissions to ensure regulatory compliance.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">02</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Prevent Unauthorized Access and Data Breaches</div>\\n          <div class=\\\"reason-text\\\">Row-level security, data masking, and hierarchical permissions reduce risk of unauthorized access to sensitive information.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">03</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Secure Configuration and API Request Handling</div>\\n          <div class=\\\"reason-text\\\">Harden API requests with expression patterns and configure publicly available items to prevent injection attacks and data exposure.</div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"epics-panel\\\">\\n      <div class=\\\"ep-label\\\">Key Features</div>\\n      <div class=\\\"ep-label-rule\\\"></div>\\n      <div class=\\\"epics-grid\\\">\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Data Security - Restrict Access to Personal Data GDPR- Admin (based on data classifications) - Part 1/4</div>\\n          <div class=\\\"epic-desc\\\">Restrict access to sensitive personal data based on classification levels and user access groups with masking and visibility controls.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span>\\n            <span class=\\\"status-text\\\">Waiting Analysis Approval</span>\\n            <span class=\\\"effort-tag\\\">1,217h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">PenTest - Harden API requests with expression patterns allowed</div>\\n          <div class=\\\"epic-desc\\\">Add regular expressions to API input parameters to prevent injection attacks and restrict allowed input patterns.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#4CAF50;\\\"></span>\\n            <span class=\\\"status-text\\\">Ready for Dev</span>\\n            <span class=\\\"effort-tag\\\">80h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Data Security - Define Access per user access group per classification level - Part 2/4</div>\\n          <div class=\\\"epic-desc\\\">Define classification permissions per user access group with read, search, update, delete, and create operations.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span>\\n            <span class=\\\"status-text\\\">Waiting Analysis Approval</span>\\n            <span class=\\\"effort-tag\\\">396h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Data Security - Restrict Access to Personal Data GDPR- Admin (based on data classifications) - Encrypt/decrypt - Part 4/4</div>\\n          <div class=\\\"epic-desc\\\">Enable encryption and decryption of sensitive personal data in logs, audit trails, and system records.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">42h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Data Security - Restrict Access to Personal Data GDPR- Admin (based on data classifications) - Part 3/4</div>\\n          <div class=\\\"epic-desc\\\">Restrict access to sensitive personal data in logs, security logs, audit logs, and access logs based on classification levels.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#9B59B6;\\\"></span>\\n            <span class=\\\"status-text\\\">Under Analysis</span>\\n            <span class=\\\"effort-tag\\\">396h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">SS enhancements -Configure the items that can be publicly available in db level Part 2/2</div>\\n          <div class=\\\"epic-desc\\\">Enable admins to configure which reference data, translation items, and services can be publicly available.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#4A90D9;\\\"></span>\\n            <span class=\\\"status-text\\\">In Design</span>\\n            <span class=\\\"effort-tag\\\">534h</span>\\n          </div>\\n        </div>\\n\\n      </div>\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026</span>\\n    <span class=\\\"footer-text\\\">Netcompany</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">TEST SUITE OPTIMIZATION</div>\\n        <div class=\\\"header-subtitle\\\">NON-FUNCTIONAL REQUIREMENT COVERAGE · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">860</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">6</div>\\n        <div class=\\\"header-stat-label\\\">Features</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value text-stat\\\">Other</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\">\\n      <div class=\\\"sp-label\\\">Strategic Case</div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">01</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Establish Comprehensive Self-Service Testing Coverage</div>\\n          <div class=\\\"reason-text\\\">Automation testing for self-service APIs, authentication, forms, and human tasks ensures quality and prevents regressions.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">02</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Maintain Product Quality Across Delivery Teams</div>\\n          <div class=\\\"reason-text\\\">Test maintenance and regression testing across multiple teams ensures consistent quality standards and prevents defect leakage.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">03</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Support Continuous Integration and Deployment Confidence</div>\\n          <div class=\\\"reason-text\\\">Robust test suite enables safe, frequent releases and provides early detection of integration issues.</div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"epics-panel\\\">\\n      <div class=\\\"ep-label\\\">Key Features</div>\\n      <div class=\\\"ep-label-rule\\\"></div>\\n      <div class=\\\"epics-grid\\\">\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Automation testing for SS /WIP</div>\\n          <div class=\\\"epic-desc\\\">Gather and implement automation testing needs for self-service APIs, authentication, forms, human tasks, and document management.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">TBD</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Tests maintenance, repairs and regression testing - DAID (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Maintain, repair, and execute regression testing for DAID team features and implementations.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">TBD</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Tests maintenance, repairs and regression testing - OLY (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Maintain, repair, and execute regression testing for OLY team features and implementations.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">725h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Tests related to older Features/PIs - DAID (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Create and execute tests for older features and previous PIs for DAID team.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">TBD</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Tests related to older Features/PIs - OLY (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Create and execute tests for older features and previous PIs for OLY team.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">135h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Tests maintenance, repairs and regression testing - HEL (Current PI28)</div>\\n          <div class=\\\"epic-desc\\\">Maintain, repair, and execute regression testing for HEL team features and implementations.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">TBD</span>\\n          </div>\\n        </div>\\n\\n      </div>\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026</span>\\n    <span class=\\\"footer-text\\\">Netcompany</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">TRACEABILITY</div>\\n        <div class=\\\"header-subtitle\\\">NON-FUNCTIONAL REQUIREMENT COVERAGE · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">2,259</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">5</div>\\n        <div class=\\\"header-stat-label\\\">Features</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value text-stat\\\">Other, GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\">\\n      <div class=\\\"sp-label\\\">Strategic Case</div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">01</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Ensure Audit Trail Completeness and Compliance</div>\\n          <div class=\\\"reason-text\\\">Support audit trail for statute of limitation dates, authorization changes, and registration modifications for legal compliance.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">02</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Enable Comprehensive System Logging and Debugging</div>\\n          <div class=\\\"reason-text\\\">Enhanced logging for database queries, business logic, and masked data provides visibility for troubleshooting and analysis.</div>\\n        </div>\\n      </div>\\n\\n      <div class=\\\"reason-rule\\\"></div>\\n\\n      <div class=\\\"reason\\\">\\n        <div class=\\\"reason-num\\\">03</div>\\n        <div class=\\\"reason-body\\\">\\n          <div class=\\\"reason-title\\\">Support Hierarchical Audit Log Organization</div>\\n          <div class=\\\"reason-text\\\">Unified audit log display under parent items for codelists, resource calendars, and authorization records improves traceability.</div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"epics-panel\\\">\\n      <div class=\\\"ep-label\\\">Key Features</div>\\n      <div class=\\\"ep-label-rule\\\"></div>\\n      <div class=\\\"epics-grid\\\">\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Support Audit Trail for Statute of Limitation Date modifications in IRM - Admin</div>\\n          <div class=\\\"epic-desc\\\">Enable audit trail functionality for statute of limitation date modifications to comply with legal requirements.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#CCCCCC;\\\"></span>\\n            <span class=\\\"status-text\\\">To Do</span>\\n            <span class=\\\"effort-tag\\\">64h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Solon Tax logging enhancements</div>\\n          <div class=\\\"epic-desc\\\">Enhance logging for database queries, business logic execution, and configurable sanitization of sensitive data.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#F0A500;\\\"></span>\\n            <span class=\\\"status-text\\\">In Progress</span>\\n            <span class=\\\"effort-tag\\\">739h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Audit Log - Ability to keep Audit trail for authorization /LEFTOVER</div>\\n          <div class=\\\"epic-desc\\\">Display unified audit log entries for authorization management entities under parent items and related entities.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span>\\n            <span class=\\\"status-text\\\">Waiting Analysis Approval</span>\\n            <span class=\\\"effort-tag\\\">739h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Audit Log - Ability to keep Audit trail for registration /LEFTOVER</div>\\n          <div class=\\\"epic-desc\\\">Display audit logs for resource calendars, time offs, assigned calendars, and calendar exceptions.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span>\\n            <span class=\\\"status-text\\\">Waiting Analysis Approval</span>\\n            <span class=\\\"effort-tag\\\">358h</span>\\n          </div>\\n        </div>\\n\\n        <div class=\\\"epic-cell\\\">\\n          <div class=\\\"epic-name\\\">Audit Log - Ability to keep Audit trail for code lists /LEFTOVER</div>\\n          <div class=\\\"epic-desc\\\">Display unified audit log entries for codelists and codelist items under parent codelist records.</div>\\n          <div class=\\\"epic-meta\\\">\\n            <span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span>\\n            <span class=\\\"status-text\\\">Waiting Analysis Approval</span>\\n            <span class=\\\"effort-tag\\\">358h</span>\\n          </div>\\n        </div>\\n\\n      </div>\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026</span>\\n    <span class=\\\"footer-text\\\">Netcompany</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\"><div class=\\\"pi-badge\\\">PI 28</div><div class=\\\"header-text-section\\\"><div class=\\\"header-label\\\">Roadmap Initiative</div><div class=\\\"header-title\\\">USABILITY</div><div class=\\\"header-subtitle\\\">NON-FUNCTIONAL REQUIREMENT COVERAGE</div></div></div><div class=\\\"header-right\\\"><div class=\\\"header-stat\\\"><div class=\\\"header-stat-value\\\">2,976</div><div class=\\\"header-stat-label\\\">Total Hours</div></div><div class=\\\"header-divider\\\"></div><div class=\\\"header-stat\\\"><div class=\\\"header-stat-value\\\">20</div><div class=\\\"header-stat-label\\\">Features</div></div><div class=\\\"header-divider\\\"></div><div class=\\\"header-stat\\\"><div class=\\\"header-stat-value text-stat\\\">Other, GRC</div><div class=\\\"header-stat-label\\\">Requester</div></div></div>\",\"auto_div_body\":\"<div class=\\\"strategic-panel\\\"><div class=\\\"sp-label\\\">Strategic Case</div><div class=\\\"reason\\\"><div class=\\\"reason-num\\\">01</div><div class=\\\"reason-body\\\"><div class=\\\"reason-title\\\">Reduce User Interaction Friction and Errors</div><div class=\\\"reason-text\\\">Clear view/edit mode distinction, improved search experience, and visual field indicators reduce accidental modifications.</div></div></div><div class=\\\"reason-rule\\\"></div><div class=\\\"reason\\\"><div class=\\\"reason-num\\\">02</div><div class=\\\"reason-body\\\"><div class=\\\"reason-title\\\">Enhance Information Discoverability and Navigation</div><div class=\\\"reason-text\\\">Improved search panels, registry list views with governance limits, and breadcrumb navigation help users find information quickly.</div></div></div><div class=\\\"reason-rule\\\"></div><div class=\\\"reason\\\"><div class=\\\"reason-num\\\">03</div><div class=\\\"reason-body\\\"><div class=\\\"reason-title\\\">Modernize User Interface and Experience Standards</div><div class=\\\"reason-text\\\">New look and feel, consistent dropdown behavior, and configurable home page widgets align with contemporary UX expectations.</div></div></div></div><div class=\\\"epics-panel\\\"><div class=\\\"ep-label\\\">Key Features</div><div class=\\\"ep-label-rule\\\"></div><div class=\\\"epics-grid\\\"><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">Display and search by Source and timestamp columns in Codelists, Parties and Addresses</div><div class=\\\"epic-desc\\\">Enable users to view, search, and filter by source and timestamp columns in codelists, parties, and addresses.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#4A90D9;\\\"></span><span class=\\\"status-text\\\">HLD</span><span class=\\\"effort-tag\\\">3h</span></div></div><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">UI/UX Improvements: Registry List views - Display search results respecting governance limit in new UX / Part 1</div><div class=\\\"epic-desc\\\">Display registry search results respecting governance limits with clear messaging and filtering options.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span><span class=\\\"status-text\\\">Waiting Analysis Approval</span><span class=\\\"effort-tag\\\">TBD</span></div></div><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">UI/UX Improvements: Visual cues : Add Visual Indicator for Required Fields</div><div class=\\\"epic-desc\\\">Enable configurators to define visual indicators for required and optional fields in forms.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#4A90D9;\\\"></span><span class=\\\"status-text\\\">In Design</span><span class=\\\"effort-tag\\\">127h</span></div></div><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">UI/UX Improvements : Search and navigation : Bars at the top of the pages</div><div class=\\\"epic-desc\\\">Display relevant information in main page bar with save button and breadcrumbs for easy navigation.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span><span class=\\\"status-text\\\">Waiting Analysis Approval</span><span class=\\\"effort-tag\\\">127h</span></div></div><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">UI/UX Improvements : Interaction friction - View and Edit buttons distiction</div><div class=\\\"epic-desc\\\">Clearly distinguish between view and edit modes to reduce unintended changes and improve user experience.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span><span class=\\\"status-text\\\">Waiting Analysis Approval</span><span class=\\\"effort-tag\\\">389h</span></div></div><div class=\\\"epic-cell\\\"><div class=\\\"epic-name\\\">UI/UX Improvements : Search and navigation : Header Bar Improvements</div><div class=\\\"epic-desc\\\">Provide clear access to keyboard shortcuts, language preferences, profile information, and search functionality.</div><div class=\\\"epic-meta\\\"><span class=\\\"status-dot\\\" style=\\\"background:#E67E22;\\\"></span><span class=\\\"status-text\\\">Waiting Analysis Approval</span><span class=\\\"effort-tag\\\">127h</span></div></div></div></div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026</span><span class=\\\"footer-text\\\">Netcompany</span>\"}]}}}",
+  "lastExport": {
+    "exportId": "init-non-funct-1",
+    "createdAt": "2026-04-29T08:07:43.337Z",
+    "roundId": "6c4c6eca-7595-4345-977c-4d8af693e489",
+    "slideCount": 10
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Nikolajs_project",
+  "exportId": "initiatives-core-revenue-mgmt-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-04-20T21:58:27.218Z",
+  "slideCount": 5,
+  "slides": [
+    {
+      "index": 1,
+      "file": "billing-assessments-and-installments.html",
+      "slideId": "slide-1",
+      "title": "BILLING, ASSESSMENTS AND INSTALLMENTS",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "penalty-interest.html",
+      "slideId": "slide-2",
+      "title": "PENALTY & INTEREST",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "registration.html",
+      "slideId": "slide-3",
+      "title": "REGISTRATION",
+      "type": "content"
+    },
+    {
+      "index": 4,
+      "file": "tax-accounts.html",
+      "slideId": "slide-4",
+      "title": "TAX ACCOUNTS",
+      "type": "content"
+    },
+    {
+      "index": 5,
+      "file": "taxpayer-accounting.html",
+      "slideId": "slide-5",
+      "title": "TAXPAYER ACCOUNTING",
+      "type": "content"
+    }
+  ]
+}

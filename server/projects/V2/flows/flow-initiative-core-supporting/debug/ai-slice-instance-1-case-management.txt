@@ -1,0 +1,48 @@
+=== CASE MANAGEMENT ===
+
+=== Summary ===
+Roadmap Initiative: CASE MANAGEMENT
+Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES
+PI: PI 28
+Total Effort: 84 hours
+Feature Count: 2
+Requester: GRC
+
+=== Feature Progress ===
+Waiting Analysis Approval: 2
+Total Features: 2
+
+=== Feature Priority ===
+P3: 2
+Total Features: 2
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enable Intelligent Case Worker Assignment
+Reason 01 Text: Capability to assign case workers based on availability, skills, and organisational unit membership ensures optimal resource allocation and improves case completion rates across revenue authority operations.
+
+Reason 02 Title: Support Availability-Based Profiling
+Reason 02 Text: Case worker profile configuration using availability criteria enables administrators to define matching rules that automatically identify suitable candidates, reducing manual assignment overhead and improving case outcomes.
+
+Reason 03 Title: Enhance Case Effort Visibility
+Reason 03 Text: Automatic effort calculation based on resource calendars and expected allocation provides transparency on case workload, enabling better capacity planning and resource management across case management teams.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Add and Maintain Case - Assign and Unassign Case Workers - Effort - User
+Feature Description: Enable revenue officials to assign case workers based on availability, skills, and organisational unit, with automatic effort calculation from resource calendars and expected allocation.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 42h
+Feature Priority: P3
+
+Feature Index: Epic 02
+Feature Name: Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin
+Feature Description: Allow administrators to define case worker profiles using availability criteria, enabling system to automatically match suitable workers to cases based on configured matching rules.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 42h
+Feature Priority: P3
+
+---

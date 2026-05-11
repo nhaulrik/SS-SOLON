@@ -1,0 +1,69 @@
+{
+  "exportId": "initiative-groups-1",
+  "exportNumber": 1,
+  "exportName": "initiative-groups",
+  "createdAt": "2026-04-28T18:03:56.065Z",
+  "source": {
+    "roundId": "9ca48c87-c5bc-468b-ba6b-1b2b881ab737",
+    "outputFile": "output-9ca48c87-c5bc-468b-ba6b-1b2b881ab737.html"
+  },
+  "content": {
+    "slideCount": 6,
+    "totalSize": 121210,
+    "slides": [
+      {
+        "index": 1,
+        "file": "core-supporting-capabilities.html",
+        "size": 21747,
+        "title": "CORE SUPPORTING CAPABILITIES",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "reference-implementations.html",
+        "size": 18789,
+        "title": "REFERENCE IMPLEMENTATIONS",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "non-functional-requirement-coverage.html",
+        "size": 22220,
+        "title": "NON-FUNCTIONAL REQUIREMENT COVERAGE",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "core-revenue-management-capabilities.html",
+        "size": 18851,
+        "title": "CORE REVENUE MANAGEMENT CAPABILITIES",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "other-activities.html",
+        "size": 22868,
+        "title": "OTHER ACTIVITIES",
+        "slideId": "slide-5",
+        "type": "content"
+      },
+      {
+        "index": 6,
+        "file": "core-self-service-capabilities.html",
+        "size": 16735,
+        "title": "CORE SELF SERVICE CAPABILITIES",
+        "slideId": "slide-6",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "V2",
+    "flowId": "flow-ini",
+    "templateFile": ""
+  }
+}

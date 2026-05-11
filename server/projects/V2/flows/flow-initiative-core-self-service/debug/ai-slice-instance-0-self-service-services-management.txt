@@ -1,0 +1,50 @@
+=== SELF SERVICE SERVICES MANAGEMENT ===
+
+=== Summary ===
+Roadmap Initiative: SELF SERVICE SERVICES MANAGEMENT
+Roadmap Initiative Group: CORE SELF SERVICE CAPABILITIES
+PI: PI 28
+Total Effort: 835 hours
+Feature Count: 2
+Requester: GRC, Other
+
+=== Feature Progress ===
+In Design: 1
+To Do: 1
+Total Features: 2
+
+=== Feature Priority ===
+P1: 1
+P3: 1
+Total Features: 2
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enable Self-Service Portal Operational Independence
+Reason 01 Text: Portal users require ability to define and manage services without backend pass-through dependencies, ensuring operational autonomy and security.
+
+Reason 02 Title: Expand Self-Service Capability Scope
+Reason 02 Text: Operational reports and contact management in self-service extend platform functionality to taxpayers, reducing revenue authority workload significantly.
+
+Reason 03 Title: Reduce Technical Debt in Portal Architecture
+Reason 03 Text: Refactoring existing pages to work through services implementation eliminates legacy endpoints and improves system maintainability and performance.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: SS Enhancements - Refactor existing self service pages to work through services implementation - part 4 / Important
+Feature Description: Admin defines services provided on portal and required portal resources with permissible operations for each service, enabling secure user access management.
+Feature Status: Under Analysis
+Feature Status Color: #9B59B6
+Feature Effort: 112h
+Feature Priority: P1
+
+Feature Index: Epic 02
+Feature Name: SS operational reports/contacts -Jasper
+Feature Description: Users generate and run operational reports and manage contacts in self-service portal, extending administrative capabilities to taxpayers.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: TBD
+Feature Priority: P3
+
+---

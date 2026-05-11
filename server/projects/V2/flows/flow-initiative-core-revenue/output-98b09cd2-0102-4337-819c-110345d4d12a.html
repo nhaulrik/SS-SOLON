@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maintainability Enhancements – Feature Catalog</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 7px;
+    background: #FF6359;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: absolute;
+    top: 7px; left: 0; right: 0;
+    height: 96px;
+    background: #1a3c3a;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+  .header-left {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+  }
+  .pi-badge {
+    background: #FF6359;
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 44px;
+    flex: 1;
+  }
+  .header-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #FF6359;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    margin-bottom: 3px;
+  }
+  .header-subtitle {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    padding-right: 44px;
+  }
+  .header-stat {
+    text-align: center;
+    padding: 0 28px;
+  }
+  .header-stat-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: #FF6359;
+    line-height: 1;
+  }
+  .header-stat-value.text-stat {
+    font-size: 30px;
+  }
+  .header-stat-label {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .header-divider {
+    width: 1px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  /* ── BODY: two panels, flush, no gap ── */
+  .body {
+    position: absolute;
+    top: 103px; left: 0; right: 0; bottom: 30px;
+    display: grid;
+    grid-template-columns: 348px 1fr;
+  }
+
+  /* ══ LEFT: STRATEGIC CASE ══ */
+  .strategic-panel {
+    background: linear-gradient(160deg, #1f4845 0%, #132e2c 100%);
+    padding: 24px 26px 22px 28px;
+    display: flex;
+    flex-direction: column;
+    border-right: 4px solid #FF6359;
+  }
+  .sp-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: #FF6359;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .reason {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+  }
+  .reason-num {
+    font-size: 48px;
+    font-weight: 800;
+    color: #FF6359;
+    line-height: 0.85;
+    opacity: 0.85;
+    flex-shrink: 0;
+    width: 48px;
+  }
+  .reason-body { flex: 1; padding-top: 4px; }
+  .reason-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 7px;
+    letter-spacing: 0.1px;
+    line-height: 1.2;
+  }
+  .reason-text {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+  }
+  .reason-rule {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 16px 0;
+    flex-shrink: 0;
+  }
+
+  /* ══ RIGHT: EPICS ══ */
+  .epics-panel {
+    background: #f7f6f3;
+    padding: 22px 28px 18px 26px;
+    display: flex;
+    flex-direction: column;
+  }
+  .ep-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: #1a3c3a;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+  }
+  .ep-label-rule {
+    width: 44px;
+    height: 3px;
+    background: #FF6359;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+  }
+  .epics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    flex: 1;
+    min-height: 0;
+    column-gap: 0;
+    row-gap: 0;
+  }
+  .epic-cell {
+    padding: 16px 18px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(26,60,58,0.1);
+    border-bottom: 1px solid rgba(26,60,58,0.1);
+  }
+  .epic-cell:nth-child(3n)   { border-right: none; }
+  .epic-cell:nth-child(n+4)  { border-bottom: none; }
+  .epic-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a3c3a;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .epic-desc {
+    font-size: 11px;
+    color: #666;
+    line-height: 1.55;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+  }
+  .epic-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-shrink: 0;
+  }
+  .status-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  }
+  .status-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #444;
+    letter-spacing: 0.2px;
+  }
+  .effort-tag {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 800;
+    color: #1a3c3a;
+    background: #ddecea;
+    padding: 3px 11px;
+    border-radius: 8px;
+    border: 1.5px solid #b0d4d0;
+    letter-spacing: 0.2px;
+  }
+
+  /* ── FOOTER ── */
+  .slide-footer {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    background: #1a3c3a;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px;
+  }
+  .footer-text {
+    font-size: 10px;
+    color: #7fb3af;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Billing, Assessments and Installments</div>
+        <div class="header-subtitle">Core Revenue Management Capabilities · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">1,120</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">2</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Multi-Installment Ad-Hoc Obligations</div>
+          <div class="reason-text">Revenue officials require ability to create multiple payment obligation actions under ad-hoc obligations as installments, matching periodic obligation structure. This supports inheritance tax, legacy data migration, and guarantee processing with configurable rules for automatic installment generation.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Enhance Bill Segment Type Configuration</div>
+          <div class="reason-text">Administrators need flexibility to configure alternative target bill segment types separately from source types in Transfer Amount processes. This ensures alignment with existing predefined bill segment configurations used across revenue types and improves administrative consistency.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Support Complex Payment Scenarios</div>
+          <div class="reason-text">System must handle payment reference tracking, category definitions (preliminary/original), and subtype management (once-off/installment/amendment) for ad-hoc obligations. This enables comprehensive payment obligation management comparable to periodic obligation functionality.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Add and Maintain Ad-hoc Obligations – Pay Instalment Actions and Categories</div>
+          <div class="epic-desc">Enable revenue officials to create multiple payment obligation actions under ad-hoc obligations as installments with configurable categories, subtypes, and payment references for comprehensive obligation management.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">HLD</span>
+            <span class="effort-tag">821h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Transfer Amount - Enhancement on configuration of Bill segment types</div>
+          <div class="epic-desc">Allow administrators to configure alternative target bill segment types separately from default source types in Transfer Amount processes for improved alignment with existing configurations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">299h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left"><div class="pi-badge">PI 28</div><div class="header-text-section"><div class="header-label">Roadmap Initiative</div><div class="header-title">PENALTY & INTEREST</div><div class="header-subtitle">CORE REVENUE MANAGEMENT CAPABILITIES · Solon Tax 2026</div></div></div><div class="header-right"><div class="header-stat"><div class="header-stat-value">2,986.9</div><div class="header-stat-label">Total Hours</div></div><div class="header-divider"></div><div class="header-stat"><div class="header-stat-value">1</div><div class="header-stat-label">Features</div></div><div class="header-divider"></div><div class="header-stat"><div class="header-stat-value text-stat">GTM</div><div class="header-stat-label">Requester</div></div></div></div>
+
+  
+  <div class="body"><div class="strategic-panel"><div class="sp-label">Strategic Case</div><div class="reason"><div class="reason-num">01</div><div class="reason-body"><div class="reason-title">Accurate Interest Calculation on Unallocated Payments</div><div class="reason-text">System currently calculates interest only on bill segment balances, excluding unallocated payment segments. This creates unfair situations where taxpayer funds held by tax authority do not accrue required interest. Enhancement ensures proper interest calculation for all credit amounts.</div></div></div><div class="reason-rule"></div><div class="reason"><div class="reason-num">02</div><div class="reason-body"><div class="reason-title">Support Tax Account Implementation</div><div class="reason-text">Northern countries implementing Tax Account scenarios require comprehensive interest calculation including both allocated and unallocated payment segments. This is essential for accurate financial transaction processing and taxpayer fairness in credit interest scenarios.</div></div></div><div class="reason-rule"></div><div class="reason"><div class="reason-num">03</div><div class="reason-body"><div class="reason-title">Regulatory Compliance for Interest Accrual</div><div class="reason-text">Multiple business cases generate unallocated payment segments: payment suspense, processing errors, insufficient liability balance, and payment event state transitions. System must calculate interest on all credit amounts to comply with tax authority obligations and fairness principles.</div></div></div></div><div class="epics-panel"><div class="ep-label">Key Features</div><div class="ep-label-rule"></div><div class="epics-grid"><div class="epic-cell"><div class="epic-name">Enhance Credit Interest Calculation to include unallocated payment segments</div><div class="epic-desc">Update CREDIT_INT penalty and interest rule to calculate reimbursement interest on credit unallocated payment segments alongside bill segment credits for accurate taxpayer interest accrual.</div><div class="epic-meta"><span class="status-dot" style="background:#E67E22;"></span><span class="status-text">Waiting Analysis Approval</span><span class="effort-tag">2987h</span></div></div></div></div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span><span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">REGISTRATION</div>
+        <div class="header-subtitle">CORE REVENUE MANAGEMENT CAPABILITIES</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2,389.8</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Enhanced Revenue Type Categorization and Searchability</div>
+          <div class="reason-text">Revenue officers require detailed revenue type information including domain, declaration mechanism, and active status flags to support GL decision table generation and financial transaction processing. Enhanced searchability by these attributes enables efficient configuration and process automation.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Support Organizational and Taxpayer Hierarchy Visualization</div>
+          <div class="reason-text">Revenue officials need graphical representation of organizational unit hierarchies and taxpayer party hierarchies to understand structural relationships. This supports case assignment, party role management, and organizational context understanding for complex revenue authority structures.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Same-Day Registry Modifications with Validity Management</div>
+          <div class="reason-text">System must support multiple party detail changes on same date without triggering uniqueness or overlapping validation errors. New validity state flags and enhanced period logic enable flexible registry management while maintaining data integrity and historical accuracy.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Enhance Validity period conditions in Registry detail entities to support multiple modifications in the same date</div>
+          <div class="epic-desc">Enable multiple party detail changes on same date by introducing validity state flags and enhanced period logic that prevents uniqueness conflicts while maintaining historical accuracy.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">747h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">View Organizational structure and taxpayers hierarchy structure – User / Part 2 of 2</div>
+          <div class="epic-desc">Provide graphical tree representation of organizational unit and taxpayer party hierarchies with search and navigation capabilities for understanding structural relationships.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">747h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">More details availability in Revenue types, searching enhancements in Fts and RTs</div>
+          <div class="epic-desc">Add optional revenue domain and declaration mechanism fields to revenue types with enhanced search capabilities and data area support for improved categorization and GL decision logic.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">HLD</span>
+            <span class="effort-tag">896h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Enhance codelist items codes flexibility and historical track in Solon Tax</div>
+          <div class="epic-desc">Allow same codelist item code with different descriptions across non-overlapping validity periods to support EU tax code evolution requirements like NACE Rev. 2.1 harmonization.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">523h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Introduce a Threshold Amount Field in Revenue Type Registration to support Tax Account</div>
+          <div class="epic-desc">Add optional threshold amount field to Revenue Type Registration entity to support Tax Account implementation with automatic rule population capability.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">54h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">TAX ACCOUNTS</div>
+        <div class="header-subtitle">CORE REVENUE MANAGEMENT CAPABILITIES · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">529.9</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">3</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GTM, GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Tax Account Reference Implementation</div>
+          <div class="reason-text">Revenue officers require complete Tax Account configuration including revenue type flags, reconciliation period management, and financial transaction linking. Reference implementation for VAT Tax Account enables demo capability and foundation for future implementations in Nordic countries.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Provide Consolidated Tax Account Overview</div>
+          <div class="reason-text">Revenue officers need single consolidated view of all financial transactions for specific reconciliation periods showing opening/closing balances and running balances. This improves visibility and efficiency for Tax Account management and financial analysis.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Support Period-Centric Financial Management</div>
+          <div class="reason-text">Tax Account implementation requires reconciliation period entity with opening/closing balance management, automatic period assignment to financial transactions, and cross-period payment allocation. This enables accurate period-based financial tracking and reporting.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Support Tax Account Overview Page in the Single Taxpayer Overview</div>
+          <div class="epic-desc">Create dedicated Tax Account Overview page displaying all financial transactions for selected reconciliation periods with opening/closing balances and running balance tracking.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">396h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">VAT Tax Account Reference Implementation</div>
+          <div class="epic-desc">Configure VAT Tax Account with revenue type flags, reconciliation period management, and financial transaction linking to enable demo and future implementation foundation.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">HLD</span>
+            <span class="effort-tag">356h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Export Filtered List Table to Excel /GL Accounts List pages</div>
+          <div class="epic-desc">Enable revenue officers to export filtered GL Accounts list to Excel file with applied search criteria for reporting and analysis.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">80h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">TAXPAYER ACCOUNTING</div>
+        <div class="header-subtitle">CORE REVENUE MANAGEMENT CAPABILITIES · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">1,813.1</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">4</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Support High-Volume GL Decision Table Processing</div>
+          <div class="reason-text">System must handle hundreds of thousands of GL decision lines efficiently. Multi-sheet splitting strategies, valid-from/to columns, and multiline rule support enable scalable GL decision table management without degrading performance or maintainability.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Financial Event Logging Under Org Units and Claimants</div>
+          <div class="reason-text">Revenue officers require ability to log financial transactions under organizational units and claimants for offset vouchers, transfer orders, and third-party settlements. This extends financial transaction scope beyond traditional taxpayer-based accounting.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Provide GL Decision Table Extensibility and Customization</div>
+          <div class="reason-text">Projects with non-standard GL posting requirements need ability to override standard GL decision mechanism with custom adapters. This enables complex business rules and project-specific accounting logic without core product modification.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">GL decisions table - Ensure extensibility and high volume support of decisions /Functionality &amp; Reference Implementation</div>
+          <div class="epic-desc">Support high-volume GL decision lines through multi-sheet splitting, configurable parameters, and extensible rule evaluation mechanisms for complex accounting scenarios.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">160h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">GL decisions table - Multiline rules and additional parameters /Functionality &amp; Reference Implementation</div>
+          <div class="epic-desc">Enable multiline GL decision rules with valid-from/to columns, split strategies by revenue type and claimant, and customer-defined parameters for flexible GL account selection.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">160h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Enable financial events logging under Org units and Claimants</div>
+          <div class="epic-desc">Allow revenue officers to log financial transactions under organizational units and claimants for offset vouchers, transfer orders, and third-party settlement processing.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">1,493h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Configurability of GL Decision Table - Be able to override by custom application</div>
+          <div class="epic-desc">Enable configurators to bypass standard GL decision table mechanism with custom adapter or application for non-standard GL posting requirements without core product modification.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">N/A</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+
+</body>
+</html>

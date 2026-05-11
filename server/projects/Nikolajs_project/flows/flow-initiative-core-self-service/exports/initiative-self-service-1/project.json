@@ -1,0 +1,23 @@
+{
+  "name": "Nikolajs_project",
+  "exportId": "initiative-self-service-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-04-21T08:01:06.274Z",
+  "slideCount": 2,
+  "slides": [
+    {
+      "index": 1,
+      "file": "self-service-services-management.html",
+      "slideId": "slide-1",
+      "title": "SELF SERVICE SERVICES MANAGEMENT",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "user-3rd-party-access-management.html",
+      "slideId": "slide-2",
+      "title": "USER & 3RD PARTY ACCESS MANAGEMENT",
+      "type": "content"
+    }
+  ]
+}

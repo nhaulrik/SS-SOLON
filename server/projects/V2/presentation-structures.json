@@ -1,0 +1,842 @@
+{
+  "structures": [
+    {
+      "id": "ps-540b6c82-c145-4879-8102-76da6c6bc3b0",
+      "name": "PI28 - Feature Catalog - 29/04/26",
+      "createdAt": "2026-04-28T18:58:02.526Z",
+      "updatedAt": "2026-05-01T12:27:49.758Z",
+      "slides": [
+        {
+          "id": "sr-b7ebcfdc-3133-4be9-85bd-d63b631eb384",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 1,
+          "title": "CORE SUPPORTING CAPABILITIES"
+        },
+        {
+          "id": "sr-261b44c1-0898-493a-8ff9-b5b242d94bfe",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 2,
+          "title": "REFERENCE IMPLEMENTATIONS"
+        },
+        {
+          "id": "sr-5bd2b75a-6678-40d3-b1d4-3dab7beca4a6",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 3,
+          "title": "NON-FUNCTIONAL REQUIREMENT COVERAGE"
+        },
+        {
+          "id": "sr-c5d34c82-f5b1-419d-93ec-5810ab25ae53",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 4,
+          "title": "CORE REVENUE MANAGEMENT CAPABILITIES"
+        },
+        {
+          "id": "sr-1c0e3491-870a-40dd-aa7e-9ea03103af59",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 5,
+          "title": "OTHER ACTIVITIES"
+        },
+        {
+          "id": "sr-55fbdf48-4506-4488-932d-49a9a412ff97",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 6,
+          "title": "CORE SELF SERVICE CAPABILITIES"
+        },
+        {
+          "id": "sr-6e87a99a-5acd-4df7-a8ad-137acd59d936",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "init-core-support-1",
+          "slideIndex": 1,
+          "title": "BATCH PROCESSING ENHANCEMENTS"
+        },
+        {
+          "id": "sr-927d66ff-571e-424a-bd6d-680c021e149a",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "init-core-support-1",
+          "slideIndex": 2,
+          "title": "CASE MANAGEMENT"
+        },
+        {
+          "id": "sr-4e485e89-21b6-4003-b7ea-0e55eec3ba38",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "init-core-support-1",
+          "slideIndex": 3,
+          "title": "CONTACT MANAGEMENT"
+        },
+        {
+          "id": "sr-da66c8d3-208c-4a96-8a2d-f77f03d926bc",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "init-core-support-1",
+          "slideIndex": 4,
+          "title": "CONTENT MANAGEMENT INTEGRATION"
+        },
+        {
+          "id": "sr-c26ddb6a-41ba-4793-ada7-467e3af27a82",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "init-core-support-1",
+          "slideIndex": 5,
+          "title": "DOCUMENT MANAGEMENT INTEGRATION"
+        },
+        {
+          "id": "sr-b3b063d7-1242-4bd5-8d7d-e1c5dd6389f0",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "init-core-support-1",
+          "slideIndex": 6,
+          "title": "FORM PROCESSING"
+        },
+        {
+          "id": "sr-00792d3a-acb6-4555-91fb-79cab55a7383",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "init-core-support-1",
+          "slideIndex": 7,
+          "title": "OPERATIONAL REPORTING"
+        },
+        {
+          "id": "sr-03c755b3-d04d-488c-99ae-6abfce85dffc",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "init-core-support-1",
+          "slideIndex": 8,
+          "title": "REFERENCE DATA"
+        },
+        {
+          "id": "sr-524a32b0-4f67-4c91-a999-9c3578613fea",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "init-core-support-1",
+          "slideIndex": 9,
+          "title": "UI CONFIGURATION"
+        },
+        {
+          "id": "sr-c19a2ef6-b187-4bc0-b970-05f58cccd2fb",
+          "flowId": "flow-initiative-core-revenue",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 1,
+          "title": "BILLING, ASSESSMENTS AND INSTALLMENTS"
+        },
+        {
+          "id": "sr-28230897-1bb0-4b05-b99a-4e9c0aecc5af",
+          "flowId": "flow-initiative-core-revenue",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 2,
+          "title": "PENALTY & INTEREST"
+        },
+        {
+          "id": "sr-b6249a5b-6bbb-46d9-a2cf-3082f0bfb92e",
+          "flowId": "flow-initiative-core-revenue",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 3,
+          "title": "REGISTRATION"
+        },
+        {
+          "id": "sr-86746dde-920c-4c02-92fd-9b08bb71db0f",
+          "flowId": "flow-initiative-core-revenue",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 5,
+          "title": "TAXPAYER ACCOUNTING"
+        },
+        {
+          "id": "sr-2cd8031a-9a18-4bba-ad56-8600a8247e1f",
+          "flowId": "flow-initiative-core-revenue",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 4,
+          "title": "TAX ACCOUNTS"
+        },
+        {
+          "id": "sr-11a129fd-a1c3-4d61-9b43-7046394e956e",
+          "flowId": "flow-initiative-core-self-service",
+          "exportId": "initiative-core-self-service-1",
+          "slideIndex": 1,
+          "title": "SELF SERVICE SERVICES MANAGEMENT"
+        },
+        {
+          "id": "sr-2cc6ec58-b1d3-482e-b0e5-04e525c985a5",
+          "flowId": "flow-initiative-core-self-service",
+          "exportId": "initiative-core-self-service-1",
+          "slideIndex": 2,
+          "title": "USER & 3RD PARTY ACCESS MANAGEMENT"
+        },
+        {
+          "id": "sr-dc25e207-d50a-4899-bd6e-c3cd935340dd",
+          "flowId": "flow-initiative-ref-impl",
+          "exportId": "init-ref-impl-1",
+          "slideIndex": 1,
+          "title": "APPLICATION PROCESSES"
+        },
+        {
+          "id": "sr-16470538-854c-48cb-9f52-43cf5a58303f",
+          "flowId": "flow-initiative-ref-impl",
+          "exportId": "init-ref-impl-1",
+          "slideIndex": 2,
+          "title": "PIT"
+        },
+        {
+          "id": "sr-60d1d755-5654-4a94-b368-e11c40b335b6",
+          "flowId": "flow-initiative-ref-impl",
+          "exportId": "init-ref-impl-1",
+          "slideIndex": 3,
+          "title": "SELF SERVICE ACCOUNT OVERVIEW"
+        },
+        {
+          "id": "sr-7437fefb-6636-442a-bf0e-16fb2a7e0965",
+          "flowId": "flow-initiative-ref-impl",
+          "exportId": "init-ref-impl-1",
+          "slideIndex": 4,
+          "title": "SELF SERVICE FILING & PAYMENTS"
+        },
+        {
+          "id": "sr-77bd9e03-dd87-4fb5-8316-a3da18a415df",
+          "flowId": "flow-initiative-ref-impl",
+          "exportId": "init-ref-impl-1",
+          "slideIndex": 5,
+          "title": "VAT"
+        },
+        {
+          "id": "sr-e6ed3c2d-f69c-44f3-98ef-4d725cda3b40",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "init-non-funct-1",
+          "slideIndex": 1,
+          "title": "Accessibility"
+        },
+        {
+          "id": "sr-47f459bb-e534-4469-a43a-31e008f77611",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "init-non-funct-1",
+          "slideIndex": 2,
+          "title": "Extensibility"
+        },
+        {
+          "id": "sr-342f4615-dc5a-41a1-a880-ee9e011e2e51",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "init-non-funct-1",
+          "slideIndex": 3,
+          "title": "Maintainability"
+        },
+        {
+          "id": "sr-bbc5f9e0-71dd-4eff-92ff-220344a773a7",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "init-non-funct-1",
+          "slideIndex": 4,
+          "title": "Operability"
+        },
+        {
+          "id": "sr-3372fbb3-4a1b-4b87-9502-caf0be4e5b39",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "init-non-funct-1",
+          "slideIndex": 5,
+          "title": "Performance Efficiency"
+        },
+        {
+          "id": "sr-56dad8b4-c926-415b-a460-d9be4c9044ed",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "init-non-funct-1",
+          "slideIndex": 6,
+          "title": "Reliability"
+        },
+        {
+          "id": "sr-cd611a16-2641-4d9e-99dd-1e7571be8fe5",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "init-non-funct-1",
+          "slideIndex": 7,
+          "title": "Security"
+        },
+        {
+          "id": "sr-81741471-be1e-497f-81b0-a24539683c16",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "init-non-funct-1",
+          "slideIndex": 8,
+          "title": "Test Suite Optimization"
+        },
+        {
+          "id": "sr-34f0daeb-37a3-4816-95bd-5de1677fc10d",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "init-non-funct-1",
+          "slideIndex": 9,
+          "title": "Traceability"
+        },
+        {
+          "id": "sr-1521684f-86ea-4e93-bc39-a230454348a3",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "init-non-funct-1",
+          "slideIndex": 10,
+          "title": "Usability"
+        },
+        {
+          "id": "sr-8bcd7635-058d-4d89-b562-2869bc967f00",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 1,
+          "title": "ARK"
+        },
+        {
+          "id": "sr-e014ab56-e006-4aff-b63e-da143b3c1917",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 2,
+          "title": "CEREMONIES AND TRAININGS"
+        },
+        {
+          "id": "sr-3716f210-b83a-47f7-974a-3fc0a975ebc5",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 3,
+          "title": "CORRECTIVE MAINTENANCE"
+        },
+        {
+          "id": "sr-8223a8fe-2b44-4087-9371-39c945f9b7ee",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 4,
+          "title": "MANAGEMENT"
+        },
+        {
+          "id": "sr-91eb78f8-1646-463d-be5b-21eddf88dab3",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 5,
+          "title": "PREVENTIVE MAINTENANCE"
+        },
+        {
+          "id": "sr-ac8d0264-6b40-4344-b116-b0d924f9c2a9",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 6,
+          "title": "PRODUCT SUPPORT"
+        },
+        {
+          "id": "sr-08a93b3c-2cfb-4563-bcdb-51546d5506eb",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 7,
+          "title": "PROJECT SUPPORT"
+        },
+        {
+          "id": "sr-b3d45c7a-9013-4eb5-8ce5-cd2e352aeb67",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 8,
+          "title": "RELEASE ACTIVITIES"
+        },
+        {
+          "id": "sr-4dfbb332-6c2f-422b-b564-d2d88dddf971",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 9,
+          "title": "SECURITY"
+        },
+        {
+          "id": "sr-aed1c558-889e-4fc9-b320-70e2f94b9fa3",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 10,
+          "title": "SUPPORT TO PDM"
+        },
+        {
+          "id": "sr-9f991241-42ec-4794-9bd7-bfdbb130b8c8",
+          "flowId": "flow-frontpage",
+          "exportId": "frontpage-1",
+          "slideIndex": 1,
+          "title": "frontpage"
+        },
+        {
+          "id": "sr-66b76446-3362-468a-97ee-bc4ac66c7d42",
+          "flowId": "flow-frontpage",
+          "exportId": "frontpage-1",
+          "slideIndex": 1,
+          "title": "frontpage"
+        },
+        {
+          "id": "sr-7667a98e-0f43-48e6-a1f2-b35695f405d8",
+          "flowId": "flow-frontpage2",
+          "exportId": "frontpage-v2-1",
+          "slideIndex": 1,
+          "title": "Overview"
+        }
+      ],
+      "tree": [
+        {
+          "id": "c3180da4-c71a-4589-aa4e-1158d166b3de",
+          "type": "section",
+          "title": "PI28",
+          "children": [
+            {
+              "slideRefId": "sr-7667a98e-0f43-48e6-a1f2-b35695f405d8",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-5bd2b75a-6678-40d3-b1d4-3dab7beca4a6",
+              "children": [
+                {
+                  "slideRefId": "sr-e6ed3c2d-f69c-44f3-98ef-4d725cda3b40",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-47f459bb-e534-4469-a43a-31e008f77611",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-342f4615-dc5a-41a1-a880-ee9e011e2e51",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-bbc5f9e0-71dd-4eff-92ff-220344a773a7",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-3372fbb3-4a1b-4b87-9502-caf0be4e5b39",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-56dad8b4-c926-415b-a460-d9be4c9044ed",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-cd611a16-2641-4d9e-99dd-1e7571be8fe5",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-81741471-be1e-497f-81b0-a24539683c16",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-34f0daeb-37a3-4816-95bd-5de1677fc10d",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-1521684f-86ea-4e93-bc39-a230454348a3",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "slideRefId": "sr-c5d34c82-f5b1-419d-93ec-5810ab25ae53",
+              "children": [
+                {
+                  "slideRefId": "sr-c19a2ef6-b187-4bc0-b970-05f58cccd2fb",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-28230897-1bb0-4b05-b99a-4e9c0aecc5af",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-b6249a5b-6bbb-46d9-a2cf-3082f0bfb92e",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-86746dde-920c-4c02-92fd-9b08bb71db0f",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-2cd8031a-9a18-4bba-ad56-8600a8247e1f",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "slideRefId": "sr-b7ebcfdc-3133-4be9-85bd-d63b631eb384",
+              "children": [
+                {
+                  "slideRefId": "sr-6e87a99a-5acd-4df7-a8ad-137acd59d936",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-927d66ff-571e-424a-bd6d-680c021e149a",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-4e485e89-21b6-4003-b7ea-0e55eec3ba38",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-da66c8d3-208c-4a96-8a2d-f77f03d926bc",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-c26ddb6a-41ba-4793-ada7-467e3af27a82",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-b3b063d7-1242-4bd5-8d7d-e1c5dd6389f0",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-00792d3a-acb6-4555-91fb-79cab55a7383",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-03c755b3-d04d-488c-99ae-6abfce85dffc",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-524a32b0-4f67-4c91-a999-9c3578613fea",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "slideRefId": "sr-55fbdf48-4506-4488-932d-49a9a412ff97",
+              "children": [
+                {
+                  "slideRefId": "sr-11a129fd-a1c3-4d61-9b43-7046394e956e",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-2cc6ec58-b1d3-482e-b0e5-04e525c985a5",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "slideRefId": "sr-261b44c1-0898-493a-8ff9-b5b242d94bfe",
+              "children": [
+                {
+                  "slideRefId": "sr-dc25e207-d50a-4899-bd6e-c3cd935340dd",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-60d1d755-5654-4a94-b368-e11c40b335b6",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-7437fefb-6636-442a-bf0e-16fb2a7e0965",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-77bd9e03-dd87-4fb5-8316-a3da18a415df",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-16470538-854c-48cb-9f52-43cf5a58303f",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "slideRefId": "sr-1c0e3491-870a-40dd-aa7e-9ea03103af59",
+              "children": [
+                {
+                  "slideRefId": "sr-8bcd7635-058d-4d89-b562-2869bc967f00",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-e014ab56-e006-4aff-b63e-da143b3c1917",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-3716f210-b83a-47f7-974a-3fc0a975ebc5",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-8223a8fe-2b44-4087-9371-39c945f9b7ee",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-91eb78f8-1646-463d-be5b-21eddf88dab3",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-ac8d0264-6b40-4344-b116-b0d924f9c2a9",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-08a93b3c-2cfb-4563-bcdb-51546d5506eb",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-b3d45c7a-9013-4eb5-8ce5-cd2e352aeb67",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-4dfbb332-6c2f-422b-b564-d2d88dddf971",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-aed1c558-889e-4fc9-b320-70e2f94b9fa3",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ebbe648d-39f7-432a-a908-0a7a785145cd",
+          "type": "section",
+          "title": "PI29",
+          "children": []
+        }
+      ],
+      "levelNames": [
+        "Initiative Group",
+        "Initiative"
+      ]
+    },
+    {
+      "id": "ps-209194ae-222f-47b7-835e-c37e87dbc8aa",
+      "name": "Test structure",
+      "createdAt": "2026-05-01T13:13:10.752Z",
+      "updatedAt": "2026-05-01T13:26:46.044Z",
+      "slides": [
+        {
+          "id": "sr-9a018b2f-d11d-433f-88bf-68c03f249b25",
+          "flowId": "flow-frontpage",
+          "exportId": "frontpage-1",
+          "slideIndex": 1,
+          "title": "frontpage"
+        },
+        {
+          "id": "sr-a2dcc310-a372-434e-ab80-6b4f3a01a4d9",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 1,
+          "title": "CORE SUPPORTING CAPABILITIES"
+        },
+        {
+          "id": "sr-7c7d3037-f44e-492e-8ea0-506e30303652",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 2,
+          "title": "REFERENCE IMPLEMENTATIONS"
+        },
+        {
+          "id": "sr-daeee770-c36b-48cb-93ea-f489de01fda9",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 3,
+          "title": "NON-FUNCTIONAL REQUIREMENT COVERAGE"
+        },
+        {
+          "id": "sr-e07e0c14-4d96-4415-babb-1f3f7776bc0b",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 4,
+          "title": "CORE REVENUE MANAGEMENT CAPABILITIES"
+        },
+        {
+          "id": "sr-12445b3d-58d2-4883-a5f2-f082a670fc9b",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 5,
+          "title": "OTHER ACTIVITIES"
+        },
+        {
+          "id": "sr-d70766cc-e324-4ada-83a5-a4023dd580fe",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 6,
+          "title": "CORE SELF SERVICE CAPABILITIES"
+        },
+        {
+          "id": "sr-95555db1-53a4-467c-91cd-f13b9c7d17cc",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 1,
+          "title": "CORE SUPPORTING CAPABILITIES"
+        },
+        {
+          "id": "sr-884d0ed4-1bed-47ce-a262-275e9ff824ad",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 2,
+          "title": "REFERENCE IMPLEMENTATIONS"
+        },
+        {
+          "id": "sr-5d4332fa-8ab6-44e5-b3ea-f7bd3c543cc0",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 3,
+          "title": "NON-FUNCTIONAL REQUIREMENT COVERAGE"
+        },
+        {
+          "id": "sr-69e8ec96-38be-452a-8518-15f2a370e512",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 1,
+          "title": "CORE SUPPORTING CAPABILITIES"
+        },
+        {
+          "id": "sr-a3333b14-5e8e-4f49-b90f-199c73110f81",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 2,
+          "title": "REFERENCE IMPLEMENTATIONS"
+        },
+        {
+          "id": "sr-ca4ff934-c6ee-45d0-932a-8b85348a7c8c",
+          "flowId": "flow-ini",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 3,
+          "title": "NON-FUNCTIONAL REQUIREMENT COVERAGE"
+        },
+        {
+          "id": "sr-6dfbe495-a4f3-40d8-b79e-240ef68cdad5",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 1,
+          "title": "ARK"
+        },
+        {
+          "id": "sr-6fb6d6cf-12d6-4d07-9a4d-c20c86ce091f",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 2,
+          "title": "CEREMONIES AND TRAININGS"
+        },
+        {
+          "id": "sr-bb2b885f-40e8-4058-a054-02bb130393af",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 3,
+          "title": "CORRECTIVE MAINTENANCE"
+        },
+        {
+          "id": "sr-6545bd7e-27b5-4519-8d75-a32bcd7fb551",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 4,
+          "title": "MANAGEMENT"
+        },
+        {
+          "id": "sr-c997b48e-9e8d-40c9-9c32-0cca5c9725bd",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 5,
+          "title": "PREVENTIVE MAINTENANCE"
+        },
+        {
+          "id": "sr-32683d76-2599-4479-8213-2d6a3400b657",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 6,
+          "title": "PRODUCT SUPPORT"
+        },
+        {
+          "id": "sr-53456afd-e35b-4689-a944-97c4e27b8ace",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 7,
+          "title": "PROJECT SUPPORT"
+        },
+        {
+          "id": "sr-76f8c372-4091-4bf5-baf8-ff23ad02fbe9",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 8,
+          "title": "RELEASE ACTIVITIES"
+        },
+        {
+          "id": "sr-2cbae519-6932-4bc9-96a7-c96b0e5a10c7",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 9,
+          "title": "SECURITY"
+        },
+        {
+          "id": "sr-2ddc17b2-fdeb-4404-a3b0-72c9f8ef9041",
+          "flowId": "flow-init-other-activities",
+          "exportId": "init-other-activities-1",
+          "slideIndex": 10,
+          "title": "SUPPORT TO PDM"
+        }
+      ],
+      "tree": [
+        {
+          "slideRefId": "sr-9a018b2f-d11d-433f-88bf-68c03f249b25",
+          "children": []
+        },
+        {
+          "id": "a1dbb099-50d2-4be1-83de-8708ff3f137b",
+          "type": "section",
+          "title": "New Section",
+          "children": [
+            {
+              "slideRefId": "sr-95555db1-53a4-467c-91cd-f13b9c7d17cc",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-884d0ed4-1bed-47ce-a262-275e9ff824ad",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-5d4332fa-8ab6-44e5-b3ea-f7bd3c543cc0",
+              "children": [
+                {
+                  "slideRefId": "sr-69e8ec96-38be-452a-8518-15f2a370e512",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-a3333b14-5e8e-4f49-b90f-199c73110f81",
+                  "children": []
+                },
+                {
+                  "slideRefId": "sr-ca4ff934-c6ee-45d0-932a-8b85348a7c8c",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c21bc335-0213-4658-9e39-7be6ff8508e3",
+          "type": "section",
+          "title": "test section",
+          "children": [
+            {
+              "slideRefId": "sr-6dfbe495-a4f3-40d8-b79e-240ef68cdad5",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-6fb6d6cf-12d6-4d07-9a4d-c20c86ce091f",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-bb2b885f-40e8-4058-a054-02bb130393af",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-6545bd7e-27b5-4519-8d75-a32bcd7fb551",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-c997b48e-9e8d-40c9-9c32-0cca5c9725bd",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-32683d76-2599-4479-8213-2d6a3400b657",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-53456afd-e35b-4689-a944-97c4e27b8ace",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-76f8c372-4091-4bf5-baf8-ff23ad02fbe9",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-2cbae519-6932-4bc9-96a7-c96b0e5a10c7",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-2ddc17b2-fdeb-4404-a3b0-72c9f8ef9041",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "levelNames": []
+    },
+    {
+      "id": "ps-1279de02-fc6f-45b5-8679-a4d27014d3ed",
+      "name": "New Structure",
+      "createdAt": "2026-05-01T13:13:29.904Z",
+      "updatedAt": "2026-05-01T13:13:29.904Z",
+      "slides": [],
+      "tree": []
+    }
+  ]
+}

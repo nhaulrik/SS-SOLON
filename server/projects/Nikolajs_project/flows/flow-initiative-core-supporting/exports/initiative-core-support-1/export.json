@@ -1,0 +1,61 @@
+{
+  "exportId": "initiative-core-support-1",
+  "exportNumber": 1,
+  "exportName": "initiative-core-support",
+  "createdAt": "2026-04-21T09:46:56.512Z",
+  "source": {
+    "roundId": "6e893ca1-9ea1-4c7d-b97e-ab7a09be0f26",
+    "outputFile": "output-6e893ca1-9ea1-4c7d-b97e-ab7a09be0f26.html"
+  },
+  "content": {
+    "slideCount": 5,
+    "totalSize": 60961,
+    "slides": [
+      {
+        "index": 1,
+        "file": "ui-configuration.html",
+        "size": 11397,
+        "title": "UI Configuration",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "form-processing.html",
+        "size": 12124,
+        "title": "Form Processing",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "reference-data.html",
+        "size": 12302,
+        "title": "Reference Data",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "document-management-integration.html",
+        "size": 12495,
+        "title": "Document Management Integration",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "contact-management.html",
+        "size": 12643,
+        "title": "Contact Management",
+        "slideId": "slide-5",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "Nikolajs_project",
+    "flowId": "flow-initiative-core-supporting",
+    "templateFile": ""
+  }
+}

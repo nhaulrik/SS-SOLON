@@ -1,0 +1,61 @@
+{
+  "exportId": "initiatives-core-revenue-mgmt-1",
+  "exportNumber": 1,
+  "exportName": "initiatives-core-revenue-mgmt",
+  "createdAt": "2026-04-29T07:27:37.167Z",
+  "source": {
+    "roundId": "ff5c75c5-4e06-4803-8ed6-da92d5508f27",
+    "outputFile": "output-ff5c75c5-4e06-4803-8ed6-da92d5508f27.html"
+  },
+  "content": {
+    "slideCount": 5,
+    "totalSize": 52256,
+    "slides": [
+      {
+        "index": 1,
+        "file": "billing-assessments-and-installments.html",
+        "size": 9549,
+        "title": "BILLING, ASSESSMENTS AND INSTALLMENTS",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "penalty-interest.html",
+        "size": 9642,
+        "title": "PENALTY & INTEREST",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "registration.html",
+        "size": 10838,
+        "title": "REGISTRATION",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "tax-accounts.html",
+        "size": 10754,
+        "title": "TAX ACCOUNTS",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "taxpayer-accounting.html",
+        "size": 11473,
+        "title": "TAXPAYER ACCOUNTING",
+        "slideId": "slide-5",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "V2",
+    "flowId": "flow-initiative-core-revenue",
+    "templateFile": ""
+  }
+}

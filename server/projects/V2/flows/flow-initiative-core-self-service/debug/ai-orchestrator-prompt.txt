@@ -1,0 +1,449 @@
+You are a data schema analyst for a slide generation system.
+Your ONLY job is to identify how data should be grouped into slide instances.
+Do NOT copy rows. Do NOT generate content. Just identify the grouping.
+
+CONTEXT DATA SCHEMA:
+=== RichFeatureQueries.xlsx ===
+[Sheet: Full Features]
+Rows: 184   Columns: 11 (of 11 total, 0 empty omitted)
+Headers: Issue Type | IRM | Roadmap Initiative Group | Roadmap Initiative | Roadmap Feature | Requester | PI | Estimate | Feature Priority | Feature Status | Features Description
+
+Issue Type: Feature
+IRM: IRM-12464 | IRM-12465 | IRM-16516 | IRM-17620 | IRM-18729 | IRM-18730 | IRM-19256 | IRM-19514 | IRM-20329 | IRM-20399 | IRM-25436 | IRM-26754 | IRM-26949 | IRM-27731 | IRM-27733 | IRM-29268 | IRM-29430 | IRM-29434 | IRM-29513 | IRM-29663 | IRM-29998 | IRM-30360 | IRM-30362 | IRM-30372 | IRM-30376 | IRM-30403 | IRM-30418 | IRM-30419 | IRM-30561 | IRM-30668 | IRM-30719 | IRM-30741 | IRM-31187 | IRM-31854 | IRM-32237 | IRM-32464 | IRM-32746 | IRM-32912 | IRM-33406 | IRM-33637 | IRM-34159 | IRM-34598 | IRM-3541 | IRM-3542 | IRM-3543 | IRM-3545 | IRM-36280 | IRM-36660 | IRM-36664 | IRM-36665 | IRM-36666 | IRM-36667 | IRM-36668 | IRM-36862 | IRM-37212 | IRM-374 | IRM-37610 | IRM-37721 | IRM-37825 | IRM-37844 … (+113 more)
+Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | REFERENCE IMPLEMENTATIONS | NON-FUNCTIONAL REQUIREMENT COVERAGE | CORE REVENUE MANAGEMENT CAPABILITIES | OTHER ACTIVITIES | CORE SELF SERVICE CAPABILITIES
+Roadmap Initiative: CASE MANAGEMENT | SELF SERVICE ACCOUNT OVERVIEW | TRACEABILITY | REFERENCE DATA | PIT | BILLING, ASSESSMENTS AND INSTALLMENTS | SECURITY | SELF SERVICE FILING & PAYMENTS | PRODUCT SUPPORT | CONTACT MANAGEMENT | ARK | MAINTAINABILITY | PENALTY & INTEREST | USABILITY | APPLICATION PROCESSES | OPERATIONAL REPORTING | TAXPAYER ACCOUNTING | PERFORMANCE EFFICIENCY | CONTENT MANAGEMENT INTEGRATION | UI CONFIGURATION | BATCH PROCESSING ENHANCEMENTS | OPERABILITY | RELIABILITY | SELF SERVICE SERVICES MANAGEMENT | DOCUMENT MANAGEMENT INTEGRATION | USER & 3RD PARTY ACCESS MANAGEMENT | REGISTRATION | TEST SUITE OPTIMIZATION | TAX ACCOUNTS | FORM PROCESSING | PREVENTIVE MAINTENANCE | VAT | ACCESSIBILITY | SUPPORT TO PDM | PROJECT SUPPORT | RELEASE ACTIVITIES | CORRECTIVE MAINTENANCE | TECHNOLOGY MANAGEMENT | EXTENSIBILITY | CEREMONIES AND TRAININGS | MANAGEMENT
+Roadmap Feature: Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | SS  Payments - See Taxpayer Account Overview - User - Part 3 - Open/Edit Registration Details | Support Audit Trail for Statute of Limitation Date modifications in IRM - Admin | Import Code Lists - Admin | Export Code List | PIT -  Support saving a declaration form in ISS where calculated tax is displayed prior submitting | Add and Maintain Ad-hoc Obligations – Pay Instalment Actions and Categories | Data Security - Restrict Access to Personal Data GDPR- Admin (based on data classifications) - Part 1/4 | PenTest - Harden API requests with expression patterns allowed | SS Enhancements - Refactor existing self service pages to work through services implementation - part 4 / Important | Demo Solon Tax Azure environment upgrade / clean installation | Assign Unique Number to Incoming and Outgoing Documents | Augment additional Guidelines for items not covered in template (Spring/Spring Boot/Kafka etc) | Enforce applicable guidelines in CI | POC/Fixed effort - Config Items Management ( Packaging & versioning) : Enable delivery teams to safely and selectively migrate configurations across environments | Enhance Credit Interest Calculation to include unallocated payment segments | Display and search by Source and timestamp columns in Codelists, Parties and Addresses | Support four-eye principle in Solon Tax - Approval Workflow | Solon Tax logging enhancements | Automatically distribute Operational Report in list of recipients | Data visibility permissions / Row level access, per hierarchical level of users in teams | GL decisions table - Ensure extensibility and high volume support of decisions /Functionality & Reference Implementation | Row level security example for human tasks   / Reference Implementation | Performance -Work on the known issues with performance in tasks assignment | SS Enhancements - CMS Integration | Configurable Home Page widgets  in RM | Improve the search experience - RM | After POC - Config Items Management ( Packaging & versioning) : Enable delivery teams to safely and selectively migrate configurations across environments /WIP | Amplio batch - Replacement of SCDF with Amplio (Part 2) | Usability Improvements (Current PI27) - DESCOPED | Introduce ArchUnit | Amplio Batch - improvements and maintenance part 2 | LT_UI_Support customObjectField to always present the label | UI/UX Improvements: Visual cues : Add Visual Indicator for Required Fields | Call proxy services  /RM & SS - Documentation | Audit Log - Ability to keep Audit trail for authorization /LEFTOVER | Data Integrity improvements. Error handling in synchronous operations that involve distributed transactions / Registry, Taxpayer | Integrate Self-Contained Documentation Portal into Solon Tax Deliverable | Extend Length in Comment Fields Across Entities | SS Enhancements - Contacts, Operational Reports | Digital Signatures - Validate signatures in attachments RM & SS/ Reference Implementation | SS  Payments - See Current Payment Obligations | SS  Payments - Submit Payment Form | SS Payments - See Payment History | SS Payments - See Payment Details | UI/UX Improvements: Registry List views - Display search results respecting governance limit in new UX / Part 1 | Attachments in Forms - Document Uploads enhancements before and after saving the form / RM & SS | Representations : Define Date time and timezone for Representations and user rights /RM &SS | Representations : (A) Enhancements, configurability and permissions in Agreements (2ways,multilevels)  /RM & SS | Representations : Ability to define and manage Representations in RM (affecting SS users) | Representations : Ability to relate attachments to Representations in RM (RM & SS) | Digital Signatures - System digital signing of PDF documents generated by bpmn process | Record Locking - Apply logic to  Party record | View Organizational structure and taxpayers hierarchy structure – User / Part 2 of 2 | SS Payments - Initiate Payment from Self Service Portal - User | Restructure revenue-management-be-custom to align with Hexagonal Architecture | More details availability in Revenue types, searching enhancements in  Fts and RTs | Transfer Amount - Enhancement on configuration of Bill segment types | GL decisions table - Multiline rules and additional parameters /Functionality & Reference Implementation … (+124 more)
+Requester: GRC | Other | GTM
+PI: PI28
+Estimate: 42 | 8 | 64 | 0.8 | 821.0999999999999 | 1217.3 | 80 | 112 | 551 | 709.1 | 2240 | 2986.9 | 3.1 | 739.2 | 72 | 132 | 160 | 38.4 | 24 | 1280 | 494.9 | 32 | 373.1 | 243.60000000000002 | 40 | 126.69999999999999 | 59.5 | 1493.1 | 48 | 20.8 | 96 | 746.9 | 448 | 320 | 1344 | 1194.9 | 54.4 | 896 | 298.9 | 534.1 | 224 | 149.1 | 522.9 | 358.4 | 388.5 | 13.6 | 74.9 | 355.6 | 42.4 | 395.5 | 560 | 720 | 480 | 208 | 209.3 | 156.8 | 89.6 | 725 | 135 | 300 … (+12 more)
+Feature Priority: p3 | p1 | p2
+Feature Status: Waiting Analysis Approval | To Do | Ready for Dev | HLD | Under Analysis | In Design | In Progress | Waiting Solution Approval
+Features Description: As a revenue official, I want to assign case workers (user) that have a required profile (e.g. skills, experience and part of a certain organizational unit) to a case while also considering the availability of the suitable candidates, so that a capable worker (user) with sufficient availability can work on and complete the case. Also, I want to see how much effort is involved for each assigned case worker and for the case in total.
+
+*Introduction*
+
+This feature extends IRM-680 in which requi… | As an admin, I want to use the case worker’s availability as a criterion in a case worker’s profile. So that only case workers that have a certain availability can be assigned to cases for which this case worker’s profile is applicable.
+
+*Introduction*
+
+This feature extends IRM-702 in which requirements have been documented to define what case worker’s profiles are required to perform a certain type of case.
+
+*Functional Requirements*
+ * Admin can use the following matching criteria when … | As a self service user, I want to see an overview of a taxpayer account that I can access, so that I can confirm this is the taxpayer account that I intended to access, can understand the obligations for this account, can see notifications sent to this account and see the taxpayer account balances.
+
+*Introduction*
+
+This feature is related to IRM-3447 in which requirements have been doccumented to see an overview of a taxpayer account on the self service.
+
+Some example wireframes have been … | As an IRM Admin I should be able to support audit trail functionality on the Statute of Limitation period in IRM defined in IRM, so that a revenue authority can comply with  requirement established by law. 
+
+*Introduction* 
+
+As a result of the feature IRM-746 for the support of statute of limitation date, audit trail functionality of this date is essential for a revenue authority to be able to comply with legal requirements. 
+
+*Functional Requirements*
+
+The admin should be able to identi… | As an admin, I want to import information for one or more code lists, so that this information can be used to add or update these code lists and their related code list items.
+
+*Functional Requirements*
+ * Admin can select a file that contains structured information (e.g. in XML format) on one or more code lists and their related code list items. The file structure will be available in the Solon documentation. 
+ * Admin can upload the information from the selected file. 
+Assumption is … | As an admin or user with proper permissions, I want to export the information of a specific code list and its related code list items, so that this information can be edited or used in another tool.
+
+*Functional Requirements*
+ * Admin can choose to download the information of a specific code list and its related code list items in a structured format (e.g. using XML, csv, xls) , in selected language. 
+Will contain information with codes and descriptions (where applicable) for  : 
+ ** C… | As a taxpayer I want to be able to see calculated tax in a declaration form (ie VAT) in taxpayers' portal prior submitting and save this as a draft form, so as to be able to meet requirements for Greek demo.
+
+*Functional Requirement*
+
+> User can see in  ISS a tax declaration form ie VAT total tax amount calculated prior submitting the form, save form as a draft and then open to submit. | For Ad-hoc obligations : 
+As a revenue official, I want to see that a party in a specific role was, is or is going to be obliged to pay an assessment in instalments, so that I can check whether this party in a specific role is meeting the obligation to pay these instalments on time and in full and can take measures if this is not the case. i.e, I need to be able to add several payment action under an ad-hoc obligations to represent Installments similarly to what is happening in the Periodic Ob… | As an admin, I want to restrict access to sensitive personal data, so that only users that have a legitimate reason to access this data are granted access and unauthorized access to this data is prevented.
+
+*Introduction*
+
+This feature is related to the epic IRM-3106 in which requirements have been documented to secure the information in the revenue management system from unauthorized access.
+
+This feature is related to IRM-30322 in which requirements have been documented to classify… | Finding from Penetration tests -> [https://dojopro.devsecop/finding/78124] (AOs have access in Defect Dojo)
+ # Go through the APIs and DTOs
+ # Analyze the input parameters
+ # Add relevant regular expressions for allowing certain input and avoid attacks, such as injections
+ # Pay special attention to fields of Codes (i.e. Note Type Code, Party Type Code, etc.) which can be links with redirects (already addressed by IRM-29547) | As an admin, I want to define what services are provided on the portal (e.g. view account overview, view obligation overview, view CIT return, file CIT return, pay an obligation, or file an objection) and what portal resources (e.g. menu item, input form, page or action) and permissible operations are required for each of these services, so that a portal user can easily grant sub-users and/or representative users access to these services for the parties in specific roles to which this portal use… | As an admin I can define a rule to generate reference ID in a relevant field for incoming and outgoing documents in the system in order to comply with legal requirements part that refers to the Identification of the document. 
+
+ 
+
+*Introduction* **
+
+Using functionality as defined by the solution of [https://jira.intrasoft-intl.com/browse/IRM-435]    **    ,  we may define the Document using a specific format. 
+
+ 
+
+*Functional Requirements*
+ * Configurator, should be able to… | Document attached (TBC) includes the templated view of what Netcompany provides as a baseline documentation of what the programming guidelines should include for every product curated for Solon tax. This Enabler below should generate the curated Solon version of the template IRM-27729 .
+
+ End goal is to produce a new document including additional information specific to Solon.
+
+Raw version of the curated document can be found here:  https://goto.netcompany.com/cases/GTE2768/GREPDSOLON/Do… | Goal of this enabler is to encapsulate all actions, tasks and stories to enforce the application of the below CI guidelines:
+ # Sonar rules
+ # Automatic code lint/format rules
+ # ArchUnit tests
+ # Add configurable code intercepts to e.g. flag excessive IO within a single transaction. | As a Solon Tax Delivery team, I need to be able to: 
+-  safely and selectively, via guided steps, to migrate configurations across environments (Dev → Stg → Prod),
+-  maintain versions of the configurations/other artifacts migrated to other environments and of the release/migration  (e.g. artifact version, release version)   
+-  provide report on the results of the deployment process, 
+-  see the history of the migrations, 
+-  support zero/near-zero downtime deployments   (?)
+-  supp… | As a revenue authority officer I would like Solon RM to consider in credit interest calculation, all payments received from a taxpayer, both allocated and unallocated, so that final interest calculation is accurate and can be used in relevant processes.  
+
+*Introduction*
+This feature was originally introduced for SKV implementation of Reimbursement Interest in [https://jira.intrasoft-intl.com/browse/IRM-15910] the credits from Bill segments are considered in the calculations. To complete t… | As a user I need to see the timestamp and the origin of the records that I see or search for in Code lists, parties, addresses. 
+The records were initially created in  IRM-27267  , IRM-29175  ,  IRM-27394 
+
+*Functional requirements*
+
+*A. Address* 
+ # User can see in record pages "{*}Source{*}" , "{*}Creation Date{*}" , "{*}Modification Date{*}" as RO, in *Addresses*
+ # User can see in search results optionally the columns "Source" , "Creation Date" , "Modification Date"  in  *Addre… | As an IRM Admin, I should be able to configure workflows, that enforce four-eyes approval within business processes, ensuring that one user initiates an action and a different user validates and approves it before completion.
+
+*Introduction* 
+
+This feature is a result of PSD-12702 for UBM project, however it is anticipated that all implementations may use this functionality to cover different business cases. As it is described in the related PSD: 
+
+At present, SOLON does not support … | Solon Tax needs to provide additional logging capabilities covering the following areas:
+
+ 
+
+DB queries:
+ * Log prepared statements before execution
+ * Log row query result (only in debug mode)
+
+Business logic
+ * Create aspect for logging Service layer execution.
+
+Masked data:
+ *  Evaluate and apply if feasible a configurable log sanitizer that can sanitize log (e.g. mask sensitive data) by a configurable list, similar to  [https://www.elastic.co/docs/reference/apm/agents… | As an admin or delivery team member, I need to be able to generate Operational Reports setting specific parameters (as per existing reports design)  and automatically schedule its distribution to a list of recipients.
+
+*Introduction* 
+
+As per [https://jira.intrasoft-intl.com/browse/PSD-12025] , and https://jira.intrasoft-intl.com/browse/IRM-28177  we will need to define as base the scheduled operational reports process. 
+
++References:+
+It is assumed that in Batch applications there… | As an admin I need to reassure that permissions of some of the system records are assigned hierarchical. 
+
+In system Organizational Hierarchy will be implemented via Organizational Units, where a permission level role is assigned. 
+
+The row level security will initially define the restrictions on records visibility. The hierarchical permissions will now grant permissions when restricted by row level. 
+
+*Introduction*
+
+The hierarchy is expected to be implemented introducing in hig… | As an administrator responsible for configuring the GL Decision Table (Accountant table), iI need to support the extensibility of the solution. 
+I need to introduce additional parameters that control how GL accounts are split across multiple files or tables. This is required to support very high volumes of decision lines and complex business rules.
+I need to allow custom adapters to be used on how rules are created and selected to generate journal entries. 
+
+These parameters will allow t… | As a revenue authority admin, I need to define how to apply row level security in Human Tasks following existing system logic, as I need to be able to define the visibility and other operations' permissions to the users. 
+I need a reference implementation like the one described below: 
+Row level should check the permissions based on the related items of human task and the relation on party roles or parties based on relationships already defined on the existing reference implementation.  If t… | Performance -Known issues with performance in tasks assignment
+
+*Introduction*
+Assuming that automating and enhancing user assignments in tasks will introduce additional complexity (combined with the known performance issues of this functionality prior to these enhancements), we need to re-evaluate, measure, and improve its function performance.
+The issue was reported by PD team without specific reporting on the results. 
+
+ 
+
+*Functional Requirements*
+a) Measure as-is
+b) Inve… | Integration with CMS
+
+i.e. : productize what LT did in a generic way (not drupal specific) | *RM Home page  {color:#c1c7d0}_- not discussed with customers:_{color}* 
+Home page may be customizable by user (or per groups) . Several widgets may be available and can be docked in the page as per user preferences. 
+The home page acts as a central command center, letting a tax officer or user quickly see tasks, deadlines, notifications, and insights without navigating through multiple screens.
+
+_Examples of widgets:_ 
+ * _My Calendar, My team calendar, My Pending tasks, Overdue tasks… | *Improve the search experience*
+ * _Remove apply buttons_
+ * _Improve Search when  looking up other entities ( e.g. Bill segment -> Obligation Action -> Party Role , Search and then apply and then select ) This means a placeholder as search improvements are not yet listed. There are several in List pages and while we are creating records._ 
+ * _Quick Global search  (Add the text and then search for all related records - results per entity)_
+ * _Recent items  (which records I recently acc… | *AFTER POC*  [https://jira.intrasoft-intl.com/browse/IRM-29268] 
+
+{color:#ff8b00}*WIP  - Will be defined after POC* {color}
+----
+As a Solon Tax Delivery team, I need to be able to: 
+-  safely and selectively, via guided steps, to migrate configurations across environments (Dev → Stg → Prod),
+-  maintain versions of the configurations/other artifacts migrated to other environments and of the release/migration  (e.g. artifact version, release version)   
+-  provide report on the resu… | *Only P1 batchjobs will be migrated in this Part 2 Enabler, the remaining will be migrated in Part 3 (IRM-41632)*
+
+The main goal of the feature, is to migrate the remaining batch jobs to the Amplio Batch engine.
+h2. 1. Job migrations
+h3. 1.1 revenue-management-batch repository
+
+In the revenue-management-batch repository, the following missing jobs marked as BASE, needs to be migrated:
+|*Image Name*|*Category*|*Release*|*GR AADE priority* |
+|overpayment-process|BASE|TBD|p1|
+|dir… | This enabler focuses on improving the overall usability and user experience of the Solon Tax application.
+It includes development, QA, and FAT efforts addressing issues identified during accessibility testing, as well as UI/UX refinements to enhance clarity, navigation, and responsiveness.
+
+The goal is to deliver a smoother, more intuitive interaction for all users while ensuring that accessibility-related improvements integrate seamlessly into the product’s visual and functional design. | *Problem Statement*
+
+As the SolonTax codebase grows in size and complexity, it becomes increasingly difficult to manually enforce architectural guidelines and design principles ( see D0160 Programming Guidelines) during code reviews. This leads to several risks:
+ * *Architectural Drift:* Over time, the code can deviate from its intended design (e.g., layered architecture, domain model purity), leading to tight coupling and reduced maintainability.
+ * *Inconsistent Code Reviews:* Architec… | h2. Overview
+
+This initiative modernizes the Amplio batch processing system by enhancing maintainability, resilience, and operational flexibility. Building on learnings from the Lithuania project and the migration of batch jobs to Amplio the work focuses on refactoring existing batch jobs rather than creating new features.
+h2. Key Objectives
+ * Standardize project structure and package naming (replace {{...etl...}} with {{{}...batch.batchjob...{}}})
+ * Centralize duplicated configurati… | When using CustomObjectField, we want the UI to display the description of the object rather than the internal code, based on the backend response and the configuration attributes available.
+
+Currently, we have set isFlat = true in order to display the object data correctly. However, this configuration seems to interfere with how the label is rendered — instead of showing the user-friendly description, it displays the raw code. This is not the expected behavior and leads to a poor user exper… | As a configurator, I can define in UI schemas whether to highlight required or optional fields in Solon Tax Revenue Management, so that I can provide flexibility to projects to use as needed.
+
+*Introduction*
+
+This feature is the result of a request from LT Project, however similar request exists from GR project since Tax officers currently can see highlighted required fields.  
+
+*Functional Requirements*
+Enhance the UI configuration to support a visual indicator for specific fields… | W{-}e need the following improvements in self service:{-}
+ * -Ability to call backend apis as operations in a generic way-
+ * -Ability to call operations that create entities other than forms-
+ * -Call services without token validation This is handled by different Feature IRM-30785-
+
+ * {*}RM &SS , Call proxy service{*}s
+ ** Call proxy services from SS to RM or to 3rd parties (validation from RM or from 3rd parties details in SS) 
+ ** Call proxy services from RM or to 3rd parties (… | Leftover from [https://jira.intrasoft-intl.com/browse/IRM-29504] 
+
+In some situations (no parent child relationship) , the audit log entries don’t include the information needed to display them in a single, unified list under the parent item or under each related entity.
+Example: 
+In practice, this means that a codelist can have multiple versions, and each codelist item can also have multiple versions. However, the audit log records for a codelist item are not grouped under one codelist … | cont.  :https://jira.intrasoft-intl.com/browse/IRM-25038 
+
+ 
+
+Solon Tax microservices have domain boundaries that also encapsulate the corresponding transactional boundaries. I.e. most API operations result in ACID transactions as the updates are handled within the owning microservice's database.
+
+ 
+
+However there are some APIs of the system that the owning service also issues PUT/POST requests to different services. For these cases, strong error handling should be introduced.
+… | As a Solon Tax user on a customer-hosted environment, I want to access relevant help documentation directly from the Solon Tax hosted environment, so that I can get assistance without needing seperate access to connect to {{[https://docs.netcompany.com/]}} site
+
+*Description:*
+
+Currently, the Solon Tax UI integrates with the internal documentation portal at {{{}[https://docs.netcompany.com/]{}}}. This setup is not desired for customer-premise deployments which are often in isolated envir… | As a revenue officer, I need to provide comments with wider description, as to be able to explain the reason of this item and keep track of them. 
+
+*Introduction* 
+
+To support the requirements of LT, we need to expand the maximum character length of the Comment fields across all system items. Currently, the character limits are insufficient for example in Human Tak entity where the user is requested to comment on a task and this requires more than 255 characters that is currently availab… | * *SS operational reports/contacts -Jasper*
+ ** I can generate and run Operational reports and contacts in SS.
+
+ 
+
+Note: This was defined as needed for Digital signature related api calls. 
+
+ 
+---- | As a revenue authority users and SS users, I need to be able to validate digital signatures of documents that I am attaching in entities in system (e.g. form) 
+
+*Out of scope  :* 
+The maintenance of trusted lists are part of the configurator resposibilities
+
+ 
+
+*Functional requirements*
+ * Show case that user can validate documents that are attached in system entities digital signature. 
+ * Admin should be able to define the trusted list of digital signatures providers and the … | As a self service user, I want to see what payment obligations exist for a specific taxpayer, so that I can take action to pay what is owed by the taxpayer to the revenue authority.
+
+*Introduction*
+
+Some example wireframes have been attached to this feature. In case the content on the wireframes differs from the functional requirements, then the functional requirement should be used as input when implementing this feature.
+
+*Functional Requirements*
+ * User can see the current payment obl… | As a self service user, I want fill in and submit a payment form to pay the amounts owed for certain payment obligations, so that I can meet these payment obligations towards the revenue authority.
+
+*Introduction*
+
+Some example wireframes have been attached to this feature. In case the content on the wireframes differs from the functional requirements, then the functional requirement should be used as input when implementing this feature.
+
+*Functional Requirements*
+ * User can see a payme… | As a self service user, I want to see what payments were made for a specific taxpayer, so that I understand when those payments were made, what payment methods were used, how much was paid and see the statuses of these payments.
+
+*Introduction*
+
+Some example wireframes have been attached to this feature. In case the content on the wireframes differs from the functional requirements, then the functional requirement should be used as input when implementing this feature.
+
+*Functional Require… | As a self service user, I want to see the details of a specific payment, so that I can understand when and how the payment was made, understand what was paid and see the related payment receipt.
+
+*Introduction*
+
+Some example wireframes have been attached to this feature. In case the content on the wireframes differs from the functional requirements, then the functional requirement should be used as input when implementing this feature.
+
+*Functional Requirements*
+ * User can see the detail… | As a user I need to be able to see the results of my search of registry records in relevant UI pages, as it is important locate the proper party /party role record.  
+The results should be either displayed in list or system should display a message on what needs to be done to get the results I need (e.g.  add more criteria to limit on the records in searching dataset).  
+
+System should hep me understand what I am seeing.
+ - Easy to find widgets
+ - Always Surface _Some_ Results First & … | As a taxpayer or revenue authority user, I want to upload and manage required attachments while filling in a form (even before saving it), including during registration forms where the relevant party is not yet created, so that I can complete the submission process without unnecessary interruptions. 
+
+*Background*
+In as-is system the form should be saved in order to be able to upload documents.
+
+*Functional Requirements*
+ * Users (revenue officer or taxpayer) can upload attachments w… | As an admin user, I need to capture and manage Start Date and End Date fields in the system that define the validity period of granted permissions, so that access rights can be controlled accurately and limited to specific timeframes.
+
+*{color:#ff8b00}CHECK ! Review the LT branch for any implemented functionalities that can be merged into the product.{color}*
+
+*Functional requirements*
+
+*Basics:* 
+ * Start and End date are captured as datetime and properly defined time zone in Agre… | As an admin user, 
+I need to capture the status, source system and integration time of representations defined as to be able to know how the representations were created.
+Representations are 2-ways authorized. 
+Representations are multilevels
+A lifecycle should be defined to representations forms as to be able to temporally saved, validated and revoked. 
+
+*{color:#ff8b00}CHECK ! Review the LT branch for any implemented functionalities that can be merged into the product. ([https://ne… | As an RM user with specific rights or admin, I need to be able to define and manage representations in RM system. 
+The internal tax-authority user must be able to manage the authorizations of the taxpayers. The provided functionality is the same as the one provided in the Self Service portal, with the addition of the possibility to select a Taxpayer to manage.
+
+*{color:#ff8b00}CHECK ! Review the LT branch for any implemented functionalities that can be merged into the product.{color}*
+… | As an SS or RM user with specific rights or admin, I need to be able to relate attachments with representations as to be able to relate Authorization paperwork with representations. 
+*{color:#ff8b00}CHECK ! Review the LT branch for any implemented functionalities that can be merged into the product.{color}*
+
+ 
+
+*Functional requirements*
+
+*Basics:* 
+ * If user via a form or in SS or RM Ui, create a representation, document may be related to 
+Agreement, Party Role relations,  Bot… | As a revenue authority user, when the system generates a document (e.g., operational reports, letters, certificates) and the business process instructs so, I want the document to be digitally signed by the system, with all required visual elements rendered in the PDF, so that I can securely distribute officially signed documents to taxpayers and stakeholders.
+
+This capability must be reusable, configurable, auditable, and resilient to failures.
+
+*Background :*
+In the current (as-is) sy… | The system manages simultaneous record modifications through a  mechanism, ensuring consistent updates and providing users with confirmation on whether their commit was accepted.
+
+As discussed:
+ * Data integrity is enforced via optimistic locking (version control).
+ * -UI locking is optional and only improves user experience  to reduce user conflicts. The system may implement a soft UI lock when a user enters edit mode.-
+ * Conflict handling strategy is required
+ * Retry policy for b… | cont. [https://jira.intrasoft-intl.com/browse/IRM-11539] 
+As a revenue official, I want to view a graphical representation of the organizational structure, so that I can see what organizational units are part of the organizational structure and see how these organizational units are related to one another.
+
+Similarly for party to party hierarchy, I need to be able to see similar representation. 
+a) Org units : Revenue department itself is structured (e.g., Head Office -> Regional Office … | As a taxpayer, I want to see and pay my outstanding liabilities from the self service portal, so that I can understand and meet my payment obligations towards the revenue authority.
+
+*Introduction*
+
+This feature describes how the taxpayer can use the taxpayer self service portal to initiate a payment to pay outstanding liabilities.
+
+The steps the taxpayer must follow to initiate and complete a payment may vary depending on the type of integration between ICARUS and the payment service prov… | h3. Problem Statement
+
+The current module structure of *revenue-management-be-custom* is not aligned with hexagonal architecture principles.
+
+Hexagonal architecture is the architectural foundation of the *SolonTax* and the same principles should consistently apply to {*}be-custom{*}.
+
+At present, the structure does not clearly separate application, domain, and adapter layers, which makes the module harder to maintain, evolve, and use as a proper extension point.
+
+Since *be-custom… | As a revenue officer I need to describe with more details revenue type and related tax as to be able to use this categorization in decisions in flows and journal entries creation in system. 
+
+*Functional Requirements*
+
+*A)* New OPTIONAL fields in Revenue Type:  
+ * Checkbox: Actively used
+Default value = Checked
+ * New cl field  : *Revenue Domain*
+ ** Demo values: 
+VAT 
+Income 
+Direct Taxes
+Indirect Taxes
+Withholding
+Fees
+Non-tax revenues
+List
+Other
+ ** Exampl… | As an admin, I need to configure the bill segment types generated by the Transfer Amount process so they align with existing, predefined bill segment configurations used in other relevant procedures (e.g., for the same revenue types and bill segment categories).
+
+In the as-is, one Bill segment type is defined and be used for source and target bill segments.
+
+ 
+
+*Functional Requirements*
+
+ 
+
+*A) New Bill Segment Type field, next to existing:* 
+ * Alternative Target Bill segm… | As an administrator responsible for defining the Accountant table details, I need to introduce additional parameters that determine how GL accounts are selected based on the accounting rules of FT types. Specifically, I need to support differentiating GL accounting rules according to the claimant, revenue type, and bill segment type categorization. 
+
+These new parameters will enable the system to efficiently handle the many hundreds of special cases that must be supported, reduce the size of… | As a revenue officer I need to be able to complete several Party details changes in the same date and system will allow this without effecting uniqueness and overlapping checks that are applied to Party and Party Role child entities with valid-from/valid-to periods.
+
+The same logic must also apply when system determines which registry records are considered valid for a specific date (e.g., Today view in the UI or a historical date view).
+
+The solution should be able to support same day c… … (+48 more)
+
+Sample rows (up to 50):
+Feature | IRM-12464 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | GRC | PI28 | 42 | p3 | Waiting Analysis Approval | As a revenue official, I want to assign case workers (user) that have a required profile (e.g. skills, experience and part of a certain organizational unit) to a case while also considering the availability of the suitable candidates, so that a capable worker (user) with sufficient availability can work on and complete the case. Also, I want to see how much effort is involved for each assigned case worker and for the case in total.
+
+*Introduction*
+
+This feature extends IRM-680 in which requi…
+Feature | IRM-12465 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | GRC | PI28 | 42 | p3 | Waiting Analysis Approval | As an admin, I want to use the case worker’s availability as a criterion in a case worker’s profile. So that only case workers that have a certain availability can be assigned to cases for which this case worker’s profile is applicable.
+
+*Introduction*
+
+This feature extends IRM-702 in which requirements have been documented to define what case worker’s profiles are required to perform a certain type of case.
+
+*Functional Requirements*
+ * Admin can use the following matching criteria when …
+Feature | IRM-16516 | REFERENCE IMPLEMENTATIONS | SELF SERVICE ACCOUNT OVERVIEW | SS  Payments - See Taxpayer Account Overview - User - Part 3 - Open/Edit Registration Details | Other | PI28 | 8 | p3 | Waiting Analysis Approval | As a self service user, I want to see an overview of a taxpayer account that I can access, so that I can confirm this is the taxpayer account that I intended to access, can understand the obligations for this account, can see notifications sent to this account and see the taxpayer account balances.
+
+*Introduction*
+
+This feature is related to IRM-3447 in which requirements have been doccumented to see an overview of a taxpayer account on the self service.
+
+Some example wireframes have been …
+Feature | IRM-17620 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | Support Audit Trail for Statute of Limitation Date modifications in IRM - Admin | Other | PI28 | 64 | p3 | To Do | As an IRM Admin I should be able to support audit trail functionality on the Statute of Limitation period in IRM defined in IRM, so that a revenue authority can comply with  requirement established by law. 
+
+*Introduction* 
+
+As a result of the feature IRM-746 for the support of statute of limitation date, audit trail functionality of this date is essential for a revenue authority to be able to comply with legal requirements. 
+
+*Functional Requirements*
+
+The admin should be able to identi…
+Feature | IRM-18729 | CORE SUPPORTING CAPABILITIES | REFERENCE DATA | Import Code Lists - Admin | GRC | PI28 | 42 | p3 | Waiting Analysis Approval | As an admin, I want to import information for one or more code lists, so that this information can be used to add or update these code lists and their related code list items.
+
+*Functional Requirements*
+ * Admin can select a file that contains structured information (e.g. in XML format) on one or more code lists and their related code list items. The file structure will be available in the Solon documentation. 
+ * Admin can upload the information from the selected file. 
+Assumption is …
+Feature | IRM-18730 | CORE 
+[...truncated]
+USER INSTRUCTIONS:
+An instance for each initiative under "core self service capabilities": 
+SELF SERVICE SERVICES MANAGEMENT
+USER & 3RD PARTY ACCESS MANAGEMENT
+
+
+SLIDE STRUCTURE:
+REPEATABLE SLIDES (one instance per unique data group):
+  "slide_1"
+
+YOUR TASKS:
+1. Count how many slide instances exist based on the user's intent and data.
+2. For each instance, provide a human-readable display name (instanceNames).
+3. For each instance, provide the literal search string that identifies it in the data (instanceKeys). This is usually the same as the name but may differ if the data uses a different format (e.g. name = "Alice Smith (VP)", key = "Alice Smith").
+4. Provide a one-sentence rationale.
+
+RULES:
+- instanceNames and instanceKeys must have the same length as the total instance count (sum of all values in instances)
+- instanceKeys are used for substring matching in the data — they should be the shortest unambiguous identifier for each instance
+- If there are no repeatable slides, return instanceNames and instanceKeys as empty arrays
+You MUST use exactly these slide keys (do not rename or invent): "slide_1"
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+{
+  "instances": { "slide_1": 5 },
+  "instanceNames": ["<display name 0>", "<display name 1>", ...],
+  "instanceKeys": ["<search string 0>", "<search string 1>", ...],
+  "rationale": "<one sentence: how many instances and why>"
+}

@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maintainability Enhancements – Feature Catalog</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #e8e8e8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .slide {
+      width: 1280px;
+      background: #ffffff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      display: flex;
+      flex-direction: column;
+    }
+    /* ── TOP BAR ── */
+    .top-bar {
+      height: 7px;
+      background: linear-gradient(90deg, #FF6359 0%, #FF6359 100%);
+    }
+    /* ── HEADER ── */
+    .header {
+      background: #1a3c3a;
+      display: flex;
+      align-items: stretch;
+      padding: 0;
+      justify-content: space-between;
+      min-height: 96px;
+    }
+    .header-left {
+      display: flex;
+      align-items: stretch;
+      flex: 1;
+    }
+    .pi-badge {
+      background: #FF6359;
+      color: white;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .header-text-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 44px;
+      flex: 1;
+    }
+    .header-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #FF6359;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .header-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+      margin-bottom: 3px;
+      line-height: 1.2;
+    }
+    .header-subtitle {
+      font-size: 10px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding-right: 44px;
+    }
+    .header-stat {
+      text-align: center;
+      padding: 0 28px;
+    }
+    .header-stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #FF6359;
+      line-height: 1;
+    }
+    .header-stat-label {
+      font-size: 10px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+    .header-divider {
+      width: 1px;
+      height: 44px;
+      background: rgba(255,255,255,0.15);
+    }
+    .logo {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      color: #7fb3af;
+      text-transform: uppercase;
+    }
+    /* ── BODY ── */
+    .body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 28px;
+      background: #fafaf8;
+    }
+    /* ── MAIN PANEL ── */
+    .main-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .section-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #1a3c3a;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::before {
+      content: '';
+      width: 0;
+      height: 0;
+    }
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+    }
+    .benefit-card {
+      background: #fcfbfa;
+      border: none;
+      border-radius: 8px;
+      padding: 18px 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 7px solid #FF6359;
+      position: relative;
+    }
+    .benefit-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, #FF6359 0%, rgba(255, 99, 89, 0) 100%);
+    }
+    .benefit-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .benefit-number {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FF6359;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    .benefit-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a3c3a;
+      margin-bottom: 8px;
+    }
+    .benefit-text {
+      font-size: 11px;
+      color: #2C4A48;
+      line-height: 1.6;
+    }
+    .themes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    /* Enhanced colorful theme cards */
+    .theme-card {
+      background: #e8ebe8;
+      border: none;
+      border-radius: 8px;
+      padding: 18px 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 5px solid #2C4A48;
+      position: relative;
+      overflow: hidden;
+    }
+    .theme-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .theme-name {
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1a3c3a;
+    }
+    .theme-desc {
+      font-size: 10px;
+      color: #555;
+      line-height: 1.5;
+    }
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .stat-box {
+      background: white;
+      border: 1px solid #e8e8e0;
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      text-align: center;
+      transition: all 0.3s ease;
+      border-left: 5px solid #FF6359;
+    }
+    .stat-box:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .stat-label {
+      font-size: 10px;
+      color: #1a3c3a;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .irm-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+    }
+    .irm-badge {
+      background: linear-gradient(135deg, #fff9f8 0%, #faf5f5 100%);
+      color: #FF6359;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255, 99, 89, 0.3);
+    }
+    .priority-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .priority-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      color: #1a3c3a;
+      padding: 8px 10px;
+      background: linear-gradient(90deg, #fff9f8 0%, transparent 100%);
+      border-radius: 6px;
+      border-left: 3px solid #FF6359;
+      font-weight: 500;
+    }
+    .priority-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: #FF6359;
+    }
+    /* ── FOOTER ── */
+    .slide-footer {
+      background: #1a3c3a;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+      flex-shrink: 0;
+    }
+    .footer-text {
+      font-size: 8.5px;
+      color: #7fb3af;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Billing, Assessments and Installments</div>
+        <div class="header-subtitle">Core Revenue Management Capabilities · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">1120</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">2</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Configuration Alignment</div>
+            <div class="benefit-text">By enabling admins to configure separate bill segment types for source and target segments in the Transfer Amount process, we ensure alignment with existing, predefined bill segment configurations used across other procedures.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Reduced Duplication</div>
+            <div class="benefit-text">Reduces configuration duplication, minimizes manual corrections, and improves consistency across revenue types and bill segment categories.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Ad-hoc Obligation Management</div>
+            <div class="benefit-text">Enables users to create multiple payment obligation actions under ad-hoc obligations as installments, following the structure of non ad-hoc obligations with installments for Inheritance tax and legacy data migration processes.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Transfer Amount - Enhancement on configuration of Bill segment types</div>
+            <div class="theme-desc">As an admin, configure the bill segment types generated by the Transfer Amount process to align with existing, predefined bill segment configurations. Includes new Alternative Target Bill segment type field and relabeling of existing field as Default Bill segment type with mandatory validation and tooltip guidance.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Add and Maintain Ad-hoc Obligations – Pay Instalment Actions and Categories</div>
+            <div class="theme-desc">Enable users and admins to create multiple payment obligation actions under ad-hoc obligations as installments. Users can add Filing and multiple Payment Actions flagged as Installments, define categories (Preliminary, Original), set due dates, and view comprehensive lists with sorting and detail updates.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Bill Segment Type Configuration Mechanism</div>
+            <div class="theme-desc">Default bill segment type is mandatory and applies to source bill segment. Alternative Target Bill segment type applies to target bill segment. If Alternative Target Bill segment type is not filled, Default bill segment type is used for target bill segment.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Ad-hoc Obligation Action Management</div>
+            <div class="theme-desc">Users can see lists of pay instalment actions with identifying information including action category, action type, reference number, due date, amount, and action status. Users can create manually, sort lists, and open actions to view details and update as needed.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Advanced Installment Creation Rules</div>
+            <div class="theme-desc">Predefined rules enable users to create multiple installments by adding parameters such as start date, due date, number of installments, duration between installments, action type, and grace date margin. Admins can define rules in revenue type configuration.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Non-Functional Requirements</div>
+            <div class="theme-desc">All solutions must maintain and improve Performance, Security, Accessibility, and Usability. All Definitions of Done must be fulfilled with proper documentation of adjustments and collaboration with specialists.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer">
+    <span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+  </div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Enhance Credit Interest Calculation to include unallocated payment segments</div>
+        <div class="header-subtitle">Penalty & Interest Enhancements · Core Revenue Management Capabilities</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2986.9</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">1</div>
+        <div class="header-stat-label">Epic</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GTM</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Accurate Interest Calculation</div>
+            <div class="benefit-text">Enhance credit interest calculation to include unallocated payment segments, so as to provide an accurate interest calculation for all taxpayer payments.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Fair Taxpayer Treatment</div>
+            <div class="benefit-text">Ensures taxpayers receive proper interest on all credit amounts, including unallocated payment segments that result from liability amendments and payment processing scenarios.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">System Compliance</div>
+            <div class="benefit-text">Update existing CREDIT_INT PI rule to calculate reimbursement interest on credit unallocated payment segments for tax account scenarios across implementations.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Penalty & Interest Enhancements</div>
+            <div class="theme-desc">Update calculation logic of CREDIT_INT (Reimbursement Interest Rule) to include credit unallocated payment segments next to credits on bill segments that is already implemented.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Payment Suspense Scenarios</div>
+            <div class="theme-desc">Handle cases where invalid reference numbers result in payments that cannot be allocated to a specific party role, ensuring interest accrual on suspended amounts.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Payment File Processing Errors</div>
+            <div class="theme-desc">Address automated payment file processing errors due to corrupted payment data or reference number mismatch, with proper interest calculation on unallocated segments.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Liability Amendment Handling</div>
+            <div class="theme-desc">Process scenarios where liability amendments occur (e.g., reducing VAT liability), resulting in credit unallocated payment segments that must accrue interest in favor of taxpayer.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Payment Event State Transitions</div>
+            <div class="theme-desc">Manage re-opening of completed payment events where original segments need cancellation or payment event re-distribution scenarios requiring segment reallocation with interest adjustments.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">CREDIT_INT Rule Documentation</div>
+            <div class="theme-desc">Document all adjustments for penalty and interest rule CREDIT_INT including performance, security, traceability, accessibility, and usability non-functional requirements.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer">
+    <span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+  </div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left"><div class="pi-badge">PI 28</div><div class="header-text-section"><div class="header-label">Feature Catalog · Roadmap Initiative</div><div class="header-title">Registration</div><div class="header-subtitle">Core Revenue Management Capabilities · Solon Tax 2026</div></div></div><div class="header-right"><div class="header-stat"><div class="header-stat-value">2538.9</div><div class="header-stat-label">Total Hours</div></div><div class="header-divider"></div><div class="header-stat"><div class="header-stat-value">3</div><div class="header-stat-label">Epics</div></div><div class="header-divider"></div><div class="header-stat"><div class="header-stat-value">GRC</div><div class="header-stat-label">Requester</div></div><div class="logo">Netcompany</div></div></div>
+
+  
+  <div class="body"><div class="main-panel"><div><div class="section-title">Why It's Important</div><div class="benefits-grid"><div class="benefit-card"><div class="benefit-number">01</div><div class="benefit-title">Enhanced Validity Period Management</div><div class="benefit-text">Enables revenue officers to complete multiple Party details changes on the same date while maintaining data integrity through improved uniqueness and overlapping checks for valid-from/valid-to periods.</div></div><div class="benefit-card"><div class="benefit-number">02</div><div class="benefit-title">Revenue Type Segmentation</div><div class="benefit-text">Provides detailed revenue type categorization with Revenue Domain and Declaration Mechanism fields, enabling better segmentation for flows and GL decision table generation.</div></div><div class="benefit-card"><div class="benefit-number">03</div><div class="benefit-title">Organizational Hierarchy Visualization</div><div class="benefit-text">Delivers graphical tree representations of organizational structures and taxpayer hierarchies, improving navigation efficiency and reducing misrouting across revenue departments.</div></div></div></div><div><div class="section-title">Key Epics &amp; Features</div><div class="themes-grid"><div class="theme-card"><div class="theme-name">Enhance Validity Period Conditions in Registry Detail Entities</div><div class="theme-desc">Support multiple modifications in the same date for Party and Party Role child entities including party_identifier, party_name, party_state, party_address, party_contact, bank_account, preferences, party_classification, party_additional_details, party_role_relationship, asset_party_role_relationship, asset_to_asset_relationship, valuation, and party_role_eligible_states. Introduces Valid State and State Reason fields with comprehensive uniqueness validation rules.</div></div><div class="theme-card"><div class="theme-name">More Details Availability in Revenue Types</div><div class="theme-desc">Adds optional fields for Revenue Domain and Declaration Mechanism to Revenue Type entities. Enables searching by Actively used status, Revenue Category, Revenue Type class, Priority, Revenue Domain, Declaration Mechanism, calendars, and related Claimants. Supports backend access to Revenue Type data for GL decision table generation.</div></div><div class="theme-card"><div class="theme-name">View Organizational Structure and Taxpayers Hierarchy Structure</div><div class="theme-desc">Provides graphical tree representations for organizational units, taxpayers (parties), and assets. Enables parent entity linking in list views and detail pages, hierarchical searching, and permission-based editing of parent relationships in entity history.</div></div><div class="theme-card"><div class="theme-name">Validity Period Field Implementation</div><div class="theme-desc">Implements searchable, visible, and updatable Valid State and State Reason fields across all Party child objects and Party Role entities with default valid_state=true and migration of existing records.</div></div><div class="theme-card"><div class="theme-name">Uniqueness Validation Rules Engine</div><div class="theme-desc">Enforces comprehensive uniqueness checks based on valid state flags, overlapping period detection, same-day change support, and primary record validation with proper handling of null validity dates.</div></div><div class="theme-card"><div class="theme-name">Hierarchy Navigation and Search</div><div class="theme-desc">Enables users to search by parent organizational units, parent parties, and parent assets with optional parent column visibility in list views and tree-based hierarchy exploration through modal interfaces.</div></div></div></div></div><div class="right-panel"></div></div>
+
+  
+  <div class="slide-footer">
+    <span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+  </div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Support Tax Account Overview Page in the Single Taxpayer Overview</div>
+        <div class="header-subtitle">Core Revenue Management Capabilities · Tax Accounts</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">1045.9</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">350</div>
+        <div class="header-stat-label">Estimate (Hours)</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GTM</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Consolidated Financial View</div>
+            <div class="benefit-text">Provides Revenue Authority users with a clear, consolidated view of all financial activities within a specific reconciliation period for a taxpayer's Tax Account, improving efficiency and accuracy.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Period-Centric Overview</div>
+            <div class="benefit-text">Aggregates and presents all financial transactions related to selected reconciliation periods for a given revenue type registration, providing an immediate consolidated view of that period's financial status.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Enhanced Visibility</div>
+            <div class="benefit-text">Bridges the gap in Solon Tax by introducing a dedicated user interface that presents Tax Account information in a single, easily accessible view for improved visibility and efficiency.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Tax Account Overview Navigation</div>
+            <div class="theme-desc">New redirect link on Revenue Type Registration page visible only for RTRs configured as Tax Account, navigating users to the Tax Account Overview page with current RTR context and selected reconciliation period.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Reconciliation Period Filtering</div>
+            <div class="theme-desc">Users can filter financial transactions by reconciliation period with configurable From and To dates, supporting selection of multiple reconciliation periods for comprehensive period analysis.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Financial Transactions Table</div>
+            <div class="theme-desc">Read-only table displaying all Financial Transactions linked to selected reconciliation period with opening and closing balances, supporting sorting, pagination, and Column Configurator functionality.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Opening and Closing Balance Calculation</div>
+            <div class="theme-desc">Opening Balance equals closing balance of previous period; Closing Balance equals Opening plus all financial transactions including debts, payments, interests, write-offs, and refunds for the period.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Update Penalty &amp; Interest Button</div>
+            <div class="theme-desc">Users can access and select the Update P&I button to enter RECALCULATEFROMDATE parameter for running Penalty &amp; Interest calculations on the Tax Account.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Comprehensive Transaction Columns</div>
+            <div class="theme-desc">Table includes Creation Date, Effective Date, Accounting Date, Origin, FT ID, Revenue Type, FT Type, Posting Reason, Liability Balance, and Running Balance for complete financial transaction visibility.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer">
+    <span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+  </div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Taxpayer Accounting</div>
+        <div class="header-subtitle">Core Revenue Management Capabilities · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4479.3</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">3</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Enhanced Party Role Support</div>
+            <div class="benefit-text">Enable financial event logging under Organization Units and Claimants as party roles, supporting offset vouchers, departmental transfers, and third-party settlements.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">GL Decision Table Optimization</div>
+            <div class="benefit-text">Reduce GL decision table complexity through multiline rules and additional parameters, decreasing FT types required and improving system maintainability.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">High-Volume Rule Support</div>
+            <div class="benefit-text">Support 200,000+ GL decision lines through configurable splitting across multiple sheets and files, enabling scalable handling of complex accounting rules.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Enable Financial Events Logging under Org Units and Claimants</div>
+            <div class="theme-desc">Support logging of revenue type registrations, obligations, segments, and financial transactions under Organization Units and Claimants as party roles with balance visibility and party role overview pages.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">GL Decisions Table - Multiline Rules and Additional Parameters</div>
+            <div class="theme-desc">Introduce Valid From/To columns, multiline support with amount splitting rules, and extensible parameters for claimant, revenue type, and segment categorization to reduce GL decision table complexity.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">GL Decisions Table - Extensibility and High Volume Support</div>
+            <div class="theme-desc">Enable rule-driven splitting of GL decision tables across multiple XLSX sheets and files, support custom adapters for journal entry creation, and maintain performance for 200,000+ decision lines.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Revenue Type Administration for Party Roles</div>
+            <div class="theme-desc">Allow administrators to define revenue types for use with Organization Units and Claimants, enabling flexible party role relationships and financial transaction categorization.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">GL Decision Table Configuration and Documentation</div>
+            <div class="theme-desc">Provide comprehensive documentation for configuration options, split strategies, reference implementations, and operational guidelines ensuring maintainability and admin usability.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Performance, Security, and Accessibility Standards</div>
+            <div class="theme-desc">Maintain performance for large datasets and multi-sheet evaluation, ensure no exposure of sensitive configuration data, and keep configuration screens and documentation accessible.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer">
+    <span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+  </div>
+</section>
+
+</body>
+</html>

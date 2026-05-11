@@ -1,0 +1,94 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (5 rows)
+Issue Type: Feature | IRM: IRM-32237 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: UI CONFIGURATION | Roadmap Feature: UI/UX Improvements: Visual cues : Add Visual Indicator for Required Fields | Requester: GRC | PI: PI28 | Estimate: 126.69999999999999 | Feature Priority: p1 | Feature Status: In Design | Features Description: As a configurator, I can define in UI schemas whether to highlight required or optional fields in Solon Tax Revenue Management, so that I can provide flexibility to projects to use as needed.
+
+*Introduction*
+
+This feature is the result of a request from LT Project, however similar request exists from GR project since Tax officers currently can see highlighted required fields.  
+
+*Functional Requirements*
+Enhance the UI configuration to support a visual indicator for specific fields. Example use case:
+ * Configurator may set the required items to be displayed with {color:#ff0000}*{color} ({color:#ff0000}red asterisk{color}).
+ * Optional items displayed in normal text. No (Optional) label needed next to each field. 
+ * Styling approach could be configurable to support different use cases (e.g., icons, color).
+ * This change should be generic so it can be reused across forms and modules. 
+ * Existing functionality should be maintained as an option for *projects .* I.e., highlight Optional with text next to the fields. 
+
+
+
+
+
+*Notes:* 
+Requirement from AADE
+ * Σε όλες τις φόρμες συμπλήρωσης, θα πρέπει να επισημαίνονται με σαφή και διακριτό τρόπο (π.χ. μέσω χρωματικής διαφοροποίησης ή έντονου πλαισίου/bold) τα πεδία που είναι υποχρεωτικά προς συμπλήρωση. Ο διαχωρισμός των υποχρεωτικών από τα προαιρετικά πεδία δεν θα πρέπει να γίνεται με λεκτική περιγραφή.
+Issue Type: Feature | IRM: IRM-38682 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: UI CONFIGURATION | Roadmap Feature: UI/UX Improvements : Prefilling a field in a form based on the value of another field | Requester: GRC | PI: PI28 | Estimate: 149.1 | Feature Priority: p1 | Feature Status: In Design | Features Description: As a user I need when a codelist is mandatory and only one item is available and no default value , system to autofill the existing value. 
+
+As a user I need when 2 codelist  1 (parent) , 2 (child) via codelist items are related (e.g.   codelist 1, A item  -as parent - ,  when selected,  result to codelist 2,  B item - as child  ) and user selects parent value A when for B only the value B is available , the value b to be auto selected and prefilled. 
+
+As a configurator I need to be able to set in the codelists an optional to be used  attribute , that may instruct  the prefill  of codelist item value in this codelists, if one value is available based on filters.
+
+*Functional requirements*
+
+Configurator may set in codelist fields an optionally used attribute/metadato , e.g. "AutofillIfUnique"
+which attribute will enable in UI the autofill of value in codelist, when only one  codelist item value is available based on filters and related codelist items.
+ * Examples/ Cases : 
+ ** +Mandatory items case+
+In a Mandatory Codelist "C3"  , Non default value is defined 
+The only available value is the "C Value" 
+When use this field in forms, autoselect and prefil "C Value". 
+ ** +Related codelist items case+
+Codelist "C1 parent"  ,  Values A1, A2 
+Codelist "C2 child"  ,  Values B1, B2 , B3
+Relations : 
+C1 parent  -> A1 with  C2 child -> B2 (ONLY) 
+user selects A1 
+Autoselect and prefil B2  value in C2 
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected to reassure that relevant NFRs (Performance , Security, Accessibility, Usability ) are tested and are not negatively affecting the product.  
+DODs should be fulfilled. 
+Issue Type: Feature | IRM: IRM-38680 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: UI CONFIGURATION | Roadmap Feature: UI/UX Improvements : Form Field , Change state of typed text in capitals | Requester: GRC | PI: PI28 | Estimate: 74.9 | Feature Priority: p1 | Feature Status: In Design | Features Description: As a configurator I need to be able to add fields  in forms that change text to capitals and store then in db string in capitals
+
+ 
+
+*Functional requirements*
+
+Widget/component to  used in forms' fields when needed to  automatically convert what is typed by used  to capitals letters. 
+Example: 
+
+typing :  tEst
+
+displaying:  TEST
+
+Saving : TEST
+Issue Type: Feature | IRM: IRM-30418 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: UI CONFIGURATION | Roadmap Feature: Configurable Home Page widgets  in RM | Requester: GRC | PI: PI28 | Estimate: 24 | Feature Priority: p3 | Feature Status: To Do | Features Description: *RM Home page  {color:#c1c7d0}_- not discussed with customers:_{color}* 
+Home page may be customizable by user (or per groups) . Several widgets may be available and can be docked in the page as per user preferences. 
+The home page acts as a central command center, letting a tax officer or user quickly see tasks, deadlines, notifications, and insights without navigating through multiple screens.
+
+_Examples of widgets:_ 
+ * _My Calendar, My team calendar, My Pending tasks, Overdue tasks,_ _Unassigned tasks, <status> tasks_
+ * _Summary of pending approvals, or submissions._
+ * _Quick Search in Registry  (TBC due to complexity)_ 
+ * _Quick search taxpayers_
+ * _Create shortcuts / Quick links to usually used tabs/records/other links  (other apps, to taxpayers, cases, documents, easily access payplans, or form list page with predefine filter etc)_ 
+ * _Notifications / Alerts /   (deadlines, system messages, process completions/errors... )_
+
+ 
+
+Complex in BE or not ready in BE or by examples 
+ * _My Recent Items (Accessed records)_ 
+ * _Announcements from the company (TBD) or Integration with other internal used messaging systems_
+
+ * _Other  Dashboards and KPIs /reports and quick metrics  (e.g. Team allocation for managers,  returned payouts , collection rates, or workload by officer , new registration forms, total taxpayers managed, open cases, or recent filings.  )_ 
+
+Prerequisites :
+I can see my calendar or my team calendar, quick search available , recent records accessed 
+Issue Type: Feature | IRM: IRM-31854 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: UI CONFIGURATION | Roadmap Feature: LT_UI_Support customObjectField to always present the label | Requester: Other | PI: PI28 | Estimate: 40 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: When using CustomObjectField, we want the UI to display the description of the object rather than the internal code, based on the backend response and the configuration attributes available.
+
+Currently, we have set isFlat = true in order to display the object data correctly. However, this configuration seems to interfere with how the label is rendered — instead of showing the user-friendly description, it displays the raw code. This is not the expected behavior and leads to a poor user experience.

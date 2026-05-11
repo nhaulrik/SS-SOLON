@@ -1,0 +1,44 @@
+{
+  "name": "Nikolajs_project",
+  "exportId": "initiative-core-support-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-04-21T09:46:56.512Z",
+  "slideCount": 5,
+  "slides": [
+    {
+      "index": 1,
+      "file": "ui-configuration.html",
+      "slideId": "slide-1",
+      "title": "UI Configuration",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "form-processing.html",
+      "slideId": "slide-2",
+      "title": "Form Processing",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "reference-data.html",
+      "slideId": "slide-3",
+      "title": "Reference Data",
+      "type": "content"
+    },
+    {
+      "index": 4,
+      "file": "document-management-integration.html",
+      "slideId": "slide-4",
+      "title": "Document Management Integration",
+      "type": "content"
+    },
+    {
+      "index": 5,
+      "file": "contact-management.html",
+      "slideId": "slide-5",
+      "title": "Contact Management",
+      "type": "content"
+    }
+  ]
+}

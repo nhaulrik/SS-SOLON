@@ -1,0 +1,54 @@
+=== RELEASE ACTIVITIES ===
+
+=== Summary ===
+Roadmap Initiative: RELEASE ACTIVITIES
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 1120 hours
+Feature Count: 3
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Ensure Controlled, Quality Release Cycles
+Reason 01 Text: Release management processes and intermediate releases maintain product stability and customer confidence.
+
+Reason 02 Title: Enable Rapid Hotfix Deployment
+Reason 02 Text: Hotfix release capability allows critical production issues to be resolved without waiting for major releases.
+
+Reason 03 Title: Maintain Release Documentation and Traceability
+Reason 03 Text: Release management activities ensure all changes are documented, tested, and traceable for compliance.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Hotfix release (Current PI28) - x.x.x
+Feature Description: Hotfix release management and deployment for critical issues during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 80h
+Feature Priority: P2
+
+Feature Index: Epic 02
+Feature Name: Intermediate release (Current PI28) - x.x.x
+Feature Description: Intermediate release management and deployment during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 320h
+Feature Priority: P2
+
+Feature Index: Epic 03
+Feature Name: Release Management for x.x.x (Current PI28)
+Feature Description: Comprehensive release management activities for current PI28 release cycle.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 720h
+Feature Priority: P2
+
+---

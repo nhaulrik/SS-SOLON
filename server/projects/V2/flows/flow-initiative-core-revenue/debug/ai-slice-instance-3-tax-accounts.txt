@@ -1,0 +1,57 @@
+=== TAX ACCOUNTS ===
+
+=== Summary ===
+Roadmap Initiative: TAX ACCOUNTS
+Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES
+PI: PI 28
+Total Effort: 529.9 hours
+Feature Count: 3
+
+Requester: GTM, GRC
+
+=== Feature Progress ===
+In Design: 1
+HLD: 1
+Waiting Analysis Approval: 1
+Total Features: 3
+
+=== Feature Priority ===
+P1: 3
+Total Features: 3
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Establish Tax Account Reference Implementation
+Reason 01 Text: Create complete VAT tax account configuration with reconciliation periods and financial transaction linking for demo and implementation readiness.
+
+Reason 02 Title: Support Tax Account Overview Reporting
+Reason 02 Text: Provide consolidated period-centric view of financial transactions with opening/closing balances and running balance calculations for revenue officers.
+
+Reason 03 Title: Enable Threshold-Based Processing
+Reason 03 Text: Introduce threshold amount field in revenue type registration to support automatic threshold determination rules for tax account implementations.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Support Tax Account Overview Page in the Single Taxpayer Overview
+Feature Description: Display consolidated tax account financial transactions by reconciliation period with opening/closing balances and running balance calculations.
+Feature Status: In Design
+Feature Status Color: #4A90D9
+Feature Effort: 396h
+Feature Priority: P1
+
+Feature Index: Epic 02
+Feature Name: VAT Tax Account Reference Implementation
+Feature Description: Configure VAT tax account with reconciliation periods, financial transaction linking, and balance management for demo and implementation use.
+Feature Status: HLD
+Feature Status Color: #4A90D9
+Feature Effort: 356h
+Feature Priority: P1
+
+Feature Index: Epic 03
+Feature Name: Introduce a Threshold Amount Field in Revenue Type Registration to support Tax Account
+Feature Description: Add optional threshold amount field to revenue type registration for automatic threshold determination rules in tax account scenarios.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 54h
+Feature Priority: P1

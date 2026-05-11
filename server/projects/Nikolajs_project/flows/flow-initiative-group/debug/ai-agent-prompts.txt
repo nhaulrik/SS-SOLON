@@ -1,0 +1,2460 @@
+=== Agent 1: slide_1 — #1 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only text content and src/href values may differ from the template.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== CORE SUPPORTING CAPABILITIES ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 47
+
+Initiative: BATCH PROCESSING ENHANCEMENTS
+Unique Feature Count: 3
+Features:
+IRM-30668, IRM-31187, IRM-30668
+
+Initiative: CASE MANAGEMENT
+Unique Feature Count: 2
+Features:
+IRM-12464, IRM-12465
+
+Initiative: CONTACT MANAGEMENT
+Unique Feature Count: 4
+Features:
+IRM-26949, IRM-766, IRM-774, IRM-775, IRM-790
+
+Initiative: CONTENT MANAGEMENT INTEGRATION
+Unique Feature Count: 1
+Features:
+IRM-30403
+
+Initiative: DOCUMENT MANAGEMENT INTEGRATION
+Unique Feature Count: 2
+Features:
+IRM-34598, IRM-36668
+
+Initiative: FORM PROCESSING
+Unique Feature Count: 1
+Features:
+IRM-38379
+
+Initiative: OPERATIONAL REPORTING
+Unique Feature Count: 1
+Features:
+IRM-29998
+
+Initiative: REFERENCE DATA
+Unique Feature Count: 4
+Features:
+IRM-18729, IRM-18730, IRM-38250, IRM-38335, IRM-38336
+
+Initiative: UI CONFIGURATION
+Unique Feature Count: 6
+Features:
+IRM-30418, IRM-30403, IRM-31854, IRM-32237, IRM-38680, IRM-38682
+
+=== Effort Estimates by Initiative ===
+
+BATCH PROCESSING ENHANCEMENTS
+Total Hours PI28: 738.5 hours
+Description of initiative: Migration of remaining batch jobs to Amplio Batch engine, replacing SCDF with Amplio for P1 batch jobs including overpayment-process, direct-deposit, and object-access-group-initialization. Includes standardization of project structure, centralization of duplicated configurations, and resolution of artifact naming conflicts. Improvements to maintainability, resilience, and operational flexibility based on learnings from Lithuania project. Deprecation of SCDF jobs and comprehensive documentation updates required.
+
+Feature Progress:
+In Progress: 1
+Waiting Analysis Approval: 1
+Total Features: 2
+
+Feature Priority:
+P1: 2
+Total Features: 2
+
+CASE MANAGEMENT
+Total Hours PI28: 84 hours
+Description of initiative: Enhancement of case management capabilities to support assignment and maintenance of case workers with effort tracking and availability considerations. Includes defining case worker profiles with availability criteria and allocation matching. Enables revenue officials to assign suitable case workers based on skills, experience, organizational unit membership, and availability. Supports calculation of expected allocation and effort for case worker assignments with automatic recalculation on date or allocation changes.
+
+Feature Progress:
+Waiting Analysis Approval: 2
+Total Features: 2
+
+Feature Priority:
+P3: 2
+Total Features: 2
+
+CONTACT MANAGEMENT
+Total Hours PI28: 882.7 hours
+Description of initiative: Comprehensive contact management enhancements including assignment of unique reference numbers to incoming and outgoing documents, manual and automatic sending of outbound messages to multiple recipients, definition of recipient types and contact type rules. Enables revenue officials to generate reference IDs for documents with configurable formatting rules, send copies of messages to multiple recipient types, and define rules for automatic recipient selection. Supports legal compliance for document identification and efficient multi-recipient communication workflows.
+
+Feature Progress:
+Waiting Analysis Approval: 4
+Total Features: 4
+
+Feature Priority:
+P1: 2
+P3: 2
+Total Features: 4
+
+CONTENT MANAGEMENT INTEGRATION
+Total Hours PI28: 80 hours
+Description of initiative: Integration with Content Management System to productize generic CMS integration capabilities not specific to any particular CMS platform. Enables self-service portal enhancements through CMS integration following patterns established in Lithuania implementation. Supports flexible content management for portal pages and user-facing materials.
+
+Feature Progress:
+To Do: 1
+Total Features: 1
+
+Feature Priority:
+P3: 1
+Total Features: 1
+
+DOCUMENT MANAGEMENT INTEGRATION
+Total Hours PI28: 2090.9 hours
+Description of initiative: Digital signature capabilities for documents including validation of signatures in attachments for RM and SS users, and system digital signing of PDF documents generated by BPMN processes. Enables revenue authorities to validate digital signatures on uploaded documents, configure trusted signature providers, and automatically sign system-generated documents with visual signature stamps. Supports PAdES standard compliance, audit logging, and secure certificate management with HSM or vault storage.
+
+Feature Progress:
+In Design: 2
+Total Features: 2
+
+Feature Priority:
+P1: 2
+Total Features: 2
+
+FORM PROCESSING
+Total Hours PI28: 373.1 hours
+Description of initiative: Enhancement of form processing to log submitter details and enable attachment management before and after form saving. Enables recording of user responsible for creating and submitting forms, supports attachment uploads during form filling without requiring prior save, and allows attachment management with audit trail. Includes optional user-defined characteristics for form metadata and notes functionality in RM and SS.
+
+Feature Progress:
+In Design: 1
+Total Features: 1
+
+Feature Priority:
+P1: 1
+Total Features: 1
+
+OPERATIONAL REPORTING
+Total Hours PI28: 72 hours
+Description of initiative: Automatic distribution of operational reports to lists of recipients with scheduled execution. Enables admins to generate operational reports with specific parameters and automatically schedule distribution to defined recipient lists via email. Supports flexible parameter definition per batch process and recipient list selection from CSV files or predefined lists.
+
+Feature Progress:
+Under Analysis: 1
+Total Features: 1
+
+Feature Priority:
+P3: 1
+Total Features: 1
+
+REFERENCE DATA
+Total Hours PI28: 606.9 hours
+Description of initiative: Enhancement of reference data management including import and export of code lists with structured formats, enhanced flexibility for codelist item codes across validity periods, and audit trail capabilities for reference data changes. Enables admins to import/export code lists in XML/CSV/XLS formats, maintain same code with different descriptions across non-overlapping periods for EU tax code compliance, and track all reference data modifications. Supports historical accuracy for backdated processing and regulatory compliance with EU standards.
+
+Feature Progress:
+Waiting Analysis Approval: 4
+Total Features: 4
+
+Feature Priority:
+P1: 1
+P2: 1
+P3: 2
+Total Features: 4
+
+UI CONFIGURATION
+Total Hours PI28: 414.70000000000005 hours
+Description of initiative: UI configuration enhancements including configurable home page widgets, support for custom object field label display, visual indicators for required fields, automatic field prefilling based on codelist relationships, and text capitalization for form fields. Enables configurators to customize home page with widgets for tasks, calendar, notifications, and quick links; display user-friendly descriptions instead of codes; highlight required fields with visual indicators; auto-select related codelist items; and enforce uppercase text entry where needed.
+
+Feature Progress:
+To Do: 2
+In Design: 3
+Total Features: 5
+
+Feature Priority:
+P1: 4
+P3: 1
+Total Features: 5
+
+=== Summary === [~250 words]
+Roadmap Group: CORE SUPPORTING CAPABILITIES
+Total Effort Across All Initiatives: 5342.8 hours
+Number of Unique Initiatives: 9
+Number of Features: 47
+Requester: GRC, Other
+
+Group-Level Feature Progress:
+In Design: 3
+In Progress: 1
+To Do: 3
+Under Analysis: 1
+Waiting Analysis Approval: 39
+Total Features: 47
+
+Group-Level Feature Priority:
+P1: 17
+P2: 1
+P3: 29
+Total Features: 47
+
+Description of initiative group: CORE SUPPORTING CAPABILITIES encompasses foundational platform enhancements across batch processing, case management, contact management, document integration, form processing, operational reporting, reference data, and UI configuration. The group delivers 5,342.8 hours of effort focused on improving system infrastructure, data management, and user interface capabilities. Highest-effort initiatives include Document Management Integration (2,090.9 hours) for digital signatures and Contact Management (882.7 hours) for multi-recipient communications. Batch Processing Enhancements (738.5 hours) modernizes the Amplio batch engine with standardized project structure and improved resilience. Reference Data management (606.9 hours) supports EU regulatory compliance through flexible codelist handling and audit trails. UI Configuration (414.7 hours) enables configurators to customize home pages, field displays, and form behaviors. Cross-initiative themes include audit trail implementation, regulatory compliance support, and enhanced user experience. Key dependencies include BPMN process integration for digital signatures, batch job migration sequencing, and UI schema standardization. Most features (39) are in Waiting Analysis Approval status, indicating active refinement phase. Majority are P3 priority (29 features), with 17 P1 features focused on critical capabilities like digital signatures and form processing.
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 1 of 6 using the SOURCE DATA above.
+User instructions: An instance for each unique "roadmap initiative group" found
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">23,200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">35</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">Done</span>
+                <span class="legend-count">7 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Progress</span>
+                <span class="legend-count">12 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">9 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">10 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:55%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:45%; background:#F0A500;">P2</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">55% · 21 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">45% · 17 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Enables end-to-end taxpayer lifecycle management from registration through accounting</li>
+            <li>Reduces manual caseworker effort via automated billing, assessments & penalty calculations</li>
+            <li>Directly supports Greek project delivery and future market opportunities</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Core dependency for all current and pipeline Solon Tax project implementations</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform</li>
+            <li>€200M+ in future project pipeline contingent on platform completeness</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Registration</div>
+                <div class="init-desc">Party identifiers, org hierarchy, search enhancements</div>
+              </td>
+              <td><span class="effort-pill">11,866h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">14</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Taxpayer Accounting</div>
+                <div class="init-desc">General ledger core, reconciliation & balance management</div>
+              </td>
+              <td><span class="effort-pill">8,064h</span></td>
+              <td><span class="pi-text">PI 28 · PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Billing &amp; Assessments</div>
+                <div class="init-desc">Instalment plans, assessment automation, billing cycles</div>
+              </td>
+              <td><span class="effort-pill">2,880h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">6</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Penalty &amp; Interest</div>
+                <div class="init-desc">Interest calculation, credit unallocated payment segments</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29 · PI 30</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Tax Accounts</div>
+                <div class="init-desc">Tax account setup, configurable thresholds, notifications</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+
+=== Agent 2: slide_1 — #2 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only text content and src/href values may differ from the template.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== REFERENCE IMPLEMENTATIONS ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 10
+
+Initiative: APPLICATION PROCESSES
+Unique Feature Count: 1
+Features:
+IRM-29513
+
+Initiative: PIT
+Unique Feature Count: 1
+Features:
+IRM-19256
+
+Initiative: SELF SERVICE ACCOUNT OVERVIEW
+Unique Feature Count: 1
+Features:
+IRM-16516
+
+Initiative: SELF SERVICE FILING & PAYMENTS
+Unique Feature Count: 5
+Features:
+IRM-25436, IRM-3541, IRM-3542, IRM-3543, IRM-3545, IRM-374
+
+Initiative: VAT
+Unique Feature Count: 2
+Features:
+IRM-38710, IRM-38759
+
+=== Effort Estimates by Initiative ===
+
+APPLICATION PROCESSES
+Total Hours PI28: 42 hours
+Description of initiative: Support for four-eye principle in Solon Tax through configurable approval workflows enforcing double attestation. Enables admins to configure workflows where one user initiates an action and a different user validates and approves before completion. Supports configuration of approval steps, role assignments, checker rules, escalation paths, and notifications. Addresses SKV contract requirements for double attestation in case management and manual registration processes. Provides generic workflow framework reusable across multiple business processes and implementations.
+
+Feature Progress:
+Waiting Analysis Approval: 1
+Total Features: 1
+
+Feature Priority:
+P3: 1
+Total Features: 1
+
+PIT
+Total Hours PI28: 0.8 hours
+Description of initiative: Support for saving VAT declaration forms as draft with calculated tax display in taxpayer portal prior to submission. Enables taxpayers to view calculated tax amounts in declaration forms, save forms as drafts, and reopen for submission. Meets requirements for Greek demo implementation. Minimal effort feature focused on form state management and tax calculation display.
+
+Feature Progress:
+Ready for Dev: 1
+Total Features: 1
+
+Feature Priority:
+P1: 1
+Total Features: 1
+
+SELF SERVICE ACCOUNT OVERVIEW
+Total Hours PI28: 8 hours
+Description of initiative: Self-service portal enhancement enabling taxpayers to view comprehensive account overview including registration details, current balances by tax type, obligations timeline, and latest notifications. Allows users to open and edit registration details, view tax type balances with drill-down capability, see past/present/future obligations with status indicators, and access notification details. Supports taxpayer understanding of account status and obligations without revenue authority intervention.
+
+Feature Progress:
+Waiting Analysis Approval: 1
+Total Features: 1
+
+Feature Priority:
+P3: 1
+Total Features: 1
+
+SELF SERVICE FILING & PAYMENTS
+Total Hours PI28: 376.4 hours
+Description of initiative: Comprehensive self-service payment and filing capabilities including payment obligation viewing, payment form submission with multiple payment methods, payment history tracking, payment details viewing, and portal refactoring to work through services implementation. Enables taxpayers to view outstanding payment obligations, submit payments via credit card or other methods, track payment history with filtering, view payment receipts, and access filing obligation details. Includes security enhancements for form submission and payment processing through service-based architecture.
+
+Feature Progress:
+Under Analysis: 1
+Waiting Analysis Approval: 4
+Total Features: 5
+
+Feature Priority:
+P1: 1
+P3: 4
+Total Features: 5
+
+VAT
+Total Hours PI28: 430.5 hours
+Description of initiative: VAT-specific reference implementations including warning mechanism for intracommunity transactions and tax account reference implementation. Enables display of warnings when intracommunity transaction fields contain values, reminding users of VIES Statement submission requirements. Provides complete tax account configuration for VAT including revenue type setup, reconciliation period management, financial transaction linking, and tax account UI with balance management. Supports demo scenarios and future tax account implementations across revenue types.
+
+Feature Progress:
+HLD: 1
+Waiting Analysis Approval: 1
+Total Features: 2
+
+Feature Priority:
+P1: 1
+P2: 1
+Total Features: 2
+
+=== Summary === [~250 words]
+Roadmap Group: REFERENCE IMPLEMENTATIONS
+Total Effort Across All Initiatives: 857.7 hours
+Number of Unique Initiatives: 5
+Number of Features: 10
+Requester: GRC, Other, GTM
+
+Group-Level Feature Progress:
+HLD: 1
+Ready for Dev: 1
+Under Analysis: 1
+Waiting Analysis Approval: 7
+Total Features: 10
+
+Group-Level Feature Priority:
+P1: 3
+P2: 1
+P3: 6
+Total Features: 10
+
+Description of initiative group: REFERENCE IMPLEMENTATIONS delivers 857.7 hours of effort across five initiatives providing concrete, reusable patterns for common tax administration scenarios. VAT initiative (430.5 hours) is the highest-effort, providing complete tax account configuration and intracommunity transaction warnings for Greek AADE demo. Self Service Filing & Payments (376.4 hours) enables end-to-end taxpayer payment workflows with multiple payment methods and history tracking. Application Processes (42 hours) establishes four-eye principle framework for double attestation workflows applicable across implementations. PIT (0.8 hours) and Self Service Account Overview (8 hours) provide minimal-effort enhancements for specific use cases. Cross-initiative themes include self-service portal enhancements, payment processing, and workflow configuration patterns. Key dependencies include service-based architecture for payment processing, BPMN workflow engine for approval processes, and tax account entity configuration. Most features (7) are in Waiting Analysis Approval status, indicating active design refinement. Priority distribution shows 6 P3 features (lower priority enhancements) and 3 P1 features (critical implementations). VAT tax account reference implementation is foundational for future tax account deployments across other revenue types and countries.
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 2 of 6 using the SOURCE DATA above.
+User instructions: An instance for each unique "roadmap initiative group" found
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">23,200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">35</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">Done</span>
+                <span class="legend-count">7 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Progress</span>
+                <span class="legend-count">12 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">9 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">10 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:55%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:45%; background:#F0A500;">P2</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">55% · 21 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">45% · 17 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Enables end-to-end taxpayer lifecycle management from registration through accounting</li>
+            <li>Reduces manual caseworker effort via automated billing, assessments & penalty calculations</li>
+            <li>Directly supports Greek project delivery and future market opportunities</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Core dependency for all current and pipeline Solon Tax project implementations</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform</li>
+            <li>€200M+ in future project pipeline contingent on platform completeness</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Registration</div>
+                <div class="init-desc">Party identifiers, org hierarchy, search enhancements</div>
+              </td>
+              <td><span class="effort-pill">11,866h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">14</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Taxpayer Accounting</div>
+                <div class="init-desc">General ledger core, reconciliation & balance management</div>
+              </td>
+              <td><span class="effort-pill">8,064h</span></td>
+              <td><span class="pi-text">PI 28 · PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Billing &amp; Assessments</div>
+                <div class="init-desc">Instalment plans, assessment automation, billing cycles</div>
+              </td>
+              <td><span class="effort-pill">2,880h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">6</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Penalty &amp; Interest</div>
+                <div class="init-desc">Interest calculation, credit unallocated payment segments</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29 · PI 30</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Tax Accounts</div>
+                <div class="init-desc">Tax account setup, configurable thresholds, notifications</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+
+=== Agent 3: slide_1 — #3 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only text content and src/href values may differ from the template.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== NON-FUNCTIONAL REQUIREMENT COVERAGE ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 48
+
+Initiative: ACCESSIBILITY
+Unique Feature Count: 8
+Features:
+IRM-39187, IRM-40165, IRM-40167, IRM-40169, IRM-40170, IRM-40171
+
+Initiative: EXTENSIBILITY
+Unique Feature Count: 2
+Features:
+IRM-40503, IRM-4293
+
+Initiative: MAINTAINABILITY
+Unique Feature Count: 15
+Features:
+IRM-27731, IRM-27733, IRM-29268, IRM-30561, IRM-30741, IRM-33406, IRM-33637, IRM-37610, IRM-37867, IRM-38242, IRM-40174, IRM-40175, IRM-40176, IRM-40177, IRM-41015, IRM-41016
+
+Initiative: OPERABILITY
+Unique Feature Count: 1
+Features:
+IRM-32464
+
+Initiative: PERFORMANCE EFFICIENCY
+Unique Feature Count: 4
+Features:
+IRM-30376, IRM-38230, IRM-38238, IRM-39738
+
+Initiative: RELIABILITY
+Unique Feature Count: 2
+Features:
+IRM-32912, IRM-36862
+
+Initiative: SECURITY
+Unique Feature Count: 6
+Features:
+IRM-20329, IRM-20399, IRM-30360, IRM-30372, IRM-37865, IRM-38847, IRM-39113, IRM-39131
+
+Initiative: TEST SUITE OPTIMIZATION
+Unique Feature Count: 9
+Features:
+IRM-37864, IRM-39216, IRM-40182, IRM-40183, IRM-40185, IRM-40187, IRM-40188, IRM-40189, IRM-40609, IRM-40610
+
+Initiative: TRACEABILITY
+Unique Feature Count: 4
+Features:
+IRM-17620, IRM-29663, IRM-32746, IRM-38335, IRM-38336
+
+Initiative: USABILITY
+Unique Feature Count: 15
+Features:
+IRM-29434, IRM-30419, IRM-30719, IRM-36280, IRM-37871, IRM-38409, IRM-38410, IRM-38648, IRM-38670, IRM-38681, IRM-38682, IRM-38784, IRM-39208, IRM-39975, IRM-39976, IRM-39979, IRM-39984, IRM-39992, IRM-41013
+
+=== Effort Estimates by Initiative ===
+
+ACCESSIBILITY
+Total Hours PI28: 268.79999999999995 hours
+Description of initiative: Accessibility improvements across Solon Tax application aligned with WCAG 2.1 AA and EN 301 549 standards. Includes UI/UX accessibility audits and enhancements to ensure users of all abilities can effectively interact with the system. Distributed across multiple delivery teams (DAID, HEL, SPA, EOS, ATH, ATL) with consistent effort allocation. Focuses on compliance with recognized accessibility standards and removal of barriers to system usage for users with disabilities.
+
+Feature Progress:
+To Do: 8
+Total Features: 8
+
+Feature Priority:
+P1: 7
+Total Features: 7
+
+EXTENSIBILITY
+Total Hours PI28: 156.8 hours
+Description of initiative: Enable user-defined characteristics (Data Area) for Financial Transaction Types and Payment Events. Allows revenue authority admins to extend data schema of financial transaction types and payment events with custom information fields. Supports grouping of characteristics, validation rules, visibility rules, and editability rules. Enables customers to add optional fields like External Code visible in main information sections without modifying core product code.
+
+Feature Progress:
+HLD: 1
+Total Features: 1
+
+Feature Priority:
+P1: 1
+Total Features: 1
+
+MAINTAINABILITY
+Total Hours PI28: 4579.800000000001 hours
+Description of initiative: Comprehensive technical debt reduction and maintainability improvements including ArchUnit integration for automated architecture enforcement, configuration items management with POC and post-POC phases, programming guidelines augmentation for Spring/Kafka, CI/CD optimization for green coding, local development experience improvements, and hexagonal architecture alignment for custom modules. Highest-effort initiative addressing long-term code quality, architectural consistency, and developer productivity. Includes documentation updates and enforcement of coding standards through automated testing.
+
+Feature Progress:
+In Design: 3
+To Do: 12
+Waiting Analysis Approval: 1
+Total Features: 16
+
+Feature Priority:
+P1: 10
+P2: 1
+P3: 5
+Total Features: 16
+
+OPERABILITY
+Total Hours PI28: 59.5 hours
+Description of initiative: Documentation for calling proxy services between RM and SS systems and to third parties. Enables generic ability to call backend APIs as operations, create entities other than forms, and call services without token validation. Supports validation requests from external systems during form creation and calls on behalf of users.
+
+Feature Progress:
+Ready for Dev: 1
+Total Features: 1
+
+Feature Priority:
+P1: 1
+Total Features: 1
+
+PERFORMANCE EFFICIENCY
+Total Hours PI28: 955.2 hours
+Description of initiative: Performance optimization initiatives including task assignment performance improvements, green coding programming guidelines, CI/CD flow optimization, and enhanced caching for reference data microservice. Addresses known performance issues in task assignment functionality with measurement and investigation of optimization opportunities. Implements green coding principles across Java, JavaScript, Rego, Drools, Helm, Maven, PostgreSQL, and database technologies. Optimizes CI/CD processes to reduce build frequency and improve artifact caching.
+
+Feature Progress:
+To Do: 4
+Waiting Analysis Approval: 1
+Total Features: 5
+
+Feature Priority:
+P1: 3
+P2: 1
+Total Features: 4
+
+RELIABILITY
+Total Hours PI28: 2688 hours
+Description of initiative: Data integrity improvements and record locking mechanisms for distributed transactions. Implements optimistic locking with version control for Party records to ensure consistent updates across simultaneous modifications. Provides conflict handling and retry policies for batch/BPMN processes. Addresses error handling in synchronous operations involving distributed transactions across Registry and Taxpayer microservices.
+
+Feature Progress:
+HLD: 1
+In Design: 1
+Total Features: 2
+
+Feature Priority:
+P1: 2
+Total Features: 2
+
+SECURITY
+Total Hours PI28: 2758.8 hours
+Description of initiative: Comprehensive data security enhancements for GDPR compliance including restriction of access to personal data based on classification levels, row-level security implementation, hierarchical permissions per organizational units, and configuration of publicly available items. Implements masking and visibility controls for sensitive personal data across parties, party roles, attachments, message store, operational reports, and related entities. Includes audit trail for authorization changes and encryption/decryption of sensitive data in logs.
+
+Feature Progress:
+In Design: 1
+To Do: 1
+Waiting Analysis Approval: 4
+Total Features: 6
+
+Feature Priority:
+P1: 2
+P2: 2
+Total Features: 4
+
+TEST SUITE OPTIMIZATION
+Total Hours PI28: 860 hours
+Description of initiative: Test suite maintenance, repairs, regression testing, and automation testing enhancements. Includes tests for older features/PIs across multiple delivery teams (DAID, HEL, SPA, EOS, ATH, ATL, OLY) and SS automation testing for APIs, authentications, overview pages, agreements, forms, human tasks, and document management. Distributed effort across teams with focus on test quality and coverage.
+
+Feature Progress:
+To Do: 9
+Total Features: 9
+
+Feature Priority:
+P1: 0
+Total Features: 0
+
+TRACEABILITY
+Total Hours PI28: 2259.2000000000003 hours
+Description of initiative: Audit logging enhancements including support for statute of limitation date modifications, Solon Tax logging enhancements for DB queries and business logic, and audit trail capabilities for authorization and reference data changes. Implements prepared statement logging, row query result logging in debug mode, service layer execution logging, and configurable log sanitization for sensitive data masking. Addresses audit trail gaps for entities without parent-child relationships.
+
+Feature Progress:
+In Design: 1
+To Do: 1
+Waiting Analysis Approval: 2
+Total Features: 4
+
+Feature Priority:
+P1: 1
+P2: 1
+Total Features: 2
+
+USABILITY
+Total Hours PI28: 2976 hours
+Description of initiative: Comprehensive UI/UX improvements including search experience enhancements, registry list view improvements, interaction friction reduction, header bar improvements, dropdown menu consistency, form field enhancements, and new Solon look and feel. Enables users to search with improved filtering, navigate registry records with governance limits, distinguish view/edit modes, access keyboard shortcuts, and interact with consistent UI patterns. Includes visual indicators for required fields, prefilling based on related codelists, and text capitalization controls.
+
+Feature Progress:
+To Do: 15
+Waiting Analysis Approval: 4
+Total Features: 19
+
+Feature Priority:
+P1: 15
+P2: 1
+P3: 3
+Total Features: 19
+
+=== Summary === [~250 words]
+Roadmap Group: NON-FUNCTIONAL REQUIREMENT COVERAGE
+Total Effort Across All Initiatives: 17562.100000000002 hours
+Number of Unique Initiatives: 10
+Number of Features: 48
+Requester: GRC, Other
+
+Group-Level Feature Progress:
+HLD: 2
+In Design: 5
+Ready for Dev: 1
+To Do: 41
+Waiting Analysis Approval: 11
+Total Features: 60
+
+Group-Level Feature Priority:
+P1: 41
+P2: 5
+P3: 8
+Total Features: 54
+
+Description of initiative group: NON-FUNCTIONAL REQUIREMENT COVERAGE encompasses 17,562.1 hours of effort across ten initiatives addressing critical system qualities including accessibility, maintainability, security, performance, reliability, and usability. Maintainability is the highest-effort initiative (4,579.8 hours) focusing on technical debt reduction, ArchUnit integration, configuration management, and architectural alignment. Security (2,758.8 hours) implements comprehensive GDPR compliance with data classification, access restrictions, and encryption. Usability (2,976 hours) delivers extensive UI/UX improvements including search enhancements and interaction friction reduction. Reliability (2,688 hours) implements optimistic locking and distributed transaction error handling. Traceability (2,259.2 hours) enhances audit logging across multiple entities. Performance Efficiency (955.2 hours) optimizes task assignment and implements green coding principles. Accessibility (268.8 hours) ensures WCAG 2.1 AA compliance across delivery teams. Cross-initiative themes include audit trail implementation, data protection, and user experience consistency. Key dependencies include BPMN process integration, microservice architecture, and UI schema standardization. Most features (41) are in To Do status, indicating significant planned work. Priority distribution heavily favors P1 (41 features), reflecting critical importance of non-functional requirements to system quality and compliance. Distributed effort across multiple delivery teams ensures consistent quality standards.
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 3 of 6 using the SOURCE DATA above.
+User instructions: An instance for each unique "roadmap initiative group" found
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">23,200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">35</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">Done</span>
+                <span class="legend-count">7 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Progress</span>
+                <span class="legend-count">12 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">9 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">10 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:55%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:45%; background:#F0A500;">P2</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">55% · 21 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">45% · 17 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Enables end-to-end taxpayer lifecycle management from registration through accounting</li>
+            <li>Reduces manual caseworker effort via automated billing, assessments & penalty calculations</li>
+            <li>Directly supports Greek project delivery and future market opportunities</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Core dependency for all current and pipeline Solon Tax project implementations</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform</li>
+            <li>€200M+ in future project pipeline contingent on platform completeness</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Registration</div>
+                <div class="init-desc">Party identifiers, org hierarchy, search enhancements</div>
+              </td>
+              <td><span class="effort-pill">11,866h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">14</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Taxpayer Accounting</div>
+                <div class="init-desc">General ledger core, reconciliation & balance management</div>
+              </td>
+              <td><span class="effort-pill">8,064h</span></td>
+              <td><span class="pi-text">PI 28 · PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Billing &amp; Assessments</div>
+                <div class="init-desc">Instalment plans, assessment automation, billing cycles</div>
+              </td>
+              <td><span class="effort-pill">2,880h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">6</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Penalty &amp; Interest</div>
+                <div class="init-desc">Interest calculation, credit unallocated payment segments</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29 · PI 30</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Tax Accounts</div>
+                <div class="init-desc">Tax account setup, configurable thresholds, notifications</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+
+=== Agent 4: slide_1 — #4 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only text content and src/href values may differ from the template.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== CORE REVENUE MANAGEMENT CAPABILITIES ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 18
+
+Initiative: BILLING, ASSESSMENTS AND INSTALLMENTS
+Unique Feature Count: 2
+Features:
+IRM-19514, IRM-37825
+
+Initiative: PENALTY & INTEREST
+Unique Feature Count: 1
+Features:
+IRM-29429
+
+Initiative: REGISTRATION
+Unique Feature Count: 3
+Features:
+IRM-37212, IRM-37721, IRM-37845
+
+Initiative: TAX ACCOUNTS
+Unique Feature Count: 3
+Features:
+IRM-38308, IRM-38899, IRM-39021
+
+Initiative: TAXPAYER ACCOUNTING
+Unique Feature Count: 9
+Features:
+IRM-30362, IRM-37844, IRM-40159, IRM-39395
+
+=== Effort Estimates by Initiative ===
+
+BILLING, ASSESSMENTS AND INSTALLMENTS
+Total Hours PI28: 1120 hours
+Description of initiative: Enhancement of ad-hoc obligations to support payment installments and transfer amount configuration. Enables revenue officials to create multiple payment obligation actions under ad-hoc obligations as installments or once-off, define categories and subtypes, set due dates, and manage payment references. Supports dynamic rule-based installment creation with configurable parameters. Includes transfer amount process enhancements to configure alternative target bill segment types while maintaining default bill segment type for source segments.
+
+Feature Progress:
+HLD: 1
+Total Features: 1
+
+Feature Priority:
+P1: 2
+Total Features: 2
+
+PENALTY & INTEREST
+Total Hours PI28: 2986.9 hours
+Description of initiative: Enhancement of credit interest calculation to include unallocated payment segments. Updates CREDIT_INT penalty and interest rule to calculate reimbursement interest on credit unallocated payment segments for tax account scenarios. Ensures taxpayers receive proper interest on all credit amounts including those resulting from liability amendments. Addresses business cases including payment suspense scenarios, payment file processing errors, insufficient liability balances, and payment event state transitions.
+
+Feature Progress:
+Waiting Analysis Approval: 1
+Total Features: 1
+
+Feature Priority:
+P2: 1
+Total Features: 1
+
+REGISTRATION
+Total Hours PI28: 2389.8 hours
+Description of initiative: Registration enhancements including organizational structure and taxpayer hierarchy visualization, revenue type details availability with domain and declaration mechanism fields, and validity period condition enhancements for same-day modifications. Enables revenue officials to view graphical representations of organizational units and party hierarchies, search revenue types by domain and mechanism, and complete multiple party detail changes on same date without uniqueness conflicts. Supports historical accuracy and regulatory compliance.
+
+Feature Progress:
+HLD: 1
+In Design: 1
+Waiting Analysis Approval: 1
+Total Features: 3
+
+Feature Priority:
+P1: 3
+Total Features: 3
+
+TAX ACCOUNTS
+Total Hours PI28: 529.9 hours
+Description of initiative: Tax account support including threshold amount field introduction, tax account overview page, and export functionality. Enables revenue officers to define threshold amounts for revenue type registrations, view aggregated financial transactions for reconciliation periods, and export filtered GL account lists to Excel. Provides period-centric overview with opening/closing balances, running balance tracking, and financial transaction details for tax account management.
+
+Feature Progress:
+In Design: 1
+To Do: 1
+Waiting Analysis Approval: 1
+Total Features: 3
+
+Feature Priority:
+P1: 3
+Total Features: 3
+
+TAXPAYER ACCOUNTING
+Total Hours PI28: 1813.1 hours
+Description of initiative: GL decision table enhancements including extensibility support, multiline rules, additional parameters, and custom application override capability. Enables administrators to configure GL decision tables with valid from/to columns, multiline rules with amount splitting, and additional parameters for claimant, revenue type, and bill segment type differentiation. Supports custom adapter implementation to bypass standard GL decision mechanism. Includes financial events logging under organizational units and claimants.
+
+Feature Progress:
+Waiting Analysis Approval: 4
+Total Features: 4
+
+Feature Priority:
+P1: 2
+Total Features: 2
+
+=== Summary === [~250 words]
+Roadmap Group: CORE REVENUE MANAGEMENT CAPABILITIES
+Total Effort Across All Initiatives: 8839.699999999999 hours
+Number of Unique Initiatives: 5
+Number of Features: 18
+Requester: GRC, GTM
+
+Group-Level Feature Progress:
+HLD: 2
+In Design: 2
+To Do: 1
+Waiting Analysis Approval: 13
+Total Features: 18
+
+Group-Level Feature Priority:
+P1: 13
+P2: 1
+P3: 0
+Total Features: 14
+
+Description of initiative group: CORE REVENUE MANAGEMENT CAPABILITIES delivers 8,839.7 hours of effort across five initiatives providing essential revenue management functionality. Taxpayer Accounting is the highest-effort initiative (1,813.1 hours) implementing GL decision table extensibility with multiline rules, custom parameters, and custom application overrides to support complex GL posting requirements. Penalty & Interest (2,986.9 hours) enhances credit interest calculation for unallocated payment segments ensuring accurate interest accrual. Registration (2,389.8 hours) enables organizational hierarchy visualization and revenue type categorization with domain and declaration mechanism fields. Billing, Assessments & Installments (1,120 hours) supports ad-hoc obligation installments and transfer amount configuration. Tax Accounts (529.9 hours) introduces threshold amounts and tax account overview pages for period-centric financial views. Cross-initiative themes include support for tax account implementations, regulatory compliance, and enhanced financial transaction management. Key dependencies include BPMN process integration for GL decision execution, financial transaction entity enhancements, and revenue type configuration. Most features (13) are in Waiting Analysis Approval status, indicating active design phase. Priority distribution heavily favors P1 (13 features), reflecting critical importance to revenue authority operations. Features support both periodic and ad-hoc revenue types with flexible configuration for different implementation requirements.
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 4 of 6 using the SOURCE DATA above.
+User instructions: An instance for each unique "roadmap initiative group" found
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">23,200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">35</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">Done</span>
+                <span class="legend-count">7 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Progress</span>
+                <span class="legend-count">12 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">9 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">10 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:55%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:45%; background:#F0A500;">P2</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">55% · 21 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">45% · 17 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Enables end-to-end taxpayer lifecycle management from registration through accounting</li>
+            <li>Reduces manual caseworker effort via automated billing, assessments & penalty calculations</li>
+            <li>Directly supports Greek project delivery and future market opportunities</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Core dependency for all current and pipeline Solon Tax project implementations</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform</li>
+            <li>€200M+ in future project pipeline contingent on platform completeness</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Registration</div>
+                <div class="init-desc">Party identifiers, org hierarchy, search enhancements</div>
+              </td>
+              <td><span class="effort-pill">11,866h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">14</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Taxpayer Accounting</div>
+                <div class="init-desc">General ledger core, reconciliation & balance management</div>
+              </td>
+              <td><span class="effort-pill">8,064h</span></td>
+              <td><span class="pi-text">PI 28 · PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Billing &amp; Assessments</div>
+                <div class="init-desc">Instalment plans, assessment automation, billing cycles</div>
+              </td>
+              <td><span class="effort-pill">2,880h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">6</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Penalty &amp; Interest</div>
+                <div class="init-desc">Interest calculation, credit unallocated payment segments</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29 · PI 30</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Tax Accounts</div>
+                <div class="init-desc">Tax account setup, configurable thresholds, notifications</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+
+=== Agent 5: slide_1 — #5 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only text content and src/href values may differ from the template.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== OTHER ACTIVITIES ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 47
+
+Initiative: ARK
+Unique Feature Count: 2
+Features:
+IRM-27731, IRM-27733
+
+Initiative: CEREMONIES AND TRAININGS
+Unique Feature Count: 10
+Features:
+IRM-41111, IRM-41112, IRM-41113, IRM-41114, IRM-41115, IRM-41117, IRM-41118, IRM-41119, IRM-41120, IRM-41325
+
+Initiative: CORRECTIVE MAINTENANCE
+Unique Feature Count: 1
+Features:
+IRM-39215
+
+Initiative: MANAGEMENT
+Unique Feature Count: 11
+Features:
+PLACEHOLDER (Product Development Management, Product Management PdM, Product Architect, Product Test Manager, Product Implementations Leads, PIL2 TL, PIL3 TL, PIL4, Technical Architecture and engineering, PMO & Analysis Lead, DevOps, Service Desk)
+
+Initiative: PREVENTIVE MAINTENANCE
+Unique Feature Count: 6
+Features:
+IRM-38694, IRM-38695, IRM-39203, IRM-39204, IRM-39209, IRM-39211, IRM-39214, IRM-41331, IRM-41464
+
+Initiative: PRODUCT SUPPORT
+Unique Feature Count: 1
+Features:
+IRM-26754
+
+Initiative: PROJECT SUPPORT
+Unique Feature Count: 2
+Features:
+IRM-39199, IRM-39219
+
+Initiative: RELEASE ACTIVITIES
+Unique Feature Count: 3
+Features:
+IRM-39212, IRM-39213, IRM-39220
+
+Initiative: SECURITY
+Unique Feature Count: 1
+Features:
+IRM-39221
+
+Initiative: SUPPORT TO PDM
+Unique Feature Count: 1
+Features:
+IRM-39196
+
+Initiative: TECHNOLOGY MANAGEMENT
+Unique Feature Count: 1
+Features:
+IRM-39223
+
+=== Effort Estimates by Initiative ===
+
+ARK
+Total Hours PI28: 80 hours
+Description of initiative: Architecture and guidelines enhancements including augmentation of programming guidelines for items not covered in template (Spring/Spring Boot/Kafka) and enforcement of applicable guidelines in CI. Produces curated Solon version of programming guidelines template with additional information specific to Solon. Enforces application of Sonar rules, automatic code lint/format rules, ArchUnit tests, and configurable code intercepts through CI pipeline.
+
+Feature Progress:
+Waiting Analysis Approval: 1
+To Do: 1
+Total Features: 2
+
+Feature Priority:
+P3: 1
+Total Features: 1
+
+CEREMONIES AND TRAININGS
+Total Hours PI28: 3000 hours
+Description of initiative: Ceremonies and trainings across ten delivery teams (Baldur, Loki, Helios, Sif, Spartans, Eos, Athena, Daedalus, Arc, Atlas). Allocates 300 hours per team for ceremonies, standups, planning, retrospectives, and team training activities. Ensures consistent team coordination and knowledge sharing across distributed delivery organization.
+
+Feature Progress:
+N/A
+Total Features: 10
+
+Feature Priority:
+N/A
+Total Features: 0
+
+CORRECTIVE MAINTENANCE
+Total Hours PI28: 560 hours
+Description of initiative: PSD incidents corrective maintenance addressing production defects and issues. Allocates effort for investigation, resolution, and deployment of fixes for incidents reported by project support teams.
+
+Feature Progress:
+N/A
+Total Features: 1
+
+Feature Priority:
+N/A
+Total Features: 0
+
+MANAGEMENT
+Total Hours PI28: 9115.2 hours
+Description of initiative: Product development management including Product Development Management, Product Management, Product Architect, Product Test Manager, Product Implementations Leads, Technical Architecture and engineering, PMO & Analysis Lead, DevOps, and Service Desk roles. Allocates effort for strategic planning, architecture decisions, implementation oversight, quality assurance leadership, and operational support across the product organization.
+
+Feature Progress:
+N/A
+Total Features: 11
+
+Feature Priority:
+N/A
+Total Features: 0
+
+PREVENTIVE MAINTENANCE
+Total Hours PI28: 2960 hours
+Description of initiative: Preventive maintenance addressing bugs related to older features/PIs across multiple delivery teams (BAL, SIF, EOS, HEL, SPA, ATH, ATL, Loki). Allocates effort for defect identification, analysis, and resolution to reduce technical debt and improve system stability. Distributed across teams with focus on proactive issue management.
+
+Feature Progress:
+N/A
+Total Features: 9
+
+Feature Priority:
+N/A
+Total Features: 0
+
+PRODUCT SUPPORT
+Total Hours PI28: 551 hours
+Description of initiative: Demo Solon Tax Azure environment upgrade and clean installation. Supports demonstration environment maintenance and infrastructure updates for product showcases and customer demonstrations.
+
+Feature Progress:
+N/A
+Total Features: 1
+
+Feature Priority:
+N/A
+Total Features: 0
+
+PROJECT SUPPORT
+Total Hours PI28: 560 hours
+Description of initiative: Project support including PD support to projects GR and unplanned support to projects. Allocates effort for unofficial project support addressing ad-hoc requests and issues from implementation projects.
+
+Feature Progress:
+N/A
+Total Features: 2
+
+Feature Priority:
+N/A
+Total Features: 0
+
+RELEASE ACTIVITIES
+Total Hours PI28: 1120 hours
+Description of initiative: Release management activities including hotfix release, intermediate release, and release management for current PI28. Allocates effort for release planning, coordination, testing, and deployment activities.
+
+Feature Progress:
+N/A
+Total Features: 3
+
+Feature Priority:
+N/A
+Total Features: 0
+
+SECURITY
+Total Hours PI28: 560 hours
+Description of initiative: Security defect and improvement management addressing security-related issues and enhancements. Allocates effort for security vulnerability assessment, remediation, and security feature implementation.
+
+Feature Progress:
+N/A
+Total Features: 1
+
+Feature Priority:
+N/A
+Total Features: 0
+
+SUPPORT TO PDM
+Total Hours PI28: 80 hours
+Description of initiative: Support to Product Development Management before feature creation. Allocates effort for analysis, planning, and preparation activities supporting product management decision-making.
+
+Feature Progress:
+N/A
+Total Features: 1
+
+Feature Priority:
+N/A
+Total Features: 0
+
+TECHNOLOGY MANAGEMENT
+Total Hours PI28: 208 hours
+Description of initiative: Technology management including version upgrades. Allocates effort for evaluation, planning, and implementation of technology stack upgrades and dependency updates.
+
+Feature Progress:
+N/A
+Total Features: 1
+
+Feature Priority:
+N/A
+Total Features: 0
+
+=== Summary === [~250 words]
+Roadmap Group: OTHER ACTIVITIES
+Total Effort Across All Initiatives: 18794.2 hours
+Number of Unique Initiatives: 10
+Number of Features: 47
+Requester: GRC, Other
+
+Group-Level Feature Progress:
+To Do: 1
+Waiting Analysis Approval: 1
+N/A: 45
+Total Features: 47
+
+Group-Level Feature Priority:
+P3: 1
+N/A: 46
+Total Features: 47
+
+Description of initiative group: OTHER ACTIVITIES encompasses 18,794.2 hours of effort across ten initiatives supporting product operations, team coordination, and infrastructure management. Management is the highest-effort initiative (9,115.2 hours) covering product development management, product management, architecture, quality assurance leadership, and operational roles. Ceremonies and Trainings (3,000 hours) allocates 300 hours per delivery team for coordination and knowledge sharing across ten teams. Preventive Maintenance (2,960 hours) addresses bugs in older features across multiple teams. Release Activities (1,120 hours) covers hotfix, intermediate, and full release management. Corrective Maintenance (560 hours) addresses production incidents. Project Support (560 hours) provides unofficial support to implementation projects. Security (560 hours) manages security defects and improvements. Product Support (551 hours) maintains demonstration environments. Technology Management (208 hours) handles version upgrades. ARK (80 hours) enhances programming guidelines and CI enforcement. Support to PDM (80 hours) provides pre-feature analysis. Cross-initiative themes include distributed team coordination, proactive quality management, and operational excellence. Most activities (45) have no specific feature tracking, reflecting operational and management nature. Only 2 features are tracked (ARK initiatives) with 1 in Waiting Analysis Approval and 1 in To Do status. This initiative group represents essential organizational infrastructure supporting feature delivery and product quality.
+
+---
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 5 of 6 using the SOURCE DATA above.
+User instructions: An instance for each unique "roadmap initiative group" found
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">23,200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">35</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">Done</span>
+                <span class="legend-count">7 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Progress</span>
+                <span class="legend-count">12 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">9 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">10 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:55%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:45%; background:#F0A500;">P2</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">55% · 21 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">45% · 17 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Enables end-to-end taxpayer lifecycle management from registration through accounting</li>
+            <li>Reduces manual caseworker effort via automated billing, assessments & penalty calculations</li>
+            <li>Directly supports Greek project delivery and future market opportunities</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Core dependency for all current and pipeline Solon Tax project implementations</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform</li>
+            <li>€200M+ in future project pipeline contingent on platform completeness</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Registration</div>
+                <div class="init-desc">Party identifiers, org hierarchy, search enhancements</div>
+              </td>
+              <td><span class="effort-pill">11,866h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">14</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Taxpayer Accounting</div>
+                <div class="init-desc">General ledger core, reconciliation & balance management</div>
+              </td>
+              <td><span class="effort-pill">8,064h</span></td>
+              <td><span class="pi-text">PI 28 · PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Billing &amp; Assessments</div>
+                <div class="init-desc">Instalment plans, assessment automation, billing cycles</div>
+              </td>
+              <td><span class="effort-pill">2,880h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">6</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Penalty &amp; Interest</div>
+                <div class="init-desc">Interest calculation, credit unallocated payment segments</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29 · PI 30</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Tax Accounts</div>
+                <div class="init-desc">Tax account setup, configurable thresholds, notifications</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+
+=== Agent 6: slide_1 — #6 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only text content and src/href values may differ from the template.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+- Never invent labels, categories, statuses, groupings, or concepts not present verbatim in the SOURCE DATA — if the data does not contain it, write [DATA MISSING] for that element.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+=== CORE SELF SERVICE CAPABILITIES ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 13
+
+Initiative: SELF SERVICE SERVICES MANAGEMENT
+Unique Feature Count: 2
+Features:
+IRM-34159, IRM-25436
+
+Initiative: USER & 3RD PARTY ACCESS MANAGEMENT
+Unique Feature Count: 11
+Features:
+IRM-36664, IRM-36665, IRM-36666, IRM-36667, IRM-36668, IRM-38190, IRM-39135, IRM-36660
+
+=== Effort Estimates by Initiative ===
+
+SELF SERVICE SERVICES MANAGEMENT
+Total Hours PI28: 835.2 hours
+Description of initiative: Self-service enhancements including operational reports and contacts generation in SS, and refactoring of existing self-service pages to work through services implementation. Enables self-service users to generate and run operational reports and contacts, and ensures portal operates through service-based architecture without pass-through endpoints. Includes security solution for form submission and payment processing with proper API integration.
+
+Feature Progress:
+To Do: 1
+Under Analysis: 1
+Total Features: 2
+
+Feature Priority:
+P1: 1
+P3: 1
+Total Features: 2
+
+USER & 3RD PARTY ACCESS MANAGEMENT
+Total Hours PI28: 3530.9 hours
+Description of initiative: Comprehensive representations and user access management including datetime and timezone support for representations, two-way multilevel authorization enhancements, form types and API access definition, attachment management, and RM-based representation management. Enables admins to define start/end dates with timezone support, configure two-way and multilevel representations, define agreement services based on form types and APIs, attach authorization paperwork, and manage representations in RM affecting SS users. Supports complex delegation hierarchies with lifecycle management.
+
+Feature Progress:
+In Design: 1
+Waiting Analysis Approval: 7
+Total Features: 8
+
+Feature Priority:
+P1: 5
+P3: 3
+Total Features: 8
+
+=== Summary === [~250 words]
+Roadmap Group: CORE SELF SERVICE CAPABILITIES
+Total Effort Across All Initiatives: 4366.1 hours
+Number of Unique Initiatives: 2
+Number of Features: 13
+Requester: GRC, Other
+
+Group-Level Feature Progress:
+In Design: 1
+To Do: 1
+Under Analysis: 1
+Waiting Analysis Approval: 7
+Total Features: 10
+
+Group-Level Feature Priority:
+P1: 6
+P3: 4
+Total Features: 10
+
+Description of initiative group: CORE SELF SERVICE CAPABILITIES delivers 4,366.1 hours of effort across two initiatives enhancing self-service portal functionality and user access management. User & 3rd Party Access Management is the highest-effort initiative (3,530.9 hours) implementing comprehensive representations framework with datetime/timezone support, two-way multilevel authorization, form type and API access definition, and RM-based management. Enables complex delegation hierarchies supporting scenarios like legal entities delegating to accounting firms, which further delegate to employees. Supports lifecycle management with status transitions and change reason tracking. Self Service Services Management (835.2 hours) enables operational reports and contacts generation in self-service portal and refactors pages to use service-based architecture. Cross-initiative themes include user authorization management, service-based architecture, and enhanced self-service capabilities. Key dependencies include agreement service configuration, form type definition, and API access control. Most features (7) are in Waiting Analysis Approval status, indicating active design refinement. Priority distribution shows 6 P1 features (critical) and 4 P3 features (lower priority). Representations framework is foundational for supporting complex organizational structures and delegation scenarios across implementations. Features support both natural persons and legal entities with flexible authorization models.
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write [DATA MISSING] for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 6 of 6 using the SOURCE DATA above.
+User instructions: An instance for each unique "roadmap initiative group" found
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">23,200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">35</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">Done</span>
+                <span class="legend-count">7 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Progress</span>
+                <span class="legend-count">12 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">9 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">10 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:55%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:45%; background:#F0A500;">P2</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">55% · 21 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">45% · 17 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Enables end-to-end taxpayer lifecycle management from registration through accounting</li>
+            <li>Reduces manual caseworker effort via automated billing, assessments & penalty calculations</li>
+            <li>Directly supports Greek project delivery and future market opportunities</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Core dependency for all current and pipeline Solon Tax project implementations</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform</li>
+            <li>€200M+ in future project pipeline contingent on platform completeness</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Registration</div>
+                <div class="init-desc">Party identifiers, org hierarchy, search enhancements</div>
+              </td>
+              <td><span class="effort-pill">11,866h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">14</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Taxpayer Accounting</div>
+                <div class="init-desc">General ledger core, reconciliation & balance management</div>
+              </td>
+              <td><span class="effort-pill">8,064h</span></td>
+              <td><span class="pi-text">PI 28 · PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Billing &amp; Assessments</div>
+                <div class="init-desc">Instalment plans, assessment automation, billing cycles</div>
+              </td>
+              <td><span class="effort-pill">2,880h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">6</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Penalty &amp; Interest</div>
+                <div class="init-desc">Interest calculation, credit unallocated payment segments</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29 · PI 30</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Tax Accounts</div>
+                <div class="init-desc">Tax account setup, configurable thresholds, notifications</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.

@@ -1,0 +1,37 @@
+{
+  "exportId": "initiative-core-self-service-1",
+  "exportNumber": 1,
+  "exportName": "initiative-core-self-service",
+  "createdAt": "2026-04-29T07:43:52.977Z",
+  "source": {
+    "roundId": "79c57e0b-2fa2-43a7-af66-f942a4bd9e0b",
+    "outputFile": "output-79c57e0b-2fa2-43a7-af66-f942a4bd9e0b.html"
+  },
+  "content": {
+    "slideCount": 2,
+    "totalSize": 23256,
+    "slides": [
+      {
+        "index": 1,
+        "file": "self-service-services-management.html",
+        "size": 10387,
+        "title": "SELF SERVICE SERVICES MANAGEMENT",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "user-3rd-party-access-management.html",
+        "size": 12869,
+        "title": "USER & 3RD PARTY ACCESS MANAGEMENT",
+        "slideId": "slide-2",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "V2",
+    "flowId": "flow-initiative-core-self-service",
+    "templateFile": ""
+  }
+}

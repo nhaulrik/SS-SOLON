@@ -1,0 +1,57 @@
+=== REGISTRATION ===
+
+=== Summary ===
+Roadmap Initiative: REGISTRATION
+Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES
+PI: PI 28
+Total Effort: 2389.8 hours
+Feature Count: 3
+
+Requester: GRC
+
+=== Feature Progress ===
+In Design: 1
+HLD: 1
+Waiting Analysis Approval: 1
+Total Features: 3
+
+=== Feature Priority ===
+P1: 3
+Total Features: 3
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enable Organizational Hierarchy Visualization
+Reason 01 Text: Provide graphical representation of organizational units and taxpayer hierarchies to improve visibility of structural relationships and dependencies.
+
+Reason 02 Title: Enhance Revenue Type Categorization
+Reason 02 Text: Add revenue domain and declaration mechanism fields to support GL decision table logic and improve revenue type classification for business processes.
+
+Reason 03 Title: Support Same-Day Registry Modifications
+Reason 03 Text: Allow multiple party detail changes on same date without uniqueness conflicts through enhanced validity period conditions and state management.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Enhance Validity period conditions in Registry detail entities to support multiple modifications in the same date
+Feature Description: Enable multiple party detail changes on same date with enhanced validity period conditions and state flags for uniqueness validation.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 747h
+Feature Priority: P1
+
+Feature Index: Epic 02
+Feature Name: View Organizational structure and taxpayers hierarchy structure – User / Part 2 of 2
+Feature Description: Display graphical representation of organizational units and party hierarchies with search and assignment capabilities for revenue officials.
+Feature Status: In Design
+Feature Status Color: #4A90D9
+Feature Effort: 747h
+Feature Priority: P1
+
+Feature Index: Epic 03
+Feature Name: More details availability in Revenue types, searching enhancements in Fts and RTs
+Feature Description: Add revenue domain and declaration mechanism fields to revenue types with enhanced search capabilities for financial transaction processing.
+Feature Status: HLD
+Feature Status Color: #4A90D9
+Feature Effort: 896h
+Feature Priority: P1

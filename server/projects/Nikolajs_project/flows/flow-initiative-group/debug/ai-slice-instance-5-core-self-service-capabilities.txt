@@ -1,0 +1,65 @@
+=== CORE SELF SERVICE CAPABILITIES ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 13
+
+Initiative: SELF SERVICE SERVICES MANAGEMENT
+Unique Feature Count: 2
+Features:
+IRM-34159, IRM-25436
+
+Initiative: USER & 3RD PARTY ACCESS MANAGEMENT
+Unique Feature Count: 11
+Features:
+IRM-36664, IRM-36665, IRM-36666, IRM-36667, IRM-36668, IRM-38190, IRM-39135, IRM-36660
+
+=== Effort Estimates by Initiative ===
+
+SELF SERVICE SERVICES MANAGEMENT
+Total Hours PI28: 835.2 hours
+Description of initiative: Self-service enhancements including operational reports and contacts generation in SS, and refactoring of existing self-service pages to work through services implementation. Enables self-service users to generate and run operational reports and contacts, and ensures portal operates through service-based architecture without pass-through endpoints. Includes security solution for form submission and payment processing with proper API integration.
+
+Feature Progress:
+To Do: 1
+Under Analysis: 1
+Total Features: 2
+
+Feature Priority:
+P1: 1
+P3: 1
+Total Features: 2
+
+USER & 3RD PARTY ACCESS MANAGEMENT
+Total Hours PI28: 3530.9 hours
+Description of initiative: Comprehensive representations and user access management including datetime and timezone support for representations, two-way multilevel authorization enhancements, form types and API access definition, attachment management, and RM-based representation management. Enables admins to define start/end dates with timezone support, configure two-way and multilevel representations, define agreement services based on form types and APIs, attach authorization paperwork, and manage representations in RM affecting SS users. Supports complex delegation hierarchies with lifecycle management.
+
+Feature Progress:
+In Design: 1
+Waiting Analysis Approval: 7
+Total Features: 8
+
+Feature Priority:
+P1: 5
+P3: 3
+Total Features: 8
+
+=== Summary === [~250 words]
+Roadmap Group: CORE SELF SERVICE CAPABILITIES
+Total Effort Across All Initiatives: 4366.1 hours
+Number of Unique Initiatives: 2
+Number of Features: 13
+Requester: GRC, Other
+
+Group-Level Feature Progress:
+In Design: 1
+To Do: 1
+Under Analysis: 1
+Waiting Analysis Approval: 7
+Total Features: 10
+
+Group-Level Feature Priority:
+P1: 6
+P3: 4
+Total Features: 10
+
+Description of initiative group: CORE SELF SERVICE CAPABILITIES delivers 4,366.1 hours of effort across two initiatives enhancing self-service portal functionality and user access management. User & 3rd Party Access Management is the highest-effort initiative (3,530.9 hours) implementing comprehensive representations framework with datetime/timezone support, two-way multilevel authorization, form type and API access definition, and RM-based management. Enables complex delegation hierarchies supporting scenarios like legal entities delegating to accounting firms, which further delegate to employees. Supports lifecycle management with status transitions and change reason tracking. Self Service Services Management (835.2 hours) enables operational reports and contacts generation in self-service portal and refactors pages to use service-based architecture. Cross-initiative themes include user authorization management, service-based architecture, and enhanced self-service capabilities. Key dependencies include agreement service configuration, form type definition, and API access control. Most features (7) are in Waiting Analysis Approval status, indicating active design refinement. Priority distribution shows 6 P1 features (critical) and 4 P3 features (lower priority). Representations framework is foundational for supporting complex organizational structures and delegation scenarios across implementations. Features support both natural persons and legal entities with flexible authorization models.

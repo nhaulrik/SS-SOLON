@@ -1,0 +1,1438 @@
+{
+  "flowId": "flow-initiative-core-supporting",
+  "name": "Initiative-core-supporting",
+  "projectId": "1043bf3c-fd73-4810-9b60-64bcf3090227",
+  "templateId": "a8dcc81d-275c-4295-a56b-21867f808308",
+  "templateFilename": "initiative_template_v2.html",
+  "createdAt": "2026-04-21T08:02:17.647Z",
+  "updatedAt": "2026-04-21T09:49:14.709Z",
+  "status": "active",
+  "globalPrompt": "",
+  "summaryPrompt": "",
+  "contentPrompt": "",
+  "generations": [
+    {
+      "id": "a687bd32-2466-41fd-a1bd-4fdd0e6573b5",
+      "appliedAt": "2026-04-21T08:07:44.849Z",
+      "outputFile": "output-a687bd32-2466-41fd-a1bd-4fdd0e6573b5.html",
+      "jsonInput": "{\"slides\":{\"slide_1\":{\"instances\":[{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Feature Catalog · Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">Application Processes</div>\\n        <div class=\\\"header-subtitle\\\">Reference Implementations · [NO DATA]</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">28</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">[NO DATA]</div>\\n        <div class=\\\"header-stat-label\\\">Epics</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">[NO DATA]</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n      <div class=\\\"logo\\\">Netcompany</div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"main-panel\\\">\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Why It's Important</div>\\n        <div class=\\\"benefits-grid\\\">\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">01</div>\\n            <div class=\\\"benefit-title\\\">[NO DATA]</div>\\n            <div class=\\\"benefit-text\\\">[NO DATA]</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">02</div>\\n            <div class=\\\"benefit-title\\\">[NO DATA]</div>\\n            <div class=\\\"benefit-text\\\">[NO DATA]</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">03</div>\\n            <div class=\\\"benefit-title\\\">[NO DATA]</div>\\n            <div class=\\\"benefit-text\\\">[NO DATA]</div>\\n          </div>\\n        </div>\\n      </div>\\n\\n      \\n      <div>\\n        <div cl",
+      "slideNames": [
+        {
+          "index": 1,
+          "name": "APPLICATION PROCESSES",
+          "keyMissing": false
+        },
+        {
+          "index": 2,
+          "name": "SELF SERVICE ACCOUNT OVERVIEW",
+          "keyMissing": false
+        },
+        {
+          "index": 3,
+          "name": "SELF SERVICE FILING & PAYMENTS",
+          "keyMissing": false
+        },
+        {
+          "index": 4,
+          "name": "VAT",
+          "keyMissing": false
+        }
+      ]
+    },
+    {
+      "id": "6e893ca1-9ea1-4c7d-b97e-ab7a09be0f26",
+      "appliedAt": "2026-04-21T09:46:18.860Z",
+      "outputFile": "output-6e893ca1-9ea1-4c7d-b97e-ab7a09be0f26.html",
+      "jsonInput": "{\"slides\":{\"slide_1\":{\"instances\":[{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Feature Catalog · Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">UI Configuration</div>\\n        <div class=\\\"header-subtitle\\\">Core Supporting Capabilities · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">843.6</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">3</div>\\n        <div class=\\\"header-stat-label\\\">Epics</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n      <div class=\\\"logo\\\">Netcompany</div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"main-panel\\\">\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Why It's Important</div>\\n        <div class=\\\"benefits-grid\\\">\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">01</div>\\n            <div class=\\\"benefit-title\\\">Form Field Automation</div>\\n            <div class=\\\"benefit-text\\\">Enable configurators to set optional attributes for automatic field prefilling based on codelist relationships and mandatory item availability, reducing user data entry errors.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">02</div>\\n            <div class=\\\"benefit-title\\\">Text Transformation</div>\\n            <div class=\\\"benefit-text\\\">Implement widget components that automatically convert typed text to capitals for storage and display, ensuring consistent data formatting across f",
+      "slideNames": [
+        {
+          "index": 1,
+          "name": "UI Configuration",
+          "keyMissing": false
+        },
+        {
+          "index": 2,
+          "name": "Form Processing",
+          "keyMissing": false
+        },
+        {
+          "index": 3,
+          "name": "Reference Data",
+          "keyMissing": false
+        },
+        {
+          "index": 4,
+          "name": "Document Management Integration",
+          "keyMissing": false
+        },
+        {
+          "index": 5,
+          "name": "Contact Management",
+          "keyMissing": false
+        }
+      ]
+    }
+  ],
+  "exports": [],
+  "_metadata": {
+    "selections": [
+      {
+        "nodeId": "div.header",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-left\">\n      <div class=\"pi-badge\">PI 28</div>\n      <div class=\"header-text-section\">\n        <div class=\"header-label\">Feature Catalog · Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>\n      </div>\n    </div>\n    <div class=\"header-right\">\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">2200</div>\n        <div class=\"header-stat-label\">Total Hours</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">7</div>\n        <div class=\"header-stat-label\">Epics</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>\n      </div>\n      <div class=\"logo\">Netcompany</div>\n    </div>"
+      },
+      {
+        "nodeId": "div.body",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"main-panel\">\n      \n      <div>\n        <div class=\"section-title\">Why It's Important</div>\n        <div class=\"benefits-grid\">\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>\n          </div>\n        </div>\n      </div>\n\n      \n      <div>\n        <div class=\"section-title\">Key Epics &amp; Features</div>\n        <div class=\"themes-grid\">\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    \n    <div class=\"right-panel\">\n    </div>"
+      },
+      {
+        "nodeId": "div.slide-footer",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_footer",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span class=\"footer-text\">Solon Tax Product Roadmap 2026 · Confidential</span>\n    <span class=\"footer-text\">Executive Steering Committee · 29 April 2026</span>"
+      },
+      {
+        "nodeId": "div.header>div.header-left",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_left",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-badge\">PI 28</div>\n      <div class=\"header-text-section\">\n        <div class=\"header-label\">Feature Catalog · Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>\n      </div>"
+      },
+      {
+        "nodeId": "div.header>div.header-left>div.header-text-section",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_left_div_header_text_section",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-label\">Feature Catalog · Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>"
+      },
+      {
+        "nodeId": "div.header>div.header-right",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_right",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-stat\">\n        <div class=\"header-stat-value\">2200</div>\n        <div class=\"header-stat-label\">Total Hours</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">7</div>\n        <div class=\"header-stat-label\">Epics</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>\n      </div>\n      <div class=\"logo\">Netcompany</div>"
+      },
+      {
+        "nodeId": "div.header>div.header-right>div.header-stat",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_right_div_header_stat",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-stat-value\">2200</div>\n        <div class=\"header-stat-label\">Total Hours</div>"
+      },
+      {
+        "nodeId": "div.header>div.header-right>div.header-stat[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_right_div_header_stat_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-stat-value\">7</div>\n        <div class=\"header-stat-label\">Epics</div>"
+      },
+      {
+        "nodeId": "div.header>div.header-right>div.header-stat[2]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_header_div_header_right_div_header_stat_2_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-stat-value\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div>\n        <div class=\"section-title\">Why It's Important</div>\n        <div class=\"benefits-grid\">\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>\n          </div>\n        </div>\n      </div>\n\n      \n      <div>\n        <div class=\"section-title\">Key Epics &amp; Features</div>\n        <div class=\"themes-grid\">\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>\n          </div>\n        </div>\n      </div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"section-title\">Why It's Important</div>\n        <div class=\"benefits-grid\">\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>\n          </div>\n        </div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div>div.benefits-grid",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_div_benefits_grid",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"benefit-card\">\n            <div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>\n          </div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_div_benefits_grid_div_benefit_card",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_div_benefits_grid_div_benefit_card_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card[2]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_div_benefits_grid_div_benefit_card_2_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"section-title\">Key Epics &amp; Features</div>\n        <div class=\"themes-grid\">\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>\n          </div>\n        </div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div[1]>div.themes-grid",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_1__div_themes_grid",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"theme-card\">\n            <div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>\n          </div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_1__div_themes_grid_div_theme_card",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_1__div_themes_grid_div_theme_card_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[2]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_1__div_themes_grid_div_theme_card_2_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[3]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_1__div_themes_grid_div_theme_card_3_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[4]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_1__div_themes_grid_div_theme_card_4_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>"
+      },
+      {
+        "nodeId": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[5]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_body_div_main_panel_div_1__div_themes_grid_div_theme_card_5_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>"
+      }
+    ],
+    "zones": [
+      {
+        "zoneType": "block",
+        "key": "auto_div_header",
+        "nodeId": "div.header",
+        "slideIndex": 1,
+        "type": "block",
+        "hint": "",
+        "autoGenerate": true,
+        "prompt": "",
+        "exampleHtml": "<div class=\"header-left\">\n      <div class=\"pi-badge\">PI 28</div>\n      <div class=\"header-text-section\">\n        <div class=\"header-label\">Feature Catalog · Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>\n      </div>\n    </div>\n    <div class=\"header-right\">\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">2200</div>\n        <div class=\"header-stat-label\">Total Hours</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">7</div>\n        <div class=\"header-stat-label\">Epics</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>\n      </div>\n      <div class=\"logo\">Netcompany</div>\n    </div>",
+        "isRepeatable": true,
+        "repeatableKey": null,
+        "unique": true,
+        "ignored": false,
+        "elementOrder": 0,
+        "originalText": ""
+      },
+      {
+        "zoneType": "block",
+        "key": "auto_div_body",
+        "nodeId": "div.body",
+        "slideIndex": 1,
+        "type": "block",
+        "hint": "",
+        "autoGenerate": true,
+        "prompt": "",
+        "exampleHtml": "<div class=\"main-panel\">\n      \n      <div>\n        <div class=\"section-title\">Why It's Important</div>\n        <div class=\"benefits-grid\">\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>\n          </div>\n        </div>\n      </div>\n\n      \n      <div>\n        <div class=\"section-title\">Key Epics &amp; Features</div>\n        <div class=\"themes-grid\">\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    \n    <div class=\"right-panel\">\n    </div>",
+        "isRepeatable": true,
+        "repeatableKey": null,
+        "unique": true,
+        "ignored": false,
+        "elementOrder": 1,
+        "originalText": ""
+      },
+      {
+        "zoneType": "block",
+        "key": "auto_div_slide_footer",
+        "nodeId": "div.slide-footer",
+        "slideIndex": 1,
+        "type": "block",
+        "hint": "",
+        "autoGenerate": true,
+        "prompt": "",
+        "exampleHtml": "<span class=\"footer-text\">Solon Tax Product Roadmap 2026 · Confidential</span>\n    <span class=\"footer-text\">Executive Steering Committee · 29 April 2026</span>",
+        "isRepeatable": true,
+        "repeatableKey": null,
+        "unique": true,
+        "ignored": false,
+        "elementOrder": 2,
+        "originalText": ""
+      }
+    ],
+    "repeatableSlides": [
+      {
+        "slideIndex": 1,
+        "key": "slide_1",
+        "prompt": ""
+      }
+    ],
+    "fullSlideGeneration": [
+      0,
+      1
+    ],
+    "trees": [
+      [
+        {
+          "id": "div.top-bar",
+          "tag": "div",
+          "classes": [
+            "top-bar"
+          ],
+          "label": "div.top-bar",
+          "textPreview": "",
+          "innerHTML": "",
+          "children": [],
+          "isLeaf": true,
+          "interesting": false,
+          "chrome": true,
+          "depth": 0,
+          "slideIndex": 1
+        },
+        {
+          "id": "div.header",
+          "tag": "div",
+          "classes": [
+            "header"
+          ],
+          "label": "div.header",
+          "textPreview": "",
+          "innerHTML": "<div class=\"header-left\">\n      <div class=\"pi-badge\">PI 28</div>\n      <div class=\"header-text-section\">\n        <div class=\"header-label\">Feature Catalog · Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>\n      </div>\n    </div>\n    <div class=\"header-right\">\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">2200</div>\n        <div class=\"header-stat-label\">Total Hours</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">7</div>\n        <div class=\"header-stat-label\">Epics</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>\n      </div>\n      <div class=\"logo\">Netcompany</div>\n    </div>",
+          "children": [
+            {
+              "id": "div.header>div.header-left",
+              "tag": "div",
+              "classes": [
+                "header-left"
+              ],
+              "label": "div.header-left",
+              "textPreview": "",
+              "innerHTML": "<div class=\"pi-badge\">PI 28</div>\n      <div class=\"header-text-section\">\n        <div class=\"header-label\">Feature Catalog · Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>\n      </div>",
+              "children": [
+                {
+                  "id": "div.header>div.header-left>div.pi-badge",
+                  "tag": "div",
+                  "classes": [
+                    "pi-badge"
+                  ],
+                  "label": "div.pi-badge",
+                  "textPreview": "PI 28",
+                  "innerHTML": "PI 28",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-left>div.header-text-section",
+                  "tag": "div",
+                  "classes": [
+                    "header-text-section"
+                  ],
+                  "label": "div.header-text-section",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"header-label\">Feature Catalog · Roadmap Initiative</div>\n        <div class=\"header-title\">Maintainability Enhancements</div>\n        <div class=\"header-subtitle\">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>",
+                  "children": [
+                    {
+                      "id": "div.header>div.header-left>div.header-text-section>div.header-label",
+                      "tag": "div",
+                      "classes": [
+                        "header-label"
+                      ],
+                      "label": "div.header-label",
+                      "textPreview": "Feature Catalog · Roadmap Initiative",
+                      "innerHTML": "Feature Catalog · Roadmap Initiative",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.header>div.header-left>div.header-text-section>div.header-title",
+                      "tag": "div",
+                      "classes": [
+                        "header-title"
+                      ],
+                      "label": "div.header-title",
+                      "textPreview": "Maintainability Enhancements",
+                      "innerHTML": "Maintainability Enhancements",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.header>div.header-left>div.header-text-section>div.header-subtitle",
+                      "tag": "div",
+                      "classes": [
+                        "header-subtitle"
+                      ],
+                      "label": "div.header-subtitle",
+                      "textPreview": "Technology Upgrades & Technical Debt Reduction · Solon Tax 2026",
+                      "innerHTML": "Technology Upgrades & Technical Debt Reduction · Solon Tax 2026",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                }
+              ],
+              "isLeaf": false,
+              "interesting": true,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            },
+            {
+              "id": "div.header>div.header-right",
+              "tag": "div",
+              "classes": [
+                "header-right"
+              ],
+              "label": "div.header-right",
+              "textPreview": "",
+              "innerHTML": "<div class=\"header-stat\">\n        <div class=\"header-stat-value\">2200</div>\n        <div class=\"header-stat-label\">Total Hours</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">7</div>\n        <div class=\"header-stat-label\">Epics</div>\n      </div>\n      <div class=\"header-divider\"></div>\n      <div class=\"header-stat\">\n        <div class=\"header-stat-value\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>\n      </div>\n      <div class=\"logo\">Netcompany</div>",
+              "children": [
+                {
+                  "id": "div.header>div.header-right>div.header-stat",
+                  "tag": "div",
+                  "classes": [
+                    "header-stat"
+                  ],
+                  "label": "div.header-stat",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"header-stat-value\">2200</div>\n        <div class=\"header-stat-label\">Total Hours</div>",
+                  "children": [
+                    {
+                      "id": "div.header>div.header-right>div.header-stat>div.header-stat-value",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-value"
+                      ],
+                      "label": "div.header-stat-value",
+                      "textPreview": "2200",
+                      "innerHTML": "2200",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.header>div.header-right>div.header-stat>div.header-stat-label",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-label"
+                      ],
+                      "label": "div.header-stat-label",
+                      "textPreview": "Total Hours",
+                      "innerHTML": "Total Hours",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-right>div.header-divider",
+                  "tag": "div",
+                  "classes": [
+                    "header-divider"
+                  ],
+                  "label": "div.header-divider",
+                  "textPreview": "",
+                  "innerHTML": "",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": true,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-right>div.header-stat[1]",
+                  "tag": "div",
+                  "classes": [
+                    "header-stat"
+                  ],
+                  "label": "div.header-stat",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"header-stat-value\">7</div>\n        <div class=\"header-stat-label\">Epics</div>",
+                  "children": [
+                    {
+                      "id": "div.header>div.header-right>div.header-stat[1]>div.header-stat-value",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-value"
+                      ],
+                      "label": "div.header-stat-value",
+                      "textPreview": "7",
+                      "innerHTML": "7",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.header>div.header-right>div.header-stat[1]>div.header-stat-label",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-label"
+                      ],
+                      "label": "div.header-stat-label",
+                      "textPreview": "Epics",
+                      "innerHTML": "Epics",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-right>div.header-divider[1]",
+                  "tag": "div",
+                  "classes": [
+                    "header-divider"
+                  ],
+                  "label": "div.header-divider",
+                  "textPreview": "",
+                  "innerHTML": "",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": true,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-right>div.header-stat[2]",
+                  "tag": "div",
+                  "classes": [
+                    "header-stat"
+                  ],
+                  "label": "div.header-stat",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"header-stat-value\">GRC</div>\n        <div class=\"header-stat-label\">Requester</div>",
+                  "children": [
+                    {
+                      "id": "div.header>div.header-right>div.header-stat[2]>div.header-stat-value",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-value"
+                      ],
+                      "label": "div.header-stat-value",
+                      "textPreview": "GRC",
+                      "innerHTML": "GRC",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.header>div.header-right>div.header-stat[2]>div.header-stat-label",
+                      "tag": "div",
+                      "classes": [
+                        "header-stat-label"
+                      ],
+                      "label": "div.header-stat-label",
+                      "textPreview": "Requester",
+                      "innerHTML": "Requester",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.header>div.header-right>div.logo",
+                  "tag": "div",
+                  "classes": [
+                    "logo"
+                  ],
+                  "label": "div.logo",
+                  "textPreview": "Netcompany",
+                  "innerHTML": "Netcompany",
+                  "children": [],
+                  "isLeaf": true,
+                  "interesting": false,
+                  "chrome": true,
+                  "depth": 2,
+                  "slideIndex": 1
+                }
+              ],
+              "isLeaf": false,
+              "interesting": true,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            }
+          ],
+          "isLeaf": false,
+          "interesting": true,
+          "chrome": false,
+          "depth": 0,
+          "slideIndex": 1
+        },
+        {
+          "id": "div.body",
+          "tag": "div",
+          "classes": [
+            "body"
+          ],
+          "label": "div.body",
+          "textPreview": "",
+          "innerHTML": "<div class=\"main-panel\">\n      \n      <div>\n        <div class=\"section-title\">Why It's Important</div>\n        <div class=\"benefits-grid\">\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>\n          </div>\n        </div>\n      </div>\n\n      \n      <div>\n        <div class=\"section-title\">Key Epics &amp; Features</div>\n        <div class=\"themes-grid\">\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>\n          </div>\n        </div>\n      </div>\n    </div>\n\n    \n    <div class=\"right-panel\">\n    </div>",
+          "children": [
+            {
+              "id": "div.body>div.main-panel",
+              "tag": "div",
+              "classes": [
+                "main-panel"
+              ],
+              "label": "div.main-panel",
+              "textPreview": "",
+              "innerHTML": "<div>\n        <div class=\"section-title\">Why It's Important</div>\n        <div class=\"benefits-grid\">\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>\n          </div>\n        </div>\n      </div>\n\n      \n      <div>\n        <div class=\"section-title\">Key Epics &amp; Features</div>\n        <div class=\"themes-grid\">\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>\n          </div>\n        </div>\n      </div>",
+              "children": [
+                {
+                  "id": "div.body>div.main-panel>div",
+                  "tag": "div",
+                  "classes": [],
+                  "label": "div",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"section-title\">Why It's Important</div>\n        <div class=\"benefits-grid\">\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>\n          </div>\n        </div>",
+                  "children": [
+                    {
+                      "id": "div.body>div.main-panel>div>div.section-title",
+                      "tag": "div",
+                      "classes": [
+                        "section-title"
+                      ],
+                      "label": "div.section-title",
+                      "textPreview": "Why It's Important",
+                      "innerHTML": "Why It's Important",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.body>div.main-panel>div>div.benefits-grid",
+                      "tag": "div",
+                      "classes": [
+                        "benefits-grid"
+                      ],
+                      "label": "div.benefits-grid",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"benefit-card\">\n            <div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>\n          </div>\n          <div class=\"benefit-card\">\n            <div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>\n          </div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card",
+                          "tag": "div",
+                          "classes": [
+                            "benefit-card"
+                          ],
+                          "label": "div.benefit-card",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"benefit-number\">01</div>\n            <div class=\"benefit-title\">Tech Debt Reduction</div>\n            <div class=\"benefit-text\">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>",
+                          "children": [
+                            {
+                              "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card>div.benefit-number",
+                              "tag": "div",
+                              "classes": [
+                                "benefit-number"
+                              ],
+                              "label": "div.benefit-number",
+                              "textPreview": "01",
+                              "innerHTML": "01",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card>div.benefit-title",
+                              "tag": "div",
+                              "classes": [
+                                "benefit-title"
+                              ],
+                              "label": "div.benefit-title",
+                              "textPreview": "Tech Debt Reduction",
+                              "innerHTML": "Tech Debt Reduction",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card>div.benefit-text",
+                              "tag": "div",
+                              "classes": [
+                                "benefit-text"
+                              ],
+                              "label": "div.benefit-text",
+                              "textPreview": "Restructures revenue-management-be-custom to hexagonal architecture, improving m…",
+                              "innerHTML": "Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card[1]",
+                          "tag": "div",
+                          "classes": [
+                            "benefit-card"
+                          ],
+                          "label": "div.benefit-card",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"benefit-number\">02</div>\n            <div class=\"benefit-title\">Critical Upgrades</div>\n            <div class=\"benefit-text\">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>",
+                          "children": [
+                            {
+                              "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card[1]>div.benefit-number",
+                              "tag": "div",
+                              "classes": [
+                                "benefit-number"
+                              ],
+                              "label": "div.benefit-number",
+                              "textPreview": "02",
+                              "innerHTML": "02",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card[1]>div.benefit-title",
+                              "tag": "div",
+                              "classes": [
+                                "benefit-title"
+                              ],
+                              "label": "div.benefit-title",
+                              "textPreview": "Critical Upgrades",
+                              "innerHTML": "Critical Upgrades",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card[1]>div.benefit-text",
+                              "tag": "div",
+                              "classes": [
+                                "benefit-text"
+                              ],
+                              "label": "div.benefit-text",
+                              "textPreview": "Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and O…",
+                              "innerHTML": "Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card[2]",
+                          "tag": "div",
+                          "classes": [
+                            "benefit-card"
+                          ],
+                          "label": "div.benefit-card",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"benefit-number\">03</div>\n            <div class=\"benefit-title\">Configuration Management</div>\n            <div class=\"benefit-text\">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>",
+                          "children": [
+                            {
+                              "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card[2]>div.benefit-number",
+                              "tag": "div",
+                              "classes": [
+                                "benefit-number"
+                              ],
+                              "label": "div.benefit-number",
+                              "textPreview": "03",
+                              "innerHTML": "03",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card[2]>div.benefit-title",
+                              "tag": "div",
+                              "classes": [
+                                "benefit-title"
+                              ],
+                              "label": "div.benefit-title",
+                              "textPreview": "Configuration Management",
+                              "innerHTML": "Configuration Management",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div>div.benefits-grid>div.benefit-card[2]>div.benefit-text",
+                              "tag": "div",
+                              "classes": [
+                                "benefit-text"
+                              ],
+                              "label": "div.benefit-text",
+                              "textPreview": "Introduces Config Items Management tool for safe packaging and migrating configu…",
+                              "innerHTML": "Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.body>div.main-panel>div[1]",
+                  "tag": "div",
+                  "classes": [],
+                  "label": "div",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"section-title\">Key Epics &amp; Features</div>\n        <div class=\"themes-grid\">\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>\n          </div>\n        </div>",
+                  "children": [
+                    {
+                      "id": "div.body>div.main-panel>div[1]>div.section-title",
+                      "tag": "div",
+                      "classes": [
+                        "section-title"
+                      ],
+                      "label": "div.section-title",
+                      "textPreview": "Key Epics & Features",
+                      "innerHTML": "Key Epics &amp; Features",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.body>div.main-panel>div[1]>div.themes-grid",
+                      "tag": "div",
+                      "classes": [
+                        "themes-grid"
+                      ],
+                      "label": "div.themes-grid",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"theme-card\">\n            <div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>\n          </div>\n          <div class=\"theme-card\">\n            <div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>\n          </div>",
+                      "children": [
+                        {
+                          "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card",
+                          "tag": "div",
+                          "classes": [
+                            "theme-card"
+                          ],
+                          "label": "div.theme-card",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"theme-name\">Hexagonal Architecture Refactor</div>\n            <div class=\"theme-desc\">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>",
+                          "children": [
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card>div.theme-name",
+                              "tag": "div",
+                              "classes": [
+                                "theme-name"
+                              ],
+                              "label": "div.theme-name",
+                              "textPreview": "Hexagonal Architecture Refactor",
+                              "innerHTML": "Hexagonal Architecture Refactor",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card>div.theme-desc",
+                              "tag": "div",
+                              "classes": [
+                                "theme-desc"
+                              ],
+                              "label": "div.theme-desc",
+                              "textPreview": "Restructure revenue-management-be-custom to clean hexagonal architecture with im…",
+                              "innerHTML": "Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[1]",
+                          "tag": "div",
+                          "classes": [
+                            "theme-card"
+                          ],
+                          "label": "div.theme-card",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"theme-name\">Java 25 Upgrade</div>\n            <div class=\"theme-desc\">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>",
+                          "children": [
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[1]>div.theme-name",
+                              "tag": "div",
+                              "classes": [
+                                "theme-name"
+                              ],
+                              "label": "div.theme-name",
+                              "textPreview": "Java 25 Upgrade",
+                              "innerHTML": "Java 25 Upgrade",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[1]>div.theme-desc",
+                              "tag": "div",
+                              "classes": [
+                                "theme-desc"
+                              ],
+                              "label": "div.theme-desc",
+                              "textPreview": "Migrate codebase to Java 25 to leverage latest language features, virtual thread…",
+                              "innerHTML": "Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[2]",
+                          "tag": "div",
+                          "classes": [
+                            "theme-card"
+                          ],
+                          "label": "div.theme-card",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"theme-name\">Spring Boot 4.x.x Migration</div>\n            <div class=\"theme-desc\">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>",
+                          "children": [
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[2]>div.theme-name",
+                              "tag": "div",
+                              "classes": [
+                                "theme-name"
+                              ],
+                              "label": "div.theme-name",
+                              "textPreview": "Spring Boot 4.x.x Migration",
+                              "innerHTML": "Spring Boot 4.x.x Migration",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[2]>div.theme-desc",
+                              "tag": "div",
+                              "classes": [
+                                "theme-desc"
+                              ],
+                              "label": "div.theme-desc",
+                              "textPreview": "Upgrade Spring Boot framework to latest version with enhanced observability, imp…",
+                              "innerHTML": "Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[3]",
+                          "tag": "div",
+                          "classes": [
+                            "theme-card"
+                          ],
+                          "label": "div.theme-card",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"theme-name\">Oracle 26ai Database</div>\n            <div class=\"theme-desc\">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>",
+                          "children": [
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[3]>div.theme-name",
+                              "tag": "div",
+                              "classes": [
+                                "theme-name"
+                              ],
+                              "label": "div.theme-name",
+                              "textPreview": "Oracle 26ai Database",
+                              "innerHTML": "Oracle 26ai Database",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[3]>div.theme-desc",
+                              "tag": "div",
+                              "classes": [
+                                "theme-desc"
+                              ],
+                              "label": "div.theme-desc",
+                              "textPreview": "Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, a…",
+                              "innerHTML": "Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[4]",
+                          "tag": "div",
+                          "classes": [
+                            "theme-card"
+                          ],
+                          "label": "div.theme-card",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"theme-name\">Tech Debt Across Teams</div>\n            <div class=\"theme-desc\">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>",
+                          "children": [
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[4]>div.theme-name",
+                              "tag": "div",
+                              "classes": [
+                                "theme-name"
+                              ],
+                              "label": "div.theme-name",
+                              "textPreview": "Tech Debt Across Teams",
+                              "innerHTML": "Tech Debt Across Teams",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[4]>div.theme-desc",
+                              "tag": "div",
+                              "classes": [
+                                "theme-desc"
+                              ],
+                              "label": "div.theme-desc",
+                              "textPreview": "Systematic UI improvements and technical debt reduction initiatives spanning ATH…",
+                              "innerHTML": "Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[5]",
+                          "tag": "div",
+                          "classes": [
+                            "theme-card"
+                          ],
+                          "label": "div.theme-card",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"theme-name\">Config Items Management</div>\n            <div class=\"theme-desc\">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>",
+                          "children": [
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[5]>div.theme-name",
+                              "tag": "div",
+                              "classes": [
+                                "theme-name"
+                              ],
+                              "label": "div.theme-name",
+                              "textPreview": "Config Items Management",
+                              "innerHTML": "Config Items Management",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.body>div.main-panel>div[1]>div.themes-grid>div.theme-card[5]>div.theme-desc",
+                              "tag": "div",
+                              "classes": [
+                                "theme-desc"
+                              ],
+                              "label": "div.theme-desc",
+                              "textPreview": "Build dedicated tool for safely packaging, versioning, and migrating configurati…",
+                              "innerHTML": "Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                }
+              ],
+              "isLeaf": false,
+              "interesting": true,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            },
+            {
+              "id": "div.body>div.right-panel",
+              "tag": "div",
+              "classes": [
+                "right-panel"
+              ],
+              "label": "div.right-panel",
+              "textPreview": "",
+              "innerHTML": "",
+              "children": [],
+              "isLeaf": true,
+              "interesting": false,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            }
+          ],
+          "isLeaf": false,
+          "interesting": false,
+          "chrome": false,
+          "depth": 0,
+          "slideIndex": 1
+        },
+        {
+          "id": "div.slide-footer",
+          "tag": "div",
+          "classes": [
+            "slide-footer"
+          ],
+          "label": "div.slide-footer",
+          "textPreview": "",
+          "innerHTML": "<span class=\"footer-text\">Solon Tax Product Roadmap 2026 · Confidential</span>\n    <span class=\"footer-text\">Executive Steering Committee · 29 April 2026</span>",
+          "children": [
+            {
+              "id": "div.slide-footer>span.footer-text",
+              "tag": "span",
+              "classes": [
+                "footer-text"
+              ],
+              "label": "span.footer-text",
+              "textPreview": "Solon Tax Product Roadmap 2026 · Confidential",
+              "innerHTML": "Solon Tax Product Roadmap 2026 · Confidential",
+              "children": [],
+              "isLeaf": true,
+              "interesting": false,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            },
+            {
+              "id": "div.slide-footer>span.footer-text[1]",
+              "tag": "span",
+              "classes": [
+                "footer-text"
+              ],
+              "label": "span.footer-text",
+              "textPreview": "Executive Steering Committee · 29 April 2026",
+              "innerHTML": "Executive Steering Committee · 29 April 2026",
+              "children": [],
+              "isLeaf": true,
+              "interesting": false,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            }
+          ],
+          "isLeaf": false,
+          "interesting": true,
+          "chrome": false,
+          "depth": 0,
+          "slideIndex": 1
+        }
+      ]
+    ],
+    "slideCount": 1
+  },
+  "agenticCustomInput": "Generate only slides for each  \"initiative\" found under the \"initiative group\" called \"CORE SUPPORTING CAPABILITIES\" in \"Estimates.xlsx\".\n\"Total hours\" value for the \"initiative\" can be found in the \"Estimates.xlsx\" where the value is in the \"Initiative Total Hours\" column.\n\nDont halucinate numbers. If you cannot find or calculate them, Write [NO DATA].",
+  "agenticJsonResponse": "{\"slides\":{\"slide_1\":{\"instances\":[{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Feature Catalog · Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">UI Configuration</div>\\n        <div class=\\\"header-subtitle\\\">Core Supporting Capabilities · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">843.6</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">3</div>\\n        <div class=\\\"header-stat-label\\\">Epics</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n      <div class=\\\"logo\\\">Netcompany</div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"main-panel\\\">\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Why It's Important</div>\\n        <div class=\\\"benefits-grid\\\">\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">01</div>\\n            <div class=\\\"benefit-title\\\">Form Field Automation</div>\\n            <div class=\\\"benefit-text\\\">Enable configurators to set optional attributes for automatic field prefilling based on codelist relationships and mandatory item availability, reducing user data entry errors.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">02</div>\\n            <div class=\\\"benefit-title\\\">Text Transformation</div>\\n            <div class=\\\"benefit-text\\\">Implement widget components that automatically convert typed text to capitals for storage and display, ensuring consistent data formatting across forms.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">03</div>\\n            <div class=\\\"benefit-title\\\">Visual Field Indicators</div>\\n            <div class=\\\"benefit-text\\\">Provide configurable visual cues to distinguish required from optional fields, improving user experience and reducing form completion errors across all modules.</div>\\n          </div>\\n        </div>\\n      </div>\\n\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Key Epics &amp; Features</div>\\n        <div class=\\\"themes-grid\\\">\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">UI/UX Improvements: Prefilling Fields Based on Related Values</div>\\n            <div class=\\\"theme-desc\\\">Enable system to autofill codelist fields when only one item is available or when parent-child codelist relationships exist. Configurators set optional autofill attributes to trigger automatic value selection and prefilling.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Form Field Text Capitalization</div>\\n            <div class=\\\"theme-desc\\\">Provide widget component for form fields that automatically converts user-typed text to capitals for display and database storage, ensuring consistent uppercase formatting.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Visual Cues: Required Field Indicators</div>\\n            <div class=\\\"theme-desc\\\">Enhance UI configuration to support configurable visual indicators for required versus optional fields using color, icons, or styling, with flexibility to highlight either required or optional fields per project needs.</div>\\n          </div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"right-panel\\\">\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026 · Confidential</span>\\n    <span class=\\\"footer-text\\\">Executive Steering Committee · 29 April 2026</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Feature Catalog · Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">Form Processing</div>\\n        <div class=\\\"header-subtitle\\\">Core Supporting Capabilities · Form Processing Enhancements</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">400</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">1</div>\\n        <div class=\\\"header-stat-label\\\">Epic</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n      <div class=\\\"logo\\\">Netcompany</div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"main-panel\\\">\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Why It's Important</div>\\n        <div class=\\\"benefits-grid\\\">\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">01</div>\\n            <div class=\\\"benefit-title\\\">Data Migration Efficiency</div>\\n            <div class=\\\"benefit-text\\\">By adding submitter tracking fields, customers will be able to migrate efficiently their data with proper auditability and traceability across systems.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">02</div>\\n            <div class=\\\"benefit-title\\\">Operational Transparency</div>\\n            <div class=\\\"benefit-text\\\">Records the user responsible for creating and submitting forms, enabling complete audit trails and accountability when the submitter differs from the associated Party.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">03</div>\\n            <div class=\\\"benefit-title\\\">Enhanced Metadata Capture</div>\\n            <div class=\\\"benefit-text\\\">Enables user-defined characteristics and external system timestamps for comprehensive form documentation and cross-system integration support.</div>\\n          </div>\\n        </div>\\n      </div>\\n\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Key Epics &amp; Features</div>\\n        <div class=\\\"themes-grid\\\">\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Form Metadata Enhancement</div>\\n            <div class=\\\"theme-desc\\\">Add optional fields to form metadata: Created By (Party Role ID), Posted By (Party Role ID), and External System Created Date/Time timestamp for complete submitter tracking.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Form Search Capabilities</div>\\n            <div class=\\\"theme-desc\\\">Enable users to search and filter forms using the new submitter fields (Created By, Posted By) and external creation timestamps for improved form discovery and audit.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">User-Defined Characteristics</div>\\n            <div class=\\\"theme-desc\\\">Enable user-defined characteristics (Data Area) in forms for additional metadata items such as import dates from external systems with flexible field types.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Notes in Forms</div>\\n            <div class=\\\"theme-desc\\\">Apply Notes functionality in Forms across RM and SS modules, with UI notes display limited to RM for operational documentation and communication.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Non-Functional Requirements</div>\\n            <div class=\\\"theme-desc\\\">Address Performance, Security, Accessibility, and Usability considerations throughout implementation with full Definition of Done compliance.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Documentation</div>\\n            <div class=\\\"theme-desc\\\">Document all functional and non-functional adjustments to ensure complete knowledge transfer and operational guidance for administrators and end users.</div>\\n          </div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"right-panel\\\">\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026 · Confidential</span>\\n    <span class=\\\"footer-text\\\">Executive Steering Committee · 29 April 2026</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Feature Catalog · Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">Reference Data</div>\\n        <div class=\\\"header-subtitle\\\">Enhance codelist items codes flexibility and historical track in Solon Tax · Core Supporting Capabilities</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">560</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">1</div>\\n        <div class=\\\"header-stat-label\\\">Epic</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n      <div class=\\\"logo\\\">Netcompany</div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"main-panel\\\">\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Why It's Important</div>\\n        <div class=\\\"benefits-grid\\\">\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">01</div>\\n            <div class=\\\"benefit-title\\\">Regulatory Compliance</div>\\n            <div class=\\\"benefit-text\\\">Support EU tax code evolution requirements including NACE Rev. 2.1 harmonization and historical accuracy for backdated transactions across all EU member states.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">02</div>\\n            <div class=\\\"benefit-title\\\">Historical Accuracy</div>\\n            <div class=\\\"benefit-text\\\">Enable the principle of historicity by maintaining the same code with different descriptions across non-overlapping validity periods for accurate historical tax processing.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">03</div>\\n            <div class=\\\"benefit-title\\\">Temporal Data Integrity</div>\\n            <div class=\\\"benefit-text\\\">Ensure no validity period overlaps exist for items with the same code within a codelist, supporting backdated taxpayer updates and amended return filing.</div>\\n          </div>\\n        </div>\\n      </div>\\n\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Key Epics &amp; Features</div>\\n        <div class=\\\"themes-grid\\\">\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Reference Data Enhancements</div>\\n            <div class=\\\"theme-desc\\\">Enable codelist items to have the same code with different descriptions across non-overlapping validity periods, supporting EU tax code evolution (NACE, VAT Category, VATEX, Customs Codes).</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Historical Code Management</div>\\n            <div class=\\\"theme-desc\\\">Allow selection of historical codelist items when processing backdated taxpayer updates, maintaining historical data preservation for accurate reporting across different time periods.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Automatic Migration Support</div>\\n            <div class=\\\"theme-desc\\\">Support automatic code updates when 1-to-1 mapping exists (e.g., AADE's KAD 2008 to KAD 2025 harmonization for 1.9 million Tax IDs as of March 1, 2026).</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Manual Selection Interface</div>\\n            <div class=\\\"theme-desc\\\">Provide manual selection interface when one code splits into multiple new codes, enabling taxpayers to select the most accurate code via the tax portal.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">API &amp; UI Enhancements</div>\\n            <div class=\\\"theme-desc\\\">Implement API endpoints supporting querying codelist items by effective date and UI displays for historical versions of codelist items with proper validity period visualization.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Validation &amp; Compliance</div>\\n            <div class=\\\"theme-desc\\\">System validates no overlapping validity periods for same code within a codelist, ensuring temporal data integrity and regulatory compliance with EU Directive 2006/112/EC.</div>\\n          </div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"right-panel\\\">\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026 · Confidential</span>\\n    <span class=\\\"footer-text\\\">Executive Steering Committee · 29 April 2026</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Feature Catalog · Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">Document Management Integration</div>\\n        <div class=\\\"header-subtitle\\\">Core Supporting Capabilities · Solon Tax 2026</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">2240</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">2</div>\\n        <div class=\\\"header-stat-label\\\">Epics</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n      <div class=\\\"logo\\\">Netcompany</div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"main-panel\\\">\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Why It's Important</div>\\n        <div class=\\\"benefits-grid\\\">\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">01</div>\\n            <div class=\\\"benefit-title\\\">Compliance & Legal Validity</div>\\n            <div class=\\\"benefit-text\\\">Improves compliance and legal validity of system-generated documents by supporting industry standards such as PAdES for PDF digital signatures.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">02</div>\\n            <div class=\\\"benefit-title\\\">Process Automation</div>\\n            <div class=\\\"benefit-text\\\">Increases process automation by enabling BPMN workflows to trigger document signing without manual intervention, reducing operational effort.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">03</div>\\n            <div class=\\\"benefit-title\\\">Auditability & Traceability</div>\\n            <div class=\\\"benefit-text\\\">Enhances auditability and traceability by maintaining audit logs for document generation, signing, and updates with complete visibility.</div>\\n          </div>\\n        </div>\\n      </div>\\n\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Key Epics &amp; Features</div>\\n        <div class=\\\"themes-grid\\\">\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Digital Signatures - System digital signing of PDF documents generated by bpmn process</div>\\n            <div class=\\\"theme-desc\\\">Documents can be digitally signed when instructed by a step in a BPMN flow. The system exposes an API or internal service for digital signing that can be called by bpmn processes, supporting customer configurations and certificates with audit logging.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Digital Signatures - Validate signatures in attachments RM &amp; SS/ Reference Implementation</div>\\n            <div class=\\\"theme-desc\\\">Users can validate digital signatures of documents attached in system entities. Admin can define trusted lists of digital signature providers and APIs needed to verify signatures with visual indicators for signed and verified documents.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Configurability &amp; Flexibility</div>\\n            <div class=\\\"theme-desc\\\">Allows administrators to configure multiple certificates and enables workflows to dynamically select the appropriate signature configuration without product defaults.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">DMS Integration &amp; Storage</div>\\n            <div class=\\\"theme-desc\\\">Supports integration with enterprise document management systems through storage and synchronization of signed documents as attachments with metadata and document IDs.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Security &amp; Certificate Management</div>\\n            <div class=\\\"theme-desc\\\">Certificates and private keys stored securely in HSM, secure vault, or encrypted storage with restricted and auditable access to signing functionality.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Reference Implementation</div>\\n            <div class=\\\"theme-desc\\\">At the end of the Busreg form, generates a document with all details filled per sections. Document is digitally signed and stored in attachments linked to the form with reusable subflow architecture.</div>\\n          </div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"right-panel\\\">\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026 · Confidential</span>\\n    <span class=\\\"footer-text\\\">Executive Steering Committee · 29 April 2026</span>\"},{\"auto_div_header\":\"<div class=\\\"header-left\\\">\\n      <div class=\\\"pi-badge\\\">PI 28</div>\\n      <div class=\\\"header-text-section\\\">\\n        <div class=\\\"header-label\\\">Feature Catalog · Roadmap Initiative</div>\\n        <div class=\\\"header-title\\\">Assign Unique Number to Incoming and Outgoing Documents</div>\\n        <div class=\\\"header-subtitle\\\">Contact Management Enhancements · Core Supporting Capabilities</div>\\n      </div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">760</div>\\n        <div class=\\\"header-stat-label\\\">Total Hours</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">1</div>\\n        <div class=\\\"header-stat-label\\\">Epic</div>\\n      </div>\\n      <div class=\\\"header-divider\\\"></div>\\n      <div class=\\\"header-stat\\\">\\n        <div class=\\\"header-stat-value\\\">GRC</div>\\n        <div class=\\\"header-stat-label\\\">Requester</div>\\n      </div>\\n      <div class=\\\"logo\\\">Netcompany</div>\\n    </div>\",\"auto_div_body\":\"<div class=\\\"main-panel\\\">\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Why It's Important</div>\\n        <div class=\\\"benefits-grid\\\">\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">01</div>\\n            <div class=\\\"benefit-title\\\">Legal Compliance</div>\\n            <div class=\\\"benefit-text\\\">Ensures compliance with legal requirements for document identification, particularly for Lithuania regulations requiring unique registration numbers for all incoming, outgoing, and system-generated documents.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">02</div>\\n            <div class=\\\"benefit-title\\\">Enhanced Traceability</div>\\n            <div class=\\\"benefit-text\\\">Improves document traceability and audit capabilities by automatically assigning structured Reference IDs with configurable formats that capture entity type, party identifiers, timestamps, and document direction.</div>\\n          </div>\\n          <div class=\\\"benefit-card\\\">\\n            <div class=\\\"benefit-number\\\">03</div>\\n            <div class=\\\"benefit-title\\\">Searchability & Organization</div>\\n            <div class=\\\"benefit-text\\\">Enables customers to define alternative document names and search documents by Reference ID, with full audit logging and visibility across relevant pages, attachments, and system records.</div>\\n          </div>\\n        </div>\\n      </div>\\n\\n      \\n      <div>\\n        <div class=\\\"section-title\\\">Key Epics &amp; Features</div>\\n        <div class=\\\"themes-grid\\\">\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Reference ID Generation Rule Configuration</div>\\n            <div class=\\\"theme-desc\\\">Enable admins to define rules for generating structured Reference IDs with configurable format including entity type, party identifier, timestamp (YYYYMMDDHHMMSS), and document direction (IN/OUT/SYS).</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Document Name Configuration</div>\\n            <div class=\\\"theme-desc\\\">Allow configurators to define custom file names for generated documents (operational reports, form exports) or provide Alternative Name field for incoming and outgoing documents with visibility in pages and attachments.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Document Metadata Management</div>\\n            <div class=\\\"theme-desc\\\">Implement comprehensive metadata capture including Document Name, Creator/Author, Sender/Receiver, Created/Registered timestamps, Registration Number, and Original Document Reference with support for additional fields by document type.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Search & Audit Capabilities</div>\\n            <div class=\\\"theme-desc\\\">Enable searching documents by Reference ID and Alternative Name fields with full audit logging of all document identification changes and metadata updates throughout the system.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Performance & Error Handling</div>\\n            <div class=\\\"theme-desc\\\">Implement robust performance optimization and error handling for Reference ID generation to ensure reliable operation at scale with special attention to system stability and user experience.</div>\\n          </div>\\n          <div class=\\\"theme-card\\\">\\n            <div class=\\\"theme-name\\\">Documentation & Non-Functional Requirements</div>\\n            <div class=\\\"theme-desc\\\">Document all functionality adjustments and ensure compliance with non-functional requirements including Performance, Security, Accessibility, Usability, and Definition of Done criteria.</div>\\n          </div>\\n        </div>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"right-panel\\\">\\n    </div>\",\"auto_div_slide_footer\":\"<span class=\\\"footer-text\\\">Solon Tax Product Roadmap 2026 · Confidential</span>\\n    <span class=\\\"footer-text\\\">Executive Steering Committee · 29 April 2026</span>\"}]}}}",
+  "lastExport": {
+    "exportId": "initiative-core-support-1",
+    "createdAt": "2026-04-21T09:46:56.512Z",
+    "roundId": "6e893ca1-9ea1-4c7d-b97e-ab7a09be0f26",
+    "slideCount": 5
+  }
+}

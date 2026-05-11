@@ -1,0 +1,101 @@
+{
+  "exportId": "init-other-activities-1",
+  "exportNumber": 1,
+  "exportName": "init-other-activities",
+  "createdAt": "2026-04-29T08:14:47.481Z",
+  "source": {
+    "roundId": "0c5e71ce-262e-4546-96e1-afcb1fb85cdf",
+    "outputFile": "output-0c5e71ce-262e-4546-96e1-afcb1fb85cdf.html"
+  },
+  "content": {
+    "slideCount": 10,
+    "totalSize": 105554,
+    "slides": [
+      {
+        "index": 1,
+        "file": "ark.html",
+        "size": 10650,
+        "title": "ARK",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "ceremonies-and-trainings.html",
+        "size": 11924,
+        "title": "CEREMONIES AND TRAININGS",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "corrective-maintenance.html",
+        "size": 9551,
+        "title": "CORRECTIVE MAINTENANCE",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "management.html",
+        "size": 11787,
+        "title": "MANAGEMENT",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "preventive-maintenance.html",
+        "size": 12078,
+        "title": "PREVENTIVE MAINTENANCE",
+        "slideId": "slide-5",
+        "type": "content"
+      },
+      {
+        "index": 6,
+        "file": "product-support.html",
+        "size": 9521,
+        "title": "PRODUCT SUPPORT",
+        "slideId": "slide-6",
+        "type": "content"
+      },
+      {
+        "index": 7,
+        "file": "project-support.html",
+        "size": 9996,
+        "title": "PROJECT SUPPORT",
+        "slideId": "slide-7",
+        "type": "content"
+      },
+      {
+        "index": 8,
+        "file": "release-activities.html",
+        "size": 10437,
+        "title": "RELEASE ACTIVITIES",
+        "slideId": "slide-8",
+        "type": "content"
+      },
+      {
+        "index": 9,
+        "file": "security.html",
+        "size": 10097,
+        "title": "SECURITY",
+        "slideId": "slide-9",
+        "type": "content"
+      },
+      {
+        "index": 10,
+        "file": "support-to-pdm.html",
+        "size": 9513,
+        "title": "SUPPORT TO PDM",
+        "slideId": "slide-10",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "V2",
+    "flowId": "flow-init-other-activities",
+    "templateFile": ""
+  }
+}

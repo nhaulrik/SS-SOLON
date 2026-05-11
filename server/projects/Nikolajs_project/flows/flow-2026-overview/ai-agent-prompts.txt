@@ -1,0 +1,367 @@
+=== Agent 1: Blocks & Shared ===
+You populate an HTML slide template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML elements, class names, attributes, and nesting depth.
+- Replicate the same number of list items, bullet points, sections, and metric blocks as shown in the template.
+- If the template has 4 bullets — output 4 bullets. If it has 3 sections — output 3 sections.
+- Only text content and src/href values may differ from the template.
+- Never add, remove, flatten, or restructure elements.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA (verbatim rows from context files — your content must be based on these):
+=== 2026 High Level Scope.xlsx ===
+[Sheet: 2026 Estimates]
+Rows: 56   Columns: 2
+Headers: Sum of Estimate | Column Labels
+
+Row Labels | PI27
+CORE DATA HUB CAPABILITIES | 
+CORE DATA HUB CAPABILITIES | 
+CORE REVENUE MANAGEMENT CAPABILITIES | 120
+CORE REVENUE MANAGEMENT CAPABILITIES | 
+CORE REVENUE MANAGEMENT CAPABILITIES | 320
+CORE REVENUE MANAGEMENT CAPABILITIES | 2826.3
+CORE REVENUE MANAGEMENT CAPABILITIES | 42.4
+CORE REVENUE MANAGEMENT CAPABILITIES | 264.3
+CORE SELF SERVICE CAPABILITIES | 1050.1
+CORE SELF SERVICE CAPABILITIES | 881.6
+CORE SUPPORTING CAPABILITIES | 716
+CORE SUPPORTING CAPABILITIES | 
+CORE SUPPORTING CAPABILITIES | 195.7
+CORE SUPPORTING CAPABILITIES | 
+CORE SUPPORTING CAPABILITIES | 1993.6000000000001
+CORE SUPPORTING CAPABILITIES | 1190.8000000000002
+CORE SUPPORTING CAPABILITIES | 
+CORE SUPPORTING CAPABILITIES | 1430.1
+CORE SUPPORTING CAPABILITIES | 37.6
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 476.80000000000007
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 329
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 4060.199999999999
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 22.4
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 1417.5999999999997
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 320
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 2403.7000000000003
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 1048
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 1280.3000000000002
+NON-FUNCTIONAL REQUIREMENT COVERAGE | 1273.3999999999999
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 80
+OTHER ACTIVITIES | 480
+OTHER ACTIVITIES | 1067
+OTHER ACTIVITIES | 652.8
+OTHER ACTIVITIES | 0
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 2894.4
+OTHER ACTIVITIES | 264
+OTHER ACTIVITIES | 1152
+OTHER ACTIVITIES | 3284.7999999999997
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 720
+OTHER ACTIVITIES | 208
+OTHER ACTIVITIES | 
+OTHER ACTIVITIES | 0
+OTHER ACTIVITIES | 
+REFERENCE IMPLEMENTATIONS | 
+REFERENCE IMPLEMENTATIONS | 
+REFERENCE IMPLEMENTATIONS | 
+REFERENCE IMPLEMENTATIONS | 
+REFERENCE IMPLEMENTATIONS | 
+REFERENCE IMPLEMENTATIONS | 
+REFERENCE IMPLEMENTATIONS | 46.1
+Grand Total Hours 2026 | 34549
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content.
+- Every fact, number, name, and metric in your output MUST come from the SOURCE DATA.
+- Do not invent, estimate, or add data not present in the SOURCE DATA.
+- If a value shows "[DATA MISSING]", write that zone's value as "[DATA MISSING]" in the output.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectation, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+USER INSTRUCTIONS:
+Analyze the slide template and populate with data from the spreadsheet. 
+Dont invent numbers except for percentages which must be calculated.
+Use ONLY sheet "2026 Estimates".
+
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+{
+  "blocks": { "<key>": { "value": "<innerHTML matching template structure>" } },
+  "slides": { "<slideKey>": { "shared": { "<key>": "<innerHTML matching template structure>" } } }
+}
+Omit a section entirely if it has no zones.
+
+ZONES TO FILL:
+
+[BLOCK ZONES]
+
+KEY "auto_div_slide"
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header">
+    <div>
+      <div class="header-title">SOLON TAX ROADMAP 2026 – Scope Overview</div>
+      <div class="header-meta">Executive Steering Committee · April 2026</div>
+    </div>
+    <div class="header-right">
+      <span class="header-logo">Netcompany</span>
+    </div>
+  </div>
+
+  
+  <div class="top-story">
+
+    
+    <div class="scope-side">
+      <div class="scope-eyebrow">Total 2026 Scope</div>
+      <div class="scope-big">102k</div>
+      <div class="scope-label">Estimated hours across all initiatives</div>
+      <div class="scope-sub">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>
+    </div>
+
+    
+    <div class="requester-side">
+      <div class="req-title">Scope by Requester</div>
+
+      <div class="req-bar">
+        <div class="req-seg grc" style="width:53%;">53%</div>
+        <div class="req-seg gtm" style="width:4%;">4%</div>
+        <div class="req-seg oth" style="width:42%;">42%</div>
+      </div>
+
+      <div class="req-legend">
+        <div class="req-leg-item">
+          <div class="req-leg-dot-row">
+            <div class="req-leg-dot" style="background:#FF6359;"></div>
+            <span class="req-leg-name">GRC</span>
+          </div>
+          <div class="req-leg-pct">53%</div>
+          <div class="req-leg-hrs">54,1236h · Project-driven</div>
+        </div>
+        <div class="req-leg-item">
+          <div class="req-leg-dot-row">
+            <div class="req-leg-dot" style="background:#2C8A84;"></div>
+            <span class="req-leg-name">GTM</span>
+          </div>
+          <div class="req-leg-pct">4%</div>
+          <div class="req-leg-hrs">4,356h · Market-driven</div>
+        </div>
+        <div class="req-leg-item">
+          <div class="req-leg-dot-row">
+            <div class="req-leg-dot" style="background:#7fb3af;"></div>
+            <span class="req-leg-name">Other</span>
+          </div>
+          <div class="req-leg-pct">42%</div>
+          <div class="req-leg-hrs">43,278h · Internal / NFR</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  
+  <div class="pi-section">
+
+    
+    <div class="pi-card pi28">
+      <div class="pi-card-top">
+        <div>
+          <div class="pi-name pi28">PI28</div>
+          <div class="pi-period">Active</div>
+        </div>
+        <div>
+          <div class="pi-hours">37k</div>
+          <div class="pi-hours-lbl">Est. Hours</div>
+        </div>
+      </div>
+      <div class="pi-req-lbl">By Requester</div>
+      <div class="pi-mini-bar">
+        <div class="pi-mini-seg grc" style="width:57%;">57%</div>
+        <div class="pi-mini-seg gtm" style="width:11%;">11%</div>
+        <div class="pi-mini-seg oth" style="width:32%;">32%</div>
+      </div>
+      <div class="pi-mini-legend">
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#FF6359;"></div>GRC 21k</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#2C8A84;"></div>GTM 4k</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#7fb3af;"></div>Other 12k</div>
+      </div>
+      <div class="pi-groups-lbl">Non-GRC Scope</div>
+      <div class="pi-groups">
+        <span>Core Revenue Management</span>
+        <span>Core Self-Service</span>
+        <span>Core Supporting Capabilities</span>
+        <span>Non-Functional Coverage</span>
+      </div>
+    </div>
+
+    
+    <div class="pi-card pi29">
+      <div class="pi-card-top">
+        <div>
+          <div class="pi-name pi29">PI29</div>
+          <div class="pi-period">Q3 2026 · Planned</div>
+        </div>
+        <div>
+          <div class="pi-hours">43k</div>
+          <div class="pi-hours-lbl">Est. Hours</div>
+        </div>
+      </div>
+      <div class="pi-req-lbl">By Requester</div>
+      <div class="pi-mini-bar">
+        <div class="pi-mini-seg grc" style="width:52%;">58%</div>
+        <div class="pi-mini-seg gtm" style="width:30%;">1%</div>
+        <div class="pi-mini-seg oth" style="width:18%;">42%</div>
+      </div>
+      <div class="pi-mini-legend">
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#FF6359;"></div>GRC 25k</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#2C8A84;"></div>GTM 0,5k</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#7fb3af;"></div>Other 18k</div>
+      </div>
+      <div class="pi-groups-lbl">Non-GRC Scope</div>
+      <div class="pi-groups">
+        <span>Core Revenue Management</span>
+        <span>Core Self-Service</span>
+        <span>Core Supporting Capabilities</span>
+        <span>Non-Functional Coverage</span>
+      </div>
+    </div>
+
+    
+    <div class="pi-card pi30">
+      <div class="pi-card-top">
+        <div>
+          <div class="pi-name pi30">PI30</div>
+          <div class="pi-period">Q4 2026 · Outlook</div>
+        </div>
+        <div>
+          <div class="pi-hours">22k</div>
+          <div class="pi-hours-lbl">Est. Hours</div>
+        </div>
+      </div>
+      <div class="pi-req-lbl">By Requester</div>
+      <div class="pi-mini-bar">
+        <div class="pi-mini-seg grc" style="width:50%;">36%</div>
+        <div class="pi-mini-seg gtm" style="width:28%;">0%</div>
+        <div class="pi-mini-seg oth" style="width:22%;">59%</div>
+      </div>
+      <div class="pi-mini-legend">
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#FF6359;"></div>GRC 8k</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#2C8A84;"></div>GTM 0</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#7fb3af;"></div>Other 13k</div>
+      </div>
+      <div class="pi-groups-lbl">Non-GRC Scope</div>
+      <div class="pi-groups">
+        <span>Core Revenue Management</span>
+        <span>Core Supporting Capabilities</span>
+        <span>Non-Functional Coverage</span>
+      </div>
+    </div>
+
+  </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_div_pi_section"
+ZONE INSTRUCTIONS:
+make all text here danish
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="pi-card pi28">
+      <div class="pi-card-top">
+        <div>
+          <div class="pi-name pi28">PI28</div>
+          <div class="pi-period">Active</div>
+        </div>
+        <div>
+          <div class="pi-hours">37k</div>
+          <div class="pi-hours-lbl">Est. Hours</div>
+        </div>
+      </div>
+      <div class="pi-req-lbl">By Requester</div>
+      <div class="pi-mini-bar">
+        <div class="pi-mini-seg grc" style="width:57%;">57%</div>
+        <div class="pi-mini-seg gtm" style="width:11%;">11%</div>
+        <div class="pi-mini-seg oth" style="width:32%;">32%</div>
+      </div>
+      <div class="pi-mini-legend">
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#FF6359;"></div>GRC 21k</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#2C8A84;"></div>GTM 4k</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#7fb3af;"></div>Other 12k</div>
+      </div>
+      <div class="pi-groups-lbl">Non-GRC Scope</div>
+      <div class="pi-groups">
+        <span>Core Revenue Management</span>
+        <span>Core Self-Service</span>
+        <span>Core Supporting Capabilities</span>
+        <span>Non-Functional Coverage</span>
+      </div>
+    </div>
+
+    
+    <div class="pi-card pi29">
+      <div class="pi-card-top">
+        <div>
+          <div class="pi-name pi29">PI29</div>
+          <div class="pi-period">Q3 2026 · Planned</div>
+        </div>
+        <div>
+          <div class="pi-hours">43k</div>
+          <div class="pi-hours-lbl">Est. Hours</div>
+        </div>
+      </div>
+      <div class="pi-req-lbl">By Requester</div>
+      <div class="pi-mini-bar">
+        <div class="pi-mini-seg grc" style="width:52%;">58%</div>
+        <div class="pi-mini-seg gtm" style="width:30%;">1%</div>
+        <div class="pi-mini-seg oth" style="width:18%;">42%</div>
+      </div>
+      <div class="pi-mini-legend">
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#FF6359;"></div>GRC 25k</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#2C8A84;"></div>GTM 0,5k</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#7fb3af;"></div>Other 18k</div>
+      </div>
+      <div class="pi-groups-lbl">Non-GRC Scope</div>
+      <div class="pi-groups">
+        <span>Core Revenue Management</span>
+        <span>Core Self-Service</span>
+        <span>Core Supporting Capabilities</span>
+        <span>Non-Functional Coverage</span>
+      </div>
+    </div>
+
+    
+    <div class="pi-card pi30">
+      <div class="pi-card-top">
+        <div>
+          <div class="pi-name pi30">PI30</div>
+          <div class="pi-period">Q4 2026 · Outlook</div>
+        </div>
+        <div>
+          <div class="pi-hours">22k</div>
+          <div class="pi-hours-lbl">Est. Hours</div>
+        </div>
+      </div>
+      <div class="pi-req-lbl">By Requester</div>
+      <div class="pi-mini-bar">
+        <div class="pi-mini-seg grc" style="width:50%;">36%</div>
+        <div class="pi-mini-seg gtm" style="width:28%;">0%</div>
+        <div class="pi-mini-seg oth" style="width:22%;">59%</div>
+      </div>
+      <div class="pi-mini-legend">
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#FF6359;"></div>GRC 8k</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#2C8A84;"></div>GTM 0</div>
+        <div class="pi-mini-leg-item"><div class="pi-mini-dot" style="background:#7fb3af;"></div>Other 13k</div>
+      </div>
+      <div class="pi-groups-lbl">Non-GRC Scope</div>
+      <div class="pi-groups">
+        <span>Core Revenue Management</span>
+        <span>Core Supporting Capabilities</span>
+        <span>Non-Functional Coverage</span>
+      </div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.

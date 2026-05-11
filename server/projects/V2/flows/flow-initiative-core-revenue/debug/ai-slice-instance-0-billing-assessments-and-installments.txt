@@ -1,0 +1,48 @@
+=== BILLING, ASSESSMENTS AND INSTALLMENTS ===
+
+=== Summary ===
+Roadmap Initiative: BILLING, ASSESSMENTS AND INSTALLMENTS
+Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES
+PI: PI 28
+Total Effort: 1120 hours
+Feature Count: 2
+
+Requester: GRC
+
+=== Feature Progress ===
+HLD: 1
+Waiting Analysis Approval: 1
+Total Features: 2
+
+=== Feature Priority ===
+P1: 2
+Total Features: 2
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enable Multi-Installment Ad-Hoc Obligations
+Reason 01 Text: Support multiple payment actions under ad-hoc obligations with configurable installment rules and dynamic generation capabilities.
+
+Reason 02 Title: Enhance Bill Segment Type Configuration
+Reason 02 Text: Allow alternative target bill segment types in transfer amount processes to align with predefined configurations across revenue types.
+
+Reason 03 Title: Improve Payment Obligation Visibility
+Reason 03 Text: Provide comprehensive tracking of installment actions with searchable payment references and detailed status management for revenue officials.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Add and Maintain Ad-hoc Obligations – Pay Instalment Actions and Categories
+Feature Description: Enable revenue officials to create multiple payment obligation actions under ad-hoc obligations as installments with configurable categories and subtypes.
+Feature Status: HLD
+Feature Status Color: #4A90D9
+Feature Effort: 821h
+Feature Priority: P1
+
+Feature Index: Epic 02
+Feature Name: Transfer Amount - Enhancement on configuration of Bill segment types
+Feature Description: Configure alternative target bill segment types in transfer amount processes to align with existing predefined bill segment configurations.
+Feature Status: In Design
+Feature Status Color: #4A90D9
+Feature Effort: 299h
+Feature Priority: P1

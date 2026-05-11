@@ -1,0 +1,85 @@
+{
+  "exportId": "initiative-non-functional-1",
+  "exportNumber": 1,
+  "exportName": "initiative-non-functional",
+  "createdAt": "2026-04-21T09:55:11.688Z",
+  "source": {
+    "roundId": "399bf2e1-462a-425b-b92d-a073720b939e",
+    "outputFile": "output-399bf2e1-462a-425b-b92d-a073720b939e.html"
+  },
+  "content": {
+    "slideCount": 8,
+    "totalSize": 95840,
+    "slides": [
+      {
+        "index": 1,
+        "file": "accessibility.html",
+        "size": 11321,
+        "title": "Accessibility",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "maintainability.html",
+        "size": 12104,
+        "title": "Maintainability",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "operability.html",
+        "size": 11336,
+        "title": "Operability",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "performance-efficiency.html",
+        "size": 11451,
+        "title": "Performance Efficiency",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "reliability.html",
+        "size": 12613,
+        "title": "Reliability",
+        "slideId": "slide-5",
+        "type": "content"
+      },
+      {
+        "index": 6,
+        "file": "security.html",
+        "size": 12711,
+        "title": "Security",
+        "slideId": "slide-6",
+        "type": "content"
+      },
+      {
+        "index": 7,
+        "file": "traceability.html",
+        "size": 11677,
+        "title": "Traceability",
+        "slideId": "slide-7",
+        "type": "content"
+      },
+      {
+        "index": 8,
+        "file": "usability.html",
+        "size": 12627,
+        "title": "Usability",
+        "slideId": "slide-8",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "Nikolajs_project",
+    "flowId": "flow-initiative-non-functional",
+    "templateFile": ""
+  }
+}

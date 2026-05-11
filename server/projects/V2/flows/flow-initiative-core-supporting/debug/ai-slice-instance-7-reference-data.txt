@@ -1,0 +1,57 @@
+=== REFERENCE DATA ===
+
+=== Summary ===
+Roadmap Initiative: REFERENCE DATA
+Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES
+PI: PI 28
+Total Effort: 606.9 hours
+Feature Count: 3
+Requester: GRC
+
+=== Feature Progress ===
+Waiting Analysis Approval: 3
+Total Features: 3
+
+=== Feature Priority ===
+P1: 1
+P3: 2
+Total Features: 3
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enable Code List Import/Export Capability
+Reason 01 Text: Structured import and export of code lists with validation enables organisations to manage reference data externally, supporting data migration, integration with external systems, and bulk updates.
+
+Reason 02 Title: Support EU Tax Code Evolution
+Reason 02 Text: Enhanced code list flexibility allowing same code with different descriptions across validity periods ensures compliance with EU tax code updates like NACE Rev. 2.1 harmonisation requirements.
+
+Reason 03 Title: Improve Reference Data Visibility
+Reason 03 Text: Display and search capabilities for source and timestamp columns enable users to track reference data provenance and modifications, supporting audit requirements and data quality management.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Enhance codelist items codes flexibility and historical track in Solon Tax
+Feature Description: Enable code list items to have same code with different descriptions across non-overlapping validity periods, supporting EU tax code evolution and historical accuracy requirements.
+Feature Status: In Design
+Feature Status Color: #4A90D9
+Feature Effort: 522.9h
+Feature Priority: P1
+
+Feature Index: Epic 02
+Feature Name: Import Code Lists - Admin
+Feature Description: Enable administrators to upload structured code list files with validation, supporting addition of new code lists, items, and updates to existing configurations without deletion capability.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 42h
+Feature Priority: P3
+
+Feature Index: Epic 03
+Feature Name: Export Code List
+Feature Description: Enable administrators to download code list information with related items in structured formats with language selection, supporting external editing and integration with other tools.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 42h
+Feature Priority: P3
+
+---

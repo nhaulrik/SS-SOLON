@@ -1,0 +1,460 @@
+[Sheet: RichFeatureQueries.xlsx / Full Features] (8 rows)
+Issue Type: Feature | IRM: IRM-34159 | Roadmap Initiative Group: CORE SELF SERVICE CAPABILITIES | Roadmap Initiative: SELF SERVICE SERVICES MANAGEMENT | Roadmap Feature: SS Enhancements - Contacts, Operational Reports | Requester: Other | PI: PI28 | Estimate: 96 | Feature Priority: p3 | Feature Status: To Do | Features Description:  
+ * *SS operational reports/contacts -Jasper*
+ ** I can generate and run Operational reports and contacts in SS.
+
+ 
+
+Note: This was defined as needed for Digital signature related api calls. 
+
+ 
+----
+ 
+Issue Type: Feature | IRM: IRM-36660 | Roadmap Initiative Group: CORE SELF SERVICE CAPABILITIES | Roadmap Initiative: SELF SERVICE SERVICES MANAGEMENT | Roadmap Feature: Attachments in Forms - Document Uploads enhancements before and after saving the form / RM & SS | Requester: GRC | PI: PI28 | Estimate: 739.2 | Feature Priority: p1 | Feature Status: In Design | Features Description: As a taxpayer or revenue authority user, I want to upload and manage required attachments while filling in a form (even before saving it), including during registration forms where the relevant party is not yet created, so that I can complete the submission process without unnecessary interruptions. 
+
+*Background*
+In as-is system the form should be saved in order to be able to upload documents.
+
+*Functional Requirements*
+ * Users (revenue officer or taxpayer) can upload attachments with permitted metadata while filling the form, before saving.
+
+ * Users can view the list of uploaded attachments while filling the form (before saving).
+
+ * Before and After saving, users can:
+View attachments
+Add new attachments
+Remove attachments
+Edit metadata
+ * In RM , users can link attachments to additional system records (e.g., case file) while managing form attachments.
+
+ * If attachment upload fails:
+The user is clearly informed by a message that attachment was not successfully uploaded. 
+Form saving/submission is not blocked.
+Successfully uploaded files remain attached. (Orphan issue).  
+
+ * Attachments modifications after saving are stored in audit log
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+*Non functional requirements*
+It is expected team to get aligned with respective teams and reassure that is not creating issues or the related NFRs will be tested :
+Performance , Security, Accessibility, Usability 
+DODs should be fulfilled.
+Issue Type: Feature | IRM: IRM-36664 | Roadmap Initiative Group: CORE SELF SERVICE CAPABILITIES | Roadmap Initiative: USER & 3RD PARTY ACCESS MANAGEMENT | Roadmap Feature: Representations : Define Date time and timezone for Representations and user rights /RM &SS | Requester: GRC | PI: PI28 | Estimate: 448 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: As an admin user, I need to capture and manage Start Date and End Date fields in the system that define the validity period of granted permissions, so that access rights can be controlled accurately and limited to specific timeframes.
+
+*{color:#ff8b00}CHECK ! Review the LT branch for any implemented functionalities that can be merged into the product.{color}*
+
+*Functional requirements*
+
+*Basics:* 
+ * Start and End date are captured as datetime and properly defined time zone in Agreements.
+ * Start and End date are captured as datetime and properly defined time zone in Agreements services.
+ * Start and End date are captured as datetime and properly defined time zone in user rights.
+ * The permissions should be enforced or recalled in datetime level.  (along status define in [https://jira.intrasoft-intl.com/browse/IRM-36665]) 
+ * If no end date is defined the system should clearly flag in UI  "No End Date”
+
+Note: Already available fields in Party role relationship.
+
+*Timezone* 
+ * Display datetime in the user’s configured timezone.
+ * Validity must be calculated based on stored system time (not client browser time).
+ * Daylight Saving Time (DST) transitions must not cause early expiration or extended validity.
+
+*Versioning*
+ * Changes should be logged in Audit log.
+
+*Validations* 
+ * End Date cannot be earlier than Start Date.
+ * Start Date is mandatory.
+
+*Documentation*
+Document all the above adjustments. 
+
+*Non functional requirements*
+It is expected team to get aligned with respective teams and reassure that is not creating issues or the related NFRs will be tested :
+Performance , Security, Accessibility, Usability 
+DODs should be fulfilled.
+
+ 
+Issue Type: Feature | IRM: IRM-36665 | Roadmap Initiative Group: CORE SELF SERVICE CAPABILITIES | Roadmap Initiative: USER & 3RD PARTY ACCESS MANAGEMENT | Roadmap Feature: Representations : (A) Enhancements, configurability and permissions in Agreements (2ways,multilevels)  /RM & SS   | Requester: GRC | PI: PI28 | Estimate: 448 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: As an admin user, 
+I need to capture the status, source system and integration time of representations defined as to be able to know how the representations were created.
+Representations are 2-ways authorized. 
+Representations are multilevels
+A lifecycle should be defined to representations forms as to be able to temporally saved, validated and revoked. 
+
+*{color:#ff8b00}CHECK ! Review the LT branch for any implemented functionalities that can be merged into the product. ([https://netcompany.sharepoint.com/sites/NCTMS.GR.LT_TAX/Delte%20dokumenter/Forms/AllItems.aspx?id=%2Fsites%2FNCTMS%2EGR%2ELT%5FTAX%2FDelte%20dokumenter%2F03%2EExecuting%2FImplementation%2FBP03%2FDeliverables&p=true&ga=1)]{color}*    
+
+{color:#172b4d}
+*Background*
+
+Representations are already implemented in the application as . 
+In this features
+[https://jira.intrasoft-intl.com/browse/IRM-4743] 
+[https://jira.intrasoft-intl.com/browse/IRM-4744]
+[https://jira.intrasoft-intl.com/browse/IRM-4745] (Subusers)
+[https://jira.intrasoft-intl.com/browse/IRM-4746]   {color}{+}(Subusers){+}{color:#172b4d}
+[https://jira.intrasoft-intl.com/browse/IRM-5026] 
+[https://jira.intrasoft-intl.com/browse/IRM-32538]   {color}{color:#172b4d}(data areas and support external systems as in LT branch)
+Delegations enhancements in [https://jira.intrasoft-intl.com/browse/IRM-38408] {color}
+
+The purpose of this feature is to validate the current implementation based on new requirements and make small adjustments. 
+
+{color:#172b4d}In this feature will name: 
+*Requester*            : The user asking someone else to represent them
+*Representative*    : The user who may act on behalf of the requester. This user may also ask to be represented.  
+2-ways: Both may be initiate a representation request and the other part will reply.
+Multilevel: Many levels of representation should be supported. {color}
+
+     *Authorization schema* /Multiple levels of authorizations  (see also delegations with sub-users in [https://jira.intrasoft-intl.com/browse/IRM-38408] )
+ * The authorization scheme support  *2-ways.*   
+*Requester*  to *Representative*     ,
+*Representative* to *Requester*   
+ * The authorization scheme support  *multiple levels* of representations. (see sub users :[https://jira.intrasoft-intl.com/browse/IRM-38408] ) 
+i.e., several levels of sub-users may be able to be defined. 
+{color:#505f79}Examples:  {color}
+{color:#505f79}1) The (account and user) *Legal Person* to a user of *Company's legal representative*{color}
+{color:#505f79}2) *Company's legal representative*  to an *Accounting firm*  to manage the accountings  of the company{color}
+{color:#505f79}3) *Accounting firm* to the user  of  *Accountant employee* to delegate/assign the task{color}
+{color:#505f79}or{color}
+{color:#505f79}1) A (account and user) *Natural person* to a user of his/her *Guardian* (e.g. father)
+2) *Guardian* to an *Accounting firm* 
+3) *Accounting firm*  to the *Accounting firm's legal representative*
+4) *Accounting firm's legal representative to the*  *Accountant employee*{color}
+ * {color:#172b4d}If a representation is delegated, then the delegation may happen with the rights assigned to the main representative or less. Cannot add more rights to delegator. (As-is){color}
+ * Admins should be able to view and track the level of representation per Agreement. 
+
+ 
+----
+*Functional requirements*
+
+ 
+
+{color:#172b4d}*Configurability*{color}
+ * {color:#172b4d}Configurators should be able to define validations for the agreements and levels of agreements (Dependent on [https://jira.intrasoft-intl.com/browse/IRM-38408]  )
+(Example :  
+Max_depth :  May delegate for up to 3 levels , if Account to user is not count as representation and first representation is level 0 
+Non allowed circular representations)  {color}
+ * {color:#172b4d}Configurators may *define Agreement types* (Agreement cl) e.g. , Legal Representation , Non-Legal Representation{color}
+ * Configurators may *define their own statuses and lifecycle.*
+ * Customers may define the default Source system and purpose values (CLs){*}{{*}}
+ * -{color:#172b4d}Configurators {color}may define the identifier type(s) that may be visible to users when searching for representation (e.g. TIN number)-
+
+ 
+
+*Additional Configuration level -* *agreement service rights* 
+ * Configurators may define if in SS they need to capture :  agreements, agreement services (as is ) but also the *agreement service rights*  (see LT implementation with new table in ss schema)  to be able to define the rights per agreement service (see [https://netcompany.sharepoint.com/sites/NCTMS.GR.LT_TAX/Delte%20dokumenter/Forms/AllItems.aspx?id=%2Fsites%2FNCTMS%2EGR%2ELT%5FTAX%2FDelte%20dokumenter%2F03%2EExecuting%2FImplementation%2FBP03%2FDeliverables%2FDD120%20%2D%20Physical%20Datamodel&viewid=9186892f%2Df5b0%2D4a0b%2Da210%2D187a381e18c8&p=true)]
+
+ * {color:#172b4d}Configurators should be able to define criteria to define the list of allowed representatives
+(Example  : If Account = Company , Representative id not the legal company representative can be an Accounting firm or employee of a firm with permission of Books category A) {color}
+
+*Search for users*
+ * User search users to be selected for representation only by IDs  (identification numbers that are allowed to be visible) but cannot see other user details 
+
+*Levels*
+ - As a user I may  delegate the representation to another existing user.  The levels of delegation may be *multiple as noted in examples above* .
+ - {color:#172b4d}As a user  I may see the level of the representation and the representative that assign this to me in the UI.{color} 
+ - Lifecycle is maintained for all representation levels.
+
+*Lifecycle Permissions* 
+ * Admin, Users and Procedures may log *"Change status reason"* , text  (e.g. revoked reason, cancel reason)  in *Agreements.* 
+ * Users and procedures may set the *status* for Agreements. (available field and lifecycle). 
+ * Αdmins should be able to view and track the level of representation per Agreement. 
+ * Delegated permissions are *equal or less that* representation rights from delegator, i.e. permissions inheritance or remove some rights but cannot add more that already assigned to the delegator.
+Representator 1 : Agreement Service 1,  with rights 1,2  ->   Delegated representator 2 : Agreement Service 1,  with rights 1,2 
+or
+Representator 1 : Agreement Service 1,  with rights 1,2  ->  Delegated representator 2 : Agreement Service 1,  with right 1
+
+In case of some representations as sub users, then needs to follow implementation in  [https://jira.intrasoft-intl.com/browse/IRM-38408] 
+ * Permissions on requests forms  may be based on the  Lifecycle. 
+for status change, reason may be filled in Optionally (see above field Change status reason{*}){*}  
+Status Field is RO  in UI , buttons will manage the flow. 
+(e.g. , as is implemented in product) 
+ ** 
+ *** *Pending* (Temporally save , not applied/committed not considered) -(To avoid incorrect Requester  or representative selected (similar names, wrong identifier).  
+Created by *Representative* or  *Requester*  (see above 2-ways and multilevel)
+Set by Admin in SS/RM
+
+ * 
+ ** 
+ *** {*}Access Proposed{*}: Requested agreement but not processed
+Set by the process  (that was previously initiated by  Representative  or  Requester )
+Set by Admin in SS/RM
+
+ * 
+ ** 
+ *** *Access Denied* :   Agreement is not established
+ Set by the process/system  because of an error or incorrect selection of representation users or other validation.
+Status Field is RO for the users
+ Set by Admin in SS/RM
+
+ * 
+ ** 
+ *** *Access Granted :* agreement/representation is valid. (Configured value as the cl value that provides access)   
+Set by the process based on what replied  by  Representative  or  Requester (the receiver of the request) 
+Set by Admin in SS/RM
+
+ * 
+ ** 
+ *** *Access Revoked :* agreement/representation is not valid any more.
+Set by the process based on what replied  by  Representative  or  Requester (the receiver of the request) 
+Revoked by process because of end date reached 
+Revoked by any part of the agreement 
+Set by Admin in SS/RM
+
+ * 
+ ** 
+ *** *Canceled  :* agreement/representation is not valid
+Set by the process based on what replied  by  Representative  or  Requester (the receiver of the request) 
+Set by Admin in SS/RM
+
+ * 
+ ** 
+ *** After cancel and revoke record cannot change any status.
+User need to create a new record to extend this. 
+
+                                     !image-2026-03-10-09-10-29-034.png!
+
+ 
+ * If in  representation  1->2->3->4  i.e, 1->2 and  2->3 and  3->4  
+If  1->2  is canceled then 2->3 και 3->4 get canceled 
+If 2->3  is canceled then 3->4  is canceled but 1->2 is not. 
+Same with revokes. 
+
+ * To be accepted a  representation  1 to 4 (1->2->3->4) there should have been accepted the 1->2 , 2->3, 3->4
+
+ 
+
+*Versioning*
+ * Changes should be logged in Audit log.
+
+ 
+
+!image-2026-04-06-13-17-11-066.png|width=1025,height=570!
+!image-2026-03-10-10-34-26-315.png!
+
+ 
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected team to get aligned with respective teams and reassure that is not creating issues or the related NFRs will be tested :
+Performance , Security, Accessibility, Usability 
+DODs should be fulfilled.
+
+ 
+Issue Type: Feature | IRM: IRM-36666 | Roadmap Initiative Group: CORE SELF SERVICE CAPABILITIES | Roadmap Initiative: USER & 3RD PARTY ACCESS MANAGEMENT | Roadmap Feature: Representations : Ability to define and manage Representations in RM (affecting SS users) | Requester: GRC | PI: PI28 | Estimate: 1493.1 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: As an RM user with specific rights or admin, I need to be able to define and manage representations in RM system. 
+The internal tax-authority user must be able to manage the authorizations of the taxpayers. The provided functionality is the same as the one provided in the Self Service portal, with the addition of the possibility to select a Taxpayer to manage.
+
+*{color:#ff8b00}CHECK ! Review the LT branch for any implemented functionalities that can be merged into the product.{color}*
+
+ 
+
+*Background*
+
+Representations are already implemented in the system plus additional enhancements are asked https://jira.intrasoft-intl.com/browse/IRM-36665 
+Representation = authorization granted by a taxpayer to a representative to act on their behalf for specific services and within a defined validity period.
+
+*Functional requirements*
+
+*Basics:* 
+
+List of representations available in RM for permitted users to create and manage
+ * Users with permissions may search for existing representations in a list of SS representations in RM
+ ** 
+ *** Agreement : From user
+ *** Agreement : To user
+ *** Agreement : Start , End date
+ *** Agreement : Last modified date
+ *** Agreement : Source system
+ *** Agreement : Agreement
+ *** Agreement : Status 
+ *** Agreement : Status Reason  from [https://jira.intrasoft-intl.com/browse/IRM-36665]  
+ *** other from [https://jira.intrasoft-intl.com/browse/IRM-36665]   , [https://jira.intrasoft-intl.com/browse/IRM-39135] 
+    Agreement :"Purpose" (as in other cases in system) , 
+    Agreement :"External created datetime" (as in parties)
+    Agreement :"Requested by External system"
+ *** Agreement service : service
+ *** Agreement service :  Start , End date
+ *** Agreement service :  Last modified date
+ * Lifecycle as in  [https://jira.intrasoft-intl.com/browse/IRM-36665] 
+ * Users with permissions may create representations in RM (via form or RM record)
+ ** 
+ *** Agreement : select the users 
+From  (Taxpayer)
+To       (Representative)
+ *** Agreement : Select period
+Start
+End
+ *** Source should be set as RM system
+ *** Agreement : Agreement
+ *** Agreement service : see the list of all services (along with descriptions and included rights) and be able to select the services along the  Start , End date of each
+ *** Other fields from 
+ *** other from [https://jira.intrasoft-intl.com/browse/IRM-36665]  
+
+{*}Validatio{*}{*}ns{*}
+ * Be able to define and validations with configured parameters as in .[https://jira.intrasoft-intl.com/browse/IRM-32343] 
+
+*Levels*
+ * Levels of hierarchy ability to define and display as in [https://jira.intrasoft-intl.com/browse/IRM-36665]  
+
+*Sync*
+ * Sync RM/SS happens real time
+
+*Records Locking*
+ * When edited in SS record cannot be edited in RM.  (as per Solon locking functionality - if not yet implemented you may split in a different feature)
+Prevent conflicting or overlapping delegations (or require explicit override).
+
+*Versioning*
+ * Changes should be logged in Audit log.
+
+ 
+
+*Permissions*
+ * Admin may assign specific permissions to users that can create/update agreements.
+ * Restriction: Only users with “Representation Management” role can create/update.
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+*Non functional requirements*
+It is expected team to get aligned with respective teams and reassure that is not creating issues or the related NFRs will be tested :
+Performance , Security, Accessibility, Usability 
+DODs should be fulfilled.
+----
+Remaining parts moved to [https://jira.intrasoft-intl.com/browse/IRM-41760] 
+Issue Type: Feature | IRM: IRM-36667 | Roadmap Initiative Group: CORE SELF SERVICE CAPABILITIES | Roadmap Initiative: USER & 3RD PARTY ACCESS MANAGEMENT | Roadmap Feature: Representations : Ability to relate attachments to Representations in RM (RM & SS) | Requester: Other | PI: PI28 | Estimate: 320 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an SS or RM user with specific rights or admin, I need to be able to relate attachments with representations as to be able to relate Authorization paperwork with representations. 
+*{color:#ff8b00}CHECK ! Review the LT branch for any implemented functionalities that can be merged into the product.{color}*
+
+ 
+
+*Functional requirements*
+
+*Basics:* 
+ * If user via a form or in SS or RM Ui, create a representation, document may be related to 
+Agreement, Party Role relations,  Both Party Roles
+
+*Versioning*
+ * Changes should be logged in Audit log.
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+*Non functional requirements*
+It is expected team to get aligned with respective teams and reassure that is not creating issues or the related NFRs will be tested :
+Performance , Security, Accessibility, Usability 
+DODs should be fulfilled.
+----
+ 
+Issue Type: Feature | IRM: IRM-38190 | Roadmap Initiative Group: CORE SELF SERVICE CAPABILITIES | Roadmap Initiative: USER & 3RD PARTY ACCESS MANAGEMENT | Roadmap Feature: Representations : Form Types and Access to Apis  as Services / Reference implementation  | Requester: GRC | PI: PI28 | Estimate: 298.9 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: As an admin I need to be able to define agreement services as per Form Types as to include also registration forms and to be able to define in detail the form that can be submitted by taxpayer's representative.  -Similarly I need to be able to define access to specific apis , as an example "submit e-invoices"- 
+
+ 
+
+*Functional Requirement*
+
+Define an right o be used for Agreements:   
+
+a) Based on Form Types
+ * View and Post BUSREG
+ * View and Post VAT return
+ * View only VAT return
+ * View only Busreg and vat return
+
+b) -Based on APIs-
+ * -Be able to access external apis- (example : [https://jira.intrasoft-intl.com/browse/PSD-15198] ) 
+
+ 
+
+ 
+
+ 
+
+AS-IS: 
+
+!image-2026-03-05-17-56-01-645.png!
+
+AADE :
+!image-2026-03-05-17-59-15-270.png!
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected team to get aligned with respective teams and reassure that is not creating issues or the related NFRs will be tested :
+Performance , Security, Accessibility, Usability 
+DODs should be fulfilled.
+Issue Type: Feature | IRM: IRM-39135 | Roadmap Initiative Group: CORE SELF SERVICE CAPABILITIES | Roadmap Initiative: USER & 3RD PARTY ACCESS MANAGEMENT | Roadmap Feature: Representations :  Additional info  in Agreements  /RM & SS | Requester: GRC | PI: PI28 | Estimate: 522.9 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: As an admin user, 
+I need to capture the status, source system and integration time of representations defined as to be able to know how the representations were created.
+
+*{color:#ff8b00}CHECK ! Review the LT branch for any implemented functionalities that can be merged into the product. ([https://netcompany.sharepoint.com/sites/NCTMS.GR.LT_TAX/Delte%20dokumenter/Forms/AllItems.aspx?id=%2Fsites%2FNCTMS%2EGR%2ELT%5FTAX%2FDelte%20dokumenter%2F03%2EExecuting%2FImplementation%2FBP03%2FDeliverables&p=true&ga=1)]{color}*    
+
+{color:#172b4d}
+*Background*
+
+Representations are already implemented in the application as . 
+In this features
+[https://jira.intrasoft-intl.com/browse/IRM-4743] 
+[https://jira.intrasoft-intl.com/browse/IRM-4744]
+[https://jira.intrasoft-intl.com/browse/IRM-4745] (Subusers)
+[https://jira.intrasoft-intl.com/browse/IRM-4746]   {color}{+}(Subusers){+}{color:#172b4d}
+[https://jira.intrasoft-intl.com/browse/IRM-5026] 
+[https://jira.intrasoft-intl.com/browse/IRM-36665] 
+[https://jira.intrasoft-intl.com/browse/IRM-32538]   {color}{color:#172b4d}(data areas and support external systems as in LT branch)
+Delegations enhancements in [https://jira.intrasoft-intl.com/browse/IRM-38408] {color}
+
+ 
+
+*Functional requirements*
+
+ 
+
+*Additional details /fields:* 
+ * Admin and Procedures may log (new fields)
+"{*}Source system{*}" (As the common cl used in all similar fields in system) , 
+"{*}Purpose{*}" (as in other cases in system) ,  
+"{*}External created datetime{*}" (as in parties)
+*"Requested by External system"* , boolean  (to be used ERP system sends an authorization request)  
+in {*}Agreements{*},  *Agreements services* , {*}user rights{*}, *party role relationships* (most already available) and any other record that defines representations.
+ * Source System , purpose, external dt fields are *optional.*
+It is suggested to define a default value for the "Source System".
+ * System will generate timestamps :  "{*}Created datetime{*}" , "{*}Last modified date time{*}" ,  in {*}Agreements{*},  *Agreements services* , {*}user rights{*}, *party role relationships* (most already available) 
+(see already implemented parts in  [https://jira.intrasoft-intl.com/browse/IRM-32538]  ) 
+ * Admin and users  may search and filter items per Source system, Requested by External system and Create/Modified date time. 
+
+ 
+
+ 
+
+*Versioning*
+ * Changes should be logged in Audit log.
+
+ 
+
+ 
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected team to get aligned with respective teams and reassure that is not creating issues or the related NFRs will be tested :
+Performance , Security, Accessibility, Usability 
+DODs should be fulfilled.
+
+ 

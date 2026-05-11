@@ -1,0 +1,30 @@
+{
+  "name": "v3",
+  "exportId": "c30-ref-4",
+  "exportNumber": 4,
+  "exportedAt": "2026-05-05T22:51:06.650Z",
+  "slideCount": 3,
+  "slides": [
+    {
+      "index": 1,
+      "file": "cit.html",
+      "slideId": "slide-1",
+      "title": "CIT",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "paye.html",
+      "slideId": "slide-2",
+      "title": "PAYE",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "pit.html",
+      "slideId": "slide-3",
+      "title": "PIT",
+      "type": "content"
+    }
+  ]
+}

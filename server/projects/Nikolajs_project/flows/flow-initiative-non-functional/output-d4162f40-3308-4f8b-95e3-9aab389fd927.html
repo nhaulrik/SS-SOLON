@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maintainability Enhancements – Feature Catalog</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #e8e8e8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .slide {
+      width: 1280px;
+      background: #ffffff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      display: flex;
+      flex-direction: column;
+    }
+    /* ── TOP BAR ── */
+    .top-bar {
+      height: 7px;
+      background: linear-gradient(90deg, #FF6359 0%, #FF6359 100%);
+    }
+    /* ── HEADER ── */
+    .header {
+      background: #1a3c3a;
+      display: flex;
+      align-items: stretch;
+      padding: 0;
+      justify-content: space-between;
+      min-height: 96px;
+    }
+    .header-left {
+      display: flex;
+      align-items: stretch;
+      flex: 1;
+    }
+    .pi-badge {
+      background: #FF6359;
+      color: white;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .header-text-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 44px;
+      flex: 1;
+    }
+    .header-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #FF6359;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .header-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+      margin-bottom: 3px;
+      line-height: 1.2;
+    }
+    .header-subtitle {
+      font-size: 10px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding-right: 44px;
+    }
+    .header-stat {
+      text-align: center;
+      padding: 0 28px;
+    }
+    .header-stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #FF6359;
+      line-height: 1;
+    }
+    .header-stat-label {
+      font-size: 10px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+    .header-divider {
+      width: 1px;
+      height: 44px;
+      background: rgba(255,255,255,0.15);
+    }
+    .logo {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      color: #7fb3af;
+      text-transform: uppercase;
+    }
+    /* ── BODY ── */
+    .body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 28px;
+      background: #fafaf8;
+    }
+    /* ── MAIN PANEL ── */
+    .main-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .section-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #1a3c3a;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::before {
+      content: '';
+      width: 0;
+      height: 0;
+    }
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+    }
+    .benefit-card {
+      background: #fcfbfa;
+      border: none;
+      border-radius: 8px;
+      padding: 18px 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 7px solid #FF6359;
+      position: relative;
+    }
+    .benefit-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, #FF6359 0%, rgba(255, 99, 89, 0) 100%);
+    }
+    .benefit-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .benefit-number {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FF6359;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    .benefit-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a3c3a;
+      margin-bottom: 8px;
+    }
+    .benefit-text {
+      font-size: 11px;
+      color: #2C4A48;
+      line-height: 1.6;
+    }
+    .themes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    /* Enhanced colorful theme cards */
+    .theme-card {
+      background: #e8ebe8;
+      border: none;
+      border-radius: 8px;
+      padding: 18px 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 5px solid #2C4A48;
+      position: relative;
+      overflow: hidden;
+    }
+    .theme-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .theme-name {
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1a3c3a;
+    }
+    .theme-desc {
+      font-size: 10px;
+      color: #555;
+      line-height: 1.5;
+    }
+    /* ── RIGHT PANEL ── */
+    .right-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .stat-box {
+      background: white;
+      border: 1px solid #e8e8e0;
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      text-align: center;
+      transition: all 0.3s ease;
+      border-left: 5px solid #FF6359;
+    }
+    .stat-box:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .stat-label {
+      font-size: 10px;
+      color: #1a3c3a;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .irm-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+    }
+    .irm-badge {
+      background: linear-gradient(135deg, #fff9f8 0%, #faf5f5 100%);
+      color: #FF6359;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255, 99, 89, 0.3);
+    }
+    .priority-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .priority-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      color: #1a3c3a;
+      padding: 8px 10px;
+      background: linear-gradient(90deg, #fff9f8 0%, transparent 100%);
+      border-radius: 6px;
+      border-left: 3px solid #FF6359;
+      font-weight: 500;
+    }
+    .priority-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: #FF6359;
+    }
+    /* ── FOOTER ── */
+    .slide-footer {
+      background: #1a3c3a;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+      flex-shrink: 0;
+    }
+    .footer-text {
+      font-size: 8.5px;
+      color: #7fb3af;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Accessibility Enhancements</div>
+        <div class="header-subtitle">Non-Functional Requirement Coverage · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">269</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">9</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">Other</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Inclusive Access</div>
+            <div class="benefit-text">Ensures equal access for all users by implementing accessibility improvements according to WCAG 2.1 AA and EN 301 549 standards, making the Solon Tax application usable by people of all abilities.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Compliance &amp; Risk Mitigation</div>
+            <div class="benefit-text">Achieves compliance with European accessibility requirements, reducing the risk of non-compliance penalties and strengthening the product's reputation in the public sector.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Enhanced User Satisfaction</div>
+            <div class="benefit-text">Improves user satisfaction and market reach by enabling screen reader compatibility, keyboard navigation, proper color contrast, and correct ARIA attribute interpretation.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Accessibility Improvements - ATL</div>
+            <div class="theme-desc">Improve accessibility of the Solon Tax application in alignment with WCAG 2.1 AA and EN 301 549 guidelines, including UI/UX Accessibility Audit activities for the ATL component.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Accessibility Improvements - ATH</div>
+            <div class="theme-desc">Enhance accessibility for the ATH component with focus on WCAG 2.1 AA and EN 301 549 compliance, ensuring users of all abilities can effectively interact with the system.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Accessibility Improvements - EOS</div>
+            <div class="theme-desc">Address accessibility gaps in the EOS component through comprehensive improvements aligned with recognized accessibility standards and audit findings.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Accessibility Improvements - SPA</div>
+            <div class="theme-desc">Implement accessibility enhancements for the SPA component with emphasis on keyboard navigation, screen reader compatibility, and proper focus management.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Accessibility Improvements - HEL</div>
+            <div class="theme-desc">Improve accessibility for the HEL component including color contrast ratios, ARIA attributes, and comprehensive QA validation through automated and manual testing.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Accessibility Improvements - DAID</div>
+            <div class="theme-desc">Enhance accessibility for the DAID component with focus on content structure interpretation, proper labeling, and full keyboard navigation without loss of functionality.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI27</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Extensibility Enhancements</div>
+        <div class="header-subtitle">Non-Functional Requirement Coverage · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">117.4</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">4</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Schema Extension</div>
+            <div class="benefit-text">Enable administrators to extend data schemas for Financial transaction types, GL Accounts, Party entities, and Payment Events with user-defined characteristics and custom data areas.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Custom Information Storage</div>
+            <div class="benefit-text">Support addition of custom information fields such as External Codes, Higher Level GL Accounts, and domain-specific attributes that cannot be supported by standard product configuration.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Flexible Data Characteristics</div>
+            <div class="benefit-text">Provide comprehensive user-defined characteristics framework with support for multiple data types, validation rules, code list references, and conditional visibility logic.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Financial Transaction Type Data Area</div>
+            <div class="theme-desc">Enable user-defined characteristics for Financial transaction types with optional data_area column support, updated APIs, and custom validation services for revenue authority admins.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">GL Account Custom Characteristics</div>
+            <div class="theme-desc">Extend GL Account configuration objects with data area field support, enabling custom information such as Higher Level GL Account lookups and taxpayer accounting details.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Party Entity Data Area Support</div>
+            <div class="theme-desc">Enable data area and user-defined characteristics for Party Address, Party State, Party Name, Organizational Unit, and Obligation with per-party-type configuration.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Payment Event User-Defined Characteristics</div>
+            <div class="theme-desc">Comprehensive admin interface for defining and maintaining user-defined characteristics for payment events with support for grouping, validation rules, visibility rules, and multiple entity references.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">7</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Tech Debt Reduction</div>
+            <div class="benefit-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Critical Upgrades</div>
+            <div class="benefit-text">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Configuration Management</div>
+            <div class="benefit-text">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Hexagonal Architecture Refactor</div>
+            <div class="theme-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Java 25 Upgrade</div>
+            <div class="theme-desc">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Spring Boot 4.x.x Migration</div>
+            <div class="theme-desc">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Oracle 26ai Database</div>
+            <div class="theme-desc">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Tech Debt Across Teams</div>
+            <div class="theme-desc">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Config Items Management</div>
+            <div class="theme-desc">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Operability Enhancements</div>
+        <div class="header-subtitle">Call proxy services /RM & SS - Documentation · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">21.3</div>
+        <div class="header-stat-label">Build Estimate</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">p1</div>
+        <div class="header-stat-label">Priority</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Generic Backend API Operations</div>
+            <div class="benefit-text">Ability to call backend APIs as operations in a generic way, enabling flexible integration patterns across self-service and resource management systems.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Extended Entity Creation</div>
+            <div class="benefit-text">Ability to call operations that create entities other than forms, expanding the scope of self-service capabilities beyond traditional form-based workflows.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Implementation Acceleration</div>
+            <div class="benefit-text">Facilitator and accelerator for implementation teams through comprehensive documentation clarifications on how implementors can leverage proxy service capabilities.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Call Proxy Services from SS to RM or 3rd Parties</div>
+            <div class="theme-desc">Enable self-service to call proxy services to resource management or third-party systems with validation from RM or third-party details in SS, supporting external validations and input during forms creation.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Call Proxy Services from RM to 3rd Parties</div>
+            <div class="theme-desc">Enable resource management to call proxy services to third-party systems with validation from SS or third-party details in RM, supporting calls on behalf and external system integration.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Generic Backend API Operations</div>
+            <div class="theme-desc">Implement ability to call backend APIs as operations in a generic way, providing flexible and reusable patterns for system integration across self-service and resource management.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Extended Entity Operations</div>
+            <div class="theme-desc">Implement ability to call operations that create entities other than forms, expanding operational capabilities beyond traditional form-based entity creation patterns.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Security in Forms Operation API</div>
+            <div class="theme-desc">Apply security controls in forms operation API to ensure safe and validated execution of proxy service calls with proper authentication and authorization mechanisms.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Token-less Service Calls</div>
+            <div class="theme-desc">Enable call services without token validation, with handling managed through separate feature IRM-30785 for specialized authentication scenarios.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left"><div class="pi-badge">PI 28</div><div class="header-text-section"><div class="header-label">Feature Catalog · Roadmap Initiative</div><div class="header-title">Performance Efficiency Enhancements</div><div class="header-subtitle">Non-Functional Requirement Coverage · Solon Tax 2026</div></div></div><div class="header-right"><div class="header-stat"><div class="header-stat-value">1189.3</div><div class="header-stat-label">Total Hours</div></div><div class="header-divider"></div><div class="header-stat"><div class="header-stat-value">9</div><div class="header-stat-label">Epics</div></div><div class="header-divider"></div><div class="header-stat"><div class="header-stat-value">GRC</div><div class="header-stat-label">Requester</div></div><div class="logo">Netcompany</div></div></div>
+
+  
+  <div class="body"><div class="main-panel"><div><div class="section-title">Why It's Important</div><div class="benefits-grid"><div class="benefit-card"><div class="benefit-number">01</div><div class="benefit-title">Eliminate Performance Bottlenecks</div><div class="benefit-text">Implement caching strategies and database partitioning to eliminate redundant queries and improve response times for static reference data and high-volume transactions.</div></div><div class="benefit-card"><div class="benefit-number">02</div><div class="benefit-title">Resource Optimization</div><div class="benefit-text">Apply green coding principles and optimize CI/CD pipelines to reduce resource utilization, build frequency, and environmental impact while maintaining system reliability.</div></div><div class="benefit-card"><div class="benefit-number">03</div><div class="benefit-title">Comprehensive Performance Testing</div><div class="benefit-text">Establish performance test suites covering UI automation, stress testing, and throttle scenarios to validate system behavior under peak loads and ensure SLA compliance.</div></div></div></div><div><div class="section-title">Key Epics &amp; Features</div><div class="themes-grid"><div class="theme-card"><div class="theme-name">Reference Data Caching</div><div class="theme-desc">Implement enhanced caching layer in Reference Data Microservice to persist static datasets and eliminate redundant database queries, triggered only by data change events or manual refresh.</div></div><div class="theme-card"><div class="theme-name">Database Partitioning Strategy</div><div class="theme-desc">Develop partitioning strategies for high-volume tables including audit logs, party objects, RTR, obligations, bill segments, and payment segments to improve query performance and volume management.</div></div><div class="theme-card"><div class="theme-name">Green Coding Guidelines</div><div class="theme-desc">Define and integrate green coding rules for Java, JavaScript, Rego, Drools, Helm charts, Maven, PostgreSQL, Oracle PL/SQL, Liquibase, and Docker images with training and SonarQube enforcement.</div></div><div class="theme-card"><div class="theme-name">CI/CD Flow Optimization</div><div class="theme-desc">Review and optimize Jenkins CI/CD processes to reduce build frequency, implement caching strategies, and optimize artifact retention policies for resource efficiency.</div></div><div class="theme-card"><div class="theme-name">Performance Suite Enrichment</div><div class="theme-desc">Extend performance testing with bill segment scenarios, human task chains, UI automation, throttle testing, and GR project test data covering registration forms and tax forms.</div></div><div class="theme-card"><div class="theme-name">Task Assignment Performance</div><div class="theme-desc">Investigate and resolve known performance issues in task assignment functionality to support expected volumes of 1.5M tasks/year with peak capacity of 5,000 tasks/day.</div></div></div></div></div><div class="right-panel"></div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span><span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Reliability Enhancements</div>
+        <div class="header-subtitle">Non-Functional Requirement Coverage · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">1006.7</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">3</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC, Other</div>
+        <div class="header-stat-label">Requesters</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Data Integrity Assurance</div>
+            <div class="benefit-text">Implements optimistic locking with version control on Party records to ensure consistent updates and prevent concurrent modification conflicts across UI, batch, and workflow operations.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Distributed Transaction Safety</div>
+            <div class="benefit-text">Introduces robust error handling for synchronous operations involving distributed transactions across Registry and Taxpayer microservices with strong ACID guarantees.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Recovery & Resilience</div>
+            <div class="benefit-text">Enables admin-driven recovery of failed Financial Transactions and Journal Entries creation through system process rerun and dead letter queue management.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Record Locking - Party Record</div>
+            <div class="theme-desc">Apply version-based optimistic locking logic to Party records. System manages simultaneous modifications through version control, detects conflicts on commit, and provides users with clear concurrency conflict messages and recovery options.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Data Integrity in Distributed Transactions</div>
+            <div class="theme-desc">Implement error handling for synchronous operations involving Registry and Taxpayer microservices. Covers HTTP API invocations and Kafka message consumption with strong transactional boundaries and failure recovery patterns.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">FTs/Journal Entries Recovery Process</div>
+            <div class="theme-desc">Enable administrators to re-create failed Financial Transactions and Journal Entries through system process rerun. Supports dead letter queue processing and provides notifications when creation failures occur.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 27-29</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Security Enhancements</div>
+        <div class="header-subtitle">Data Protection, Access Control & Compliance · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2668.1</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">11</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC, Other</div>
+        <div class="header-stat-label">Requesters</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">GDPR Compliance</div>
+            <div class="benefit-text">Restrict access to sensitive personal data with granular classification levels, masking, and encryption to ensure compliance with GDPR and data protection regulations.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Hierarchical Access Control</div>
+            <div class="benefit-text">Implement row-level security and hierarchical permissions based on organizational units, enabling secure data visibility across teams and management levels.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">High Availability & Scalability</div>
+            <div class="benefit-text">Deploy Keycloak in active cluster mode to support 20,000+ active users with fault tolerance, anti-affinity constraints, and seamless session management.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Data Security - Restrict Access to Personal Data GDPR</div>
+            <div class="theme-desc">Multi-part feature enabling admins to restrict access to sensitive personal data across parties, party roles, attachments, logs, message store, and operational reports based on classification levels and user groups.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Define Access per User Access Group per Classification Level</div>
+            <div class="theme-desc">Allow admins to define permissions per classification level (Sensitive, Personal) per user access group with granular controls for read, search, update, and delete operations.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Data Security - Encrypt/Decrypt Personal Data</div>
+            <div class="theme-desc">Enable admins to encrypt personal data details from logs, audit trails, message store, data areas, notes, forms, cases, and human task comments with configurable visibility modes.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">SS Enhancements - Configure Public Availability</div>
+            <div class="theme-desc">Allow admins to configure which reference data items, translation items, and service items can be publicly available at database level with audit logging of configuration changes.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">SS Enhancements - Authorization Support</div>
+            <div class="theme-desc">Implement full authorization management in SS with API-level security, function-level security by user role, and support for securable objects and user structure.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Keycloak Active Cluster Mode</div>
+            <div class="theme-desc">Deploy Keycloak in HA clustering mode with anti-affinity constraints and disruption budgets to ensure high availability, scalability, and fault tolerance for 20,000+ users.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Row Level Security for Human Tasks</div>
+            <div class="theme-desc">Implement row-level security for human tasks based on related items (Party, Party Role, Liability, Form, Case, Payment Segment) with permission-based visibility and operations.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Data Visibility Permissions - Hierarchical Access</div>
+            <div class="theme-desc">Enable hierarchical permissions per organizational units for time off requests, human tasks, cases, users, and resource calendars with role-based access (Read, Assign, Approve, Edit, Cancel, Delegate).</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Row Level Security - Operational Report Types</div>
+            <div class="theme-desc">Allow admins to define allowed operations per operational report type within user access groups, controlling visibility and generation of reports based on user permissions.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI29</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Test Suite Optimization</div>
+        <div class="header-subtitle">Non-Functional Requirement Coverage · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">[DATA MISSING]</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">[DATA MISSING]</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">Other</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">API Testing Coverage</div>
+            <div class="benefit-text">Comprehensive automation testing for APIs to ensure robust endpoint validation and reliable service integration across the platform.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Authentication & Security</div>
+            <div class="benefit-text">Automated tests validate unauthenticated access and expected responses for each endpoint, ensuring secure authentication mechanisms.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">End-to-End Workflow Testing</div>
+            <div class="benefit-text">Complete test coverage for forms, human tasks, document management, and agreement workflows to validate critical business processes.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Apis Test</div>
+            <div class="theme-desc">Automation testing for API endpoints to ensure reliable service integration and consistent response handling across all platform services.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Authentications</div>
+            <div class="theme-desc">Automated tests validate unauthenticated access and expected responses for each endpoint, ensuring secure authentication mechanisms and access control.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Overview/Home Pages</div>
+            <div class="theme-desc">Automation testing for overview and home page functionality to ensure consistent user experience and proper page rendering.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Agreements Tests</div>
+            <div class="theme-desc">Create representations and sub representations using several agreement rights to validate agreement management workflows and rights assignment.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Forms Testing</div>
+            <div class="theme-desc">Create draft forms, check forms, publish forms, attach documents, review forms, and validate filling obligations to ensure complete form lifecycle coverage.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Human Tasks &amp; Document Management</div>
+            <div class="theme-desc">Create and manage tasks, upload and monitor attachments to validate human task workflows and document management capabilities.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Traceability Enhancements</div>
+        <div class="header-subtitle">Audit Trail & Registry Change Tracking · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">1390.6</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">7</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Audit Readiness</div>
+            <div class="benefit-text">Enables full traceability of registry updates from declaration request to system changes, supporting audit compliance and legal requirements for revenue authorities.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Comprehensive Audit Coverage</div>
+            <div class="benefit-text">Extends audit trail capabilities across code lists, registration calendars, authorization management, and statute of limitation dates for complete system visibility.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Modern Observability</div>
+            <div class="benefit-text">Introduces OpenTelemetry for vendor-neutral, non-intrusive telemetry collection with centralized logging and monitoring across all microservices and auxiliary components.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Audit Log - Code Lists Traceability</div>
+            <div class="theme-desc">Display unified audit logs for codelists, codelist items, and attributes under live records. Track all codelist-related changes and item modifications with full version history.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Audit Log - Registration Calendars</div>
+            <div class="theme-desc">Enable audit trail for resource calendars including time offs, assigned calendars, calendar details, and exceptions. Display related audit details in the UI for full transparency.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Audit Log - Authorization Management</div>
+            <div class="theme-desc">Track audit logs for authorization objects including access groups, roles, users, and skills. Display all related audit items under live records of securable objects.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Registry Change Context &amp; Declaration Linking</div>
+            <div class="theme-desc">Relate registry changes to source declaration records with unique context IDs. Enable search by form ID and support extensible data area for custom implementation details.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">OpenTelemetry Observability Platform</div>
+            <div class="theme-desc">Deploy OpenTelemetry Operator and Collector as standard components. Enable non-intrusive auto-instrumentation via CRD and deprecate elastic-apm dependency for vendor-neutral telemetry.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Solon Tax Logging &amp; Statute of Limitation Audit</div>
+            <div class="theme-desc">Enhance logging for DB queries, business logic service execution, and masked sensitive data. Support audit trail for statute of limitation date modifications with event tracking.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Usability Enhancements</div>
+        <div class="header-subtitle">UI/UX Improvements & User Experience · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">27</div>
+        <div class="header-stat-label">Total Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">12</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+
+  
+  <div class="body"><div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Proper UI Design</div>
+            <div class="benefit-text">Deliver consistent, intuitive user interface across all modules with clear visual hierarchy, improved navigation, and modern design patterns aligned with Solon branding.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Continuous Improvement</div>
+            <div class="benefit-text">Address technical debt and UI challenges identified during previous PIs to ensure the product evolves organically with reduced future effort and implications.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Reduced Interaction Friction</div>
+            <div class="benefit-text">Implement clear View and Edit mode distinctions, improved search experience, and consistent dropdown behavior to reduce user errors and increase task efficiency.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">UI Improvements - Multi-Module Initiative</div>
+            <div class="theme-desc">Technical debt resolution and UI improvements across ATL, ATH, EOS, SPA, HEL, and DAID modules addressing methodologies and technical challenges from previous PIs.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">View and Edit Mode Distinction</div>
+            <div class="theme-desc">Implement clear separation between View (read-only) and Edit modes with distinct action buttons, reducing user confusion and preventing unintended data modifications.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Search Panels - Reusable Design</div>
+            <div class="theme-desc">Implement top and bottom search panels as per Figma design with new title and Add button positioning for better user experience across all screens.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">UI/UX Improvements - Generic Functionalities</div>
+            <div class="theme-desc">Provide alternative filter positioning on top of tables, add expand/collapse all buttons, and improve configurability options to cover diverse project-related needs.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Header Bar and Navigation Improvements</div>
+            <div class="theme-desc">Reorganize header bar with Save button, move keyboard support and info to profile page, improve language shortcuts, and add breadcrumbs navigation bar.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Registry List Views - Search Results</div>
+            <div class="theme-desc">Display search results respecting governance limits with new UX, clear messaging on limits, person/legal entity filters, and improved search by identifier functionality.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+</section>
+
+</body>
+</html>

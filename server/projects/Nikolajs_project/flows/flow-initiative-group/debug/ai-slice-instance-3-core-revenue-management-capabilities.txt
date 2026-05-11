@@ -1,0 +1,119 @@
+=== CORE REVENUE MANAGEMENT CAPABILITIES ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 18
+
+Initiative: BILLING, ASSESSMENTS AND INSTALLMENTS
+Unique Feature Count: 2
+Features:
+IRM-19514, IRM-37825
+
+Initiative: PENALTY & INTEREST
+Unique Feature Count: 1
+Features:
+IRM-29429
+
+Initiative: REGISTRATION
+Unique Feature Count: 3
+Features:
+IRM-37212, IRM-37721, IRM-37845
+
+Initiative: TAX ACCOUNTS
+Unique Feature Count: 3
+Features:
+IRM-38308, IRM-38899, IRM-39021
+
+Initiative: TAXPAYER ACCOUNTING
+Unique Feature Count: 9
+Features:
+IRM-30362, IRM-37844, IRM-40159, IRM-39395
+
+=== Effort Estimates by Initiative ===
+
+BILLING, ASSESSMENTS AND INSTALLMENTS
+Total Hours PI28: 1120 hours
+Description of initiative: Enhancement of ad-hoc obligations to support payment installments and transfer amount configuration. Enables revenue officials to create multiple payment obligation actions under ad-hoc obligations as installments or once-off, define categories and subtypes, set due dates, and manage payment references. Supports dynamic rule-based installment creation with configurable parameters. Includes transfer amount process enhancements to configure alternative target bill segment types while maintaining default bill segment type for source segments.
+
+Feature Progress:
+HLD: 1
+Total Features: 1
+
+Feature Priority:
+P1: 2
+Total Features: 2
+
+PENALTY & INTEREST
+Total Hours PI28: 2986.9 hours
+Description of initiative: Enhancement of credit interest calculation to include unallocated payment segments. Updates CREDIT_INT penalty and interest rule to calculate reimbursement interest on credit unallocated payment segments for tax account scenarios. Ensures taxpayers receive proper interest on all credit amounts including those resulting from liability amendments. Addresses business cases including payment suspense scenarios, payment file processing errors, insufficient liability balances, and payment event state transitions.
+
+Feature Progress:
+Waiting Analysis Approval: 1
+Total Features: 1
+
+Feature Priority:
+P2: 1
+Total Features: 1
+
+REGISTRATION
+Total Hours PI28: 2389.8 hours
+Description of initiative: Registration enhancements including organizational structure and taxpayer hierarchy visualization, revenue type details availability with domain and declaration mechanism fields, and validity period condition enhancements for same-day modifications. Enables revenue officials to view graphical representations of organizational units and party hierarchies, search revenue types by domain and mechanism, and complete multiple party detail changes on same date without uniqueness conflicts. Supports historical accuracy and regulatory compliance.
+
+Feature Progress:
+HLD: 1
+In Design: 1
+Waiting Analysis Approval: 1
+Total Features: 3
+
+Feature Priority:
+P1: 3
+Total Features: 3
+
+TAX ACCOUNTS
+Total Hours PI28: 529.9 hours
+Description of initiative: Tax account support including threshold amount field introduction, tax account overview page, and export functionality. Enables revenue officers to define threshold amounts for revenue type registrations, view aggregated financial transactions for reconciliation periods, and export filtered GL account lists to Excel. Provides period-centric overview with opening/closing balances, running balance tracking, and financial transaction details for tax account management.
+
+Feature Progress:
+In Design: 1
+To Do: 1
+Waiting Analysis Approval: 1
+Total Features: 3
+
+Feature Priority:
+P1: 3
+Total Features: 3
+
+TAXPAYER ACCOUNTING
+Total Hours PI28: 1813.1 hours
+Description of initiative: GL decision table enhancements including extensibility support, multiline rules, additional parameters, and custom application override capability. Enables administrators to configure GL decision tables with valid from/to columns, multiline rules with amount splitting, and additional parameters for claimant, revenue type, and bill segment type differentiation. Supports custom adapter implementation to bypass standard GL decision mechanism. Includes financial events logging under organizational units and claimants.
+
+Feature Progress:
+Waiting Analysis Approval: 4
+Total Features: 4
+
+Feature Priority:
+P1: 2
+Total Features: 2
+
+=== Summary === [~250 words]
+Roadmap Group: CORE REVENUE MANAGEMENT CAPABILITIES
+Total Effort Across All Initiatives: 8839.699999999999 hours
+Number of Unique Initiatives: 5
+Number of Features: 18
+Requester: GRC, GTM
+
+Group-Level Feature Progress:
+HLD: 2
+In Design: 2
+To Do: 1
+Waiting Analysis Approval: 13
+Total Features: 18
+
+Group-Level Feature Priority:
+P1: 13
+P2: 1
+P3: 0
+Total Features: 14
+
+Description of initiative group: CORE REVENUE MANAGEMENT CAPABILITIES delivers 8,839.7 hours of effort across five initiatives providing essential revenue management functionality. Taxpayer Accounting is the highest-effort initiative (1,813.1 hours) implementing GL decision table extensibility with multiline rules, custom parameters, and custom application overrides to support complex GL posting requirements. Penalty & Interest (2,986.9 hours) enhances credit interest calculation for unallocated payment segments ensuring accurate interest accrual. Registration (2,389.8 hours) enables organizational hierarchy visualization and revenue type categorization with domain and declaration mechanism fields. Billing, Assessments & Installments (1,120 hours) supports ad-hoc obligation installments and transfer amount configuration. Tax Accounts (529.9 hours) introduces threshold amounts and tax account overview pages for period-centric financial views. Cross-initiative themes include support for tax account implementations, regulatory compliance, and enhanced financial transaction management. Key dependencies include BPMN process integration for GL decision execution, financial transaction entity enhancements, and revenue type configuration. Most features (13) are in Waiting Analysis Approval status, indicating active design phase. Priority distribution heavily favors P1 (13 features), reflecting critical importance to revenue authority operations. Features support both periodic and ad-hoc revenue types with flexible configuration for different implementation requirements.
+
+---

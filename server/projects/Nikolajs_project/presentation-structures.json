@@ -1,0 +1,446 @@
+{
+  "structures": [
+    {
+      "id": "ps-ead4d298-c0e6-4174-96dc-d0c4971cd1a3",
+      "name": "Feature-Catalog-V.1",
+      "createdAt": "2026-04-20T21:59:06.075Z",
+      "updatedAt": "2026-04-21T13:20:49.036Z",
+      "slides": [
+        {
+          "id": "sr-8e05ba0f-92af-4ca6-b3a8-2117e5a141ae",
+          "flowId": "flow-initiative-group",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 1,
+          "title": "Core Revenue Management Capabilities"
+        },
+        {
+          "id": "sr-44f33304-35d3-4812-87d6-991a64a6408d",
+          "flowId": "flow-initiative-group",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 2,
+          "title": "Core Self Service Capabilities"
+        },
+        {
+          "id": "sr-0d76d257-9485-4a80-bfc5-4e5b67e6394a",
+          "flowId": "flow-initiative-group",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 3,
+          "title": "Core Supporting Capabilities"
+        },
+        {
+          "id": "sr-cc5c233e-02d2-4296-954e-526e67b75064",
+          "flowId": "flow-initiative-group",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 4,
+          "title": "Non-Functional Requirement Coverage"
+        },
+        {
+          "id": "sr-cd1299f4-0049-46c1-b445-b895dd1bc8d9",
+          "flowId": "flow-initiative-group",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 5,
+          "title": "Reference Implementations"
+        },
+        {
+          "id": "sr-0226ea3b-eab3-4f6f-8432-ce765a28b9bb",
+          "flowId": "flow-initiative-core-revenue-mgmt",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 1,
+          "title": "BILLING, ASSESSMENTS AND INSTALLMENTS"
+        },
+        {
+          "id": "sr-843a2f58-6a6a-41c9-889a-664f2f46b153",
+          "flowId": "flow-initiative-core-revenue-mgmt",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 2,
+          "title": "PENALTY & INTEREST"
+        },
+        {
+          "id": "sr-fc81564e-7bea-4fa5-a651-34a683e98cb6",
+          "flowId": "flow-initiative-core-revenue-mgmt",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 3,
+          "title": "REGISTRATION"
+        },
+        {
+          "id": "sr-ea73145a-b6bd-4e91-b216-0f46fb272d0b",
+          "flowId": "flow-initiative-core-revenue-mgmt",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 4,
+          "title": "TAX ACCOUNTS"
+        },
+        {
+          "id": "sr-371e700d-6258-4926-8edd-588385d0b44b",
+          "flowId": "flow-initiative-core-revenue-mgmt",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 5,
+          "title": "TAXPAYER ACCOUNTING"
+        },
+        {
+          "id": "sr-35f04026-0be9-4724-bda1-1524c4cf0bfd",
+          "flowId": "flow-initiative-core-self-service",
+          "exportId": "initiative-self-service-1",
+          "slideIndex": 1,
+          "title": "SELF SERVICE SERVICES MANAGEMENT"
+        },
+        {
+          "id": "sr-b2465579-037e-4dea-a45f-e6e979418800",
+          "flowId": "flow-initiative-core-self-service",
+          "exportId": "initiative-self-service-1",
+          "slideIndex": 2,
+          "title": "USER & 3RD PARTY ACCESS MANAGEMENT"
+        },
+        {
+          "id": "sr-d99ba0ff-60d9-448c-ba82-3d8f753002d3",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "initiative-core-support-1",
+          "slideIndex": 1,
+          "title": "UI Configuration"
+        },
+        {
+          "id": "sr-826a7533-ecc9-4953-988d-4de1e6f53a5c",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "initiative-core-support-1",
+          "slideIndex": 2,
+          "title": "Form Processing"
+        },
+        {
+          "id": "sr-e093f073-f2e3-4954-a43c-f34820b4ede1",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "initiative-core-support-1",
+          "slideIndex": 3,
+          "title": "Reference Data"
+        },
+        {
+          "id": "sr-23f817c9-be90-4d95-a31c-5fff982edfdd",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "initiative-core-support-1",
+          "slideIndex": 4,
+          "title": "Document Management Integration"
+        },
+        {
+          "id": "sr-b60a80fa-6241-48ef-966c-d4fc7e06a4be",
+          "flowId": "flow-initiative-core-supporting",
+          "exportId": "initiative-core-support-1",
+          "slideIndex": 5,
+          "title": "Contact Management"
+        },
+        {
+          "id": "sr-cbb14dee-5696-4f94-867c-4b2bd0d2ce79",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "initiative-non-functional-1",
+          "slideIndex": 1,
+          "title": "Accessibility"
+        },
+        {
+          "id": "sr-7592102f-4c4a-4841-8ae7-2b16ba3628c9",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "initiative-non-functional-1",
+          "slideIndex": 2,
+          "title": "Maintainability"
+        },
+        {
+          "id": "sr-341f945e-c40a-4f2d-bc25-7d12848b7aed",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "initiative-non-functional-1",
+          "slideIndex": 3,
+          "title": "Operability"
+        },
+        {
+          "id": "sr-82d50be9-af0a-43da-b49e-e29b6d962c53",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "initiative-non-functional-1",
+          "slideIndex": 4,
+          "title": "Performance Efficiency"
+        },
+        {
+          "id": "sr-6413af24-2a27-43f7-bada-6922c259b085",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "initiative-non-functional-1",
+          "slideIndex": 5,
+          "title": "Reliability"
+        },
+        {
+          "id": "sr-2681bac5-7a5c-4799-9615-e3018a27b1c3",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "initiative-non-functional-1",
+          "slideIndex": 6,
+          "title": "Security"
+        },
+        {
+          "id": "sr-9a3b5ca1-25e0-4f2d-93f7-e737178310dc",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "initiative-non-functional-1",
+          "slideIndex": 7,
+          "title": "Traceability"
+        },
+        {
+          "id": "sr-5eb5f6af-ab93-430d-b6cd-52fc93a876b2",
+          "flowId": "flow-initiative-non-functional",
+          "exportId": "initiative-non-functional-1",
+          "slideIndex": 8,
+          "title": "Usability"
+        },
+        {
+          "id": "sr-1c8fb921-ef68-4341-b5ae-51a14900d6fd",
+          "flowId": "flow-initiative-reference-implementation",
+          "exportId": "initiative-reference-implementation-1",
+          "slideIndex": 1,
+          "title": "VAT"
+        },
+        {
+          "id": "sr-c2ca3210-033e-4ba2-b1e6-46b09ddf3251",
+          "flowId": "flow-initiative-group",
+          "exportId": "group-non-functional-requirement-coverage-2",
+          "slideIndex": 1,
+          "title": "NON-FUNCTIONAL REQUIREMENT COVERAGE"
+        }
+      ],
+      "tree": [
+        {
+          "slideRefId": "sr-8e05ba0f-92af-4ca6-b3a8-2117e5a141ae",
+          "children": [
+            {
+              "slideRefId": "sr-0226ea3b-eab3-4f6f-8432-ce765a28b9bb",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-843a2f58-6a6a-41c9-889a-664f2f46b153",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-fc81564e-7bea-4fa5-a651-34a683e98cb6",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-ea73145a-b6bd-4e91-b216-0f46fb272d0b",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-371e700d-6258-4926-8edd-588385d0b44b",
+              "children": []
+            }
+          ]
+        },
+        {
+          "slideRefId": "sr-44f33304-35d3-4812-87d6-991a64a6408d",
+          "children": [
+            {
+              "slideRefId": "sr-35f04026-0be9-4724-bda1-1524c4cf0bfd",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-b2465579-037e-4dea-a45f-e6e979418800",
+              "children": []
+            }
+          ]
+        },
+        {
+          "slideRefId": "sr-0d76d257-9485-4a80-bfc5-4e5b67e6394a",
+          "children": [
+            {
+              "slideRefId": "sr-d99ba0ff-60d9-448c-ba82-3d8f753002d3",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-826a7533-ecc9-4953-988d-4de1e6f53a5c",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-e093f073-f2e3-4954-a43c-f34820b4ede1",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-23f817c9-be90-4d95-a31c-5fff982edfdd",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-b60a80fa-6241-48ef-966c-d4fc7e06a4be",
+              "children": []
+            }
+          ]
+        },
+        {
+          "slideRefId": "sr-c2ca3210-033e-4ba2-b1e6-46b09ddf3251",
+          "children": [
+            {
+              "slideRefId": "sr-cbb14dee-5696-4f94-867c-4b2bd0d2ce79",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-7592102f-4c4a-4841-8ae7-2b16ba3628c9",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-341f945e-c40a-4f2d-bc25-7d12848b7aed",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-82d50be9-af0a-43da-b49e-e29b6d962c53",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-6413af24-2a27-43f7-bada-6922c259b085",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-2681bac5-7a5c-4799-9615-e3018a27b1c3",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-9a3b5ca1-25e0-4f2d-93f7-e737178310dc",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-5eb5f6af-ab93-430d-b6cd-52fc93a876b2",
+              "children": []
+            }
+          ]
+        },
+        {
+          "slideRefId": "sr-cd1299f4-0049-46c1-b445-b895dd1bc8d9",
+          "children": [
+            {
+              "slideRefId": "sr-1c8fb921-ef68-4341-b5ae-51a14900d6fd",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "levelNames": [
+        "Initiative Group",
+        "Initiative"
+      ]
+    },
+    {
+      "id": "ps-5cf0a5ff-e002-4825-a47e-b3bcf023b84c",
+      "name": "New Structure",
+      "createdAt": "2026-04-21T12:28:34.142Z",
+      "updatedAt": "2026-04-21T12:32:56.218Z",
+      "slides": [
+        {
+          "id": "sr-66960a56-34ac-4dad-b253-b543530c30ab",
+          "flowId": "flow-initiative-group",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 1,
+          "title": "Core Revenue Management Capabilities"
+        },
+        {
+          "id": "sr-c2742aac-d245-4757-816b-591276eb24ed",
+          "flowId": "flow-initiative-group",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 2,
+          "title": "Core Self Service Capabilities"
+        },
+        {
+          "id": "sr-dd15ca31-851f-4307-888c-13c0edb3937f",
+          "flowId": "flow-initiative-group",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 3,
+          "title": "Core Supporting Capabilities"
+        },
+        {
+          "id": "sr-ac3fa66f-34aa-45d3-a0d7-c0e684f2e295",
+          "flowId": "flow-initiative-group",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 4,
+          "title": "Non-Functional Requirement Coverage"
+        },
+        {
+          "id": "sr-de65e3de-24b4-4c50-967b-ec6361d2e700",
+          "flowId": "flow-initiative-group",
+          "exportId": "initiative-groups-1",
+          "slideIndex": 5,
+          "title": "Reference Implementations"
+        },
+        {
+          "id": "sr-cd421a16-2489-478e-8d0e-0ef9aa855325",
+          "flowId": "flow-initiative-core-revenue-mgmt",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 1,
+          "title": "BILLING, ASSESSMENTS AND INSTALLMENTS"
+        },
+        {
+          "id": "sr-9e3f8f45-b46b-4ee8-8f0c-5d1a87ae8639",
+          "flowId": "flow-initiative-core-revenue-mgmt",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 2,
+          "title": "PENALTY & INTEREST"
+        },
+        {
+          "id": "sr-71382220-df32-4ec2-a616-0ae33b7452b5",
+          "flowId": "flow-initiative-core-revenue-mgmt",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 4,
+          "title": "TAX ACCOUNTS"
+        },
+        {
+          "id": "sr-6dce6028-438a-4647-8e44-d768b1494d03",
+          "flowId": "flow-initiative-core-revenue-mgmt",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 3,
+          "title": "REGISTRATION"
+        },
+        {
+          "id": "sr-e9315cdb-cf37-48e7-a28c-ab7aee70bfea",
+          "flowId": "flow-initiative-core-revenue-mgmt",
+          "exportId": "initiatives-core-revenue-mgmt-1",
+          "slideIndex": 5,
+          "title": "TAXPAYER ACCOUNTING"
+        }
+      ],
+      "tree": [
+        {
+          "slideRefId": "sr-66960a56-34ac-4dad-b253-b543530c30ab",
+          "children": [
+            {
+              "slideRefId": "sr-cd421a16-2489-478e-8d0e-0ef9aa855325",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-9e3f8f45-b46b-4ee8-8f0c-5d1a87ae8639",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-6dce6028-438a-4647-8e44-d768b1494d03",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-71382220-df32-4ec2-a616-0ae33b7452b5",
+              "children": []
+            },
+            {
+              "slideRefId": "sr-e9315cdb-cf37-48e7-a28c-ab7aee70bfea",
+              "children": []
+            }
+          ]
+        },
+        {
+          "slideRefId": "sr-c2742aac-d245-4757-816b-591276eb24ed",
+          "children": []
+        },
+        {
+          "slideRefId": "sr-dd15ca31-851f-4307-888c-13c0edb3937f",
+          "children": []
+        },
+        {
+          "slideRefId": "sr-ac3fa66f-34aa-45d3-a0d7-c0e684f2e295",
+          "children": []
+        },
+        {
+          "slideRefId": "sr-de65e3de-24b4-4c50-967b-ec6361d2e700",
+          "children": []
+        }
+      ],
+      "levelNames": []
+    },
+    {
+      "id": "ps-391c4a20-de49-474d-a4a7-532d9a1b02af",
+      "name": "New Structure",
+      "createdAt": "2026-04-22T12:14:39.953Z",
+      "updatedAt": "2026-04-22T12:14:41.650Z",
+      "slides": [],
+      "tree": []
+    }
+  ]
+}

@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Revenue Management – Feature Catalog</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 7px;
+    background: #FF6359;
+  }
+  /* ── HEADER ── */
+  .header {
+    position: absolute;
+    top: 7px; left: 0; right: 0;
+    height: 96px;
+    background: #1a3c3a;
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+    justify-content: space-between;
+  }
+  .header-left {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+  }
+  .pi-badge {
+    background: #FF6359;
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 44px;
+    flex: 1;
+  }
+  .header-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #FF6359;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    margin-bottom: 3px;
+  }
+  .header-subtitle {
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding-right: 44px;
+  }
+  .header-stat {
+    text-align: center;
+    padding: 0 28px;
+  }
+  .header-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #FF6359;
+    line-height: 1;
+  }
+  .header-stat-label {
+    font-size: 10px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .header-divider {
+    width: 1px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+  }
+  .logo {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #7fb3af;
+    text-transform: uppercase;
+  }
+  /* ── BODY ── */
+  .body {
+    position: absolute;
+    top: 103px;
+    left: 0; right: 0;
+    bottom: 36px;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 18px;
+    padding: 16px;
+    background: #fafaf8;
+  }
+  /* ── LEFT PANEL ── */
+  .left-panel {
+    background: transparent;
+    border-right: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .left-section {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px;
+    border-bottom: none;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: box-shadow 0.3s ease;
+  }
+  .left-section:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  .left-section:last-child {
+    border-bottom: none;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a3c3a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+    border-bottom: none;
+    flex-shrink: 0;
+  }
+  .section-body {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  /* ── PROGRESS SECTION ── */
+  .progress-inner {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 100%;
+  }
+  /* Donut chart via SVG */
+  .donut-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 110px;
+    height: 110px;
+  }
+  .donut-wrap svg {
+    width: 110px;
+    height: 110px;
+    transform: rotate(-90deg);
+  }
+  .donut-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+  }
+  .donut-pct {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2C4A48;
+    line-height: 1;
+    display: block;
+  }
+  .donut-lbl {
+    font-size: 10px;
+    font-weight: 500;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-top: 2px;
+  }
+  .legend-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex: 1;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 6px;
+    background: #fafaf8;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+  }
+  .legend-item:hover {
+    background: #f0f0ec;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .legend-text {
+    flex: 1;
+    font-size: 10px;
+    font-weight: 500;
+    color: #2C4A48;
+  }
+  .legend-count {
+    font-size: 9px;
+    font-weight: 700;
+    color: #FF6359;
+  }
+  /* ── PI DISTRIBUTION SECTION ── */
+  .pi-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    justify-content: space-evenly;
+    flex: 1;
+  }
+  .pi-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+  .pi-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #2C4A48;
+    width: 36px;
+    flex-shrink: 0;
+  }
+  .pi-label.muted { color: #AAAAAA; }
+  .pi-track {
+    flex: 1;
+    height: 16px;
+    background: #E8E8E4;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .pi-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .pi-fill.active { background: #FF6359; }
+  .pi-fill.inactive { background: #2C4A48; }
+  .pi-value {
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    width: 54px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  /* ── PRIORITY SECTION ── */
+  .priority-stacked-bar {
+    height: 26px;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-shrink: 0;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .prio-seg {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.4px;
+    transition: filter 0.2s ease;
+  }
+  .prio-seg:hover {
+    filter: brightness(1.1);
+  }
+  .prio-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .prio-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 6px;
+    background: #fafaf8;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+  }
+  .prio-legend-item:hover {
+    background: #f0f0ec;
+  }
+  .prio-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .prio-legend-text {
+    font-size: 10px;
+    color: #2C4A48;
+    font-weight: 500;
+    flex: 1;
+  }
+  .prio-legend-pct {
+    font-size: 9px;
+    font-weight: 700;
+    color: #FF6359;
+  }
+  /* ── RIGHT PANEL ── */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    gap: 14px;
+    overflow: hidden;
+  }
+  /* ── BUSINESS VALUE BOX ── */
+	.value-box {
+	  background: white;
+	  border-left: 5px solid #FF6359;
+	  border-radius: 8px;
+	  padding: 14px 16px;
+	  display: flex;
+	  gap: 20px;
+	  flex-shrink: 0;
+	  height: auto;
+	  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+	  transition: box-shadow 0.3s ease;
+	}
+	.value-box:hover {
+	  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+	}
+  .value-col {
+    flex: 1;
+  }
+  .value-col-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a3c3a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+  }
+  .value-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .value-bullets li {
+    font-size: 9px;
+    color: #555;
+    padding-left: 12px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .value-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 1px; top: 5px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #FF6359;
+  }
+  /* ── TABLE ── */
+  .table-wrap {
+    flex: 1;
+    overflow: hidden;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+  }
+  thead tr {
+    background: linear-gradient(135deg, #1a3c3a 0%, #2C4A48 100%);
+  }
+  thead th {
+    padding: 10px 10px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  thead th:first-child { border-radius: 8px 0 0 0; }
+  thead th:last-child { border-radius: 0 8px 0 0; }
+  tbody tr {
+    border-bottom: 1px solid #f0f0ec;
+    transition: background-color 0.2s ease;
+  }
+  tbody tr:hover {
+    background: #fafaf8;
+  }
+  tbody tr:nth-child(even) {
+    background: white;
+  }
+  tbody td {
+    padding: 8px 10px;
+    color: #333;
+    vertical-align: middle;
+  }
+  .init-name {
+    font-size: 10px;
+    font-weight: 700;
+    color: #1a3c3a;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+  }
+  .init-desc {
+    font-size: 8px;
+    color: #888;
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+  .effort-pill {
+    display: inline-block;
+    background: #e8f0ef;
+    color: #1a3c3a;
+    font-weight: 700;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+    border: 1px solid #d0e5e2;
+  }
+  .pi-text {
+    font-size: 10px;
+    color: #444;
+    font-weight: 500;
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #2C4A48;
+  }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .prio-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 18px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .feat-count {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2C4A48;
+    text-align: center;
+    display: block;
+  }
+  /* ══ FOOTER ══ */
+.slide-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #1a3c3a;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+}
+
+  .footer-text {
+    font-size: 8.5px;
+    color: #7fb3af;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  
+  <div class="top-bar"></div>
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Supporting Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">5,342.8</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">9</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">47</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+  
+  <div class="body"><div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">Done</span>
+                <span class="legend-count">0 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Progress</span>
+                <span class="legend-count">1 feature</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">4 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">3 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:36%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:2%; background:#F0A500;">P2</div>
+            <div class="prio-seg" style="width:62%; background:#FFCC00;">P3</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">36% · 17 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">2% · 1 feature</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FFCC00;"></div>
+              <span class="prio-legend-text">Nice to Have</span>
+              <span class="prio-legend-pct">62% · 29 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Foundational platform enhancements improving system infrastructure and data management</li>
+            <li>Enables audit trail implementation and regulatory compliance support across initiatives</li>
+            <li>Enhances user experience through UI configuration and customization capabilities</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Supports EU regulatory compliance through flexible codelist handling and audit trails</li>
+            <li>Digital signature capabilities enable secure document management and PAdES standard compliance</li>
+            <li>Cross-initiative themes strengthen platform completeness and operational resilience</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Batch Processing Enhancements</div>
+                <div class="init-desc">Migration to Amplio Batch engine, SCDF replacement, standardization</div>
+              </td>
+              <td><span class="effort-pill">738.5h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#FF6359;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">3</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Case Management</div>
+                <div class="init-desc">Case worker assignment, availability tracking, effort allocation</div>
+              </td>
+              <td><span class="effort-pill">84h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  Waiting Analysis Approval
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FFCC00;">P3</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Contact Management</div>
+                <div class="init-desc">Reference numbers, multi-recipient messaging, recipient type rules</div>
+              </td>
+              <td><span class="effort-pill">882.7h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  Waiting Analysis Approval
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Content Management Integration</div>
+                <div class="init-desc">CMS integration, self-service portal enhancements</div>
+              </td>
+              <td><span class="effort-pill">80h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#E0E0DC;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FFCC00;">P3</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Document Management Integration</div>
+                <div class="init-desc">Digital signatures, PAdES compliance, certificate management</div>
+              </td>
+              <td><span class="effort-pill">2090.9h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Design
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Form Processing</div>
+                <div class="init-desc">Submitter logging, attachment management, audit trail</div>
+              </td>
+              <td><span class="effort-pill">373.1h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Design
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Operational Reporting</div>
+                <div class="init-desc">Scheduled report distribution, recipient list management</div>
+              </td>
+              <td><span class="effort-pill">72h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  Under Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FFCC00;">P3</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Reference Data</div>
+                <div class="init-desc">Import/export code lists, codelist flexibility, audit trail</div>
+              </td>
+              <td><span class="effort-pill">606.9h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  Waiting Analysis Approval
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">UI Configuration</div>
+                <div class="init-desc">Home page widgets, field labels, required field indicators, prefilling</div>
+              </td>
+              <td><span class="effort-pill">414.7h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#E0E0DC;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">6</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+
+</section>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Reference Implementations</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">857.7</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+  
+  <div class="body"><div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">HLD</span>
+                <span class="legend-count">1 feature</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">Ready for Dev</span>
+                <span class="legend-count">1 feature</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">Under Analysis</span>
+                <span class="legend-count">1 feature</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">Waiting Analysis Approval</span>
+                <span class="legend-count">7 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:30%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:10%; background:#F0A500;">P2</div>
+            <div class="prio-seg" style="width:60%; background:#1A5276;">P3</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">P1</span>
+              <span class="prio-legend-pct">30% · 3 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">P2</span>
+              <span class="prio-legend-pct">10% · 1 feature</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#1A5276;"></div>
+              <span class="prio-legend-text">P3</span>
+              <span class="prio-legend-pct">60% · 6 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Provides concrete, reusable patterns for common tax administration scenarios</li>
+            <li>Enables end-to-end taxpayer payment workflows with multiple payment methods</li>
+            <li>Establishes four-eye principle framework for double attestation workflows</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>VAT tax account reference implementation foundational for future tax account deployments</li>
+            <li>Directly supports Greek AADE demo implementation</li>
+            <li>Cross-initiative themes applicable across implementations and revenue types</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">VAT</div>
+                <div class="init-desc">Tax account configuration and intracommunity transaction warnings</div>
+              </td>
+              <td><span class="effort-pill">430.5h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#2C4A48;"></span>
+                  HLD
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Self Service Filing &amp; Payments</div>
+                <div class="init-desc">Payment obligation viewing, filing capabilities, and payment history tracking</div>
+              </td>
+              <td><span class="effort-pill">376.4h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#E0E0DC;"></span>
+                  Waiting Analysis Approval
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">5</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Application Processes</div>
+                <div class="init-desc">Four-eye principle support with configurable approval workflows</div>
+              </td>
+              <td><span class="effort-pill">42h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#E0E0DC;"></span>
+                  Waiting Analysis Approval
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#1A5276;">P3</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Self Service Account Overview</div>
+                <div class="init-desc">Taxpayer account overview with registration details and obligations timeline</div>
+              </td>
+              <td><span class="effort-pill">8h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#E0E0DC;"></span>
+                  Waiting Analysis Approval
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#1A5276;">P3</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">PIT</div>
+                <div class="init-desc">VAT declaration draft saving with calculated tax display</div>
+              </td>
+              <td><span class="effort-pill">0.8h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#FF6359;"></span>
+                  Ready for Dev
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+
+</section>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Non-Functional Requirement Coverage</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">17,562</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">48</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+  
+  <div class="body"><div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">HLD</span>
+                <span class="legend-count">2 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Design</span>
+                <span class="legend-count">5 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">11 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">41 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:76%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:9%; background:#F0A500;">P2</div>
+            <div class="prio-seg" style="width:15%; background:#1A5276;">P3</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">76% · 41 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">9% · 5 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#1A5276;"></div>
+              <span class="prio-legend-text">Nice to Have</span>
+              <span class="prio-legend-pct">15% · 8 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Ensures GDPR compliance and data protection across all system entities</li>
+            <li>Reduces technical debt and improves long-term code maintainability and developer productivity</li>
+            <li>Enhances system reliability and performance for mission-critical tax operations</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Critical foundation for all Solon Tax implementations requiring security and compliance certifications</li>
+            <li>Strengthens competitive position through superior system quality and user experience</li>
+            <li>Enables scalability and operational excellence across current and future deployments</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Maintainability</div>
+                <div class="init-desc">Technical debt reduction, ArchUnit, configuration management, hexagonal architecture</div>
+              </td>
+              <td><span class="effort-pill">4,580h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Design
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">15</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Security</div>
+                <div class="init-desc">GDPR compliance, data classification, row-level security, encryption, audit trail</div>
+              </td>
+              <td><span class="effort-pill">2,759h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">6</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Usability</div>
+                <div class="init-desc">Search enhancements, registry improvements, form fields, keyboard shortcuts, new look and feel</div>
+              </td>
+              <td><span class="effort-pill">2,976h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#E0E0DC;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">15</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Reliability</div>
+                <div class="init-desc">Data integrity, optimistic locking, distributed transaction error handling</div>
+              </td>
+              <td><span class="effort-pill">2,688h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#2C4A48;"></span>
+                  HLD
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Traceability</div>
+                <div class="init-desc">Audit logging, statute of limitation, DB query logging, authorization audit trail</div>
+              </td>
+              <td><span class="effort-pill">2,259h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Performance Efficiency</div>
+                <div class="init-desc">Task assignment optimization, green coding, CI/CD optimization, caching enhancements</div>
+              </td>
+              <td><span class="effort-pill">955h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#E0E0DC;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Test Suite Optimization</div>
+                <div class="init-desc">Test maintenance, regression testing, automation enhancements across delivery teams</div>
+              </td>
+              <td><span class="effort-pill">860h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#E0E0DC;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#1A5276;">P3</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Accessibility</div>
+                <div class="init-desc">WCAG 2.1 AA compliance, EN 301 549 standards, UI/UX accessibility audits</div>
+              </td>
+              <td><span class="effort-pill">269h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#E0E0DC;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">8</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Extensibility</div>
+                <div class="init-desc">User-defined characteristics for Financial Transaction Types and Payment Events</div>
+              </td>
+              <td><span class="effort-pill">157h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#2C4A48;"></span>
+                  HLD
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Operability</div>
+                <div class="init-desc">Proxy service documentation, generic API calls, service invocation without token validation</div>
+              </td>
+              <td><span class="effort-pill">60h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#FF6359;"></span>
+                  Ready for Dev
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+
+</section>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">8,840</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">18</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+  
+  <div class="body"><div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">HLD</span>
+                <span class="legend-count">2 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Design</span>
+                <span class="legend-count">2 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">Waiting Analysis Approval</span>
+                <span class="legend-count">13 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">1 feature</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:93%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:7%; background:#F0A500;">P2</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">93% · 13 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">7% · 1 feature</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Enables comprehensive revenue management from registration through accounting and penalty calculations</li>
+            <li>Supports dynamic installment creation, GL decision table extensibility, and credit interest enhancements</li>
+            <li>Delivers organizational hierarchy visualization and tax account overview capabilities for revenue officials</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Core functionality for tax revenue management platform completeness</li>
+            <li>Addresses regulatory compliance through historical accuracy and validity period enhancements</li>
+            <li>Supports both periodic and ad-hoc revenue types with flexible configuration requirements</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Billing, Assessments and Installments</div>
+                <div class="init-desc">Ad-hoc obligations, installment configuration, transfer amount enhancements</div>
+              </td>
+              <td><span class="effort-pill">1,120h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#2C4A48;"></span>
+                  HLD
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Penalty &amp; Interest</div>
+                <div class="init-desc">Credit interest calculation, unallocated payment segments</div>
+              </td>
+              <td><span class="effort-pill">2,986.9h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  Waiting Analysis Approval
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Registration</div>
+                <div class="init-desc">Organizational hierarchy visualization, revenue type details, validity period enhancements</div>
+              </td>
+              <td><span class="effort-pill">2,389.8h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  Waiting Analysis Approval
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">3</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Tax Accounts</div>
+                <div class="init-desc">Threshold amounts, tax account overview, export functionality</div>
+              </td>
+              <td><span class="effort-pill">529.9h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  Waiting Analysis Approval
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">3</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Taxpayer Accounting</div>
+                <div class="init-desc">GL decision table extensibility, multiline rules, custom overrides</div>
+              </td>
+              <td><span class="effort-pill">1,813.1h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  Waiting Analysis Approval
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · GRC, GTM</span></div>
+
+</section>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Other Activities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">18,794.2</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">10</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">47</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+  
+  <div class="body"><div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">Done</span>
+                <span class="legend-count">0 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Progress</span>
+                <span class="legend-count">0 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">0 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">1 feature</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#BBBBBB;"></div>
+                <span class="legend-text">Waiting Analysis Approval</span>
+                <span class="legend-count">1 feature</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#D3D3D3;"></div>
+                <span class="legend-text">N/A</span>
+                <span class="legend-count">45 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:2.1%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:97.9%; background:#D3D3D3;">N/A</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">P3</span>
+              <span class="prio-legend-pct">2.1% · 1 feature</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#D3D3D3;"></div>
+              <span class="prio-legend-text">N/A</span>
+              <span class="prio-legend-pct">97.9% · 46 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Supports product operations, team coordination, and infrastructure management</li>
+            <li>Ensures consistent team coordination and knowledge sharing across distributed delivery organization</li>
+            <li>Reduces technical debt through proactive defect identification and resolution</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Essential organizational infrastructure supporting feature delivery and product quality</li>
+            <li>Enables strategic planning, architecture decisions, and implementation oversight</li>
+            <li>Maintains demonstration environments and manages security defects and improvements</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Management</div>
+                <div class="init-desc">Product development management, architecture, quality assurance leadership, and operational roles</div>
+              </td>
+              <td><span class="effort-pill">9,115.2h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#D3D3D3;"></span>
+                  N/A
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#D3D3D3;">N/A</span></td>
+              <td><span class="feat-count">11</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Ceremonies and Trainings</div>
+                <div class="init-desc">Team coordination, standups, planning, retrospectives, and training across ten delivery teams</div>
+              </td>
+              <td><span class="effort-pill">3,000h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#D3D3D3;"></span>
+                  N/A
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#D3D3D3;">N/A</span></td>
+              <td><span class="feat-count">10</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Preventive Maintenance</div>
+                <div class="init-desc">Defect identification, analysis, and resolution to reduce technical debt across multiple teams</div>
+              </td>
+              <td><span class="effort-pill">2,960h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#D3D3D3;"></span>
+                  N/A
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#D3D3D3;">N/A</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Release Activities</div>
+                <div class="init-desc">Release planning, coordination, testing, and deployment for hotfix, intermediate, and full releases</div>
+              </td>
+              <td><span class="effort-pill">1,120h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#D3D3D3;"></span>
+                  N/A
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#D3D3D3;">N/A</span></td>
+              <td><span class="feat-count">3</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Corrective Maintenance</div>
+                <div class="init-desc">PSD incidents investigation, resolution, and deployment of fixes for production defects</div>
+              </td>
+              <td><span class="effort-pill">560h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#D3D3D3;"></span>
+                  N/A
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#D3D3D3;">N/A</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Project Support</div>
+                <div class="init-desc">Unofficial support to implementation projects and ad-hoc requests from GR and other projects</div>
+              </td>
+              <td><span class="effort-pill">560h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#D3D3D3;"></span>
+                  N/A
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#D3D3D3;">N/A</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Security</div>
+                <div class="init-desc">Security vulnerability assessment, remediation, and security feature implementation</div>
+              </td>
+              <td><span class="effort-pill">560h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#D3D3D3;"></span>
+                  N/A
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#D3D3D3;">N/A</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Product Support</div>
+                <div class="init-desc">Demo Solon Tax Azure environment upgrade and clean installation</div>
+              </td>
+              <td><span class="effort-pill">551h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#D3D3D3;"></span>
+                  N/A
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#D3D3D3;">N/A</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Technology Management</div>
+                <div class="init-desc">Evaluation, planning, and implementation of technology stack upgrades and dependency updates</div>
+              </td>
+              <td><span class="effort-pill">208h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#D3D3D3;"></span>
+                  N/A
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#D3D3D3;">N/A</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">ARK</div>
+                <div class="init-desc">Architecture and guidelines enhancements including programming guidelines and CI enforcement</div>
+              </td>
+              <td><span class="effort-pill">80h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  Waiting Analysis Approval / To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P3</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Support to PDM</div>
+                <div class="init-desc">Analysis, planning, and preparation activities supporting product management decision-making</div>
+              </td>
+              <td><span class="effort-pill">80h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#D3D3D3;"></span>
+                  N/A
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#D3D3D3;">N/A</span></td>
+              <td><span class="feat-count">1</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+
+</section>
+<section class="slide">
+  
+  <div class="top-bar"></div>
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Self Service Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">4,366.1</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">2</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">13</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div></div>
+  
+  <div class="body"><div class="left-panel">
+      
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">In Design</span>
+                <span class="legend-count">1 feature</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">Waiting Analysis Approval</span>
+                <span class="legend-count">7 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">Under Analysis</span>
+                <span class="legend-count">1 feature</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">1 feature</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:60%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:40%; background:#F0A500;">P3</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Critical</span>
+              <span class="prio-legend-pct">60% · 6 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Lower Priority</span>
+              <span class="prio-legend-pct">40% · 4 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="right-panel">
+      
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Enables operational reports and contacts generation in self-service portal</li>
+            <li>Implements comprehensive representations framework with datetime and timezone support</li>
+            <li>Supports complex delegation hierarchies for legal entities and accounting firms</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Foundational for supporting complex organizational structures and delegation scenarios</li>
+            <li>Enables service-based architecture across self-service portal implementation</li>
+            <li>Supports flexible authorization models for both natural persons and legal entities</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Self Service Services Management</div>
+                <div class="init-desc">Operational reports, contacts generation, service-based architecture refactoring</div>
+              </td>
+              <td><span class="effort-pill">835.2h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  Mixed
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">User &amp; 3rd Party Access Management</div>
+                <div class="init-desc">Representations framework, datetime/timezone support, two-way multilevel authorization, form types and API access</div>
+              </td>
+              <td><span class="effort-pill">3,530.9h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Design
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">11</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span></div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+=== BATCH PROCESSING ENHANCEMENTS ===
+
+=== Summary ===
+Roadmap Initiative: BATCH PROCESSING ENHANCEMENTS
+Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES
+PI: PI 28
+Total Effort: 738.5 hours
+Feature Count: 3
+Requester: Other, GRC
+
+=== Feature Progress ===
+In Progress: 1
+Waiting Analysis Approval: 1
+Total Features: 2
+
+=== Feature Priority ===
+P1: 2
+Total Features: 2
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Modernise Legacy Batch Infrastructure
+Reason 01 Text: Migration of remaining batch jobs from SCDF to Amplio engine reduces technical debt, improves system resilience, and eliminates manual intervention requirements across revenue management operations.
+
+Reason 02 Title: Enhance Batch System Maintainability
+Reason 02 Text: Standardising project structure, centralising duplicated configurations, and resolving artifact naming conflicts reduces long-term maintenance burden and improves code quality across batch processing layers.
+
+Reason 03 Title: Enable Scalable Batch Processing
+Reason 03 Text: Amplio batch improvements and maintenance enhancements support high-volume transaction processing, ensuring system stability during peak periods and campaign-driven mass-processing scenarios.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Amplio batch - Replacement of SCDF with Amplio (Part 2)
+Feature Description: Migrate remaining P1 batch jobs to Amplio Batch engine, including overpayment-process, direct-deposit, and object-access-group-initialization with full deprecation of SCDF.
+Feature Status: In Progress
+Feature Status Color: #F0A500
+Feature Effort: 494.9h
+Feature Priority: P1
+
+Feature Index: Epic 02
+Feature Name: Amplio Batch - improvements and maintenance part 2
+Feature Description: Standardise project structure, centralise configurations, resolve artifact naming conflicts, and clean up redundant POM dependencies across Amplio batch processing system.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 243.6h
+Feature Priority: P1
+
+---

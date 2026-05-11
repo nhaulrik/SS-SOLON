@@ -1,0 +1,29 @@
+{
+  "exportId": "initiative-reference-implementation-1",
+  "exportNumber": 1,
+  "exportName": "initiative-reference-implementation",
+  "createdAt": "2026-04-21T10:04:23.663Z",
+  "source": {
+    "roundId": "7cc19f38-0dd7-48a2-9d90-d45349356572",
+    "outputFile": "output-7cc19f38-0dd7-48a2-9d90-d45349356572.html"
+  },
+  "content": {
+    "slideCount": 1,
+    "totalSize": 12672,
+    "slides": [
+      {
+        "index": 1,
+        "file": "vat.html",
+        "size": 12672,
+        "title": "VAT",
+        "slideId": "slide-1",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "Nikolajs_project",
+    "flowId": "flow-initiative-reference-implementation",
+    "templateFile": ""
+  }
+}

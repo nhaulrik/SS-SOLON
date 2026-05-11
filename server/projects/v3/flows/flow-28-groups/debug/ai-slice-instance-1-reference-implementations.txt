@@ -1,0 +1,438 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (12 rows)
+Issue Type: Feature | IRM: IRM-29513 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: APPLICATION PROCESSES | Roadmap Feature: Support four-eye principle in Solon Tax - Approval Workflow | Requester: GRC | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an IRM Admin, I should be able to configure workflows, that enforce four-eyes approval within business processes, ensuring that one user initiates an action and a different user validates and approves it before completion.
+
+*Introduction* 
+
+This feature is a result of PSD-12702 for UBM project, however it is anticipated that all implementations may use this functionality to cover different business cases. As it is described in the related PSD: 
+
+At present, SOLON does not support double attestation (four eye principle) out of the box in human case management, which conflicts with the following requirement specified in SKV's contract (applicable to UBM as well):
+
+ 
+|​3.2.2.2.1.16|​Functional|​Case Management|​In the software, it shall be possible to configure the actions that require verification (double attestation) by two different case workers during manual handling, including at least:
+ - Manual registration of debiting/crediting
+ - Manual modification of a transaction on a tax account
+ - Manual administration of Swedish and foreign disbursement accounts
+ - Manual registration and modification of a disbursement block​|​LKVFM-2.9.306|
+
+ 
+
+UBM need the possibility to employ double attestation on human tasks, such that a change affected by the completion of the case is verified by at least 2 distinct case workers. This is for example needed for imposing sanctions on either individual people, credit institutions, or countries, where one case worker would create the case, and another one would validate the right target is being sanctioned, approve the case, turn it back to the initiator, who could then complete the task and thereby enforce the sanction. A rejection should naturally not enforce anything, but require a change in the human task from the initiator, or closing of the case altogether. 
+
+Dependent user stories for sanctions are attached as a PNG. They are not yet created as User Stories in toolkit. Furthermore manual registration of payment methods (e.g. for international bank accounts) require double attestation. It is expected that more functional cases that require double attestation will appear. As such, a generic approach to employing double attestation on a human task flow is needed.
+
+A workaround is being worked on that could support double attestation, but is a process that requires a lot of manual setup (see attachment). If SOLON had the capability of staging a change for entities in a human task (without persisting it), waiting for either approval or rejection, the requirements for double attestation would be a simpler task to support. 
+
+*Functional Requirements*
+
+> An admin must be able to create, edit, and delete workflow templates for different business processes
+
+> An admin must be able to configure the states (e.g., {_}Pending → Submitted → Approved → Completed{_}) and transitions between them. 
+
+> An admin must be able to define one or more approval steps within a workflow. 
+
+> An admin must be able to assign which roles (e.g., Maker, Checker) can perform each workflow step. 
+
+> An admin must be able to enforce that the same user cannot perform both maker and checker roles in the same workflow instance. 
+
+> An admin must be able to define rules for assigning checkers (e.g., based on transaction type, workers profile, business unit, availability).
+
+> An admin must be able to configure whether one or multiple checkers are required before an item moves forward. 
+
+> An admin must be able to set conditions (e.g., value thresholds, registration characteristics) that trigger additional approval steps. 
+
+> An admin must be able to configure escalation paths if approvals are delayed beyond a defined time. 
+
+> An admin must be able to configure which users(roles) receive notifications when an action is required.
+
+> An admin must be able to set reminder frequencies and escalation notifications. 
+
+> An admin must be able to configure who can view pending, approved, or rejected workflow items. 
+
+> An admin must be able to monitor the status of workflow instances (pending, approved, rejected, completed).
+
+> An admin must be able to ensure all workflow actions are logged with user ID, timestamp, and action type. 
+
+> An admin must be able to generate reports on workflow performance (e.g., approval times, bottlenecks, compliance with four-eyes). 
+
+> An admin must be able to define workflow steps once and reuse them across different business processes. 
+
+> An admin must be able to configure workflows without coding, using parameters (roles, thresholds, states). 
+
+> An admin _must be able to maintain multiple versions of a workflow template and activate/deactivate them as needed._
+
+ 
+Issue Type: Feature | IRM: IRM-19256 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: PIT | Roadmap Feature: PIT -  Support saving a declaration form in ISS where calculated tax is displayed prior submitting  | Requester: GRC | PI: PI28 | Estimate: 0.8 | Feature Priority: p1 | Feature Status: Ready for Dev | Features Description: As a taxpayer I want to be able to see calculated tax in a declaration form (ie VAT) in taxpayers' portal prior submitting and save this as a draft form, so as to be able to meet requirements for Greek demo.
+
+*Functional Requirement*
+
+> User can see in  ISS a tax declaration form ie VAT total tax amount calculated prior submitting the form, save form as a draft and then open to submit. 
+Issue Type: Feature | IRM: IRM-16516 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: SELF SERVICE ACCOUNT OVERVIEW | Roadmap Feature: SS  Payments - See Taxpayer Account Overview - User - Part 3 - Open/Edit Registration Details | Requester: Other | PI: PI28 | Estimate: 8 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As a self service user, I want to see an overview of a taxpayer account that I can access, so that I can confirm this is the taxpayer account that I intended to access, can understand the obligations for this account, can see notifications sent to this account and see the taxpayer account balances.
+
+*Introduction*
+
+This feature is related to IRM-3447 in which requirements have been doccumented to see an overview of a taxpayer account on the self service.
+
+Some example wireframes have been attached to this feature.  In case the content on the wireframes differs from the functional requirements, then the functional requirement should be used as input when implementing this feature.
+
+*Functional requirements*
+ * User can see registration details of the taxpayer.
+ ** {color:#c1c7d0}Data set:{color}
+ *** {color:#c1c7d0}Name: the primary name of the taxpayer for which the account overview is shown{color}
+ *** {color:#c1c7d0}ID type: the type of the primary identifier of the taxpayer for which the account overview is shown{color}
+ *** {color:#c1c7d0}ID number: the primary identifier number of the taxpayer for which the account overview is shown{color}
+ *** {color:#c1c7d0}Address: the preferred address for communication with the taxpayer for which the account overview is shown{color}
+ *** {color:#c1c7d0}Email: the preferred email address for communication with the taxpayer for which the account overview is shown{color}
+ ** Actions:
+ *** {color:#172b4d}User can open the registration details{color}
+ *** {color:#172b4d}User can open and update the registration details{color}
+ * {color:#c1c7d0}User can see the current balances for each tax type for which this taxpayer was registered{color}
+ ** {color:#c1c7d0}Data set - can contain data for multiple tax types{color}
+ *** {color:#c1c7d0}Tax type: a tax type for which this taxpayer was registered{color}
+ *** {color:#c1c7d0}Balance: the current balance for a tax type for which a taxpayer was registered - any period in which the tax type was applicable for this taxpayer should be considered when calculating the balance{color}
+ ** {color:#c1c7d0}Actions:{color}
+ *** {color:#c1c7d0}User can open the details for a specific tax type for which this taxpayer was registered (see IRM-3449){color}
+ * {color:#c1c7d0}User can see the past, present, and future obligations and their status for the taxpayer account in a timeline{color}
+ ** {color:#c1c7d0}Data set - can contain data for multiple obligations{color}
+ *** {color:#c1c7d0}Tax type: the tax type for which the obligation exists{color}
+ *** {color:#c1c7d0}Obligation action type: the type of action that the taxpayer is obliged to take{color}
+ *** {color:#c1c7d0}Period: the period for which the obligation exists (if any){color}
+ *** {color:#c1c7d0}Status: the status of the action that the taxpayer is obliged to take - user can for example see if the action has been completed or not - and see for actions that have not been completed yet whether the action is considered overdue or not (e.g. overdue is red, due is orange and completed is green){color}
+ *** {color:#c1c7d0}Obligation Due date: the date by which the action, that the taxpayer is obliged to take, must be completed{color}
+ ** {color:#c1c7d0}Actions:{color}
+ *** {color:#c1c7d0}User can open the details for a specific obligation{color} (see IRM-3451)
+ * {color:#c1c7d0}User can see the latest notifications{color}
+ ** {color:#c1c7d0}Data set - can contain data for multiple notifications{color}
+ *** {color:#c1c7d0}Notification date: the date the notification was sent to the taxpayer{color}
+ *** {color:#c1c7d0}Notification message: the notification message header{color}
+ *** {color:#c1c7d0}Notification read or unread: indication whether the user has read the message ate least once or not{color}
+ *** {color:#c1c7d0}Notification importance: the importance of the notification{color}
+ ** {color:#c1c7d0}Actions:{color}
+ *** {color:#c1c7d0}User can open the details for a specific notification{color}
+Issue Type: Feature | IRM: IRM-5111 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: SELF SERVICE FILING & PAYMENTS | Roadmap Feature: SS Payments - See Filing Obligation Details - Part 2 | Requester: Other | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: To Do | Features Description: As a self service user, I want to see the details of a specific filing obligation for a specific taxpayer, so that I can see what forms have been created and/or already filed as a result of this obligation, what amounts have been assessed as a result of filing these forms, and what other information has been exchanged with the revenue authority related to this filing obligation such as supporting documents and notices.
+
+*Introduction*
+
+Some example wireframes have been attached to this feature. In case the content on the wireframes differs from the functional requirements, then the functional requirement should be used as input when implementing this feature.
+
+*Functional Requirements*
+ * User can see the details of a specific filing obligation for a specific taxpayer
+
+ ** Actions:
+
+ *** {color:#172b4d}User can open a new or draft amended tax return form for a filing obligation. Assumption is that the correct tax return form is opened for the specific tax type for which the overview is provided. Also, the assumption is that the tax return form can be prefilled with data that is already known - for example the taxpayer details, filing period details and data from the original tax return. User can only open a new or draft amended tax return if an original tax return has been submitted for this filing obligation. Assumption is that the user can only amend a tax return for specific tax types (e.g. for corporate income tax).{color}
+ *** {color:#172b4d}User can open a payment form (see IRM-3542 for an example of a payment form) to pay the sum of all current positive balances of any payment obligations that are related to a specific filing obligation (e.g. late filing penalty or tax assessment and any related charges that were added after filing a tax return for this filing obligation). Assumption is that the payment form can be prefilled with data that is already known - for example the taxpayer details and the payment obligation details. User can only open a payment form if there is an outstanding amount that needs to be paid for these payment obligations.{color}
+ *** {color:#172b4d}User can open a form to request a refund if an overpayment exists for one or more payment obligations that are related to a specific filing obligation (e.g. late filing penalty or tax assessment and any related charges that were added after filing a tax return for this filing obligation). Assumption is that the refund request form can be prefilled with data that is already known - for example the taxpayer details and the details of the payment obligations for which an overpayment exists. User can only open a refund request form if an overpayment amount exists for any of the payment obligations.{color}
+ *** {color:#172b4d}User can open a form to request to offset an overpayment that exists for one or more payment obligations that are related to a specific filing obligation (e.g. late filing penalty or tax assessment and any related charges that were added after filing a tax return for this filing obligation). Assumption is that the request overpayment offset form can be prefilled with data that is already known - for example the taxpayer details and the overpayment amount that can be offset.{color}
+
+ *** {color:#c1c7d0}User can upload a supporting document that can be used by the revenue authority to validate the content of the submitted tax return. User can only upload a document if the obligation to file a tax return has been met.
+ *** User can open a financial overview (see IRM-3452) for the payment obligations that are related to a specific filing obligation (e.g. late filing penalty or tax assessment and any related charges that were added after filing a tax return for this filing obligation).
+ * User can see what amounts have been assessed related to a specific filing obligation (e.g. late filing penalty or tax assessment that was added after filing a tax return for this filing obligation). Any charges (e.g. late payment penalty or interest) that are levied towards these original assessments are not considered in this overview.
+ ** Data set - can contain data for multiple assessments
+ *** Filing type: the type of submission that was done (e.g. submit preliminary, original or amended tax return)
+ *** Letter reference number: unique reference number of the assessment notice in which the taxpayer was informed about the assessment
+ *** Assessed amount: the amount that was assessed{color}
+
+ 
+ * {color:#172b4d}User can see what draft tax returns exist for a specific filing obligation. These tax returns have not been submitted yet.{color}
+ ** {color:#172b4d}Data set - can contain data for multiple draft tax returns - most often just one draft form{color}
+ *** {color:#172b4d}Form type: the type of form that was saved as a draft{color}
+ *** {color:#172b4d}Form reference number: the reference number of the form that was saved as a draft{color}
+ *** {color:#172b4d}Last updated date: the date the draft form was last updated{color}
+ *** {color:#172b4d}Status: the status of the form that was saved as a draft (e.g. saved){color}
+ ** {color:#172b4d}Actions:{color}
+ *** {color:#172b4d}User can open the draft tax return (see IRM-3539 for an example of a value added tax return form){color}
+ * {color:#172b4d}User can see what supporting documents have been uploaded for a specific filing obligation.{color}
+ ** {color:#172b4d}Data set - can contain data for multiple supporting documents{color}
+ *** {color:#172b4d}Document type: the type of supporting document that was submitted to the revenue authority{color}
+ *** {color:#172b4d}Document reference number: a unique reference number of the supporting document that was submitted to the revenue authority{color}
+ *** {color:#172b4d}Submission date: the date the supporting document was submitted to the revenue authority{color}
+ *** {color:#172b4d}Status: the status of submitting a supporting document (e.g. submitted){color}
+ ** {color:#172b4d}Actions:{color}
+ *** {color:#172b4d}User can open a supporting document{color}
+ * {color:#172b4d}User can see what letters (e.g. reminder letter, notice letter) were sent to the taxpayer by the revenue authority.{color}
+ ** {color:#172b4d}Data set:{color}
+ *** {color:#172b4d}Letter type: the type of letter that was sent to the taxpayer{color}
+ *** {color:#172b4d}Letter reference number: a unique reference for the letter that was sent to the taxpayer{color}
+ *** {color:#172b4d}Description: a description of the letter that was sent to the taxpayer{color}
+ *** {color:#172b4d}Letter date: the date the letter was considered to have been delivered to the taxpayer{color}
+ ** {color:#172b4d}Actions:{color}
+ *** {color:#172b4d}User can open a letter (see attached wireframe){color}
+Issue Type: Feature | IRM: IRM-25436 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: SELF SERVICE FILING & PAYMENTS | Roadmap Feature: SS Enhancements - Refactor existing self service pages to work through services implementation - part 4 / Important | Requester: GRC | PI: PI28 | Estimate: 112 | Feature Priority: p1 | Feature Status: Under Analysis | Features Description: As an admin, I want to define what services are provided on the portal (e.g. view account overview, view obligation overview, view CIT return, file CIT return, pay an obligation, or file an objection) and what portal resources (e.g. menu item, input form, page or action) and permissible operations are required for each of these services, so that a portal user can easily grant sub-users and/or representative users access to these services for the parties in specific roles to which this portal user has been linked or has been granted access to.
+
+ 
+
+Specifically, it should include the security solution for submitting forms and making payments which were descoped from part 1 feature. Any other item required according to architecture decisions should be considered here.
+
+When this is implemented the self service application should not user any pass through endponts towards the backend system 
+
+ 
+
+Check linked stories for relevant work in this feature
+Issue Type: Feature | IRM: IRM-3545 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: SELF SERVICE FILING & PAYMENTS | Roadmap Feature: SS Payments - See Payment Details | Requester: Other | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As a self service user, I want to see the details of a specific payment, so that I can understand when and how the payment was made, understand what was paid and see the related payment receipt.
+
+*Introduction*
+
+Some example wireframes have been attached to this feature. In case the content on the wireframes differs from the functional requirements, then the functional requirement should be used as input when implementing this feature.
+
+*Functional Requirements*
+ * User can see the details of a specific payment
+ ** Data set:
+ *** Payment date: the date on which a payment was made by the user
+ *** Payment method: the method that was used to make the payment
+ *** Amount paid: the amount that was paid by the user
+ *** Status: the status of the payment that was made by the user (e.g. accepted and cancelled)
+ * User can see what payment form was submitted to make the payment
+ * Data set
+ ** Form type: the type of form that was submitted
+ ** Form reference number: the reference number of the form that was submitted
+ ** Submission date: the date the form was submitted
+ ** Status: the status of the form that was submitted (e.g. submitted, being processed or processed)
+ * Actions:
+ ** User can open a submitted payment form (see IRM-3542 for an example of a payment form)
+
+
+ * User can see the payment receipt that was provided after having completed the payment
+ ** Data set:
+ *** Receipt number: a unique reference for the payment receipt that was provided
+ *** Creation date: the date the receipt was created
+ ** Actions:
+ *** User can open the receipt (see attached wireframe)
+ * User can see what was paid with the payment.
+ ** Data set:
+ *** Tax type: description of the tax type to which the payment was distributed for the taxpayer
+ *** Period: description of the period (if any) to which the payment was distributed for the taxpayer
+ *** Amount paid: the amount that was paid to the specific tax type and period for the taxpayer
+Issue Type: Feature | IRM: IRM-3543 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: SELF SERVICE FILING & PAYMENTS | Roadmap Feature: SS Payments - See Payment History | Requester: Other | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As a self service user, I want to see what payments were made for a specific taxpayer, so that I understand when those payments were made, what payment methods were used, how much was paid and see the statuses of these payments.
+
+*Introduction*
+
+Some example wireframes have been attached to this feature. In case the content on the wireframes differs from the functional requirements, then the functional requirement should be used as input when implementing this feature.
+
+*Functional Requirements*
+ * User can see the payments that were made for a specific taxpayer
+ ** Filters:
+ *** Year: user can choose to view the payments for all years or for a specific year
+ *** Status: user can choose to view the payments with any status or to view only payments with a specific status
+ ** Data set:
+ *** Payment date: the date on which a payment was made by the user
+ *** Payment method: the method that was used to make the payment
+ *** Amount paid: the amount that was paid by the user
+ *** Status: the status of the payment that was made by the user (e.g. accepted, rejected and cancelled)
+ ** Actions:
+ *** User can open the details of a specific payment (see IRM-3545)
+Issue Type: Feature | IRM: IRM-3542 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: SELF SERVICE FILING & PAYMENTS | Roadmap Feature: SS  Payments - Submit Payment Form | Requester: Other | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As a self service user, I want fill in and submit a payment form to pay the amounts owed for certain payment obligations, so that I can meet these payment obligations towards the revenue authority.
+
+*Introduction*
+
+Some example wireframes have been attached to this feature. In case the content on the wireframes differs from the functional requirements, then the functional requirement should be used as input when implementing this feature.
+
+*Functional Requirements*
+ * User can see a payment form
+ ** Data set:
+ *** Taxpayer details
+ **** Taxpayer name: name of the taxpayer for which the payment obligations exist - assumption is that the taxpayer name can be prefilled and is read-only
+ **** Identification type: the primary identification type of the taxpayer - assumption is that the identification type can be prefilled and is read-only
+ **** Identification number: the primary identification number of the taxpayer - assumption is that the identification type can be prefilled and is read-only
+ *** Payment details
+ **** Payment method: payment methods that the user can select from - payment method credit card is used as an example in this example
+ **** Payment service provider: payment service providers that the user can select from - payment service provider can only be selected if there are multiple payment service providers that support the selected payment method
+ **** Credit card: types of credit cards that the user can choose from
+ **** Credit card number: number on the user's credit card
+ **** Expiry date month: credit card will expire at the end of this month
+ **** Expiry date year: credit card will expire in this year
+ **** CVV Security Code: security code that can be found on the back of the credit card
+ **** Name: name that is displayed on the front of the card
+ *** Payment Obligations - can contain data of multiple payment obligations
+ **** Tax type: description of the tax type for which the payment obligation exists - assumption is that this information is prefilled based on the payment obligations that were selected on a previous page (see for example IRM-3451 and IRM-3541) and read-only
+ **** Period: description of the period (if any) for which the obligation to pay certain liabilities exist (e.g. late filing penalty or tax assessment and any related charges that were added after filing a tax return for this period) - assumption is that this information is prefilled based on the payment obligations that were selected on a previous page (see for example IRM-3451 and IRM-3541) and read-only
+ **** Payable amount: the total outstanding amount for a payment obligation - assumption is that this information is prefilled based on the payment obligations that were selected on a previous page (see for example IRM-3451 and IRM-3541) and read-only
+ **** Payment amount: amount that the user can enter to indicate how much should be paid for a specific payment obligation - assumption is that the payment amount is equal to the payable amount by default
+ **** Total payable amount: the sum of the payable amounts of the selected payment obligations - assumption is that this amount is calculated and read-only
+ **** Total payment amount: the sum of the amount that will be paid for the selected payment obligations - assumption is that this amount is calculated and read-only
+ ** Actions:
+ *** User can print a payment form as a PDF
+ *** User can submit a payment form once the form has been filled in. User can see if there are any validation issues that need to be resolved before the value added tax return can be submitted. User can see a confirmation if the payment was successfully processed (see attached wireframe). User can open a payment receipt if the payment was successfully processed (see attached wireframe).
+Issue Type: Feature | IRM: IRM-3541 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: SELF SERVICE FILING & PAYMENTS | Roadmap Feature: SS  Payments - See Current Payment Obligations | Requester: Other | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As a self service user, I want to see what payment obligations exist for a specific taxpayer, so that I can take action to pay what is owed by the taxpayer to the revenue authority.
+
+*Introduction*
+
+Some example wireframes have been attached to this feature. In case the content on the wireframes differs from the functional requirements, then the functional requirement should be used as input when implementing this feature.
+
+*Functional Requirements*
+ * User can see the current payment obligations for a specific taxpayer
+ ** Data set:
+ *** Tax type: description of the tax type for which the obligation to pay certain liabilities exist
+ *** Period: description of the period (if any) for which the obligation to pay certain liabilities exist (e.g. late filing penalty or tax assessment and any related charges that were added after filing a tax return for this period)
+ *** Payable amount: the amount that the taxpayer is obliged to pay for the specific tax type in the specific period (if any)
+ *** Status: the status of the payment action that the taxpayer is obliged to perform - user can see whether the action is considered overdue or not
+ ** Actions:
+ *** User can select one or more payment obligations for which the user wants to take action to pay what is owed to the revenue authority
+ *** User can open a payment form (see IRM-3542) to provide the information that is required to pay the selected payment obligations
+Issue Type: Feature | IRM: IRM-374 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: SELF SERVICE FILING & PAYMENTS | Roadmap Feature: SS Payments - Initiate Payment from Self Service Portal - User | Requester: GRC | PI: PI28 | Estimate: 54.4 | Feature Priority: p2 | Feature Status: Under Analysis | Features Description: As a taxpayer, I want to see and pay my outstanding liabilities from the self service portal, so that I can understand and meet my payment obligations towards the revenue authority.
+
+*Introduction*
+
+This feature describes how the taxpayer can use the taxpayer self service portal to initiate a payment to pay outstanding liabilities.
+
+The steps the taxpayer must follow to initiate and complete a payment may vary depending on the type of integration between ICARUS and the payment service providers (a.k.a. payment gateways or PSPs). Integration types to consider are (1) hosted - taxpayer leaves self service portal to complete payment on PSP portal, (2) direct post - PSP page that is used to complete the payment is embedded in a frame on self service portal and (3) non-hosted - self service portal provides features to capture all payment details and uses an API to submit details to the PSP. This feature describes the requirements assuming the 3rd type of integration is used.
+
+Revenue authorities can depending on the requirements provide various options on the self service portal to pay outstanding liabilities, including for example (1) pay party role, (2) pay specific tax account, (3) pay a specific filing period, (4) pay a specific pay plan, (5) pay a specific collection notice, (6) pay a specific tax return, or (7) pay a specific single assessed liability (e.g. tax, penalty or interest). This feature describes the requirements for the 3rd and 7th option.
+
+Revenue authorities can depending on the requirements provide various payment methods on the self service portal to pay outstanding liabilities. Examples include (1) credit card, (2) debit card, (3) PayPal and other similar services, (4) M-Pesa, Paym and other similar services, (5) direct debit, (6) PDS2 and other similar services and (7) guarantees registered at the revenue authority. This feature describes the requirements for the 1st option.
+
+Revenue authorities and/or payment service providers may charge convenience fees. Information on any applicable fees must be presented to the portal user before submitting the payment. Convenience fee requirements will be documented in another feature.
+
+As credit card details are used in the self service portal, the product should cater for features to allow the revenue authority to be PCI-DSS compliant. Relevant PCI-DSS requirements will be documented in another feature.
+
+*Functional requirements*
+ * User can select outstanding liabilities for payment. Examples in scope for this feature are:
+ ** User can see a list with outstanding liabilities. Examples of properties to display in the list are the debt category, revenue type, filing period, notice reference number, payable amount and status of the liability (e.g. pending or overdue). User can select one or more outstanding liabilities for payment. See example on attached screenshot 'ICARUS Self Service Pay Specific Assessed Liabilities Example.png'. Multi-select and passing data to another action will be implemented as part of IRM-401.
+ ** User can see the assessed liabilities (including outstanding liabilities) for a specific filing period (on the filing obligation details page). User can choose to pay all outstanding liabilities for the filing period or choose to pay a single assessed liability. See example on attached screenshot 'ICARUS Self Service Pay Specific Filing Period Example.png'.
+ * User can enter the following data in the sample payment form.
+ See example of form in attached screenshot 'ICARUS Self Service Payment Form Credit Card Example.png'
+ ** Taxpayer Details
+ *** Taxpayer Name (prefilled and read-only)
+ *** Identification Type (prefilled and read-only)
+ *** Identification Number (prefilled and read-only)
+ ** Payment Details
+ *** Payment Method (configurable list)
+ *** Payment Service Provider (configurable list)
+ Payment Service Provider field is only shown if there are multiple Payment Service Providers defined that support the selected Payment Method
+ *** Credit Card (configurable list)
+ *** Credit Card Number
+ *** Expiry Date - Month
+ *** Expiry Date - Year
+ *** CVV Security Code
+ *** Name on Card
+ ** Payment Obligations (multiple; prefilled based on selected outstanding liabilities)
+ *** Debt Category (prefilled)
+ *** Revenue Type (prefilled)
+ *** Period (prefilled)
+ *** Reference Number (prefilled)
+ *** Payable Amount (prefilled)
+ *** Payment Amount
+ User can enter the payment amount for each row with outstanding liability details.
+ *** Total Payable Amount (calculated)
+ *** Total Payment Amount (calculated)
+ * User can see currency symbol for amounts.
+ * User can save a draft of the payment form.
+ * User can print the payment form to PDF.
+ * User can submit the payment form to the Payment Service Provider.
+ * User can see a payment confirmation message if the payment was successfully processed after submission. Examples of data displayed on the payment confirmation are the payment status, payment date, payment amount and payment receipt number. See example on attached screenshot 'ICARUS Self Service Payment Confirmation.png'.
+ * If the payment could not be processed after submission, the user can see the validation exceptions in the payment form. Examples of reasons why the payment could not be processed are invalid credit card number and credit card is expired. The user should be able to correct the data entered in the payment form or to abort the attempt to pay
+ * User can open the payment receipt. Examples of data displayed on the payment receipt are taxpayer name, taxpayer identification type, taxpayer identification number, taxpayer address, payment method, payment date, payment amount, and information about what was paid (e.g. tax type and filing period) (will be handled by IRM-380)
+ * User can print the payment receipt to PDF (will be handled by IRM-380)
+
+ *Note* that the form described above refers to the case of paying transactions. A different form should be created for the case of paying an obligation (Pay button on upper part of "ICARUS Self Service Pay Specific Filing Period Example.png"
+Issue Type: Feature | IRM: IRM-38759 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: VAT | Roadmap Feature: VAT Tax Account Reference Implementation | Requester: GTM | PI: PI28 | Estimate: 355.6 | Feature Priority: p1 | Feature Status: HLD | Features Description: As a revenue officer, I would like to add debts and payments to a tax account, so that I am able to demo how Solon supports a VAT account (i.e., Tax Account only for VAT).
+
+*Introduction* 
+
+This feature aims to create the necessary configuration for a Tax Account reference imp[lementation. The Overview of the Tax Account that is needed in all implementations using a Tax Account is in scope of feature ... 
+
+*Functional Requirements*
+
+*Core Configuration Requirements*
+ # *Revenue Type Configuration*
+
+ * *"VAT for Tax Account" Revenue Type* with flags:
+ * taxAccount: true - Enable tax account functionality
+ * reconciliationPeriod: true - Enable reconciliation period support
+
+ * {*}Revenue Type Category{*}: PERIODIC
+ * {*}Revenue Type Actions{*}: FILING, PAYMENT
+ * {*}Calendar Integration{*}: Link to appropriate revenue calendars{*}{{*}}
+
+ 
+ * *"VAT for Tax Account Ad hoc" Revenue Type* with flags:
+
+ * 
+ ** taxAccount: true - Enable tax account functionality
+ ** reconciliationPeriod: true - Enable reconciliation period support
+
+ * {*}Revenue Type Category{*}: Ad Hoc
+ * {*}Revenue Type Actions{*}: PAYMENT
+
+ 
+ # *Reconciliation Period Management*
+
+ * *Reconciliation Period Entity* configuration with:
+ * Period codes (e.g., "2024M1", "2024M2")
+ * Start and end dates for each period
+ * Active/Inactive status management
+
+ * *Revenue Type Registration Reconciliation Period* linking:
+ * Opening and closing balances per period
+ * Party informed indicator
+
+ # *Financial Transaction-Reconciliation period*
+
+ * {*}FT Reconciliation Period Link{*}: Enable FTs to reference reconciliation periods
+ * {*}Automatic Period Assignment{*}: Link FTs to reconciliation periods based on creation date
+ * {*}Validation Rules{*}: Ensure only revenue types with reconciliationPeriod: true can link to periods
+
+ # *Tax Account UI Configuration*
+
+ * {*}Specialized UI Schema{*}: entitySubType: 'TaxAcc_RP' for Revenue Type Registration
+ * {*}Balance Display{*}: Show opening/closing balances per reconciliation period
+ * {*}Period Timeline{*}: Visual representation of reconciliation periods
+ * {*}Balance Update Interface{*}: Enable manual balance adjustments with audit trail
+
+*Business Process Requirements*
+ # *Balance Management*
+
+ * {*}Opening Balance Recording{*}: Support initial balance entry per reconciliation period
+ * {*}Closing Balance Calculation{*}: Automatic calculation based on transactions and adjustments
+ * {*}Balance Transfer{*}: Opening balance of next period equals closing balance of previous period
+ * {*}Manual Adjustments{*}: Allow authorized balance corrections with proper validation
+
+ # *Debt and Payment Processing*
+
+ * {*}Debt Recording{*}: Create financial transactions for VAT liabilities
+ * {*}Payment Processing{*}: Record and allocate VAT payments to specific periods
+ * {*}Cross-Period Allocation{*}: Support payment allocation across multiple reconciliation periods
+ * {*}Interest and Penalty Calculation{*}: Apply to overdue amounts per period
+
+ 
+
+*Documentation*
+Document all the above configuration for introducing a reference implementation for the Tax Account is vital for Demos and future implementation needs. 
+
+ 
+
+ 
+Issue Type: Feature | IRM: IRM-38710 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: VAT | Roadmap Feature: VAT Return Form - Warning for Intracommunity Transaction Enhancement | Requester: GTM | PI: PI28 | Estimate: 74.9 | Feature Priority: p2 | Feature Status: Waiting Analysis Approval | Features Description: As a RM User, I would like to see a warning when I fill in intracommunity transaction fields in the VAT Return Form, so that I am informed of my obligations to submit the corresponding VIES Statement in the respective deadline.
+
+*Introduction* 
+
+This feature enhances the VAT Return Form by implementing a warning mechanism for intracommunity transactions. The enhancement includes field label corrections to enhance understanding of these fields and a business-critical warning to ensure taxpayers comply with VIES Statement submission requirements. 
+
+ 
+
+*Functional Requirements*
+
+*Field Label Corrections*
+The following field labels in the VAT Return Form will be renamed to accurately reflect their purpose:
+
+VAT on Sales Section:
+
+TOTAL SALES BUYER OBLIGATED → Intracommunity Sales
+TOTAL SALES BUYER NOT OBLIGATED → Intracommunity Sales without VAT
+VAT on Purchases Section:
+
+TOTAL PURCHASES BUYER OBLIGED FOR VAT → Intracommunity Purchases
+TOTAL PURCHASES BUYER NOT OBLIGED FOR VAT → Intracommunity Purchases without VAT
+
+
+
+*Warning Implementation*
+When any of the intracommunity transaction fields contain values, the system shall display a warning message:
+
+Warning Message:
+
+"For these transactions, in addition to the VAT return, you are required to submit the corresponding *VIES Statement* by the 25th day of the following month."
+
+Warning Behavior:
+ * Warning appears when any intracommunity field has a non-zero value
+ * User can proceed with form submission despite the warning
+ * Warning persists until form is submitted or fields are cleared

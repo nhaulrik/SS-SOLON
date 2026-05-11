@@ -1,0 +1,40 @@
+=== FORM PROCESSING ===
+
+=== Summary ===
+Roadmap Initiative: FORM PROCESSING
+Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES
+PI: PI 28
+Total Effort: 373.1 hours
+Feature Count: 1
+Requester: GRC
+
+=== Feature Progress ===
+In Design: 1
+Total Features: 1
+
+=== Feature Priority ===
+P1: 1
+Total Features: 1
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enhance Form Metadata Tracking
+Reason 01 Text: Recording form creator and submitter details enables audit trails distinguishing between form originators and submitters, supporting compliance requirements and improving accountability in form processing workflows.
+
+Reason 02 Title: Enable Form Data Extensibility
+Reason 02 Text: User-defined characteristics for forms allow organisations to capture additional metadata without code changes, supporting diverse implementation requirements and reducing customisation effort.
+
+Reason 03 Title: Support Form Audit Requirements
+Reason 03 Text: Comprehensive form metadata including external system timestamps and user-defined fields enables complete audit trails for regulatory compliance and investigation purposes.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Forms : Be able to log details for the submitter of the form /RM &SS
+Feature Description: Enable recording of form creator and submitter details as Party Role references, external system timestamps, and user-defined characteristics for comprehensive form audit trails.
+Feature Status: In Design
+Feature Status Color: #4A90D9
+Feature Effort: 373.1h
+Feature Priority: P1
+
+---

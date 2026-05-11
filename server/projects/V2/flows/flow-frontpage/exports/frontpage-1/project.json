@@ -1,0 +1,16 @@
+{
+  "name": "V2",
+  "exportId": "frontpage-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-04-29T09:22:57.294Z",
+  "slideCount": 1,
+  "slides": [
+    {
+      "index": 1,
+      "file": "frontpage.html",
+      "slideId": "slide-1",
+      "title": "frontpage",
+      "type": "content"
+    }
+  ]
+}

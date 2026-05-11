@@ -1,0 +1,78 @@
+=== MANAGEMENT ===
+
+=== Summary ===
+Roadmap Initiative: MANAGEMENT
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 9115 hours
+Feature Count: 13
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Ensure Effective Program Governance
+Reason 01 Text: Product management, development leadership, and PMO oversight maintain alignment with strategic roadmap and delivery commitments.
+
+Reason 02 Title: Enable Cross-Team Coordination
+Reason 02 Text: Technical architecture, implementation leads, and DevOps coordination ensure seamless integration across distributed delivery teams.
+
+Reason 03 Title: Support Delivery Excellence
+Reason 03 Text: Service desk, test management, and implementation leadership provide operational support for successful project execution.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Product Development Management
+Feature Description: Product development management oversight and coordination for current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 1296h
+Feature Priority: P2
+
+Feature Index: Epic 02
+Feature Name: Product Management PdM
+Feature Description: Product management activities and strategic planning for current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 1944h
+Feature Priority: P2
+
+Feature Index: Epic 03
+Feature Name: Product Architect
+Feature Description: Technical architecture leadership and design oversight for current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 864h
+Feature Priority: P2
+
+Feature Index: Epic 04
+Feature Name: Product Test Manager
+Feature Description: Test management and quality assurance oversight for current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 432h
+Feature Priority: P2
+
+Feature Index: Epic 05
+Feature Name: Product Implementaions Leads (PIL)
+Feature Description: Implementation leadership coordination across all delivery teams for current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 1728h
+Feature Priority: P2
+
+Feature Index: Epic 06
+Feature Name: PIL2 TL - Daedalus, Athena, Spartans
+Feature Description: Team lead management for Daedalus, Athena, and Spartans implementation teams.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 389h
+Feature Priority: P2
+
+---

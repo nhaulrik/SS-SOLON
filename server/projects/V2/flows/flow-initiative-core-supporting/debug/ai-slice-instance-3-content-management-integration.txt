@@ -1,0 +1,40 @@
+=== CONTENT MANAGEMENT INTEGRATION ===
+
+=== Summary ===
+Roadmap Initiative: CONTENT MANAGEMENT INTEGRATION
+Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES
+PI: PI 28
+Total Effort: 80 hours
+Feature Count: 1
+Requester: GRC
+
+=== Feature Progress ===
+To Do: 1
+Total Features: 1
+
+=== Feature Priority ===
+P3: 1
+Total Features: 1
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Productise Self-Service CMS Integration
+Reason 01 Text: Generic CMS integration capability enables self-service portals to deliver dynamic content without platform-specific dependencies, supporting multiple implementations and reducing customisation effort.
+
+Reason 02 Title: Enable Content Flexibility
+Reason 02 Text: Integration with content management systems allows organisations to manage portal content independently, reducing development cycles and enabling rapid content updates without system deployments.
+
+Reason 03 Title: Support Multi-Implementation Approach
+Reason 03 Text: Productised CMS integration removes Drupal-specific constraints, enabling broader adoption across implementations with different content management preferences and infrastructure requirements.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: SS Enhancements - CMS Integration
+Feature Description: Productise generic CMS integration for self-service portals, removing Drupal-specific dependencies and enabling flexible content management across multiple implementations.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 80h
+Feature Priority: P3
+
+---

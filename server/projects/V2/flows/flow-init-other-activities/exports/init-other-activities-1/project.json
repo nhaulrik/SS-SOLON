@@ -1,0 +1,79 @@
+{
+  "name": "V2",
+  "exportId": "init-other-activities-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-04-29T08:14:47.481Z",
+  "slideCount": 10,
+  "slides": [
+    {
+      "index": 1,
+      "file": "ark.html",
+      "slideId": "slide-1",
+      "title": "ARK",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "ceremonies-and-trainings.html",
+      "slideId": "slide-2",
+      "title": "CEREMONIES AND TRAININGS",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "corrective-maintenance.html",
+      "slideId": "slide-3",
+      "title": "CORRECTIVE MAINTENANCE",
+      "type": "content"
+    },
+    {
+      "index": 4,
+      "file": "management.html",
+      "slideId": "slide-4",
+      "title": "MANAGEMENT",
+      "type": "content"
+    },
+    {
+      "index": 5,
+      "file": "preventive-maintenance.html",
+      "slideId": "slide-5",
+      "title": "PREVENTIVE MAINTENANCE",
+      "type": "content"
+    },
+    {
+      "index": 6,
+      "file": "product-support.html",
+      "slideId": "slide-6",
+      "title": "PRODUCT SUPPORT",
+      "type": "content"
+    },
+    {
+      "index": 7,
+      "file": "project-support.html",
+      "slideId": "slide-7",
+      "title": "PROJECT SUPPORT",
+      "type": "content"
+    },
+    {
+      "index": 8,
+      "file": "release-activities.html",
+      "slideId": "slide-8",
+      "title": "RELEASE ACTIVITIES",
+      "type": "content"
+    },
+    {
+      "index": 9,
+      "file": "security.html",
+      "slideId": "slide-9",
+      "title": "SECURITY",
+      "type": "content"
+    },
+    {
+      "index": 10,
+      "file": "support-to-pdm.html",
+      "slideId": "slide-10",
+      "title": "SUPPORT TO PDM",
+      "type": "content"
+    }
+  ]
+}

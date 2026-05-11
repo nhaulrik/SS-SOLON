@@ -1,0 +1,29 @@
+{
+  "exportId": "group-non-functional-requirement-coverage-2",
+  "exportNumber": 2,
+  "exportName": "group-non-functional-requirement-coverage",
+  "createdAt": "2026-04-21T13:15:35.312Z",
+  "source": {
+    "roundId": "56703bbd-09d8-47ac-8980-077becb3fa58",
+    "outputFile": "output-56703bbd-09d8-47ac-8980-077becb3fa58.html"
+  },
+  "content": {
+    "slideCount": 1,
+    "totalSize": 22039,
+    "slides": [
+      {
+        "index": 1,
+        "file": "non-functional-requirement-coverage.html",
+        "size": 22039,
+        "title": "NON-FUNCTIONAL REQUIREMENT COVERAGE",
+        "slideId": "slide-1",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "Nikolajs_project",
+    "flowId": "flow-initiative-group",
+    "templateFile": ""
+  }
+}

@@ -1,0 +1,1564 @@
+=== Agent 1: slide_1 — #1 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML elements, class names, attributes, and nesting depth.
+- Replicate the same number of list items, bullet points, sections, and metric blocks as shown in the template.
+- If the template has 4 bullets — output 4 bullets. If it has 3 sections — output 3 sections.
+- Only text content and src/href values may differ from the template.
+- Never add, remove, flatten, or restructure elements.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: Estimates.xlsx / Estimates] (3 rows)
+Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: UI CONFIGURATION | Initiative Total Hours: 240
+Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: UI CONFIGURATION | Initiative Total Hours: 136
+Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: UI CONFIGURATION | Initiative Total Hours: 467.60000000000014
+
+[Sheet: Roadmap_JIRA.csv / Sheet1] (3 rows)
+IRM: IRM-38682 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: UI CONFIGURATION | Epic: UI Configuration Enhancements | Roadmap Feature: UI/UX Improvements : Prefilling a field in a form based on the value of another field | Status: Waiting Solution Approval | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 160 | Priority: p1 | Enriched Jira Features.Summary: UI/UX Improvements : Prefilling a field in a form based on the value of another field | Enriched Jira Features.Description: As a user I need when a codelist is mandatory and only one item is available and no default value , system to autofill the existing value. 
+
+As a user I need when 2 codelist  1 (parent) , 2 (child) via codelist items are related (e.g.   codelist 1, A item  -as parent - ,  when selected,  result to codelist 2,  B item - as child  ) and user selects parent value A when for B only the value B is available , the value b to be auto selected and prefilled. 
+
+As a configurator I need to be able to set in the codelists an optional to be used  attribute , that may instruct  the prefill  of codelist item value in this codelists, if one value is available based on filters.
+
+*Functional requirements*
+
+Configurator may set in codelist fields an optionally used attribute/metadato , e.g. "AutofillIfUnique"
+which attribute will enable in UI the autofill of value in codelist, when only one  codelist item value is available based on filters and related codelist items.
+ * Examples/ Cases : 
+ ** +Mandatory items case+
+In a Mandatory Codelist "C3"  , Non default value is defined 
+The only available value is the "C Value" 
+When use this field in forms, autoselect and prefil "C Value". 
+ ** +Related codelist items case+
+Codelist "C1 parent"  ,  Values A1, A2 
+Codelist "C2 child"  ,  Values B1, B2 , B3
+Relations : 
+C1 parent  -> A1 with  C2 child -> B2 (ONLY) 
+user selects A1 
+Autoselect and prefil B2  value in C2 
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected to reassure that relevant NFRs (Performance , Security, Accessibility, Usability ) are tested and are not negatively affecting the product.  
+DODs should be fulfilled.  | Enriched Jira Features.Benefit Hypothesis: - | Enriched Jira Features.Acceptance Criteria: * Configurator may set in codelist fields an optionally used attribute/metadato , e.g. "{-}AutofillIfUnique{-}" --> "{*}{{autofillOnlyOption}}{*}"
+which attribute will enable in UI the autofill of value in codelist, when only one  codelist item value is available based on filters and related codelist items.
+ * System may display prefilled value in codelist, when only one  codelist item value is available.
+IRM: IRM-38680 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: UI CONFIGURATION | Epic: UI Configuration Enhancements | Roadmap Feature: UI/UX Improvements : Form Field , Change state of typed text in capitals | Status: Waiting Solution Approval | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 80 | Priority: p1 | Enriched Jira Features.Summary: UI/UX Improvements : Form Field , Change state of typed text in capitals | Enriched Jira Features.Description: As a configurator I need to be able to add fields  in forms that change text to capitals and store then in db string in capitals
+
+ 
+
+*Functional requirements*
+
+Widget/component to  used in forms' fields when needed to  automatically convert what is typed by used  to capitals letters. 
+Example: 
+
+typing :  tEst
+
+displaying:  TEST
+
+Saving : TEST | Enriched Jira Features.Benefit Hypothesis: - | Enriched Jira Features.Acceptance Criteria: Widget/component to  used in forms' fields when needed to  automatically convert what is typed by used  to capitals letters. 
+IRM: IRM-32237 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: UI CONFIGURATION | Epic: UI Configuration Enhancements | Roadmap Feature: UI/UX Improvements: Visual cues : Add Visual Indicator for Required Fields | Status: HLD | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 136 | Priority: p1 | Enriched Jira Features.Summary: UI/UX Improvements: Visual cues : Add Visual Indicator for Required Fields | Enriched Jira Features.Description: As a configurator, I can define in UI schemas whether to highlight required or optional fields in Solon Tax Revenue Management, so that I can provide flexibility to projects to use as needed.
+
+*Introduction*
+
+This feature is the result of a request from LT Project, however similar request exists from GR project since Tax officers currently can see highlighted required fields.  
+
+*Functional Requirements*
+Enhance the UI configuration to support a visual indicator for specific fields. Example use case:
+ * Configurator may set the required items to be displayed with {color:#ff0000}*{color} ({color:#ff0000}red asterisk{color}).
+ * Optional items displayed in normal text. No (Optional) label needed next to each field. 
+ * Styling approach could be configurable to support different use cases (e.g., icons, color).
+ * This change should be generic so it can be reused across forms and modules. 
+ * Existing functionality should be maintained as an option for *projects .* I.e., highlight Optional with text next to the fields. 
+
+
+
+
+
+*Notes:* 
+Requirement from AADE
+ * ?? ???? ??? ?????? ???????????, ?? ?????? ?? ?????????????? ?? ???? ??? ???????? ????? (?.?. ???? ?????????? ?????????????? ? ??????? ????????/bold) ?? ????? ??? ????? ??????????? ???? ??????????. ? ??????????? ??? ???????????? ??? ?? ??????????? ????? ??? ?? ?????? ?? ??????? ?? ??????? ?????????. | Enriched Jira Features.Benefit Hypothesis: UX Enhancement for required fields  | Enriched Jira Features.Acceptance Criteria: > Required items are visually distinguished from optional ones (example: ({color:#ff0000}*Red{color}) for {color:#FF0000}required{color}, normal text for optional).
+
+> Visual styling is consistent across all modules using the dropdown widget.
+
+> The change is implemented in a configurable way, allowing an implementation to select *either* to highlight optional fields *or* highlight required fields (Not both). ie keep existing functionality.  
+
+[Sheet: Roadmap_JIRA.xlsx / Jira Data] (3 rows)
+IRM: IRM-38682 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: UI CONFIGURATION | Epic: UI Configuration Enhancements | Roadmap Feature: UI/UX Improvements : Prefilling a field in a form based on the value of another field | Status: Waiting Solution Approval | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 160 | Priority: p1 | Enriched Jira Features.Summary: UI/UX Improvements : Prefilling a field in a form based on the value of another field | Enriched Jira Features.Description: As a user I need when a codelist is mandatory and only one item is available and no default value , system to autofill the existing value. 
+
+As a user I need when 2 codelist  1 (parent) , 2 (child) via codelist items are related (e.g.   codelist 1, A item  -as parent - ,  when selected,  result to codelist 2,  B item - as child  ) and user selects parent value A when for B only the value B is available , the value b to be auto selected and prefilled. 
+
+As a configurator I need to be able to set in the codelists an optional to be used  attribute , that may instruct  the prefill  of codelist item value in this codelists, if one value is available based on filters.
+
+*Functional requirements*
+
+Configurator may set in codelist fields an optionally used attribute/metadato , e.g. "AutofillIfUnique"
+which attribute will enable in UI the autofill of value in codelist, when only one  codelist item value is available based on filters and related codelist items.
+ * Examples/ Cases : 
+ ** +Mandatory items case+
+In a Mandatory Codelist "C3"  , Non default value is defined 
+The only available value is the "C Value" 
+When use this field in forms, autoselect and prefil "C Value". 
+ ** +Related codelist items case+
+Codelist "C1 parent"  ,  Values A1, A2 
+Codelist "C2 child"  ,  Values B1, B2 , B3
+Relations : 
+C1 parent  -> A1 with  C2 child -> B2 (ONLY) 
+user selects A1 
+Autoselect and prefil B2  value in C2 
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected to reassure that relevant NFRs (Performance , Security, Accessibility, Usability ) are tested and are not negatively affecting the product.  
+DODs should be fulfilled.  | Enriched Jira Features.Benefit Hypothesis: - | Enriched Jira Features.Acceptance Criteria: * Configurator may set in codelist fields an optionally used attribute/metadato , e.g. "{-}AutofillIfUnique{-}" --> "{*}{{autofillOnlyOption}}{*}"
+which attribute will enable in UI the autofill of value in codelist, when only one  codelist item value is available based on filters and related codelist items.
+ * System may display prefilled value in codelist, when only one  codelist item value is available.
+IRM: IRM-38680 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: UI CONFIGURATION | Epic: UI Configuration Enhancements | Roadmap Feature: UI/UX Improvements : Form Field , Change state of typed text in capitals | Status: Waiting Solution Approval | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 80 | Priority: p1 | Enriched Jira Features.Summary: UI/UX Improvements : Form Field , Change state of typed text in capitals | Enriched Jira Features.Description: As a configurator I need to be able to add fields  in forms that change text to capitals and store then in db string in capitals
+
+ 
+
+*Functional requirements*
+
+Widget/component to  used in forms' fields when needed to  automatically convert what is typed by used  to capitals letters. 
+Example: 
+
+typing :  tEst
+
+displaying:  TEST
+
+Saving : TEST | Enriched Jira Features.Benefit Hypothesis: - | Enriched Jira Features.Acceptance Criteria: Widget/component to  used in forms' fields when needed to  automatically convert what is typed by used  to capitals letters. 
+IRM: IRM-32237 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: UI CONFIGURATION | Epic: UI Configuration Enhancements | Roadmap Feature: UI/UX Improvements: Visual cues : Add Visual Indicator for Required Fields | Status: HLD | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 136 | Priority: p1 | Enriched Jira Features.Summary: UI/UX Improvements: Visual cues : Add Visual Indicator for Required Fields | Enriched Jira Features.Description: As a configurator, I can define in UI schemas whether to highlight required or optional fields in Solon Tax Revenue Management, so that I can provide flexibility to projects to use as needed.
+
+*Introduction*
+
+This feature is the result of a request from LT Project, however similar request exists from GR project since Tax officers currently can see highlighted required fields.  
+
+*Functional Requirements*
+Enhance the UI configuration to support a visual indicator for specific fields. Example use case:
+ * Configurator may set the required items to be displayed with {color:#ff0000}*{color} ({color:#ff0000}red asterisk{color}).
+ * Optional items displayed in normal text. No (Optional) label needed next to each field. 
+ * Styling approach could be configurable to support different use cases (e.g., icons, color).
+ * This change should be generic so it can be reused across forms and modules. 
+ * Existing functionality should be maintained as an option for *projects .* I.e., highlight Optional with text next to the fields. 
+
+
+
+
+
+*Notes:* 
+Requirement from AADE
+ * Σε όλες τις φόρμες συμπλήρωσης, θα πρέπει να επισημαίνονται με σαφή και διακριτό τρόπο (π.χ. μέσω χρωματικής διαφοροποίησης ή έντονου πλαισίου/bold) τα πεδία που είναι υποχρεωτικά προς συμπλήρωση. Ο διαχωρισμός των υποχρεωτικών από τα προαιρετικά πεδία δεν θα πρέπει να γίνεται με λεκτική περιγραφή. | Enriched Jira Features.Benefit Hypothesis: UX Enhancement for required fields  | Enriched Jira Features.Acceptance Criteria: > Required items are visually distinguished from optional ones (example: ({color:#ff0000}*Red{color}) for {color:#FF0000}required{color}, normal text for optional).
+
+> Visual styling is consistent across all modules using the dropdown widget.
+
+> The change is implemented in a configurable way, allowing an implementation to select *either* to highlight optional fields *or* highlight required fields (Not both). ie keep existing functionality.  
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, and metric in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA.
+- If a value shows "[DATA MISSING]", write that zone's value as "[DATA MISSING]" in the output.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 1 of 5 using the SOURCE DATA above.
+User instructions: Generate only slides for each  "initiative" found under the "initiative group" called "CORE SUPPORTING CAPABILITIES" in "Estimates.xlsx".
+"Total hours" value for the "initiative" can be found in the "Estimates.xlsx" where the value is in the "Initiative Total Hours" column.
+
+Dont halucinate numbers. If you cannot find or calculate them, Write [NO DATA].
+
+Return ONLY a valid JSON object with EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">7</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Tech Debt Reduction</div>
+            <div class="benefit-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Critical Upgrades</div>
+            <div class="benefit-text">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Configuration Management</div>
+            <div class="benefit-text">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Hexagonal Architecture Refactor</div>
+            <div class="theme-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Java 25 Upgrade</div>
+            <div class="theme-desc">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Spring Boot 4.x.x Migration</div>
+            <div class="theme-desc">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Oracle 26ai Database</div>
+            <div class="theme-desc">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Tech Debt Across Teams</div>
+            <div class="theme-desc">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Config Items Management</div>
+            <div class="theme-desc">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+
+=== Agent 2: slide_1 — #2 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML elements, class names, attributes, and nesting depth.
+- Replicate the same number of list items, bullet points, sections, and metric blocks as shown in the template.
+- If the template has 4 bullets — output 4 bullets. If it has 3 sections — output 3 sections.
+- Only text content and src/href values may differ from the template.
+- Never add, remove, flatten, or restructure elements.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: Estimates.xlsx / Estimates] (1 rows)
+Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: FORM PROCESSING | Initiative Total Hours: 400
+
+[Sheet: Roadmap_JIRA.csv / Sheet1] (1 rows)
+IRM: IRM-38379 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: FORM PROCESSING | Epic: Form Processing Enhancements | Roadmap Feature: Forms : Be able to log details for the submitter of the form /RM &SS | Status: In Design | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 400 | Priority: p1 | Enriched Jira Features.Summary: Forms : Be able to log details for the submitter of the form /RM &SS | Enriched Jira Features.Description: As an Administrator, I need the ability to record the user responsible for creating and submitting a form, as in many cases this user may not be the same as the Party associated with the form.
+
+ 
+
+ 
+
+*Functional Requirements* 
+
+*a)* Optional fields in Form metadata
+*Created By* : Reference to a Party Role ID representing the user who created the form
+*Posted By* : Reference to a Party Role ID representing the user who submitted/posted the form
+*External System Created Date/Time* (external_created_dttm) :Timestamp indicating when the form was created in an external system (similar to the Party record field)
+
+*b)* user may search forms using the above fields.
+
+*c)* Enable user-define-characteristics (Data Area)  in forms for other metadata related items. (Data Area = Form Details)  
+Example: Import Date from external system. (Date field)
+
+*d)* Apply Notes in Forms in RM and SS 
+In UI add Notes only in RM
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected that the NFRs are considered and examined: Performance , Security, Accessibility, Usability 
+
+DODs should be fulfilled.  | Enriched Jira Features.Benefit Hypothesis: By adding these fields, customers will be able to migrate efficiently their data. This functionality allows proper auditability, traceability, and operational transparency. | Enriched Jira Features.Acceptance Criteria: *a)* Optional fields in Form metadata
+Created by : Related to a Party Role ID
+Posted by : Related to Party Role ID
+external_created_dttm (as in Party record)
+
+*b)* user may search forms using the above fields
+
+*c)* Enable user define characteristics in forms 
+
+*d)*  Apply Notes in Forms in RM and SS 
+In UI add Notes only in RM
+
+[Sheet: Roadmap_JIRA.xlsx / Jira Data] (1 rows)
+IRM: IRM-38379 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: FORM PROCESSING | Epic: Form Processing Enhancements | Roadmap Feature: Forms : Be able to log details for the submitter of the form /RM &SS | Status: In Design | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 400 | Priority: p1 | Enriched Jira Features.Summary: Forms : Be able to log details for the submitter of the form /RM &SS | Enriched Jira Features.Description: As an Administrator, I need the ability to record the user responsible for creating and submitting a form, as in many cases this user may not be the same as the Party associated with the form.
+
+ 
+
+ 
+
+*Functional Requirements* 
+
+*a)* Optional fields in Form metadata
+*Created By* : Reference to a Party Role ID representing the user who created the form
+*Posted By* : Reference to a Party Role ID representing the user who submitted/posted the form
+*External System Created Date/Time* (external_created_dttm) :Timestamp indicating when the form was created in an external system (similar to the Party record field)
+
+*b)* user may search forms using the above fields.
+
+*c)* Enable user-define-characteristics (Data Area)  in forms for other metadata related items. (Data Area = Form Details)  
+Example: Import Date from external system. (Date field)
+
+*d)* Apply Notes in Forms in RM and SS 
+In UI add Notes only in RM
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected that the NFRs are considered and examined: Performance , Security, Accessibility, Usability 
+
+DODs should be fulfilled.  | Enriched Jira Features.Benefit Hypothesis: By adding these fields, customers will be able to migrate efficiently their data. This functionality allows proper auditability, traceability, and operational transparency. | Enriched Jira Features.Acceptance Criteria: *a)* Optional fields in Form metadata
+Created by : Related to a Party Role ID
+Posted by : Related to Party Role ID
+external_created_dttm (as in Party record)
+
+*b)* user may search forms using the above fields
+
+*c)* Enable user define characteristics in forms 
+
+*d)*  Apply Notes in Forms in RM and SS 
+In UI add Notes only in RM
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, and metric in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA.
+- If a value shows "[DATA MISSING]", write that zone's value as "[DATA MISSING]" in the output.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 2 of 5 using the SOURCE DATA above.
+User instructions: Generate only slides for each  "initiative" found under the "initiative group" called "CORE SUPPORTING CAPABILITIES" in "Estimates.xlsx".
+"Total hours" value for the "initiative" can be found in the "Estimates.xlsx" where the value is in the "Initiative Total Hours" column.
+
+Dont halucinate numbers. If you cannot find or calculate them, Write [NO DATA].
+
+Return ONLY a valid JSON object with EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">7</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Tech Debt Reduction</div>
+            <div class="benefit-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Critical Upgrades</div>
+            <div class="benefit-text">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Configuration Management</div>
+            <div class="benefit-text">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Hexagonal Architecture Refactor</div>
+            <div class="theme-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Java 25 Upgrade</div>
+            <div class="theme-desc">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Spring Boot 4.x.x Migration</div>
+            <div class="theme-desc">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Oracle 26ai Database</div>
+            <div class="theme-desc">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Tech Debt Across Teams</div>
+            <div class="theme-desc">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Config Items Management</div>
+            <div class="theme-desc">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+
+=== Agent 3: slide_1 — #3 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML elements, class names, attributes, and nesting depth.
+- Replicate the same number of list items, bullet points, sections, and metric blocks as shown in the template.
+- If the template has 4 bullets — output 4 bullets. If it has 3 sections — output 3 sections.
+- Only text content and src/href values may differ from the template.
+- Never add, remove, flatten, or restructure elements.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: Estimates.xlsx / Estimates] (1 rows)
+Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: REFERENCE DATA | Initiative Total Hours: 560
+
+[Sheet: Roadmap_JIRA.csv / Sheet1] (1 rows)
+IRM: IRM-38250 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: REFERENCE DATA | Epic: Reference Data Enhancements | Roadmap Feature: Enhance codelist items codes flexibility and historical track in Solon Tax | Status: In Design | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 560 | Priority: p1 | Enriched Jira Features.Summary: Enhance codelist items codes flexibility and historical track in Solon Tax | Enriched Jira Features.Description: As an RM Admin, I can update reference data with a codelist item having a code that is not unique, while its description is updated with different validity periods (no overlap), so as to comply with EU regulating updates.
+
+*Introduction* 
+
+*Tax Activity Codes in the EU:* There is no single "tax code" for all EU members. Instead, three main systems are used:
+ * {*}NACE Codes{*}: The official statistical classification for economic activities. The current version is *NACE Rev. 2.1* (effective Jan 1, 2025). Attached in this feature for reference. 
+ * {*}VAT Category Codes{*}: Standardized letters (e.g., *S* for Standard, *E* for Exempt) used in electronic invoicing.
+ * {*}VATEX Codes{*}: Specific codes used to justify *VAT exemptions* based on EU Directive 2006/112/EC.
+ * *Customs Codes (TARIC/CN)* For the import/export of goods, the Combined Nomenclature (CN) is used, which is an 8-digit coding system. 
+
+In Greece, AADE (Independent Authority for Public Revenue) has proceeded with the mapping of the old activity codes (KAD 2008) to the new KAD 2025, a process which began on March 1, 2026. There is a direct correlation between Greek KAD (Activity Code Numbers) and NACE codes. KAD constitute the national version of the European NACE classification.
+ * {*}Structure{*}: The first 4 characters of an eight-digit Greek KAD are fully identical to the 4 characters of the corresponding NACE code.
+ * {*}2026 Harmonization{*}: AADE recently proceeded (as of 01/03/2026) with an automatic update of KADs for 1.9 million Tax IDs (AFM), in order to fully harmonize them with the new European standard {*}NACE Rev. 2.1{*}.
+ * {*}Purpose{*}: This mapping ensures that economic activities in Greece are comparable to those of other EU member states for statistical and regulatory purposes.
+
+*When a Code is Updated*
+
+When the EU updates the NACE structure:
+ * {*}Automatic Migration{*}: Most codes are automatically updated by national tax authorities (like AADE in Greece) if there is a 1-to-1 match.
+ * {*}Manual Selection{*}: If one old code splits into multiple new ones, the taxpayer must manually select the most accurate one via the tax portal.
+ * {*}Description Changes{*}: A code's number *can stay the same while its description* *is updated* to reflect modern technology or clearer definitions.
+
+Validity and History
+ * {*}Historical Accuracy{*}: A code must be valid for the period it was used. If you are filing an amended return for 2024, you use the code that was active in 2024, not the new 2025/2026 version.
+ * {*}EU-Wide Validity{*}: This principle of historicity applies to all EU countries. While the digital portals differ (e.g., myAADE in Greece), the transition logic to NACE Rev. 2.1 is harmonized across the Union.
+
+For Greek Tax Authority
+The code *must remain valid* for the period prior to the change, as tax and statistical representation follows the principle of historicity. In practice, this means the following: * {*}Principle of Historicity{*}: For any transaction, declaration, or audit concerning the past (e.g., fiscal year 2024), the code that was in effect *at that time* is used. New codes (e.g., KAD 2025/2026) apply only to actions from their effective date onwards.
+ * {*}System Maintenance{*}: AADE and Eurostat systems maintain the "historical versions" of the codes. If you need to file an amended return for a previous year, you must use the old code that corresponded to that specific period.
+ * {*}Migration (Mapping){*}: The mapping performed by AADE does not "erase" the past; it creates a new entry in your Registry history. The "Registry Certificate" will show the expiration date of the old code and the start date of the new one.
+ * {*}Audits and Cross-checks{*}: In the event of a tax audit for a past fiscal year, auditors examine the activity based on the description and the code that were in effect at the time of the transaction.
+
+The current Solon Tax platform implementation requires unique codes for codelist items within the same codelist. However, EU tax regulations, particularly for tax activity codes (NACE, VAT Category, VATEX), require the ability to maintain the same code with different descriptions across different validity periods to support historical accuracy and regulatory compliance.
+
+*Current Implementation Support*
+
+The platform currently supports:
+ * Unique code constraint for codelist items within a codelist
+ * Basic validity period management with valid_from and valid_to fields
+ * Codelist item labels with language support
+
+*To Be Implementation*
+
+Allow the same code to be added for different validity periods with:
+ * No overlap between validity periods for the same code
+ * Different descriptions for the same code across different time periods
+ * Historical data preservation for reporting and backdated updates
+
+*Functional Business Requirements*
+ # {*}Historical Code Management{*}: Enable codelist items to have the same code with different descriptions across non-overlapping validity periods
+ # {*}Temporal Data Integrity{*}: Ensure no validity period overlaps exist for items with the same code within a codelist
+ # {*}Backdated Processing Support{*}: Allow selection of historical codelist items when processing backdated taxpayer updates
+ # {*}Regulatory Compliance{*}: Support EU tax code evolution requirements (NACE Rev. 2.1)
+ # {*}Reporting Continuity{*}: Maintain historical reference data for accurate reporting across different time periods
+
+*Documentation*
+Document all the above adjustments for updating reference data to support compliance with EU updates codes not unique per validity period.
+
+ 
+
+*Non functional requirements*
+Performance , Security, Traceability, Accessibility, Usability  DODs should be fulfilled.  | Enriched Jira Features.Benefit Hypothesis: This enhancement will enable accurate historical tax processing and compliance with EU regulations that require code evolution while maintaining historical accuracy for reporting and backdated transactions. | Enriched Jira Features.Acceptance Criteria: * Same codelist item code can exist multiple times with different validity periods (no overlap)
+ * Different descriptions can be associated with the same code across different time periods
+ * Historical codelist items are preserved and accessible for reporting
+ * Backdated taxpayer updates can select appropriate historical codelist items based on transaction date
+ * System validates no overlapping validity periods for same code within a codelist
+ * Migration functionality supports automatic code updates when 1-to-1 mapping exists
+ * Manual selection interface available when one code splits into multiple new codes
+ * API endpoints support querying codelist items by effective date
+ * UI displays historical versions of codelist items appropriately
+
+[Sheet: Roadmap_JIRA.xlsx / Jira Data] (1 rows)
+IRM: IRM-38250 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: REFERENCE DATA | Epic: Reference Data Enhancements | Roadmap Feature: Enhance codelist items codes flexibility and historical track in Solon Tax | Status: In Design | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 560 | Priority: p1 | Enriched Jira Features.Summary: Enhance codelist items codes flexibility and historical track in Solon Tax | Enriched Jira Features.Description: As an RM Admin, I can update reference data with a codelist item having a code that is not unique, while its description is updated with different validity periods (no overlap), so as to comply with EU regulating updates.
+
+*Introduction* 
+
+*Tax Activity Codes in the EU:* There is no single "tax code" for all EU members. Instead, three main systems are used:
+ * {*}NACE Codes{*}: The official statistical classification for economic activities. The current version is *NACE Rev. 2.1* (effective Jan 1, 2025). Attached in this feature for reference. 
+ * {*}VAT Category Codes{*}: Standardized letters (e.g., *S* for Standard, *E* for Exempt) used in electronic invoicing.
+ * {*}VATEX Codes{*}: Specific codes used to justify *VAT exemptions* based on EU Directive 2006/112/EC.
+ * *Customs Codes (TARIC/CN)* For the import/export of goods, the Combined Nomenclature (CN) is used, which is an 8-digit coding system. 
+
+In Greece, AADE (Independent Authority for Public Revenue) has proceeded with the mapping of the old activity codes (KAD 2008) to the new KAD 2025, a process which began on March 1, 2026. There is a direct correlation between Greek KAD (Activity Code Numbers) and NACE codes. KAD constitute the national version of the European NACE classification.
+ * {*}Structure{*}: The first 4 characters of an eight-digit Greek KAD are fully identical to the 4 characters of the corresponding NACE code.
+ * {*}2026 Harmonization{*}: AADE recently proceeded (as of 01/03/2026) with an automatic update of KADs for 1.9 million Tax IDs (AFM), in order to fully harmonize them with the new European standard {*}NACE Rev. 2.1{*}.
+ * {*}Purpose{*}: This mapping ensures that economic activities in Greece are comparable to those of other EU member states for statistical and regulatory purposes.
+
+*When a Code is Updated*
+
+When the EU updates the NACE structure:
+ * {*}Automatic Migration{*}: Most codes are automatically updated by national tax authorities (like AADE in Greece) if there is a 1-to-1 match.
+ * {*}Manual Selection{*}: If one old code splits into multiple new ones, the taxpayer must manually select the most accurate one via the tax portal.
+ * {*}Description Changes{*}: A code's number *can stay the same while its description* *is updated* to reflect modern technology or clearer definitions.
+
+Validity and History
+ * {*}Historical Accuracy{*}: A code must be valid for the period it was used. If you are filing an amended return for 2024, you use the code that was active in 2024, not the new 2025/2026 version.
+ * {*}EU-Wide Validity{*}: This principle of historicity applies to all EU countries. While the digital portals differ (e.g., myAADE in Greece), the transition logic to NACE Rev. 2.1 is harmonized across the Union.
+
+For Greek Tax Authority
+The code *must remain valid* for the period prior to the change, as tax and statistical representation follows the principle of historicity. In practice, this means the following: * {*}Principle of Historicity{*}: For any transaction, declaration, or audit concerning the past (e.g., fiscal year 2024), the code that was in effect *at that time* is used. New codes (e.g., KAD 2025/2026) apply only to actions from their effective date onwards.
+ * {*}System Maintenance{*}: AADE and Eurostat systems maintain the "historical versions" of the codes. If you need to file an amended return for a previous year, you must use the old code that corresponded to that specific period.
+ * {*}Migration (Mapping){*}: The mapping performed by AADE does not "erase" the past; it creates a new entry in your Registry history. The "Registry Certificate" will show the expiration date of the old code and the start date of the new one.
+ * {*}Audits and Cross-checks{*}: In the event of a tax audit for a past fiscal year, auditors examine the activity based on the description and the code that were in effect at the time of the transaction.
+
+The current Solon Tax platform implementation requires unique codes for codelist items within the same codelist. However, EU tax regulations, particularly for tax activity codes (NACE, VAT Category, VATEX), require the ability to maintain the same code with different descriptions across different validity periods to support historical accuracy and regulatory compliance.
+
+*Current Implementation Support*
+
+The platform currently supports:
+ * Unique code constraint for codelist items within a codelist
+ * Basic validity period management with valid_from and valid_to fields
+ * Codelist item labels with language support
+
+*To Be Implementation*
+
+Allow the same code to be added for different validity periods with:
+ * No overlap between validity periods for the same code
+ * Different descriptions for the same code across different time periods
+ * Historical data preservation for reporting and backdated updates
+
+*Functional Business Requirements*
+ # {*}Historical Code Management{*}: Enable codelist items to have the same code with different descriptions across non-overlapping validity periods
+ # {*}Temporal Data Integrity{*}: Ensure no validity period overlaps exist for items with the same code within a codelist
+ # {*}Backdated Processing Support{*}: Allow selection of historical codelist items when processing backdated taxpayer updates
+ # {*}Regulatory Compliance{*}: Support EU tax code evolution requirements (NACE Rev. 2.1)
+ # {*}Reporting Continuity{*}: Maintain historical reference data for accurate reporting across different time periods
+
+*Documentation*
+Document all the above adjustments for updating reference data to support compliance with EU updates codes not unique per validity period.
+
+ 
+
+*Non functional requirements*
+Performance , Security, Traceability, Accessibility, Usability  DODs should be fulfilled.  | Enriched Jira Features.Benefit Hypothesis: This enhancement will enable accurate historical tax processing and compliance with EU regulations that require code evolution while maintaining historical accuracy for reporting and backdated transactions. | Enriched Jira Features.Acceptance Criteria: * Same codelist item code can exist multiple times with different validity periods (no overlap)
+ * Different descriptions can be associated with the same code across different time periods
+ * Historical codelist items are preserved and accessible for reporting
+ * Backdated taxpayer updates can select appropriate historical codelist items based on transaction date
+ * System validates no overlapping validity periods for same code within a codelist
+ * Migration functionality supports automatic code updates when 1-to-1 mapping exists
+ * Manual selection interface available when one code splits into multiple new codes
+ * API endpoints support querying codelist items by effective date
+ * UI displays historical versions of codelist items appropriately
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, and metric in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA.
+- If a value shows "[DATA MISSING]", write that zone's value as "[DATA MISSING]" in the output.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 3 of 5 using the SOURCE DATA above.
+User instructions: Generate only slides for each  "initiative" found under the "initiative group" called "CORE SUPPORTING CAPABILITIES" in "Estimates.xlsx".
+"Total hours" value for the "initiative" can be found in the "Estimates.xlsx" where the value is in the "Initiative Total Hours" column.
+
+Dont halucinate numbers. If you cannot find or calculate them, Write [NO DATA].
+
+Return ONLY a valid JSON object with EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">7</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Tech Debt Reduction</div>
+            <div class="benefit-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Critical Upgrades</div>
+            <div class="benefit-text">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Configuration Management</div>
+            <div class="benefit-text">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Hexagonal Architecture Refactor</div>
+            <div class="theme-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Java 25 Upgrade</div>
+            <div class="theme-desc">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Spring Boot 4.x.x Migration</div>
+            <div class="theme-desc">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Oracle 26ai Database</div>
+            <div class="theme-desc">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Tech Debt Across Teams</div>
+            <div class="theme-desc">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Config Items Management</div>
+            <div class="theme-desc">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+
+=== Agent 4: slide_1 — #4 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML elements, class names, attributes, and nesting depth.
+- Replicate the same number of list items, bullet points, sections, and metric blocks as shown in the template.
+- If the template has 4 bullets — output 4 bullets. If it has 3 sections — output 3 sections.
+- Only text content and src/href values may differ from the template.
+- Never add, remove, flatten, or restructure elements.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: Estimates.xlsx / Estimates] (2 rows)
+Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: DOCUMENT MANAGEMENT INTEGRATION | Initiative Total Hours: 1440
+Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: DOCUMENT MANAGEMENT INTEGRATION | Initiative Total Hours: 800
+
+[Sheet: Roadmap_JIRA.csv / Sheet1] (2 rows)
+IRM: IRM-36668 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: DOCUMENT MANAGEMENT INTEGRATION | Epic: Document Management Integration Enhancements | Roadmap Feature: Digital Signatures - System digital signing of PDF documents generated by bpmn process | Status: In Design | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 1440 | Priority: p1 | Enriched Jira Features.Summary: Digital Signatures - System digital signing of PDF documents generated by bpmn process | Enriched Jira Features.Description: As a revenue authority user, when the system generates a document (e.g., operational reports, letters, certificates) and the business process instructs so, I want the document to be digitally signed by the system, with all required visual elements rendered in the PDF, so that I can securely distribute officially signed documents to taxpayers and stakeholders.
+
+This capability must be reusable, configurable, auditable, and resilient to failures.
+
+*Background :*
+In the current (as-is) systems:
+Documents are generated via operational reports 
+Documents may be instructed to be generated via BPMN flows.
+Documents may be sent to contacts and/or stored as attachments. 
+Attachments can be linked to a Document Management System (DMS) via integration.
+
+*Assumptions :* 
+*a)* Revenue authority will supplied by an External provider the digital stamp (??????? ????????) in ??? or PKC#7 files
+Then the configurations for digital signs and certificate will be used for documents signature. 
+./pdf_sign_pem_multicert <input_pdf> <output_pdf> <cert.pem> <key.pem>
+
+for our tests we need to use one from CA authority 
+*b)* Any additional elements (document IDs, DMS URLs, QR codes) must be printed on the document via project-specific implementation.
+{*}c){*}Attachments are integrated with a DMS per customer configuration and responsibility.
+*d)* One reference configuration for one digital signature will be only will be available for testing purposes (as demo). If projects needs several signatures, they may be able to configure them in the system.  
+
+*Out of Scope* (for now)
+End-user personal digital signatures
+Non-PDF document formats
+Additional IDs or other document additional elements other than digital signature. (document ID, qr code)
+
+ 
+
+ 
+
+*Functional Requirements*
+
+*Digital Signature service* 
+ * Documents can be digitally signed when instructed by a step in a BPMN flow.
+ * The system must expose an API or internal service or other method  for digital signing that can be called by bpmn processes.
+ * The signing service must support the signature based on customers configurations and certificate.
+ * Admin may configure several signatures.  (May be able to use more than one configurations and certificate / different signatures and bpmn process should decide on which configurations and certificate to be used, but will not be any defaults available in the product).  
+ * Keep Audit log for the documents' updates.
+
+*PDF* 
+ * The digital signature must be embedded in the PDF according to industry standards (e.g., PAdES).
+ * The PDF must remain verifiable by standard PDF readers.
+
+*Storage & Metadata*
+ * Signed documents must be stored as attachments  (expected as per relevant integration to be synchronized with the DMS).
+
+ * Document generated is expected to be displayed with  the relevant signature stamp and document ID  (by a reserve id method optionally to be used  in the upload  and that may be used if  needed by configurators) 
+
+*Visual Elements on Document*
+Signed documents must display a visible digital signature stamp.
+
+*Unhappy path :*
+ * Errors must be logged and be visible.   
+ ** Exceptions should be thrown if document generation or digital signature process not completed successfully. 
+examples: Document generation fails, Template not found, Missing parameters, Digital signing fails, Timeouts
+
+ 
+
+*Reference implementation:* 
+ * At the end of the Busreg form, generate a document (operational report)  with all the details filled  per sections same as tabs
+Document will be digital signed and stored in attachments linked to the form 
+Consideration: Create the signature as a reusable subflow 
+
+*Example*
+
+!image-2026-02-16-00-37-24-460.png|width=685,height=402!
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected team to get aligned with respective teams and reassure that is not creating issues or the related NFRs will be tested :
+Performance , Security, Accessibility, Usability 
+DODs should be fulfilled.
+
++Security+
+Certificates and private keys must be stored securely (e.g., HSM, secure vault, encrypted storage) or other repository. 
+Access to signing functionality must be restricted and auditable.
+
++Auditability+
+Every signing action must be logged:
+Who/what triggered the signing
+Timestamp
+Document ID
+Certificate used
+
++Performance+
+Signing should not block critical user flows beyond acceptable SLA limits.
+Support async signing for large documents or batch processing.
+
++Configurability+
+Be able to select different configurations for digital signs  to be used.  
+
+ 
+
+*Notes:* 
+In Gr used:  [https://www.harica.gr/el/Products/eSeal] 
+----
+_??? ??????????? ???????? (????????? ??? ??????? ????????????? ???????????? ?????????) ?????? ?? ??? ??????????? ? ???? ??? ??????????? ?????? ????????? ???????????? ??? ?? ??? ????? ?? private key ??? ??? ?????? ??? ?? ???????????._
+
+_???? ?????? ??????? ??????? ????? ???? ? Harica._ [_https://www.harica.gr/el/Products/eSeal_|https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.harica.gr%2Fel%2FProducts%2FeSeal&data=05%7C02%7CIoannis.SAVVIDIS%40netcompany.com%7C5709551eaa9b478ddf3008de68c7a564%7C8f9b88a73f3e4be3aae42006d4c42306%7C1%7C0%7C639063403886521092%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=E8YLZC%2BgXVmRfTecgUZy2SwjnLk2TI1yRtd135CYee8%3D&reserved=0] __  | Enriched Jira Features.Benefit Hypothesis: Implementing a *digital signature service integrated with BPMN workflows* will allow documents generated by the system to be *automatically and securely signed using configurations*
+
+This capability will:
+ * *Improve compliance and legal validity* of system-generated documents by supporting industry standards such as {*}PAdES for PDF digital signatures{*}.
+
+ * *Increase process automation* by enabling BPMN workflows to trigger document signing without manual intervention.
+
+ * *Enhance auditability and traceability* by maintaining audit logs for document generation, signing, and updates.
+
+ * *Provide flexibility and configurability* by allowing administrators to configure multiple certificates and enabling workflows to dynamically select the appropriate signature.
+
+ * *Improve user trust and document authenticity* by displaying visible digital signature stamps and ensuring documents remain verifiable in standard PDF readers.
+
+ * *Support integration with enterprise document management systems (DMS)* through storage and synchronization of signed documents as attachments.
+
+ * *Reduce operational effort and processing time* by eliminating manual signing steps and embedding signing directly into business processes.
+
+Overall, this capability will *strengthen document governan* | Enriched Jira Features.Acceptance Criteria: *Digital Signature service* 
+ * Documents can be digitally signed when instructed by a step in a BPMN flow.
+ * The system must expose an API or internal service or other method  for digital signing that can be called by bpmn processes.
+ * The signing service must support the signature based on customers configurations and certificate.
+ * Admin may configure several signatures.  (May be able to use more than one configurations and certificate/ different signatures and bpmn process should decide on which configurations and certificate to be used, but will not be any defaults available in the product).  
+ * Keep Audit log for the documents' updates.
+
+*PDF* 
+ * The digital signature must be embedded in the PDF according to industry standards (e.g., PAdES).
+ * The PDF must remain verifiable by standard PDF readers.
+
+*Storage & Metadata*
+ * Signed documents must be stored as attachments  (expected as per relevant integration to be synchronized with the DMS).
+
+ * Document generated is expected to be displayed with  the relevant signature stamp and document ID  (project will add this id via a reserve id method optionally to be used  in the upload)
+
+*Visual Elements on Document*
+Signed documents must display a visible digital signature stamp.
+
+*Unhappy path :*
+ * Errors must be logged and be visible.   
+ ** Exceptions should be thrown if document generation or digital signature process not completed successfully. 
+examples: Document generation fails, Template not found, Missing parameters, Digital signing fails, Timeouts
+
+ 
+
+*Reference implementation:* 
+ * At the end of the Busreg form, generate a document (operational report)  with all the details filled  per sections same as tabs
+Document will be digital signed and stored in attachments linked to the form 
+Consideration: Create the signature as a reusable subflow 
+IRM: IRM-34598 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: DOCUMENT MANAGEMENT INTEGRATION | Epic: Document Management Integration Enhancements | Roadmap Feature: Digital Signatures - Validate signatures in attachments RM & SS/ Reference Implementation | Status: In Design | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 800 | Priority: p1 | Enriched Jira Features.Summary: Digital Signatures - Validate signatures in attachments RM & SS/ Reference Implementation | Enriched Jira Features.Description: As a revenue authority users and SS users, I need to be able to validate digital signatures of documents that I am attaching in entities in system (e.g. form) 
+
+*Out of scope  :* 
+The maintenance of trusted lists are part of the configurator resposibilities
+
+ 
+
+*Functional requirements*
+ * Show case that user can validate documents that are attached in system entities digital signature. 
+ * Admin should be able to define the trusted list of digital signatures providers and the apis needed to verify signatures. 
+ * A visual sign is displayed when document is signed.
+ * A visual sign is displayed when document is verified.
+
+Reference implementation : 
+ * While working with a form in SS and in RM  user may upload document and check to verify signature.
+upload a document,  try to verify the document's digital signature , trusted lists , check checksum in the body ) 
+
+ 
+
+*Notes:* 
+Need list of trusted providers and then check checksum in the body
+
+  | Enriched Jira Features.Benefit Hypothesis: Reference implementation for additional steps of user journey , when working with digital signed docuements. | Enriched Jira Features.Acceptance Criteria: * Show case that user can validate documents that are attached in system entities digital signature. 
+ * Admin should be able to define the trusted list of digital signatures providers and the apis needed to verify signatures. 
+ * A visual sign is displayed when document is verified.
+ * A Reference implementation to verify the above functionality (for at least one demo digital signature provider)  
+
+[Sheet: Roadmap_JIRA.xlsx / Jira Data] (2 rows)
+IRM: IRM-36668 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: DOCUMENT MANAGEMENT INTEGRATION | Epic: Document Management Integration Enhancements | Roadmap Feature: Digital Signatures - System digital signing of PDF documents generated by bpmn process | Status: In Design | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 1440 | Priority: p1 | Enriched Jira Features.Summary: Digital Signatures - System digital signing of PDF documents generated by bpmn process | Enriched Jira Features.Description: As a revenue authority user, when the system generates a document (e.g., operational reports, letters, certificates) and the business process instructs so, I want the document to be digitally signed by the system, with all required visual elements rendered in the PDF, so that I can securely distribute officially signed documents to taxpayers and stakeholders.
+
+This capability must be reusable, configurable, auditable, and resilient to failures.
+
+*Background :*
+In the current (as-is) systems:
+Documents are generated via operational reports 
+Documents may be instructed to be generated via BPMN flows.
+Documents may be sent to contacts and/or stored as attachments. 
+Attachments can be linked to a Document Management System (DMS) via integration.
+
+*Assumptions :* 
+*a)* Revenue authority will supplied by an External provider the digital stamp (ψηφιακή σφραγίδα) in ΡΕΜ or PKC#7 files
+Then the configurations for digital signs and certificate will be used for documents signature. 
+./pdf_sign_pem_multicert <input_pdf> <output_pdf> <cert.pem> <key.pem>
+
+for our tests we need to use one from CA authority 
+*b)* Any additional elements (document IDs, DMS URLs, QR codes) must be printed on the document via project-specific implementation.
+{*}c){*}Attachments are integrated with a DMS per customer configuration and responsibility.
+*d)* One reference configuration for one digital signature will be only will be available for testing purposes (as demo). If projects needs several signatures, they may be able to configure them in the system.  
+
+*Out of Scope* (for now)
+End-user personal digital signatures
+Non-PDF document formats
+Additional IDs or other document additional elements other than digital signature. (document ID, qr code)
+
+ 
+
+ 
+
+*Functional Requirements*
+
+*Digital Signature service* 
+ * Documents can be digitally signed when instructed by a step in a BPMN flow.
+ * The system must expose an API or internal service or other method  for digital signing that can be called by bpmn processes.
+ * The signing service must support the signature based on customers configurations and certificate.
+ * Admin may configure several signatures.  (May be able to use more than one configurations and certificate / different signatures and bpmn process should decide on which configurations and certificate to be used, but will not be any defaults available in the product).  
+ * Keep Audit log for the documents' updates.
+
+*PDF* 
+ * The digital signature must be embedded in the PDF according to industry standards (e.g., PAdES).
+ * The PDF must remain verifiable by standard PDF readers.
+
+*Storage & Metadata*
+ * Signed documents must be stored as attachments  (expected as per relevant integration to be synchronized with the DMS).
+
+ * Document generated is expected to be displayed with  the relevant signature stamp and document ID  (by a reserve id method optionally to be used  in the upload  and that may be used if  needed by configurators) 
+
+*Visual Elements on Document*
+Signed documents must display a visible digital signature stamp.
+
+*Unhappy path :*
+ * Errors must be logged and be visible.   
+ ** Exceptions should be thrown if document generation or digital signature process not completed successfully. 
+examples: Document generation fails, Template not found, Missing parameters, Digital signing fails, Timeouts
+
+ 
+
+*Reference implementation:* 
+ * At the end of the Busreg form, generate a document (operational report)  with all the details filled  per sections same as tabs
+Document will be digital signed and stored in attachments linked to the form 
+Consideration: Create the signature as a reusable subflow 
+
+*Example*
+
+!image-2026-02-16-00-37-24-460.png|width=685,height=402!
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected team to get aligned with respective teams and reassure that is not creating issues or the related NFRs will be tested :
+Performance , Security, Accessibility, Usability 
+DODs should be fulfilled.
+
++Security+
+Certificates and private keys must be stored securely (e.g., HSM, secure vault, encrypted storage) or other repository. 
+Access to signing functionality must be restricted and auditable.
+
++Auditability+
+Every signing action must be logged:
+Who/what triggered the signing
+Timestamp
+Document ID
+Certificate used
+
++Performance+
+Signing should not block critical user flows beyond acceptable SLA limits.
+Support async signing for large documents or batch processing.
+
++Configurability+
+Be able to select different configurations for digital signs  to be used.  
+
+ 
+
+*Notes:* 
+In Gr used:  [https://www.harica.gr/el/Products/eSeal] 
+----
+_Την ηλεκτρονική σφραγίδα (πρόκειται για ψηφιακό πιστοποιητικό ηλεκτρονικής υπογραφής) πρέπει να την προμηθευτεί η ΑΑΔΕ από Εγκεκριμένο Πάροχο Υπηρεσιών Εμπιστοσύνης και να μας δώσει το private key και τον κωδικό που το προστατεύει._
+
+_Στην Ελλάδα τέτοιος Πάροχος είναι μόνο η Harica._ [_https://www.harica.gr/el/Products/eSeal_|https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.harica.gr%2Fel%2FProducts%2FeSeal&data=05%7C02%7CIoannis.SAVVIDIS%40netcompany.com%7C5709551eaa9b478ddf3008de68c7a564%7C8f9b88a73f3e4be3aae42006d4c42306%7C1%7C0%7C639063403886521092%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=E8YLZC%2BgXVmRfTecgUZy2SwjnLk2TI1yRtd135CYee8%3D&reserved=0] __  | Enriched Jira Features.Benefit Hypothesis: Implementing a *digital signature service integrated with BPMN workflows* will allow documents generated by the system to be *automatically and securely signed using configurations*
+
+This capability will:
+ * *Improve compliance and legal validity* of system-generated documents by supporting industry standards such as {*}PAdES for PDF digital signatures{*}.
+
+ * *Increase process automation* by enabling BPMN workflows to trigger document signing without manual intervention.
+
+ * *Enhance auditability and traceability* by maintaining audit logs for document generation, signing, and updates.
+
+ * *Provide flexibility and configurability* by allowing administrators to configure multiple certificates and enabling workflows to dynamically select the appropriate signature.
+
+ * *Improve user trust and document authenticity* by displaying visible digital signature stamps and ensuring documents remain verifiable in standard PDF readers.
+
+ * *Support integration with enterprise document management systems (DMS)* through storage and synchronization of signed documents as attachments.
+
+ * *Reduce operational effort and processing time* by eliminating manual signing steps and embedding signing directly into business processes.
+
+Overall, this capability will *strengthen document governan* | Enriched Jira Features.Acceptance Criteria: *Digital Signature service* 
+ * Documents can be digitally signed when instructed by a step in a BPMN flow.
+ * The system must expose an API or internal service or other method  for digital signing that can be called by bpmn processes.
+ * The signing service must support the signature based on customers configurations and certificate.
+ * Admin may configure several signatures.  (May be able to use more than one configurations and certificate/ different signatures and bpmn process should decide on which configurations and certificate to be used, but will not be any defaults available in the product).  
+ * Keep Audit log for the documents' updates.
+
+*PDF* 
+ * The digital signature must be embedded in the PDF according to industry standards (e.g., PAdES).
+ * The PDF must remain verifiable by standard PDF readers.
+
+*Storage & Metadata*
+ * Signed documents must be stored as attachments  (expected as per relevant integration to be synchronized with the DMS).
+
+ * Document generated is expected to be displayed with  the relevant signature stamp and document ID  (project will add this id via a reserve id method optionally to be used  in the upload)
+
+*Visual Elements on Document*
+Signed documents must display a visible digital signature stamp.
+
+*Unhappy path :*
+ * Errors must be logged and be visible.   
+ ** Exceptions should be thrown if document generation or digital signature process not completed successfully. 
+examples: Document generation fails, Template not found, Missing parameters, Digital signing fails, Timeouts
+
+ 
+
+*Reference implementation:* 
+ * At the end of the Busreg form, generate a document (operational report)  with all the details filled  per sections same as tabs
+Document will be digital signed and stored in attachments linked to the form 
+Consideration: Create the signature as a reusable subflow 
+IRM: IRM-34598 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: DOCUMENT MANAGEMENT INTEGRATION | Epic: Document Management Integration Enhancements | Roadmap Feature: Digital Signatures - Validate signatures in attachments RM & SS/ Reference Implementation | Status: In Design | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 800 | Priority: p1 | Enriched Jira Features.Summary: Digital Signatures - Validate signatures in attachments RM & SS/ Reference Implementation | Enriched Jira Features.Description: As a revenue authority users and SS users, I need to be able to validate digital signatures of documents that I am attaching in entities in system (e.g. form) 
+
+*Out of scope  :* 
+The maintenance of trusted lists are part of the configurator resposibilities
+
+ 
+
+*Functional requirements*
+ * Show case that user can validate documents that are attached in system entities digital signature. 
+ * Admin should be able to define the trusted list of digital signatures providers and the apis needed to verify signatures. 
+ * A visual sign is displayed when document is signed.
+ * A visual sign is displayed when document is verified.
+
+Reference implementation : 
+ * While working with a form in SS and in RM  user may upload document and check to verify signature.
+upload a document,  try to verify the document's digital signature , trusted lists , check checksum in the body ) 
+
+ 
+
+*Notes:* 
+Need list of trusted providers and then check checksum in the body
+
+  | Enriched Jira Features.Benefit Hypothesis: Reference implementation for additional steps of user journey , when working with digital signed docuements. | Enriched Jira Features.Acceptance Criteria: * Show case that user can validate documents that are attached in system entities digital signature. 
+ * Admin should be able to define the trusted list of digital signatures providers and the apis needed to verify signatures. 
+ * A visual sign is displayed when document is verified.
+ * A Reference implementation to verify the above functionality (for at least one demo digital signature provider)  
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, and metric in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA.
+- If a value shows "[DATA MISSING]", write that zone's value as "[DATA MISSING]" in the output.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 4 of 5 using the SOURCE DATA above.
+User instructions: Generate only slides for each  "initiative" found under the "initiative group" called "CORE SUPPORTING CAPABILITIES" in "Estimates.xlsx".
+"Total hours" value for the "initiative" can be found in the "Estimates.xlsx" where the value is in the "Initiative Total Hours" column.
+
+Dont halucinate numbers. If you cannot find or calculate them, Write [NO DATA].
+
+Return ONLY a valid JSON object with EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">7</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Tech Debt Reduction</div>
+            <div class="benefit-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Critical Upgrades</div>
+            <div class="benefit-text">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Configuration Management</div>
+            <div class="benefit-text">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Hexagonal Architecture Refactor</div>
+            <div class="theme-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Java 25 Upgrade</div>
+            <div class="theme-desc">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Spring Boot 4.x.x Migration</div>
+            <div class="theme-desc">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Oracle 26ai Database</div>
+            <div class="theme-desc">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Tech Debt Across Teams</div>
+            <div class="theme-desc">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Config Items Management</div>
+            <div class="theme-desc">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+
+=== Agent 5: slide_1 — #5 ===
+You populate one slide instance in a presentation template with real content.
+
+STRUCTURAL CONTRACT (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML elements, class names, attributes, and nesting depth.
+- Replicate the same number of list items, bullet points, sections, and metric blocks as shown in the template.
+- If the template has 4 bullets — output 4 bullets. If it has 3 sections — output 3 sections.
+- Only text content and src/href values may differ from the template.
+- Never add, remove, flatten, or restructure elements.
+- Populate every element with real values from SOURCE DATA only — do not invent or estimate.
+Violating this breaks the slide layout irreparably.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: Estimates.xlsx / Estimates] (1 rows)
+Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: CONTACT MANAGEMENT | Initiative Total Hours: 760
+
+[Sheet: Roadmap_JIRA.csv / Sheet1] (1 rows)
+IRM: IRM-26949 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: CONTACT MANAGEMENT | Epic: Contact Management Enhancements | Roadmap Feature: Assign Unique Number to Incoming and Outgoing Documents | Status: HLD | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 760 | Priority: p1 | Enriched Jira Features.Summary: Assign Unique Number to Incoming and Outgoing Documents | Enriched Jira Features.Description:  As an admin I can define a rule to generate reference ID in a relevant field for incoming and outgoing documents in the system in order to comply with legal requirements part that refers to the Identification of the document. 
+
+ 
+
+*Introduction* **
+
+Using functionality as defined by the solution of [https://jira.intrasoft-intl.com/browse/IRM-435]    **    ,  we may define the Document using a specific format. 
+
+ 
+
+*Functional Requirements*
+ * Configurator, should be able to define the name of the file to be visible
+ ** Option A : Configurator generated a file name according their needs, when generating a document (e.g. Operational report or export of form as in related psd). 
+ ** Option B : If product may not allow configurators to define the file name themselves then  a "Alternative Name" filed is available for documents incoming or outgoing,
+ *** 
+ **** Field  can be visible in relevant pages/related lists
+ **** Field in visible in Attachments related section next to file Name column
+ **** I can search documents by this field. 
+ **** The field in logged in audit log.
+ **** Customers may define the  "Alternative Name", that  will construct and  
+ (relevant IRM-435 ) 
+ ** Special care on performance and error handling of the generation should be taken into consideration. 
+
+ * -Example / Base rule to format the Reference ID  :  **-  
+  -a) Primary related entity type from which was generated, description  (e.g. Form)-
+  -b)-  {-}Seperator "{-}"-
+ -c) Related party role primary Identifier-
+ -d)- {-}Seperator "{-}"-
+  -e)  YYYTMMDDHH (Year 4 digits + Month 3 digits+ Day 2 digits + HH+MM+SS)-
+  {-}d)  Seperator "{-}"- 
+  -e) String that will be "IN" for Inbound documents,  "OUT" for Outbound documents, "SYS" for System generated documents-
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+Performance , Security, Accessibility, Usability 
+
+DODs should be fulfilled. 
+
+ 
+
+ 
+
+ 
+
+ 
+----
+-More details on Legal requirements for Documents :- 
+ -LT:- 
+|-Every document, whether incoming or system-generated (e.g. forms, letters), must receive a unique registration number.-
+-Forms are documents, so forms submitted by users must also have metadata as below:.-|
+||-Field-||-Description-||
+|-*Document Name*-|-Human-readable title-|
+|-*Creator / Author*-|-User or system module creating the document-|
+|-*Sender / Receiver*-| * -For sent docs: add recipient.-
+ * -For received docs: record sender, their reg. number, original date/title.-|
+|-*Date*-|-Created and registered timestamps, YYYY-MM-DD-|
+|-*Registration Number*-|-MAP automatically assigns a unique document registration number with a prefix and yearly resetting counter (e.g., 2025-IN-0001, 2025-OUT-0002).-|
+|-*Original Document Ref.*-|-Links to the original document (e.g. response to request)-|
+
+-Depending on the document type{*},{*} additional metadata fields may be required (e.g., contact email, case ID, type of correspondence).|- | Enriched Jira Features.Benefit Hypothesis: By enabling admins to define and automate the generation of a structured Reference ID for all incoming and outgoing documents, the system ensures compliance with legal requirements related to document identification. This functionality improves traceability, facilitates audits, and enhances searchability and organization of documents across the system.
+This is a legal requirement for Lithuania | Enriched Jira Features.Acceptance Criteria: * Customers may define the name of the pdf or zip produced by operational report or contact.
+ * Example
+
+[Sheet: Roadmap_JIRA.xlsx / Jira Data] (1 rows)
+IRM: IRM-26949 | Initiative Group: CORE SUPPORTING CAPABILITIES | Initiative: CONTACT MANAGEMENT | Epic: Contact Management Enhancements | Roadmap Feature: Assign Unique Number to Incoming and Outgoing Documents | Status: HLD | Requester: GRC | Calculated PI: PI28 | Final Original Estimate: 760 | Priority: p1 | Enriched Jira Features.Summary: Assign Unique Number to Incoming and Outgoing Documents | Enriched Jira Features.Description:  As an admin I can define a rule to generate reference ID in a relevant field for incoming and outgoing documents in the system in order to comply with legal requirements part that refers to the Identification of the document. 
+
+ 
+
+*Introduction* **
+
+Using functionality as defined by the solution of [https://jira.intrasoft-intl.com/browse/IRM-435]    **    ,  we may define the Document using a specific format. 
+
+ 
+
+*Functional Requirements*
+ * Configurator, should be able to define the name of the file to be visible
+ ** Option A : Configurator generated a file name according their needs, when generating a document (e.g. Operational report or export of form as in related psd). 
+ ** Option B : If product may not allow configurators to define the file name themselves then  a "Alternative Name" filed is available for documents incoming or outgoing,
+ *** 
+ **** Field  can be visible in relevant pages/related lists
+ **** Field in visible in Attachments related section next to file Name column
+ **** I can search documents by this field. 
+ **** The field in logged in audit log.
+ **** Customers may define the  "Alternative Name", that  will construct and  
+ (relevant IRM-435 ) 
+ ** Special care on performance and error handling of the generation should be taken into consideration. 
+
+ * -Example / Base rule to format the Reference ID  :  **-  
+  -a) Primary related entity type from which was generated, description  (e.g. Form)-
+  -b)-  {-}Seperator "{-}"-
+ -c) Related party role primary Identifier-
+ -d)- {-}Seperator "{-}"-
+  -e)  YYYTMMDDHH (Year 4 digits + Month 3 digits+ Day 2 digits + HH+MM+SS)-
+  {-}d)  Seperator "{-}"- 
+  -e) String that will be "IN" for Inbound documents,  "OUT" for Outbound documents, "SYS" for System generated documents-
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+Performance , Security, Accessibility, Usability 
+
+DODs should be fulfilled. 
+
+ 
+
+ 
+
+ 
+
+ 
+----
+-More details on Legal requirements for Documents :- 
+ -LT:- 
+|-Every document, whether incoming or system-generated (e.g. forms, letters), must receive a unique registration number.-
+-Forms are documents, so forms submitted by users must also have metadata as below:.-|
+||-Field-||-Description-||
+|-*Document Name*-|-Human-readable title-|
+|-*Creator / Author*-|-User or system module creating the document-|
+|-*Sender / Receiver*-| * -For sent docs: add recipient.-
+ * -For received docs: record sender, their reg. number, original date/title.-|
+|-*Date*-|-Created and registered timestamps, YYYY-MM-DD-|
+|-*Registration Number*-|-MAP automatically assigns a unique document registration number with a prefix and yearly resetting counter (e.g., 2025-IN-0001, 2025-OUT-0002).-|
+|-*Original Document Ref.*-|-Links to the original document (e.g. response to request)-|
+
+-Depending on the document type{*},{*} additional metadata fields may be required (e.g., contact email, case ID, type of correspondence).|- | Enriched Jira Features.Benefit Hypothesis: By enabling admins to define and automate the generation of a structured Reference ID for all incoming and outgoing documents, the system ensures compliance with legal requirements related to document identification. This functionality improves traceability, facilitates audits, and enhances searchability and organization of documents across the system.
+This is a legal requirement for Lithuania | Enriched Jira Features.Acceptance Criteria: * Customers may define the name of the pdf or zip produced by operational report or contact.
+ * Example
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished HTML presentation content for this specific slide instance.
+- Every fact, number, name, and metric in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA.
+- If a value shows "[DATA MISSING]", write that zone's value as "[DATA MISSING]" in the output.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate HTML content for slide instance 5 of 5 using the SOURCE DATA above.
+User instructions: Generate only slides for each  "initiative" found under the "initiative group" called "CORE SUPPORTING CAPABILITIES" in "Estimates.xlsx".
+"Total hours" value for the "initiative" can be found in the "Estimates.xlsx" where the value is in the "Initiative Total Hours" column.
+
+Dont halucinate numbers. If you cannot find or calculate them, Write [NO DATA].
+
+Return ONLY a valid JSON object with EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+TEMPLATES PER KEY (structure is a contract — fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog · Roadmap Initiative</div>
+        <div class="header-title">Maintainability Enhancements</div>
+        <div class="header-subtitle">Technology Upgrades & Technical Debt Reduction · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">7</div>
+        <div class="header-stat-label">Epics</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_body":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<div class="main-panel">
+      
+      <div>
+        <div class="section-title">Why It's Important</div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-number">01</div>
+            <div class="benefit-title">Tech Debt Reduction</div>
+            <div class="benefit-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">02</div>
+            <div class="benefit-title">Critical Upgrades</div>
+            <div class="benefit-text">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-number">03</div>
+            <div class="benefit-title">Configuration Management</div>
+            <div class="benefit-text">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div>
+        <div class="section-title">Key Epics &amp; Features</div>
+        <div class="themes-grid">
+          <div class="theme-card">
+            <div class="theme-name">Hexagonal Architecture Refactor</div>
+            <div class="theme-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Java 25 Upgrade</div>
+            <div class="theme-desc">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Spring Boot 4.x.x Migration</div>
+            <div class="theme-desc">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Oracle 26ai Database</div>
+            <div class="theme-desc">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Tech Debt Across Teams</div>
+            <div class="theme-desc">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+          </div>
+          <div class="theme-card">
+            <div class="theme-name">Config Items Management</div>
+            <div class="theme-desc">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="right-panel">
+    </div>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the pattern — replicate the same structure, sections, and element count using SOURCE DATA only):
+<span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+↑ Match this pattern: same number of list items, sections, metric blocks, and headings — populated with SOURCE DATA values only.

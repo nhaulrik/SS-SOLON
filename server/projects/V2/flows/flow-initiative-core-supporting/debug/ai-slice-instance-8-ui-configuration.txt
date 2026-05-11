@@ -1,0 +1,80 @@
+=== UI CONFIGURATION ===
+
+=== Summary ===
+Roadmap Initiative: UI CONFIGURATION
+Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES
+PI: PI 28
+Total Effort: 414.7 hours
+Feature Count: 6
+Requester: GRC, Other
+
+=== Feature Progress ===
+In Design: 4
+Waiting Analysis Approval: 2
+Total Features: 6
+
+=== Feature Priority ===
+P1: 4
+P3: 2
+Total Features: 6
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enhance User Interface Configurability
+Reason 01 Text: Configurable home page widgets, field visibility indicators, and form prefilling logic enable organisations to customise user experience without code changes, supporting diverse implementation requirements.
+
+Reason 02 Title: Improve Form User Experience
+Reason 02 Text: Automatic text capitalisation, field prefilling based on related values, and visual required field indicators reduce user errors and improve data entry efficiency across form-based workflows.
+
+Reason 03 Title: Enable Flexible UI Customisation
+Reason 03 Text: Support for custom object field labels, alternative filter positioning, and reusable search panels provides configurators with tools to create intuitive interfaces matching organisational workflows.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Configurable Home Page widgets in RM
+Feature Description: Enable users to customise home page with draggable widgets including calendar, tasks, notifications, quick search, and shortcuts, creating personalised command centre for tax officers.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 24h
+Feature Priority: P3
+
+Feature Index: Epic 02
+Feature Name: UI/UX Improvements: Form Field , Change state of typed text in capitals
+Feature Description: Enable configurators to add form fields that automatically convert typed text to capitals for storage, supporting data entry requirements for specific field types.
+Feature Status: In Design
+Feature Status Color: #4A90D9
+Feature Effort: 74.9h
+Feature Priority: P1
+
+Feature Index: Epic 03
+Feature Name: UI/UX Improvements : Prefilling a field in a form based on the value of another field
+Feature Description: Enable configurators to set autofill attributes on code list fields, automatically selecting unique values or related child items when only one option is available.
+Feature Status: In Design
+Feature Status Color: #4A90D9
+Feature Effort: 149.1h
+Feature Priority: P1
+
+Feature Index: Epic 04
+Feature Name: UI/UX Improvements: Visual cues : Add Visual Indicator for Required Fields
+Feature Description: Enable configurators to define visual indicators for required or optional fields in forms, supporting flexible highlighting approaches including red asterisks or alternative styling.
+Feature Status: In Design
+Feature Status Color: #4A90D9
+Feature Effort: 126.7h
+Feature Priority: P1
+
+Feature Index: Epic 05
+Feature Name: LT_UI_Support customObjectField to always present the label
+Feature Description: Ensure custom object fields display user-friendly descriptions rather than internal codes based on backend response and configuration attributes.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 40h
+Feature Priority: P1
+
+Feature Index: Epic 06
+Feature Name: UI/UX Improvements: Search and navigation : Bars at the top of the pages
+Feature Description: Implement header bar improvements with relevant information display, save button, and breadcrumbs navigation for improved user orientation and quick actions.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: N/A
+Feature Priority: P2

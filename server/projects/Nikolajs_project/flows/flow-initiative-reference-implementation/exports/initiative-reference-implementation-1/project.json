@@ -1,0 +1,16 @@
+{
+  "name": "Nikolajs_project",
+  "exportId": "initiative-reference-implementation-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-04-21T10:04:23.663Z",
+  "slideCount": 1,
+  "slides": [
+    {
+      "index": 1,
+      "file": "vat.html",
+      "slideId": "slide-1",
+      "title": "VAT",
+      "type": "content"
+    }
+  ]
+}

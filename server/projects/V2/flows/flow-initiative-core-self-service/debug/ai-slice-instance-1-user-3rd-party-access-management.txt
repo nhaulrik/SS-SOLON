@@ -1,0 +1,80 @@
+=== USER & 3RD PARTY ACCESS MANAGEMENT ===
+
+=== Summary ===
+Roadmap Initiative: USER & 3RD PARTY ACCESS MANAGEMENT
+Roadmap Initiative Group: CORE SELF SERVICE CAPABILITIES
+PI: PI 28
+Total Effort: 3531 hours
+Feature Count: 7
+Requester: GRC
+
+=== Feature Progress ===
+In Design: 2
+Waiting Analysis Approval: 5
+Total Features: 7
+
+=== Feature Priority ===
+P1: 5
+P3: 2
+Total Features: 7
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Implement Multi-Level Representation Framework
+Reason 01 Text: Support two-way, multi-level representations with configurable lifecycle and datetime validity, enabling complex delegation hierarchies required by tax authorities.
+
+Reason 02 Title: Enforce Temporal Access Control Precision
+Reason 02 Text: Capture start and end dates with timezone support for representations and user rights, ensuring accurate permission enforcement across date boundaries.
+
+Reason 03 Title: Enable RM-Based Representation Management
+Reason 03 Text: Revenue management users manage taxpayer authorizations directly, synchronizing with self-service in real-time and preventing conflicting delegations.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Representations : Ability to define and manage Representations in RM (affecting SS users)
+Feature Description: RM users create and manage representations for taxpayers with lifecycle support, synchronizing real-time with self-service portal.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 1493h
+Feature Priority: P1
+
+Feature Index: Epic 02
+Feature Name: Representations : (A) Enhancements, configurability and permissions in Agreements (2ways,multilevels) /RM & SS
+Feature Description: Admin configures two-way multi-level representations with lifecycle, status tracking, and source system integration for complex authorization scenarios.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 448h
+Feature Priority: P1
+
+Feature Index: Epic 03
+Feature Name: Representations : Define Date time and timezone for Representations and user rights /RM &SS
+Feature Description: Capture and enforce start and end dates with timezone support for representations, ensuring accurate temporal validity across all access permissions.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 448h
+Feature Priority: P1
+
+Feature Index: Epic 04
+Feature Name: Representations : Form Types and Access to Apis as Services / Reference implementation
+Feature Description: Admin defines agreement services based on form types and API access, enabling granular control over representative permissions for specific operations.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 299h
+Feature Priority: P1
+
+Feature Index: Epic 05
+Feature Name: Representations : Ability to relate attachments to Representations in RM (RM & SS)
+Feature Description: Users relate authorization paperwork attachments to representations, maintaining audit trail of supporting documentation for delegated permissions.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 320h
+Feature Priority: P3
+
+Feature Index: Epic 06
+Feature Name: Representations : Additional info in Agreements /RM & SS
+Feature Description: Capture source system, purpose, and external creation timestamps for representations, enabling audit trail and integration tracking.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 523h
+Feature Priority: P1

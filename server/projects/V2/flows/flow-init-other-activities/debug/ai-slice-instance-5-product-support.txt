@@ -1,0 +1,38 @@
+=== PRODUCT SUPPORT ===
+
+=== Summary ===
+Roadmap Initiative: PRODUCT SUPPORT
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 551 hours
+Feature Count: 1
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Support Customer Environment Stability
+Reason 01 Text: Demo environment upgrades and maintenance ensure customers can test and validate new features safely.
+
+Reason 02 Title: Enable Effective Product Demonstrations
+Reason 02 Text: Clean, functional demo environments support sales, training, and customer evaluation activities.
+
+Reason 03 Title: Reduce Customer Onboarding Friction
+Reason 03 Text: Well-maintained demo environments accelerate customer proof-of-concept and implementation timelines.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Demo Solon Tax Azure environment upgrade / clean installation
+Feature Description: Upgrade and clean installation of Solon Tax demo environment on Azure infrastructure.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 551h
+Feature Priority: P2
+
+---

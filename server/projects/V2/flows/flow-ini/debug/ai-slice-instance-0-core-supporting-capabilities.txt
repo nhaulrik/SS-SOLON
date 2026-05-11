@@ -1,0 +1,614 @@
+[Sheet: RichFeatureQueries.xlsx / Full Features] (22 rows)
+Issue Type: Feature | IRM: IRM-12464 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CASE MANAGEMENT | Roadmap Feature: Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | Requester: GRC | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As a revenue official, I want to assign case workers (user) that have a required profile (e.g. skills, experience and part of a certain organizational unit) to a case while also considering the availability of the suitable candidates, so that a capable worker (user) with sufficient availability can work on and complete the case. Also, I want to see how much effort is involved for each assigned case worker and for the case in total.
+
+*Introduction*
+
+This feature extends IRM-680 in which requirements have been documented to assign and unassign a worker to/from a case. IRM-680 includes a requirement that the user can specify the expected allocation of a case worker for a case.
+
+This feature is related to IRM-12459 in which requirements have been documented to assign and unassign one or more resource calendars to a worker.
+
+*Functional Requirements*
+ * Eligible Workers
+ ** User can see the average allocation from the case start date up until the case end date for each case worker that meets any of the worker’s profiles for the case. Average allocation can be calculated by dividing the sum of the allocated effort of a case worker from the start date up until the end date of a case by the sum of the available man-hours in that same period based on the resource calendars that are effective for the case worker in that period
+ ** User can see the availability in man-hours from the case start date up until the case end date for each case worker that meets any of the case worker’s profiles for the case. Available man-hours can be calculated by subtracting the sum of the allocated effort for a case worker from the start date up until the end date of a case from the sum of the available man-hours in that same period based on the resource calendars that are effective for the case worker in that period.
+ * Worker’s Assignment
+ ** User can see what effort has been calculated based on the provided expected allocation for the case worker’s assignment and the resource calendar(s) that are effective for this worker from the case start date up until the case end date. Effort can only be calculated if (1) a start date and end date have been defined for the related case, and (2) an expected allocation has been provided. Period(s) within the start and end date of the case for which no effective resource calendar has been defined for the case worker are considered non-working periods. Assumption is that the effort will be recalculated if (1) the case start or end date are updated, (2) the expected allocation for that case worker for that case is updated, and/or (3) a resource calendar of an assigned case worker that falls within the period in which the case has been scheduled, is updated.
+ * User can see the total calculated effort for the case. Total effort is equal to the sum of the effort that was calculated for each case worker that was assigned to the case.
+Issue Type: Feature | IRM: IRM-12465 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CASE MANAGEMENT | Roadmap Feature: Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | Requester: GRC | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to use the case worker’s availability as a criterion in a case worker’s profile. So that only case workers that have a certain availability can be assigned to cases for which this case worker’s profile is applicable.
+
+*Introduction*
+
+This feature extends IRM-702 in which requirements have been documented to define what case worker’s profiles are required to perform a certain type of case.
+
+*Functional Requirements*
+ * Admin can use the following matching criteria when defining profiles for the most suitable case workers for a specific type of case:
+ ** Average Allocation: can be calculated by dividing the sum of the allocated effort of a worker within a given period (from the start date up until the end date of a case) by the sum of the available man-hours in that same period based on the resource calendars that are effective for the case worker in that period. Admin can for example define that the average allocation should be equal to or less than 0.8.
+ ** Available man-hours: can be calculated by subtracting the sum of the allocated effort of a case worker within a given period (from the start date up until the end date of a case) from the sum of the available man-hours in that same period based on the resource calendars that are effective for the case worker in that period. Admin can for example define that a worker should at least have 8 hours unallocated man-hours within a period.
+Issue Type: Feature | IRM: IRM-18729 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Import Code Lists - Admin | Requester: GRC | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to import information for one or more code lists, so that this information can be used to add or update these code lists and their related code list items.
+
+*Functional Requirements*
+ * Admin can select a file that contains structured information (e.g. in XML format) on one or more code lists and their related code list items. The file structure will be available in the Solon documentation. 
+ * Admin can upload the information from the selected file. 
+Assumption is that admin can by uploading the file add new code lists and their related code list items, add a new code list item to an existing code list, and add or update new data pertaining an existing code list or code list item except for any data that uniquely identifies this code list or code list item. 
+Assumption that admin cannot by uploading the file delete any code lists or code list items.
+ * Admin can see that the information from the selected file was used to add or update the code lists and their related code list items for which information was included in the selected file.
+ * UI: Admin may access controls to upload an codelist with codelist items  with attributes and relationships.
+ * Exceptions will be thrown if upload cannot be successfully completed with error descriptions. 
+(non available related item, non available attribute, wrong expiration dates) 
+Issue Type: Feature | IRM: IRM-18730 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Export Code List | Requester: GRC | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin or user with proper permissions, I want to export the information of a specific code list and its related code list items, so that this information can be edited or used in another tool.
+
+*Functional Requirements*
+ * Admin can choose to download the information of a specific code list and its related code list items in a structured format (e.g. using XML, csv, xls) , in selected language. 
+Will contain information with codes and descriptions (where applicable) for  : 
+ ** Codelist  , related categories and attributes
+ ** Codelist Items  with columns
+a) Code,  b) Description, c) Order,   d)Attributes and attribute values, 
+e) Related codelist items in category cross (with codelist-s related info) (codelist code, description , codelist item code description) , 
+f)   related codelist items within codelist 
+ * Admin can provide a name for the file in which the information must be stored and can indicate in what folder this file should be saved
+ * Admin can see that a file with the information for that specific code list and its related code list items was created after the download was completed.
+ * UI: User may see controls to export codelist in common codelist UI page. and in codelists list view.
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+Performance , Security, Accessibility, Usability  DODs should be fulfilled. 
+Issue Type: Feature | IRM: IRM-26949 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Assign Unique Number to Incoming and Outgoing Documents | Requester: GRC | PI: PI28 | Estimate: 709.1 | Feature Priority: p1 | Feature Status: HLD | Features Description:  As an admin I can define a rule to generate reference ID in a relevant field for incoming and outgoing documents in the system in order to comply with legal requirements part that refers to the Identification of the document. 
+
+ 
+
+*Introduction* **
+
+Using functionality as defined by the solution of [https://jira.intrasoft-intl.com/browse/IRM-435]    **    ,  we may define the Document using a specific format. 
+
+ 
+
+*Functional Requirements*
+ * Configurator, should be able to define the name of the file to be visible
+ ** Option A : Configurator generated a file name according their needs, when generating a document (e.g. Operational report or export of form as in related psd). 
+ ** Option B : If product may not allow configurators to define the file name themselves then  a "Alternative Name" filed is available for documents incoming or outgoing,
+ *** 
+ **** Field  can be visible in relevant pages/related lists
+ **** Field in visible in Attachments related section next to file Name column
+ **** I can search documents by this field. 
+ **** The field in logged in audit log.
+ **** Customers may define the  "Alternative Name", that  will construct and  
+ (relevant IRM-435 ) 
+ ** Special care on performance and error handling of the generation should be taken into consideration. 
+
+ * -Example / Base rule to format the Reference ID  :  **-  
+  -a) Primary related entity type from which was generated, description  (e.g. Form)-
+  -b)-  {-}Seperator "{-}"-
+ -c) Related party role primary Identifier-
+ -d)- {-}Seperator "{-}"-
+  -e)  YYYTMMDDHH (Year 4 digits + Month 3 digits+ Day 2 digits + HH+MM+SS)-
+  {-}d)  Seperator "{-}"- 
+  -e) String that will be "IN" for Inbound documents,  "OUT" for Outbound documents, "SYS" for System generated documents-
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+Performance , Security, Accessibility, Usability 
+
+DODs should be fulfilled. 
+
+ 
+
+ 
+
+ 
+
+ 
+----
+-More details on Legal requirements for Documents :- 
+ -LT:- 
+|-Every document, whether incoming or system-generated (e.g. forms, letters), must receive a unique registration number.-
+-Forms are documents, so forms submitted by users must also have metadata as below:.-|
+||-Field-||-Description-||
+|-*Document Name*-|-Human-readable title-|
+|-*Creator / Author*-|-User or system module creating the document-|
+|-*Sender / Receiver*-| * -For sent docs: add recipient.-
+ * -For received docs: record sender, their reg. number, original date/title.-|
+|-*Date*-|-Created and registered timestamps, YYYY-MM-DD-|
+|-*Registration Number*-|-MAP automatically assigns a unique document registration number with a prefix and yearly resetting counter (e.g., 2025-IN-0001, 2025-OUT-0002).-|
+|-*Original Document Ref.*-|-Links to the original document (e.g. response to request)-|
+
+-Depending on the document type{*},{*} additional metadata fields may be required (e.g., contact email, case ID, type of correspondence).|-
+Issue Type: Feature | IRM: IRM-29998 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: OPERATIONAL REPORTING | Roadmap Feature: Automatically distribute Operational Report in list of recipients | Requester: GRC | PI: PI28 | Estimate: 72 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: As an admin or delivery team member, I need to be able to generate Operational Reports setting specific parameters (as per existing reports design)  and automatically schedule its distribution to a list of recipients.
+
+*Introduction* 
+
+As per [https://jira.intrasoft-intl.com/browse/PSD-12025] , and https://jira.intrasoft-intl.com/browse/IRM-28177  we will need to define as base the scheduled operational reports process. 
+
++References:+
+It is assumed that in Batch applications there is already available the way for admin to flexibly define parameters per batch process. [https://jira.intrasoft-intl.com/browse/IRM-26543]  
+Operational reports:  [https://jira.intrasoft-intl.com/browse/IRM-27576] 
+Scheduled Process :  [https://jira.intrasoft-intl.com/browse/IRM-13558] , Scheduled Process Category:  OPERATIONAL_REPORT
+Process as Base (in product) : https://jira.intrasoft-intl.com/browse/IRM-28177 
+
+Implementation many be based on https://jira.intrasoft-intl.com/browse/IRM-26951 , https://jira.intrasoft-intl.com/browse/IRM-766 
+
++New requirements:+ 
+A list of recipients may be selected. 
+
+ 
+
+*Functional requirement*
+ * Batch process requires as additional  parameters
+ ** A party or Optionally : the recipients list as another parameter (e.g.  in a csv file)  
+ ** User can select a list as per https://jira.intrasoft-intl.com/browse/IRM-766 
+ * Report will be sent as email to all recipients listed. 
+
+
+ 
+Issue Type: Feature | IRM: IRM-30403 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTENT MANAGEMENT INTEGRATION | Roadmap Feature: SS Enhancements - CMS Integration | Requester: GRC | PI: PI28 | Estimate: 80 | Feature Priority: p3 | Feature Status: To Do | Features Description: Integration with CMS
+
+i.e. : productize what LT did in a generic way (not drupal specific) 
+Issue Type: Feature | IRM: IRM-30418 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: UI CONFIGURATION | Roadmap Feature: Configurable Home Page widgets  in RM | Requester: GRC | PI: PI28 | Estimate: 24 | Feature Priority: p3 | Feature Status: To Do | Features Description: *RM Home page  {color:#c1c7d0}_- not discussed with customers:_{color}* 
+Home page may be customizable by user (or per groups) . Several widgets may be available and can be docked in the page as per user preferences. 
+The home page acts as a central command center, letting a tax officer or user quickly see tasks, deadlines, notifications, and insights without navigating through multiple screens.
+
+_Examples of widgets:_ 
+ * _My Calendar, My team calendar, My Pending tasks, Overdue tasks,_ _Unassigned tasks, <status> tasks_
+ * _Summary of pending approvals, or submissions._
+ * _Quick Search in Registry  (TBC due to complexity)_ 
+ * _Quick search taxpayers_
+ * _Create shortcuts / Quick links to usually used tabs/records/other links  (other apps, to taxpayers, cases, documents, easily access payplans, or form list page with predefine filter etc)_ 
+ * _Notifications / Alerts /   (deadlines, system messages, process completions/errors... )_
+
+ 
+
+Complex in BE or not ready in BE or by examples 
+ * _My Recent Items (Accessed records)_ 
+ * _Announcements from the company (TBD) or Integration with other internal used messaging systems_
+
+ * _Other  Dashboards and KPIs /reports and quick metrics  (e.g. Team allocation for managers,  returned payouts , collection rates, or workload by officer , new registration forms, total taxpayers managed, open cases, or recent filings.  )_ 
+
+Prerequisites :
+I can see my calendar or my team calendar, quick search available , recent records accessed 
+Issue Type: Feature | IRM: IRM-30668 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: BATCH PROCESSING ENHANCEMENTS | Roadmap Feature: Amplio batch - Replacement of SCDF with Amplio (Part 2) | Requester: Other | PI: PI28 | Estimate: 494.9 | Feature Priority: p1 | Feature Status: In Progress | Features Description: *Only P1 batchjobs will be migrated in this Part 2 Enabler, the remaining will be migrated in Part 3 (IRM-41632)*
+
+The main goal of the feature, is to migrate the remaining batch jobs to the Amplio Batch engine.
+h2. 1. Job migrations
+h3. 1.1 revenue-management-batch repository
+
+In the revenue-management-batch repository, the following missing jobs marked as BASE, needs to be migrated:
+|*Image Name*|*Category*|*Release*|*GR AADE priority* |
+|overpayment-process|BASE|TBD|p1|
+|direct-deposit|BASE|TBD|p1|
+|object-access-group-initialization*|BASE|TBD|p1|
+|-archive-data-|BASE|TBD|p2|
+|-data-nomination-|BASE|TBD|p2|
+|-delete-data-|BASE|TBD|p2|
+|-gdpr-anonymize-data-|BASE|TBD|p3|
+|-gdpr-deletion-|BASE|TBD|p3|
+ * This job needs to be refactored, to not use temporary tables anymore and is therefore not a 1-1 migration.
+h3. 1.2 revenue-management-batch-custom repository
+
+In the revenue-management-batch-custom repository, the following missing jobs marked as EXAMPLE, needs to be migrated:
+|*Image Name*|*Category*|*Release*|{*}GR AADE priority{*}{*}{*}|
+|candidate-case-creation|EXAMPLE|TBD|p1|
+|late-filer-rule|EXAMPLE|TBD|p1|
+|-compliance-monitor-|EXAMPLE|TBD|p2|
+|-release-suppression-|EXAMPLE|TBD|p3|
+|-suppression-activations-|EXAMPLE|TBD|p3|
+|-debt-recovery-|EXAMPLE|TBD|p3|
+|-handover-debt-|EXAMPLE|TBD|p3|
+h2. 2. Miscellaneous
+h3. 2.1 Deprecation warnings
+
+All migrated jobs, should be marked as deprecated within SCDF.
+h3. 2.2 Documentation
+
+Remaining documentation, including detailed design for the batch engine needs to be finalized, together with new documentation for the batch jobs as they get migrated. 
+
+The product documentation likewise needs to be updated. 
+Issue Type: Feature | IRM: IRM-31187 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: BATCH PROCESSING ENHANCEMENTS | Roadmap Feature: Amplio Batch - improvements and maintenance part 2 | Requester: Other | PI: PI28 | Estimate: 243.60000000000002 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: h2. Overview
+
+This initiative modernizes the Amplio batch processing system by enhancing maintainability, resilience, and operational flexibility. Building on learnings from the Lithuania project and the migration of batch jobs to Amplio the work focuses on refactoring existing batch jobs rather than creating new features.
+h2. Key Objectives
+ * Standardize project structure and package naming (replace {{...etl...}} with {{{}...batch.batchjob...{}}})
+ * Centralize duplicated configurations (Keycloak credentials, DataSource, FeignClient beans)
+ * Resolve artifact naming conflicts between batch and batch-custom projects
+ * Clean up redundant POM dependencies
+
+h2. Business Value
+ * Improved system resilience and reduced manual intervention
+ * Reduced technical debt and improved long-term maintainability
+ * More stable and secure codebase
+Issue Type: Feature | IRM: IRM-31854 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: UI CONFIGURATION | Roadmap Feature: LT_UI_Support customObjectField to always present the label | Requester: Other | PI: PI28 | Estimate: 40 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: When using CustomObjectField, we want the UI to display the description of the object rather than the internal code, based on the backend response and the configuration attributes available.
+
+Currently, we have set isFlat = true in order to display the object data correctly. However, this configuration seems to interfere with how the label is rendered — instead of showing the user-friendly description, it displays the raw code. This is not the expected behavior and leads to a poor user experience.
+Issue Type: Feature | IRM: IRM-32237 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: UI CONFIGURATION | Roadmap Feature: UI/UX Improvements: Visual cues : Add Visual Indicator for Required Fields | Requester: GRC | PI: PI28 | Estimate: 126.69999999999999 | Feature Priority: p1 | Feature Status: In Design | Features Description: As a configurator, I can define in UI schemas whether to highlight required or optional fields in Solon Tax Revenue Management, so that I can provide flexibility to projects to use as needed.
+
+*Introduction*
+
+This feature is the result of a request from LT Project, however similar request exists from GR project since Tax officers currently can see highlighted required fields.  
+
+*Functional Requirements*
+Enhance the UI configuration to support a visual indicator for specific fields. Example use case:
+ * Configurator may set the required items to be displayed with {color:#ff0000}*{color} ({color:#ff0000}red asterisk{color}).
+ * Optional items displayed in normal text. No (Optional) label needed next to each field. 
+ * Styling approach could be configurable to support different use cases (e.g., icons, color).
+ * This change should be generic so it can be reused across forms and modules. 
+ * Existing functionality should be maintained as an option for *projects .* I.e., highlight Optional with text next to the fields. 
+
+
+
+
+
+*Notes:* 
+Requirement from AADE
+ * Σε όλες τις φόρμες συμπλήρωσης, θα πρέπει να επισημαίνονται με σαφή και διακριτό τρόπο (π.χ. μέσω χρωματικής διαφοροποίησης ή έντονου πλαισίου/bold) τα πεδία που είναι υποχρεωτικά προς συμπλήρωση. Ο διαχωρισμός των υποχρεωτικών από τα προαιρετικά πεδία δεν θα πρέπει να γίνεται με λεκτική περιγραφή.
+Issue Type: Feature | IRM: IRM-34598 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: DOCUMENT MANAGEMENT INTEGRATION | Roadmap Feature: Digital Signatures - Validate signatures in attachments RM & SS/ Reference Implementation | Requester: GRC | PI: PI28 | Estimate: 746.9 | Feature Priority: p1 | Feature Status: In Design | Features Description: As a revenue authority users and SS users, I need to be able to validate digital signatures of documents that I am attaching in entities in system (e.g. form) 
+
+*Out of scope  :* 
+The maintenance of trusted lists are part of the configurator resposibilities
+
+ 
+
+*Functional requirements*
+ * Show case that user can validate documents that are attached in system entities digital signature. 
+ * Admin should be able to define the trusted list of digital signatures providers and the apis needed to verify signatures. 
+ * A visual sign is displayed when document is signed.
+ * A visual sign is displayed when document is verified.
+
+Reference implementation : 
+ * While working with a form in SS and in RM  user may upload document and check to verify signature.
+upload a document,  try to verify the document's digital signature , trusted lists , check checksum in the body ) 
+
+ 
+
+*Notes:* 
+Need list of trusted providers and then check checksum in the body
+
+ 
+Issue Type: Feature | IRM: IRM-36668 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: DOCUMENT MANAGEMENT INTEGRATION | Roadmap Feature: Digital Signatures - System digital signing of PDF documents generated by bpmn process | Requester: GRC | PI: PI28 | Estimate: 1344 | Feature Priority: p1 | Feature Status: In Design | Features Description: As a revenue authority user, when the system generates a document (e.g., operational reports, letters, certificates) and the business process instructs so, I want the document to be digitally signed by the system, with all required visual elements rendered in the PDF, so that I can securely distribute officially signed documents to taxpayers and stakeholders.
+
+This capability must be reusable, configurable, auditable, and resilient to failures.
+
+*Background :*
+In the current (as-is) systems:
+Documents are generated via operational reports 
+Documents may be instructed to be generated via BPMN flows.
+Documents may be sent to contacts and/or stored as attachments. 
+Attachments can be linked to a Document Management System (DMS) via integration.
+
+*Assumptions :* 
+*a)* Revenue authority will supplied by an External provider the digital stamp (ψηφιακή σφραγίδα) in ΡΕΜ or PKC#7 files
+Then the configurations for digital signs and certificate will be used for documents signature. 
+./pdf_sign_pem_multicert <input_pdf> <output_pdf> <cert.pem> <key.pem>
+
+for our tests we need to use one from CA authority 
+*b)* Any additional elements (document IDs, DMS URLs, QR codes) must be printed on the document via project-specific implementation.
+{*}c){*}Attachments are integrated with a DMS per customer configuration and responsibility.
+*d)* One reference configuration for one digital signature will be only will be available for testing purposes (as demo). If projects needs several signatures, they may be able to configure them in the system.  
+
+*Out of Scope* (for now)
+End-user personal digital signatures
+Non-PDF document formats
+Additional IDs or other document additional elements other than digital signature. (document ID, qr code)
+
+ 
+
+ 
+
+*Functional Requirements*
+
+*Digital Signature service* 
+ * Documents can be digitally signed when instructed by a step in a BPMN flow.
+ * The system must expose an API or internal service or other method  for digital signing that can be called by bpmn processes.
+ * The signing service must support the signature based on customers configurations and certificate.
+ * Admin may configure several signatures.  (May be able to use more than one configurations and certificate / different signatures and bpmn process should decide on which configurations and certificate to be used, but will not be any defaults available in the product).  
+ * Keep Audit log for the documents' updates.
+
+*PDF* 
+ * The digital signature must be embedded in the PDF according to industry standards (e.g., PAdES).
+ * The PDF must remain verifiable by standard PDF readers.
+
+*Storage & Metadata*
+ * Signed documents must be stored as attachments  (expected as per relevant integration to be synchronized with the DMS).
+
+ * Document generated is expected to be displayed with  the relevant signature stamp and document ID  (by a reserve id method optionally to be used  in the upload  and that may be used if  needed by configurators) 
+
+*Visual Elements on Document*
+Signed documents must display a visible digital signature stamp.
+
+*Unhappy path :*
+ * Errors must be logged and be visible.   
+ ** Exceptions should be thrown if document generation or digital signature process not completed successfully. 
+examples: Document generation fails, Template not found, Missing parameters, Digital signing fails, Timeouts
+
+ 
+
+*Reference implementation:* 
+ * At the end of the Busreg form, generate a document (operational report)  with all the details filled  per sections same as tabs
+Document will be digital signed and stored in attachments linked to the form 
+Consideration: Create the signature as a reusable subflow 
+
+*Example*
+
+!image-2026-02-16-00-37-24-460.png|width=685,height=402!
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected team to get aligned with respective teams and reassure that is not creating issues or the related NFRs will be tested :
+Performance , Security, Accessibility, Usability 
+DODs should be fulfilled.
+
++Security+
+Certificates and private keys must be stored securely (e.g., HSM, secure vault, encrypted storage) or other repository. 
+Access to signing functionality must be restricted and auditable.
+
++Auditability+
+Every signing action must be logged:
+Who/what triggered the signing
+Timestamp
+Document ID
+Certificate used
+
++Performance+
+Signing should not block critical user flows beyond acceptable SLA limits.
+Support async signing for large documents or batch processing.
+
++Configurability+
+Be able to select different configurations for digital signs  to be used.  
+
+ 
+
+*Notes:* 
+In Gr used:  [https://www.harica.gr/el/Products/eSeal] 
+----
+_Την ηλεκτρονική σφραγίδα (πρόκειται για ψηφιακό πιστοποιητικό ηλεκτρονικής υπογραφής) πρέπει να την προμηθευτεί η ΑΑΔΕ από Εγκεκριμένο Πάροχο Υπηρεσιών Εμπιστοσύνης και να μας δώσει το private key και τον κωδικό που το προστατεύει._
+
+_Στην Ελλάδα τέτοιος Πάροχος είναι μόνο η Harica._ [_https://www.harica.gr/el/Products/eSeal_|https://eur02.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.harica.gr%2Fel%2FProducts%2FeSeal&data=05%7C02%7CIoannis.SAVVIDIS%40netcompany.com%7C5709551eaa9b478ddf3008de68c7a564%7C8f9b88a73f3e4be3aae42006d4c42306%7C1%7C0%7C639063403886521092%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=E8YLZC%2BgXVmRfTecgUZy2SwjnLk2TI1yRtd135CYee8%3D&reserved=0] __ 
+Issue Type: Feature | IRM: IRM-38250 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Enhance codelist items codes flexibility and historical track in Solon Tax | Requester: GRC | PI: PI28 | Estimate: 522.9 | Feature Priority: p1 | Feature Status: In Design | Features Description: As an RM Admin, I can update reference data with a codelist item having a code that is not unique, while its description is updated with different validity periods (no overlap), so as to comply with EU regulating updates.
+
+*Introduction* 
+
+*Tax Activity Codes in the EU:* There is no single "tax code" for all EU members. Instead, three main systems are used:
+ * {*}NACE Codes{*}: The official statistical classification for economic activities. The current version is *NACE Rev. 2.1* (effective Jan 1, 2025). Attached in this feature for reference. 
+ * {*}VAT Category Codes{*}: Standardized letters (e.g., *S* for Standard, *E* for Exempt) used in electronic invoicing.
+ * {*}VATEX Codes{*}: Specific codes used to justify *VAT exemptions* based on EU Directive 2006/112/EC.
+ * *Customs Codes (TARIC/CN)* For the import/export of goods, the Combined Nomenclature (CN) is used, which is an 8-digit coding system. 
+
+In Greece, AADE (Independent Authority for Public Revenue) has proceeded with the mapping of the old activity codes (KAD 2008) to the new KAD 2025, a process which began on March 1, 2026. There is a direct correlation between Greek KAD (Activity Code Numbers) and NACE codes. KAD constitute the national version of the European NACE classification.
+ * {*}Structure{*}: The first 4 characters of an eight-digit Greek KAD are fully identical to the 4 characters of the corresponding NACE code.
+ * {*}2026 Harmonization{*}: AADE recently proceeded (as of 01/03/2026) with an automatic update of KADs for 1.9 million Tax IDs (AFM), in order to fully harmonize them with the new European standard {*}NACE Rev. 2.1{*}.
+ * {*}Purpose{*}: This mapping ensures that economic activities in Greece are comparable to those of other EU member states for statistical and regulatory purposes.
+
+*When a Code is Updated*
+
+When the EU updates the NACE structure:
+ * {*}Automatic Migration{*}: Most codes are automatically updated by national tax authorities (like AADE in Greece) if there is a 1-to-1 match.
+ * {*}Manual Selection{*}: If one old code splits into multiple new ones, the taxpayer must manually select the most accurate one via the tax portal.
+ * {*}Description Changes{*}: A code's number *can stay the same while its description* *is updated* to reflect modern technology or clearer definitions.
+
+Validity and History
+ * {*}Historical Accuracy{*}: A code must be valid for the period it was used. If you are filing an amended return for 2024, you use the code that was active in 2024, not the new 2025/2026 version.
+ * {*}EU-Wide Validity{*}: This principle of historicity applies to all EU countries. While the digital portals differ (e.g., myAADE in Greece), the transition logic to NACE Rev. 2.1 is harmonized across the Union.
+
+For Greek Tax Authority
+The code *must remain valid* for the period prior to the change, as tax and statistical representation follows the principle of historicity. In practice, this means the following: * {*}Principle of Historicity{*}: For any transaction, declaration, or audit concerning the past (e.g., fiscal year 2024), the code that was in effect *at that time* is used. New codes (e.g., KAD 2025/2026) apply only to actions from their effective date onwards.
+ * {*}System Maintenance{*}: AADE and Eurostat systems maintain the "historical versions" of the codes. If you need to file an amended return for a previous year, you must use the old code that corresponded to that specific period.
+ * {*}Migration (Mapping){*}: The mapping performed by AADE does not "erase" the past; it creates a new entry in your Registry history. The "Registry Certificate" will show the expiration date of the old code and the start date of the new one.
+ * {*}Audits and Cross-checks{*}: In the event of a tax audit for a past fiscal year, auditors examine the activity based on the description and the code that were in effect at the time of the transaction.
+
+The current Solon Tax platform implementation requires unique codes for codelist items within the same codelist. However, EU tax regulations, particularly for tax activity codes (NACE, VAT Category, VATEX), require the ability to maintain the same code with different descriptions across different validity periods to support historical accuracy and regulatory compliance.
+
+*Current Implementation Support*
+
+The platform currently supports:
+ * Unique code constraint for codelist items within a codelist
+ * Basic validity period management with valid_from and valid_to fields
+ * Codelist item labels with language support
+
+*To Be Implementation*
+
+Allow the same code to be added for different validity periods with:
+ * No overlap between validity periods for the same code
+ * Different descriptions for the same code across different time periods
+ * Historical data preservation for reporting and backdated updates
+
+*Functional Business Requirements*
+ # {*}Historical Code Management{*}: Enable codelist items to have the same code with different descriptions across non-overlapping validity periods
+ # {*}Temporal Data Integrity{*}: Ensure no validity period overlaps exist for items with the same code within a codelist
+ # {*}Backdated Processing Support{*}: Allow selection of historical codelist items when processing backdated taxpayer updates
+ # {*}Regulatory Compliance{*}: Support EU tax code evolution requirements (NACE Rev. 2.1)
+ # {*}Reporting Continuity{*}: Maintain historical reference data for accurate reporting across different time periods
+
+*Documentation*
+Document all the above adjustments for updating reference data to support compliance with EU updates codes not unique per validity period.
+
+ 
+
+*Non functional requirements*
+Performance , Security, Traceability, Accessibility, Usability  DODs should be fulfilled. 
+Issue Type: Feature | IRM: IRM-38379 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: FORM PROCESSING | Roadmap Feature: Forms : Be able to log details for the submitter of the form /RM &SS | Requester: GRC | PI: PI28 | Estimate: 373.1 | Feature Priority: p1 | Feature Status: In Design | Features Description: As an Administrator, I need the ability to record the user responsible for creating and submitting a form, as in many cases this user may not be the same as the Party associated with the form.
+
+ 
+
+ 
+
+*Functional Requirements* 
+
+*a)* Optional fields in Form metadata
+*Created By* : Reference to a Party Role ID representing the user who created the form
+*Posted By* : Reference to a Party Role ID representing the user who submitted/posted the form
+*External System Created Date/Time* (external_created_dttm) :Timestamp indicating when the form was created in an external system (similar to the Party record field)
+
+*b)* user may search forms using the above fields.
+
+*c)* Enable user-define-characteristics (Data Area)  in forms for other metadata related items. (Data Area = Form Details)  
+Example: Import Date from external system. (Date field)
+
+*d)* Apply Notes in Forms in RM and SS 
+In UI add Notes only in RM
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected that the NFRs are considered and examined: Performance , Security, Accessibility, Usability 
+
+DODs should be fulfilled. 
+Issue Type: Feature | IRM: IRM-38680 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: UI CONFIGURATION | Roadmap Feature: UI/UX Improvements : Form Field , Change state of typed text in capitals | Requester: GRC | PI: PI28 | Estimate: 74.9 | Feature Priority: p1 | Feature Status: In Design | Features Description: As a configurator I need to be able to add fields  in forms that change text to capitals and store then in db string in capitals
+
+ 
+
+*Functional requirements*
+
+Widget/component to  used in forms' fields when needed to  automatically convert what is typed by used  to capitals letters. 
+Example: 
+
+typing :  tEst
+
+displaying:  TEST
+
+Saving : TEST
+Issue Type: Feature | IRM: IRM-38682 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: UI CONFIGURATION | Roadmap Feature: UI/UX Improvements : Prefilling a field in a form based on the value of another field | Requester: GRC | PI: PI28 | Estimate: 149.1 | Feature Priority: p1 | Feature Status: In Design | Features Description: As a user I need when a codelist is mandatory and only one item is available and no default value , system to autofill the existing value. 
+
+As a user I need when 2 codelist  1 (parent) , 2 (child) via codelist items are related (e.g.   codelist 1, A item  -as parent - ,  when selected,  result to codelist 2,  B item - as child  ) and user selects parent value A when for B only the value B is available , the value b to be auto selected and prefilled. 
+
+As a configurator I need to be able to set in the codelists an optional to be used  attribute , that may instruct  the prefill  of codelist item value in this codelists, if one value is available based on filters.
+
+*Functional requirements*
+
+Configurator may set in codelist fields an optionally used attribute/metadato , e.g. "AutofillIfUnique"
+which attribute will enable in UI the autofill of value in codelist, when only one  codelist item value is available based on filters and related codelist items.
+ * Examples/ Cases : 
+ ** +Mandatory items case+
+In a Mandatory Codelist "C3"  , Non default value is defined 
+The only available value is the "C Value" 
+When use this field in forms, autoselect and prefil "C Value". 
+ ** +Related codelist items case+
+Codelist "C1 parent"  ,  Values A1, A2 
+Codelist "C2 child"  ,  Values B1, B2 , B3
+Relations : 
+C1 parent  -> A1 with  C2 child -> B2 (ONLY) 
+user selects A1 
+Autoselect and prefil B2  value in C2 
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+It is expected to reassure that relevant NFRs (Performance , Security, Accessibility, Usability ) are tested and are not negatively affecting the product.  
+DODs should be fulfilled. 
+Issue Type: Feature | IRM: IRM-766 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Send Outbound Message Manually to Multiple Recipients - User | Requester: GRC | PI: PI28 | Estimate: 79.2 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: As a revenue official, I want to send a copy/version of a specific outbound message (e.g. letter, email or text message) to different types of recipients (e.g. taxpayer and tax agent), so that the information in the outbound message can be exchanged with all relevant parties.
+
+*Introduction*
+
+This feature extends IRM-762 and IRM-765 where requirements have been documented to send an outbound letter and outbound email / text message manually to a single party.
+Admin feature to support this is the IRM-26951 
+
+*Functional Requirements*
+ * *Select recipients*
+ ** User can select to send a contact to multiple recipients instead of one party role if contact type allows this usage. Option appears to the user to load a list. 
+ *** Optionally select to upload a file with party role IDs.  The party roles appears in a list. 
+ *** Optionally may add recipients manually selecting them and adding in the list. 
+ *** Optionally may select one recipient from the list and click to remove it.
+ *** The contact is send using one record of contact as per the channel selected. -The preferred contact is selected if applicable.-
+-(Note: it is better to use systems contact details to avoid improper usage of persons emails)-  
+ ** -User will create the parent contact as per contact type.-
+ *** -It is expected system , per recipient to generate/send a new contact  - as a child contact to parent contact created.-  
+ *** -The child contacts should be visible under the parent contact-
+ ** User will select one channel. 
+ * *Generation and results*
+ ** User can generate the outbound messages/emails for the recipients selected.
+ ** Different types of recipients may receive different outbound message content. (Based on [https://jira.intrasoft-intl.com/browse/IRM-774] ) Admin need to define the contact template per recipient.  
+Examples: 
+One outbound message could contain text to explain that this outbound message is a copy of the outbound message that has been sent to another type of recipient.
+Address requested in contact template as well as balance is adjusted as per party selected. 
+Generation requirements as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients. (to be moved to a new feature).
+ ** User can regenerate the outbound messages. Regeneration requirements as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients.
+ ** User can finalize the generated outbound messages.
+ ** User can send the finalized outbound messages via the selected communication channel. Send requirements as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients.
+ ** User can store the outbound messages. Storage requirements as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients.
+ ** User can see the results of the emailing/sms if integration allows so (as per  IRM-27816 ) 
+ ** Solution should be applicable to [https://jira.intrasoft-intl.com/browse/IRM-28177] 
+ * *Exceptions*
+ ** Errors/exceptions appears if one of the recipients have incorrect/missing contact details for the selected channel and none of the batch  is sent. 
+"Mass contact generation failed" 
+"Mass contact send failed" 
+Note: it is expected is user does not have access as per row level security to the party role, cannot select party role in the list described above.
+ ** Errors/exceptions appears if any of the contacts cannot generate proper content - parameters are missing. 
+ * *History*
+ ** All Actions and list of sent contacts should be logged in audit trail
+ * *Admin leftovers*
+ ** Make visible admin items implemented in [https://jira.intrasoft-intl.com/browse/IRM-26951]  
+
+ 
+----
+Notes: 
+
+ 
+
+A)
+
+By an end customer an idea of how to work with files is: 
+
+!image-2025-09-15-20-42-40-437.png!
+
+B) 
+
+Requirements for a next version of this functionality : 
+ * -{color:#c1c7d0}User can see what type of recipients are considered for this type of outbound message (based on rules defined by admin){color}-
+ * -{color:#c1c7d0}User can see what recipients have automatically been selected for each type of recipient that is considered for this type of outbound message (based on rules defined by admin). Values entered by the user for input parameters that provide the context in which the outbound message is created (as described in IRM-762 and IRM-765), are used as input to select the correct recipients.{color}-
+ * -{color:#c1c7d0}User can override what type of recipients must be considered for this outbound message{color}-
+ * -{color:#c1c7d0}User can override the selection of recipients for each type of recipient{color}-
+ * {color:#c1c7d0}-User can see and override the preferred communication channel for each recipient. Requirements to select communication channels as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients.-{color}
+ * User can send the finalized outbound messages via the selected communication channel{-}{color:#c1c7d0}s{color}{-}. Send requirements as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients.
+ *  
+Issue Type: Feature | IRM: IRM-774 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Define and Maintain Different Types of Recipients - Admin | Requester: GRC | PI: PI28 | Estimate: 14 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to define and maintain different types of recipients for outbound messages, so that it can be indicated to what type of recipients a specific message (e.g. letter or email) must be send.
+
+*Functional Requirements*
+ * Admin can define a new type of recipient. Examples of properties of a recipient are a code and a description.
+ * Admin can search a type of recipient
+ * Admin can update a type of recipient
+ * Admin can delete a type of recipient provided there are no referential constraints
+Issue Type: Feature | IRM: IRM-775 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Define and Maintain Contact Types - Select Recipients - Admin | Requester: GRC | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to define and maintain rules to determine what recipient(s) need to receive a copy of a certain type of outbound message (e.g. certain type of letter, email or SMS), so that duplicate messages can be send to all parties that need to be informed.
+
+*Introduction*
+
+This feature extends IRM-772 in which requirements have been documented to define and maintain different types of contacts.
+
+Recipients will receive the same information or almost the same information. For example, one letter could contain text to explain that this letter is a copy of the letter that has been sent to the taxpayer representative.
+Relevant to https://jira.intrasoft-intl.com/browse/IRM-774 
+
+*Functional Requirements*
+ * Admin can define rules to determine what types of recipients must receive a copy of a specific type of outbound message under certain circumstances. For example, if a certain type of letter is sent to the recipient type 'taxpayer' then a copy of this letter may have to be sent to the recipient type 'tax agent' and/or recipient type 'spouse'.
+ * Admin can define rules to determine the recipient for each type of recipient that will receive a copy of the message. For example, find the 'tax agent' that is representing a 'taxpayer' for a specific type of tax. Input parameters defined on the contact type can be used to select the recipients. Values for these input parameters can be provided at design time (literal values) or can be provided at run-time.
+Issue Type: Feature | IRM: IRM-790 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Send Outbound Message Automatically to Multiple Recipients - Admin | Requester: GRC | PI: PI28 | Estimate: 38.4 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to automatically send a copy of a specific outbound message (e.g. letter, email or text message) to different types of recipients (e.g. taxpayer and tax agent), so that the information in the outbound message can be exchanged with all relevant parties.
+
+*Introduction*
+
+This feature extends IRM-786 and IRM-789 where requirements have been documented to send an outbound letter and outbound email / text messages automatically to a single party.
+
+*Functional Requirements*
+
+Admin can enter literal values and/or reference values that will be known at run-time for input parameters that admin has defined for this type of contact and that can be used to automatically select the type of recipients that need to be considered for this type of outbound message, and automatically select a recipient for each type of recipient (based on rules defined by admin). These values can be defined on a 'establish and/or record contact' task within a specific type of business process (see IRM-785).
+
+When executing the 'establish and/or record contact' task on an instance of this type of business process, the system will automatically generate all outbound messages, store these messages, finalize the messages, select a communication channel for each recipient and send the finalized outbound messages via the selected communication channels (e.g. print letter or send email).

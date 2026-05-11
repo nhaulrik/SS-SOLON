@@ -1,0 +1,70 @@
+{
+  "structures": [
+    {
+      "id": "ps-832c9651-5290-40a4-91fe-fe0e59a68f0b",
+      "name": "Combined Structure",
+      "createdAt": "2026-04-21T20:24:51.431Z",
+      "updatedAt": "2026-04-21T20:25:05.960Z",
+      "slides": [
+        {
+          "id": "sr-1a2f31bd-dede-47df-830b-58d2c0287eac",
+          "flowId": "flow-combined",
+          "exportId": "combined-1",
+          "slideIndex": 1,
+          "title": "Core Revenue Management Capabilities"
+        },
+        {
+          "id": "sr-806d5919-0d1c-4185-882e-8b326e95de63",
+          "flowId": "flow-combined",
+          "exportId": "combined-1",
+          "slideIndex": 2,
+          "title": "Core Self Service Capabilities"
+        },
+        {
+          "id": "sr-e1f74c2f-9069-46f1-868f-ef51d44f18bc",
+          "flowId": "flow-combined",
+          "exportId": "combined-1",
+          "slideIndex": 3,
+          "title": "Core Supporting Capabilities"
+        },
+        {
+          "id": "sr-5be9903d-c7b8-4aa1-b38b-83c7a4fcb7c7",
+          "flowId": "flow-combined",
+          "exportId": "combined-1",
+          "slideIndex": 4,
+          "title": "Non-Functional Requirement Coverage"
+        },
+        {
+          "id": "sr-7c5c3bd3-96c7-4447-ae8b-91dabb53bf5e",
+          "flowId": "flow-combined",
+          "exportId": "combined-1",
+          "slideIndex": 5,
+          "title": "Reference Implementations"
+        }
+      ],
+      "tree": [
+        {
+          "slideRefId": "sr-1a2f31bd-dede-47df-830b-58d2c0287eac",
+          "children": []
+        },
+        {
+          "slideRefId": "sr-806d5919-0d1c-4185-882e-8b326e95de63",
+          "children": []
+        },
+        {
+          "slideRefId": "sr-e1f74c2f-9069-46f1-868f-ef51d44f18bc",
+          "children": []
+        },
+        {
+          "slideRefId": "sr-5be9903d-c7b8-4aa1-b38b-83c7a4fcb7c7",
+          "children": []
+        },
+        {
+          "slideRefId": "sr-7c5c3bd3-96c7-4447-ae8b-91dabb53bf5e",
+          "children": []
+        }
+      ],
+      "levelNames": []
+    }
+  ]
+}

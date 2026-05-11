@@ -1,0 +1,29 @@
+{
+  "exportId": "2026-1",
+  "exportNumber": 1,
+  "exportName": "2026",
+  "createdAt": "2026-05-06T08:27:25.514Z",
+  "source": {
+    "roundId": "4b469e27-a485-40ce-a34b-22d22ba77599",
+    "outputFile": "output-4b469e27-a485-40ce-a34b-22d22ba77599.html"
+  },
+  "content": {
+    "slideCount": 1,
+    "totalSize": 19408,
+    "slides": [
+      {
+        "index": 1,
+        "file": "2026-overview.html",
+        "size": 19408,
+        "title": "2026 Overview",
+        "slideId": "slide-1",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-2026",
+    "templateFile": ""
+  }
+}

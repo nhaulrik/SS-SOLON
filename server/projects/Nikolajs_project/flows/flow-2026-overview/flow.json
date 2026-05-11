@@ -1,0 +1,2515 @@
+{
+  "flowId": "flow-2026-overview",
+  "name": "2026-Overview",
+  "projectId": "6db08b5f-54ca-45e0-8049-049c8d3d8aff",
+  "templateId": "a6763fb9-6852-43b0-951c-4b8965bc86e5",
+  "templateFilename": "roadmap-overview-2026-v1.html",
+  "createdAt": "2026-04-23T10:16:05.679Z",
+  "updatedAt": "2026-04-23T10:54:16.614Z",
+  "status": "active",
+  "globalPrompt": "",
+  "summaryPrompt": "",
+  "contentPrompt": "",
+  "generations": [
+    {
+      "id": "6bbab7b5-a5c4-4b83-95d2-4ad71eb09371",
+      "appliedAt": "2026-04-23T10:18:16.574Z",
+      "outputFile": "output-6bbab7b5-a5c4-4b83-95d2-4ad71eb09371.html",
+      "jsonInput": "{\"blocks\":{\"auto_div_slide\":{\"value\":\"<div class=\\\"header\\\">\\n    <div>\\n      <div class=\\\"header-title\\\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\\n      <div class=\\\"header-meta\\\">Executive Steering Committee · April 2026</div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <span class=\\\"header-logo\\\">Netcompany</span>\\n    </div>\\n  </div>\\n\\n  \\n  <div class=\\\"top-story\\\">\\n\\n    \\n    <div class=\\\"scope-side\\\">\\n      <div class=\\\"scope-eyebrow\\\">Total 2026 Scope</div>\\n      <div class=\\\"scope-big\\\">17,754h</div>\\n      <div class=\\\"scope-label\\\">Estimated hours across all initiatives (PI27 GRC)</div>\\n      <div class=\\\"scope-sub\\\">6 Initiative Groups &nbsp;·&nbsp; Multiple Initiatives &nbsp;·&nbsp; 4 Program Increments</div>\\n    </div>\\n\\n    \\n    <div class=\\\"requester-side\\\">\\n      <div class=\\\"req-title\\\">Scope by Requester (PI27 GRC)</div>\\n\\n      <div class=\\\"req-bar\\\">\\n        <div class=\\\"req-seg grc\\\" style=\\\"width:100%;\\\">100%</div>\\n        <div class=\\\"req-seg gtm\\\" style=\\\"width:0%;\\\"></div>\\n        <div class=\\\"req-seg oth\\\" style=\\\"width:0%;\\\"></div>\\n      </div>\\n\\n      <div class=\\\"req-legend\\\">\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#FF6359;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">GRC</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">100%</div>\\n          <div class=\\\"req-leg-hrs\\\">17,754h · Project-driven</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#2C8A84;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">GTM</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">0%</div>\\n          <div class=\\\"req-leg-hrs\\\">0h · Market-driven</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style",
+      "slideNames": [
+        {
+          "index": 1,
+          "name": "Slide 1"
+        }
+      ]
+    },
+    {
+      "id": "c7f877f2-07dd-4618-810c-33b42fc61279",
+      "appliedAt": "2026-04-23T10:35:11.822Z",
+      "outputFile": "output-c7f877f2-07dd-4618-810c-33b42fc61279.html",
+      "jsonInput": "{\"blocks\":{\"auto_div_slide\":{\"value\":\"<div class=\\\"header\\\">\\n    <div>\\n      <div class=\\\"header-title\\\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\\n      <div class=\\\"header-meta\\\">Executive Steering Committee · April 2026</div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <span class=\\\"header-logo\\\">Netcompany</span>\\n    </div>\\n  </div>\\n\\n  \\n  <div class=\\\"top-story\\\">\\n\\n    \\n    <div class=\\\"scope-side\\\">\\n      <div class=\\\"scope-eyebrow\\\">Total 2026 Scope</div>\\n      <div class=\\\"scope-big\\\">120k</div>\\n      <div class=\\\"scope-label\\\">Estimated hours across all initiatives</div>\\n      <div class=\\\"scope-sub\\\">6 Initiative Groups &nbsp;·&nbsp; 30+ Initiatives &nbsp;·&nbsp; 4 Program Increments</div>\\n    </div>\\n\\n    \\n    <div class=\\\"requester-side\\\">\\n      <div class=\\\"req-title\\\">Scope by Requester</div>\\n\\n      <div class=\\\"req-bar\\\">\\n        <div class=\\\"req-seg grc\\\" style=\\\"width:54%;\\\">54%</div>\\n        <div class=\\\"req-seg gtm\\\" style=\\\"width:4%;\\\">4%</div>\\n        <div class=\\\"req-seg oth\\\" style=\\\"width:42%;\\\">42%</div>\\n      </div>\\n\\n      <div class=\\\"req-legend\\\">\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#FF6359;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">GRC</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">54%</div>\\n          <div class=\\\"req-leg-hrs\\\">64,500h · Project-driven</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#2C8A84;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">GTM</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">4%</div>\\n          <div class=\\\"req-leg-hrs\\\">5,020h · Market-driven</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#7fb3af;\\",
+      "slideNames": [
+        {
+          "index": 1,
+          "name": "Slide 1"
+        }
+      ]
+    },
+    {
+      "id": "4c4732fe-d27d-40cd-a033-8bfcb647f992",
+      "appliedAt": "2026-04-23T10:42:06.271Z",
+      "outputFile": "output-4c4732fe-d27d-40cd-a033-8bfcb647f992.html",
+      "jsonInput": "{\"blocks\":{\"auto_div_slide\":{\"value\":\"<div class=\\\"header\\\">\\n    <div>\\n      <div class=\\\"header-title\\\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\\n      <div class=\\\"header-meta\\\">Executive Steering Committee · April 2026</div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <span class=\\\"header-logo\\\">Netcompany</span>\\n    </div>\\n  </div>\\n\\n  \\n  <div class=\\\"top-story\\\">\\n\\n    \\n    <div class=\\\"scope-side\\\">\\n      <div class=\\\"scope-eyebrow\\\">Total 2026 Scope (PI27)</div>\\n      <div class=\\\"scope-big\\\">34.5k</div>\\n      <div class=\\\"scope-label\\\">Estimated hours across all initiatives</div>\\n      <div class=\\\"scope-sub\\\">6 Initiative Groups &nbsp;·&nbsp; PI27 Program Increment</div>\\n    </div>\\n\\n    \\n    <div class=\\\"requester-side\\\">\\n      <div class=\\\"req-title\\\">Scope by Initiative Group</div>\\n\\n      <div class=\\\"req-bar\\\">\\n        <div class=\\\"req-seg grc\\\" style=\\\"width:37%;\\\">37%</div>\\n        <div class=\\\"req-seg gtm\\\" style=\\\"width:6%;\\\">6%</div>\\n        <div class=\\\"req-seg oth\\\" style=\\\"width:57%;\\\">57%</div>\\n      </div>\\n\\n      <div class=\\\"req-legend\\\">\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#FF6359;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">Non-Functional Requirement Coverage</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">37%</div>\\n          <div class=\\\"req-leg-hrs\\\">12,631h · NFR &amp; Quality</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#2C8A84;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">Other Activities</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">31%</div>\\n          <div class=\\\"req-leg-hrs\\\">10,803h · Management &amp; Support</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div cl",
+      "slideNames": [
+        {
+          "index": 1,
+          "name": "Slide 1"
+        }
+      ]
+    },
+    {
+      "id": "dbff64df-cae8-4b90-aa33-a030e69afbe2",
+      "appliedAt": "2026-04-23T10:53:01.200Z",
+      "outputFile": "output-dbff64df-cae8-4b90-aa33-a030e69afbe2.html",
+      "jsonInput": "{\"blocks\":{\"auto_div_slide\":{\"value\":\"<div class=\\\"header\\\">\\n    <div>\\n      <div class=\\\"header-title\\\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\\n      <div class=\\\"header-meta\\\">Executive Steering Committee · April 2026</div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <span class=\\\"header-logo\\\">Netcompany</span>\\n    </div>\\n  </div>\\n\\n  \\n  <div class=\\\"top-story\\\">\\n\\n    \\n    <div class=\\\"scope-side\\\">\\n      <div class=\\\"scope-eyebrow\\\">Total 2026 Scope</div>\\n      <div class=\\\"scope-big\\\">34.5k</div>\\n      <div class=\\\"scope-label\\\">Estimated hours across all initiatives</div>\\n      <div class=\\\"scope-sub\\\">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>\\n    </div>\\n\\n    \\n    <div class=\\\"requester-side\\\">\\n      <div class=\\\"req-title\\\">Scope by Requester</div>\\n\\n      <div class=\\\"req-bar\\\">\\n        <div class=\\\"req-seg grc\\\" style=\\\"width:53%;\\\">53%</div>\\n        <div class=\\\"req-seg gtm\\\" style=\\\"width:4%;\\\">4%</div>\\n        <div class=\\\"req-seg oth\\\" style=\\\"width:42%;\\\">42%</div>\\n      </div>\\n\\n      <div class=\\\"req-legend\\\">\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#FF6359;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">GRC</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">53%</div>\\n          <div class=\\\"req-leg-hrs\\\">18.3k · Project-driven</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#2C8A84;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">GTM</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">4%</div>\\n          <div class=\\\"req-leg-hrs\\\">1.4k · Market-driven</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#7fb3af;\\\"></",
+      "slideNames": [
+        {
+          "index": 1,
+          "name": "Slide 1"
+        }
+      ]
+    },
+    {
+      "id": "1efa88a6-a5c2-40b6-b0bd-4d43e017d6be",
+      "appliedAt": "2026-04-23T10:54:16.614Z",
+      "outputFile": "output-1efa88a6-a5c2-40b6-b0bd-4d43e017d6be.html",
+      "jsonInput": "{\"blocks\":{\"auto_div_slide\":{\"value\":\"<div class=\\\"header\\\">\\n    <div>\\n      <div class=\\\"header-title\\\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\\n      <div class=\\\"header-meta\\\">Executive Steering Committee · April 2026</div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <span class=\\\"header-logo\\\">Netcompany</span>\\n    </div>\\n  </div>\\n\\n  \\n  <div class=\\\"top-story\\\">\\n\\n    \\n    <div class=\\\"scope-side\\\">\\n      <div class=\\\"scope-eyebrow\\\">Total 2026 Scope</div>\\n      <div class=\\\"scope-big\\\">34.5k</div>\\n      <div class=\\\"scope-label\\\">Estimated hours across all initiatives</div>\\n      <div class=\\\"scope-sub\\\">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>\\n    </div>\\n\\n    \\n    <div class=\\\"requester-side\\\">\\n      <div class=\\\"req-title\\\">Scope by Requester</div>\\n\\n      <div class=\\\"req-bar\\\">\\n        <div class=\\\"req-seg grc\\\" style=\\\"width:53%;\\\">53%</div>\\n        <div class=\\\"req-seg gtm\\\" style=\\\"width:4%;\\\">4%</div>\\n        <div class=\\\"req-seg oth\\\" style=\\\"width:42%;\\\">42%</div>\\n      </div>\\n\\n      <div class=\\\"req-legend\\\">\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#FF6359;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">GRC</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">53%</div>\\n          <div class=\\\"req-leg-hrs\\\">18.3k h · Project-driven</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#2C8A84;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">GTM</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">4%</div>\\n          <div class=\\\"req-leg-hrs\\\">1.4k h · Market-driven</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#7fb3af;\\",
+      "slideNames": [
+        {
+          "index": 1,
+          "name": "Slide 1"
+        }
+      ]
+    }
+  ],
+  "exports": [],
+  "_metadata": {
+    "selections": [
+      {
+        "nodeId": "div.slide",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header\">\n    <div>\n      <div class=\"header-title\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\n      <div class=\"header-meta\">Executive Steering Committee · April 2026</div>\n    </div>\n    <div class=\"header-right\">\n      <span class=\"header-logo\">Netcompany</span>\n    </div>\n  </div>\n\n  \n  <div class=\"top-story\">\n\n    \n    <div class=\"scope-side\">\n      <div class=\"scope-eyebrow\">Total 2026 Scope</div>\n      <div class=\"scope-big\">102k</div>\n      <div class=\"scope-label\">Estimated hours across all initiatives</div>\n      <div class=\"scope-sub\">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>\n    </div>\n\n    \n    <div class=\"requester-side\">\n      <div class=\"req-title\">Scope by Requester</div>\n\n      <div class=\"req-bar\">\n        <div class=\"req-seg grc\" style=\"width:53%;\">53%</div>\n        <div class=\"req-seg gtm\" style=\"width:4%;\">4%</div>\n        <div class=\"req-seg oth\" style=\"width:42%;\">42%</div>\n      </div>\n\n      <div class=\"req-legend\">\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>\n        </div>\n      </div>\n    </div>\n\n  </div>\n\n  \n  <div class=\"pi-section\">\n\n    \n    <div class=\"pi-card pi28\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:57%;\">57%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:11%;\">11%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:32%;\">32%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi29\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:52%;\">58%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:30%;\">1%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:18%;\">42%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi30\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:50%;\">36%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:28%;\">0%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:22%;\">59%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n  </div>"
+      },
+      {
+        "nodeId": "div.slide>div.header",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_header",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div>\n      <div class=\"header-title\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\n      <div class=\"header-meta\">Executive Steering Committee · April 2026</div>\n    </div>\n    <div class=\"header-right\">\n      <span class=\"header-logo\">Netcompany</span>\n    </div>"
+      },
+      {
+        "nodeId": "div.slide>div.header>div",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_header_div",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"header-title\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\n      <div class=\"header-meta\">Executive Steering Committee · April 2026</div>"
+      },
+      {
+        "nodeId": "div.slide>div.header>div.header-right",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_header_div_header_right",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span class=\"header-logo\">Netcompany</span>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"scope-side\">\n      <div class=\"scope-eyebrow\">Total 2026 Scope</div>\n      <div class=\"scope-big\">102k</div>\n      <div class=\"scope-label\">Estimated hours across all initiatives</div>\n      <div class=\"scope-sub\">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>\n    </div>\n\n    \n    <div class=\"requester-side\">\n      <div class=\"req-title\">Scope by Requester</div>\n\n      <div class=\"req-bar\">\n        <div class=\"req-seg grc\" style=\"width:53%;\">53%</div>\n        <div class=\"req-seg gtm\" style=\"width:4%;\">4%</div>\n        <div class=\"req-seg oth\" style=\"width:42%;\">42%</div>\n      </div>\n\n      <div class=\"req-legend\">\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>\n        </div>\n      </div>\n    </div>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story>div.scope-side",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story_div_scope_side",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"scope-eyebrow\">Total 2026 Scope</div>\n      <div class=\"scope-big\">102k</div>\n      <div class=\"scope-label\">Estimated hours across all initiatives</div>\n      <div class=\"scope-sub\">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story>div.requester-side",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story_div_requester_side",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"req-title\">Scope by Requester</div>\n\n      <div class=\"req-bar\">\n        <div class=\"req-seg grc\" style=\"width:53%;\">53%</div>\n        <div class=\"req-seg gtm\" style=\"width:4%;\">4%</div>\n        <div class=\"req-seg oth\" style=\"width:42%;\">42%</div>\n      </div>\n\n      <div class=\"req-legend\">\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>\n        </div>\n      </div>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story>div.requester-side>div.req-bar",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story_div_requester_side_div_req_bar",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"req-seg grc\" style=\"width:53%;\">53%</div>\n        <div class=\"req-seg gtm\" style=\"width:4%;\">4%</div>\n        <div class=\"req-seg oth\" style=\"width:42%;\">42%</div>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story>div.requester-side>div.req-legend",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story_div_requester_side_div_req_legend",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>\n        </div>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story_div_requester_side_div_req_legend_div_req_leg_item",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item>div.req-leg-dot-row",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story_div_requester_side_div_req_legend_div_req_leg_item_div_req_leg_dot_row",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story_div_requester_side_div_req_legend_div_req_leg_item_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[1]>div.req-leg-dot-row",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story_div_requester_side_div_req_legend_div_req_leg_item_1__div_req_leg_dot_row",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[2]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story_div_requester_side_div_req_legend_div_req_leg_item_2_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>"
+      },
+      {
+        "nodeId": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[2]>div.req-leg-dot-row",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_top_story_div_requester_side_div_req_legend_div_req_leg_item_2__div_req_leg_dot_row",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section",
+        "prompt": "make all text here danish",
+        "autoGenerate": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-card pi28\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:57%;\">57%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:11%;\">11%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:32%;\">32%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi29\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:52%;\">58%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:30%;\">1%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:18%;\">42%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi30\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:50%;\">36%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:28%;\">0%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:22%;\">59%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi28",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi28",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:57%;\">57%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:11%;\">11%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:32%;\">32%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-card-top",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi28_div_pi_card_top",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div>\n          <div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-card-top>div",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi28_div_pi_card_top_div",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-card-top>div[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi28_div_pi_card_top_div_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-bar",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi28_div_pi_mini_bar",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-seg grc\" style=\"width:57%;\">57%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:11%;\">11%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:32%;\">32%</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi28_div_pi_mini_legend",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend>div.pi-mini-leg-item",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi28_div_pi_mini_legend_div_pi_mini_leg_item",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend>div.pi-mini-leg-item[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi28_div_pi_mini_legend_div_pi_mini_leg_item_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend>div.pi-mini-leg-item[2]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi28_div_pi_mini_legend_div_pi_mini_leg_item_2_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-groups",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi28_div_pi_groups",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi29",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi29",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:52%;\">58%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:30%;\">1%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:18%;\">42%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-card-top",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi29_div_pi_card_top",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div>\n          <div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-card-top>div",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi29_div_pi_card_top_div",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-card-top>div[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi29_div_pi_card_top_div_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-bar",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi29_div_pi_mini_bar",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-seg grc\" style=\"width:52%;\">58%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:30%;\">1%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:18%;\">42%</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi29_div_pi_mini_legend",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend>div.pi-mini-leg-item",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi29_div_pi_mini_legend_div_pi_mini_leg_item",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend>div.pi-mini-leg-item[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi29_div_pi_mini_legend_div_pi_mini_leg_item_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend>div.pi-mini-leg-item[2]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi29_div_pi_mini_legend_div_pi_mini_leg_item_2_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-groups",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi29_div_pi_groups",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi30",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi30",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:50%;\">36%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:28%;\">0%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:22%;\">59%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-card-top",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi30_div_pi_card_top",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div>\n          <div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-card-top>div",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi30_div_pi_card_top_div",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-card-top>div[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi30_div_pi_card_top_div_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-bar",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi30_div_pi_mini_bar",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-seg grc\" style=\"width:50%;\">36%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:28%;\">0%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:22%;\">59%</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi30_div_pi_mini_legend",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k</div>"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend>div.pi-mini-leg-item",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi30_div_pi_mini_legend_div_pi_mini_leg_item",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend>div.pi-mini-leg-item[1]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi30_div_pi_mini_legend_div_pi_mini_leg_item_1_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend>div.pi-mini-leg-item[2]",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi30_div_pi_mini_legend_div_pi_mini_leg_item_2_",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k"
+      },
+      {
+        "nodeId": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-groups",
+        "slideIndex": 1,
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section_div_pi_card_pi30_div_pi_groups",
+        "prompt": "",
+        "autoGenerate": true,
+        "autoDiscovered": true,
+        "type": "block",
+        "exampleHtml": "<span>Core Revenue Management</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>"
+      }
+    ],
+    "zones": [
+      {
+        "zoneType": "block",
+        "key": "auto_div_slide",
+        "nodeId": "div.slide",
+        "slideIndex": 1,
+        "type": "block",
+        "hint": "",
+        "autoGenerate": true,
+        "prompt": "",
+        "exampleHtml": "<div class=\"header\">\n    <div>\n      <div class=\"header-title\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\n      <div class=\"header-meta\">Executive Steering Committee · April 2026</div>\n    </div>\n    <div class=\"header-right\">\n      <span class=\"header-logo\">Netcompany</span>\n    </div>\n  </div>\n\n  \n  <div class=\"top-story\">\n\n    \n    <div class=\"scope-side\">\n      <div class=\"scope-eyebrow\">Total 2026 Scope</div>\n      <div class=\"scope-big\">102k</div>\n      <div class=\"scope-label\">Estimated hours across all initiatives</div>\n      <div class=\"scope-sub\">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>\n    </div>\n\n    \n    <div class=\"requester-side\">\n      <div class=\"req-title\">Scope by Requester</div>\n\n      <div class=\"req-bar\">\n        <div class=\"req-seg grc\" style=\"width:53%;\">53%</div>\n        <div class=\"req-seg gtm\" style=\"width:4%;\">4%</div>\n        <div class=\"req-seg oth\" style=\"width:42%;\">42%</div>\n      </div>\n\n      <div class=\"req-legend\">\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>\n        </div>\n      </div>\n    </div>\n\n  </div>\n\n  \n  <div class=\"pi-section\">\n\n    \n    <div class=\"pi-card pi28\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:57%;\">57%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:11%;\">11%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:32%;\">32%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi29\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:52%;\">58%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:30%;\">1%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:18%;\">42%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi30\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:50%;\">36%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:28%;\">0%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:22%;\">59%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n  </div>",
+        "isRepeatable": false,
+        "repeatableKey": null,
+        "ignored": false,
+        "elementOrder": 0,
+        "originalText": ""
+      },
+      {
+        "zoneType": "block",
+        "key": "auto_div_slide_div_pi_section",
+        "nodeId": "div.slide>div.pi-section",
+        "slideIndex": 1,
+        "type": "block",
+        "hint": "",
+        "autoGenerate": true,
+        "prompt": "make all text here danish",
+        "exampleHtml": "<div class=\"pi-card pi28\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:57%;\">57%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:11%;\">11%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:32%;\">32%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi29\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:52%;\">58%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:30%;\">1%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:18%;\">42%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi30\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:50%;\">36%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:28%;\">0%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:22%;\">59%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>",
+        "isRepeatable": false,
+        "repeatableKey": null,
+        "ignored": false,
+        "elementOrder": 1,
+        "originalText": ""
+      }
+    ],
+    "repeatableSlides": [],
+    "fullSlideGeneration": [
+      0,
+      1
+    ],
+    "trees": [
+      [
+        {
+          "id": "div.slide",
+          "tag": "div",
+          "classes": [
+            "slide"
+          ],
+          "label": "div.slide",
+          "textPreview": "",
+          "innerHTML": "<div class=\"header\">\n    <div>\n      <div class=\"header-title\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\n      <div class=\"header-meta\">Executive Steering Committee · April 2026</div>\n    </div>\n    <div class=\"header-right\">\n      <span class=\"header-logo\">Netcompany</span>\n    </div>\n  </div>\n\n  \n  <div class=\"top-story\">\n\n    \n    <div class=\"scope-side\">\n      <div class=\"scope-eyebrow\">Total 2026 Scope</div>\n      <div class=\"scope-big\">102k</div>\n      <div class=\"scope-label\">Estimated hours across all initiatives</div>\n      <div class=\"scope-sub\">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>\n    </div>\n\n    \n    <div class=\"requester-side\">\n      <div class=\"req-title\">Scope by Requester</div>\n\n      <div class=\"req-bar\">\n        <div class=\"req-seg grc\" style=\"width:53%;\">53%</div>\n        <div class=\"req-seg gtm\" style=\"width:4%;\">4%</div>\n        <div class=\"req-seg oth\" style=\"width:42%;\">42%</div>\n      </div>\n\n      <div class=\"req-legend\">\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>\n        </div>\n      </div>\n    </div>\n\n  </div>\n\n  \n  <div class=\"pi-section\">\n\n    \n    <div class=\"pi-card pi28\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:57%;\">57%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:11%;\">11%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:32%;\">32%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi29\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:52%;\">58%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:30%;\">1%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:18%;\">42%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi30\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:50%;\">36%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:28%;\">0%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:22%;\">59%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n  </div>",
+          "children": [
+            {
+              "id": "div.slide>div.header",
+              "tag": "div",
+              "classes": [
+                "header"
+              ],
+              "label": "div.header",
+              "textPreview": "",
+              "innerHTML": "<div>\n      <div class=\"header-title\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\n      <div class=\"header-meta\">Executive Steering Committee · April 2026</div>\n    </div>\n    <div class=\"header-right\">\n      <span class=\"header-logo\">Netcompany</span>\n    </div>",
+              "children": [
+                {
+                  "id": "div.slide>div.header>div",
+                  "tag": "div",
+                  "classes": [],
+                  "label": "div",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"header-title\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\n      <div class=\"header-meta\">Executive Steering Committee · April 2026</div>",
+                  "children": [
+                    {
+                      "id": "div.slide>div.header>div>div.header-title",
+                      "tag": "div",
+                      "classes": [
+                        "header-title"
+                      ],
+                      "label": "div.header-title",
+                      "textPreview": "SOLON TAX ROADMAP 2026 – Scope Overview",
+                      "innerHTML": "SOLON TAX ROADMAP 2026 – Scope Overview",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.header>div>div.header-meta",
+                      "tag": "div",
+                      "classes": [
+                        "header-meta"
+                      ],
+                      "label": "div.header-meta",
+                      "textPreview": "Executive Steering Committee · April 2026",
+                      "innerHTML": "Executive Steering Committee · April 2026",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.slide>div.header>div.header-right",
+                  "tag": "div",
+                  "classes": [
+                    "header-right"
+                  ],
+                  "label": "div.header-right",
+                  "textPreview": "",
+                  "innerHTML": "<span class=\"header-logo\">Netcompany</span>",
+                  "children": [
+                    {
+                      "id": "div.slide>div.header>div.header-right>span.header-logo",
+                      "tag": "span",
+                      "classes": [
+                        "header-logo"
+                      ],
+                      "label": "span.header-logo",
+                      "textPreview": "Netcompany",
+                      "innerHTML": "Netcompany",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": false,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                }
+              ],
+              "isLeaf": false,
+              "interesting": true,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            },
+            {
+              "id": "div.slide>div.top-story",
+              "tag": "div",
+              "classes": [
+                "top-story"
+              ],
+              "label": "div.top-story",
+              "textPreview": "",
+              "innerHTML": "<div class=\"scope-side\">\n      <div class=\"scope-eyebrow\">Total 2026 Scope</div>\n      <div class=\"scope-big\">102k</div>\n      <div class=\"scope-label\">Estimated hours across all initiatives</div>\n      <div class=\"scope-sub\">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>\n    </div>\n\n    \n    <div class=\"requester-side\">\n      <div class=\"req-title\">Scope by Requester</div>\n\n      <div class=\"req-bar\">\n        <div class=\"req-seg grc\" style=\"width:53%;\">53%</div>\n        <div class=\"req-seg gtm\" style=\"width:4%;\">4%</div>\n        <div class=\"req-seg oth\" style=\"width:42%;\">42%</div>\n      </div>\n\n      <div class=\"req-legend\">\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>\n        </div>\n      </div>\n    </div>",
+              "children": [
+                {
+                  "id": "div.slide>div.top-story>div.scope-side",
+                  "tag": "div",
+                  "classes": [
+                    "scope-side"
+                  ],
+                  "label": "div.scope-side",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"scope-eyebrow\">Total 2026 Scope</div>\n      <div class=\"scope-big\">102k</div>\n      <div class=\"scope-label\">Estimated hours across all initiatives</div>\n      <div class=\"scope-sub\">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>",
+                  "children": [
+                    {
+                      "id": "div.slide>div.top-story>div.scope-side>div.scope-eyebrow",
+                      "tag": "div",
+                      "classes": [
+                        "scope-eyebrow"
+                      ],
+                      "label": "div.scope-eyebrow",
+                      "textPreview": "Total 2026 Scope",
+                      "innerHTML": "Total 2026 Scope",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.top-story>div.scope-side>div.scope-big",
+                      "tag": "div",
+                      "classes": [
+                        "scope-big"
+                      ],
+                      "label": "div.scope-big",
+                      "textPreview": "102k",
+                      "innerHTML": "102k",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.top-story>div.scope-side>div.scope-label",
+                      "tag": "div",
+                      "classes": [
+                        "scope-label"
+                      ],
+                      "label": "div.scope-label",
+                      "textPreview": "Estimated hours across all initiatives",
+                      "innerHTML": "Estimated hours across all initiatives",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.top-story>div.scope-side>div.scope-sub",
+                      "tag": "div",
+                      "classes": [
+                        "scope-sub"
+                      ],
+                      "label": "div.scope-sub",
+                      "textPreview": "5 Initiative Groups · 19 Initiatives · 3 Program Increments",
+                      "innerHTML": "5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.slide>div.top-story>div.requester-side",
+                  "tag": "div",
+                  "classes": [
+                    "requester-side"
+                  ],
+                  "label": "div.requester-side",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"req-title\">Scope by Requester</div>\n\n      <div class=\"req-bar\">\n        <div class=\"req-seg grc\" style=\"width:53%;\">53%</div>\n        <div class=\"req-seg gtm\" style=\"width:4%;\">4%</div>\n        <div class=\"req-seg oth\" style=\"width:42%;\">42%</div>\n      </div>\n\n      <div class=\"req-legend\">\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>\n        </div>\n      </div>",
+                  "children": [
+                    {
+                      "id": "div.slide>div.top-story>div.requester-side>div.req-title",
+                      "tag": "div",
+                      "classes": [
+                        "req-title"
+                      ],
+                      "label": "div.req-title",
+                      "textPreview": "Scope by Requester",
+                      "innerHTML": "Scope by Requester",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.top-story>div.requester-side>div.req-bar",
+                      "tag": "div",
+                      "classes": [
+                        "req-bar"
+                      ],
+                      "label": "div.req-bar",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"req-seg grc\" style=\"width:53%;\">53%</div>\n        <div class=\"req-seg gtm\" style=\"width:4%;\">4%</div>\n        <div class=\"req-seg oth\" style=\"width:42%;\">42%</div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.top-story>div.requester-side>div.req-bar>div.grc.req-seg",
+                          "tag": "div",
+                          "classes": [
+                            "grc",
+                            "req-seg"
+                          ],
+                          "label": "div.grc.req-seg",
+                          "textPreview": "53%",
+                          "innerHTML": "53%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.top-story>div.requester-side>div.req-bar>div.gtm.req-seg",
+                          "tag": "div",
+                          "classes": [
+                            "gtm",
+                            "req-seg"
+                          ],
+                          "label": "div.gtm.req-seg",
+                          "textPreview": "4%",
+                          "innerHTML": "4%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.top-story>div.requester-side>div.req-bar>div.oth.req-seg",
+                          "tag": "div",
+                          "classes": [
+                            "oth",
+                            "req-seg"
+                          ],
+                          "label": "div.oth.req-seg",
+                          "textPreview": "42%",
+                          "innerHTML": "42%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.top-story>div.requester-side>div.req-legend",
+                      "tag": "div",
+                      "classes": [
+                        "req-legend"
+                      ],
+                      "label": "div.req-legend",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>\n        </div>\n        <div class=\"req-leg-item\">\n          <div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>\n        </div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item",
+                          "tag": "div",
+                          "classes": [
+                            "req-leg-item"
+                          ],
+                          "label": "div.req-leg-item",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>\n          </div>\n          <div class=\"req-leg-pct\">53%</div>\n          <div class=\"req-leg-hrs\">54,1236h · Project-driven</div>",
+                          "children": [
+                            {
+                              "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item>div.req-leg-dot-row",
+                              "tag": "div",
+                              "classes": [
+                                "req-leg-dot-row"
+                              ],
+                              "label": "div.req-leg-dot-row",
+                              "textPreview": "",
+                              "innerHTML": "<div class=\"req-leg-dot\" style=\"background:#FF6359;\"></div>\n            <span class=\"req-leg-name\">GRC</span>",
+                              "children": [
+                                {
+                                  "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item>div.req-leg-dot-row>div.req-leg-dot",
+                                  "tag": "div",
+                                  "classes": [
+                                    "req-leg-dot"
+                                  ],
+                                  "label": "div.req-leg-dot",
+                                  "textPreview": "",
+                                  "innerHTML": "",
+                                  "children": [],
+                                  "isLeaf": true,
+                                  "interesting": false,
+                                  "chrome": false,
+                                  "depth": 6,
+                                  "slideIndex": 1
+                                },
+                                {
+                                  "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item>div.req-leg-dot-row>span.req-leg-name",
+                                  "tag": "span",
+                                  "classes": [
+                                    "req-leg-name"
+                                  ],
+                                  "label": "span.req-leg-name",
+                                  "textPreview": "GRC",
+                                  "innerHTML": "GRC",
+                                  "children": [],
+                                  "isLeaf": true,
+                                  "interesting": false,
+                                  "chrome": false,
+                                  "depth": 6,
+                                  "slideIndex": 1
+                                }
+                              ],
+                              "isLeaf": false,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item>div.req-leg-pct",
+                              "tag": "div",
+                              "classes": [
+                                "req-leg-pct"
+                              ],
+                              "label": "div.req-leg-pct",
+                              "textPreview": "53%",
+                              "innerHTML": "53%",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item>div.req-leg-hrs",
+                              "tag": "div",
+                              "classes": [
+                                "req-leg-hrs"
+                              ],
+                              "label": "div.req-leg-hrs",
+                              "textPreview": "54,1236h · Project-driven",
+                              "innerHTML": "54,1236h · Project-driven",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[1]",
+                          "tag": "div",
+                          "classes": [
+                            "req-leg-item"
+                          ],
+                          "label": "div.req-leg-item",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>\n          </div>\n          <div class=\"req-leg-pct\">4%</div>\n          <div class=\"req-leg-hrs\">4,356h · Market-driven</div>",
+                          "children": [
+                            {
+                              "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[1]>div.req-leg-dot-row",
+                              "tag": "div",
+                              "classes": [
+                                "req-leg-dot-row"
+                              ],
+                              "label": "div.req-leg-dot-row",
+                              "textPreview": "",
+                              "innerHTML": "<div class=\"req-leg-dot\" style=\"background:#2C8A84;\"></div>\n            <span class=\"req-leg-name\">GTM</span>",
+                              "children": [
+                                {
+                                  "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[1]>div.req-leg-dot-row>div.req-leg-dot",
+                                  "tag": "div",
+                                  "classes": [
+                                    "req-leg-dot"
+                                  ],
+                                  "label": "div.req-leg-dot",
+                                  "textPreview": "",
+                                  "innerHTML": "",
+                                  "children": [],
+                                  "isLeaf": true,
+                                  "interesting": false,
+                                  "chrome": false,
+                                  "depth": 6,
+                                  "slideIndex": 1
+                                },
+                                {
+                                  "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[1]>div.req-leg-dot-row>span.req-leg-name",
+                                  "tag": "span",
+                                  "classes": [
+                                    "req-leg-name"
+                                  ],
+                                  "label": "span.req-leg-name",
+                                  "textPreview": "GTM",
+                                  "innerHTML": "GTM",
+                                  "children": [],
+                                  "isLeaf": true,
+                                  "interesting": false,
+                                  "chrome": false,
+                                  "depth": 6,
+                                  "slideIndex": 1
+                                }
+                              ],
+                              "isLeaf": false,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[1]>div.req-leg-pct",
+                              "tag": "div",
+                              "classes": [
+                                "req-leg-pct"
+                              ],
+                              "label": "div.req-leg-pct",
+                              "textPreview": "4%",
+                              "innerHTML": "4%",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[1]>div.req-leg-hrs",
+                              "tag": "div",
+                              "classes": [
+                                "req-leg-hrs"
+                              ],
+                              "label": "div.req-leg-hrs",
+                              "textPreview": "4,356h · Market-driven",
+                              "innerHTML": "4,356h · Market-driven",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[2]",
+                          "tag": "div",
+                          "classes": [
+                            "req-leg-item"
+                          ],
+                          "label": "div.req-leg-item",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"req-leg-dot-row\">\n            <div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>\n          </div>\n          <div class=\"req-leg-pct\">42%</div>\n          <div class=\"req-leg-hrs\">43,278h · Internal / NFR</div>",
+                          "children": [
+                            {
+                              "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[2]>div.req-leg-dot-row",
+                              "tag": "div",
+                              "classes": [
+                                "req-leg-dot-row"
+                              ],
+                              "label": "div.req-leg-dot-row",
+                              "textPreview": "",
+                              "innerHTML": "<div class=\"req-leg-dot\" style=\"background:#7fb3af;\"></div>\n            <span class=\"req-leg-name\">Other</span>",
+                              "children": [
+                                {
+                                  "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[2]>div.req-leg-dot-row>div.req-leg-dot",
+                                  "tag": "div",
+                                  "classes": [
+                                    "req-leg-dot"
+                                  ],
+                                  "label": "div.req-leg-dot",
+                                  "textPreview": "",
+                                  "innerHTML": "",
+                                  "children": [],
+                                  "isLeaf": true,
+                                  "interesting": false,
+                                  "chrome": false,
+                                  "depth": 6,
+                                  "slideIndex": 1
+                                },
+                                {
+                                  "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[2]>div.req-leg-dot-row>span.req-leg-name",
+                                  "tag": "span",
+                                  "classes": [
+                                    "req-leg-name"
+                                  ],
+                                  "label": "span.req-leg-name",
+                                  "textPreview": "Other",
+                                  "innerHTML": "Other",
+                                  "children": [],
+                                  "isLeaf": true,
+                                  "interesting": false,
+                                  "chrome": false,
+                                  "depth": 6,
+                                  "slideIndex": 1
+                                }
+                              ],
+                              "isLeaf": false,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[2]>div.req-leg-pct",
+                              "tag": "div",
+                              "classes": [
+                                "req-leg-pct"
+                              ],
+                              "label": "div.req-leg-pct",
+                              "textPreview": "42%",
+                              "innerHTML": "42%",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.top-story>div.requester-side>div.req-legend>div.req-leg-item[2]>div.req-leg-hrs",
+                              "tag": "div",
+                              "classes": [
+                                "req-leg-hrs"
+                              ],
+                              "label": "div.req-leg-hrs",
+                              "textPreview": "43,278h · Internal / NFR",
+                              "innerHTML": "43,278h · Internal / NFR",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                }
+              ],
+              "isLeaf": false,
+              "interesting": true,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            },
+            {
+              "id": "div.slide>div.pi-section",
+              "tag": "div",
+              "classes": [
+                "pi-section"
+              ],
+              "label": "div.pi-section",
+              "textPreview": "",
+              "innerHTML": "<div class=\"pi-card pi28\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:57%;\">57%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:11%;\">11%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:32%;\">32%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi29\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:52%;\">58%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:30%;\">1%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:18%;\">42%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>\n\n    \n    <div class=\"pi-card pi30\">\n      <div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:50%;\">36%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:28%;\">0%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:22%;\">59%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>\n    </div>",
+              "children": [
+                {
+                  "id": "div.slide>div.pi-section>div.pi-card.pi28",
+                  "tag": "div",
+                  "classes": [
+                    "pi-card",
+                    "pi28"
+                  ],
+                  "label": "div.pi-card.pi28",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:57%;\">57%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:11%;\">11%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:32%;\">32%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>",
+                  "children": [
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-card-top",
+                      "tag": "div",
+                      "classes": [
+                        "pi-card-top"
+                      ],
+                      "label": "div.pi-card-top",
+                      "textPreview": "",
+                      "innerHTML": "<div>\n          <div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-card-top>div",
+                          "tag": "div",
+                          "classes": [],
+                          "label": "div",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"pi-name pi28\">PI28</div>\n          <div class=\"pi-period\">Active</div>",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-card-top>div>div.pi-name.pi28",
+                              "tag": "div",
+                              "classes": [
+                                "pi-name",
+                                "pi28"
+                              ],
+                              "label": "div.pi-name.pi28",
+                              "textPreview": "PI28",
+                              "innerHTML": "PI28",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-card-top>div>div.pi-period",
+                              "tag": "div",
+                              "classes": [
+                                "pi-period"
+                              ],
+                              "label": "div.pi-period",
+                              "textPreview": "Active",
+                              "innerHTML": "Active",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-card-top>div[1]",
+                          "tag": "div",
+                          "classes": [],
+                          "label": "div",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"pi-hours\">37k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-card-top>div[1]>div.pi-hours",
+                              "tag": "div",
+                              "classes": [
+                                "pi-hours"
+                              ],
+                              "label": "div.pi-hours",
+                              "textPreview": "37k",
+                              "innerHTML": "37k",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-card-top>div[1]>div.pi-hours-lbl",
+                              "tag": "div",
+                              "classes": [
+                                "pi-hours-lbl"
+                              ],
+                              "label": "div.pi-hours-lbl",
+                              "textPreview": "Est. Hours",
+                              "innerHTML": "Est. Hours",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-req-lbl",
+                      "tag": "div",
+                      "classes": [
+                        "pi-req-lbl"
+                      ],
+                      "label": "div.pi-req-lbl",
+                      "textPreview": "By Requester",
+                      "innerHTML": "By Requester",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-bar",
+                      "tag": "div",
+                      "classes": [
+                        "pi-mini-bar"
+                      ],
+                      "label": "div.pi-mini-bar",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"pi-mini-seg grc\" style=\"width:57%;\">57%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:11%;\">11%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:32%;\">32%</div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-bar>div.grc.pi-mini-seg",
+                          "tag": "div",
+                          "classes": [
+                            "grc",
+                            "pi-mini-seg"
+                          ],
+                          "label": "div.grc.pi-mini-seg",
+                          "textPreview": "57%",
+                          "innerHTML": "57%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-bar>div.gtm.pi-mini-seg",
+                          "tag": "div",
+                          "classes": [
+                            "gtm",
+                            "pi-mini-seg"
+                          ],
+                          "label": "div.gtm.pi-mini-seg",
+                          "textPreview": "11%",
+                          "innerHTML": "11%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-bar>div.oth.pi-mini-seg",
+                          "tag": "div",
+                          "classes": [
+                            "oth",
+                            "pi-mini-seg"
+                          ],
+                          "label": "div.oth.pi-mini-seg",
+                          "textPreview": "32%",
+                          "innerHTML": "32%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend",
+                      "tag": "div",
+                      "classes": [
+                        "pi-mini-legend"
+                      ],
+                      "label": "div.pi-mini-legend",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k</div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend>div.pi-mini-leg-item",
+                          "tag": "div",
+                          "classes": [
+                            "pi-mini-leg-item"
+                          ],
+                          "label": "div.pi-mini-leg-item",
+                          "textPreview": "GRC 21k",
+                          "innerHTML": "<div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 21k",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend>div.pi-mini-leg-item>div.pi-mini-dot",
+                              "tag": "div",
+                              "classes": [
+                                "pi-mini-dot"
+                              ],
+                              "label": "div.pi-mini-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend>div.pi-mini-leg-item[1]",
+                          "tag": "div",
+                          "classes": [
+                            "pi-mini-leg-item"
+                          ],
+                          "label": "div.pi-mini-leg-item",
+                          "textPreview": "GTM 4k",
+                          "innerHTML": "<div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 4k",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend>div.pi-mini-leg-item[1]>div.pi-mini-dot",
+                              "tag": "div",
+                              "classes": [
+                                "pi-mini-dot"
+                              ],
+                              "label": "div.pi-mini-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend>div.pi-mini-leg-item[2]",
+                          "tag": "div",
+                          "classes": [
+                            "pi-mini-leg-item"
+                          ],
+                          "label": "div.pi-mini-leg-item",
+                          "textPreview": "Other 12k",
+                          "innerHTML": "<div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 12k",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-mini-legend>div.pi-mini-leg-item[2]>div.pi-mini-dot",
+                              "tag": "div",
+                              "classes": [
+                                "pi-mini-dot"
+                              ],
+                              "label": "div.pi-mini-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-groups-lbl",
+                      "tag": "div",
+                      "classes": [
+                        "pi-groups-lbl"
+                      ],
+                      "label": "div.pi-groups-lbl",
+                      "textPreview": "Non-GRC Scope",
+                      "innerHTML": "Non-GRC Scope",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-groups",
+                      "tag": "div",
+                      "classes": [
+                        "pi-groups"
+                      ],
+                      "label": "div.pi-groups",
+                      "textPreview": "",
+                      "innerHTML": "<span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-groups>span",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Core Revenue Management",
+                          "innerHTML": "Core Revenue Management",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-groups>span[1]",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Core Self-Service",
+                          "innerHTML": "Core Self-Service",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-groups>span[2]",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Core Supporting Capabilities",
+                          "innerHTML": "Core Supporting Capabilities",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi28>div.pi-groups>span[3]",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Non-Functional Coverage",
+                          "innerHTML": "Non-Functional Coverage",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.slide>div.pi-section>div.pi-card.pi29",
+                  "tag": "div",
+                  "classes": [
+                    "pi-card",
+                    "pi29"
+                  ],
+                  "label": "div.pi-card.pi29",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:52%;\">58%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:30%;\">1%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:18%;\">42%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>",
+                  "children": [
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-card-top",
+                      "tag": "div",
+                      "classes": [
+                        "pi-card-top"
+                      ],
+                      "label": "div.pi-card-top",
+                      "textPreview": "",
+                      "innerHTML": "<div>\n          <div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-card-top>div",
+                          "tag": "div",
+                          "classes": [],
+                          "label": "div",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"pi-name pi29\">PI29</div>\n          <div class=\"pi-period\">Q3 2026 · Planned</div>",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-card-top>div>div.pi-name.pi29",
+                              "tag": "div",
+                              "classes": [
+                                "pi-name",
+                                "pi29"
+                              ],
+                              "label": "div.pi-name.pi29",
+                              "textPreview": "PI29",
+                              "innerHTML": "PI29",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-card-top>div>div.pi-period",
+                              "tag": "div",
+                              "classes": [
+                                "pi-period"
+                              ],
+                              "label": "div.pi-period",
+                              "textPreview": "Q3 2026 · Planned",
+                              "innerHTML": "Q3 2026 · Planned",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-card-top>div[1]",
+                          "tag": "div",
+                          "classes": [],
+                          "label": "div",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"pi-hours\">43k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-card-top>div[1]>div.pi-hours",
+                              "tag": "div",
+                              "classes": [
+                                "pi-hours"
+                              ],
+                              "label": "div.pi-hours",
+                              "textPreview": "43k",
+                              "innerHTML": "43k",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-card-top>div[1]>div.pi-hours-lbl",
+                              "tag": "div",
+                              "classes": [
+                                "pi-hours-lbl"
+                              ],
+                              "label": "div.pi-hours-lbl",
+                              "textPreview": "Est. Hours",
+                              "innerHTML": "Est. Hours",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-req-lbl",
+                      "tag": "div",
+                      "classes": [
+                        "pi-req-lbl"
+                      ],
+                      "label": "div.pi-req-lbl",
+                      "textPreview": "By Requester",
+                      "innerHTML": "By Requester",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-bar",
+                      "tag": "div",
+                      "classes": [
+                        "pi-mini-bar"
+                      ],
+                      "label": "div.pi-mini-bar",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"pi-mini-seg grc\" style=\"width:52%;\">58%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:30%;\">1%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:18%;\">42%</div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-bar>div.grc.pi-mini-seg",
+                          "tag": "div",
+                          "classes": [
+                            "grc",
+                            "pi-mini-seg"
+                          ],
+                          "label": "div.grc.pi-mini-seg",
+                          "textPreview": "58%",
+                          "innerHTML": "58%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-bar>div.gtm.pi-mini-seg",
+                          "tag": "div",
+                          "classes": [
+                            "gtm",
+                            "pi-mini-seg"
+                          ],
+                          "label": "div.gtm.pi-mini-seg",
+                          "textPreview": "1%",
+                          "innerHTML": "1%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-bar>div.oth.pi-mini-seg",
+                          "tag": "div",
+                          "classes": [
+                            "oth",
+                            "pi-mini-seg"
+                          ],
+                          "label": "div.oth.pi-mini-seg",
+                          "textPreview": "42%",
+                          "innerHTML": "42%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend",
+                      "tag": "div",
+                      "classes": [
+                        "pi-mini-legend"
+                      ],
+                      "label": "div.pi-mini-legend",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k</div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend>div.pi-mini-leg-item",
+                          "tag": "div",
+                          "classes": [
+                            "pi-mini-leg-item"
+                          ],
+                          "label": "div.pi-mini-leg-item",
+                          "textPreview": "GRC 25k",
+                          "innerHTML": "<div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 25k",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend>div.pi-mini-leg-item>div.pi-mini-dot",
+                              "tag": "div",
+                              "classes": [
+                                "pi-mini-dot"
+                              ],
+                              "label": "div.pi-mini-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend>div.pi-mini-leg-item[1]",
+                          "tag": "div",
+                          "classes": [
+                            "pi-mini-leg-item"
+                          ],
+                          "label": "div.pi-mini-leg-item",
+                          "textPreview": "GTM 0,5k",
+                          "innerHTML": "<div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0,5k",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend>div.pi-mini-leg-item[1]>div.pi-mini-dot",
+                              "tag": "div",
+                              "classes": [
+                                "pi-mini-dot"
+                              ],
+                              "label": "div.pi-mini-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend>div.pi-mini-leg-item[2]",
+                          "tag": "div",
+                          "classes": [
+                            "pi-mini-leg-item"
+                          ],
+                          "label": "div.pi-mini-leg-item",
+                          "textPreview": "Other 18k",
+                          "innerHTML": "<div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 18k",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-mini-legend>div.pi-mini-leg-item[2]>div.pi-mini-dot",
+                              "tag": "div",
+                              "classes": [
+                                "pi-mini-dot"
+                              ],
+                              "label": "div.pi-mini-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-groups-lbl",
+                      "tag": "div",
+                      "classes": [
+                        "pi-groups-lbl"
+                      ],
+                      "label": "div.pi-groups-lbl",
+                      "textPreview": "Non-GRC Scope",
+                      "innerHTML": "Non-GRC Scope",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-groups",
+                      "tag": "div",
+                      "classes": [
+                        "pi-groups"
+                      ],
+                      "label": "div.pi-groups",
+                      "textPreview": "",
+                      "innerHTML": "<span>Core Revenue Management</span>\n        <span>Core Self-Service</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-groups>span",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Core Revenue Management",
+                          "innerHTML": "Core Revenue Management",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-groups>span[1]",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Core Self-Service",
+                          "innerHTML": "Core Self-Service",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-groups>span[2]",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Core Supporting Capabilities",
+                          "innerHTML": "Core Supporting Capabilities",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi29>div.pi-groups>span[3]",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Non-Functional Coverage",
+                          "innerHTML": "Non-Functional Coverage",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                },
+                {
+                  "id": "div.slide>div.pi-section>div.pi-card.pi30",
+                  "tag": "div",
+                  "classes": [
+                    "pi-card",
+                    "pi30"
+                  ],
+                  "label": "div.pi-card.pi30",
+                  "textPreview": "",
+                  "innerHTML": "<div class=\"pi-card-top\">\n        <div>\n          <div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>\n      </div>\n      <div class=\"pi-req-lbl\">By Requester</div>\n      <div class=\"pi-mini-bar\">\n        <div class=\"pi-mini-seg grc\" style=\"width:50%;\">36%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:28%;\">0%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:22%;\">59%</div>\n      </div>\n      <div class=\"pi-mini-legend\">\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k</div>\n      </div>\n      <div class=\"pi-groups-lbl\">Non-GRC Scope</div>\n      <div class=\"pi-groups\">\n        <span>Core Revenue Management</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>\n      </div>",
+                  "children": [
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-card-top",
+                      "tag": "div",
+                      "classes": [
+                        "pi-card-top"
+                      ],
+                      "label": "div.pi-card-top",
+                      "textPreview": "",
+                      "innerHTML": "<div>\n          <div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>\n        </div>\n        <div>\n          <div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>\n        </div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-card-top>div",
+                          "tag": "div",
+                          "classes": [],
+                          "label": "div",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"pi-name pi30\">PI30</div>\n          <div class=\"pi-period\">Q4 2026 · Outlook</div>",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-card-top>div>div.pi-name.pi30",
+                              "tag": "div",
+                              "classes": [
+                                "pi-name",
+                                "pi30"
+                              ],
+                              "label": "div.pi-name.pi30",
+                              "textPreview": "PI30",
+                              "innerHTML": "PI30",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-card-top>div>div.pi-period",
+                              "tag": "div",
+                              "classes": [
+                                "pi-period"
+                              ],
+                              "label": "div.pi-period",
+                              "textPreview": "Q4 2026 · Outlook",
+                              "innerHTML": "Q4 2026 · Outlook",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": true,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-card-top>div[1]",
+                          "tag": "div",
+                          "classes": [],
+                          "label": "div",
+                          "textPreview": "",
+                          "innerHTML": "<div class=\"pi-hours\">22k</div>\n          <div class=\"pi-hours-lbl\">Est. Hours</div>",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-card-top>div[1]>div.pi-hours",
+                              "tag": "div",
+                              "classes": [
+                                "pi-hours"
+                              ],
+                              "label": "div.pi-hours",
+                              "textPreview": "22k",
+                              "innerHTML": "22k",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            },
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-card-top>div[1]>div.pi-hours-lbl",
+                              "tag": "div",
+                              "classes": [
+                                "pi-hours-lbl"
+                              ],
+                              "label": "div.pi-hours-lbl",
+                              "textPreview": "Est. Hours",
+                              "innerHTML": "Est. Hours",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-req-lbl",
+                      "tag": "div",
+                      "classes": [
+                        "pi-req-lbl"
+                      ],
+                      "label": "div.pi-req-lbl",
+                      "textPreview": "By Requester",
+                      "innerHTML": "By Requester",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-bar",
+                      "tag": "div",
+                      "classes": [
+                        "pi-mini-bar"
+                      ],
+                      "label": "div.pi-mini-bar",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"pi-mini-seg grc\" style=\"width:50%;\">36%</div>\n        <div class=\"pi-mini-seg gtm\" style=\"width:28%;\">0%</div>\n        <div class=\"pi-mini-seg oth\" style=\"width:22%;\">59%</div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-bar>div.grc.pi-mini-seg",
+                          "tag": "div",
+                          "classes": [
+                            "grc",
+                            "pi-mini-seg"
+                          ],
+                          "label": "div.grc.pi-mini-seg",
+                          "textPreview": "36%",
+                          "innerHTML": "36%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-bar>div.gtm.pi-mini-seg",
+                          "tag": "div",
+                          "classes": [
+                            "gtm",
+                            "pi-mini-seg"
+                          ],
+                          "label": "div.gtm.pi-mini-seg",
+                          "textPreview": "0%",
+                          "innerHTML": "0%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-bar>div.oth.pi-mini-seg",
+                          "tag": "div",
+                          "classes": [
+                            "oth",
+                            "pi-mini-seg"
+                          ],
+                          "label": "div.oth.pi-mini-seg",
+                          "textPreview": "59%",
+                          "innerHTML": "59%",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend",
+                      "tag": "div",
+                      "classes": [
+                        "pi-mini-legend"
+                      ],
+                      "label": "div.pi-mini-legend",
+                      "textPreview": "",
+                      "innerHTML": "<div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0</div>\n        <div class=\"pi-mini-leg-item\"><div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k</div>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend>div.pi-mini-leg-item",
+                          "tag": "div",
+                          "classes": [
+                            "pi-mini-leg-item"
+                          ],
+                          "label": "div.pi-mini-leg-item",
+                          "textPreview": "GRC 8k",
+                          "innerHTML": "<div class=\"pi-mini-dot\" style=\"background:#FF6359;\"></div>GRC 8k",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend>div.pi-mini-leg-item>div.pi-mini-dot",
+                              "tag": "div",
+                              "classes": [
+                                "pi-mini-dot"
+                              ],
+                              "label": "div.pi-mini-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend>div.pi-mini-leg-item[1]",
+                          "tag": "div",
+                          "classes": [
+                            "pi-mini-leg-item"
+                          ],
+                          "label": "div.pi-mini-leg-item",
+                          "textPreview": "GTM 0",
+                          "innerHTML": "<div class=\"pi-mini-dot\" style=\"background:#2C8A84;\"></div>GTM 0",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend>div.pi-mini-leg-item[1]>div.pi-mini-dot",
+                              "tag": "div",
+                              "classes": [
+                                "pi-mini-dot"
+                              ],
+                              "label": "div.pi-mini-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend>div.pi-mini-leg-item[2]",
+                          "tag": "div",
+                          "classes": [
+                            "pi-mini-leg-item"
+                          ],
+                          "label": "div.pi-mini-leg-item",
+                          "textPreview": "Other 13k",
+                          "innerHTML": "<div class=\"pi-mini-dot\" style=\"background:#7fb3af;\"></div>Other 13k",
+                          "children": [
+                            {
+                              "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-mini-legend>div.pi-mini-leg-item[2]>div.pi-mini-dot",
+                              "tag": "div",
+                              "classes": [
+                                "pi-mini-dot"
+                              ],
+                              "label": "div.pi-mini-dot",
+                              "textPreview": "",
+                              "innerHTML": "",
+                              "children": [],
+                              "isLeaf": true,
+                              "interesting": false,
+                              "chrome": false,
+                              "depth": 5,
+                              "slideIndex": 1
+                            }
+                          ],
+                          "isLeaf": false,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-groups-lbl",
+                      "tag": "div",
+                      "classes": [
+                        "pi-groups-lbl"
+                      ],
+                      "label": "div.pi-groups-lbl",
+                      "textPreview": "Non-GRC Scope",
+                      "innerHTML": "Non-GRC Scope",
+                      "children": [],
+                      "isLeaf": true,
+                      "interesting": false,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    },
+                    {
+                      "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-groups",
+                      "tag": "div",
+                      "classes": [
+                        "pi-groups"
+                      ],
+                      "label": "div.pi-groups",
+                      "textPreview": "",
+                      "innerHTML": "<span>Core Revenue Management</span>\n        <span>Core Supporting Capabilities</span>\n        <span>Non-Functional Coverage</span>",
+                      "children": [
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-groups>span",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Core Revenue Management",
+                          "innerHTML": "Core Revenue Management",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-groups>span[1]",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Core Supporting Capabilities",
+                          "innerHTML": "Core Supporting Capabilities",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        },
+                        {
+                          "id": "div.slide>div.pi-section>div.pi-card.pi30>div.pi-groups>span[2]",
+                          "tag": "span",
+                          "classes": [],
+                          "label": "span",
+                          "textPreview": "Non-Functional Coverage",
+                          "innerHTML": "Non-Functional Coverage",
+                          "children": [],
+                          "isLeaf": true,
+                          "interesting": false,
+                          "chrome": false,
+                          "depth": 4,
+                          "slideIndex": 1
+                        }
+                      ],
+                      "isLeaf": false,
+                      "interesting": true,
+                      "chrome": false,
+                      "depth": 3,
+                      "slideIndex": 1
+                    }
+                  ],
+                  "isLeaf": false,
+                  "interesting": true,
+                  "chrome": false,
+                  "depth": 2,
+                  "slideIndex": 1
+                }
+              ],
+              "isLeaf": false,
+              "interesting": true,
+              "chrome": false,
+              "depth": 1,
+              "slideIndex": 1
+            }
+          ],
+          "isLeaf": false,
+          "interesting": true,
+          "chrome": false,
+          "depth": 0,
+          "slideIndex": 1
+        }
+      ]
+    ],
+    "slideCount": 1
+  },
+  "agenticCustomInput": "Analyze the slide template and populate with data from the spreadsheet. \nDont invent numbers except for percentages which must be calculated.\nUse ONLY sheet \"2026 Estimates\".",
+  "agenticJsonResponse": "{\"blocks\":{\"auto_div_slide\":{\"value\":\"<div class=\\\"header\\\">\\n    <div>\\n      <div class=\\\"header-title\\\">SOLON TAX ROADMAP 2026 – Scope Overview</div>\\n      <div class=\\\"header-meta\\\">Executive Steering Committee · April 2026</div>\\n    </div>\\n    <div class=\\\"header-right\\\">\\n      <span class=\\\"header-logo\\\">Netcompany</span>\\n    </div>\\n  </div>\\n\\n  \\n  <div class=\\\"top-story\\\">\\n\\n    \\n    <div class=\\\"scope-side\\\">\\n      <div class=\\\"scope-eyebrow\\\">Total 2026 Scope</div>\\n      <div class=\\\"scope-big\\\">34.5k</div>\\n      <div class=\\\"scope-label\\\">Estimated hours across all initiatives</div>\\n      <div class=\\\"scope-sub\\\">5 Initiative Groups &nbsp;·&nbsp; 19 Initiatives &nbsp;·&nbsp; 3 Program Increments</div>\\n    </div>\\n\\n    \\n    <div class=\\\"requester-side\\\">\\n      <div class=\\\"req-title\\\">Scope by Requester</div>\\n\\n      <div class=\\\"req-bar\\\">\\n        <div class=\\\"req-seg grc\\\" style=\\\"width:53%;\\\">53%</div>\\n        <div class=\\\"req-seg gtm\\\" style=\\\"width:4%;\\\">4%</div>\\n        <div class=\\\"req-seg oth\\\" style=\\\"width:42%;\\\">42%</div>\\n      </div>\\n\\n      <div class=\\\"req-legend\\\">\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#FF6359;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">GRC</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">53%</div>\\n          <div class=\\\"req-leg-hrs\\\">18.3k h · Project-driven</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#2C8A84;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">GTM</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">4%</div>\\n          <div class=\\\"req-leg-hrs\\\">1.4k h · Market-driven</div>\\n        </div>\\n        <div class=\\\"req-leg-item\\\">\\n          <div class=\\\"req-leg-dot-row\\\">\\n            <div class=\\\"req-leg-dot\\\" style=\\\"background:#7fb3af;\\\"></div>\\n            <span class=\\\"req-leg-name\\\">Other</span>\\n          </div>\\n          <div class=\\\"req-leg-pct\\\">42%</div>\\n          <div class=\\\"req-leg-hrs\\\">14.5k h · Internal / NFR</div>\\n        </div>\\n      </div>\\n    </div>\\n\\n  </div>\\n\\n  \\n  <div class=\\\"pi-section\\\">\\n\\n    \\n    <div class=\\\"pi-card pi28\\\">\\n      <div class=\\\"pi-card-top\\\">\\n        <div>\\n          <div class=\\\"pi-name pi28\\\">PI28</div>\\n          <div class=\\\"pi-period\\\">Active</div>\\n        </div>\\n        <div>\\n          <div class=\\\"pi-hours\\\">37k</div>\\n          <div class=\\\"pi-hours-lbl\\\">Est. Hours</div>\\n        </div>\\n      </div>\\n      <div class=\\\"pi-req-lbl\\\">By Requester</div>\\n      <div class=\\\"pi-mini-bar\\\">\\n        <div class=\\\"pi-mini-seg grc\\\" style=\\\"width:57%;\\\">57%</div>\\n        <div class=\\\"pi-mini-seg gtm\\\" style=\\\"width:11%;\\\">11%</div>\\n        <div class=\\\"pi-mini-seg oth\\\" style=\\\"width:32%;\\\">32%</div>\\n      </div>\\n      <div class=\\\"pi-mini-legend\\\">\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#FF6359;\\\"></div>GRC 21k</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#2C8A84;\\\"></div>GTM 4k</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#7fb3af;\\\"></div>Other 12k</div>\\n      </div>\\n      <div class=\\\"pi-groups-lbl\\\">Non-GRC Scope</div>\\n      <div class=\\\"pi-groups\\\">\\n        <span>Core Revenue Management</span>\\n        <span>Core Self-Service</span>\\n        <span>Core Supporting Capabilities</span>\\n        <span>Non-Functional Coverage</span>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"pi-card pi29\\\">\\n      <div class=\\\"pi-card-top\\\">\\n        <div>\\n          <div class=\\\"pi-name pi29\\\">PI29</div>\\n          <div class=\\\"pi-period\\\">Q3 2026 · Planned</div>\\n        </div>\\n        <div>\\n          <div class=\\\"pi-hours\\\">43k</div>\\n          <div class=\\\"pi-hours-lbl\\\">Est. Hours</div>\\n        </div>\\n      </div>\\n      <div class=\\\"pi-req-lbl\\\">By Requester</div>\\n      <div class=\\\"pi-mini-bar\\\">\\n        <div class=\\\"pi-mini-seg grc\\\" style=\\\"width:52%;\\\">58%</div>\\n        <div class=\\\"pi-mini-seg gtm\\\" style=\\\"width:30%;\\\">1%</div>\\n        <div class=\\\"pi-mini-seg oth\\\" style=\\\"width:18%;\\\">42%</div>\\n      </div>\\n      <div class=\\\"pi-mini-legend\\\">\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#FF6359;\\\"></div>GRC 25k</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#2C8A84;\\\"></div>GTM 0,5k</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#7fb3af;\\\"></div>Other 18k</div>\\n      </div>\\n      <div class=\\\"pi-groups-lbl\\\">Non-GRC Scope</div>\\n      <div class=\\\"pi-groups\\\">\\n        <span>Core Revenue Management</span>\\n        <span>Core Self-Service</span>\\n        <span>Core Supporting Capabilities</span>\\n        <span>Non-Functional Coverage</span>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"pi-card pi30\\\">\\n      <div class=\\\"pi-card-top\\\">\\n        <div>\\n          <div class=\\\"pi-name pi30\\\">PI30</div>\\n          <div class=\\\"pi-period\\\">Q4 2026 · Outlook</div>\\n        </div>\\n        <div>\\n          <div class=\\\"pi-hours\\\">22k</div>\\n          <div class=\\\"pi-hours-lbl\\\">Est. Hours</div>\\n        </div>\\n      </div>\\n      <div class=\\\"pi-req-lbl\\\">By Requester</div>\\n      <div class=\\\"pi-mini-bar\\\">\\n        <div class=\\\"pi-mini-seg grc\\\" style=\\\"width:50%;\\\">36%</div>\\n        <div class=\\\"pi-mini-seg gtm\\\" style=\\\"width:28%;\\\">0%</div>\\n        <div class=\\\"pi-mini-seg oth\\\" style=\\\"width:22%;\\\">59%</div>\\n      </div>\\n      <div class=\\\"pi-mini-legend\\\">\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#FF6359;\\\"></div>GRC 8k</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#2C8A84;\\\"></div>GTM 0</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#7fb3af;\\\"></div>Other 13k</div>\\n      </div>\\n      <div class=\\\"pi-groups-lbl\\\">Non-GRC Scope</div>\\n      <div class=\\\"pi-groups\\\">\\n        <span>Core Revenue Management</span>\\n        <span>Core Supporting Capabilities</span>\\n        <span>Non-Functional Coverage</span>\\n      </div>\\n    </div>\\n\\n  </div>\"},\"auto_div_slide_div_pi_section\":{\"value\":\"<div class=\\\"pi-card pi28\\\">\\n      <div class=\\\"pi-card-top\\\">\\n        <div>\\n          <div class=\\\"pi-name pi28\\\">PI28</div>\\n          <div class=\\\"pi-period\\\">Aktiv</div>\\n        </div>\\n        <div>\\n          <div class=\\\"pi-hours\\\">37k</div>\\n          <div class=\\\"pi-hours-lbl\\\">Est. Timer</div>\\n        </div>\\n      </div>\\n      <div class=\\\"pi-req-lbl\\\">Efter Anmoder</div>\\n      <div class=\\\"pi-mini-bar\\\">\\n        <div class=\\\"pi-mini-seg grc\\\" style=\\\"width:57%;\\\">57%</div>\\n        <div class=\\\"pi-mini-seg gtm\\\" style=\\\"width:11%;\\\">11%</div>\\n        <div class=\\\"pi-mini-seg oth\\\" style=\\\"width:32%;\\\">32%</div>\\n      </div>\\n      <div class=\\\"pi-mini-legend\\\">\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#FF6359;\\\"></div>GRC 21k</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#2C8A84;\\\"></div>GTM 4k</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#7fb3af;\\\"></div>Øvrig 12k</div>\\n      </div>\\n      <div class=\\\"pi-groups-lbl\\\">Ikke-GRC Omfang</div>\\n      <div class=\\\"pi-groups\\\">\\n        <span>Kerneindtægtsstyring</span>\\n        <span>Kerneselvbetjening</span>\\n        <span>Kernestøttekapaciteter</span>\\n        <span>Ikke-funktionel Dækning</span>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"pi-card pi29\\\">\\n      <div class=\\\"pi-card-top\\\">\\n        <div>\\n          <div class=\\\"pi-name pi29\\\">PI29</div>\\n          <div class=\\\"pi-period\\\">Q3 2026 · Planlagt</div>\\n        </div>\\n        <div>\\n          <div class=\\\"pi-hours\\\">43k</div>\\n          <div class=\\\"pi-hours-lbl\\\">Est. Timer</div>\\n        </div>\\n      </div>\\n      <div class=\\\"pi-req-lbl\\\">Efter Anmoder</div>\\n      <div class=\\\"pi-mini-bar\\\">\\n        <div class=\\\"pi-mini-seg grc\\\" style=\\\"width:52%;\\\">58%</div>\\n        <div class=\\\"pi-mini-seg gtm\\\" style=\\\"width:30%;\\\">1%</div>\\n        <div class=\\\"pi-mini-seg oth\\\" style=\\\"width:18%;\\\">42%</div>\\n      </div>\\n      <div class=\\\"pi-mini-legend\\\">\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#FF6359;\\\"></div>GRC 25k</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#2C8A84;\\\"></div>GTM 0,5k</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#7fb3af;\\\"></div>Øvrig 18k</div>\\n      </div>\\n      <div class=\\\"pi-groups-lbl\\\">Ikke-GRC Omfang</div>\\n      <div class=\\\"pi-groups\\\">\\n        <span>Kerneindtægtsstyring</span>\\n        <span>Kerneselvbetjening</span>\\n        <span>Kernestøttekapaciteter</span>\\n        <span>Ikke-funktionel Dækning</span>\\n      </div>\\n    </div>\\n\\n    \\n    <div class=\\\"pi-card pi30\\\">\\n      <div class=\\\"pi-card-top\\\">\\n        <div>\\n          <div class=\\\"pi-name pi30\\\">PI30</div>\\n          <div class=\\\"pi-period\\\">Q4 2026 · Udsigter</div>\\n        </div>\\n        <div>\\n          <div class=\\\"pi-hours\\\">22k</div>\\n          <div class=\\\"pi-hours-lbl\\\">Est. Timer</div>\\n        </div>\\n      </div>\\n      <div class=\\\"pi-req-lbl\\\">Efter Anmoder</div>\\n      <div class=\\\"pi-mini-bar\\\">\\n        <div class=\\\"pi-mini-seg grc\\\" style=\\\"width:50%;\\\">36%</div>\\n        <div class=\\\"pi-mini-seg gtm\\\" style=\\\"width:28%;\\\">0%</div>\\n        <div class=\\\"pi-mini-seg oth\\\" style=\\\"width:22%;\\\">59%</div>\\n      </div>\\n      <div class=\\\"pi-mini-legend\\\">\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#FF6359;\\\"></div>GRC 8k</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#2C8A84;\\\"></div>GTM 0</div>\\n        <div class=\\\"pi-mini-leg-item\\\"><div class=\\\"pi-mini-dot\\\" style=\\\"background:#7fb3af;\\\"></div>Øvrig 13k</div>\\n      </div>\\n      <div class=\\\"pi-groups-lbl\\\">Ikke-GRC Omfang</div>\\n      <div class=\\\"pi-groups\\\">\\n        <span>Kerneindtægtsstyring</span>\\n        <span>Kernestøttekapaciteter</span>\\n        <span>Ikke-funktionel Dækning</span>\\n      </div>\\n    </div>\"}}}"
+}

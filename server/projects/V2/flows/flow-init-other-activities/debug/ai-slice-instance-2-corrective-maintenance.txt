@@ -1,0 +1,38 @@
+=== CORRECTIVE MAINTENANCE ===
+
+=== Summary ===
+Roadmap Initiative: CORRECTIVE MAINTENANCE
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 560 hours
+Feature Count: 1
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Resolve Production Incidents Rapidly
+Reason 01 Text: Dedicated corrective maintenance capacity ensures critical production defects are addressed within agreed SLAs.
+
+Reason 02 Title: Maintain System Stability and Availability
+Reason 02 Text: Proactive incident response prevents cascading failures and protects revenue authority operations.
+
+Reason 03 Title: Build Customer Confidence in Platform
+Reason 03 Text: Fast, effective incident resolution demonstrates product maturity and commitment to customer success.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: PSD Incidents (Current PI28) - Corrective Maintenance - x.x.x
+Feature Description: Address production incidents and critical defects reported by PSD teams during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 560h
+Feature Priority: P2
+
+---

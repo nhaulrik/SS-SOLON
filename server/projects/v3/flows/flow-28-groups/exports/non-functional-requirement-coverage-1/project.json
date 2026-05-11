@@ -1,0 +1,51 @@
+{
+  "name": "v3",
+  "exportId": "non-functional-requirement-coverage-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-05-05T19:40:26.035Z",
+  "slideCount": 6,
+  "slides": [
+    {
+      "index": 1,
+      "file": "non-functional-requirement-coverage.html",
+      "slideId": "slide-1",
+      "title": "NON-FUNCTIONAL REQUIREMENT COVERAGE",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "reference-implementations.html",
+      "slideId": "slide-2",
+      "title": "REFERENCE IMPLEMENTATIONS",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "other-activities.html",
+      "slideId": "slide-3",
+      "title": "OTHER ACTIVITIES",
+      "type": "content"
+    },
+    {
+      "index": 4,
+      "file": "core-supporting-capabilities.html",
+      "slideId": "slide-4",
+      "title": "CORE SUPPORTING CAPABILITIES",
+      "type": "content"
+    },
+    {
+      "index": 5,
+      "file": "core-revenue-management-capabilities.html",
+      "slideId": "slide-5",
+      "title": "CORE REVENUE MANAGEMENT CAPABILITIES",
+      "type": "content"
+    },
+    {
+      "index": 6,
+      "file": "core-self-service-capabilities.html",
+      "slideId": "slide-6",
+      "title": "CORE SELF SERVICE CAPABILITIES",
+      "type": "content"
+    }
+  ]
+}

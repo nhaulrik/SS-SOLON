@@ -1,0 +1,39 @@
+=== OPERATIONAL REPORTING ===
+
+=== Summary ===
+Roadmap Initiative: OPERATIONAL REPORTING
+Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES
+PI: PI 28
+Total Effort: 72 hours
+Feature Count: 1
+Requester: GRC
+
+=== Feature Progress ===
+Under Analysis: 1
+Total Features: 1
+
+=== Feature Priority ===
+Total Features: 1
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Automate Report Distribution Workflows
+Reason 01 Text: Scheduled operational report generation with automatic distribution to recipient lists eliminates manual report delivery, ensuring timely information dissemination to stakeholders and reducing administrative overhead.
+
+Reason 02 Title: Enable Flexible Report Scheduling
+Reason 02 Text: Batch process integration with configurable parameters enables organisations to schedule reports with specific criteria, supporting diverse reporting requirements without custom development.
+
+Reason 03 Title: Support Operational Efficiency
+Reason 03 Text: Automated report distribution to multiple recipients via email ensures consistent information flow to decision-makers, improving operational visibility and enabling faster response to business events.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Automatically distribute Operational Report in list of recipients
+Feature Description: Enable administrators to generate operational reports with specific parameters and automatically schedule distribution to configured recipient lists via email.
+Feature Status: Under Analysis
+Feature Status Color: #9B59B6
+Feature Effort: 72h
+Feature Priority: P2
+
+---

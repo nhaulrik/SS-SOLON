@@ -1,0 +1,29 @@
+{
+  "exportId": "frontpage-v2-1",
+  "exportNumber": 1,
+  "exportName": "frontpage-v2",
+  "createdAt": "2026-04-30T09:51:02.910Z",
+  "source": {
+    "roundId": "249ee14f-41cb-4fee-b69b-38cbe851cf55",
+    "outputFile": "output-249ee14f-41cb-4fee-b69b-38cbe851cf55.html"
+  },
+  "content": {
+    "slideCount": 1,
+    "totalSize": 21146,
+    "slides": [
+      {
+        "index": 1,
+        "file": "frontpage-v2.html",
+        "size": 21146,
+        "title": "Frontpage-v2",
+        "slideId": "slide-1",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "V2",
+    "flowId": "flow-frontpage2",
+    "templateFile": ""
+  }
+}

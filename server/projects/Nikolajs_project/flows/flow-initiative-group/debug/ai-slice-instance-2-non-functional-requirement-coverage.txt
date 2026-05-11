@@ -1,0 +1,217 @@
+=== NON-FUNCTIONAL REQUIREMENT COVERAGE ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 48
+
+Initiative: ACCESSIBILITY
+Unique Feature Count: 8
+Features:
+IRM-39187, IRM-40165, IRM-40167, IRM-40169, IRM-40170, IRM-40171
+
+Initiative: EXTENSIBILITY
+Unique Feature Count: 2
+Features:
+IRM-40503, IRM-4293
+
+Initiative: MAINTAINABILITY
+Unique Feature Count: 15
+Features:
+IRM-27731, IRM-27733, IRM-29268, IRM-30561, IRM-30741, IRM-33406, IRM-33637, IRM-37610, IRM-37867, IRM-38242, IRM-40174, IRM-40175, IRM-40176, IRM-40177, IRM-41015, IRM-41016
+
+Initiative: OPERABILITY
+Unique Feature Count: 1
+Features:
+IRM-32464
+
+Initiative: PERFORMANCE EFFICIENCY
+Unique Feature Count: 4
+Features:
+IRM-30376, IRM-38230, IRM-38238, IRM-39738
+
+Initiative: RELIABILITY
+Unique Feature Count: 2
+Features:
+IRM-32912, IRM-36862
+
+Initiative: SECURITY
+Unique Feature Count: 6
+Features:
+IRM-20329, IRM-20399, IRM-30360, IRM-30372, IRM-37865, IRM-38847, IRM-39113, IRM-39131
+
+Initiative: TEST SUITE OPTIMIZATION
+Unique Feature Count: 9
+Features:
+IRM-37864, IRM-39216, IRM-40182, IRM-40183, IRM-40185, IRM-40187, IRM-40188, IRM-40189, IRM-40609, IRM-40610
+
+Initiative: TRACEABILITY
+Unique Feature Count: 4
+Features:
+IRM-17620, IRM-29663, IRM-32746, IRM-38335, IRM-38336
+
+Initiative: USABILITY
+Unique Feature Count: 15
+Features:
+IRM-29434, IRM-30419, IRM-30719, IRM-36280, IRM-37871, IRM-38409, IRM-38410, IRM-38648, IRM-38670, IRM-38681, IRM-38682, IRM-38784, IRM-39208, IRM-39975, IRM-39976, IRM-39979, IRM-39984, IRM-39992, IRM-41013
+
+=== Effort Estimates by Initiative ===
+
+ACCESSIBILITY
+Total Hours PI28: 268.79999999999995 hours
+Description of initiative: Accessibility improvements across Solon Tax application aligned with WCAG 2.1 AA and EN 301 549 standards. Includes UI/UX accessibility audits and enhancements to ensure users of all abilities can effectively interact with the system. Distributed across multiple delivery teams (DAID, HEL, SPA, EOS, ATH, ATL) with consistent effort allocation. Focuses on compliance with recognized accessibility standards and removal of barriers to system usage for users with disabilities.
+
+Feature Progress:
+To Do: 8
+Total Features: 8
+
+Feature Priority:
+P1: 7
+Total Features: 7
+
+EXTENSIBILITY
+Total Hours PI28: 156.8 hours
+Description of initiative: Enable user-defined characteristics (Data Area) for Financial Transaction Types and Payment Events. Allows revenue authority admins to extend data schema of financial transaction types and payment events with custom information fields. Supports grouping of characteristics, validation rules, visibility rules, and editability rules. Enables customers to add optional fields like External Code visible in main information sections without modifying core product code.
+
+Feature Progress:
+HLD: 1
+Total Features: 1
+
+Feature Priority:
+P1: 1
+Total Features: 1
+
+MAINTAINABILITY
+Total Hours PI28: 4579.800000000001 hours
+Description of initiative: Comprehensive technical debt reduction and maintainability improvements including ArchUnit integration for automated architecture enforcement, configuration items management with POC and post-POC phases, programming guidelines augmentation for Spring/Kafka, CI/CD optimization for green coding, local development experience improvements, and hexagonal architecture alignment for custom modules. Highest-effort initiative addressing long-term code quality, architectural consistency, and developer productivity. Includes documentation updates and enforcement of coding standards through automated testing.
+
+Feature Progress:
+In Design: 3
+To Do: 12
+Waiting Analysis Approval: 1
+Total Features: 16
+
+Feature Priority:
+P1: 10
+P2: 1
+P3: 5
+Total Features: 16
+
+OPERABILITY
+Total Hours PI28: 59.5 hours
+Description of initiative: Documentation for calling proxy services between RM and SS systems and to third parties. Enables generic ability to call backend APIs as operations, create entities other than forms, and call services without token validation. Supports validation requests from external systems during form creation and calls on behalf of users.
+
+Feature Progress:
+Ready for Dev: 1
+Total Features: 1
+
+Feature Priority:
+P1: 1
+Total Features: 1
+
+PERFORMANCE EFFICIENCY
+Total Hours PI28: 955.2 hours
+Description of initiative: Performance optimization initiatives including task assignment performance improvements, green coding programming guidelines, CI/CD flow optimization, and enhanced caching for reference data microservice. Addresses known performance issues in task assignment functionality with measurement and investigation of optimization opportunities. Implements green coding principles across Java, JavaScript, Rego, Drools, Helm, Maven, PostgreSQL, and database technologies. Optimizes CI/CD processes to reduce build frequency and improve artifact caching.
+
+Feature Progress:
+To Do: 4
+Waiting Analysis Approval: 1
+Total Features: 5
+
+Feature Priority:
+P1: 3
+P2: 1
+Total Features: 4
+
+RELIABILITY
+Total Hours PI28: 2688 hours
+Description of initiative: Data integrity improvements and record locking mechanisms for distributed transactions. Implements optimistic locking with version control for Party records to ensure consistent updates across simultaneous modifications. Provides conflict handling and retry policies for batch/BPMN processes. Addresses error handling in synchronous operations involving distributed transactions across Registry and Taxpayer microservices.
+
+Feature Progress:
+HLD: 1
+In Design: 1
+Total Features: 2
+
+Feature Priority:
+P1: 2
+Total Features: 2
+
+SECURITY
+Total Hours PI28: 2758.8 hours
+Description of initiative: Comprehensive data security enhancements for GDPR compliance including restriction of access to personal data based on classification levels, row-level security implementation, hierarchical permissions per organizational units, and configuration of publicly available items. Implements masking and visibility controls for sensitive personal data across parties, party roles, attachments, message store, operational reports, and related entities. Includes audit trail for authorization changes and encryption/decryption of sensitive data in logs.
+
+Feature Progress:
+In Design: 1
+To Do: 1
+Waiting Analysis Approval: 4
+Total Features: 6
+
+Feature Priority:
+P1: 2
+P2: 2
+Total Features: 4
+
+TEST SUITE OPTIMIZATION
+Total Hours PI28: 860 hours
+Description of initiative: Test suite maintenance, repairs, regression testing, and automation testing enhancements. Includes tests for older features/PIs across multiple delivery teams (DAID, HEL, SPA, EOS, ATH, ATL, OLY) and SS automation testing for APIs, authentications, overview pages, agreements, forms, human tasks, and document management. Distributed effort across teams with focus on test quality and coverage.
+
+Feature Progress:
+To Do: 9
+Total Features: 9
+
+Feature Priority:
+P1: 0
+Total Features: 0
+
+TRACEABILITY
+Total Hours PI28: 2259.2000000000003 hours
+Description of initiative: Audit logging enhancements including support for statute of limitation date modifications, Solon Tax logging enhancements for DB queries and business logic, and audit trail capabilities for authorization and reference data changes. Implements prepared statement logging, row query result logging in debug mode, service layer execution logging, and configurable log sanitization for sensitive data masking. Addresses audit trail gaps for entities without parent-child relationships.
+
+Feature Progress:
+In Design: 1
+To Do: 1
+Waiting Analysis Approval: 2
+Total Features: 4
+
+Feature Priority:
+P1: 1
+P2: 1
+Total Features: 2
+
+USABILITY
+Total Hours PI28: 2976 hours
+Description of initiative: Comprehensive UI/UX improvements including search experience enhancements, registry list view improvements, interaction friction reduction, header bar improvements, dropdown menu consistency, form field enhancements, and new Solon look and feel. Enables users to search with improved filtering, navigate registry records with governance limits, distinguish view/edit modes, access keyboard shortcuts, and interact with consistent UI patterns. Includes visual indicators for required fields, prefilling based on related codelists, and text capitalization controls.
+
+Feature Progress:
+To Do: 15
+Waiting Analysis Approval: 4
+Total Features: 19
+
+Feature Priority:
+P1: 15
+P2: 1
+P3: 3
+Total Features: 19
+
+=== Summary === [~250 words]
+Roadmap Group: NON-FUNCTIONAL REQUIREMENT COVERAGE
+Total Effort Across All Initiatives: 17562.100000000002 hours
+Number of Unique Initiatives: 10
+Number of Features: 48
+Requester: GRC, Other
+
+Group-Level Feature Progress:
+HLD: 2
+In Design: 5
+Ready for Dev: 1
+To Do: 41
+Waiting Analysis Approval: 11
+Total Features: 60
+
+Group-Level Feature Priority:
+P1: 41
+P2: 5
+P3: 8
+Total Features: 54
+
+Description of initiative group: NON-FUNCTIONAL REQUIREMENT COVERAGE encompasses 17,562.1 hours of effort across ten initiatives addressing critical system qualities including accessibility, maintainability, security, performance, reliability, and usability. Maintainability is the highest-effort initiative (4,579.8 hours) focusing on technical debt reduction, ArchUnit integration, configuration management, and architectural alignment. Security (2,758.8 hours) implements comprehensive GDPR compliance with data classification, access restrictions, and encryption. Usability (2,976 hours) delivers extensive UI/UX improvements including search enhancements and interaction friction reduction. Reliability (2,688 hours) implements optimistic locking and distributed transaction error handling. Traceability (2,259.2 hours) enhances audit logging across multiple entities. Performance Efficiency (955.2 hours) optimizes task assignment and implements green coding principles. Accessibility (268.8 hours) ensures WCAG 2.1 AA compliance across delivery teams. Cross-initiative themes include audit trail implementation, data protection, and user experience consistency. Key dependencies include BPMN process integration, microservice architecture, and UI schema standardization. Most features (41) are in To Do status, indicating significant planned work. Priority distribution heavily favors P1 (41 features), reflecting critical importance of non-functional requirements to system quality and compliance. Distributed effort across multiple delivery teams ensures consistent quality standards.
+
+---

@@ -1,0 +1,65 @@
+{
+  "name": "Nikolajs_project",
+  "exportId": "initiative-non-functional-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-04-21T09:55:11.688Z",
+  "slideCount": 8,
+  "slides": [
+    {
+      "index": 1,
+      "file": "accessibility.html",
+      "slideId": "slide-1",
+      "title": "Accessibility",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "maintainability.html",
+      "slideId": "slide-2",
+      "title": "Maintainability",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "operability.html",
+      "slideId": "slide-3",
+      "title": "Operability",
+      "type": "content"
+    },
+    {
+      "index": 4,
+      "file": "performance-efficiency.html",
+      "slideId": "slide-4",
+      "title": "Performance Efficiency",
+      "type": "content"
+    },
+    {
+      "index": 5,
+      "file": "reliability.html",
+      "slideId": "slide-5",
+      "title": "Reliability",
+      "type": "content"
+    },
+    {
+      "index": 6,
+      "file": "security.html",
+      "slideId": "slide-6",
+      "title": "Security",
+      "type": "content"
+    },
+    {
+      "index": 7,
+      "file": "traceability.html",
+      "slideId": "slide-7",
+      "title": "Traceability",
+      "type": "content"
+    },
+    {
+      "index": 8,
+      "file": "usability.html",
+      "slideId": "slide-8",
+      "title": "Usability",
+      "type": "content"
+    }
+  ]
+}

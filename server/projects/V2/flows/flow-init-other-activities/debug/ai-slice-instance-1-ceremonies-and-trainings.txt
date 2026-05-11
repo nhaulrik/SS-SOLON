@@ -1,0 +1,78 @@
+=== CEREMONIES AND TRAININGS ===
+
+=== Summary ===
+Roadmap Initiative: CEREMONIES AND TRAININGS
+Roadmap Initiative Group: OTHER ACTIVITIES
+PI: PI 28
+Total Effort: 3000 hours
+Feature Count: 10
+Requester: Other
+
+=== Feature Progress ===
+Total Features: 0
+
+=== Feature Priority ===
+Total Features: 0
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Maintain Team Alignment and Knowledge Transfer
+Reason 01 Text: Regular ceremonies and training sessions ensure distributed teams stay synchronized on product direction and technical standards.
+
+Reason 02 Title: Onboard New Team Members Efficiently
+Reason 02 Text: Structured training programs reduce ramp-up time for new developers and delivery team members joining Solon Tax.
+
+Reason 03 Title: Build Shared Understanding of Architecture
+Reason 03 Text: Ceremonies reinforce hexagonal architecture principles and development practices across all delivery teams.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: Ceremonies and Trainings - Baldur - (Current PI28)
+Feature Description: Ceremonies and training activities for Baldur team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+Feature Index: Epic 02
+Feature Name: Ceremonies and Trainings - Loki - (Current PI28)
+Feature Description: Ceremonies and training activities for Loki team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+Feature Index: Epic 03
+Feature Name: Ceremonies and Trainings - Helios - (Current PI28)
+Feature Description: Ceremonies and training activities for Helios team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+Feature Index: Epic 04
+Feature Name: Ceremonies and Trainings - Sif - (Current PI28)
+Feature Description: Ceremonies and training activities for Sif team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+Feature Index: Epic 05
+Feature Name: Ceremonies and Trainings - Spartans - (Current PI28)
+Feature Description: Ceremonies and training activities for Spartans team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+Feature Index: Epic 06
+Feature Name: Ceremonies and Trainings - Eos - (Current PI28)
+Feature Description: Ceremonies and training activities for Eos team during current PI28.
+Feature Status: To Do
+Feature Status Color: #CCCCCC
+Feature Effort: 300h
+Feature Priority: P2
+
+---

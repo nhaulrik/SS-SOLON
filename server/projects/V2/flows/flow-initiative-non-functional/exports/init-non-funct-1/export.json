@@ -1,0 +1,101 @@
+{
+  "exportId": "init-non-funct-1",
+  "exportNumber": 1,
+  "exportName": "init-non-funct",
+  "createdAt": "2026-04-29T08:07:43.337Z",
+  "source": {
+    "roundId": "6c4c6eca-7595-4345-977c-4d8af693e489",
+    "outputFile": "output-6c4c6eca-7595-4345-977c-4d8af693e489.html"
+  },
+  "content": {
+    "slideCount": 10,
+    "totalSize": 113431,
+    "slides": [
+      {
+        "index": 1,
+        "file": "accessibility.html",
+        "size": 12074,
+        "title": "Accessibility",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "extensibility.html",
+        "size": 10211,
+        "title": "Extensibility",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "maintainability.html",
+        "size": 12522,
+        "title": "Maintainability",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "operability.html",
+        "size": 9635,
+        "title": "Operability",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "performance-efficiency.html",
+        "size": 10798,
+        "title": "Performance Efficiency",
+        "slideId": "slide-5",
+        "type": "content"
+      },
+      {
+        "index": 6,
+        "file": "reliability.html",
+        "size": 10256,
+        "title": "Reliability",
+        "slideId": "slide-6",
+        "type": "content"
+      },
+      {
+        "index": 7,
+        "file": "security.html",
+        "size": 12577,
+        "title": "Security",
+        "slideId": "slide-7",
+        "type": "content"
+      },
+      {
+        "index": 8,
+        "file": "test-suite-optimization.html",
+        "size": 12160,
+        "title": "Test Suite Optimization",
+        "slideId": "slide-8",
+        "type": "content"
+      },
+      {
+        "index": 9,
+        "file": "traceability.html",
+        "size": 11817,
+        "title": "Traceability",
+        "slideId": "slide-9",
+        "type": "content"
+      },
+      {
+        "index": 10,
+        "file": "usability.html",
+        "size": 11381,
+        "title": "Usability",
+        "slideId": "slide-10",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "V2",
+    "flowId": "flow-initiative-non-functional",
+    "templateFile": ""
+  }
+}

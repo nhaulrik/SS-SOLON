@@ -1,0 +1,119 @@
+=== REFERENCE IMPLEMENTATIONS ===
+
+=== Feature Counts (count of IRM) === [~30 words]
+Total Unique Features Across All Initiatives: 10
+
+Initiative: APPLICATION PROCESSES
+Unique Feature Count: 1
+Features:
+IRM-29513
+
+Initiative: PIT
+Unique Feature Count: 1
+Features:
+IRM-19256
+
+Initiative: SELF SERVICE ACCOUNT OVERVIEW
+Unique Feature Count: 1
+Features:
+IRM-16516
+
+Initiative: SELF SERVICE FILING & PAYMENTS
+Unique Feature Count: 5
+Features:
+IRM-25436, IRM-3541, IRM-3542, IRM-3543, IRM-3545, IRM-374
+
+Initiative: VAT
+Unique Feature Count: 2
+Features:
+IRM-38710, IRM-38759
+
+=== Effort Estimates by Initiative ===
+
+APPLICATION PROCESSES
+Total Hours PI28: 42 hours
+Description of initiative: Support for four-eye principle in Solon Tax through configurable approval workflows enforcing double attestation. Enables admins to configure workflows where one user initiates an action and a different user validates and approves before completion. Supports configuration of approval steps, role assignments, checker rules, escalation paths, and notifications. Addresses SKV contract requirements for double attestation in case management and manual registration processes. Provides generic workflow framework reusable across multiple business processes and implementations.
+
+Feature Progress:
+Waiting Analysis Approval: 1
+Total Features: 1
+
+Feature Priority:
+P3: 1
+Total Features: 1
+
+PIT
+Total Hours PI28: 0.8 hours
+Description of initiative: Support for saving VAT declaration forms as draft with calculated tax display in taxpayer portal prior to submission. Enables taxpayers to view calculated tax amounts in declaration forms, save forms as drafts, and reopen for submission. Meets requirements for Greek demo implementation. Minimal effort feature focused on form state management and tax calculation display.
+
+Feature Progress:
+Ready for Dev: 1
+Total Features: 1
+
+Feature Priority:
+P1: 1
+Total Features: 1
+
+SELF SERVICE ACCOUNT OVERVIEW
+Total Hours PI28: 8 hours
+Description of initiative: Self-service portal enhancement enabling taxpayers to view comprehensive account overview including registration details, current balances by tax type, obligations timeline, and latest notifications. Allows users to open and edit registration details, view tax type balances with drill-down capability, see past/present/future obligations with status indicators, and access notification details. Supports taxpayer understanding of account status and obligations without revenue authority intervention.
+
+Feature Progress:
+Waiting Analysis Approval: 1
+Total Features: 1
+
+Feature Priority:
+P3: 1
+Total Features: 1
+
+SELF SERVICE FILING & PAYMENTS
+Total Hours PI28: 376.4 hours
+Description of initiative: Comprehensive self-service payment and filing capabilities including payment obligation viewing, payment form submission with multiple payment methods, payment history tracking, payment details viewing, and portal refactoring to work through services implementation. Enables taxpayers to view outstanding payment obligations, submit payments via credit card or other methods, track payment history with filtering, view payment receipts, and access filing obligation details. Includes security enhancements for form submission and payment processing through service-based architecture.
+
+Feature Progress:
+Under Analysis: 1
+Waiting Analysis Approval: 4
+Total Features: 5
+
+Feature Priority:
+P1: 1
+P3: 4
+Total Features: 5
+
+VAT
+Total Hours PI28: 430.5 hours
+Description of initiative: VAT-specific reference implementations including warning mechanism for intracommunity transactions and tax account reference implementation. Enables display of warnings when intracommunity transaction fields contain values, reminding users of VIES Statement submission requirements. Provides complete tax account configuration for VAT including revenue type setup, reconciliation period management, financial transaction linking, and tax account UI with balance management. Supports demo scenarios and future tax account implementations across revenue types.
+
+Feature Progress:
+HLD: 1
+Waiting Analysis Approval: 1
+Total Features: 2
+
+Feature Priority:
+P1: 1
+P2: 1
+Total Features: 2
+
+=== Summary === [~250 words]
+Roadmap Group: REFERENCE IMPLEMENTATIONS
+Total Effort Across All Initiatives: 857.7 hours
+Number of Unique Initiatives: 5
+Number of Features: 10
+Requester: GRC, Other, GTM
+
+Group-Level Feature Progress:
+HLD: 1
+Ready for Dev: 1
+Under Analysis: 1
+Waiting Analysis Approval: 7
+Total Features: 10
+
+Group-Level Feature Priority:
+P1: 3
+P2: 1
+P3: 6
+Total Features: 10
+
+Description of initiative group: REFERENCE IMPLEMENTATIONS delivers 857.7 hours of effort across five initiatives providing concrete, reusable patterns for common tax administration scenarios. VAT initiative (430.5 hours) is the highest-effort, providing complete tax account configuration and intracommunity transaction warnings for Greek AADE demo. Self Service Filing & Payments (376.4 hours) enables end-to-end taxpayer payment workflows with multiple payment methods and history tracking. Application Processes (42 hours) establishes four-eye principle framework for double attestation workflows applicable across implementations. PIT (0.8 hours) and Self Service Account Overview (8 hours) provide minimal-effort enhancements for specific use cases. Cross-initiative themes include self-service portal enhancements, payment processing, and workflow configuration patterns. Key dependencies include service-based architecture for payment processing, BPMN workflow engine for approval processes, and tax account entity configuration. Most features (7) are in Waiting Analysis Approval status, indicating active design refinement. Priority distribution shows 6 P3 features (lower priority enhancements) and 3 P1 features (critical implementations). VAT tax account reference implementation is foundational for future tax account deployments across other revenue types and countries.
+
+---

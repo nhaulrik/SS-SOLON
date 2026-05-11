@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maintainability Enhancements – Feature Catalog</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 7px;
+    background: #FF6359;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: absolute;
+    top: 7px; left: 0; right: 0;
+    height: 96px;
+    background: #1a3c3a;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+  .header-left {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+  }
+  .pi-badge {
+    background: #FF6359;
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .header-text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 44px;
+    flex: 1;
+  }
+  .header-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #FF6359;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    margin-bottom: 3px;
+  }
+  .header-subtitle {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    padding-right: 44px;
+  }
+  .header-stat {
+    text-align: center;
+    padding: 0 28px;
+  }
+  .header-stat-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: #FF6359;
+    line-height: 1;
+  }
+  .header-stat-value.text-stat {
+    font-size: 30px;
+  }
+  .header-stat-label {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .header-divider {
+    width: 1px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  /* ── BODY: two panels, flush, no gap ── */
+  .body {
+    position: absolute;
+    top: 103px; left: 0; right: 0; bottom: 30px;
+    display: grid;
+    grid-template-columns: 348px 1fr;
+  }
+
+  /* ══ LEFT: STRATEGIC CASE ══ */
+  .strategic-panel {
+    background: linear-gradient(160deg, #1f4845 0%, #132e2c 100%);
+    padding: 24px 26px 22px 28px;
+    display: flex;
+    flex-direction: column;
+    border-right: 4px solid #FF6359;
+  }
+  .sp-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: #FF6359;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .reason {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+  }
+  .reason-num {
+    font-size: 48px;
+    font-weight: 800;
+    color: #FF6359;
+    line-height: 0.85;
+    opacity: 0.85;
+    flex-shrink: 0;
+    width: 48px;
+  }
+  .reason-body { flex: 1; padding-top: 4px; }
+  .reason-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 7px;
+    letter-spacing: 0.1px;
+    line-height: 1.2;
+  }
+  .reason-text {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+  }
+  .reason-rule {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 16px 0;
+    flex-shrink: 0;
+  }
+
+  /* ══ RIGHT: EPICS ══ */
+  .epics-panel {
+    background: #f7f6f3;
+    padding: 22px 28px 18px 26px;
+    display: flex;
+    flex-direction: column;
+  }
+  .ep-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: #1a3c3a;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    flex-shrink: 0;
+  }
+  .ep-label-rule {
+    width: 44px;
+    height: 3px;
+    background: #FF6359;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+  }
+  .epics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    flex: 1;
+    min-height: 0;
+    column-gap: 0;
+    row-gap: 0;
+  }
+  .epic-cell {
+    padding: 16px 18px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(26,60,58,0.1);
+    border-bottom: 1px solid rgba(26,60,58,0.1);
+  }
+  .epic-cell:nth-child(3n)   { border-right: none; }
+  .epic-cell:nth-child(n+4)  { border-bottom: none; }
+  .epic-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a3c3a;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .epic-desc {
+    font-size: 11px;
+    color: #666;
+    line-height: 1.55;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+  }
+  .epic-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-shrink: 0;
+  }
+  .status-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  }
+  .status-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #444;
+    letter-spacing: 0.2px;
+  }
+  .effort-tag {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 800;
+    color: #1a3c3a;
+    background: #ddecea;
+    padding: 3px 11px;
+    border-radius: 8px;
+    border: 1.5px solid #b0d4d0;
+    letter-spacing: 0.2px;
+  }
+
+  /* ── FOOTER ── */
+  .slide-footer {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    background: #1a3c3a;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px;
+  }
+  .footer-text {
+    font-size: 10px;
+    color: #7fb3af;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Batch Processing Enhancements</div>
+        <div class="header-subtitle">Core Supporting Capabilities · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">738.5</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">Other, GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Modernise Legacy Batch Infrastructure</div>
+          <div class="reason-text">Migration of remaining batch jobs from SCDF to Amplio engine reduces technical debt, improves system resilience, and eliminates manual intervention requirements across revenue management operations.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Enhance Batch System Maintainability</div>
+          <div class="reason-text">Standardising project structure, centralising duplicated configurations, and resolving artifact naming conflicts reduces long-term maintenance burden and improves code quality across batch processing ecosystem.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Operational Flexibility</div>
+          <div class="reason-text">Amplio batch improvements and maintenance enhancements provide configurability and extensibility needed for complex revenue authority workflows without requiring core product modifications.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Amplio batch - Replacement of SCDF with Amplio (Part 2)</div>
+          <div class="epic-desc">Migrate remaining P1 batch jobs to Amplio Batch engine, including overpayment-process, direct-deposit, and object-access-group-initialization with full deprecation of SCDF.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#F0A500;"></span>
+            <span class="status-text">In Progress</span>
+            <span class="effort-tag">494.9h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Amplio Batch - improvements and maintenance part 2</div>
+          <div class="epic-desc">Standardise project structure, centralise configurations, resolve artifact naming conflicts, and clean up redundant POM dependencies across Amplio batch processing system.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">243.6h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Case Management</div>
+        <div class="header-subtitle">Core Supporting Capabilities · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">84</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">2</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Intelligent Case Worker Assignment</div>
+          <div class="reason-text">Capability to assign case workers based on availability, skills, and profiles with automatic effort calculation ensures optimal resource allocation and improves case completion rates.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Support Availability-Based Staffing Rules</div>
+          <div class="reason-text">Admin configuration of case worker profiles using availability criteria enables revenue authorities to enforce staffing policies and prevent overallocation of personnel.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Enhance Case Management Transparency</div>
+          <div class="reason-text">Visibility of allocated effort per case worker and total case effort provides management with data needed for workload planning and performance monitoring.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Add and Maintain Case - Assign and Unassign Case Workers - Effort - User</div>
+          <div class="epic-desc">Enable revenue officials to assign case workers based on profiles, skills, availability, and effort allocation, with automatic effort calculation based on resource calendars.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">42h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin</div>
+          <div class="epic-desc">Allow admins to define case worker profiles using availability as matching criterion, enabling selection of workers with required availability for specific case types.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">42h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Contact Management</div>
+        <div class="header-subtitle">Core Supporting Capabilities · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">882.7</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">3</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Ensure Legal Document Compliance</div>
+          <div class="reason-text">Automatic assignment of unique registration numbers to incoming and outgoing documents with configurable formatting rules ensures compliance with legal requirements for document identification and audit trails.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Multi-Recipient Communication</div>
+          <div class="reason-text">Capability to send outbound messages to multiple recipients simultaneously with template-based content variation reduces manual effort and ensures consistent communication with all relevant parties.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Support Complex Contact Workflows</div>
+          <div class="reason-text">Admin-defined rules for recipient selection and automatic message generation enable sophisticated contact management workflows without requiring custom development.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Assign Unique Number to Incoming and Outgoing Documents</div>
+          <div class="epic-desc">Admin-configurable rule engine generates unique reference IDs for documents with alternative naming support, visible in attachments and searchable across system.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">HLD</span>
+            <span class="effort-tag">709.1h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Send Outbound Message Manually to Multiple Recipients - User</div>
+          <div class="epic-desc">Revenue officials send copies of outbound messages to multiple recipient types with template-based content variation, file upload support, and comprehensive audit logging.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">79.2h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Define and Maintain Contact Types - Select Recipients - Admin</div>
+          <div class="epic-desc">Admins define rules determining which recipient types receive copies of specific outbound messages under defined circumstances with runtime parameter support.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">42h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Content Management Integration</div>
+        <div class="header-subtitle">Core Supporting Capabilities</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">80</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">1</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Productise Self-Service CMS Integration</div>
+          <div class="reason-text">Generic CMS integration framework based on Lithuania project implementation enables reusable content management capabilities across implementations without vendor-specific dependencies.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Reduce Implementation Effort</div>
+          <div class="reason-text">Standardised CMS integration patterns eliminate duplicate work across projects and provide consistent user experience for content delivery in self-service portals.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Content Flexibility</div>
+          <div class="reason-text">Decoupled CMS integration allows revenue authorities to manage portal content independently without requiring application code changes or redeployment.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">SS Enhancements - CMS Integration</div>
+          <div class="epic-desc">Productise generic CMS integration framework from Lithuania project implementation for reusable content management across self-service portal implementations.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">80h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Document Management Integration</div>
+        <div class="header-subtitle">Core Supporting Capabilities · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">2,090.9</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">3</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Digital Signature Validation</div>
+          <div class="reason-text">Capability to validate digital signatures on attached documents with configurable trusted provider lists ensures document authenticity and regulatory compliance for tax authority operations.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Support System-Generated Document Signing</div>
+          <div class="reason-text">Automatic digital signing of system-generated documents via BPMN processes with PAdES compliance and audit logging enables secure distribution of official documents to taxpayers.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Enhance Document Security Framework</div>
+          <div class="reason-text">Integrated digital signature and validation capabilities provide foundation for secure document exchange with taxpayers and external systems while maintaining audit trails.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Digital Signatures - System digital signing of PDF documents generated by bpmn process</div>
+          <div class="epic-desc">System digitally signs generated documents via BPMN with PAdES compliance, visual signature stamps, configurable certificates, and comprehensive audit logging.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">1,344h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Digital Signatures - Validate signatures in attachments RM & SS/ Reference Implementation</div>
+          <div class="epic-desc">Revenue authority users validate digital signatures on attached documents with configurable trusted provider lists and visual signature verification indicators.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">746.9h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Attachments in Forms - Document Uploads enhancements before and after saving the form / RM & SS</div>
+          <div class="epic-desc">Users upload and manage attachments while filling forms before saving, with metadata editing, failed upload handling, and audit logging of modifications.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">739.2h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">FORM PROCESSING</div>
+        <div class="header-subtitle">CORE SUPPORTING CAPABILITIES · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">373.1</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">1</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Enhance Form Metadata Tracking</div>
+          <div class="reason-text">Recording form submitter details separately from associated party enables accurate audit trails and supports complex workflows where form creator differs from party owner.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Form Data Extensibility</div>
+          <div class="reason-text">User-defined characteristics support in forms allows revenue authorities to capture implementation-specific metadata without requiring product code modifications.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Improve Form Auditability</div>
+          <div class="reason-text">Comprehensive logging of form creation, submission, and metadata changes provides complete audit trail for compliance and investigation purposes.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Forms : Be able to log details for the submitter of the form /RM &SS</div>
+          <div class="epic-desc">Record form creator and submitter as separate party role references with external system timestamps and user-defined characteristics for extended metadata capture.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">373.1h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">Operational Reporting</div>
+        <div class="header-subtitle">Core Supporting Capabilities · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">72</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">1</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Automate Report Distribution Workflows</div>
+          <div class="reason-text">Scheduled operational report generation with automatic distribution to recipient lists eliminates manual report creation and delivery, improving operational efficiency.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Flexible Report Scheduling</div>
+          <div class="reason-text">Batch process parameter configuration allows revenue authorities to define report generation schedules and recipient lists without requiring custom development.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Support Reporting Governance</div>
+          <div class="reason-text">Automated distribution with audit trails ensures consistent report delivery and provides evidence of reporting compliance for governance requirements.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Automatically distribute Operational Report in list of recipients</div>
+          <div class="epic-desc">Admin generates operational reports with specific parameters and automatically schedules distribution to configured recipient lists via email.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#9B59B6;"></span>
+            <span class="status-text">Under Analysis</span>
+            <span class="effort-tag">72h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">REFERENCE DATA</div>
+        <div class="header-subtitle">CORE SUPPORTING CAPABILITIES · Solon Tax 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">606.9</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">3</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Support EU Tax Code Evolution</div>
+          <div class="reason-text">Enable same code with different descriptions across non-overlapping validity periods supports NACE Rev. 2.1 harmonisation and historical accuracy for backdated taxpayer updates.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Enhance Reference Data Flexibility</div>
+          <div class="reason-text">Import and export capabilities with structured formats enable efficient reference data management and integration with external systems and tools.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Improve Data Governance</div>
+          <div class="reason-text">Source and timestamp tracking in codelists, parties, and addresses provides visibility into data origin and modification history for compliance and audit purposes.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Enhance codelist items codes flexibility and historical track in Solon Tax</div>
+          <div class="epic-desc">Enable same codelist code with different descriptions across non-overlapping validity periods to support EU tax code evolution and historical accuracy requirements.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">522.9h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Import Code Lists - Admin</div>
+          <div class="epic-desc">Admin uploads structured code list information in XML format to add or update code lists and items with validation and error handling.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">42h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Export Code List</div>
+          <div class="epic-desc">Admin exports code list information with related items, attributes, and relationships in structured formats for editing or use in external tools.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">42h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+<section class="slide">
+  <div class="top-bar"></div>
+
+  
+  <div class="header"><div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Roadmap Initiative</div>
+        <div class="header-title">UI CONFIGURATION</div>
+        <div class="header-subtitle">CORE SUPPORTING CAPABILITIES</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">414.7</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">6</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value text-stat">GRC, Other</div>
+        <div class="header-stat-label">Requester</div>
+      </div>
+    </div></div>
+
+  
+  <div class="body"><div class="strategic-panel">
+      <div class="sp-label">Strategic Case</div>
+
+      <div class="reason">
+        <div class="reason-num">01</div>
+        <div class="reason-body">
+          <div class="reason-title">Enhance User Experience Consistency</div>
+          <div class="reason-text">Configurable UI widgets, visual field indicators, and form field enhancements provide consistent user experience across revenue management application.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">02</div>
+        <div class="reason-body">
+          <div class="reason-title">Enable Configurator Flexibility</div>
+          <div class="reason-text">Configurators define required field indicators, autofill rules, and custom field transformations without requiring development, reducing implementation effort.</div>
+        </div>
+      </div>
+
+      <div class="reason-rule"></div>
+
+      <div class="reason">
+        <div class="reason-num">03</div>
+        <div class="reason-body">
+          <div class="reason-title">Improve Form Usability</div>
+          <div class="reason-text">Prefilling based on related codelist values and automatic text capitalisation reduce user data entry errors and improve form completion efficiency.</div>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="epics-panel">
+      <div class="ep-label">Key Features</div>
+      <div class="ep-label-rule"></div>
+      <div class="epics-grid">
+
+        <div class="epic-cell">
+          <div class="epic-name">Configurable Home Page widgets in RM</div>
+          <div class="epic-desc">Users customise home page with available widgets including calendar, tasks, notifications, quick search, and shortcuts for central command centre experience.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#CCCCCC;"></span>
+            <span class="status-text">To Do</span>
+            <span class="effort-tag">24h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">UI/UX Improvements: Visual cues : Add Visual Indicator for Required Fields</div>
+          <div class="epic-desc">Configurators define visual indicators for required or optional fields using red asterisks or icons with flexible styling across forms and modules.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">126.7h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">UI/UX Improvements : Form Field , Change state of typed text in capitals</div>
+          <div class="epic-desc">Configurators add form fields that automatically convert typed text to capitals for storage and display without user intervention.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">74.9h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">UI/UX Improvements : Prefilling a field in a form based on the value of another field</div>
+          <div class="epic-desc">Configurators set autofill attributes on codelists to automatically select unique values or related child codelist items when only one option is available.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#4A90D9;"></span>
+            <span class="status-text">In Design</span>
+            <span class="effort-tag">149.1h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">LT_UI_Support customObjectField to always present the label</div>
+          <div class="epic-desc">UI displays user-friendly object descriptions instead of internal codes based on backend response and configuration attributes.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#E67E22;"></span>
+            <span class="status-text">Waiting Analysis Approval</span>
+            <span class="effort-tag">40h</span>
+          </div>
+        </div>
+
+        <div class="epic-cell">
+          <div class="epic-name">Behaviour Consistency of Drop Down menus</div>
+          <div class="epic-desc">Standardise dropdown menu behaviour across codelists, lookups, and record searches for consistent user experience throughout application.</div>
+          <div class="epic-meta">
+            <span class="status-dot" style="background:#9B59B6;"></span>
+            <span class="status-text">Under Analysis</span>
+            <span class="effort-tag">80h</span>
+          </div>
+        </div>
+
+      </div>
+    </div></div>
+
+  
+  <div class="slide-footer"><span class="footer-text">Solon Tax Product Roadmap 2026</span>
+    <span class="footer-text">Netcompany</span></div>
+</section>
+
+</body>
+</html>

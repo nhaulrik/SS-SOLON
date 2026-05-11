@@ -1,0 +1,48 @@
+=== ROADMAP_INITIATIVE ===
+
+=== Summary ===
+Roadmap Initiative: VAT
+Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS
+PI: PI 28
+Total Effort: 431 hours
+Feature Count: 2
+Requester: GTM
+
+=== Feature Progress ===
+HLD: 1
+Waiting Analysis Approval: 1
+Total Features: 2
+
+=== Feature Priority ===
+P1: 1
+P2: 1
+Total Features: 2
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+Reason 01 Title: Enable Tax Account Reference Implementation
+Reason 01 Text: Configure VAT tax account with reconciliation periods, balance management, and financial transaction tracking for Nordic implementations.
+
+Reason 02 Title: Improve Taxpayer Compliance Awareness
+Reason 02 Text: Display warning for intracommunity transactions requiring VIES statement submission, reducing compliance violations and penalties.
+
+Reason 03 Title: Support Multi-Period VAT Processing
+Reason 03 Text: Enable reconciliation period management and cross-period payment allocation for accurate VAT account balancing and reporting.
+
+=== Key Features ===
+
+Feature Index: Epic 01
+Feature Name: VAT Tax Account Reference Implementation
+Feature Description: Create necessary configuration for tax account reference implementation with revenue type configuration and reconciliation period management.
+Feature Status: HLD
+Feature Status Color: #4A90D9
+Feature Effort: 356h
+Feature Priority: P1
+
+Feature Index: Epic 02
+Feature Name: VAT Return Form - Warning for Intracommunity Transaction Enhancement
+Feature Description: Display warning when intracommunity transaction fields contain values, informing users of VIES statement submission requirements.
+Feature Status: Waiting Analysis Approval
+Feature Status Color: #E67E22
+Feature Effort: 75h
+Feature Priority: P2
