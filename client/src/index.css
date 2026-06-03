@@ -1557,6 +1557,20 @@ select:focus-visible {
   overflow-y: auto;
 }
 
+.recipe-side-by-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.recipe-side-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
 .context-files-panel {
   display: flex;
   flex-direction: column;

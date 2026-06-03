@@ -67,6 +67,7 @@ export default function HtmlRecipeStep({
    const [showAdvancedFilters, setShowAdvancedFilters] = useState(
      !!(safeProject.groupingColumn || safeProject.filters?.length)
    )
+   const [showCustomInput, setShowCustomInput] = useState(!!(safeProject.agenticCustomInput))
    const [expandedFilterId, setExpandedFilterId] = useState(null)
    const [filterValuesLoading, setFilterValuesLoading] = useState(false)
    const [filterColumnValues, setFilterColumnValues] = useState({})
@@ -577,80 +578,104 @@ export default function HtmlRecipeStep({
 
       <div className="recipe-tab-panel">
         <div className="agentic-tab-layout">
-          <div className="context-files-panel">
-            <div className="context-files-header">
-              <h4 className="context-files-heading">
-                Context Files
-                <span className="slice-template-info-icon" tabIndex={0} aria-label="What are context files?">
-                  ⓘ
-                  <span className="slice-template-tooltip">
-                    Context files are documents in your project's AI Context folder — spreadsheets, briefs, or any data the AI should read when generating slide content. Select only the files relevant to this flow.
+          <div className="recipe-side-by-side">
+            <div className="context-files-panel">
+              <div className="context-files-header">
+                <h4 className="context-files-heading">
+                  Context Files
+                  <span className="slice-template-info-icon" tabIndex={0} aria-label="What are context files?">
+                    ⓘ
+                    <span className="slice-template-tooltip">
+                      Context files are documents in your project's AI Context folder — spreadsheets, briefs, or any data the AI should read when generating slide content. Select only the files relevant to this flow.
+                    </span>
                   </span>
-                </span>
-              </h4>
-              {contextFiles.length > 0 && (
-                <div className="context-files-controls">
-                  <button className="context-files-link" onClick={handleSelectAllFiles}>
-                    {selectedFiles.length === contextFiles.length ? 'Deselect All' : 'Select All'}
-                  </button>
+                </h4>
+                {contextFiles.length > 0 && (
+                  <div className="context-files-controls">
+                    <button className="context-files-link" onClick={handleSelectAllFiles}>
+                      {selectedFiles.length === contextFiles.length ? 'Deselect All' : 'Select All'}
+                    </button>
+                  </div>
+                )}
+              </div>
+              {loadingContextFiles ? (
+                <div className="context-files-loading">Loading context files…</div>
+              ) : contextFiles.length === 0 ? (
+                <div className="context-files-empty"><p>No context files found. Add files to the 'AI Context' folder in your project.</p></div>
+              ) : (
+                <div className="context-files-list">
+                  {contextFiles.map(file => (
+                    <div key={file.filename} className="context-file-row">
+                      <label className="context-file-label">
+                        <input type="checkbox" checked={selectedFiles.includes(file.filename)} onChange={() => handleToggleFile(file.filename)} className="context-file-checkbox" />
+                        <span className="context-file-name">{file.filename}</span>
+                        <span className={getExtBadgeClass(file.filename)}>{file.filename.split('.').pop()?.toLowerCase()}</span>
+                      </label>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
-            {loadingContextFiles ? (
-              <div className="context-files-loading">Loading context files…</div>
-            ) : contextFiles.length === 0 ? (
-              <div className="context-files-empty"><p>No context files found. Add files to the 'AI Context' folder in your project.</p></div>
-            ) : (
-              <div className="context-files-list">
-                {contextFiles.map(file => (
-                  <div key={file.filename} className="context-file-row">
-                    <label className="context-file-label">
-                      <input type="checkbox" checked={selectedFiles.includes(file.filename)} onChange={() => handleToggleFile(file.filename)} className="context-file-checkbox" />
-                      <span className="context-file-name">{file.filename}</span>
-                      <span className={getExtBadgeClass(file.filename)}>{file.filename.split('.').pop()?.toLowerCase()}</span>
-                    </label>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
 
-          <div className="agentic-prompt-section">
-            <label htmlFor="sliceOutputTemplate" className="agentic-prompt-label">
-              <span className="agentic-label-row">
-                Slice output template
-                <span className="slice-template-info-icon" tabIndex={0} aria-label="What is a slice template?">
-                  ⓘ
-                  <span className="slice-template-tooltip">
-                    A slice template tells the AI how to structure the output for each generated slide. It defines which fields to populate and how to map data from your context files — one slice of content per slide instance.
+            <div className="agentic-prompt-section recipe-side-card">
+              <label htmlFor="sliceOutputTemplate" className="agentic-prompt-label">
+                <span className="agentic-label-row">
+                  Slice output template
+                  <span className="slice-template-info-icon" tabIndex={0} aria-label="What is a slice template?">
+                    ⓘ
+                    <span className="slice-template-tooltip">
+                      A slice template tells the AI how to structure the output for each generated slide. It defines which fields to populate and how to map data from your context files — one slice of content per slide instance.
+                    </span>
                   </span>
                 </span>
-              </span>
-              <span className="agentic-prompt-hint agentic-prompt-hint--required">Required</span>
-            </label>
-            <div className="agentic-column-picker-row">
-              <select id="sliceOutputTemplate" className={`agentic-template-select${!sliceOutputTemplate ? ' agentic-template-select--empty' : ''}`} value={sliceOutputTemplate || ''} onChange={e => { const val = e.target.value || null; setSliceOutputTemplate(val); saveSliceOutputTemplateToFlow(val) }} disabled={isAgenticActive || agenticStatus === 'confirming'}>
-                <option value="">— Select a template —</option>
-                {sliceTemplates.map(t => <option key={t.filename} value={t.filename} title={t.description}>{t.name}</option>)}
-              </select>
-              <button
-                type="button"
-                className="slice-template-open-folder-btn"
-                onClick={handleOpenTemplatesFolder}
-                title="Open templates folder"
-                aria-label="Open templates folder in file explorer"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                </svg>
-              </button>
+                <span className="agentic-prompt-hint agentic-prompt-hint--required">Required</span>
+              </label>
+              <div className="agentic-column-picker-row">
+                <select id="sliceOutputTemplate" className={`agentic-template-select${!sliceOutputTemplate ? ' agentic-template-select--empty' : ''}`} value={sliceOutputTemplate || ''} onChange={e => { const val = e.target.value || null; setSliceOutputTemplate(val); saveSliceOutputTemplateToFlow(val) }} disabled={isAgenticActive || agenticStatus === 'confirming'}>
+                  <option value="">— Select a template —</option>
+                  {sliceTemplates.map(t => <option key={t.filename} value={t.filename} title={t.description}>{t.name}</option>)}
+                </select>
+                <button
+                  type="button"
+                  className="slice-template-open-folder-btn"
+                  onClick={handleOpenTemplatesFolder}
+                  title="Open templates folder"
+                  aria-label="Open templates folder in file explorer"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="agentic-prompt-section">
-            <label htmlFor="agenticCustomInput" className="agentic-prompt-label">What should the AI generate?</label>
-            <textarea id="agenticCustomInput" className="agentic-prompt-textarea" value={agenticCustomInput} onChange={e => handleAgenticCustomInputChange(e.target.value)} disabled={isAgenticActive || agenticStatus === 'confirming'} placeholder="Describe the slides you want - tone, focus, number of instances, anything specific…" />
-          </div>
+          <button
+            type="button"
+            className={`agentic-advanced-toggle${showCustomInput ? ' open' : ''}${agenticCustomInput.trim() ? ' has-active' : ''}`}
+            onClick={() => setShowCustomInput(v => !v)}
+            disabled={isAgenticActive || agenticStatus === 'confirming'}
+          >
+            <svg className="agentic-advanced-chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+            <span>Custom instructions</span>
+            {agenticCustomInput.trim() && (
+              <span className="agentic-advanced-badge">1</span>
+            )}
+          </button>
+
+          {showCustomInput && (
+            <div className="agentic-advanced-panel">
+              <div className="agentic-prompt-section">
+                <label htmlFor="agenticCustomInput" className="agentic-prompt-label">
+                  What should the AI generate?
+                  <span className="agentic-prompt-hint">Optional — tone, focus, number of instances, anything specific</span>
+                </label>
+                <textarea id="agenticCustomInput" className="agentic-prompt-textarea" value={agenticCustomInput} onChange={e => handleAgenticCustomInputChange(e.target.value)} disabled={isAgenticActive || agenticStatus === 'confirming'} placeholder="e.g. Focus on competitive strengths, use a formal tone, generate one slide per region…" />
+              </div>
+            </div>
+          )}
 
           {(availableColumns.length > 0 || columnsLoading) && (() => {
             const activeCount = (groupingColumn ? 1 : 0) + filters.filter(f => f.column && f.values.length > 0).length
