@@ -1143,7 +1143,9 @@
   padding: 14px 16px 12px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 6px;
+  position: relative;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -1153,10 +1155,9 @@
 }
 
 .flowCardHeader {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  margin-bottom: 2px;
+  position: absolute;
+  top: 10px;
+  right: 12px;
 }
 
 .cardTemplateName {
