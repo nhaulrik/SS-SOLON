@@ -501,7 +501,9 @@ export default function ProjectDashboardStep({
         )}
 
         {activeTab === 'presentations' && (
-          <PresentationsTab projectName={projectName} setToast={setToast} />
+          <div className={styles.presentationsSectionFull}>
+            <PresentationsTab projectName={projectName} setToast={setToast} />
+          </div>
         )}
       </div>
     </div>

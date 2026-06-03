@@ -80,6 +80,14 @@
   overflow: hidden;
 }
 
+.presentationsSectionFull {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Sections */
 .section {
   display: flex;
