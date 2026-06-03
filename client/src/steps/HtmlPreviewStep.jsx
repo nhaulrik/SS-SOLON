@@ -11,6 +11,8 @@ import Breadcrumbs from '../components/Breadcrumbs.jsx'
 
 export default function HtmlPreviewStep({
    projectName,
+   flowName,
+   templateFilename,
    applied,      // { outputFile, previewHtml, roundId, slideCount }
    flowId,
    step,
@@ -290,8 +292,8 @@ ${currentSlide_el.outerHTML}
   return (
     <div className="app">
       <AppHeader
-        title={projectName}
-        subtitle="Content applied — review and download"
+        title={flowName || flowId}
+        subtitle={templateFilename || projectName}
         debugContext={debugContext}
       />
       <Breadcrumbs step={step} canNavigateTo={canNavigateTo} navigateTo={navigateTo} flow="html" />

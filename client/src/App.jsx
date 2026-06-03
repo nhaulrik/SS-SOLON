@@ -325,6 +325,8 @@ export default function App() {
          <Toast toast={toast} onDismiss={() => setToast(null)} />
          <HtmlPreviewStep
            projectName={currentProjectName}
+           flowName={htmlProject.name || currentFlowId}
+           templateFilename={htmlProject.templateFilename || currentProjectName}
            applied={htmlApplied}
            flowId={currentFlowId}
            step={step}
@@ -348,6 +350,8 @@ export default function App() {
          <Toast toast={toast} onDismiss={() => setToast(null)} />
          <HtmlMetadataStep
            projectName={currentProjectName}
+           flowName={htmlProject.name || currentFlowId}
+           templateFilename={htmlProject.templateFilename || currentProjectName}
            flowId={currentFlowId}
            applied={htmlApplied}
            slideNames={htmlApplied?.slideNames ?? []}

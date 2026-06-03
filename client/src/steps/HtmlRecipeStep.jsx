@@ -49,7 +49,7 @@ export default function HtmlRecipeStep({
   const [applying, setApplying] = useState(false)
   const [applySuccess, setApplySuccess] = useState(false)
   const [contextFiles, setContextFiles] = useState([])
-  const [selectedFiles, setSelectedFiles] = useState([])
+  const [selectedFiles, setSelectedFiles] = useState(safeProject.selectedContextFiles || [])
   const [loadingContextFiles, setLoadingContextFiles] = useState(false)
   const [agenticPhaseLocal, setAgenticPhaseLocal] = useState('')
   const [agenticLogsLocal, setAgenticLogsLocal] = useState([])
@@ -94,7 +94,15 @@ export default function HtmlRecipeStep({
   useEffect(() => {
     if (contextFiles.length === 0) fetchContextFiles()
     if (sliceTemplates.length === 0) {
-      fetch('/api/opencode/slice-templates').then(r => r.json()).then(data => setSliceTemplates(Array.isArray(data) ? data : [])).catch(() => {})
+      fetch('/api/opencode/slice-templates').then(r => r.json()).then(data => {
+        const list = Array.isArray(data) ? data : []
+        setSliceTemplates(list)
+        // Preselect the previously saved template once the list is available
+        const saved = safeProject.sliceOutputTemplate
+        if (saved && !sliceOutputTemplate && list.some(t => t.filename === saved)) {
+          setSliceOutputTemplate(saved)
+        }
+      }).catch(() => {})
     }
   }, [contextFiles.length, fetchContextFiles, sliceTemplates.length])
 
@@ -514,6 +522,13 @@ export default function HtmlRecipeStep({
     agenticLogEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [agenticLogsLocal])
 
+  const handleOpenTemplatesFolder = async () => {
+    try {
+      await fetch('/api/opencode/slice-templates/open-folder', { method: 'POST' })
+    } catch {
+    }
+  }
+
   const totalCount = selections.length || zones.length
   const currentPhaseIdx = ['analyzing', 'planning', 'generating', 'assembling'].indexOf(agenticPhaseLocal)
   const isAgenticActive = agenticStatus === 'planning' || agenticStatus === 'running'
@@ -547,7 +562,7 @@ export default function HtmlRecipeStep({
 
   return (
     <div className="app">
-      <AppHeader title={projectName} subtitle={`${totalCount} zone${totalCount !== 1 ? 's' : ''} · Generate content with AI`} debugContext={debugContext} />
+      <AppHeader title={safeProject.name || flowId} subtitle={safeProject.templateFilename || projectName} debugContext={debugContext} />
       <Breadcrumbs step={step} canNavigateTo={canNavigateTo} navigateTo={navigateTo} flow="html" />
 
       {applySuccess && (
@@ -561,7 +576,15 @@ export default function HtmlRecipeStep({
         <div className="agentic-tab-layout">
           <div className="context-files-panel">
             <div className="context-files-header">
-              <h4>Context Files</h4>
+              <h4 className="context-files-heading">
+                Context Files
+                <span className="slice-template-info-icon" tabIndex={0} aria-label="What are context files?">
+                  ⓘ
+                  <span className="slice-template-tooltip">
+                    Context files are documents in your project's AI Context folder — spreadsheets, briefs, or any data the AI should read when generating slide content. Select only the files relevant to this flow.
+                  </span>
+                </span>
+              </h4>
               {contextFiles.length > 0 && (
                 <div className="context-files-controls">
                   <button className="context-files-link" onClick={handleSelectAllFiles}>
@@ -591,13 +614,34 @@ export default function HtmlRecipeStep({
 
           <div className="agentic-prompt-section">
             <label htmlFor="sliceOutputTemplate" className="agentic-prompt-label">
-              Slice output template
+              <span className="agentic-label-row">
+                Slice output template
+                <span className="slice-template-info-icon" tabIndex={0} aria-label="What is a slice template?">
+                  ⓘ
+                  <span className="slice-template-tooltip">
+                    A slice template tells the AI how to structure the output for each generated slide. It defines which fields to populate and how to map data from your context files — one slice of content per slide instance.
+                  </span>
+                </span>
+              </span>
               <span className="agentic-prompt-hint agentic-prompt-hint--required">Required</span>
             </label>
-            <select id="sliceOutputTemplate" className={`agentic-template-select${!sliceOutputTemplate ? ' agentic-template-select--empty' : ''}`} value={sliceOutputTemplate || ''} onChange={e => { const val = e.target.value || null; setSliceOutputTemplate(val); saveSliceOutputTemplateToFlow(val) }} disabled={isAgenticActive || agenticStatus === 'confirming'}>
-              <option value="">— Select a template —</option>
-              {sliceTemplates.map(t => <option key={t.filename} value={t.filename} title={t.description}>{t.name}</option>)}
-            </select>
+            <div className="agentic-column-picker-row">
+              <select id="sliceOutputTemplate" className={`agentic-template-select${!sliceOutputTemplate ? ' agentic-template-select--empty' : ''}`} value={sliceOutputTemplate || ''} onChange={e => { const val = e.target.value || null; setSliceOutputTemplate(val); saveSliceOutputTemplateToFlow(val) }} disabled={isAgenticActive || agenticStatus === 'confirming'}>
+                <option value="">— Select a template —</option>
+                {sliceTemplates.map(t => <option key={t.filename} value={t.filename} title={t.description}>{t.name}</option>)}
+              </select>
+              <button
+                type="button"
+                className="slice-template-open-folder-btn"
+                onClick={handleOpenTemplatesFolder}
+                title="Open templates folder"
+                aria-label="Open templates folder in file explorer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div className="agentic-prompt-section">

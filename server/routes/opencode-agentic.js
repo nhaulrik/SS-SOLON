@@ -22,6 +22,7 @@
 import express from 'express'
 import fsp     from 'fs/promises'
 import path    from 'path'
+import { exec } from 'child_process'
 import { callAi }              from '../lib/ai/ai-client.js'
 import { parseJson, callAiJson } from '../lib/ai/json-parser.js'
 import {
@@ -1184,6 +1185,20 @@ router.post('/agentic/resume', async (req, res) => {
   } catch (err) {
     error(err.message)
   }
+})
+
+// ── POST /slice-templates/open-folder — reveal templates dir in OS file manager ─
+router.post('/slice-templates/open-folder', (_req, res) => {
+  const dir = SLICE_TEMPLATES_DIR
+  const cmd = process.platform === 'win32'
+    ? `explorer "${dir}"`
+    : process.platform === 'darwin'
+      ? `open "${dir}"`
+      : `xdg-open "${dir}"`
+  exec(cmd, err => {
+    if (err) return res.status(500).json({ error: err.message })
+    res.json({ ok: true })
+  })
 })
 
 // ── GET /slice-templates — list available slice output templates ──────────────
