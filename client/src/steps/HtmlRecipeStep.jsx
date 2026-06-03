@@ -64,6 +64,9 @@ export default function HtmlRecipeStep({
   const [availableColumns, setAvailableColumns] = useState([])
   const [columnsLoading, setColumnsLoading] = useState(false)
    const [filters, setFilters] = useState(safeProject.filters || [])
+   const [showAdvancedFilters, setShowAdvancedFilters] = useState(
+     !!(safeProject.groupingColumn || safeProject.filters?.length)
+   )
    const [expandedFilterId, setExpandedFilterId] = useState(null)
    const [filterValuesLoading, setFilterValuesLoading] = useState(false)
    const [filterColumnValues, setFilterColumnValues] = useState({})
@@ -649,166 +652,181 @@ export default function HtmlRecipeStep({
             <textarea id="agenticCustomInput" className="agentic-prompt-textarea" value={agenticCustomInput} onChange={e => handleAgenticCustomInputChange(e.target.value)} disabled={isAgenticActive || agenticStatus === 'confirming'} placeholder="Describe the slides you want - tone, focus, number of instances, anything specific…" />
           </div>
 
-          {(availableColumns.length > 0 || columnsLoading) && (
-            <div className="agentic-prompt-section">
-              <label htmlFor="groupingColumn" className="agentic-prompt-label">
-                Grouping column
-                <span className="agentic-prompt-hint">One slide instance per unique value · leave blank for AI to decide</span>
-              </label>
-              {columnsLoading ? (
-                <div className="agentic-columns-loading">Loading columns…</div>
-              ) : (
-                <div className="agentic-column-picker-row">
-                  <select
-                    id="groupingColumn"
-                    className="agentic-template-select"
-                    value={groupingColumn}
-                    onChange={e => {
-                      setGroupingColumn(e.target.value)
-                      saveGroupingColumnToFlow(e.target.value)
-                    }}
-                    disabled={isAgenticActive || agenticStatus === 'confirming'}
-                  >
-                    <option value="">AI decides grouping</option>
-                    {availableColumns.map(col => (
-                      <option key={col} value={col}>{col}</option>
-                    ))}
-                  </select>
-                  {groupingColumn && (
-                    <button
-                      className="agentic-column-clear-btn"
-                      onClick={() => { setGroupingColumn(''); saveGroupingColumnToFlow('') }}
-                      disabled={isAgenticActive || agenticStatus === 'confirming'}
-                      title="Clear — let AI decide"
-                    >×</button>
+          {(availableColumns.length > 0 || columnsLoading) && (() => {
+            const activeCount = (groupingColumn ? 1 : 0) + filters.filter(f => f.column && f.values.length > 0).length
+            return (
+              <>
+                <button
+                  type="button"
+                  className={`agentic-advanced-toggle${showAdvancedFilters ? ' open' : ''}${activeCount > 0 ? ' has-active' : ''}`}
+                  onClick={() => setShowAdvancedFilters(v => !v)}
+                  disabled={isAgenticActive || agenticStatus === 'confirming'}
+                >
+                  <svg className="agentic-advanced-chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                  <span>Grouping &amp; filters</span>
+                  {activeCount > 0 && (
+                    <span className="agentic-advanced-badge">{activeCount}</span>
                   )}
-                </div>
-              )}
-            </div>
-          )}
+                </button>
 
-           {availableColumns.length > 0 && (
-             <div className="agentic-prompt-section">
-               <label className="agentic-prompt-label">
-                 Filter data
-                 <span className="agentic-prompt-hint">Add filters to limit which rows the AI receives</span>
-               </label>
+                {showAdvancedFilters && (
+                  <div className="agentic-advanced-panel">
+                    <div className="agentic-prompt-section">
+                      <label htmlFor="groupingColumn" className="agentic-prompt-label">
+                        Grouping column
+                        <span className="agentic-prompt-hint">One slide instance per unique value · leave blank for AI to decide</span>
+                      </label>
+                      {columnsLoading ? (
+                        <div className="agentic-columns-loading">Loading columns…</div>
+                      ) : (
+                        <div className="agentic-column-picker-row">
+                          <select
+                            id="groupingColumn"
+                            className="agentic-template-select"
+                            value={groupingColumn}
+                            onChange={e => {
+                              setGroupingColumn(e.target.value)
+                              saveGroupingColumnToFlow(e.target.value)
+                            }}
+                            disabled={isAgenticActive || agenticStatus === 'confirming'}
+                          >
+                            <option value="">AI decides grouping</option>
+                            {availableColumns.map(col => (
+                              <option key={col} value={col}>{col}</option>
+                            ))}
+                          </select>
+                          {groupingColumn && (
+                            <button
+                              className="agentic-column-clear-btn"
+                              onClick={() => { setGroupingColumn(''); saveGroupingColumnToFlow('') }}
+                              disabled={isAgenticActive || agenticStatus === 'confirming'}
+                              title="Clear — let AI decide"
+                            >×</button>
+                          )}
+                        </div>
+                      )}
+                    </div>
 
-               {/* Active filters list */}
-               {filters.length > 0 && (
-                 <div className={agenticCss.filterChipsList}>
-                   {filters.map(filter => (
-                     <div key={filter.id} className={agenticCss.filterChip}>
-                       <div className={agenticCss.filterChipContent}>
-                         <span className={agenticCss.filterChipLabel}>
-                           {filter.column || 'Select column'}
-                           {filter.column && filter.values.length > 0 && (
-                             <span className={agenticCss.filterChipCount}>{filter.values.length}</span>
-                           )}
-                         </span>
-                       </div>
-                       <button
-                         className={agenticCss.filterChipRemoveBtn}
-                         onClick={() => removeFilter(filter.id)}
-                         disabled={isAgenticActive || agenticStatus === 'confirming'}
-                         title="Remove filter"
-                       >×</button>
-                     </div>
-                   ))}
-                 </div>
-               )}
+                    <div className="agentic-prompt-section">
+                      <label className="agentic-prompt-label">
+                        Filter data
+                        <span className="agentic-prompt-hint">Add filters to limit which rows the AI receives</span>
+                      </label>
 
-               {/* Expanded filter editor */}
-               {expandedFilterId && (
-                 <div className={agenticCss.filterEditor}>
-                   {(() => {
-                     const filter = filters.find(f => f.id === expandedFilterId)
-                     if (!filter) return null
-                     const availableValues = filter.column ? (filterColumnValues[filter.column] || []) : []
-                     const selectedValuesSet = new Set(filter.values)
-                     
-                     return (
-                       <>
-                         <div className={agenticCss.filterEditorHeader}>
-                           <span className={agenticCss.filterEditorTitle}>Edit filter</span>
-                           <button
-                             className={agenticCss.filterEditorCloseBtn}
-                             onClick={() => setExpandedFilterId(null)}
-                             title="Close"
-                           >×</button>
-                         </div>
+                      {filters.length > 0 && (
+                        <div className={agenticCss.filterChipsList}>
+                          {filters.map(filter => (
+                            <div key={filter.id} className={agenticCss.filterChip}>
+                              <div className={agenticCss.filterChipContent}>
+                                <span className={agenticCss.filterChipLabel}>
+                                  {filter.column || 'Select column'}
+                                  {filter.column && filter.values.length > 0 && (
+                                    <span className={agenticCss.filterChipCount}>{filter.values.length}</span>
+                                  )}
+                                </span>
+                              </div>
+                              <button
+                                className={agenticCss.filterChipRemoveBtn}
+                                onClick={() => removeFilter(filter.id)}
+                                disabled={isAgenticActive || agenticStatus === 'confirming'}
+                                title="Remove filter"
+                              >×</button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
 
-                         <div className={agenticCss.filterEditorSection}>
-                           <label className={agenticCss.filterEditorLabel}>Column</label>
-                           <select
-                             className="agentic-template-select"
-                             value={filter.column}
-                             onChange={e => updateFilterColumn(filter.id, e.target.value)}
-                             disabled={isAgenticActive || agenticStatus === 'confirming'}
-                           >
-                             <option value="">Select a column</option>
-                             {availableColumns.map(col => (
-                               <option key={col} value={col}>{col}</option>
-                             ))}
-                           </select>
-                         </div>
+                      {expandedFilterId && (
+                        <div className={agenticCss.filterEditor}>
+                          {(() => {
+                            const filter = filters.find(f => f.id === expandedFilterId)
+                            if (!filter) return null
+                            const availableValues = filter.column ? (filterColumnValues[filter.column] || []) : []
+                            const selectedValuesSet = new Set(filter.values)
+                            return (
+                              <>
+                                <div className={agenticCss.filterEditorHeader}>
+                                  <span className={agenticCss.filterEditorTitle}>Edit filter</span>
+                                  <button
+                                    className={agenticCss.filterEditorCloseBtn}
+                                    onClick={() => setExpandedFilterId(null)}
+                                    title="Close"
+                                  >×</button>
+                                </div>
+                                <div className={agenticCss.filterEditorSection}>
+                                  <label className={agenticCss.filterEditorLabel}>Column</label>
+                                  <select
+                                    className="agentic-template-select"
+                                    value={filter.column}
+                                    onChange={e => updateFilterColumn(filter.id, e.target.value)}
+                                    disabled={isAgenticActive || agenticStatus === 'confirming'}
+                                  >
+                                    <option value="">Select a column</option>
+                                    {availableColumns.map(col => (
+                                      <option key={col} value={col}>{col}</option>
+                                    ))}
+                                  </select>
+                                </div>
+                                {filterValuesLoading && (
+                                  <div className="agentic-columns-loading">Loading values…</div>
+                                )}
+                                {filter.column && !filterValuesLoading && availableValues.length > 0 && (
+                                  <div className={agenticCss.filterEditorSection}>
+                                    <div className={agenticCss.filterValuesHeader}>
+                                      <span className={agenticCss.filterValuesCount}>
+                                        {filter.values.length} of {availableValues.length} selected
+                                      </span>
+                                      <button
+                                        className={agenticCss.filterToggleBtn}
+                                        onClick={() => updateFilterValues(filter.id, [...availableValues])}
+                                        disabled={isAgenticActive || agenticStatus === 'confirming'}
+                                      >All</button>
+                                      <button
+                                        className={agenticCss.filterToggleBtn}
+                                        onClick={() => updateFilterValues(filter.id, [])}
+                                        disabled={isAgenticActive || agenticStatus === 'confirming'}
+                                      >None</button>
+                                    </div>
+                                    <div className={agenticCss.filterCheckboxList}>
+                                      {availableValues.map(val => (
+                                        <label key={val} className={agenticCss.filterCheckboxItem}>
+                                          <input
+                                            type="checkbox"
+                                            checked={selectedValuesSet.has(val)}
+                                            onChange={e => {
+                                              if (e.target.checked) updateFilterValues(filter.id, [...filter.values, val])
+                                              else updateFilterValues(filter.id, filter.values.filter(v => v !== val))
+                                            }}
+                                            disabled={isAgenticActive || agenticStatus === 'confirming'}
+                                          />
+                                          <span className={agenticCss.filterCheckboxLabel}>{val}</span>
+                                        </label>
+                                      ))}
+                                    </div>
+                                    {filter.values.length === 0 && (
+                                      <p className={agenticCss.filterWarning}>No values selected for this filter</p>
+                                    )}
+                                  </div>
+                                )}
+                              </>
+                            )
+                          })()}
+                        </div>
+                      )}
 
-                         {filterValuesLoading && (
-                           <div className="agentic-columns-loading">Loading values…</div>
-                         )}
-
-                         {filter.column && !filterValuesLoading && availableValues.length > 0 && (
-                           <div className={agenticCss.filterEditorSection}>
-                             <div className={agenticCss.filterValuesHeader}>
-                               <span className={agenticCss.filterValuesCount}>
-                                 {filter.values.length} of {availableValues.length} selected
-                               </span>
-                               <button
-                                 className={agenticCss.filterToggleBtn}
-                                 onClick={() => updateFilterValues(filter.id, [...availableValues])}
-                                 disabled={isAgenticActive || agenticStatus === 'confirming'}
-                               >All</button>
-                               <button
-                                 className={agenticCss.filterToggleBtn}
-                                 onClick={() => updateFilterValues(filter.id, [])}
-                                 disabled={isAgenticActive || agenticStatus === 'confirming'}
-                               >None</button>
-                             </div>
-                             <div className={agenticCss.filterCheckboxList}>
-                               {availableValues.map(val => (
-                                 <label key={val} className={agenticCss.filterCheckboxItem}>
-                                   <input
-                                     type="checkbox"
-                                     checked={selectedValuesSet.has(val)}
-                                     onChange={e => {
-                                       if (e.target.checked) updateFilterValues(filter.id, [...filter.values, val])
-                                       else updateFilterValues(filter.id, filter.values.filter(v => v !== val))
-                                     }}
-                                     disabled={isAgenticActive || agenticStatus === 'confirming'}
-                                   />
-                                   <span className={agenticCss.filterCheckboxLabel}>{val}</span>
-                                 </label>
-                               ))}
-                             </div>
-                             {filter.values.length === 0 && (
-                               <p className={agenticCss.filterWarning}>No values selected for this filter</p>
-                             )}
-                           </div>
-                         )}
-                       </>
-                     )
-                   })()}
-                 </div>
-               )}
-
-               {/* Add filter button */}
-               <button
-                 className={agenticCss.addFilterBtn}
-                 onClick={addFilter}
-                 disabled={isAgenticActive || agenticStatus === 'confirming'}
-               >+ Add filter</button>
-             </div>
-           )}
+                      <button
+                        className={agenticCss.addFilterBtn}
+                        onClick={addFilter}
+                        disabled={isAgenticActive || agenticStatus === 'confirming'}
+                      >+ Add filter</button>
+                    </div>
+                  </div>
+                )}
+              </>
+            )
+          })()}
 
            <div className="agentic-generate-section">
              {(() => {

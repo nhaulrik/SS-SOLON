@@ -1792,6 +1792,70 @@ select:focus-visible {
   padding: 6px 0;
 }
 
+.agentic-advanced-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 7px 10px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  color: var(--text-muted, #888);
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.agentic-advanced-toggle:hover:not(:disabled) {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  background: var(--bg-secondary);
+}
+
+.agentic-advanced-toggle.has-active {
+  color: var(--text-secondary);
+  border-color: var(--accent-primary);
+}
+
+.agentic-advanced-toggle:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.agentic-advanced-chevron {
+  flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+
+.agentic-advanced-toggle.open .agentic-advanced-chevron {
+  transform: rotate(180deg);
+}
+
+.agentic-advanced-badge {
+  margin-left: auto;
+  background: var(--accent-primary);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 1px 6px;
+  line-height: 1.5;
+}
+
+.agentic-advanced-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  background: var(--bg-secondary);
+}
+
 .agentic-generate-section {
   display: flex;
   align-items: center;
