@@ -1,0 +1,101 @@
+{
+  "exportId": "29-non-func-1",
+  "exportNumber": 1,
+  "exportName": "29-non-func",
+  "createdAt": "2026-05-05T22:24:00.269Z",
+  "source": {
+    "roundId": "c0cb8ec5-1f37-4f09-8ce6-d09970e5feac",
+    "outputFile": "output-c0cb8ec5-1f37-4f09-8ce6-d09970e5feac.html"
+  },
+  "content": {
+    "slideCount": 10,
+    "totalSize": 888952,
+    "slides": [
+      {
+        "index": 1,
+        "file": "accessibility.html",
+        "size": 86745,
+        "title": "ACCESSIBILITY",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "extensibility.html",
+        "size": 87803,
+        "title": "EXTENSIBILITY",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "maintainability.html",
+        "size": 94232,
+        "title": "MAINTAINABILITY",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "operability.html",
+        "size": 86708,
+        "title": "OPERABILITY",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "performance-efficiency.html",
+        "size": 88210,
+        "title": "PERFORMANCE EFFICIENCY",
+        "slideId": "slide-5",
+        "type": "content"
+      },
+      {
+        "index": 6,
+        "file": "reliability.html",
+        "size": 87711,
+        "title": "RELIABILITY",
+        "slideId": "slide-6",
+        "type": "content"
+      },
+      {
+        "index": 7,
+        "file": "security.html",
+        "size": 89388,
+        "title": "SECURITY",
+        "slideId": "slide-7",
+        "type": "content"
+      },
+      {
+        "index": 8,
+        "file": "test-suite-optimization.html",
+        "size": 87366,
+        "title": "TEST SUITE OPTIMIZATION",
+        "slideId": "slide-8",
+        "type": "content"
+      },
+      {
+        "index": 9,
+        "file": "traceability.html",
+        "size": 88160,
+        "title": "TRACEABILITY",
+        "slideId": "slide-9",
+        "type": "content"
+      },
+      {
+        "index": 10,
+        "file": "usability.html",
+        "size": 92629,
+        "title": "USABILITY",
+        "slideId": "slide-10",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-29-initiatives",
+    "templateFile": ""
+  }
+}

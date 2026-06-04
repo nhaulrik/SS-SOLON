@@ -1,0 +1,37 @@
+{
+  "exportId": "28-core-self-4",
+  "exportNumber": 4,
+  "exportName": "28-core-self",
+  "createdAt": "2026-05-06T08:50:11.043Z",
+  "source": {
+    "roundId": "c45d3018-daaa-41f4-a896-dc0750fefbff",
+    "outputFile": "output-c45d3018-daaa-41f4-a896-dc0750fefbff.html"
+  },
+  "content": {
+    "slideCount": 2,
+    "totalSize": 84724,
+    "slides": [
+      {
+        "index": 1,
+        "file": "self-service-services-management.html",
+        "size": 39889,
+        "title": "SELF SERVICE SERVICES MANAGEMENT",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "user-3rd-party-access-management.html",
+        "size": 44835,
+        "title": "USER & 3RD PARTY ACCESS MANAGEMENT",
+        "slideId": "slide-2",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-28-initiatives",
+    "templateFile": ""
+  }
+}

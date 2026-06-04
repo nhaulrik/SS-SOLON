@@ -4,6 +4,7 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import { PROJECTS_DIR } from './config.js';
+import { resolveProjectDir } from './lib/project/project-manager.js';
 import htmlFlowRoutes from './routes/html-flow.js';
 import projectsRoutes from './routes/projects.js';
 import aiProxyRoutes from './routes/ai-proxy.js';
@@ -33,7 +34,7 @@ app.use('/published/:projectName/presentations/:presentationName', (req, res, ne
   const { projectName, presentationName } = req.params;
   if (!/^[\w-]{1,100}$/.test(projectName)) return res.status(400).end();
   if (!/^[\w-]{1,100}$/.test(presentationName)) return res.status(400).end();
-  const publishedDir = path.join(PROJECTS_DIR, projectName, 'presentations', presentationName);
+  const publishedDir = path.join(resolveProjectDir(projectName), 'presentations', presentationName);
   express.static(publishedDir, { index: 'index.html' })(req, res, next);
 });
 

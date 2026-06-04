@@ -41,6 +41,7 @@ import {
   buildCompletionPrompt,
 } from '../lib/ai/agentic-prompts.js'
 import { RESOLVED_PROJECTS_DIR, SLICE_TEMPLATES_DIR, SLICER_BATCH_SIZE, AGENT_BATCH_SIZE, RAW_CONTEXT_CAP_CHARS } from '../config.js'
+import { resolveProjectDir } from '../lib/project/project-manager.js'
 
 const router = express.Router()
 
@@ -248,7 +249,7 @@ router.get('/agentic/context-column-values', async (req, res) => {
     if (!projectName) return res.status(400).json({ error: 'projectName is required' })
     if (!column)      return res.status(400).json({ error: 'column is required' })
 
-    const projectDir = path.join(RESOLVED_PROJECTS_DIR, projectName)
+    const projectDir = resolveProjectDir(projectName)
     const contextDir = path.join(projectDir, 'AI Context')
     const sel = selectedFiles
       ? (Array.isArray(selectedFiles) ? selectedFiles : selectedFiles.split(',').map(s => s.trim()).filter(Boolean))
@@ -282,7 +283,7 @@ router.get('/agentic/context-columns', async (req, res) => {
     const { projectName, selectedFiles } = req.query
     if (!projectName) return res.status(400).json({ error: 'projectName is required' })
 
-    const projectDir = path.join(RESOLVED_PROJECTS_DIR, projectName)
+    const projectDir = resolveProjectDir(projectName)
     const sel = selectedFiles
       ? (Array.isArray(selectedFiles) ? selectedFiles : selectedFiles.split(',').map(s => s.trim()).filter(Boolean))
       : []
@@ -351,7 +352,7 @@ router.post('/agentic/plan', async (req, res) => {
       let templateInstructions = ''
       if (flowId) {
         try {
-          const flowPath = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'flow.json')
+          const flowPath = path.join(resolveProjectDir(projectName),'flows', flowId, 'flow.json')
           const flowData = JSON.parse(await fsp.readFile(flowPath, 'utf8'))
           templateInstructions = flowData.templateInstructions || ''
         } catch {}
@@ -360,7 +361,7 @@ router.post('/agentic/plan', async (req, res) => {
 
       // ── Purge stale debug files from previous run ────────────────────────────
       if (flowId) {
-        const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+        const debugDir = path.join(resolveProjectDir(projectName),'flows', flowId, 'debug')
         try {
           await fsp.mkdir(debugDir, { recursive: true })
           const existing = await fsp.readdir(debugDir)
@@ -374,7 +375,7 @@ router.post('/agentic/plan', async (req, res) => {
 
      console.log('[agentic/plan] Request body:', JSON.stringify({ projectName, customInput, contentPrompt }, null, 2))
 
-     const projectDir = path.join(RESOLVED_PROJECTS_DIR, projectName)
+     const projectDir = resolveProjectDir(projectName)
 
      // ── Load slice output template ────────────────────────────────────────────
      let sliceTemplateBody = null
@@ -411,7 +412,7 @@ router.post('/agentic/plan', async (req, res) => {
 
       // Persist full context to disk so /run can re-read it without a browser round-trip
       if (flowId) {
-        const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+        const debugDir = path.join(resolveProjectDir(projectName),'flows', flowId, 'debug')
         try {
           await fsp.mkdir(debugDir, { recursive: true })
           await fsp.writeFile(path.join(debugDir, 'ai-slice-shared.txt'), fullContext.text || '', 'utf8')
@@ -589,7 +590,7 @@ router.post('/agentic/plan', async (req, res) => {
 
      // Save slice files to disk with new naming convention
      if (flowId) {
-       const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+       const debugDir = path.join(resolveProjectDir(projectName),'flows', flowId, 'debug')
        try {
          await fsp.mkdir(debugDir, { recursive: true })
 
@@ -687,7 +688,7 @@ router.post('/agentic/run', async (req, res) => {
       let templateInstructions = ''
       if (flowId) {
         try {
-          const flowPath = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'flow.json')
+          const flowPath = path.join(resolveProjectDir(projectName),'flows', flowId, 'flow.json')
           const flowData = JSON.parse(await fsp.readFile(flowPath, 'utf8'))
           templateInstructions = flowData.templateInstructions || ''
         } catch {}
@@ -702,7 +703,7 @@ router.post('/agentic/run', async (req, res) => {
       const resolvedSlices = {}
       const resolvedSliceFiles = {}
      if (flowId) {
-       const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+       const debugDir = path.join(resolveProjectDir(projectName),'flows', flowId, 'debug')
        try {
          const debugFiles = await fsp.readdir(debugDir)
 
@@ -829,7 +830,7 @@ router.post('/agentic/run', async (req, res) => {
 
     // Save agent prompts for debugging
     if (flowId) {
-      const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+      const debugDir = path.join(resolveProjectDir(projectName),'flows', flowId, 'debug')
       try {
         await fsp.mkdir(debugDir, { recursive: true })
         const content = agentResults.map((r, i) => `=== Agent ${i + 1}: ${r.agent.label} ===\n${r.prompt}`).join('\n\n')
@@ -1004,7 +1005,7 @@ router.post('/agentic/retry-agent', async (req, res) => {
 
     let templateInstructions = ''
     try {
-      const flowPath = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'flow.json')
+      const flowPath = path.join(resolveProjectDir(projectName),'flows', flowId, 'flow.json')
       const flowData = JSON.parse(await fsp.readFile(flowPath, 'utf8'))
       templateInstructions = flowData.templateInstructions || ''
     } catch {}
@@ -1040,7 +1041,7 @@ router.post('/agentic/retry-agent', async (req, res) => {
     const agentIds = buildAgentsFromInstances(remappedInstances)
 
     // Read the pre-computed slice from disk.
-    const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+    const debugDir = path.join(resolveProjectDir(projectName),'flows', flowId, 'debug')
     let agentContext = ''
     try {
       const debugFiles = await fsp.readdir(debugDir)
@@ -1083,7 +1084,7 @@ router.post('/agentic/retry-agent', async (req, res) => {
     // triggering a retry (htmlProject in-memory state doesn't carry agenticJsonResponse).
     let current = {}
     try {
-      const flowPath = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'flow.json')
+      const flowPath = path.join(resolveProjectDir(projectName),'flows', flowId, 'flow.json')
       const flowData = JSON.parse(await fsp.readFile(flowPath, 'utf8'))
       const savedJson = flowData.agenticJsonResponse
       if (savedJson) {
@@ -1122,7 +1123,7 @@ router.post('/agentic/resume', async (req, res) => {
 
     let templateInstructions = ''
     try {
-      const flowPath = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'flow.json')
+      const flowPath = path.join(resolveProjectDir(projectName),'flows', flowId, 'flow.json')
       const flowData = JSON.parse(await fsp.readFile(flowPath, 'utf8'))
       templateInstructions = flowData.templateInstructions || ''
     } catch {}
@@ -1137,7 +1138,7 @@ router.post('/agentic/resume', async (req, res) => {
 
     const resolvedSlices = {}
     try {
-      const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+      const debugDir = path.join(resolveProjectDir(projectName),'flows', flowId, 'debug')
       const debugFiles = await fsp.readdir(debugDir)
       const sharedFile = debugFiles.find(f => f === 'ai-slice-shared.txt')
           if (sharedFile) resolvedSlices.shared = await fsp.readFile(path.join(debugDir, sharedFile), 'utf8')
@@ -1192,7 +1193,7 @@ router.get('/agentic/context-slice', async (req, res) => {
   const { projectName, flowId, instanceIdx } = req.query
   if (!projectName || !flowId) return res.status(400).json({ error: 'projectName and flowId required' })
 
-  const debugDir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+  const debugDir = path.join(resolveProjectDir(projectName),'flows', flowId, 'debug')
   try {
     const files = await fsp.readdir(debugDir).catch(() => [])
 
@@ -1218,7 +1219,7 @@ router.get('/agentic/context-slice', async (req, res) => {
 router.post('/agentic/open-debug-folder', (req, res) => {
   const { projectName, flowId } = req.body || {}
   if (!projectName || !flowId) return res.status(400).json({ error: 'projectName and flowId required' })
-  const dir = path.join(RESOLVED_PROJECTS_DIR, projectName, 'flows', flowId, 'debug')
+  const dir = path.join(resolveProjectDir(projectName),'flows', flowId, 'debug')
   const cmd = process.platform === 'win32'
     ? `explorer "${dir}"`
     : process.platform === 'darwin'

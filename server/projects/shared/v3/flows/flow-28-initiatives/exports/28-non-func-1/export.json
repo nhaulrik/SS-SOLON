@@ -1,0 +1,101 @@
+{
+  "exportId": "28-non-func-1",
+  "exportNumber": 1,
+  "exportName": "28-non-func",
+  "createdAt": "2026-05-05T22:10:03.285Z",
+  "source": {
+    "roundId": "1ace1afb-109b-43a4-ba4d-8db87c06b05d",
+    "outputFile": "output-1ace1afb-109b-43a4-ba4d-8db87c06b05d.html"
+  },
+  "content": {
+    "slideCount": 10,
+    "totalSize": 1135095,
+    "slides": [
+      {
+        "index": 1,
+        "file": "slide-1.html",
+        "size": 113843,
+        "title": "Slide 1",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "slide-2.html",
+        "size": 110569,
+        "title": "Slide 2",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "slide-3.html",
+        "size": 116524,
+        "title": "Slide 3",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "slide-4.html",
+        "size": 109660,
+        "title": "Slide 4",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "slide-5.html",
+        "size": 113211,
+        "title": "Slide 5",
+        "slideId": "slide-5",
+        "type": "content"
+      },
+      {
+        "index": 6,
+        "file": "slide-6.html",
+        "size": 111059,
+        "title": "Slide 6",
+        "slideId": "slide-6",
+        "type": "content"
+      },
+      {
+        "index": 7,
+        "file": "slide-7.html",
+        "size": 115060,
+        "title": "Slide 7",
+        "slideId": "slide-7",
+        "type": "content"
+      },
+      {
+        "index": 8,
+        "file": "slide-8.html",
+        "size": 115744,
+        "title": "Slide 8",
+        "slideId": "slide-8",
+        "type": "content"
+      },
+      {
+        "index": 9,
+        "file": "slide-9.html",
+        "size": 113130,
+        "title": "Slide 9",
+        "slideId": "slide-9",
+        "type": "content"
+      },
+      {
+        "index": 10,
+        "file": "slide-10.html",
+        "size": 116295,
+        "title": "Slide 10",
+        "slideId": "slide-10",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-28-initiatives",
+    "templateFile": ""
+  }
+}

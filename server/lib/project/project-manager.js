@@ -4,17 +4,16 @@
  * Filesystem helpers for projects and flows.
  *
  * Data model:
- *   projects/<projectName>/
- *     project.json   — project metadata (name, type: 'private'|'shared', createdAt)
- *     flows/<flowId>/
- *       flow.json      — flow metadata + _metadata (zones, selections, trees)
- *       template.html  — the HTML slide template
- *       output-*.html  — generated output files
- *       exports/       — versioned exports
- *
- * Project types:
- *   shared — tracked in git, visible to all team members
- *   private  — excluded from git via PROJECTS_DIR/.gitignore, private to this machine
+ *   projects/
+ *     shared/<projectName>/    — git-tracked, team-visible
+ *       project.json
+ *       flows/<flowId>/
+ *         flow.json
+ *         template.html
+ *         output-*.html
+ *         exports/
+ *     private/<projectName>/   — excluded from git via projects/.gitignore
+ *       ...same structure...
  */
 
 import fs from 'fs';
@@ -22,28 +21,135 @@ import path from 'path';
 import { execSync } from 'child_process';
 import { PROJECTS_DIR, RESOLVED_PROJECTS_DIR, isInsideDir } from '../../config.js';
 
-// ── Path helpers ─────────────────────────────────────────────────────────────
+const SHARED_DIR  = path.join(PROJECTS_DIR, 'shared');
+const PRIVATE_DIR = path.join(PROJECTS_DIR, 'private');
 
-/**
- * Validate a project name and return it, or null if invalid.
- * Allows alphanumeric, hyphens, underscores.
- */
+// ── Internal helpers ──────────────────────────────────────────────────────────
+
 function validateName(name) {
   if (!name || typeof name !== 'string') return null;
   if (!/^[a-zA-Z0-9_-]{1,100}$/.test(name)) return null;
   return name;
 }
 
+function subdirForType(type) {
+  return type === 'private' ? PRIVATE_DIR : SHARED_DIR;
+}
+
+function readProjectMeta(projectDir) {
+  const metaPath = path.join(projectDir, 'project.json');
+  if (!fs.existsSync(metaPath)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(metaPath, 'utf-8'));
+  } catch {
+    return null;
+  }
+}
+
+function writeProjectMeta(projectDir, meta) {
+  try {
+    fs.writeFileSync(path.join(projectDir, 'project.json'), JSON.stringify(meta, null, 2), 'utf-8');
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /**
- * Resolve a project directory path safely.
- * Returns the path if valid, or null.
+ * Write projects/.gitignore with a single `private/` entry so git
+ * ignores all private projects at once.
  */
-export function resolveProjectDir(projectName) {
+function ensureGitignore() {
+  fs.writeFileSync(path.join(PROJECTS_DIR, '.gitignore'), 'private/\n', 'utf-8');
+}
+
+/**
+ * Move any legacy root-level projects (pre-subdir format) into shared/.
+ * Runs once on startup; safe to call repeatedly.
+ */
+function migrateLegacyProjects() {
+  try {
+    for (const entry of fs.readdirSync(PROJECTS_DIR)) {
+      if (['shared', 'private', '.gitignore'].includes(entry)) continue;
+      const oldPath = path.join(PROJECTS_DIR, entry);
+      if (!fs.statSync(oldPath).isDirectory()) continue;
+      if (!fs.existsSync(path.join(oldPath, 'flows'))) continue;
+      const newPath = path.join(SHARED_DIR, entry);
+      if (!fs.existsSync(newPath)) fs.renameSync(oldPath, newPath);
+    }
+  } catch (err) {
+    console.warn('[project-manager] migration warning:', err.message);
+  }
+}
+
+/**
+ * Ensure shared/ and private/ subdirs exist, migrate any legacy projects,
+ * and keep the .gitignore up to date. Called lazily before any scan.
+ */
+function ensureSubdirs() {
+  fs.mkdirSync(SHARED_DIR,  { recursive: true });
+  fs.mkdirSync(PRIVATE_DIR, { recursive: true });
+  migrateLegacyProjects();
+  ensureGitignore();
+}
+
+/**
+ * Run `git rm -r --cached <dir>` to remove a directory from the git index
+ * without deleting files on disk. Returns true when files were staged.
+ */
+function gitRmCached(projectDir) {
+  try {
+    execSync(`git rm -r --cached "${projectDir}"`, { cwd: PROJECTS_DIR, stdio: 'pipe' });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// ── Path helpers (public API) ─────────────────────────────────────────────────
+
+/**
+ * Resolve a project directory path.
+ *
+ * - resolveProjectDir(name, type) — returns the path for the given type (used
+ *   for creation; directory may not yet exist).
+ * - resolveProjectDir(name) — scans shared/ then private/ and returns the
+ *   existing directory. Falls back to the shared/ path when neither exists
+ *   (preserving the original "always return a path" contract so callers that
+ *   just do an existsSync check continue to work).
+ */
+export function resolveProjectDir(projectName, type = null) {
   const safeName = validateName(projectName);
   if (!safeName) return null;
-  const dir = path.join(PROJECTS_DIR, safeName);
-  if (!isInsideDir(dir, RESOLVED_PROJECTS_DIR)) return null;
-  return dir;
+
+  if (type) {
+    const dir = path.join(subdirForType(type), safeName);
+    return isInsideDir(dir, RESOLVED_PROJECTS_DIR) ? dir : null;
+  }
+
+  // Scan both subdirs for an existing project
+  for (const t of ['shared', 'private']) {
+    const dir = path.join(subdirForType(t), safeName);
+    if (isInsideDir(dir, RESOLVED_PROJECTS_DIR) && fs.existsSync(dir)) return dir;
+  }
+
+  // Project not found — return the shared path as the default (may not exist)
+  const defaultDir = path.join(SHARED_DIR, safeName);
+  return isInsideDir(defaultDir, RESOLVED_PROJECTS_DIR) ? defaultDir : null;
+}
+
+/**
+ * Find an existing project across both subdirs.
+ * Returns { dir, type } or null.
+ */
+export function findProject(projectName) {
+  const safeName = validateName(projectName);
+  if (!safeName) return null;
+  for (const type of ['shared', 'private']) {
+    const dir = path.join(subdirForType(type), safeName);
+    if (isInsideDir(dir, RESOLVED_PROJECTS_DIR) && fs.existsSync(dir)) return { dir, type };
+  }
+  return null;
 }
 
 /**
@@ -58,106 +164,40 @@ export function resolveFlowDir(projectName, flowId) {
   return dir;
 }
 
-// ── Project metadata (project.json) ──────────────────────────────────────────
-
-function readProjectMeta(projectName) {
-  const projectDir = resolveProjectDir(projectName);
-  if (!projectDir) return null;
-  const metaPath = path.join(projectDir, 'project.json');
-  if (!fs.existsSync(metaPath)) return null;
-  try {
-    return JSON.parse(fs.readFileSync(metaPath, 'utf-8'));
-  } catch {
-    return null;
-  }
-}
-
-function writeProjectMeta(projectName, meta) {
-  const projectDir = resolveProjectDir(projectName);
-  if (!projectDir) return false;
-  try {
-    fs.writeFileSync(path.join(projectDir, 'project.json'), JSON.stringify(meta, null, 2), 'utf-8');
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-/**
- * Run `git rm -r --cached <projectDir>` to stop tracking a directory without
- * deleting files from disk. Stages the deletions so the caller can commit.
- * Returns true if files were removed from the index, false otherwise
- * (not tracked, not a git repo, etc. — all treated as non-fatal).
- */
-function gitRmCached(projectDir) {
-  try {
-    execSync(`git rm -r --cached "${projectDir}"`, {
-      cwd: PROJECTS_DIR,
-      stdio: 'pipe',
-    });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-/**
- * Maintain PROJECTS_DIR/.gitignore so private projects are excluded from git.
- * Each private project is listed as "<name>/" in the gitignore.
- */
-function syncGitignore(projectName, type) {
-  const gitignorePath = path.join(PROJECTS_DIR, '.gitignore');
-  let lines = [];
-  if (fs.existsSync(gitignorePath)) {
-    lines = fs.readFileSync(gitignorePath, 'utf-8').split('\n');
-  }
-
-  const entry = projectName + '/';
-  lines = lines.filter(l => l.trim() !== entry);
-
-  if (type === 'private') {
-    lines.push(entry);
-  }
-
-  const content = lines.filter(l => l.trim() !== '').join('\n');
-  fs.writeFileSync(gitignorePath, content ? content + '\n' : '', 'utf-8');
-}
-
 // ── Project discovery ─────────────────────────────────────────────────────────
 
 /**
- * List all projects by scanning PROJECTS_DIR.
- * A project is any subdirectory that contains a flows/ subdirectory.
- * Returns { name, type } for each project; type defaults to 'shared' for
- * legacy projects that pre-date project.json.
+ * List all projects from both shared/ and private/ subdirs.
+ * Returns [{ name, type }].
  */
 export function listProjects() {
-  if (!fs.existsSync(PROJECTS_DIR)) return [];
-  try {
-    return fs.readdirSync(PROJECTS_DIR)
-      .filter(name => {
-        const projectPath = path.join(PROJECTS_DIR, name);
-        return (
+  ensureSubdirs();
+  const result = [];
+  for (const type of ['shared', 'private']) {
+    const dir = subdirForType(type);
+    if (!fs.existsSync(dir)) continue;
+    try {
+      for (const name of fs.readdirSync(dir)) {
+        const projectPath = path.join(dir, name);
+        if (
           fs.statSync(projectPath).isDirectory() &&
           fs.existsSync(path.join(projectPath, 'flows'))
-        );
-      })
-      .map(name => {
-        const meta = readProjectMeta(name);
-        return { name, type: meta?.type || 'shared' };
-      });
-  } catch {
-    return [];
+        ) {
+          result.push({ name, type });
+        }
+      }
+    } catch { /* skip unreadable subdir */ }
   }
+  return result;
 }
 
 /**
- * Load a project — returns { name, flows } by scanning the flows/ directory.
- * Each flow entry is the parsed flow.json content.
- * Returns null if the project directory does not exist.
+ * Load a project — returns { name, type, flows }.
+ * Returns null if the project cannot be found in either subdir.
  */
 export function loadProject(projectName) {
-  const projectDir = resolveProjectDir(projectName);
+  const found = findProject(projectName);
+  const projectDir = found?.dir ?? resolveProjectDir(projectName);
   if (!projectDir || !fs.existsSync(projectDir)) return null;
 
   const flowsDir = path.join(projectDir, 'flows');
@@ -169,28 +209,23 @@ export function loadProject(projectName) {
       if (!fs.existsSync(flowPath)) continue;
       try {
         flows.push(JSON.parse(fs.readFileSync(flowPath, 'utf-8')));
-      } catch {
-        // skip malformed flow.json
-      }
+      } catch { /* skip malformed flow.json */ }
     }
   }
 
   flows.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-  return { name: projectName, flows };
+  return { name: projectName, type: found?.type ?? 'shared', flows };
 }
 
 /**
- * Load a single flow's flow.json.
- * Returns the parsed object or null if not found.
+ * Load a single flow's flow.json. Returns the parsed object or null.
  */
 export function loadFlow(projectName, flowId) {
   const flowDir = resolveFlowDir(projectName, flowId);
   if (!flowDir) return null;
-
   const flowPath = path.join(flowDir, 'flow.json');
   if (!fs.existsSync(flowPath)) return null;
-
   try {
     return JSON.parse(fs.readFileSync(flowPath, 'utf-8'));
   } catch {
@@ -200,7 +235,6 @@ export function loadFlow(projectName, flowId) {
 
 /**
  * Persist a flow object back to its flow.json.
- * Returns true on success, false on failure.
  */
 export function saveFlow(projectName, flowId, flow) {
   const flowDir = resolveFlowDir(projectName, flowId);
@@ -217,53 +251,61 @@ export function saveFlow(projectName, flowId, flow) {
 // ── Mutation helpers ──────────────────────────────────────────────────────────
 
 /**
- * Create a new project directory with project.json and update .gitignore.
- * Returns true on success, false if name is invalid or project already exists.
+ * Create a new project directory with project.json.
+ * Returns true on success, false if the name is invalid or already exists.
  */
 export function createProject(projectName, type = 'shared') {
-  const projectDir = resolveProjectDir(projectName);
+  if (!['shared', 'private'].includes(type)) return false;
+  const projectDir = resolveProjectDir(projectName, type);
   if (!projectDir || fs.existsSync(projectDir)) return false;
-  if (!['private', 'shared'].includes(type)) return false;
+  ensureSubdirs();
   fs.mkdirSync(path.join(projectDir, 'flows'), { recursive: true });
-  writeProjectMeta(projectName, { name: projectName, type, createdAt: new Date().toISOString() });
-  syncGitignore(projectName, type);
+  writeProjectMeta(projectDir, { name: projectName, type, createdAt: new Date().toISOString() });
   return true;
 }
 
 /**
- * Convert a project between 'private' and 'shared'.
- * - shared → private: updates .gitignore AND runs `git rm -r --cached` so the
- *   project's files are staged for removal from the git index (files on disk
- *   are untouched). The caller should commit to complete the transition.
- * - private → shared: removes from .gitignore; files become untracked and can
- *   be staged and committed by the caller.
+ * Convert a project between 'shared' and 'private' by moving its directory.
  *
- * Returns { ok, gitChanged } where gitChanged is true when git index was modified.
+ * shared → private: runs `git rm -r --cached` before the move so the files
+ *   are staged for removal from the git index. Commit to finish the transition.
+ * private → shared: the directory moves into shared/; git sees new untracked
+ *   files ready to be staged and committed.
+ *
+ * Returns { ok, gitChanged }.
  */
 export function convertProjectType(projectName, newType) {
-  if (!['private', 'shared'].includes(newType)) return { ok: false, gitChanged: false };
-  const projectDir = resolveProjectDir(projectName);
-  if (!projectDir || !fs.existsSync(projectDir)) return { ok: false, gitChanged: false };
-  const meta = readProjectMeta(projectName) || { name: projectName, createdAt: new Date().toISOString() };
-  meta.type = newType;
-  syncGitignore(projectName, newType);
-  const saved = writeProjectMeta(projectName, meta);
+  if (!['shared', 'private'].includes(newType)) return { ok: false, gitChanged: false };
+  const found = findProject(projectName);
+  if (!found) return { ok: false, gitChanged: false };
+  if (found.type === newType) return { ok: true, gitChanged: false };
+
+  const newDir = resolveProjectDir(projectName, newType);
+  if (!newDir || fs.existsSync(newDir)) return { ok: false, gitChanged: false };
+
   let gitChanged = false;
-  if (saved && newType === 'private') {
-    gitChanged = gitRmCached(projectDir);
+  if (newType === 'private') {
+    gitChanged = gitRmCached(found.dir);
   }
-  return { ok: saved, gitChanged };
+
+  fs.renameSync(found.dir, newDir);
+
+  const meta = readProjectMeta(newDir) || { name: projectName, createdAt: new Date().toISOString() };
+  meta.type = newType;
+  writeProjectMeta(newDir, meta);
+
+  return { ok: true, gitChanged };
 }
 
 /**
  * Delete a project directory and everything inside it.
  */
 export function deleteProject(projectName) {
-  const projectDir = resolveProjectDir(projectName);
+  const found = findProject(projectName);
+  const projectDir = found?.dir ?? resolveProjectDir(projectName);
   if (!projectDir || !fs.existsSync(projectDir)) return false;
   try {
     fs.rmSync(projectDir, { recursive: true, force: true });
-    syncGitignore(projectName, 'shared'); // remove from .gitignore on deletion
     return true;
   } catch {
     return false;

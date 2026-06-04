@@ -19,6 +19,7 @@ import {
   deleteProject,
   deleteFlow,
   convertProjectType,
+  findProject,
   resolveProjectDir,
   resolveFlowDir,
 } from '../lib/project/project-manager.js';
@@ -47,11 +48,10 @@ router.post('/', (req, res) => {
     if (!['private', 'shared'].includes(type)) {
       return res.status(400).json({ error: 'Invalid project type. Must be "private" or "shared".' });
     }
-    const projectDir = resolveProjectDir(name);
-    if (!projectDir) {
+    if (!resolveProjectDir(name, type)) {
       return res.status(400).json({ error: 'Invalid project name. Use letters, numbers, hyphens, and underscores only.' });
     }
-    if (fs.existsSync(projectDir)) {
+    if (findProject(name)) {
       return res.status(409).json({ error: `Project "${name}" already exists` });
     }
     if (!createProject(name, type)) {

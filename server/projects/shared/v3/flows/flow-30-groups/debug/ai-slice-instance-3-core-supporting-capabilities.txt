@@ -1,0 +1,177 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (6 rows)
+Issue Type: Feature | IRM: IRM-41632 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: BATCH PROCESSING ENHANCEMENTS | Roadmap Feature: Amplio batch - Replacement of SCDF with Amplio (Part 3) | Requester: Other | PI: PI30 | Estimate: 494.9 | Feature Priority: p3 | Feature Status: To Do | Features Description: The main goal of the feature, is to migrate the remaining batch jobs to the Amplio Batch engine.
+h2. 1. Job migrations
+h3. 1.1 revenue-management-batch repository
+
+In the revenue-management-batch repository, the following missing jobs marked as BASE, needs to be migrated:
+|*Image Name*|*Category*|*Release*|*GR AADE priority* |
+|archive-data|BASE|TBD|p2|
+|data-nomination|BASE|TBD|p2|
+|delete-data|BASE|TBD|p2|
+|gdpr-anonymize-data|BASE|TBD|p3|
+|gdpr-deletion|BASE|TBD|p3|
+ * This job needs to be refactored, to not use temporary tables anymore and is therefore not a 1-1 migration.
+h3. 1.2 revenue-management-batch-custom repository
+
+In the revenue-management-batch-custom repository, the following missing jobs marked as EXAMPLE, needs to be migrated:
+|*Image Name*|*Category*|*Release*|{*}GR AADE priority{*}{*}{*}|
+|compliance-monitor|EXAMPLE|TBD|p2|
+|release-suppression|EXAMPLE|TBD|p3|
+|suppression-activations|EXAMPLE|TBD|p3|
+|debt-recovery|EXAMPLE|TBD|p3|
+|handover-debt|EXAMPLE|TBD|p3|
+h2. 2. Miscellaneous
+h3. 2.1 Deprecation warnings
+
+All migrated jobs, should be marked as deprecated within SCDF.
+h3. 2.2 Documentation
+
+Remaining documentation, including detailed design for the batch engine needs to be finalized, together with new documentation for the batch jobs as they get migrated. 
+
+The product documentation likewise needs to be updated. 
+Issue Type: Feature | IRM: IRM-40987 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: BATCH PROCESSING ENHANCEMENTS | Roadmap Feature: Amplio Batch - Java foundation 4.0 | Requester: Other | PI: PI30 | Estimate: 597.1 | Feature Priority: p3 | Feature Status: To Do | Features Description: This Support is dependant on the newest version of Amplio being released, which is expected sometime in the beginning of 2026.
+
+Scope:
+ # Update to newest version of Amplio
+ ** Java Foundation 4.0 and Amplio Rho 2.0 are scheduled to be released in January 2026.
+ ** The release will introduce new functionality for the batch engine, for example the possibility to start batch jobs directly from the UI. 
+ ** The upgrade should be coordinated with the Amplioj4Solon team, as revenue-management-batch, Amplio Admin and Amplio Process Engine all need to follow the same version of Amplio.
+ # Technical alignment between Amplio Process Engine, Amplio Batch and SOLON
+ ** Because of the direct dependencies between the components, It is needed to get them technically aligned. This is both in regards to ensuring immediate support for new functionality but also ensuring maintainability of the projects within the SOLON product team.
+ # Use foundation functionality for batch jobs
+ ** The scope is both in regards to utilizing improved batch scheduler functionality introduced in future foundation releases, but also ensuring proper multitenancy support, as provided by the foundation.
+Issue Type: Feature | IRM: IRM-30378 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CASE MANAGEMENT | Roadmap Feature: Integration with Luminus (BRA & Audit support)   | Requester: GRC | PI: PI30 | Estimate: 392 | Feature Priority: p3 | Feature Status: To Do | Features Description: * Improve *integration* with Lumenus BRA / Contractual
+   Candidate list to generate cases flow (batch) 
+   SSO, traceability of source steps and criteria/valuation 
+ * Establish  *integration* with Lumenus Audit Support  (?) / Contractual
+   Audit cases integrated with Audit cases in Lumenus and sync statuses
+Issue Type: Feature | IRM: IRM-761 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Support History of Changes for Contact when edited before sent as well - User | Requester: GRC | PI: PI30 | Estimate: 392 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As a revenue official, I want to see the history of changes for the contact, so that I can understand who changed what and when.
+
+*Functional Requirements*
+
+*Contacts History*
+ * User can see a list with list entries that show what changed on the contact over time. Each time the contact is updated a list entry is added automatically. 
+ * For each change (not only status transition - like in parties) , the user can see details of what changed, when and who made the change
+ ** e.g. , This should be logged also when contact was changed before sent or when in generated status change channel. 
+ * User can click to open version page (as in Financial transactions)
+ * User can sort and filter the list
+
+*List page*
+ * In Contacts list page I have available the versions menu
+ * Open Contact versions page
+Issue Type: Feature | IRM: IRM-28521 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: DOCUMENT MANAGEMENT INTEGRATION | Roadmap Feature: Generic component - Support for Embedded 3rd-Party Digital Signature and Document Preview Components in RM pages | Requester: Other | PI: PI30 | Estimate: 104.30000000000001 | Feature Priority: p1 | Feature Status: Closed | Features Description: As an delivery team and admin I need the ability to integrate 3rd-party components such as digital signature dialogs and embedded document/PDF previewers into the Solon UI, so that we can support customer-specific implementations.
+As a revenue authority user, I want to preview forms and assist taxpayers in digitally signing documents directly within the Registration Module (RM), in order to comply with national requirements and improve support service at physical desks.
+
+On these Solon will not provide any out of the self integration with these tools but will provide a widget to enable partners on that. 
+
+*Introduction*
+
+According to the Lithuanian law, when signing documents electronically, the user should be able to preview the document in the Web page. Furthermore, the customers want to be able to preview signed or unsigned documents within the web app.
+Moreover, there are user flows provided by the client, where users need to preview PDF documents directly within the application. However, the current UI/JSON schema system does not support rendering or embedding PDF viewers, making it impossible to include this functionality through the schema.
+
+Currently, Solon's UI metadata schema (UI/JSON) does not support rendering embedded components like PDF viewers or signature popups. As a result, these features cannot be implemented declaratively through configuration alone. Similar components will be used in ISS by LT delivery teams  (using external portal platform). 
+Relevant: 
+[https://jira.intrasoft-intl.com/browse/PSD-11428]
+[https://jira.intrasoft-intl.com/browse/PSD-12028] 
+
+Solon {*}will not deliver native integrations with specific 3rd-party signature providers or preview tools{*}. However, to support flexibility and enable integration at project level, Solon will provide a generic UI extension mechanism (widget) that can be configured to load and render such external components.
+
++Considerations+ 
+ * _This widget/tag will allow embedding or linking to external components,  such as:_
+ ** _PDF  document viewers (e.g. in form page preview form and attachments in a relevant preview mode)_
+ *** _External digital signature modules._
+_WHAT IS/could be  INCLUDED IN THE iframe and the support of all its usages is Out of scope_ 
+_In scope: Be able to add iframes in modals and pages._ 
+ ** _The new tag if used in an appropriate widget that is expected to be implemented by delivery , it will be able to support_ 
+ *** _rendering the embedded content inline_ 
+ *** _or  opening it as a dialog/popup/modal. (such as receiving input request from digital signature app)_
+ *** _being triggerable by actions of user (e.g. sign button)_
+ *** _pass parameters  via urls or post messages_ 
+ *** _return control to Solon tax ui on success of the process (e.g. sign properly) ._ 
+
+ 
+
+*Functional requirements*
+ * A new *custom widget framework  (i.e.*  *widget-based framework* *using* *secure iframe embedding)* will be introduced in the UI schema system.
+ ** Product based on type of widget  (pdf viewer, digital signature)  the proper sandbox attributes should be used
+(iframes preferably should have the {{sandbox}} attribute to restrict the content of the embedded page. Any features that are needed (execute scripts, submit forms, etc.) can be explicitly enabled per case when needed).
+ ** Closing window callbacks may be functional. 
+ ** Be agnostic to signature providers.
+ ** Be reusable / configurable 
+
+Out of scope : 
+Ui interaction/ post messages 
+Custom error messages 
+
+ 
+
+*Assumption* :
+Integration is {*}properly implemented{*}.
+The delivery teams must ensure that the embedded solutions conform to {*}data protection{*}, {*}security policies{*}, and *access control rules* already applied in Solon.
+
+ 
+
+*Documentation*
+
+Document all the above adjustments and any suggestion on good usage of the iframe while posting messages. 
+
+ 
+
+*Non functional requirements*
+
+Performance and Security DODs should be fulfilled. 
+----
+!image-2025-07-31-14-51-32-673.png!
+
+!image-2025-07-28-21-14-34-600.png|width=1146,height=625!
+
+ 
+
+ 
+----
+Flow :
+
+*E-Signature Workflow Overview*
+ # *User Initiates Signing* (frontend)
+
+The user clicks the *"Sign"* button.
+ # *Signing Initialization Request* (backend)
+
+A request is sent to the {*}electronic signature service{*}, which:
+ * Uploads the files to the {*}signature provider{*}.
+ * Initializes the signing process with a specified returnUrl, used to redirect the user back to our system after signing.
+ * Returns an {*}external signing UID{*}.
+
+ # *Popup with Embedded Signing UI* (frontend)
+
+A popup window is opened containing an iframe.
+The iframe loads the signing page using the URL that includes the *external signing UID* as a query parameter.
+
+*_[DASKALAKIS Ioannis] Please provide, if possible, some more details on the authentication and authorization scheme that may need to be followed to facilitate loading service’s provider URL for the given UID with  the User’s  browser session._*
+
+*_No authentication needs to be done from the browser. Only the backend IP needs to be whitelisted on the service provider and our service accepting the callback needs to be exposed and reachable by the service provider. We have started a discussion about this on another channel, still waiting for a response._*
+ # *User Signs Documents* (frontend)
+
+The user completes the signing process within the loaded iframe page.
+ # *Callback and Document Handling* (backend)
+
+Our service receives a *callback* from the signature provider when the document status changes (e.g., signing completed).
+At this point, we:
+ * {*}Download{*}the signed version of the document from the provider.
+ * {*}Validate{*}the signed document.
+ * {*}Upload{*}it via the document-management
+
+*_[DASKALAKIS Ioannis] This, along with #3, suggests that any document exchange between our system and the signature provider will only take place via service API calls with an adapter implemented in the scope of the project. Please confirm._*
+
+*_Yes, that is correct._*
+ # *User Redirection and UI Update* (frontend)
+
+After signing, the user sees a *success message* on the provider's page and is *redirected to the* {*}returnUrl{*}.
+If we are able to detect this redirect within the popup, we can:
+ * Automatically {*}close the popup{*}.
+ * {*}Load the signed document{*}and its metadata in our system for the user to review.
+
+*_[DASKALAKIS Ioannis] Is this required to be a document preview functionality, or it is a direct document download?_*
+
+*_Preview is required according to project requirements._*
+Issue Type: Feature | IRM: IRM-36279 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Addition of validitiy period on relationships between codelist items | Requester: Other | PI: PI30 | Estimate: 746.9 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: Codelist item relationship need to be enhanced and include date range for which the relationship applies.
