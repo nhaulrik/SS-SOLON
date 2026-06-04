@@ -3,7 +3,7 @@
  *
  * API endpoints for project and flow management.
  *
- * Projects are directories — there is no project.json manifest.
+ * Projects are directories with an optional project.json manifest (type: private|shared).
  * Flows are subdirectories of <project>/flows/ and carry their full
  * metadata (zones, selections, template) inside flow.json + template.html.
  */
@@ -15,8 +15,10 @@ import {
   listProjects,
   loadProject,
   loadFlow,
+  createProject,
   deleteProject,
   deleteFlow,
+  convertProjectType,
   resolveProjectDir,
   resolveFlowDir,
 } from '../lib/project/project-manager.js';
@@ -38,9 +40,12 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, type = 'shared' } = req.body;
     if (!name || typeof name !== 'string') {
       return res.status(400).json({ error: 'Project name is required' });
+    }
+    if (!['private', 'shared'].includes(type)) {
+      return res.status(400).json({ error: 'Invalid project type. Must be "private" or "shared".' });
     }
     const projectDir = resolveProjectDir(name);
     if (!projectDir) {
@@ -49,8 +54,10 @@ router.post('/', (req, res) => {
     if (fs.existsSync(projectDir)) {
       return res.status(409).json({ error: `Project "${name}" already exists` });
     }
-    fs.mkdirSync(path.join(projectDir, 'flows'), { recursive: true });
-    res.status(201).json({ ok: true, name });
+    if (!createProject(name, type)) {
+      return res.status(500).json({ error: 'Failed to create project' });
+    }
+    res.status(201).json({ ok: true, name, type });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -63,6 +70,24 @@ router.get('/:projectName', (req, res) => {
     const project = loadProject(req.params.projectName);
     if (!project) return res.status(404).json({ error: 'Project not found' });
     res.json({ project });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── PATCH /api/projects/:projectName ─────────────────────────────────────────
+
+router.patch('/:projectName', (req, res) => {
+  try {
+    const { type } = req.body;
+    if (!['private', 'shared'].includes(type)) {
+      return res.status(400).json({ error: 'Invalid type. Must be "private" or "shared".' });
+    }
+    const result = convertProjectType(req.params.projectName, type);
+    if (!result.ok) {
+      return res.status(400).json({ error: 'Failed to convert project type' });
+    }
+    res.json({ ok: true, name: req.params.projectName, type, gitChanged: result.gitChanged });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

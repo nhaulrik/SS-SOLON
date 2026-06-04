@@ -322,6 +322,12 @@ router.post('/html-flow/create-project', (req, res) => {
 
     fs.mkdirSync(flowDir, { recursive: true });
 
+    // Write project.json for newly-created projects (shared by default).
+    const projectMetaPath = path.join(projectDir, 'project.json');
+    if (!fs.existsSync(projectMetaPath)) {
+      fs.writeFileSync(projectMetaPath, JSON.stringify({ name, type: 'shared', createdAt: new Date().toISOString() }, null, 2), 'utf-8');
+    }
+
     fs.writeFileSync(path.join(flowDir, 'template.html'), session.html, 'utf8');
 
     const flow = {

@@ -3,20 +3,23 @@
  *
  * Filesystem helpers for projects and flows.
  *
- * Data model (new format only):
+ * Data model:
  *   projects/<projectName>/
+ *     project.json   — project metadata (name, type: 'private'|'shared', createdAt)
  *     flows/<flowId>/
  *       flow.json      — flow metadata + _metadata (zones, selections, trees)
  *       template.html  — the HTML slide template
  *       output-*.html  — generated output files
  *       exports/       — versioned exports
  *
- * There is no project.json or templates/ directory.
- * A "project" is simply a named directory containing a flows/ subdirectory.
+ * Project types:
+ *   shared — tracked in git, visible to all team members
+ *   private  — excluded from git via PROJECTS_DIR/.gitignore, private to this machine
  */
 
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 import { PROJECTS_DIR, RESOLVED_PROJECTS_DIR, isInsideDir } from '../../config.js';
 
 // ── Path helpers ─────────────────────────────────────────────────────────────
@@ -55,11 +58,78 @@ export function resolveFlowDir(projectName, flowId) {
   return dir;
 }
 
+// ── Project metadata (project.json) ──────────────────────────────────────────
+
+function readProjectMeta(projectName) {
+  const projectDir = resolveProjectDir(projectName);
+  if (!projectDir) return null;
+  const metaPath = path.join(projectDir, 'project.json');
+  if (!fs.existsSync(metaPath)) return null;
+  try {
+    return JSON.parse(fs.readFileSync(metaPath, 'utf-8'));
+  } catch {
+    return null;
+  }
+}
+
+function writeProjectMeta(projectName, meta) {
+  const projectDir = resolveProjectDir(projectName);
+  if (!projectDir) return false;
+  try {
+    fs.writeFileSync(path.join(projectDir, 'project.json'), JSON.stringify(meta, null, 2), 'utf-8');
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Run `git rm -r --cached <projectDir>` to stop tracking a directory without
+ * deleting files from disk. Stages the deletions so the caller can commit.
+ * Returns true if files were removed from the index, false otherwise
+ * (not tracked, not a git repo, etc. — all treated as non-fatal).
+ */
+function gitRmCached(projectDir) {
+  try {
+    execSync(`git rm -r --cached "${projectDir}"`, {
+      cwd: PROJECTS_DIR,
+      stdio: 'pipe',
+    });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Maintain PROJECTS_DIR/.gitignore so private projects are excluded from git.
+ * Each private project is listed as "<name>/" in the gitignore.
+ */
+function syncGitignore(projectName, type) {
+  const gitignorePath = path.join(PROJECTS_DIR, '.gitignore');
+  let lines = [];
+  if (fs.existsSync(gitignorePath)) {
+    lines = fs.readFileSync(gitignorePath, 'utf-8').split('\n');
+  }
+
+  const entry = projectName + '/';
+  lines = lines.filter(l => l.trim() !== entry);
+
+  if (type === 'private') {
+    lines.push(entry);
+  }
+
+  const content = lines.filter(l => l.trim() !== '').join('\n');
+  fs.writeFileSync(gitignorePath, content ? content + '\n' : '', 'utf-8');
+}
+
 // ── Project discovery ─────────────────────────────────────────────────────────
 
 /**
  * List all projects by scanning PROJECTS_DIR.
  * A project is any subdirectory that contains a flows/ subdirectory.
+ * Returns { name, type } for each project; type defaults to 'shared' for
+ * legacy projects that pre-date project.json.
  */
 export function listProjects() {
   if (!fs.existsSync(PROJECTS_DIR)) return [];
@@ -72,7 +142,10 @@ export function listProjects() {
           fs.existsSync(path.join(projectPath, 'flows'))
         );
       })
-      .map(name => ({ name }));
+      .map(name => {
+        const meta = readProjectMeta(name);
+        return { name, type: meta?.type || 'shared' };
+      });
   } catch {
     return [];
   }
@@ -144,6 +217,45 @@ export function saveFlow(projectName, flowId, flow) {
 // ── Mutation helpers ──────────────────────────────────────────────────────────
 
 /**
+ * Create a new project directory with project.json and update .gitignore.
+ * Returns true on success, false if name is invalid or project already exists.
+ */
+export function createProject(projectName, type = 'shared') {
+  const projectDir = resolveProjectDir(projectName);
+  if (!projectDir || fs.existsSync(projectDir)) return false;
+  if (!['private', 'shared'].includes(type)) return false;
+  fs.mkdirSync(path.join(projectDir, 'flows'), { recursive: true });
+  writeProjectMeta(projectName, { name: projectName, type, createdAt: new Date().toISOString() });
+  syncGitignore(projectName, type);
+  return true;
+}
+
+/**
+ * Convert a project between 'private' and 'shared'.
+ * - shared → private: updates .gitignore AND runs `git rm -r --cached` so the
+ *   project's files are staged for removal from the git index (files on disk
+ *   are untouched). The caller should commit to complete the transition.
+ * - private → shared: removes from .gitignore; files become untracked and can
+ *   be staged and committed by the caller.
+ *
+ * Returns { ok, gitChanged } where gitChanged is true when git index was modified.
+ */
+export function convertProjectType(projectName, newType) {
+  if (!['private', 'shared'].includes(newType)) return { ok: false, gitChanged: false };
+  const projectDir = resolveProjectDir(projectName);
+  if (!projectDir || !fs.existsSync(projectDir)) return { ok: false, gitChanged: false };
+  const meta = readProjectMeta(projectName) || { name: projectName, createdAt: new Date().toISOString() };
+  meta.type = newType;
+  syncGitignore(projectName, newType);
+  const saved = writeProjectMeta(projectName, meta);
+  let gitChanged = false;
+  if (saved && newType === 'private') {
+    gitChanged = gitRmCached(projectDir);
+  }
+  return { ok: saved, gitChanged };
+}
+
+/**
  * Delete a project directory and everything inside it.
  */
 export function deleteProject(projectName) {
@@ -151,6 +263,7 @@ export function deleteProject(projectName) {
   if (!projectDir || !fs.existsSync(projectDir)) return false;
   try {
     fs.rmSync(projectDir, { recursive: true, force: true });
+    syncGitignore(projectName, 'shared'); // remove from .gitignore on deletion
     return true;
   } catch {
     return false;
