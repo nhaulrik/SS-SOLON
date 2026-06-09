@@ -387,7 +387,19 @@ ${highlightCss}
 
   return (
     <div className="app">
-      <AppHeader title={appName} subtitle="Visual Flow — Upload HTML Template" debugContext={debugContext} />
+      <AppHeader
+        title={
+          (templateId || isExistingFlow) && (pendingFlowName || currentFlowId)
+            ? (pendingFlowName || currentFlowId)
+            : appName
+        }
+        subtitle={
+          (templateId || isExistingFlow) && fileName
+            ? fileName
+            : 'Visual Flow — Upload HTML Template'
+        }
+        debugContext={debugContext}
+      />
 
       <div className="html-upload-back">
         <button className="btn btn-link" onClick={onBack}><span aria-hidden="true">←</span> Change flow</button>

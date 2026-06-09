@@ -20,18 +20,69 @@ const SUMMARY_SUFFIX = '.summary.md'
 
 // ── Excel / CSV summariser ─────────────────────────────────────────────────────
 
+function cellToString(v) {
+  if (v == null) return ''
+  if (typeof v === 'string') return v
+  if (typeof v === 'number' || typeof v === 'boolean') return String(v)
+  if (v instanceof Date) return v.toISOString()
+  if (typeof v === 'object') {
+    if (v.richText) return v.richText.map(r => r.text ?? '').join('')
+    if ('result' in v) return cellToString(v.result)
+    if (v.error) return ''
+  }
+  return String(v)
+}
+
+async function loadWorkbook(filePath) {
+  const { default: ExcelJS } = await import('exceljs')
+  const ext = path.extname(filePath).toLowerCase()
+  const wb = new ExcelJS.Workbook()
+  if (ext === '.csv') {
+    await wb.csv.readFile(filePath)
+  } else {
+    await wb.xlsx.readFile(filePath)
+  }
+  return {
+    sheetNames: wb.worksheets.map(ws => ws.name),
+    toArray(sheetName) {
+      const ws = wb.getWorksheet(sheetName) ?? wb.worksheets[0]
+      if (!ws) return []
+      const rows = []
+      ws.eachRow({ includeEmpty: true }, row => {
+        rows.push(row.values.slice(1).map(cellToString))
+      })
+      return rows
+    },
+    toObjects(sheetName) {
+      const ws = wb.getWorksheet(sheetName) ?? wb.worksheets[0]
+      if (!ws) return []
+      let headers = null
+      const rows = []
+      ws.eachRow({ includeEmpty: false }, (row, rowNum) => {
+        const vals = row.values.slice(1).map(cellToString)
+        if (rowNum === 1) {
+          headers = vals
+        } else if (headers) {
+          const obj = {}
+          headers.forEach((h, i) => { obj[h] = vals[i] ?? '' })
+          rows.push(obj)
+        }
+      })
+      return rows
+    },
+  }
+}
+
 /**
- * Convert a worksheet to a structured text summary instead of raw CSV.
+ * Convert pre-parsed rows (array of arrays) to a structured text summary.
  * Preserves all distinct values; trims noise from blank rows/cells.
  *
- * @param {object} sheet       The worksheet object.
- * @param {object} XLSX        The XLSX library instance.
+ * @param {string[][]} rows    Array of arrays from toArray().
  * @param {string} sheetName   Name of the sheet.
  * @param {boolean} [fullMode=false] When true, output all rows with full cell content (no row cap, no cell truncation).
  */
-function summariseSheet(sheet, XLSX, sheetName, fullMode = false, filters = []) {
-   // Parse to array-of-arrays, skip completely blank rows
-   const rows     = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' })
+function summariseSheet(rows, sheetName, fullMode = false, filters = []) {
+   // Skip completely blank rows
    const dataRows = rows.filter(row => row.some(cell => String(cell).trim() !== ''))
 
    if (dataRows.length === 0) return `[Sheet: ${sheetName}]\n(empty)\n`
@@ -114,18 +165,16 @@ async function readDocx(filePath) {
 }
 
 async function readXlsx(filePath, compact = false, filters = []) {
-   const { default: XLSX } = await import('xlsx')
-   const workbook = XLSX.readFile(filePath)
-   return workbook.SheetNames
-     .map(name => summariseSheet(workbook.Sheets[name], XLSX, name, !compact, filters))
-     .join('\n\n')
- }
+  const wb = await loadWorkbook(filePath)
+  return wb.sheetNames
+    .map(name => summariseSheet(wb.toArray(name), name, !compact, filters))
+    .join('\n\n')
+}
 
- async function readCsv(filePath, compact = false, filters = []) {
-    const { default: XLSX } = await import('xlsx')
-    const workbook = XLSX.readFile(filePath)
-    return summariseSheet(workbook.Sheets[workbook.SheetNames[0]], XLSX, path.basename(filePath), !compact, filters)
- }
+async function readCsv(filePath, compact = false, filters = []) {
+  const wb = await loadWorkbook(filePath)
+  return summariseSheet(wb.toArray(wb.sheetNames[0]), path.basename(filePath), !compact, filters)
+}
 
 async function readTextFile(filePath) {
   return fs.readFile(filePath, 'utf-8')
@@ -323,8 +372,6 @@ export async function readContextFilesCompact(projectDir, { selectedFiles = [], 
  *   matched:    true if the column was found in at least one file
  */
 export async function extractGroupedSlices(contextDir, column, groupValues, allFilenames, rowFilter = null) {
-   const { default: XLSX } = await import('xlsx')
-
    const TABULAR_EXT = new Set(['.xlsx', '.xls', '.csv'])
    const tabularFiles = allFilenames.filter(f => TABULAR_EXT.has(path.extname(f).toLowerCase()))
 
@@ -344,15 +391,15 @@ export async function extractGroupedSlices(contextDir, column, groupValues, allF
 
    for (const filename of tabularFiles) {
      const filePath = path.join(contextDir, filename)
-     let workbook
+     let wb
      try {
-       workbook = XLSX.readFile(filePath)
+       wb = await loadWorkbook(filePath)
      } catch {
        continue
      }
 
-     for (const sheetName of workbook.SheetNames) {
-       const rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: '' })
+     for (const sheetName of wb.sheetNames) {
+       const rawRows = wb.toObjects(sheetName)
        if (rawRows.length === 0) continue
 
        const headers = Object.keys(rawRows[0])
@@ -435,7 +482,6 @@ export async function extractGroupedSlices(contextDir, column, groupValues, allF
  */
 export async function readTabularColumns(projectDir, { selectedFiles = [] } = {}) {
   const contextDir = path.join(projectDir, 'AI Context')
-  const { default: XLSX } = await import('xlsx')
 
   let filenames
   try { filenames = await fs.readdir(contextDir) } catch { return { columns: [], fileCount: 0 } }
@@ -456,9 +502,9 @@ export async function readTabularColumns(projectDir, { selectedFiles = [] } = {}
 
   for (const filename of tabular) {
     try {
-      const workbook = XLSX.readFile(path.join(contextDir, filename))
-      for (const sheetName of workbook.SheetNames) {
-        const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: '' })
+      const wb = await loadWorkbook(path.join(contextDir, filename))
+      for (const sheetName of wb.sheetNames) {
+        const rows = wb.toArray(sheetName)
         const dataRows = rows.filter(row => row.some(cell => String(cell).trim() !== ''))
         if (dataRows.length === 0) continue
         for (const cell of dataRows[0]) {
@@ -481,7 +527,6 @@ export async function readTabularColumns(projectDir, { selectedFiles = [] } = {}
  * @returns {Promise<string[]>} Ordered unique values
  */
 export async function readColumnUniqueValues(contextDir, columnName, filenames, rowFilter = null) {
-  const { default: XLSX } = await import('xlsx')
   const TABULAR_EXT = new Set(['.xlsx', '.xls', '.csv'])
   const tabular = filenames.filter(f => TABULAR_EXT.has(path.extname(f).toLowerCase()))
 
@@ -490,9 +535,9 @@ export async function readColumnUniqueValues(contextDir, columnName, filenames, 
 
   for (const filename of tabular) {
     try {
-      const workbook = XLSX.readFile(path.join(contextDir, filename))
-      for (const sheetName of workbook.SheetNames) {
-        const rawRows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: '' })
+      const wb = await loadWorkbook(path.join(contextDir, filename))
+      for (const sheetName of wb.sheetNames) {
+        const rawRows = wb.toObjects(sheetName)
         if (rawRows.length === 0) continue
         const headers = Object.keys(rawRows[0])
 
@@ -538,8 +583,6 @@ export async function buildInstanceSlices(
   instanceKeys,
   allFilenames,
 ) {
-  const { default: XLSX } = await import('xlsx')
-
   const TABULAR_EXT = new Set(['.xlsx', '.xls', '.csv'])
   const NON_TABULAR_EXT = new Set(['.txt', '.md', '.html', '.pdf', '.docx'])
 
@@ -554,15 +597,15 @@ export async function buildInstanceSlices(
 
   for (const filename of tabularFiles) {
     const filePath = path.join(contextDir, filename)
-    let workbook
+    let wb
     try {
-      workbook = XLSX.readFile(filePath)
+      wb = await loadWorkbook(filePath)
     } catch {
       continue
     }
 
-    for (const sheetName of workbook.SheetNames) {
-      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: '' })
+    for (const sheetName of wb.sheetNames) {
+      const rows = wb.toArray(sheetName)
       const dataRows = rows.filter(row => row.some(cell => String(cell).trim() !== ''))
 
       if (dataRows.length === 0) continue

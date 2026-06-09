@@ -245,7 +245,7 @@ export default function App() {
     <div className="app">
       <header>
         <div>
-          <h1>SOLON Slide Studio</h1>
+          <h1>{appName}</h1>
           <div className="header-actions">
             <a href="/docs.html" target="_blank" rel="noopener noreferrer" className="docs-link">
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
