@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Revenue Management – Feature Catalog</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 7px;
+    background: #FF6359;
+  }
+  /* ── HEADER ── */
+  .header {
+    position: absolute;
+    top: 7px; left: 0; right: 0;
+    height: 96px;
+    background: #1a3c3a;
+    display: flex;
+    align-items: stretch;
+    padding: 0;
+    justify-content: space-between;
+  }
+  .header-left {
+    display: flex;
+    align-items: stretch;
+    flex: 1;
+  }
+  .pi-badge {
+    background: linear-gradient(90deg, #FF6359 0%, #FF6359 30%, white 50%, #FF6359 70%, #FF6359 100%);
+    background-size: 1000px 100%;
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    animation: shimmer 30s infinite;
+  }
+  .header-text-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 44px;
+    flex: 1;
+  }
+  .header-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #FF6359;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    margin-bottom: 3px;
+  }
+  .header-subtitle {
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding-right: 44px;
+  }
+  .header-stat {
+    text-align: center;
+    padding: 0 28px;
+  }
+  .header-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #FF6359;
+    line-height: 1;
+  }
+  .header-stat-label {
+    font-size: 10px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .header-divider {
+    width: 1px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+  }
+  .logo {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #7fb3af;
+    text-transform: uppercase;
+  }
+  /* ── BODY ── */
+  .body {
+    position: absolute;
+    top: 103px;
+    left: 0; right: 0;
+    bottom: 36px;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 18px;
+    padding: 16px;
+    background: #fafaf8;
+  }
+  /* ── LEFT PANEL ── */
+  .left-panel {
+    background: transparent;
+    border-right: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .left-section {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px;
+    border-bottom: none;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: box-shadow 0.3s ease;
+  }
+  .left-section:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  .left-section:last-child {
+    border-bottom: none;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a3c3a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+    border-bottom: none;
+    flex-shrink: 0;
+  }
+  .section-body {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  /* ── PROGRESS SECTION ── */
+  .progress-inner {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 100%;
+  }
+  /* Donut chart via SVG */
+  .donut-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 110px;
+    height: 110px;
+  }
+  .donut-wrap svg {
+    width: 110px;
+    height: 110px;
+    transform: rotate(-90deg);
+  }
+  .donut-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+  }
+  .donut-pct {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2C4A48;
+    line-height: 1;
+    display: block;
+  }
+  .donut-lbl {
+    font-size: 10px;
+    font-weight: 500;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-top: 2px;
+  }
+  .legend-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex: 1;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 6px;
+    background: #fafaf8;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+  }
+  .legend-item:hover {
+    background: #f0f0ec;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .legend-text {
+    flex: 1;
+    font-size: 10px;
+    font-weight: 500;
+    color: #2C4A48;
+  }
+  .legend-count {
+    font-size: 9px;
+    font-weight: 700;
+    color: #FF6359;
+  }
+  /* ── PI DISTRIBUTION SECTION ── */
+  .pi-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    justify-content: space-evenly;
+    flex: 1;
+  }
+  .pi-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+  .pi-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #2C4A48;
+    width: 36px;
+    flex-shrink: 0;
+  }
+  .pi-label.muted { color: #AAAAAA; }
+  .pi-track {
+    flex: 1;
+    height: 16px;
+    background: #E8E8E4;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .pi-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .pi-fill.active { background: #FF6359; }
+  .pi-fill.inactive { background: #2C4A48; }
+  .pi-value {
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    width: 54px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  /* ── PRIORITY SECTION ── */
+  .priority-stacked-bar {
+    height: 26px;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-shrink: 0;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .prio-seg {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.4px;
+    transition: filter 0.2s ease;
+  }
+  .prio-seg:hover {
+    filter: brightness(1.1);
+  }
+  .prio-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .prio-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 6px;
+    background: #fafaf8;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+  }
+  .prio-legend-item:hover {
+    background: #f0f0ec;
+  }
+  .prio-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .prio-legend-text {
+    font-size: 10px;
+    color: #2C4A48;
+    font-weight: 500;
+    flex: 1;
+  }
+  .prio-legend-pct {
+    font-size: 9px;
+    font-weight: 700;
+    color: #FF6359;
+  }
+  /* ── RIGHT PANEL ── */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    gap: 14px;
+    overflow: hidden;
+  }
+  /* ── BUSINESS VALUE BOX ── */
+	.value-box {
+	  background: white;
+	  border-left: 5px solid #FF6359;
+	  border-radius: 8px;
+	  padding: 14px 16px;
+	  display: flex;
+	  gap: 20px;
+	  flex-shrink: 0;
+	  height: auto;
+	  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+	  transition: box-shadow 0.3s ease;
+	}
+	.value-box:hover {
+	  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+	}
+  .value-col {
+    flex: 1;
+  }
+  .value-col-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a3c3a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+  }
+  .value-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .value-bullets li {
+    font-size: 9px;
+    color: #555;
+    padding-left: 12px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .value-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 1px; top: 5px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #FF6359;
+  }
+  /* ── TABLE ── */
+  .table-wrap {
+    flex: 1;
+    overflow: hidden;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+  }
+  thead tr {
+    background: linear-gradient(135deg, #1a3c3a 0%, #2C4A48 100%);
+  }
+  thead th {
+    padding: 10px 10px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  thead th:first-child { border-radius: 8px 0 0 0; }
+  thead th:last-child { border-radius: 0 8px 0 0; }
+  tbody tr {
+    border-bottom: 1px solid #f0f0ec;
+    transition: all 0.25s ease;
+    border-left: 3px solid transparent;
+  }
+  tbody tr:hover {
+    background: #fff9f8;
+    border-left-color: #FF6359;
+    box-shadow: inset 0 0 12px rgba(255, 99, 89, 0.08);
+  }
+  tbody tr:nth-child(even) {
+    background: white;
+  }
+  tbody td {
+    padding: 8px 10px;
+    color: #333;
+    vertical-align: middle;
+  }
+  .init-name {
+    font-size: 10px;
+    font-weight: 700;
+    color: #1a3c3a;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+  }
+  .init-desc {
+    font-size: 8px;
+    color: #888;
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+  .effort-pill {
+    display: inline-block;
+    background: #e8f0ef;
+    color: #1a3c3a;
+    font-weight: 700;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+    border: 1px solid #d0e5e2;
+  }
+  .pi-text {
+    font-size: 10px;
+    color: #444;
+    font-weight: 500;
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #2C4A48;
+  }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .prio-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 18px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .feat-count {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2C4A48;
+    text-align: center;
+    display: block;
+  }
+  /* ══ FOOTER ══ */
+.slide-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #1a3c3a;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+}
+
+  .footer-text {
+    font-size: 8.5px;
+    color: #7fb3af;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes countUp {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .table-spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    z-index: 10;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e8e8e4;
+    border-top-color: #FF6359;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .animate-bullet {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-row {
+    animation: fadeInUp 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-counter {
+    animation: countUp 0.8s ease-out;
+  }
+
+  .legend-item.filterable {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .legend-item.filterable:hover {
+    background: #e8e8e4 !important;
+    transform: scale(1.02);
+  }
+
+  .legend-item.active {
+    filter: brightness(1);
+  }
+
+  .legend-item.inactive {
+    opacity: 0.4;
+  }
+
+  tbody tr {
+    transition: all 0.4s ease;
+  }
+
+  tbody tr.highlight {
+    background: #fff4f2 !important;
+    box-shadow: inset 0 0 0 1px #FF6359;
+  }
+
+  tbody tr.dimmed {
+    opacity: 0.3;
+  }
+
+  /* ── MODAL ── */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .modal-backdrop.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .modal-content {
+    background: white;
+    border-radius: 16px;
+    max-width: 640px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35), 0 0 1px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid rgba(255, 99, 89, 0.1);
+  }
+
+  .modal-header {
+    background: linear-gradient(135deg, #1a3c3a 0%, #2C4A48 100%);
+    padding: 36px 28px;
+    border-radius: 16px 16px 0 0;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-bottom: 3px solid #FF6359;
+  }
+
+  .modal-title-section {
+    flex: 1;
+  }
+
+  .modal-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .modal-effort {
+    font-size: 13px;
+    color: #FF6359;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-weight: 700;
+    background: rgba(255, 99, 89, 0.1);
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+  }
+
+  .modal-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .modal-body {
+    padding: 32px 28px;
+    background: #fafaf8;
+  }
+
+  .modal-section {
+    margin-bottom: 28px;
+  }
+
+  .modal-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .modal-section-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: #FF6359;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .modal-section-title::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #FF6359;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .modal-features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .modal-feature {
+    font-size: 12px;
+    color: #1a3c3a;
+    padding: 12px 14px;
+    position: relative;
+    line-height: 1.6;
+    background: #ffffff;
+    border-left: 4px solid #FF6359;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid #e8e8e0;
+    border-left: 4px solid #FF6359;
+  }
+
+  .modal-feature:hover {
+    background: #fff9f8;
+    box-shadow: 0 4px 12px rgba(255, 99, 89, 0.15);
+    border-color: #FF6359;
+  }
+
+  .modal-feature::before {
+    content: '';
+  }
+
+  /* Status & Priority Section */
+  .modal-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+
+  .modal-stat-card {
+    background: #ffffff;
+    padding: 18px;
+    border-radius: 10px;
+    border: 1.5px solid #ddd;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .modal-stat-card:hover {
+    background: #fff9f8;
+    border-color: #FF6359;
+    box-shadow: 0 6px 16px rgba(255, 99, 89, 0.15);
+  }
+
+  .modal-stat-label {
+    font-size: 10px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .modal-stat-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a3c3a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .modal-stat-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .modal-stat-badge.status-progress {
+    background: #fff0ee;
+    color: #F0A500;
+    border: 1px solid #FFD580;
+  }
+
+  .modal-stat-badge.status-analysis {
+    background: #f0f4f8;
+    color: #1A5276;
+    border: 1px solid #A1C3E1;
+  }
+
+  .modal-stat-badge.status-todo {
+    background: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+  }
+
+  .modal-stat-badge.priority-p1 {
+    background: #fff0ee;
+    color: #FF6359;
+    border: 1px solid #FFB3AA;
+  }
+
+  .modal-stat-badge.priority-p2 {
+    background: #fff9f0;
+    color: #F0A500;
+    border: 1px solid #FFD580;
+  }
+
+  .modal-stat-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .modal-description {
+    font-size: 12px;
+    color: #1a3c3a;
+    line-height: 1.8;
+    background: #ffffff;
+    padding: 18px;
+    border-radius: 10px;
+    border: 1.5px solid #ddd;
+    border-left: 4px solid #FF6359;
+  }
+
+  .modal-irms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .modal-irm-badge {
+    background: #f0f0ec;
+    color: #1a3c3a;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid #e0e0d8;
+  }
+
+  .modal-footer {
+    border-top: 1px solid #f0f0ec;
+    padding: 20px 28px;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    background: #fafaf8;
+    border-radius: 0 0 16px 16px;
+  }
+
+  .modal-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  .modal-btn-close {
+    background: linear-gradient(135deg, #e8e8e0 0%, #f0f0ec 100%);
+    color: #1a3c3a;
+    border: 1px solid #ddd;
+  }
+
+  .modal-btn-close:hover {
+    background: linear-gradient(135deg, #ddd 0%, #e8e8e4 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <!-- TOP BAR -->
+  <div class="top-bar"></div>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="pi-badge">PI 28</div>
+      <div class="header-text-section">
+        <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+        <div class="header-title">Core Revenue Management Capabilities</div>
+        <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">23,200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">5</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">35</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="body">
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <!-- SECTION 1: Overall Progress -->
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            <!-- Legend -->
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">Done</span>
+                <span class="legend-count">7 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Progress</span>
+                <span class="legend-count">12 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">9 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">10 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SECTION 3: Priority Split -->
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:55%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:45%; background:#F0A500;">P2</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">55% · 21 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">45% · 17 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <!-- Punchline -->
+      <div style="font-size: 11px; font-weight: 700; color: #FF6359; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid #FF6359;">Competitive Advantage: Platform Enabling €200M+ Revenue Pipeline</div>
+      <!-- Business Value Box -->
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Enables end-to-end taxpayer lifecycle management from registration through accounting</li>
+            <li>Reduces manual caseworker effort via automated billing, assessments & penalty calculations</li>
+            <li>Directly supports Greek project delivery and future market opportunities</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Core dependency for all current and pipeline Solon Tax project implementations</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform</li>
+            <li>€200M+ in future project pipeline contingent on platform completeness</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Initiatives Table -->
+      <div class="table-wrap" style="position: relative;">
+        <div class="table-spinner" id="tableSpinner">
+          <div class="spinner"></div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Registration</div>
+                <div class="init-desc">Party identifiers, org hierarchy, search enhancements</div>
+              </td>
+              <td><span class="effort-pill">11,866h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">14</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Taxpayer Accounting</div>
+                <div class="init-desc">General ledger core, reconciliation & balance management</div>
+              </td>
+              <td><span class="effort-pill">8,064h</span></td>
+              <td><span class="pi-text">PI 28 · PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Billing &amp; Assessments</div>
+                <div class="init-desc">Instalment plans, assessment automation, billing cycles</div>
+              </td>
+              <td><span class="effort-pill">2,880h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">6</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Penalty &amp; Interest</div>
+                <div class="init-desc">Interest calculation, credit unallocated payment segments</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29 · PI 30</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Tax Accounts</div>
+                <div class="init-desc">Tax account setup, configurable thresholds, notifications</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- ══ FOOTER ══ -->
+  <div class="slide-footer">
+    <span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+  </div>
+
+</section>
+
+<!-- MODAL BACKDROP -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title-section">
+        <div class="modal-title" id="modalTitle">Initiative Name</div>
+        <div class="modal-effort" id="modalEffort">Effort: TBD</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-title">Key Features</div>
+        <div class="modal-features" id="modalFeatures"></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Overview</div>
+        <div class="modal-stats">
+          <div class="modal-stat-card">
+            <div class="modal-stat-label">Status</div>
+            <div class="modal-stat-value" id="modalStatusValue">
+              <span class="modal-stat-badge" id="modalStatus">In Progress</span>
+            </div>
+          </div>
+          <div class="modal-stat-card">
+            <div class="modal-stat-label">Priority</div>
+            <div class="modal-stat-value" id="modalPriorityValue">
+              <span class="modal-stat-badge" id="modalPriority">P1</span>
+            </div>
+          </div>
+          <div class="modal-stat-card">
+            <div class="modal-stat-label">Features</div>
+            <div class="modal-stat-value" id="modalFeatureValue">
+              <span id="modalFeatureCount" style="color: #FF6359; font-weight: 700;">6</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Description</div>
+        <div class="modal-description" id="modalDescription">Loading...</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn modal-btn-close" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── INITIATIVE DATA ──
+  const initiativeData = {
+    'Registration': {
+      effort: '11,866h',
+      status: 'In Progress',
+      priority: 'P1',
+      features: 6,
+      description: 'Party identifiers, organizational hierarchy, search enhancements. Supports graphical tree views for complex organizational and taxpayer hierarchies with backdated changes and expanded name elements.',
+      epics: ['Party Identifiers', 'Organizational Hierarchy Trees', 'Search Enhancements', 'Backdated Changes', 'Expanded Name Elements']
+    },
+    'Taxpayer Accounting': {
+      effort: '8,064h',
+      status: 'In Analysis',
+      priority: 'P1',
+      features: 9,
+      description: 'General ledger core, reconciliation & balance management. Expands GL decision tables to support multiline rules with additional parameters (Valid From/To, Taxpayer attributes), making accounting configurations highly scalable.',
+      epics: ['General Ledger Core', 'Reconciliation Engine', 'GL Decision Tables', 'Balance Management', 'Financial Events Logging']
+    },
+    'Billing & Assessments': {
+      effort: '2,880h',
+      status: 'In Progress',
+      priority: 'P2',
+      features: 6,
+      description: 'Instalment plans, assessment automation, billing cycles. Allows the system to add and maintain payment installments for Ad-hoc obligations, highly useful for inheritance taxes and migrated legacy debts.',
+      epics: ['Instalment Plans', 'Assessment Automation', 'Billing Cycles', 'Ad-hoc Obligations', 'Payment Management']
+    },
+    'Penalty & Interest': {
+      effort: 'TBD',
+      status: 'To Do',
+      priority: 'P2',
+      features: 4,
+      description: 'Interest calculation, credit unallocated payment segments. Enhances the financial engine to calculate credit/reimbursement interest specifically for unallocated payment segments, ensuring taxpayers are properly credited for overpayments.',
+      epics: ['Interest Calculation', 'Penalty Management', 'Credit Processing', 'Unallocated Segments']
+    },
+    'Tax Accounts': {
+      effort: 'TBD',
+      status: 'To Do',
+      priority: 'P1',
+      features: 2,
+      description: 'Tax account setup, configurable thresholds, notifications. Adds quality-of-life features like exporting filtered GL Accounts to Excel and introducing threshold amounts in Revenue Type Registrations.',
+      epics: ['Tax Account Setup', 'Threshold Configuration', 'Excel Export', 'Notification System']
+    }
+  };
+
+  // ── MODAL FUNCTIONS ──
+  function openModal(initiativeName) {
+    const data = initiativeData[initiativeName];
+    if (!data) return;
+
+    document.getElementById('modalTitle').textContent = initiativeName;
+    document.getElementById('modalEffort').textContent = `Effort: ${data.effort}`;
+    document.getElementById('modalFeatureCount').textContent = data.features;
+    document.getElementById('modalDescription').textContent = data.description;
+
+    // Set status badge with proper styling
+    const statusBadge = document.getElementById('modalStatus');
+    statusBadge.textContent = data.status;
+    statusBadge.className = 'modal-stat-badge';
+    if (data.status === 'In Progress') {
+      statusBadge.classList.add('status-progress');
+    } else if (data.status === 'In Analysis') {
+      statusBadge.classList.add('status-analysis');
+    } else if (data.status === 'To Do') {
+      statusBadge.classList.add('status-todo');
+    }
+
+    // Set priority badge with proper styling
+    const priorityBadge = document.getElementById('modalPriority');
+    priorityBadge.textContent = data.priority;
+    priorityBadge.className = 'modal-stat-badge';
+    if (data.priority === 'P1') {
+      priorityBadge.classList.add('priority-p1');
+    } else if (data.priority === 'P2') {
+      priorityBadge.classList.add('priority-p2');
+    }
+
+    const featuresContainer = document.getElementById('modalFeatures');
+    featuresContainer.innerHTML = data.epics
+      .map(epic => `<div class="modal-feature">${epic}</div>`)
+      .join('');
+
+    document.getElementById('modalBackdrop').classList.add('active');
+  }
+
+  function closeModal() {
+    document.getElementById('modalBackdrop').classList.remove('active');
+  }
+
+  // ── ANIMATED COUNTER ──
+  function animateCounter(element, target, duration = 1200) {
+    const start = 0;
+    const range = target - start;
+    const increment = range / (duration / 16);
+    let current = start;
+
+    const counter = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(counter);
+      }
+
+      if (target > 1000) {
+        element.textContent = current.toLocaleString('en-US', { maximumFractionDigits: 0 });
+      } else {
+        element.textContent = Math.floor(current);
+      }
+    }, 16);
+  }
+
+  // ── INIT ON PAGE LOAD ──
+  window.addEventListener('load', () => {
+    // Animate header counters
+    const statValues = document.querySelectorAll('.header-stat-value');
+    const targets = [23200, 6, 38];
+
+    statValues.forEach((el, idx) => {
+      el.classList.add('animate-counter');
+      const target = targets[idx];
+      setTimeout(() => {
+        animateCounter(el, target, 1200);
+      }, 300 + idx * 200);
+    });
+
+    // Hide table spinner after 1s
+    setTimeout(() => {
+      const spinner = document.getElementById('tableSpinner');
+      if (spinner) {
+        spinner.style.opacity = '0';
+        spinner.style.pointerEvents = 'none';
+        spinner.style.transition = 'opacity 0.3s ease';
+      }
+    }, 1000);
+
+    // Stagger animate bullets (after header effects finish at ~900ms)
+    const bullets = document.querySelectorAll('.value-bullets li');
+    bullets.forEach((bullet, idx) => {
+      bullet.classList.add('animate-bullet');
+      bullet.style.animationDelay = `${0.9 + idx * 0.12}s`;
+    });
+
+    // Stagger animate table rows (after header effects finish at ~900ms)
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach((row, idx) => {
+      row.classList.add('animate-row');
+      row.style.animationDelay = `${1.0 + idx * 0.1}s`;
+    });
+
+    // Setup legend filtering
+    setupLegendFiltering();
+
+    // Setup modal on row click
+    setupInitiativeModal();
+  });
+
+  function setupInitiativeModal() {
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', () => {
+        const initiativeName = row.querySelector('.init-name').textContent.trim();
+        openModal(initiativeName);
+      });
+    });
+  }
+
+  // Close modal on backdrop click
+  document.getElementById('modalBackdrop').addEventListener('click', (e) => {
+    if (e.target.id === 'modalBackdrop') {
+      closeModal();
+    }
+  });
+
+  // ── LEGEND FILTERING ──
+  function setupLegendFiltering() {
+    const legendItems = document.querySelectorAll('.legend-item');
+
+    legendItems.forEach((item) => {
+      item.classList.add('filterable');
+
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        // Toggle active state
+        const isActive = item.classList.contains('active');
+
+        if (!isActive) {
+          // Deactivate all others
+          legendItems.forEach(li => {
+            li.classList.remove('active');
+          });
+          item.classList.add('active');
+
+          // Highlight matching rows
+          const legendText = item.querySelector('.legend-text').textContent.trim();
+          filterTableByStatus(legendText);
+        } else {
+          // Clear filter
+          item.classList.remove('active');
+          clearTableFilter();
+        }
+      });
+    });
+  }
+
+  function filterTableByStatus(status) {
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      const statusBadge = row.querySelector('.status-badge');
+      if (statusBadge && statusBadge.textContent.trim() === status) {
+        row.classList.add('highlight');
+        row.classList.remove('dimmed');
+      } else {
+        row.classList.add('dimmed');
+        row.classList.remove('highlight');
+      }
+    });
+  }
+
+  function clearTableFilter() {
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+      row.classList.remove('highlight', 'dimmed');
+    });
+  }
+
+  // Clear filter on page click
+  document.addEventListener('click', () => {
+    const activeItem = document.querySelector('.legend-item.active');
+    if (activeItem) {
+      activeItem.classList.remove('active');
+      clearTableFilter();
+    }
+  });
+</script>
+
+</body>
+</html>

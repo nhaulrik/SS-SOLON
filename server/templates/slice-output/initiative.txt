@@ -1,0 +1,146 @@
+TEMPLATE_NAME: Initiative Detail
+TEMPLATE_DESCRIPTION: Single roadmap initiative — strategic case and feature breakdown for steerco prioritisation
+
+---
+
+=== DATA EXTRACTION RULES (read before filling any field) ===
+
+PI FILTER SCOPE:
+- The raw feature rows you receive have already been pre-filtered to the active PI.
+- The shared reference sheet (Initiative Stats) is NOT pre-filtered.
+- For every lookup in Initiative Stats, you MUST match the PI column exactly.
+- Never read a value from a row whose PI column does not match the active PI.
+
+LOOKUP DISCIPLINE — NO CALCULATION:
+- Total Estimate and Feature Count are direct cell reads from Initiative Stats.
+- Do NOT sum, count, or derive these values yourself.
+- If you cannot find the matching row, write N/A — never substitute a calculated value.
+- Feature-level data (name, description, status, estimate, requester, IRM) is read from raw feature rows only.
+
+SOURCE PRIORITY:
+- Initiative Stats sheet → aggregate numbers (Total Estimate, Feature Count, P1/P2/P3)
+- Raw feature rows      → all per-feature fields (name, description, status, estimate, requester, IRM)
+- Never cross-use these sources (e.g. do not derive feature counts from raw rows when the value is in Initiative Stats).
+
+BAR PERCENTAGE RULE:
+- Identify the feature with the highest Estimate value among all raw feature rows for this initiative (ignoring blank/TBD).
+- That feature receives --bar-pct: 100%.
+- All other features: (feature_estimate ÷ max_estimate) × 100, rounded to one decimal place.
+- Features with blank or TBD estimate receive --bar-pct: 0%.
+
+REQUESTER CLASS RULE:
+- Read the "Requester" column for each feature row.
+- "GRC" (case-insensitive) → class: req-grc  | label: GRC
+- "GTM" (case-insensitive) → class: req-gtm  | label: GTM
+- Anything else or blank   → class: req-other | label: Other
+
+STATUS COLOR RULE — map Feature Status to dot color and text color:
+- "In Progress"               → dot: #F0A500 | text: #b07800
+- "In Design"                 → dot: #4A90D9 | text: #2a70b8
+- "HLD"                       → dot: #4A90D9 | text: #2a70b8
+- "Ready for Dev"             → dot: #4CAF50 | text: #2e7d32
+- "To Do"                     → dot: #BBBBBB | text: #888888
+- "Under Analysis"            → dot: #9B59B6 | text: #7d3c98
+- "Waiting Analysis Approval" → dot: #E67E22 | text: #b85c10
+- "Waiting Solution Approval" → dot: #E67E22 | text: #b85c10
+- Blank                       → dot: #BBBBBB | text: #888888
+
+---
+
+=== {{ROADMAP_INITIATIVE}} ===
+
+ACTIVE PI: {{PI_VALUE}}
+- Read from the PI column of any raw feature row in this slice. Format as "PI 28" (with space).
+
+=== Header ===
+
+Roadmap Initiative: {{INITIATIVE_NAME}}
+- Read the value that follows "Roadmap Initiative:" in the raw feature row (e.g. "APPLICATION PROCESSES"). Do NOT use the value that follows "Roadmap Feature:".
+- Output this value verbatim as the text content of the `.header-title` div.
+
+Initiative Group: {{INITIATIVE_GROUP_NAME}}
+- Read the value that follows "Roadmap Initiative Group:" in the raw feature row (e.g. "REFERENCE IMPLEMENTATIONS").
+- Output this value verbatim as the start of the `.header-subtitle` div.
+
+Total Effort: {{TOTAL_HOURS}} hours
+  CRITICAL: This value MUST come from the "Initiative Stats" sheet in the Shared Reference Data.
+  
+  LOOKUP PROCESS (step-by-step):
+  1. First, identify these three values from the raw feature rows for this initiative:
+     - {{PI_VALUE}}: the PI column value (e.g., "PI28")
+     - {{INITIATIVE_GROUP_NAME}}: the Roadmap Initiative Group column value
+     - {{INITIATIVE_NAME}}: the Roadmap Initiative column value (the initiative you're currently processing)
+  
+  2. Next, locate the "Initiative Stats" sheet in the SHARED REFERENCE DATA section.
+  
+  3. Find the ONE row in Initiative Stats where ALL THREE of these conditions match:
+     - PI column = {{PI_VALUE}}
+     - Roadmap Initiative Group column = {{INITIATIVE_GROUP_NAME}}
+     - Roadmap Initiative column = {{INITIATIVE_NAME}}
+  
+  4. Read the "Total Estimate" column value from that row.
+  
+  5. Format as comma-separated integer (e.g., "4,165"). Do NOT sum or derive it.
+  
+  EXAMPLE: If you're processing ACCESSIBILITY initiative in NON-FUNCTIONAL REQUIREMENT COVERAGE group under PI28,
+  find the row in Initiative Stats where:
+    PI = "PI28" AND Roadmap Initiative Group = "NON-FUNCTIONAL REQUIREMENT COVERAGE" AND Roadmap Initiative = "ACCESSIBILITY"
+  That row shows Total Estimate = blank (or N/A if not found).
+  
+  If the matching row cannot be found, write N/A.
+
+Feature Count: {{FEATURE_COUNT}}
+  CRITICAL: This value MUST come from the "Initiative Stats" sheet in the Shared Reference Data.
+  
+  LOOKUP PROCESS (step-by-step):
+  1. Use the same three values you identified for Total Effort:
+     - {{PI_VALUE}}: the PI column value (e.g., "PI28")
+     - {{INITIATIVE_GROUP_NAME}}: the Roadmap Initiative Group column value
+     - {{INITIATIVE_NAME}}: the Roadmap Initiative column value
+  
+  2. Find the ONE row in Initiative Stats (Shared Reference Data) where ALL THREE conditions match:
+     - PI column = {{PI_VALUE}}
+     - Roadmap Initiative Group column = {{INITIATIVE_GROUP_NAME}}
+     - Roadmap Initiative column = {{INITIATIVE_NAME}}
+  
+  3. Read the "Features" column value from that row.
+  
+  4. Write the number as-is. Do NOT count raw rows. Do NOT derive it.
+  
+  EXAMPLE: For the same ACCESSIBILITY row in NON-FUNCTIONAL REQUIREMENT COVERAGE / PI28,
+  the Features column shows: 7
+  
+  If the matching row cannot be found, write N/A.
+
+Main Requester: {{MAIN_REQUESTER}}
+- Read the "Requester" column from raw feature rows for this initiative.
+- Write the single most frequently occurring non-blank value, capitalised (e.g. "GRC", "GTM").
+
+=== Strategic Case — Why Prioritise This Initiative ===
+
+[Synthesise 3 distinct strategic reasons from the "Features Description" fields of all features in this initiative. Strip all Jira markup ({color:...}, *, **, #, h1., etc.) before reading. Each reason must represent a different angle: e.g. operational impact, technical necessity, business risk of delay, dependency enablement, or platform strategic value. Draw only from content in the Features Description column — do NOT invent. If descriptions are sparse, use the feature names and requester to infer business context.]
+
+Reason 01 Title: {{REASON_01_TITLE}}
+[~5 words — bold, action-oriented. No filler.]
+Reason 01 Text: {{REASON_01_TEXT}}
+[MAX 20 words — one tight sentence. Hard limit. No padding.]
+
+Reason 02 Title: {{REASON_02_TITLE}}
+[~5 words — bold, action-oriented. No filler.]
+Reason 02 Text: {{REASON_02_TEXT}}
+[MAX 20 words — one tight sentence. Hard limit. No padding.]
+
+Reason 03 Title: {{REASON_03_TITLE}}
+[~5 words — bold, action-oriented. No filler.]
+Reason 03 Text: {{REASON_03_TEXT}}
+[MAX 20 words — one tight sentence. Hard limit. No padding.]
+
+=== Key Features === [ordered by Estimate descending, blank/TBD last — ALL features]
+
+[Sort raw feature rows for this initiative by the "Estimate" column descending. Only include rows where "Roadmap Initiative" is an EXACT string match to {{INITIATIVE_NAME}} — no partial or fuzzy matches. Features with blank or TBD estimates go last. Output ALL matching features — do NOT cap or truncate the list. NEVER invent features that are not in the raw data. Output as JSON array with 10-element subarrays: [irm, effort, name, description, dotColor, textColor, statusLabel, reqClass, reqLabel, barPct]]
+
+[
+{{#EACH_FEATURE}}
+  ["{{FEATURE_IRM}}","{{FEATURE_EFFORT}}","{{FEATURE_NAME}}","{{FEATURE_DESCRIPTION}}","{{FEATURE_STATUS_DOT_COLOR}}","{{FEATURE_STATUS_TEXT_COLOR}}","{{FEATURE_STATUS}}","{{FEATURE_REQUESTER_CLASS}}","{{FEATURE_REQUESTER_LABEL}}","{{FEATURE_BAR_PCT}}"]{{#NOT_LAST}},{{/NOT_LAST}}
+{{/EACH_FEATURE}}
+]

@@ -1,0 +1,156 @@
+TEMPLATE_NAME: Initiative Group Summary
+TEMPLATE_DESCRIPTION: Roadmap initiative group with feature counts and effort breakdown by phase
+
+---
+
+=== DATA EXTRACTION RULES (read before filling any field) ===
+
+PI FILTER SCOPE:
+- The raw feature rows you receive have already been pre-filtered to the active PI.
+- The shared reference sheets (Initiative Stats, Initiative Group Stats) are NOT pre-filtered.
+- For every lookup in Initiative Stats or Initiative Group Stats, you MUST match the PI column exactly.
+- Never read a value from a row whose PI column does not match the active PI.
+
+LOOKUP DISCIPLINE — NO CALCULATION:
+- Every numeric field below (except the Group-Level Priority Breakdown) is a direct cell read from a named sheet and column.
+- Do NOT sum, count, average, or derive any value yourself unless the field explicitly says "Sum".
+- If you cannot find the matching row, write N/A — never substitute a calculated value.
+
+SOURCE PRIORITY:
+- Initiative Stats sheet        → per-initiative numbers (estimate, features, P1/P2/P3)
+- Initiative Group Stats sheet  → group-level totals (grand total hours, initiative count, total features)
+- Raw feature rows              → status, requester, description material
+- Never cross-use these sources (e.g. do not take feature counts from raw rows when the value is available in Initiative Stats).
+
+=== {{ROADMAP_INITIATIVE_GROUP}} ===
+
+ACTIVE PI: {{PI_VALUE}}
+- State the exact PI value that all lookups below are scoped to.
+- Read it from the PI column of any raw feature row in this slice.
+
+{{#EACH_INITIATIVE}}
+
+---
+
+Initiative: {{INITIATIVE_NAME}}
+- List all unique values from the "Roadmap Initiative" column in the raw feature rows of this slice.
+- Order initiatives by Total Estimate descending (highest first). Initiatives with blank or zero estimate go last.
+- Do NOT add or omit any initiative name — use exactly what appears in the data.
+
+Total Estimate: {{TOTAL_ESTIMATE}} hours
+  Sheet to use: Initiative Stats
+  Matching rule: find the row where ALL THREE conditions are true:
+    • PI column                       = {{PI_VALUE}}
+    • Roadmap Initiative Group column = {{ROADMAP_INITIATIVE_GROUP}}
+    • Roadmap Initiative column       = {{INITIATIVE_NAME}}
+  Column to read: "Total Estimate"
+  Write the number as-is. Do NOT sum or derive it.
+
+Feature Count: {{FEATURE_COUNT}}
+  Sheet to use: Initiative Stats
+  Matching rule: find the row where ALL THREE conditions are true:
+    • PI column                       = {{PI_VALUE}}
+    • Roadmap Initiative Group column = {{ROADMAP_INITIATIVE_GROUP}}
+    • Roadmap Initiative column       = {{INITIATIVE_NAME}}
+  Column to read: "Features"
+  Write the number as-is. This is a single integer cell. Do NOT count raw rows. Do NOT use any other source.
+
+Feature Priority Breakdown:
+P1: {{PRIORITY_P1}} | P2: {{PRIORITY_P2}} | P3: {{PRIORITY_P3}}
+  Sheet to use: Initiative Stats
+  Matching rule: find the row where ALL THREE conditions are true:
+    • PI column                       = {{PI_VALUE}}
+    • Roadmap Initiative Group column = {{ROADMAP_INITIATIVE_GROUP}}
+    • Roadmap Initiative column       = {{INITIATIVE_NAME}}
+  Columns to read: "P1", "P2", "P3" — one value each. Write 0 if a cell is blank.
+
+Dominant Priority: {{DOMINANT_PRIORITY}}
+- Derive from the three values above using this rule only:
+  If P1 > 0 → write "P1". Else if P2 > 0 → write "P2". Else → write "P3".
+
+Current Status: {{CURRENT_STATUS}}
+- Read the "Feature Status" column from the raw feature rows for this initiative.
+- Write the single most frequently occurring non-blank value.
+
+Initiative Description: {{INITIATIVE_DESCRIPTION}}
+- ~50 words. Summarise what this initiative delivers based on the feature names and descriptions
+  in the raw rows. Be specific — do not use generic filler.
+
+{{/EACH_INITIATIVE}}
+
+---
+
+=== Summary ===
+
+Roadmap Group: {{ROADMAP_GROUP}}
+- Read from the "Roadmap Initiative Group" column of any raw feature row in this slice.
+
+Total Effort: {{GRAND_TOTAL}} hours
+  Sheet to use: Initiative Group Stats
+  Matching rule: find the row where BOTH conditions are true:
+    • PI column                       = {{PI_VALUE}}
+    • Roadmap Initiative Group column = {{ROADMAP_GROUP}}
+  Column to read: "Estimate"
+  Write the number as-is. Do NOT sum the per-initiative estimates. Do NOT derive it.
+  This value also populates the header "Total Hours" stat on the slide.
+
+Number of Unique Initiatives: {{INITIATIVE_COUNT}}
+  Sheet to use: Initiative Group Stats
+  Matching rule: find the row where BOTH conditions are true:
+    • PI column                       = {{PI_VALUE}}
+    • Roadmap Initiative Group column = {{ROADMAP_GROUP}}
+  Column to read: "Initiatives"
+  Write the number as-is. Do NOT count the initiative blocks above. Do NOT derive it.
+
+Total Features: {{TOTAL_FEATURE_COUNT}}
+  Sheet to use: Initiative Group Stats
+  Matching rule: find the row where BOTH conditions are true:
+    • PI column                       = {{PI_VALUE}}
+    • Roadmap Initiative Group column = {{ROADMAP_GROUP}}
+  Column to read: "Features"
+  Write the number as-is. Do NOT sum the per-initiative Feature Count values. Do NOT derive it.
+
+Requester: {{REQUESTER}}
+- Read the "Requester" column from the raw feature rows. Use the most common non-blank value.
+
+Group-Level Priority Breakdown:
+  Sheet to use: Initiative Stats
+  Matching rule: ALL rows where BOTH conditions are true:
+    • PI column                       = {{PI_VALUE}}
+    • Roadmap Initiative Group column = {{ROADMAP_GROUP}}
+  Sum the "P1" column across all matching rows → {{GROUP_PRIORITY_P1}}
+  Sum the "P2" column across all matching rows → {{GROUP_PRIORITY_P2}}
+  Sum the "P3" column across all matching rows → {{GROUP_PRIORITY_P3}}
+
+Total Features (priority section): {{GROUP_PRIORITY_GRAND_TOTAL}}
+  Sheet to use: Initiative Group Stats
+  Matching rule: find the row where BOTH conditions are true:
+    • PI column                       = {{PI_VALUE}}
+    • Roadmap Initiative Group column = {{ROADMAP_GROUP}}
+  Column to read: "Features"
+  Write the number as-is. This is the same cell as {{TOTAL_FEATURE_COUNT}} above.
+
+Description of initiative group: {{INITIATIVE_GROUP_DESCRIPTION}}
+- ~120 words. Summarise the strategic purpose and overall scope of this initiative group.
+  Highlight the highest-effort initiatives and any cross-initiative themes.
+  Note shared dependencies, delivery phases, or risks that affect multiple initiatives.
+
+=== Right Panel Content (AI-generated) ===
+
+Business Value:
+Subtitle: {{BUSINESS_VALUE_SUBTITLE}}
+- ~8 words. A short operational framing line, e.g. "Operational impact & delivery enablement".
+
+Bullet 1: {{BUSINESS_VALUE_1}}
+Bullet 2: {{BUSINESS_VALUE_2}}
+Bullet 3: {{BUSINESS_VALUE_3}}
+- 3 bullets, ~20 words each. Concrete delivery outcomes and operational benefits from the initiatives in this group.
+
+Market Relevance:
+Subtitle: {{MARKET_RELEVANCE_SUBTITLE}}
+- ~8 words. A short strategic framing line, e.g. "Strategic positioning & pipeline dependency".
+
+Bullet 1: {{MARKET_RELEVANCE_1}}
+Bullet 2: {{MARKET_RELEVANCE_2}}
+Bullet 3: {{MARKET_RELEVANCE_3}}
+- 3 bullets, ~20 words each. How these initiatives differentiate the platform in tenders, RFPs, or target markets.

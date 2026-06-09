@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>SOLON 2026 – Non-GRC Overview</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", "Segoe UI", sans-serif;
+    }
+
+    body {
+        background: #0f2f2e;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .slide {
+        width: 1280px;
+        height: 720px;
+        background: #ffffff;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* HEADER */
+    .header {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        font-size: 40px;
+        font-weight: 600;
+        color: #1a3c3a;
+    }
+
+    /* TOP SECTION */
+    .top-section {
+        height: 260px;
+        display: flex;
+        gap: 30px;
+    }
+
+    .total-scope {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .big-number {
+        font-size: 88px;
+        font-weight: 700;
+        color: #1a3c3a;
+    }
+
+    .label {
+        font-size: 22px;
+        margin-top: 5px;
+        color: #444;
+    }
+
+    .sub-metrics {
+        font-size: 16px;
+        margin-top: 10px;
+        color: #777;
+    }
+
+    .distribution {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .section-title {
+        font-size: 22px;
+        margin-bottom: 15px;
+        color: #1a3c3a;
+        font-weight: 600;
+    }
+
+    .bar {
+        height: 30px;
+        display: flex;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .grc { background: #999; flex: 2; }
+    .gtm { background: #FF6359; flex: 5; }
+    .other { background: #1a3c3a; flex: 3; }
+
+    .bar-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        margin-top: 8px;
+        color: #555;
+    }
+
+    /* PI SECTION */
+    .pi-section {
+        flex: 1;
+        display: flex;
+        gap: 20px;
+    }
+
+    .pi-card {
+        flex: 1;
+        background: #f7f9f9;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .pi-title {
+        font-size: 28px;
+        font-weight: 600;
+        color: #1a3c3a;
+    }
+
+    .pi-hours {
+        font-size: 48px;
+        font-weight: 700;
+        color: #1a3c3a;
+        margin: 10px 0;
+    }
+
+    .mini-bar {
+        height: 20px;
+        display: flex;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 10px 0;
+    }
+
+    .groups {
+        font-size: 16px;
+        color: #444;
+        line-height: 1.4;
+    }
+
+    .groups-title {
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 5px;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="slide">
+
+    <!-- HEADER -->
+    <div class="header">
+        SOLON 2026 – Non-GRC Scope Overview (PI28–PI30)
+    </div>
+
+    <!-- TOP STORY -->
+    <div class="top-section">
+
+        <!-- TOTAL SCOPE -->
+        <div class="total-scope">
+            <div class="big-number">~60k</div>
+            <div class="label">Total 2026 Scope (hours)</div>
+            <div class="sub-metrics">
+                18 Initiatives | 4 Initiative Groups | 3 PIs
+            </div>
+        </div>
+
+        <!-- DISTRIBUTION -->
+        <div class="distribution">
+            <div class="section-title">Scope by Requester</div>
+
+            <div class="bar">
+                <div class="grc"></div>
+                <div class="gtm"></div>
+                <div class="other"></div>
+            </div>
+
+            <div class="bar-labels">
+                <span>GRC</span>
+                <span>GTM</span>
+                <span>OTHER</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PI BREAKDOWN -->
+    <div class="pi-section">
+
+        <!-- PI28 -->
+        <div class="pi-card">
+            <div>
+                <div class="pi-title">PI28</div>
+                <div class="pi-hours">~32k</div>
+
+                <div class="mini-bar">
+                    <div class="grc"></div>
+                    <div class="gtm"></div>
+                    <div class="other"></div>
+                </div>
+            </div>
+
+            <div>
+                <div class="groups-title">Non-GRC Scope</div>
+                <div class="groups">
+                    Core Revenue Management<br/>
+                    Core Self-Service<br/>
+                    Core Supporting (+1 more)
+                </div>
+            </div>
+        </div>
+
+        <!-- PI29 -->
+        <div class="pi-card">
+            <div>
+                <div class="pi-title">PI29</div>
+                <div class="pi-hours">~18k</div>
+
+                <div class="mini-bar">
+                    <div class="grc"></div>
+                    <div class="gtm"></div>
+                    <div class="other"></div>
+                </div>
+            </div>
+
+            <div>
+                <div class="groups-title">Non-GRC Scope</div>
+                <div class="groups">
+                    Core Revenue Management<br/>
+                    Core Supporting
+                </div>
+            </div>
+        </div>
+
+        <!-- PI30 -->
+        <div class="pi-card">
+            <div>
+                <div class="pi-title">PI30</div>
+                <div class="pi-hours">~10k</div>
+
+                <div class="mini-bar">
+                    <div class="grc"></div>
+                    <div class="gtm"></div>
+                    <div class="other"></div>
+                </div>
+            </div>
+
+            <div>
+                <div class="groups-title">Non-GRC Scope</div>
+                <div class="groups">
+                    Core Supporting<br/>
+                    Non-Functional Coverage
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

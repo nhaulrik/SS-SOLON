@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SOLON 2026 — Non-GRC Roadmap · Version 2 Bold</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Segoe UI',sans-serif;background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;}
+
+  /* ── CANVAS ── */
+  .slide{width:1280px;height:720px;background:#0f1e1d;position:relative;overflow:hidden;box-shadow:0 20px 80px rgba(0,0,0,.6);}
+
+  /* ── BACKGROUND TEXTURE ── */
+  .slide::before{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 800px 500px at 70% 110%, rgba(255,99,89,.07) 0%, transparent 70%),
+      radial-gradient(ellipse 600px 400px at 10% -10%, rgba(44,138,132,.08) 0%, transparent 60%);
+    pointer-events:none;
+  }
+
+  /* ── TOP STRIPE ── */
+  .top-stripe{position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#FF6359,#FF8C84,#FF6359);}
+
+  /* ── HEADER ── */
+  .hdr{position:absolute;top:4px;left:0;right:0;height:80px;display:flex;align-items:center;padding:0 36px;border-bottom:1px solid rgba(255,255,255,.06);}
+  .hdr-badge{background:#FF6359;color:#fff;font-size:8.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:3px;margin-right:20px;flex-shrink:0;}
+  .hdr-left{flex:1;}
+  .hdr-eyebrow{font-size:8.5px;font-weight:600;color:rgba(255,99,89,.8);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+  .hdr-title{font-size:21px;font-weight:800;color:#fff;letter-spacing:-.5px;}
+  .hdr-sub{font-size:9px;color:rgba(255,255,255,.35);margin-top:3px;}
+
+  .hdr-kpis{display:flex;align-items:center;gap:0;margin-right:32px;}
+  .hdr-div{width:1px;height:42px;background:rgba(255,255,255,.1);margin:0 6px;}
+  .kpi{text-align:center;padding:0 22px;}
+  .kpi-v{font-size:28px;font-weight:900;color:#FF6359;line-height:1;letter-spacing:-1.5px;}
+  .kpi-l{font-size:8px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.2px;margin-top:3px;}
+  .logo{font-size:9px;font-weight:700;letter-spacing:2.5px;color:rgba(127,179,175,.6);text-transform:uppercase;}
+
+  /* ── BODY ── */
+  .body{position:absolute;top:84px;left:0;right:0;bottom:28px;display:grid;grid-template-columns:310px 1fr;grid-template-rows:1fr 1fr;gap:10px;padding:10px 12px;}
+
+  /* ── SCOPE PANEL (top-left) ── */
+  .scope-panel{grid-column:1;grid-row:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;display:flex;flex-direction:column;overflow:hidden;}
+  .scope-panel-hdr{padding:10px 16px 8px;border-bottom:1px solid rgba(255,255,255,.06);}
+  .sp-label{font-size:8.5px;font-weight:700;color:#FF6359;letter-spacing:2px;text-transform:uppercase;}
+  .scope-panel-body{flex:1;padding:14px 16px;display:flex;flex-direction:column;gap:10px;}
+
+  /* Big number */
+  .big-num{display:flex;align-items:baseline;gap:6px;}
+  .big-n{font-size:52px;font-weight:900;color:#fff;letter-spacing:-3px;line-height:1;}
+  .big-u{font-size:13px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;}
+
+  /* Donut via SVG */
+  .donut-row{display:flex;align-items:center;gap:16px;}
+  .donut-wrap{position:relative;width:90px;height:90px;flex-shrink:0;}
+  .donut-wrap svg{width:90px;height:90px;transform:rotate(-90deg);}
+  .donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+  .donut-pct{font-size:16px;font-weight:800;color:#fff;line-height:1;}
+  .donut-sub{font-size:7px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;}
+  .donut-legend{display:flex;flex-direction:column;gap:6px;flex:1;}
+  .dl-row{display:flex;align-items:center;gap:7px;}
+  .dl-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+  .dl-name{font-size:9.5px;color:rgba(255,255,255,.7);flex:1;}
+  .dl-val{font-size:10px;font-weight:700;color:#fff;}
+  .dl-pct{font-size:8.5px;color:rgba(255,255,255,.35);margin-left:3px;}
+
+  /* ── INITIATIVE GROUPS PANEL (bottom-left) ── */
+  .ig-panel{grid-column:1;grid-row:2;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;display:flex;flex-direction:column;overflow:hidden;}
+  .ig-panel-hdr{padding:10px 16px 8px;border-bottom:1px solid rgba(255,255,255,.06);}
+  .ig-panel-body{flex:1;padding:10px 12px;display:flex;flex-direction:column;gap:6px;}
+
+  .ig-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;border-left:3px solid;background:rgba(255,255,255,.03);}
+  .ig-item.crmc{border-color:#FF6359;}
+  .ig-item.cssc{border-color:#2C8A84;}
+  .ig-item.csup{border-color:#F0A500;}
+  .ig-item.nfrc{border-color:#7fb3af;}
+  .ig-name{font-size:10px;font-weight:600;color:rgba(255,255,255,.85);flex:1;}
+  .ig-meta{font-size:8px;color:rgba(255,255,255,.35);}
+  .ig-badge{font-size:7.5px;font-weight:700;color:#fff;padding:2px 7px;border-radius:10px;}
+
+  /* ── PI PANELS (right column, 3 rows) ── */
+  .pi-col{grid-column:2;grid-row:1/3;display:grid;grid-template-rows:1fr 1fr 1fr;gap:10px;}
+
+  .pi-card{border-radius:10px;border:1px solid rgba(255,255,255,.08);display:flex;overflow:hidden;position:relative;}
+  .pi-card::after{content:'';position:absolute;inset:0;border-radius:10px;pointer-events:none;}
+
+  .pi-card.pi28{background:linear-gradient(135deg,rgba(255,99,89,.12) 0%,rgba(255,99,89,.04) 100%);}
+  .pi-card.pi29{background:linear-gradient(135deg,rgba(44,138,132,.12) 0%,rgba(44,138,132,.04) 100%);}
+  .pi-card.pi30{background:linear-gradient(135deg,rgba(127,179,175,.10) 0%,rgba(127,179,175,.03) 100%);}
+
+  .pi-accent{width:5px;flex-shrink:0;}
+  .pi-accent.pi28{background:#FF6359;}
+  .pi-accent.pi29{background:#2C8A84;}
+  .pi-accent.pi30{background:#7fb3af;}
+
+  .pi-inner{flex:1;display:flex;gap:16px;padding:12px 16px;align-items:stretch;}
+
+  /* Left: name + status + hours */
+  .pi-left{display:flex;flex-direction:column;justify-content:space-between;width:160px;flex-shrink:0;}
+  .pi-name-row{display:flex;align-items:center;gap:8px;}
+  .pi-name{font-size:18px;font-weight:900;letter-spacing:-.5px;}
+  .pi-name.pi28{color:#FF6359;}
+  .pi-name.pi29{color:#2C8A84;}
+  .pi-name.pi30{color:#7fb3af;}
+  .pi-status{font-size:8px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap;}
+  .pi-status.pi28{background:rgba(255,99,89,.15);color:#FF6359;}
+  .pi-status.pi29{background:rgba(44,138,132,.15);color:#2C8A84;}
+  .pi-status.pi30{background:rgba(127,179,175,.15);color:#7fb3af;}
+  .pi-period{font-size:8.5px;color:rgba(255,255,255,.35);margin-top:3px;}
+
+  .pi-hours-block{margin-top:auto;}
+  .pi-h-val{font-size:26px;font-weight:900;color:#fff;letter-spacing:-1.5px;line-height:1;}
+  .pi-h-lbl{font-size:7.5px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.8px;}
+
+  /* Center: requester bar + legend */
+  .pi-mid{display:flex;flex-direction:column;justify-content:center;gap:6px;width:220px;flex-shrink:0;}
+  .pi-mid-lbl{font-size:7.5px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+  .pi-rbar{height:18px;border-radius:4px;overflow:hidden;display:flex;}
+  .pi-rseg{display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:rgba(255,255,255,.9);}
+  .pi-rseg.grc{background:#FF6359;}
+  .pi-rseg.gtm{background:#2C8A84;}
+  .pi-rseg.other{background:rgba(127,179,175,.7);}
+  .pi-rleg{display:flex;flex-direction:column;gap:4px;margin-top:4px;}
+  .pi-rleg-row{display:flex;align-items:center;gap:5px;font-size:8px;color:rgba(255,255,255,.55);}
+  .pi-rleg-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0;}
+
+  /* Right: initiative chips */
+  .pi-right{flex:1;display:flex;flex-direction:column;justify-content:flex-start;gap:4px;}
+  .pi-right-lbl{font-size:7.5px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+  .chips{display:flex;flex-wrap:wrap;gap:4px;}
+  .chip{font-size:8px;font-weight:500;padding:3px 7px;border-radius:3px;border:1px solid;white-space:nowrap;}
+  .chip.std{color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.05);}
+  .chip.gtm{color:#2C8A84;border-color:rgba(44,138,132,.4);background:rgba(44,138,132,.1);}
+  .chip.nfr{color:rgba(255,255,255,.35);border-color:rgba(255,255,255,.07);background:transparent;}
+  .pi-note{font-size:7px;color:rgba(255,255,255,.2);font-style:italic;margin-top:auto;}
+
+  /* ── FOOTER ── */
+  .ftr{position:absolute;left:0;right:0;bottom:0;height:28px;background:rgba(0,0,0,.4);border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;padding:0 36px;}
+  .ftr-t{font-size:7.5px;color:rgba(127,179,175,.5);letter-spacing:1.5px;text-transform:uppercase;}
+  .ftr-c{font-size:7.5px;color:rgba(255,99,89,.4);letter-spacing:1px;text-transform:uppercase;font-weight:600;}
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="top-stripe"></div>
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-badge">SteerCo · Apr 2026</div>
+    <div class="hdr-left">
+      <div class="hdr-eyebrow">Solon Tax · Product Roadmap · Non-GRC Work Only</div>
+      <div class="hdr-title">2026 Roadmap Overview &nbsp;·&nbsp; PI28 – PI30</div>
+      <div class="hdr-sub">Executive summary across 4 initiative groups and 3 program increments · GRC-exclusive items excluded</div>
+    </div>
+    <div class="hdr-kpis">
+      <div class="hdr-div"></div>
+      <div class="kpi"><div class="kpi-v">4</div><div class="kpi-l">Groups</div></div>
+      <div class="hdr-div"></div>
+      <div class="kpi"><div class="kpi-v">18</div><div class="kpi-l">Initiatives</div></div>
+      <div class="hdr-div"></div>
+      <div class="kpi"><div class="kpi-v">62</div><div class="kpi-l">Features</div></div>
+      <div class="hdr-div"></div>
+      <div class="kpi"><div class="kpi-v">~60k</div><div class="kpi-l">Hours</div></div>
+    </div>
+    <div class="logo">Netcompany</div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- TOP-LEFT: Scope + Donut -->
+    <div class="scope-panel">
+      <div class="scope-panel-hdr"><div class="sp-label">Total 2026 Scope &amp; Demand Origin</div></div>
+      <div class="scope-panel-body">
+        <div class="big-num">
+          <span class="big-n">~60k</span>
+          <span class="big-u">Hours</span>
+        </div>
+        <div class="donut-row">
+          <!-- Donut: GRC 58% = 209deg, GTM 24% = 86deg, Other 18% = 65deg. circumference = 2π×32 ≈ 201 -->
+          <div class="donut-wrap">
+            <svg viewBox="0 0 72 72">
+              <!-- Other (base layer) -->
+              <circle cx="36" cy="36" r="28" fill="none" stroke="rgba(127,179,175,0.6)" stroke-width="10" stroke-dasharray="176 0"/>
+              <!-- GTM -->
+              <circle cx="36" cy="36" r="28" fill="none" stroke="#2C8A84" stroke-width="10"
+                stroke-dasharray="42 134" stroke-dashoffset="-102"/>
+              <!-- GRC -->
+              <circle cx="36" cy="36" r="28" fill="none" stroke="#FF6359" stroke-width="10"
+                stroke-dasharray="102 74" stroke-dashoffset="0"/>
+            </svg>
+            <div class="donut-center">
+              <div class="donut-pct">2026</div>
+              <div class="donut-sub">Scope</div>
+            </div>
+          </div>
+          <div class="donut-legend">
+            <div class="dl-row">
+              <div class="dl-dot" style="background:#FF6359;"></div>
+              <span class="dl-name">GRC (Project)</span>
+              <span class="dl-val">~34.8k</span><span class="dl-pct">58%</span>
+            </div>
+            <div class="dl-row">
+              <div class="dl-dot" style="background:#2C8A84;"></div>
+              <span class="dl-name">GTM (Market)</span>
+              <span class="dl-val">~14.4k</span><span class="dl-pct">24%</span>
+            </div>
+            <div class="dl-row">
+              <div class="dl-dot" style="background:rgba(127,179,175,.7);"></div>
+              <span class="dl-name">Other (Internal)</span>
+              <span class="dl-val">~10.8k</span><span class="dl-pct">18%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM-LEFT: Initiative Groups -->
+    <div class="ig-panel">
+      <div class="ig-panel-hdr"><div class="sp-label">Initiative Groups · Non-GRC</div></div>
+      <div class="ig-panel-body">
+        <div class="ig-item crmc">
+          <div class="ig-name">Core Revenue Management</div>
+          <span class="ig-meta">5 initiatives · 23 features</span>
+          <span class="ig-badge" style="background:#FF6359;">PI28–30</span>
+        </div>
+        <div class="ig-item cssc">
+          <div class="ig-name">Core Self-Service</div>
+          <span class="ig-meta">2 initiatives · 8 features</span>
+          <span class="ig-badge" style="background:#2C8A84;">PI28–29</span>
+        </div>
+        <div class="ig-item csup">
+          <div class="ig-name">Core Supporting Capabilities</div>
+          <span class="ig-meta">5 initiatives · 12 features</span>
+          <span class="ig-badge" style="background:#F0A500;">PI28–30</span>
+        </div>
+        <div class="ig-item nfrc">
+          <div class="ig-name">Non-Functional Req. Coverage</div>
+          <span class="ig-meta">8 initiatives · 19 features</span>
+          <span class="ig-badge" style="background:rgba(127,179,175,.7);">PI28–30</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: PI Cards -->
+    <div class="pi-col">
+
+      <!-- PI28 -->
+      <div class="pi-card pi28">
+        <div class="pi-accent pi28"></div>
+        <div class="pi-inner">
+          <div class="pi-left">
+            <div>
+              <div class="pi-name-row">
+                <span class="pi-name pi28">PI 28</span>
+                <span class="pi-status pi28">In Execution</span>
+              </div>
+              <div class="pi-period">Q1–Q2 2026 · Highest load</div>
+            </div>
+            <div class="pi-hours-block">
+              <div class="pi-h-val">~28k</div>
+              <div class="pi-h-lbl">Estimated Hours</div>
+            </div>
+          </div>
+          <div class="pi-mid">
+            <div class="pi-mid-lbl">Demand by Requester</div>
+            <div class="pi-rbar">
+              <div class="pi-rseg grc" style="width:55%;">GRC 55%</div>
+              <div class="pi-rseg gtm" style="width:28%;">GTM 28%</div>
+              <div class="pi-rseg other" style="width:17%;">17%</div>
+            </div>
+            <div class="pi-rleg">
+              <div class="pi-rleg-row"><div class="pi-rleg-dot" style="background:#FF6359;"></div>GRC ~15.4k h · 55%</div>
+              <div class="pi-rleg-row"><div class="pi-rleg-dot" style="background:#2C8A84;"></div>GTM ~7.8k h · 28%</div>
+              <div class="pi-rleg-row"><div class="pi-rleg-dot" style="background:rgba(127,179,175,.7);"></div>Other ~4.8k h · 17%</div>
+            </div>
+          </div>
+          <div class="pi-right">
+            <div class="pi-right-lbl">Initiatives (Non-GRC)</div>
+            <div class="chips">
+              <span class="chip gtm">Taxpayer Accounting</span>
+              <span class="chip std">Registration</span>
+              <span class="chip gtm">Tax Accounts</span>
+              <span class="chip std">Billing &amp; Assessments</span>
+              <span class="chip gtm">Penalty &amp; Interest</span>
+              <span class="chip std">User &amp; 3rd Party Access</span>
+              <span class="chip std">Self-Service Mgmt</span>
+              <span class="chip std">UI Config · Forms · Doc Mgmt</span>
+              <span class="chip nfr">Security · UX · Performance · Reliability</span>
+            </div>
+            <div class="pi-note">Teal = GTM market-driven · Gray = GRC/internal · Italic = NFR</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PI29 -->
+      <div class="pi-card pi29">
+        <div class="pi-accent pi29"></div>
+        <div class="pi-inner">
+          <div class="pi-left">
+            <div>
+              <div class="pi-name-row">
+                <span class="pi-name pi29">PI 29</span>
+                <span class="pi-status pi29">Planned</span>
+              </div>
+              <div class="pi-period">Q3 2026 · Continuation + new</div>
+            </div>
+            <div class="pi-hours-block">
+              <div class="pi-h-val">~20k</div>
+              <div class="pi-h-lbl">Estimated Hours</div>
+            </div>
+          </div>
+          <div class="pi-mid">
+            <div class="pi-mid-lbl">Demand by Requester</div>
+            <div class="pi-rbar">
+              <div class="pi-rseg grc" style="width:52%;">GRC 52%</div>
+              <div class="pi-rseg gtm" style="width:30%;">GTM 30%</div>
+              <div class="pi-rseg other" style="width:18%;">18%</div>
+            </div>
+            <div class="pi-rleg">
+              <div class="pi-rleg-row"><div class="pi-rleg-dot" style="background:#FF6359;"></div>GRC ~10.4k h · 52%</div>
+              <div class="pi-rleg-row"><div class="pi-rleg-dot" style="background:#2C8A84;"></div>GTM ~6.0k h · 30%</div>
+              <div class="pi-rleg-row"><div class="pi-rleg-dot" style="background:rgba(127,179,175,.7);"></div>Other ~3.6k h · 18%</div>
+            </div>
+          </div>
+          <div class="pi-right">
+            <div class="pi-right-lbl">Initiatives (Non-GRC)</div>
+            <div class="chips">
+              <span class="chip gtm">Taxpayer Accounting</span>
+              <span class="chip std">Registration</span>
+              <span class="chip gtm">Tax Accounts</span>
+              <span class="chip std">Penalty &amp; Interest</span>
+              <span class="chip std">User &amp; 3rd Party Access</span>
+              <span class="chip std">UI Config · Forms · Doc Mgmt</span>
+              <span class="chip nfr">Security · Performance · Maintainability</span>
+            </div>
+            <div class="pi-note">Teal = GTM market-driven · Gray = GRC/internal · Italic = NFR</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PI30 -->
+      <div class="pi-card pi30">
+        <div class="pi-accent pi30"></div>
+        <div class="pi-inner">
+          <div class="pi-left">
+            <div>
+              <div class="pi-name-row">
+                <span class="pi-name pi30">PI 30</span>
+                <span class="pi-status pi30">Outlook</span>
+              </div>
+              <div class="pi-period">Q4 2026 · Completion focus</div>
+            </div>
+            <div class="pi-hours-block">
+              <div class="pi-h-val">~12k</div>
+              <div class="pi-h-lbl">Estimated Hours</div>
+            </div>
+          </div>
+          <div class="pi-mid">
+            <div class="pi-mid-lbl">Demand by Requester</div>
+            <div class="pi-rbar">
+              <div class="pi-rseg grc" style="width:50%;">GRC 50%</div>
+              <div class="pi-rseg gtm" style="width:28%;">GTM 28%</div>
+              <div class="pi-rseg other" style="width:22%;">22%</div>
+            </div>
+            <div class="pi-rleg">
+              <div class="pi-rleg-row"><div class="pi-rleg-dot" style="background:#FF6359;"></div>GRC ~6.0k h · 50%</div>
+              <div class="pi-rleg-row"><div class="pi-rleg-dot" style="background:#2C8A84;"></div>GTM ~3.4k h · 28%</div>
+              <div class="pi-rleg-row"><div class="pi-rleg-dot" style="background:rgba(127,179,175,.7);"></div>Other ~2.6k h · 22%</div>
+            </div>
+          </div>
+          <div class="pi-right">
+            <div class="pi-right-lbl">Initiatives (Non-GRC)</div>
+            <div class="chips">
+              <span class="chip std">Registration</span>
+              <span class="chip std">Billing &amp; Assessments</span>
+              <span class="chip std">Penalty &amp; Interest</span>
+              <span class="chip std">Self-Service Mgmt</span>
+              <span class="chip std">UI Config · Doc Mgmt</span>
+              <span class="chip nfr">Security · Performance · Reliability</span>
+            </div>
+            <div class="pi-note">Teal = GTM market-driven · Gray = GRC/internal · Italic = NFR</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /pi-col -->
+
+  </div>
+  <!-- /body -->
+
+  <!-- FOOTER -->
+  <div class="ftr">
+    <span class="ftr-t">Solon Tax · Non-GRC Product Roadmap 2026 · PI28–PI30</span>
+    <span class="ftr-c">Confidential</span>
+    <span class="ftr-t">Executive Steering Committee · April 2026</span>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+TEMPLATE_NAME: 2026 Roadmap Overview
+TEMPLATE_DESCRIPTION: Year-level steerco overview showing total 2026 scope, requester distribution, and per-PI initiative group breakdown across PI 28–30.
+CONTEXT_FILE: RichFeatureQueries_Full_2026.xlsx
+
+---
+
+=== DATA EXTRACTION RULES (read before filling any field) ===
+
+SCOPE:
+- This template covers the full 2026 roadmap (all PIs). It is NOT filtered to a single PI.
+- Year-level totals (Spent, Planned, Total) come from the "Reference Sheet".
+- PI-level total hours come from the "Reference Sheet".
+- Per-PI requester breakdowns (GRC / GTM / Other hour values) come from the "Requester Stats" sheet.
+- Per-PI initiative group breakdowns come from the "Initiative Group Stats" sheet.
+
+REFERENCE SHEET LOOKUP RULE:
+- Sheet name: Reference Sheet
+- Column B = label, Column C = value (numeric)
+- Match on the exact label text in column B. Read the value from column C.
+- This is a direct cell read — do NOT sum or derive values from other sheets.
+
+REQUESTER STATS LOOKUP RULE:
+- Sheet name: Requester Stats
+- Columns: PI | Requester | Estimate
+- To get a value, find the single row matching both PI and Requester. Read the Estimate cell directly.
+- Valid Requester values: "GRC", "GTM", "Other"
+- If no row exists for a given PI + Requester combination, treat the value as 0 and write "-" for display.
+
+LOOKUP DISCIPLINE — NO SUMMATION:
+- Do NOT sum rows from any sheet to derive a total. Every numeric value must be a direct cell read.
+- The only exception is percentages — those are calculated by the AI as described per field.
+- If a matching row cannot be found, write N/A unless the field says to write "-".
+
+HOURS FORMATTING RULE:
+- Display all hours in "k" notation.
+- Round to one decimal place, then drop trailing ".0": 56218 → "56.2k", 85233 → "85.2k", 160808 → "160.8k".
+- For the large headline number (.scope-big), round to nearest whole k: 246041 → "246k".
+- Percentages: round to nearest integer, e.g. 41.6% → "42%".
+
+BAR PERCENTAGE RULE (initiative group rows inside PI cards):
+- For each PI card, find the initiative group with the highest Estimate among all groups in that PI.
+- That group receives bar width: 100%.
+- All other groups: round( (group_estimate / max_estimate_in_pi) × 100 ) → integer.
+- Write result as e.g. "47%" (include the % sign).
+
+---
+
+=== YEAR-LEVEL TOTALS ===
+
+All three values are direct reads from the Reference Sheet (column B = label, column C = value).
+
+TOTAL_HOURS:
+  Label: "Total Hours 2026"  →  value: 246041  →  display: "246k"  (used in .scope-big)
+
+PLANNED_HOURS:
+  Label: "Planned Hours 2026"  →  value: 160808  →  display: "160.8k"  (used in .scope-sub and .req-title)
+
+SPENT_HOURS:
+  Label: "Spent Hours 2026"  →  value: 85233  →  display: "85.2k"  (used in .scope-sub)
+
+.scope-sub text:
+  Compose as: PLANNED_HOURS + " Initiative Backlog + " + SPENT_HOURS + " Spent"
+  Result: "160.8k Initiative Backlog + 85.2k Spent"
+
+---
+
+=== REQUESTER DISTRIBUTION (full-year backlog) ===
+
+Per-requester hour values: read from Requester Stats — one row per Requester across all PIs.
+Full-year totals are NOT pre-computed in the sheet; sum the Estimate column per Requester across all PI rows.
+
+  GRC_TOTAL:   sum of Estimate where Requester = "GRC"    →  58322  →  "58.3k"
+  GTM_TOTAL:   sum of Estimate where Requester = "GTM"    →  4415   →  "4.4k"
+  OTHER_TOTAL: sum of Estimate where Requester = "Other"  →  101297 →  "101.3k"
+
+  REQUESTER_SUM = GRC_TOTAL + GTM_TOTAL + OTHER_TOTAL
+
+  Percentages (AI-computed):
+    GRC_PCT   = round( GRC_TOTAL   / REQUESTER_SUM × 100 )  →  36%
+    GTM_PCT   = round( GTM_TOTAL   / REQUESTER_SUM × 100 )  →  3%
+    OTHER_PCT = round( OTHER_TOTAL / REQUESTER_SUM × 100 )  →  62%
+
+.req-title text:
+  "Feature Backlog by Requester (160.8k)"
+
+Requester bar widths:
+  .req-seg.grc  style.width → GRC_PCT   + "%" and inner text → GRC_PCT   + "%"
+  .req-seg.gtm  style.width → GTM_PCT   + "%" and inner text → GTM_PCT   + "%"
+  .req-seg.oth  style.width → OTHER_PCT + "%" and inner text → OTHER_PCT + "%"
+
+Legend (.req-leg-pct):
+  1st (GRC)   → "58.3k"
+  2nd (GTM)   → "4.4k"
+  3rd (Other) → "101.3k"
+
+---
+
+=== PI 28 — CARD DATA ===
+
+PI28_TOTAL: direct read from Reference Sheet
+  Label: "PI 28 Total Hours"  →  value: 56218  →  display: "56.2k"  (used in .pi-hours)
+
+Per-requester hours: direct reads from Requester Stats where PI = "PI28"
+  PI28_GRC   = Estimate where PI="PI28" AND Requester="GRC"    →  24084  →  "24.1k"
+  PI28_GTM   = Estimate where PI="PI28" AND Requester="GTM"    →  3907   →  "3.9k"
+  PI28_OTHER = Estimate where PI="PI28" AND Requester="Other"  →  29942  →  "29.9k"
+
+Percentages (AI-computed using PI28_TOTAL as denominator):
+  PI28_GRC_PCT   = round( 24084 / 56218 × 100 )  →  43%
+  PI28_GTM_PCT   = round( 3907  / 56218 × 100 )  →  7%
+  PI28_OTHER_PCT = round( 29942 / 56218 × 100 )  →  53%
+
+Card values to write:
+  .pi-hours                    → "56.2k"
+  .pi-req-bar-seg.grc width    → "43%"
+  .pi-req-bar-seg.gtm width    → "7%"
+  .pi-req-bar-seg.oth width    → "53%"
+  .pi-req-mini-val (GRC)       → "24.1k"
+  .pi-req-mini-val (GTM)       → "3.9k"
+  .pi-req-mini-val (Other)     → "29.9k"
+
+PI 28 — Initiative Groups:
+  Sheet: Initiative Group Stats
+  Matching rule: ALL rows where PI column = "PI28"
+  For each matching row read: Roadmap Initiative Group (name), Estimate (hours)
+  Sort by Estimate descending. Apply BAR PERCENTAGE RULE. Format hours with HOURS FORMATTING RULE.
+
+  {{#EACH_PI28_GROUP}}
+  Group Name: {{PI28_GROUP_NAME}}
+  Hours:      {{PI28_GROUP_HOURS}}
+  Bar Pct:    {{PI28_GROUP_BAR_PCT}}
+  {{/EACH_PI28_GROUP}}
+
+---
+
+=== PI 29 — CARD DATA ===
+
+PI29_TOTAL: direct read from Reference Sheet
+  Label: "PI 29 Total Hours"  →  value: 66240  →  display: "66.2k"  (used in .pi-hours)
+
+Per-requester hours: direct reads from Requester Stats where PI = "PI29"
+  PI29_GRC   = Estimate where PI="PI29" AND Requester="GRC"    →  25745  →  "25.7k"
+  PI29_GTM   = Estimate where PI="PI29" AND Requester="GTM"    →  508    →  "0.5k"
+  PI29_OTHER = Estimate where PI="PI29" AND Requester="Other"  →  40423  →  "40.4k"
+
+Percentages (AI-computed using PI29_TOTAL as denominator):
+  PI29_GRC_PCT   = round( 25745 / 66240 × 100 )  →  39%
+  PI29_GTM_PCT   = round( 508   / 66240 × 100 )  →  1%
+  PI29_OTHER_PCT = round( 40423 / 66240 × 100 )  →  61%
+
+Card values to write:
+  .pi-hours                    → "66.2k"
+  .pi-req-bar-seg.grc width    → "39%"
+  .pi-req-bar-seg.gtm width    → "1%"
+  .pi-req-bar-seg.oth width    → "61%"
+  .pi-req-mini-val (GRC)       → "25.7k"
+  .pi-req-mini-val (GTM)       → "0.5k"
+  .pi-req-mini-val (Other)     → "40.4k"
+
+PI 29 — Initiative Groups:
+  Sheet: Initiative Group Stats
+  Matching rule: ALL rows where PI column = "PI29"
+  For each matching row read: Roadmap Initiative Group (name), Estimate (hours)
+  Sort by Estimate descending. Apply BAR PERCENTAGE RULE. Format hours with HOURS FORMATTING RULE.
+
+  {{#EACH_PI29_GROUP}}
+  Group Name: {{PI29_GROUP_NAME}}
+  Hours:      {{PI29_GROUP_HOURS}}
+  Bar Pct:    {{PI29_GROUP_BAR_PCT}}
+  {{/EACH_PI29_GROUP}}
+
+---
+
+=== PI 30 — CARD DATA ===
+
+PI30_TOTAL: direct read from Reference Sheet
+  Label: "PI 30 Total Hours"  →  value: 38373  →  display: "38.4k"  (used in .pi-hours)
+  Note: PI30 has no GTM row in Requester Stats — display GTM as "-" and omit the .pi-req-bar-seg.gtm element.
+
+Per-requester hours: direct reads from Requester Stats where PI = "PI30"
+  PI30_GRC   = Estimate where PI="PI30" AND Requester="GRC"    →  8493   →  "8.5k"
+  PI30_GTM   = 0 (no row)                                                 →  "-"
+  PI30_OTHER = Estimate where PI="PI30" AND Requester="Other"  →  30932  →  "30.9k"
+
+Percentages (AI-computed using PI30_TOTAL as denominator):
+  PI30_GRC_PCT   = round( 8493  / 38373 × 100 )  →  22%
+  PI30_OTHER_PCT = round( 30932 / 38373 × 100 )  →  81%
+
+Card values to write:
+  .pi-hours                    → "38.4k"
+  .pi-req-bar-seg.grc width    → "22%"
+  .pi-req-bar-seg.gtm          → remove this element entirely (no GTM for PI30)
+  .pi-req-bar-seg.oth width    → "81%"
+  .pi-req-mini-val (GRC)       → "8.5k"
+  .pi-req-mini-val (GTM)       → "-"
+  .pi-req-mini-val (Other)     → "30.9k"
+
+PI 30 — Initiative Groups:
+  Sheet: Initiative Group Stats
+  Matching rule: ALL rows where PI column = "PI30"
+  For each matching row read: Roadmap Initiative Group (name), Estimate (hours)
+  Sort by Estimate descending. Apply BAR PERCENTAGE RULE. Format hours with HOURS FORMATTING RULE.
+
+  {{#EACH_PI30_GROUP}}
+  Group Name: {{PI30_GROUP_NAME}}
+  Hours:      {{PI30_GROUP_HOURS}}
+  Bar Pct:    {{PI30_GROUP_BAR_PCT}}
+  {{/EACH_PI30_GROUP}}

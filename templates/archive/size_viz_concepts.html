@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Size Visualization Concepts</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: #d6d4d0; padding: 40px; }
+
+  h1 {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: #1a3c3a; margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 12px; color: #888; margin-bottom: 32px;
+  }
+
+  .concept {
+    background: #fff;
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .concept-meta {
+    width: 160px;
+    flex-shrink: 0;
+    border-right: 1px solid rgba(26,60,58,0.1);
+    padding-right: 28px;
+  }
+  .concept-id {
+    font-size: 9px; font-weight: 800; letter-spacing: 2px;
+    text-transform: uppercase; color: #FF6359; margin-bottom: 5px;
+  }
+  .concept-name {
+    font-size: 13px; font-weight: 700; color: #1a3c3a;
+    line-height: 1.3; margin-bottom: 6px;
+  }
+  .concept-desc {
+    font-size: 10.5px; color: #999; line-height: 1.55;
+  }
+
+  .examples {
+    display: flex;
+    gap: 0;
+    flex: 1;
+  }
+  .ex {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 12px 10px 10px;
+    border-right: 1px solid rgba(26,60,58,0.07);
+  }
+  .ex:last-child { border-right: none; }
+  .ex-hours {
+    font-size: 11px; font-weight: 700;
+    color: #1a3c3a; letter-spacing: -0.3px;
+  }
+  .ex-label {
+    font-size: 9px; color: #bbb; letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .viz-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 72px;
+    width: 100%;
+  }
+
+  /* ── A: BUBBLE ── */
+  .bubble {
+    border-radius: 50%;
+    background: #1a3c3a;
+  }
+
+  /* ── B: DOT GRID ── */
+  .dot-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 10px);
+    gap: 4px;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .dot.on  { background: #1a3c3a; }
+  .dot.off { background: rgba(26,60,58,0.12); }
+
+  /* ── C: TYPOGRAPHY ── */
+  .type-size {
+    font-weight: 800;
+    color: #1a3c3a;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  /* ── D: HEAT TILE ── */
+  .heat-tile {
+    width: 72px; height: 48px;
+    border-radius: 6px;
+  }
+
+  /* ── E: RADIAL GAUGE ── */
+  .gauge-wrap {
+    position: relative;
+    width: 64px; height: 64px;
+  }
+  .gauge-wrap svg {
+    width: 64px; height: 64px;
+    transform: rotate(-210deg); /* open at bottom-center, like a speedometer */
+  }
+  .gauge-track {
+    fill: none;
+    stroke: rgba(26,60,58,0.1);
+    stroke-width: 7;
+    stroke-linecap: round;
+  }
+  .gauge-fill {
+    fill: none;
+    stroke: #1a3c3a;
+    stroke-width: 7;
+    stroke-linecap: round;
+  }
+
+  /* ── F: BLOCK STACK ── */
+  .block-stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 3px;
+    height: 64px;
+    width: 36px;
+  }
+  .block {
+    width: 100%;
+    border-radius: 3px;
+    background: #1a3c3a;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>Size Visualization Concepts</h1>
+<p class="subtitle">Showing relative weight for 1,200h · 480h · 220h — none of these are progress indicators</p>
+
+<!-- ── A: BUBBLE ── -->
+<div class="concept">
+  <div class="concept-meta">
+    <div class="concept-id">A</div>
+    <div class="concept-name">Bubble</div>
+    <div class="concept-desc">Circle area scales with hours. Larger feature = larger circle. Natural "mass" metaphor.</div>
+  </div>
+  <div class="examples">
+    <div class="ex">
+      <div class="viz-area">
+        <!-- r = sqrt(h/1200) * 32px -->
+        <div class="bubble" style="width:64px;height:64px;"></div>
+      </div>
+      <span class="ex-hours">1,200h</span>
+    </div>
+    <div class="ex">
+      <div class="viz-area">
+        <div class="bubble" style="width:40px;height:40px;"></div>
+      </div>
+      <span class="ex-hours">480h</span>
+    </div>
+    <div class="ex">
+      <div class="viz-area">
+        <div class="bubble" style="width:27px;height:27px;"></div>
+      </div>
+      <span class="ex-hours">220h</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── B: DOT GRID ── -->
+<div class="concept">
+  <div class="concept-meta">
+    <div class="concept-id">B</div>
+    <div class="concept-name">Dot Grid</div>
+    <div class="concept-desc">Filled dots out of 12. Count is proportional to hours — like a pictograph.</div>
+  </div>
+  <div class="examples">
+    <!-- 1200h → 12/12 filled -->
+    <div class="ex">
+      <div class="viz-area">
+        <div class="dot-grid">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
+          <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
+          <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
+          <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
+        </div>
+      </div>
+      <span class="ex-hours">1,200h</span>
+    </div>
+    <!-- 480h → round(4.8) = 5/12 filled -->
+    <div class="ex">
+      <div class="viz-area">
+        <div class="dot-grid">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot on"></div>
+          <div class="dot on"></div><div class="dot on"></div><div class="dot off"></div>
+          <div class="dot off"></div><div class="dot off"></div><div class="dot off"></div>
+          <div class="dot off"></div><div class="dot off"></div><div class="dot off"></div>
+        </div>
+      </div>
+      <span class="ex-hours">480h</span>
+    </div>
+    <!-- 220h → round(2.2) = 2/12 filled -->
+    <div class="ex">
+      <div class="viz-area">
+        <div class="dot-grid">
+          <div class="dot on"></div><div class="dot on"></div><div class="dot off"></div>
+          <div class="dot off"></div><div class="dot off"></div><div class="dot off"></div>
+          <div class="dot off"></div><div class="dot off"></div><div class="dot off"></div>
+          <div class="dot off"></div><div class="dot off"></div><div class="dot off"></div>
+        </div>
+      </div>
+      <span class="ex-hours">220h</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── C: TYPOGRAPHY ── -->
+<div class="concept">
+  <div class="concept-meta">
+    <div class="concept-id">C</div>
+    <div class="concept-name">Type Scale</div>
+    <div class="concept-desc">The number itself grows with hours. Size is the signal — no extra graphic needed.</div>
+  </div>
+  <div class="examples">
+    <div class="ex">
+      <div class="viz-area" style="align-items:center;">
+        <!-- font-size: 14 + (h/1200) * 26 -->
+        <span class="type-size" style="font-size:40px">1,200<span style="font-size:22px;font-weight:500;color:#888;margin-left:2px;">h</span></span>
+      </div>
+      <span class="ex-hours" style="visibility:hidden">1,200h</span>
+    </div>
+    <div class="ex">
+      <div class="viz-area" style="align-items:center;">
+        <span class="type-size" style="font-size:24px">480<span style="font-size:14px;font-weight:500;color:#888;margin-left:2px;">h</span></span>
+      </div>
+      <span class="ex-hours" style="visibility:hidden">480h</span>
+    </div>
+    <div class="ex">
+      <div class="viz-area" style="align-items:center;">
+        <span class="type-size" style="font-size:18px">220<span style="font-size:11px;font-weight:500;color:#888;margin-left:2px;">h</span></span>
+      </div>
+      <span class="ex-hours" style="visibility:hidden">220h</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── D: HEAT TILE ── -->
+<div class="concept">
+  <div class="concept-meta">
+    <div class="concept-id">D</div>
+    <div class="concept-name">Heat / Density</div>
+    <div class="concept-desc">Background intensity encodes weight. Darker = heavier. Works inside the card itself.</div>
+  </div>
+  <div class="examples">
+    <!-- opacity = 0.15 + (h/1200) * 0.70 -->
+    <div class="ex">
+      <div class="viz-area">
+        <div class="heat-tile" style="background:rgba(26,60,58,0.85);"></div>
+      </div>
+      <span class="ex-hours">1,200h</span>
+    </div>
+    <div class="ex">
+      <div class="viz-area">
+        <div class="heat-tile" style="background:rgba(26,60,58,0.43);"></div>
+      </div>
+      <span class="ex-hours">480h</span>
+    </div>
+    <div class="ex">
+      <div class="viz-area">
+        <div class="heat-tile" style="background:rgba(26,60,58,0.22);"></div>
+      </div>
+      <span class="ex-hours">220h</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── E: RADIAL GAUGE ── -->
+<div class="concept">
+  <div class="concept-meta">
+    <div class="concept-id">E</div>
+    <div class="concept-name">Radial Gauge</div>
+    <div class="concept-desc">A 240° arc fills proportionally. Feels like a weight or capacity dial, not a timeline.</div>
+  </div>
+  <div class="examples">
+    <!-- SVG arc: circumference of r=25 circle = 157.08; 240° = 104.7 units; stroke-dasharray = fill, remainder -->
+    <!-- 1200h: dasharray = 104.7 104.7 (full sweep); 480h: 104.7*0.4=41.9; 220h: 104.7*0.183=19.2 -->
+    <div class="ex">
+      <div class="viz-area">
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 64 64">
+            <circle class="gauge-track" cx="32" cy="32" r="22"
+              stroke-dasharray="92 146" stroke-dashoffset="0"/>
+            <circle class="gauge-fill" cx="32" cy="32" r="22"
+              stroke-dasharray="92 146" stroke-dashoffset="0"/>
+          </svg>
+        </div>
+      </div>
+      <span class="ex-hours">1,200h</span>
+    </div>
+    <div class="ex">
+      <div class="viz-area">
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 64 64">
+            <circle class="gauge-track" cx="32" cy="32" r="22"
+              stroke-dasharray="92 146" stroke-dashoffset="0"/>
+            <circle class="gauge-fill" cx="32" cy="32" r="22"
+              stroke-dasharray="37 200" stroke-dashoffset="0"/>
+          </svg>
+        </div>
+      </div>
+      <span class="ex-hours">480h</span>
+    </div>
+    <div class="ex">
+      <div class="viz-area">
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 64 64">
+            <circle class="gauge-track" cx="32" cy="32" r="22"
+              stroke-dasharray="92 146" stroke-dashoffset="0"/>
+            <circle class="gauge-fill" cx="32" cy="32" r="22"
+              stroke-dasharray="17 220" stroke-dashoffset="0"/>
+          </svg>
+        </div>
+      </div>
+      <span class="ex-hours">220h</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── F: BLOCK STACK ── -->
+<div class="concept">
+  <div class="concept-meta">
+    <div class="concept-id">F</div>
+    <div class="concept-name">Block Stack</div>
+    <div class="concept-desc">Discrete blocks stack upward. Count or height encodes hours — like weight on a scale.</div>
+  </div>
+  <div class="examples">
+    <!-- 1200h: 6 blocks; 480h: 3; 220h: 1 — each block ~10px tall with 3px gap -->
+    <div class="ex" style="justify-content:flex-end;">
+      <div class="viz-area" style="align-items:flex-end;">
+        <div class="block-stack">
+          <div class="block" style="height:9px;"></div>
+          <div class="block" style="height:9px;"></div>
+          <div class="block" style="height:9px;"></div>
+          <div class="block" style="height:9px;"></div>
+          <div class="block" style="height:9px;"></div>
+          <div class="block" style="height:9px;"></div>
+        </div>
+      </div>
+      <span class="ex-hours">1,200h</span>
+    </div>
+    <div class="ex">
+      <div class="viz-area" style="align-items:flex-end;">
+        <div class="block-stack">
+          <div class="block" style="height:9px;"></div>
+          <div class="block" style="height:9px;"></div>
+          <div class="block" style="height:9px;"></div>
+        </div>
+      </div>
+      <span class="ex-hours">480h</span>
+    </div>
+    <div class="ex">
+      <div class="viz-area" style="align-items:flex-end;">
+        <div class="block-stack">
+          <div class="block" style="height:9px;"></div>
+        </div>
+      </div>
+      <span class="ex-hours">220h</span>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

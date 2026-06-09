@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{PRESENTATION_NAME}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="application/json" id="__pdata__">{{PRESENTATION_DATA_JSON}}</script>
+  <style>
+    :root {
+      --dark:  #1a3c3a;
+      --mid:   #2C4A48;
+      --light: #7fb3af;
+      --red:   #FF6359;
+      --amber: #F0A500;
+      --bg:    #e8e8e4;
+      --nav-w: 224px;
+      --nav-collapsed-w: 18px;
+      --slide-max-w: 1400px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--dark);
+    }
+
+    #top-bar {
+      height: 7px;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+
+    #shell {
+      display: flex;
+      align-items: stretch;
+      height: calc(100vh - 7px);
+    }
+
+    #shell.sidebar-collapsed #sidebar {
+      width: var(--nav-collapsed-w);
+      min-width: var(--nav-collapsed-w);
+      border-right-color: rgba(255,255,255,0.04);
+    }
+
+    #shell.sidebar-collapsed .nav-head,
+    #shell.sidebar-collapsed .nav-scroll,
+    #shell.sidebar-collapsed .nav-footer {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      transition: opacity 0.12s ease, visibility 0s linear 0.12s;
+    }
+
+    #shell.sidebar-collapsed #content {
+      min-width: 0;
+    }
+
+    #shell.sidebar-collapsed #slide-area {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    #sidebar-toggle {
+      position: absolute;
+      top: 15px;
+      right: -1px;
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-right: none;
+      border-radius: 999px 0 0 999px;
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.72);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: none;
+      z-index: 20;
+      transition: background 0.16s ease, color 0.16s ease, opacity 0.16s ease;
+    }
+
+    #sidebar-toggle:hover {
+      background: rgba(255,255,255,0.09);
+      color: rgba(255,255,255,0.96);
+    }
+
+    #sidebar-toggle .toggle-icon {
+      display: block;
+      font-size: 11px;
+      line-height: 1;
+      transform: translateX(0);
+    }
+
+    #shell.sidebar-collapsed #sidebar-toggle .toggle-icon {
+      transform: translateX(0);
+    }
+
+    #shell.sidebar-collapsed #sidebar-toggle {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.88);
+    }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: var(--nav-w);
+      min-width: var(--nav-w);
+      background: var(--dark);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .nav-head {
+      padding: 18px 16px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+    }
+    .nav-pi {
+      display: inline-flex;
+      align-items: center;
+      background: var(--red);
+      color: #fff;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 2px;
+      margin-bottom: 7px;
+      white-space: nowrap;
+    }
+    .nav-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-label {
+      font-size: 9.5px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0 20px;
+    }
+    .nav-scroll::-webkit-scrollbar { width: 4px; }
+    .nav-scroll::-webkit-scrollbar-track { background: transparent; }
+    .nav-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 999px; }
+
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      cursor: pointer;
+      user-select: none;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, border-color 0.12s;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .nav-group:hover { background: rgba(255,255,255,0.04); }
+    .nav-group.has-active { border-left-color: rgba(255,99,89,0.4); }
+
+    .nav-group .chev {
+      font-size: 7px;
+      color: rgba(255,255,255,0.25);
+      transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), color 0.12s;
+      flex-shrink: 0;
+      width: 8px;
+      text-align: center;
+    }
+    .nav-group.open .chev { transform: rotate(90deg); color: var(--red); }
+
+    .nav-group .g-name {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.12s;
+    }
+    .nav-group:hover .g-name   { color: rgba(255,255,255,0.88); }
+    .nav-group.has-active .g-name { color: rgba(255,255,255,0.85); }
+    .nav-group.open .g-name    { color: rgba(255,255,255,0.9); }
+
+    .nav-children {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-children.open { max-height: 9999px; }
+
+    .nav-section-header {
+      padding: 16px 14px 7px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.82);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-left: 3px solid var(--red);
+      margin-top: 8px;
+    }
+    .nav-section-header:first-child { border-top: none; margin-top: 0; padding-top: 8px; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px 6px 28px;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, border-color 0.12s;
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .nav-item.top-level { padding-left: 14px; }
+    .nav-item:hover { background: rgba(255,255,255,0.04); }
+    .nav-item.active {
+      background: rgba(255,99,89,0.09);
+      border-left-color: var(--red);
+    }
+
+    .nav-item .dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      flex-shrink: 0;
+      transition: background 0.12s;
+    }
+    .nav-item.has-slide .dot { background: rgba(255,99,89,0.5); }
+    .nav-item.active .dot   { background: var(--red); }
+
+    .nav-item .item-label {
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.12s;
+    }
+    .nav-item:hover .item-label  { color: rgba(255,255,255,0.78); }
+    .nav-item.active .item-label { color: #fff; font-weight: 500; }
+
+    .nav-item.section-leaf { padding: 7px 14px; }
+    .nav-item.section-leaf .dot { width: 5px; height: 5px; background: rgba(255,99,89,0.4); }
+    .nav-item.section-leaf.active .dot { background: var(--red); }
+    .nav-item.section-leaf .item-label { font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.6); }
+    .nav-item.section-leaf:hover .item-label { color: rgba(255,255,255,0.88); }
+    .nav-item.section-leaf.active .item-label { color: #fff; font-weight: 600; }
+
+    .nav-footer {
+      padding: 10px 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-footer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); opacity: 0.6; }
+    .nav-footer-text {
+      font-size: 9.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.22);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    /* ── Main content ── */
+    #content {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #d0cfcb;
+    }
+
+    #slide-area {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      padding: 20px 20px 16px;
+      background: #d0cfcb;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #slide-shell {
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    #slide-frame {
+      width: 100%;
+      max-width: var(--slide-max-w);
+      aspect-ratio: 16 / 9;
+      border: 0;
+      display: block;
+      background: transparent;
+      flex-shrink: 0;
+      transition: opacity 0.16s ease-in;
+    }
+    #slide-frame.exit  { opacity: 0; }
+    #slide-frame.enter { opacity: 0; transition: none; }
+
+    /* ── Slide nav bar — floats below the slide ── */
+    #slide-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .nav-btn {
+      background: var(--dark);
+      border: none;
+      border-radius: 6px;
+      color: rgba(255,255,255,0.88);
+      font-size: 11.5px;
+      font-weight: 500;
+      font-family: inherit;
+      letter-spacing: 0.2px;
+      padding: 7px 18px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25), 0 1px 0 rgba(255,255,255,0.04) inset;
+      transition: background 0.14s, box-shadow 0.14s, color 0.14s, transform 0.08s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--mid);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.06) inset;
+    }
+    .nav-btn:active:not(:disabled) {
+      transform: translateY(1px);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    .nav-btn:disabled { opacity: 0.22; cursor: default; }
+
+    #slide-counter {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(26,60,58,0.5);
+      min-width: 52px;
+      text-align: center;
+      letter-spacing: 0.5px;
+      font-family: inherit;
+      background: rgba(26,60,58,0.08);
+      border-radius: 5px;
+      padding: 7px 10px;
+    }
+
+    #slide-shell {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="top-bar"></div>
+  <div id="shell">
+
+    <aside id="sidebar">
+      <button type="button" id="sidebar-toggle" aria-label="Collapse sidebar" aria-pressed="false" title="Hide sidebar">
+        <span class="toggle-icon">❮</span>
+      </button>
+      <div class="nav-head">
+        <div class="nav-pi" id="nav-pi">PI</div>
+        <div class="nav-title" id="nav-title">{{PRESENTATION_NAME}}</div>
+        <div class="nav-label">Feature Catalog</div>
+      </div>
+      <div class="nav-scroll" id="nav-root"></div>
+      <div class="nav-footer">
+        <div class="nav-footer-dot"></div>
+        <div class="nav-footer-text" id="nav-footer-text">Loading…</div>
+      </div>
+    </aside>
+
+    <main id="content">
+      <div id="slide-area">
+        <div id="slide-shell">
+          <iframe id="slide-frame" title="Slide"></iframe>
+        </div>
+        <div id="slide-nav-bar">
+          <button type="button" class="nav-btn" id="btn-prev">← Prev</button>
+          <span id="slide-counter">– / –</span>
+          <button type="button" class="nav-btn" id="btn-next">Next →</button>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+(function () {
+
+  /* ── Sample data (used when template tokens are unresolved) ── */
+  function _sample() {
+    const s = (id, label, hasSlide, children) =>
+      ({ id, label, hasSlide: !!hasSlide, children: children || [] });
+    return {
+      meta: { name: 'Solon Tax Product Roadmap', pi: 'PI 28' },
+      tree: [
+        s('frontpage', 'Front Page', true),
+        s('nfr', 'Non-Functional Requirements', true, [
+          s('nfr-security',        'Security',           true),
+          s('nfr-reliability',     'Reliability',        true),
+          s('nfr-maintainability', 'Maintainability',    true),
+          s('nfr-accessibility',   'Accessibility',      true),
+          s('nfr-usability',       'Usability',          true),
+          s('nfr-performance',     'Performance',        true),
+          s('nfr-traceability',    'Traceability',       true),
+        ]),
+        s('revenue', 'Core Revenue Management', true, [
+          s('rev-billing',      'Billing & Installments', true),
+          s('rev-pi',           'Penalty & Interest',     true),
+          s('rev-registration', 'Registration',           true),
+          s('rev-taxpayer',     'Taxpayer Accounting',    true),
+          s('rev-taxaccounts',  'Tax Accounts',           true),
+        ]),
+        s('supporting', 'Core Supporting Capabilities', true, [
+          s('sup-batch',   'Batch Processing',  true),
+          s('sup-case',    'Case Management',   true),
+          s('sup-contact', 'Contact Management',true),
+          s('sup-content', 'Content Management',true),
+        ]),
+        s('selfservice', 'Core Self Service', true, [
+          s('ss-portal', 'Taxpayer Portal', true),
+        ]),
+        s('other', 'Other Activities', true),
+      ],
+    };
+  }
+
+  function loadData() {
+    const el  = document.getElementById('__pdata__');
+    const raw = el ? el.textContent.trim() : '';
+    if (!raw || raw.startsWith('{{')) return _sample();
+    try { return JSON.parse(raw); } catch { return _sample(); }
+  }
+
+  const data       = loadData();
+  const meta       = data.meta || {};
+  const navRoot    = document.getElementById('nav-root');
+  const slideFrame = document.getElementById('slide-frame');
+  const btnPrev    = document.getElementById('btn-prev');
+  const btnNext    = document.getElementById('btn-next');
+  const counterEl  = document.getElementById('slide-counter');
+  const shell      = document.getElementById('shell');
+  const sidebar    = document.getElementById('sidebar');
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const slideArea = document.getElementById('slide-area');
+  const slideShell = document.getElementById('slide-shell');
+
+  /* ── Header ── */
+  const titleEl = document.getElementById('nav-title');
+  if (meta.name) { titleEl.textContent = meta.name; document.title = meta.name; }
+  const piEl = document.getElementById('nav-pi');
+  if (meta.pi) piEl.textContent = meta.pi; else piEl.style.display = 'none';
+
+  const sidebarStorageKey = 'solon.presentation.sidebarCollapsed';
+
+  function fitSlidePreview() {
+    const areaRect = slideArea.getBoundingClientRect();
+    const navRect = document.getElementById('slide-nav-bar').getBoundingClientRect();
+    const availableWidth = Math.max(0, areaRect.width - 40);
+    const availableHeight = Math.max(0, areaRect.height - navRect.height - 28);
+    const heightBoundWidth = Math.floor(availableHeight * 16 / 9);
+    const targetWidth = Math.max(0, Math.min(availableWidth, heightBoundWidth, 1400));
+    slideShell.style.width = targetWidth ? targetWidth + 'px' : '100%';
+    slideFrame.style.maxWidth = targetWidth ? targetWidth + 'px' : 'var(--slide-max-w)';
+  }
+
+  function setSidebarCollapsed(collapsed) {
+    shell.classList.toggle('sidebar-collapsed', collapsed);
+    sidebarToggle.setAttribute('aria-pressed', String(collapsed));
+    sidebarToggle.setAttribute('aria-label', collapsed ? 'Show sidebar' : 'Collapse sidebar');
+    sidebarToggle.title = collapsed ? 'Show sidebar' : 'Hide sidebar';
+    sidebarToggle.querySelector('.toggle-icon').textContent = collapsed ? '❯' : '❮';
+    try { localStorage.setItem(sidebarStorageKey, collapsed ? '1' : '0'); } catch {}
+  }
+
+  try {
+    setSidebarCollapsed(localStorage.getItem(sidebarStorageKey) === '1');
+  } catch {
+    setSidebarCollapsed(false);
+  }
+
+  fitSlidePreview();
+
+  sidebarToggle.addEventListener('click', () => {
+    setSidebarCollapsed(!shell.classList.contains('sidebar-collapsed'));
+    fitSlidePreview();
+  });
+
+  window.addEventListener('resize', fitSlidePreview);
+
+  /* ── Flatten slides and index nodes ── */
+  function flattenSlides(nodes, out) {
+    nodes.forEach(node => {
+      if (node.type === 'section') {
+        if (node.children && node.children.length) flattenSlides(node.children, out);
+        return;
+      }
+      if (node.hasSlide) out.push(node);
+      if (node.children && node.children.length) flattenSlides(node.children, out);
+    });
+    return out;
+  }
+
+  const flatSlides = flattenSlides(data.tree, []);
+  const nodeById   = new Map();
+
+  function indexNodes(nodes, parent) {
+    nodes.forEach(node => {
+      if (node.type !== 'section') {
+        node.parent = parent;
+        nodeById.set(node.id, node);
+      }
+      if (node.children && node.children.length) indexNodes(node.children, node);
+    });
+  }
+  indexNodes(data.tree);
+
+  /* ── State ── */
+  let activeId  = null;
+  let activeIdx = -1;
+
+  /* ── Load a slide (bundler patches this line to use srcdoc) ── */
+  function loadSlide(id) {
+    slideFrame.src = 'slides/' + id + '.html';
+  }
+
+  let animating = false;
+
+  function transitionTo(id) {
+    if (animating) {
+      slideFrame.className = '';
+      loadSlide(id);
+      slideFrame.style.transition = 'opacity 0.16s ease-out';
+      return;
+    }
+    animating = true;
+    slideFrame.classList.add('exit');
+
+    slideFrame.addEventListener('transitionend', function onExit() {
+      slideFrame.className = 'enter';
+      loadSlide(id);
+      slideFrame.getBoundingClientRect();
+      slideFrame.className = '';
+      slideFrame.style.transition = 'opacity 0.16s ease-out';
+      animating = false;
+    }, { once: true });
+  }
+
+  /* ── Nav highlight ── */
+  function updateNavHighlight(id) {
+    document.querySelectorAll('.nav-item.active').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-group.has-active, .nav-group.open').forEach(el =>
+      el.classList.remove('has-active', 'open'));
+    document.querySelectorAll('.nav-children.open').forEach(el => el.classList.remove('open'));
+
+    const activeEl = document.querySelector(`.nav-item[data-id="${id}"], .nav-group[data-id="${id}"]`);
+    if (!activeEl) return;
+
+    if (activeEl.classList.contains('nav-group')) {
+      activeEl.classList.add('open');
+      const childrenWrap = activeEl.nextElementSibling;
+      if (childrenWrap?.classList.contains('nav-children')) childrenWrap.classList.add('open');
+    } else {
+      activeEl.classList.add('active');
+      let cursor = activeEl;
+      while (cursor) {
+        const childrenWrap = cursor.closest('.nav-children');
+        if (!childrenWrap) break;
+        const groupEl = childrenWrap.previousElementSibling;
+        if (!groupEl?.classList.contains('nav-group')) break;
+        groupEl.classList.add('has-active', 'open');
+        childrenWrap.classList.add('open');
+        cursor = groupEl;
+      }
+      activeEl.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  function updateCounter(idx) {
+    counterEl.textContent = (idx + 1) + ' / ' + flatSlides.length;
+    btnPrev.disabled = idx <= 0;
+    btnNext.disabled = idx >= flatSlides.length - 1;
+  }
+
+  /* ── Navigate to a slide by id ── */
+  function navigate(id) {
+    const idx = flatSlides.findIndex(n => n.id === id);
+    if (idx === -1) return;
+    activeId  = id;
+    activeIdx = idx;
+    transitionTo(id);
+    updateNavHighlight(id);
+    updateCounter(idx);
+    requestAnimationFrame(fitSlidePreview);
+  }
+
+  /* ── Prev / Next buttons ── */
+  btnPrev.addEventListener('click', () => {
+    if (activeIdx > 0) navigate(flatSlides[activeIdx - 1].id);
+  });
+  btnNext.addEventListener('click', () => {
+    if (activeIdx < flatSlides.length - 1) navigate(flatSlides[activeIdx + 1].id);
+  });
+
+  /* ── Keyboard navigation ── */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      if (activeIdx < flatSlides.length - 1) { e.preventDefault(); navigate(flatSlides[activeIdx + 1].id); }
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      if (activeIdx > 0) { e.preventDefault(); navigate(flatSlides[activeIdx - 1].id); }
+    }
+  });
+
+  /* ── Build nav tree ── */
+  let slideCount = 0;
+
+  function firstSlide(nodes) {
+    for (const n of nodes) {
+      if (n.hasSlide && n.type !== 'section') return n;
+      const found = firstSlide(n.children || []);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  function buildItems(nodes, container, isTop, insideSection) {
+    nodes.forEach(node => {
+      const hasChildren = node.children && node.children.length > 0;
+
+      if (node.type === 'section') {
+        const header = document.createElement('div');
+        header.className = 'nav-section-header';
+        header.textContent = node.label;
+        container.appendChild(header);
+        if (hasChildren) buildItems(node.children, container, false, true);
+        return;
+      }
+
+      if (hasChildren) {
+        const group = document.createElement('div');
+        group.className = 'nav-group';
+        group.dataset.id = node.id;
+        const chev = document.createElement('span');
+        chev.className = 'chev';
+        chev.textContent = '▶';
+        const name = document.createElement('span');
+        name.className = 'g-name';
+        name.textContent = node.label;
+        group.appendChild(chev);
+        group.appendChild(name);
+        const childWrap = document.createElement('div');
+        childWrap.className = 'nav-children';
+        buildItems(node.children, childWrap, false);
+        container.appendChild(group);
+        container.appendChild(childWrap);
+        if (node.hasSlide) slideCount++;
+      } else {
+        if (node.hasSlide) slideCount++;
+        const item = document.createElement('div');
+        item.className = 'nav-item' +
+          (node.hasSlide ? ' has-slide' : '') +
+          (isTop ? ' top-level' : '') +
+          (insideSection && !isTop ? ' section-leaf' : '');
+        item.dataset.id = node.id;
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        const label = document.createElement('span');
+        label.className = 'item-label';
+        label.textContent = node.label;
+        item.appendChild(dot);
+        item.appendChild(label);
+        container.appendChild(item);
+      }
+    });
+  }
+
+  buildItems(data.tree, navRoot, true);
+
+  /* ── Nav click delegation ── */
+  navRoot.addEventListener('click', (e) => {
+    const group = e.target.closest('.nav-group');
+    if (group) {
+      const id = group.dataset.id;
+      const childWrap = group.nextElementSibling;
+      if (childWrap && childWrap.classList.contains('nav-children')) {
+        const open = childWrap.classList.toggle('open');
+        group.classList.toggle('open', open);
+        const node = nodeById.get(id);
+        if (node && node.hasSlide) navigate(id);
+        else if (open) {
+          const first = firstSlide(node ? node.children : []);
+          if (first) navigate(first.id);
+        }
+      }
+      return;
+    }
+    const item = e.target.closest('.nav-item');
+    if (item) {
+      const id = item.dataset.id;
+      const node = nodeById.get(id);
+      if (node && node.hasSlide) navigate(id);
+    }
+  });
+
+  /* ── Footer count ── */
+  document.getElementById('nav-footer-text').textContent =
+    slideCount + ' slide' + (slideCount !== 1 ? 's' : '');
+
+  /* ── Boot: show first slide ── */
+  const first = firstSlide(data.tree);
+  if (first) navigate(first.id);
+
+})();
+  </script>
+</body>
+</html>

@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Revenue Management – Feature Catalog</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 7px;
+    background: #FF6359;
+  }
+  /* ── HEADER ── */
+  .header {
+    position: absolute;
+    top: 7px; left: 0; right: 0;
+    height: 96px;
+    background: #1a3c3a;
+    display: flex;
+    align-items: center;
+    padding: 0 44px;
+    justify-content: space-between;
+  }
+  .header-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #FF6359;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    margin-bottom: 3px;
+  }
+  .header-subtitle {
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.55);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .header-stat {
+    text-align: center;
+    padding: 0 28px;
+  }
+  .header-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #FF6359;
+    line-height: 1;
+  }
+  .header-stat-label {
+    font-size: 10px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .header-divider {
+    width: 1px;
+    height: 44px;
+    background: rgba(255,255,255,0.15);
+  }
+  .logo {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #7fb3af;
+    text-transform: uppercase;
+  }
+  /* ── BODY ── */
+  .body {
+    position: absolute;
+    top: 103px;
+    left: 0; right: 0;
+    bottom: 36px;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 18px;
+    padding: 16px;
+    background: #fafaf8;
+  }
+  /* ── LEFT PANEL ── */
+  .left-panel {
+    background: transparent;
+    border-right: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .left-section {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 16px;
+    border-bottom: none;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: box-shadow 0.3s ease;
+  }
+  .left-section:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  .left-section:last-child {
+    border-bottom: none;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a3c3a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+    border-bottom: none;
+    flex-shrink: 0;
+  }
+  .section-body {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  /* ── PROGRESS SECTION ── */
+  .progress-inner {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 100%;
+  }
+  /* Donut chart via SVG */
+  .donut-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 110px;
+    height: 110px;
+  }
+  .donut-wrap svg {
+    width: 110px;
+    height: 110px;
+    transform: rotate(-90deg);
+  }
+  .donut-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+  }
+  .donut-pct {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2C4A48;
+    line-height: 1;
+    display: block;
+  }
+  .donut-lbl {
+    font-size: 10px;
+    font-weight: 500;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-top: 2px;
+  }
+  .legend-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    flex: 1;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 6px;
+    background: #fafaf8;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+  }
+  .legend-item:hover {
+    background: #f0f0ec;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .legend-text {
+    flex: 1;
+    font-size: 10px;
+    font-weight: 500;
+    color: #2C4A48;
+  }
+  .legend-count {
+    font-size: 9px;
+    font-weight: 700;
+    color: #FF6359;
+  }
+  /* ── PI DISTRIBUTION SECTION ── */
+  .pi-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    justify-content: space-evenly;
+    flex: 1;
+  }
+  .pi-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+  .pi-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #2C4A48;
+    width: 36px;
+    flex-shrink: 0;
+  }
+  .pi-label.muted { color: #AAAAAA; }
+  .pi-track {
+    flex: 1;
+    height: 16px;
+    background: #E8E8E4;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .pi-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .pi-fill.active { background: #FF6359; }
+  .pi-fill.inactive { background: #2C4A48; }
+  .pi-value {
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    width: 54px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  /* ── PRIORITY SECTION ── */
+  .priority-stacked-bar {
+    height: 26px;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-shrink: 0;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .prio-seg {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.4px;
+    transition: filter 0.2s ease;
+  }
+  .prio-seg:hover {
+    filter: brightness(1.1);
+  }
+  .prio-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .prio-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 6px;
+    background: #fafaf8;
+    border-radius: 5px;
+    transition: background 0.2s ease;
+  }
+  .prio-legend-item:hover {
+    background: #f0f0ec;
+  }
+  .prio-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .prio-legend-text {
+    font-size: 10px;
+    color: #2C4A48;
+    font-weight: 500;
+    flex: 1;
+  }
+  .prio-legend-pct {
+    font-size: 9px;
+    font-weight: 700;
+    color: #FF6359;
+  }
+  /* ── RIGHT PANEL ── */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    gap: 14px;
+    overflow: hidden;
+  }
+  /* ── BUSINESS VALUE BOX ── */
+	.value-box {
+	  background: white;
+	  border-left: 5px solid #FF6359;
+	  border-radius: 8px;
+	  padding: 14px 16px;
+	  display: flex;
+	  gap: 20px;
+	  flex-shrink: 0;
+	  height: auto;
+	  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+	  transition: box-shadow 0.3s ease;
+	}
+	.value-box:hover {
+	  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+	}
+  .value-col {
+    flex: 1;
+  }
+  .value-col-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a3c3a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+  }
+  .value-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .value-bullets li {
+    font-size: 9px;
+    color: #555;
+    padding-left: 12px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .value-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 1px; top: 5px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #FF6359;
+  }
+  /* ── TABLE ── */
+  .table-wrap {
+    flex: 1;
+    overflow: hidden;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+  }
+  thead tr {
+    background: linear-gradient(135deg, #1a3c3a 0%, #2C4A48 100%);
+  }
+  thead th {
+    padding: 10px 10px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  thead th:first-child { border-radius: 8px 0 0 0; }
+  thead th:last-child { border-radius: 0 8px 0 0; }
+  tbody tr {
+    border-bottom: 1px solid #f0f0ec;
+    transition: background-color 0.2s ease;
+  }
+  tbody tr:hover {
+    background: #fafaf8;
+  }
+  tbody tr:nth-child(even) {
+    background: white;
+  }
+  tbody td {
+    padding: 8px 10px;
+    color: #333;
+    vertical-align: middle;
+  }
+  .init-name {
+    font-size: 10px;
+    font-weight: 700;
+    color: #1a3c3a;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+  }
+  .init-desc {
+    font-size: 8px;
+    color: #888;
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+  .effort-pill {
+    display: inline-block;
+    background: #e8f0ef;
+    color: #1a3c3a;
+    font-weight: 700;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+    border: 1px solid #d0e5e2;
+  }
+  .pi-text {
+    font-size: 10px;
+    color: #444;
+    font-weight: 500;
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #2C4A48;
+  }
+  .status-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .prio-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 18px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .feat-count {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2C4A48;
+    text-align: center;
+    display: block;
+  }
+  /* ══ FOOTER ══ */
+.slide-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #1a3c3a;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 36px;
+}
+
+  .footer-text {
+    font-size: 8.5px;
+    color: #7fb3af;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<section class="slide">
+  <!-- TOP BAR -->
+  <div class="top-bar"></div>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-label">Feature Catalog &nbsp;·&nbsp; Roadmap Initiative Group</div>
+      <div class="header-title">Core Revenue Management Capabilities</div>
+      <div class="header-subtitle">Solon Tax Product Roadmap 2026 &nbsp;·&nbsp; Executive Steering Committee</div>
+    </div>
+    <div class="header-right">
+      <div class="header-stat">
+        <div class="header-stat-value">23,200</div>
+        <div class="header-stat-label">Total Hours</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">6</div>
+        <div class="header-stat-label">Initiatives</div>
+      </div>
+      <div class="header-divider"></div>
+      <div class="header-stat">
+        <div class="header-stat-value">38</div>
+        <div class="header-stat-label">Features</div>
+      </div>
+      <div class="logo">Netcompany</div>
+    </div>
+  </div>
+  <!-- BODY -->
+  <div class="body">
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <!-- SECTION 1: Overall Progress -->
+      <div class="left-section">
+        <div class="section-title">Overall Progress</div>
+        <div class="section-body">
+          <div class="progress-inner">
+            <!-- Legend -->
+            <div class="legend-list" style="flex: 1;">
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#2C4A48;"></div>
+                <span class="legend-text">Done</span>
+                <span class="legend-count">7 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#FF6359;"></div>
+                <span class="legend-text">In Progress</span>
+                <span class="legend-count">12 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#F0A500;"></div>
+                <span class="legend-text">In Analysis</span>
+                <span class="legend-count">9 features</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-dot" style="background:#E0E0DC;"></div>
+                <span class="legend-text">To Do</span>
+                <span class="legend-count">10 features</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SECTION 3: Priority Split -->
+      <div class="left-section">
+        <div class="section-title">Priority Split</div>
+        <div class="section-body">
+          <div class="priority-stacked-bar">
+            <div class="prio-seg" style="width:42%; background:#FF6359;">P1</div>
+            <div class="prio-seg" style="width:35%; background:#F0A500;">P2</div>
+            <div class="prio-seg" style="width:23%; background:#2C4A48;">P3</div>
+          </div>
+          <div class="prio-legend">
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#FF6359;"></div>
+              <span class="prio-legend-text">Must Have</span>
+              <span class="prio-legend-pct">42% · 16 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#F0A500;"></div>
+              <span class="prio-legend-text">Should Have</span>
+              <span class="prio-legend-pct">35% · 13 features</span>
+            </div>
+            <div class="prio-legend-item">
+              <div class="prio-swatch" style="background:#2C4A48;"></div>
+              <span class="prio-legend-text">Nice to Have</span>
+              <span class="prio-legend-pct">23% · 9 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <!-- Punchline -->
+      <div style="font-size: 11px; font-weight: 700; color: #FF6359; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid #FF6359;">Competitive Advantage: Platform Enabling €200M+ Revenue Pipeline</div>
+      <!-- Business Value Box -->
+      <div class="value-box">
+        <div class="value-col">
+          <div class="value-col-title">Business Value</div>
+          <ul class="value-bullets">
+            <li>Enables end-to-end taxpayer lifecycle management from registration through accounting</li>
+            <li>Reduces manual caseworker effort via automated billing, assessments & penalty calculations</li>
+            <li>Directly supports Greek project delivery and future market opportunities</li>
+          </ul>
+        </div>
+        <div class="value-col">
+          <div class="value-col-title">Market Relevance</div>
+          <ul class="value-bullets">
+            <li>Core dependency for all current and pipeline Solon Tax project implementations</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform</li>
+            <li>€200M+ in future project pipeline contingent on platform completeness</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Initiatives Table -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:30%">Initiative</th>
+              <th style="width:12%">Effort</th>
+              <th style="width:16%">PI Window</th>
+              <th style="width:17%">Status</th>
+              <th style="width:10%">Priority</th>
+              <th style="width:8%">Features</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="init-name">Registration</div>
+                <div class="init-desc">Party identifiers, org hierarchy, search enhancements</div>
+              </td>
+              <td><span class="effort-pill">11,866h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">14</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Taxpayer Accounting</div>
+                <div class="init-desc">General ledger core, reconciliation & balance management</div>
+              </td>
+              <td><span class="effort-pill">8,064h</span></td>
+              <td><span class="pi-text">PI 28 · PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#1A5276;"></span>
+                  In Analysis
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">9</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Billing &amp; Assessments</div>
+                <div class="init-desc">Instalment plans, assessment automation, billing cycles</div>
+              </td>
+              <td><span class="effort-pill">2,880h</span></td>
+              <td><span class="pi-text">PI 27 · PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#F0A500;"></span>
+                  In Progress
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">6</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Penalty &amp; Interest</div>
+                <div class="init-desc">Interest calculation, credit unallocated payment segments</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29 · PI 30</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#F0A500;">P2</span></td>
+              <td><span class="feat-count">4</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Exemptions</div>
+                <div class="init-desc">Exemption rules, configurable thresholds, event triggers</div>
+              </td>
+              <td><span class="effort-pill">390h</span></td>
+              <td><span class="pi-text">PI 28</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#2C4A48;">P3</span></td>
+              <td><span class="feat-count">3</span></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="init-name">Tax Accounts</div>
+                <div class="init-desc">Tax account setup, configurable thresholds, notifications</div>
+              </td>
+              <td><span class="effort-pill">TBD</span></td>
+              <td><span class="pi-text">PI 29</span></td>
+              <td>
+                <span class="status-badge">
+                  <span class="status-dot" style="background:#BBBBBB;"></span>
+                  To Do
+                </span>
+              </td>
+              <td><span class="prio-badge" style="background:#FF6359;">P1</span></td>
+              <td><span class="feat-count">2</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- ══ FOOTER ══ -->
+  <div class="slide-footer">
+    <span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+  </div>
+
+</section>
+
+</body>
+</html>

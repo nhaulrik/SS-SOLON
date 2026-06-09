@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{PRESENTATION_NAME}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="application/json" id="__pdata__">{{PRESENTATION_DATA_JSON}}</script>
+  <style>
+    /* ── Palette — exact match to slide templates ── */
+    :root {
+      --dark:    #1a3c3a;
+      --mid:     #2C4A48;
+      --light:   #7fb3af;
+      --red:     #FF6359;
+      --amber:   #F0A500;
+      --bg:      #e8e8e4;
+      --nav-w:   224px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--dark);
+    }
+
+    /* ── Red accent bar — mirrors the slides' top bar ── */
+    #top-bar {
+      height: 7px;
+      background: var(--red);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    /* ── Shell ── */
+    #shell {
+      display: flex;
+      align-items: stretch;
+      height: calc(100% - 7px);
+    }
+
+    /* ── Sidebar ── */
+    #sidebar {
+      width: var(--nav-w);
+      min-width: var(--nav-w);
+      background: var(--dark);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      border-right: 1px solid rgba(255,255,255,0.07);
+      position: relative;
+      z-index: 10;
+      overflow-y: auto;
+    }
+
+    /* ── Sidebar header (mirrors slide PI badge area) ── */
+    .nav-head {
+      padding: 18px 16px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .nav-head-text { flex: 1; min-width: 0; }
+    .nav-pi {
+      display: inline-flex;
+      align-items: center;
+      background: var(--red);
+      color: #fff;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 2px;
+      margin-bottom: 7px;
+      white-space: nowrap;
+    }
+    .nav-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-label {
+      font-size: 9.5px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Collapse toggle — lives inside nav header */
+    .nav-toggle {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      color: rgba(255,255,255,0.45);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: 2px;
+    }
+    .nav-toggle:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    /* ── Nav scroll area ── */
+    .nav-scroll {
+      padding: 8px 0 20px;
+    }
+
+    /* ── Group toggle (parent nodes) ── */
+    .nav-group {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      cursor: pointer;
+      user-select: none;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, border-color 0.12s;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .nav-group:hover { background: rgba(255,255,255,0.04); }
+    .nav-group.has-active { border-left-color: rgba(255,99,89,0.4); }
+
+    .nav-group .chev {
+      font-size: 7px;
+      color: rgba(255,255,255,0.25);
+      transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), color 0.12s;
+      flex-shrink: 0;
+      width: 8px;
+      text-align: center;
+    }
+    .nav-group.open .chev { transform: rotate(90deg); color: var(--red); }
+
+    .nav-group .g-name {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.12s;
+    }
+    .nav-group:hover .g-name { color: rgba(255,255,255,0.88); }
+    .nav-group.has-active .g-name { color: rgba(255,255,255,0.85); }
+    .nav-group.open .g-name { color: rgba(255,255,255,0.9); }
+
+    /* ── Children container ── */
+    .nav-children {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-children.open { max-height: 800px; }
+
+    /* ── Section header (top-level structural separator) ── */
+    .nav-section-header {
+      padding: 16px 14px 7px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.82);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-left: 3px solid var(--red);
+      margin-top: 8px;
+    }
+    .nav-section-header:first-child {
+      border-top: none;
+      margin-top: 0;
+      padding-top: 8px;
+    }
+
+    /* ── Leaf nav item ── */
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px 6px 28px;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, border-color 0.12s;
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .nav-item.top-level { padding-left: 14px; }
+    .nav-item:hover { background: rgba(255,255,255,0.04); }
+    .nav-item.active {
+      background: rgba(255,99,89,0.09);
+      border-left-color: var(--red);
+    }
+
+    .nav-item .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      flex-shrink: 0;
+      transition: background 0.12s;
+    }
+    .nav-item.has-slide .dot { background: rgba(255,99,89,0.5); }
+    .nav-item.active .dot   { background: var(--red); }
+
+    .nav-item .item-label {
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color 0.12s;
+    }
+    .nav-item:hover .item-label   { color: rgba(255,255,255,0.78); }
+    .nav-item.active .item-label  { color: #fff; font-weight: 500; }
+    .nav-item.current-view {
+      background: rgba(255,99,89,0.14);
+      border-left-color: var(--amber);
+    }
+    .nav-item.current-view .item-label { color: #fff; }
+
+    /* Direct child of a section with no sub-items — same visual weight as a group row */
+    .nav-item.section-leaf { padding: 7px 14px; }
+    .nav-item.section-leaf .dot { width: 5px; height: 5px; background: rgba(255,99,89,0.4); }
+    .nav-item.section-leaf.active .dot { background: var(--red); }
+    .nav-item.section-leaf .item-label { font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.6); }
+    .nav-item.section-leaf:hover .item-label { color: rgba(255,255,255,0.88); }
+    .nav-item.section-leaf.active .item-label { color: #fff; font-weight: 600; }
+    .nav-group.current-view .g-name { color: #fff; }
+    .nav-group.current-view .chev { color: var(--amber); }
+
+    /* ── Content / iframe ── */
+    #content {
+      flex: 1;
+      background: #d0cfcb;
+      min-width: 0;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: y proximity;
+      scrollbar-gutter: stable;
+      overscroll-behavior-y: contain;
+    }
+
+    .slide-stack {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 160px;
+      padding: 20px 24px 40px;
+    }
+
+    .slide-section {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      scroll-margin-top: 0;
+    }
+
+    .slide-embed {
+      width: min(1280px, 100%);
+      aspect-ratio: 16 / 9;
+      border: 0;
+      display: block;
+      height: min(720px, calc((100vw - 48px) * 9 / 16));
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    #content::-webkit-scrollbar { width: 10px; }
+    #content::-webkit-scrollbar-track { background: rgba(26,60,58,0.08); }
+    #content::-webkit-scrollbar-thumb { background: rgba(44,74,72,0.5); border-radius: 999px; border: 2px solid rgba(232,232,228,0.9); }
+    #content::-webkit-scrollbar-thumb:hover { background: rgba(255,99,89,0.7); }
+
+    /* ── Slide count badge at bottom of sidebar ── */
+    .nav-footer {
+      padding: 10px 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-footer-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      opacity: 0.6;
+    }
+    .nav-footer-text {
+      font-size: 9.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.22);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="top-bar"></div>
+  <div id="shell">
+
+    <aside id="sidebar">
+      <div class="nav-head">
+        <div class="nav-head-text">
+          <div class="nav-pi" id="nav-pi">PI</div>
+          <div class="nav-title" id="nav-title">{{PRESENTATION_NAME}}</div>
+          <div class="nav-label">Feature Catalog</div>
+        </div>
+      </div>
+      <div class="nav-scroll" id="nav-root"></div>
+      <div class="nav-footer">
+        <div class="nav-footer-dot"></div>
+        <div class="nav-footer-text" id="nav-footer-text">Loading…</div>
+      </div>
+    </aside>
+
+    <main id="content">
+      <div class="slide-stack" id="slide-stack"></div>
+    </main>
+
+  </div>
+
+  <script>
+(function () {
+
+  /* ── Sample data (used when template tokens are unresolved) ── */
+  function _sample() {
+    const s = (id, label, hasSlide, children) =>
+      ({ id, label, hasSlide: !!hasSlide, children: children || [] });
+    return {
+      meta: { name: 'Solon Tax Product Roadmap', pi: 'PI 28' },
+      tree: [
+        s('frontpage', 'Front Page', true),
+        s('nfr', 'Non-Functional Requirements', true, [
+          s('nfr-security',        'Security',           true),
+          s('nfr-reliability',     'Reliability',        true),
+          s('nfr-maintainability', 'Maintainability',    true),
+          s('nfr-accessibility',   'Accessibility',      true),
+          s('nfr-usability',       'Usability',          true),
+          s('nfr-performance',     'Performance',        true),
+          s('nfr-traceability',    'Traceability',       true),
+        ]),
+        s('revenue', 'Core Revenue Management', true, [
+          s('rev-billing',      'Billing & Installments', true),
+          s('rev-pi',           'Penalty & Interest',     true),
+          s('rev-registration', 'Registration',           true),
+          s('rev-taxpayer',     'Taxpayer Accounting',    true),
+          s('rev-taxaccounts',  'Tax Accounts',           true),
+        ]),
+        s('supporting', 'Core Supporting Capabilities', true, [
+          s('sup-batch',   'Batch Processing',  true),
+          s('sup-case',    'Case Management',   true),
+          s('sup-contact', 'Contact Management',true),
+          s('sup-content', 'Content Management',true),
+        ]),
+        s('selfservice', 'Core Self Service', true, [
+          s('ss-portal', 'Taxpayer Portal', true),
+        ]),
+        s('other', 'Other Activities', true),
+      ],
+    };
+  }
+
+  function loadData() {
+    const el  = document.getElementById('__pdata__');
+    const raw = el ? el.textContent.trim() : '';
+    if (!raw || raw.startsWith('{{')) return _sample();
+    try { return JSON.parse(raw); } catch { return _sample(); }
+  }
+
+  const data      = loadData();
+  const meta      = data.meta || {};
+  const sidebar   = document.getElementById('sidebar');
+  const navRoot   = document.getElementById('nav-root');
+  const content   = document.getElementById('content');
+  const slideStack = document.getElementById('slide-stack');
+  /* ── Populate header ── */
+  const titleEl = document.getElementById('nav-title');
+  if (meta.name) { titleEl.textContent = meta.name; document.title = meta.name; }
+
+  const piEl = document.getElementById('nav-pi');
+  if (meta.pi) piEl.textContent = meta.pi;
+  else piEl.style.display = 'none';
+
+  /* ── Navigation ── */
+  let activeId = null;
+
+  function flattenSlides(nodes, out) {
+    nodes.forEach(node => {
+      if (node.type === 'section') {
+        if (node.children && node.children.length) flattenSlides(node.children, out);
+        return;
+      }
+      if (node.hasSlide) out.push(node);
+      if (node.children && node.children.length) flattenSlides(node.children, out);
+    });
+    return out;
+  }
+
+  const flatSlides = flattenSlides(data.tree, []);
+  const sectionById = new Map();
+  const nodeById = new Map();
+  let scrollObserver = null;
+  let ignoreObserver = false;
+  let scrollTargetId = null;
+
+   function indexNodes(nodes, parent) {
+     nodes.forEach(node => {
+       if (node.type !== 'section') {
+         node.parent = parent;
+         nodeById.set(node.id, node);
+       }
+       if (node.children && node.children.length) indexNodes(node.children, node);
+     });
+   }
+
+   indexNodes(data.tree);
+
+   function updateNavHighlight(id) {
+     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active', 'current-view'));
+     document.querySelectorAll('.nav-group').forEach(el => el.classList.remove('has-active', 'current-view', 'open'));
+     document.querySelectorAll('.nav-children').forEach(el => el.classList.remove('open'));
+     
+     // Try to find as a nav-item first (leaf node)
+     let activeEl = document.querySelector('.nav-item[data-id="' + id + '"]');
+     
+     // If not found, try as a nav-group (parent with children)
+     if (!activeEl) {
+       activeEl = document.querySelector('.nav-group[data-id="' + id + '"]');
+     }
+     
+     if (activeEl) {
+       // If it's a group, highlight it and open it
+       if (activeEl.classList.contains('nav-group')) {
+         activeEl.classList.add('current-view', 'open');
+         const childrenWrap = activeEl.nextElementSibling;
+         if (childrenWrap && childrenWrap.classList.contains('nav-children')) {
+           childrenWrap.classList.add('open');
+         }
+       } else {
+         // If it's an item, highlight it and walk up to open parents
+         activeEl.classList.add('active', 'current-view');
+         let cursor = activeEl;
+         while (cursor) {
+           const childrenWrap = cursor.closest ? cursor.closest('.nav-children') : null;
+           if (!childrenWrap) break;
+           const groupEl = childrenWrap.previousElementSibling;
+           if (!groupEl || !groupEl.classList.contains('nav-group')) break;
+           groupEl.classList.add('has-active', 'current-view', 'open');
+           childrenWrap.classList.add('open');
+           cursor = groupEl;
+         }
+       }
+     }
+   }
+
+   function renderStack() {
+    slideStack.innerHTML = '';
+    flatSlides.forEach((node, index) => {
+      const section = document.createElement('section');
+      section.className = 'slide-section';
+      section.dataset.id = node.id;
+      const iframe = document.createElement('iframe');
+      iframe.className = 'slide-embed';
+      iframe.title = node.label || node.id;
+      iframe.src = 'slides/' + node.id + '.html';
+      section.appendChild(iframe);
+      slideStack.appendChild(section);
+      sectionById.set(node.id, section);
+    });
+
+      if (scrollObserver) scrollObserver.disconnect();
+      if ('IntersectionObserver' in window) {
+         scrollObserver = new IntersectionObserver(entries => {
+           if (ignoreObserver) return;
+           const visibleEntries = entries.filter(entry => entry.isIntersecting);
+           if (visibleEntries.length === 0) return;
+           
+           // Find the slide closest to the top of the viewport
+           let selectedEntry = null;
+           let minDistance = Infinity;
+           const contentRect = content.getBoundingClientRect();
+           const centerY = contentRect.height / 2;
+           
+           for (const entry of visibleEntries) {
+             const rect = entry.target.getBoundingClientRect();
+             const slideTop = rect.top - contentRect.top;
+             const distance = Math.abs(slideTop - centerY);
+             
+             if (distance < minDistance) {
+               minDistance = distance;
+               selectedEntry = entry;
+             }
+           }
+           
+           if (selectedEntry && selectedEntry.target && selectedEntry.target.dataset.id) {
+             const observedId = selectedEntry.target.dataset.id;
+             
+             // Only update if this is the target we scrolled to, or if we're not scrolling to anything specific
+             if (scrollTargetId && observedId !== scrollTargetId) return;
+             if (observedId === activeId) return;
+             
+             activeId = observedId;
+             updateNavHighlight(observedId);
+           }
+         }, {
+           root: content,
+           threshold: [0.1, 0.25, 0.5, 0.75, 0.9],
+         });
+
+        sectionById.forEach(section => scrollObserver.observe(section));
+      }
+  }
+
+   function navigate(id, behavior) {
+     activeId = id;
+     const node = nodeById.get(id);
+     scrollTargetId = id;
+
+     updateNavHighlight(id);
+
+      const section = sectionById.get(id);
+      if (section) {
+        ignoreObserver = true;
+        const rect = section.getBoundingClientRect();
+        const top = content.scrollTop + rect.top;
+        content.scrollTo({ top: top, behavior: behavior || 'smooth' });
+        window.setTimeout(() => {
+          ignoreObserver = false;
+          scrollTargetId = null;
+        }, 1200);
+      }
+   }
+
+  function firstSlide(nodes) {
+    for (const n of nodes) {
+      if (n.hasSlide) return n;
+      const found = firstSlide(n.children || []);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  /* ── Build nav tree ── */
+  let slideCount = 0;
+
+  function buildItems(nodes, container, isTop, insideSection) {
+    nodes.forEach(node => {
+      const hasChildren = node.children && node.children.length > 0;
+
+      /* ── Section header: always-visible label, children rendered below ── */
+      if (node.type === 'section') {
+        const header = document.createElement('div');
+        header.className = 'nav-section-header';
+        header.textContent = node.label;
+        container.appendChild(header);
+        if (hasChildren) buildItems(node.children, container, false, true);
+        return;
+      }
+
+       if (hasChildren) {
+         /* Group row */
+         const group = document.createElement('div');
+         group.className = 'nav-group';
+         group.dataset.id = node.id;
+         group.innerHTML =
+           '<span class="chev">▶</span>' +
+           '<span class="g-name">' + node.label + '</span>';
+
+        const childWrap = document.createElement('div');
+        childWrap.className = 'nav-children';
+
+        group.addEventListener('click', () => {
+          const open = childWrap.classList.toggle('open');
+          group.classList.toggle('open', open);
+          /* If the group itself has a slide, navigate to it */
+          if (node.hasSlide) navigate(node.id);
+          else if (open) {
+            const first = firstSlide(node.children);
+            if (first) navigate(first.id);
+          }
+        });
+
+        buildItems(node.children, childWrap, false);
+        container.appendChild(group);
+        container.appendChild(childWrap);
+
+        if (node.hasSlide) slideCount++;
+
+      } else {
+        /* Leaf item */
+        if (node.hasSlide) slideCount++;
+        const item = document.createElement('div');
+        item.className = 'nav-item' +
+          (node.hasSlide ? ' has-slide' : '') +
+          (isTop ? ' top-level' : '') +
+          (insideSection && !isTop ? ' section-leaf' : '');
+        item.dataset.id = node.id;
+        item.innerHTML =
+          '<span class="dot"></span>' +
+          '<span class="item-label">' + node.label + '</span>';
+
+        item.addEventListener('click', () => {
+          if (node.hasSlide) navigate(node.id);
+        });
+        container.appendChild(item);
+      }
+    });
+  }
+
+  renderStack();
+  buildItems(data.tree, navRoot, true);
+
+  /* ── Footer slide count ── */
+  const footerEl = document.getElementById('nav-footer-text');
+  footerEl.textContent = slideCount + ' slide' + (slideCount !== 1 ? 's' : '');
+
+  /* ── Boot: navigate to first slide, expand all ── */
+  const first = firstSlide(data.tree);
+  if (first) navigate(first.id, 'auto');
+
+})();
+  </script>
+</body>
+</html>

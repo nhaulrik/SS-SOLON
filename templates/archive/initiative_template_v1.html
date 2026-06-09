@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Roadmap Initiative Slide – Registration</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #e8e8e8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  section.slide {
+    width: 1280px;
+    min-height: 720px;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  }
+
+  /* ══ HEADER ══ */
+  .slide-header {
+    background: #1a3c3a;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 36px 0;
+  }
+
+  .header-eyebrow {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #7fb3af;
+    font-weight: 600;
+  }
+
+  .nc-logo {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #7fb3af;
+    text-transform: uppercase;
+  }
+
+  .header-main {
+    display: flex;
+    align-items: stretch;
+    padding: 0 36px;
+    margin-top: 6px;
+    gap: 20px;
+  }
+
+  .header-coral-bar {
+    width: 5px;
+    background: #FF6359;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .header-title-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+  }
+
+  .header-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+    line-height: 1.1;
+  }
+
+  .header-group-tag {
+    font-size: 10px;
+    color: #FF6359;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .header-stats {
+    background: #FF6359;
+    display: flex;
+    align-items: stretch;
+    margin-top: 10px;
+    height: 52px;
+  }
+
+  .header-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 28px;
+    gap: 2px;
+    border-right: 1px solid rgba(255,255,255,0.25);
+  }
+
+  .header-stat:last-of-type { border-right: none; }
+
+  .header-stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  .header-stat-label {
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.75);
+  }
+
+  .stat-spacer { flex: 1; }
+
+  .header-subtitle-block {
+    display: flex;
+    align-items: center;
+    padding: 0 36px;
+    gap: 6px;
+  }
+
+  .header-subtitle {
+    font-size: 10px;
+    color: rgba(255,255,255,0.65);
+    font-style: italic;
+  }
+
+  /* ══ BODY ══ */
+  .slide-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 288px;
+    min-height: 0;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .panel-main {
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    border-right: 1px solid #e4eceb;
+  }
+
+  .section-label {
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #41605e;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1.5px solid #e4eceb;
+  }
+
+  .value-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .value-item {
+    flex: 1;
+    background: #1a3c3a;
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .value-number {
+    font-size: 22px;
+    font-weight: 700;
+    color: #FF6359;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .value-text {
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+  }
+
+  .value-text strong {
+    color: #ffffff;
+    display: block;
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+
+  .theme-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  .theme-card {
+    border: 1px solid #e4eceb;
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #fafcfc;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .theme-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: #41605e;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .theme-card.priority-high::before { background: #FF6359; }
+  .theme-card.priority-mid::before  { background: #f0a500; }
+
+  .theme-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .theme-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: #1a3c3a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .theme-card.priority-high .theme-icon { background: #FF6359; }
+  .theme-card.priority-mid  .theme-icon { background: #f0a500; }
+
+  .theme-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+  }
+
+  .theme-name {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #1a3c3a;
+    line-height: 1.2;
+  }
+
+  .theme-description {
+    font-size: 10.5px;
+    color: #445f5d;
+    line-height: 1.5;
+  }
+
+  /* ── RIGHT PANEL ── */
+  .panel-right {
+    background: #f7fafa;
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .donut-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .donut-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+
+  .donut-container svg { transform: rotate(-90deg); }
+
+  .donut-inner {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .donut-pct {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a3c3a;
+    display: block;
+    line-height: 1;
+  }
+
+  .donut-sub {
+    font-size: 8.5px;
+    color: #718886;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .leg-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .leg-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .leg-label { font-size: 10px; color: #41605e; flex: 1; }
+  .leg-count { font-size: 10px; font-weight: 700; color: #1a3c3a; }
+
+  .prio-summary { display: flex; flex-direction: column; gap: 7px; }
+
+  .prio-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .prio-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .prio-label { font-size: 10px; color: #41605e; flex: 1; }
+
+  .prio-track {
+    width: 80px;
+    height: 6px;
+    background: #e4eceb;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .prio-fill { height: 100%; border-radius: 3px; }
+
+  .prio-count {
+    font-size: 10px;
+    font-weight: 700;
+    color: #1a3c3a;
+    width: 18px;
+    text-align: right;
+  }
+
+  /* ══ FOOTER ══ */
+  .slide-footer {
+    background: #1a3c3a;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px;
+    flex-shrink: 0;
+  }
+
+  .footer-text {
+    font-size: 8.5px;
+    color: #7fb3af;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<section class="slide">
+
+  <!-- ══ HEADER ══ -->
+  <div class="slide-header">
+    <div class="header-top">
+      <span class="header-eyebrow">Feature Catalog · Roadmap Initiative</span>
+      <span class="nc-logo">Netcompany</span>
+    </div>
+
+    <div class="header-main" style="padding-bottom:0; margin-top:8px;">
+      <div class="header-coral-bar"></div>
+      <div class="header-title-block">
+        <div class="header-title">Registration</div>
+        <div class="header-group-tag">Core Revenue Management Capabilities</div>
+      </div>
+    </div>
+
+    <div class="header-stats">
+      <div class="header-stat">
+        <span class="header-stat-value">11,866</span>
+        <span class="header-stat-label">Total Hours</span>
+      </div>
+	<div class="header-stat">
+		<span class="header-stat-value">PI 28</span>
+	<span class="header-stat-label">Program Increment</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-value">14</span>
+        <span class="header-stat-label">Features in Scope</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-value">8</span>
+        <span class="header-stat-label">P1 Features</span>
+      </div>
+      <div class="header-stat">
+        <span class="header-stat-value">3</span>
+        <span class="header-stat-label">Unestimated</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BODY ══ -->
+  <div class="slide-body">
+
+    <!-- ── MAIN CONTENT ── -->
+    <div class="panel-main">
+
+      <!-- Key Investment Benefits – TOP -->
+      <div>
+        <div class="section-label">Key Investment Benefits</div>
+        <div class="value-row">
+          <div class="value-item">
+            <div class="value-number">01</div>
+            <div class="value-text">
+              <strong>Faster Taxpayer Onboarding</strong>
+              Reduces manual registration effort and onboarding time — enabling tax authorities to scale intake without proportional resource growth.
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-number">02</div>
+            <div class="value-text">
+              <strong>Foundational for All Revenue Flows</strong>
+              Every downstream capability — billing, assessments, accounting — depends on accurate registration data. This initiative de-risks the entire roadmap.
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-number">03</div>
+            <div class="value-text">
+              <strong>Multi-Jurisdiction Ready</strong>
+              Org hierarchy and backdate support enables complex tax structures across jurisdictions, directly supporting GRC and future client implementations.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Capability Themes -->
+      <div>
+        <div class="section-label">Capability Themes — What this initiative delivers</div>
+        <div class="theme-grid">
+
+          <div class="theme-card priority-high">
+            <div class="theme-card-header">
+              <div class="theme-icon">🪪</div>
+              <div class="theme-meta">
+                <div class="theme-name">Party Identity &amp; Identifiers</div>
+              </div>
+            </div>
+            <div class="theme-description">
+              Establishes how taxpayers and organisations are uniquely identified across the system — supporting multiple identifier types, deduplication, and national registry alignment.
+            </div>
+          </div>
+
+          <div class="theme-card priority-high">
+            <div class="theme-card-header">
+              <div class="theme-icon">🏢</div>
+              <div class="theme-meta">
+                <div class="theme-name">Organisation Hierarchy &amp; History</div>
+              </div>
+            </div>
+            <div class="theme-description">
+              Enables multi-level party role structures and full backdate change history — critical for complex tax jurisdictions managing corporate groups and role transitions.
+            </div>
+          </div>
+
+          <div class="theme-card priority-mid">
+            <div class="theme-card-header">
+              <div class="theme-icon">🔍</div>
+              <div class="theme-meta">
+                <div class="theme-name">Search &amp; Data Governance</div>
+              </div>
+            </div>
+            <div class="theme-description">
+              Enhances registry search with governance-controlled result limits, relevant filters, and improved UX — ensuring officers can locate the right party record efficiently.
+            </div>
+          </div>
+
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <div class="theme-icon">🌐</div>
+              <div class="theme-meta">
+                <div class="theme-name">Self-Service &amp; Portal Registration</div>
+              </div>
+            </div>
+            <div class="theme-description">
+              Allows taxpayers to self-register and manage their profiles via the taxpayer portal, reducing administrative burden and enabling 3rd-party delegate access.
+            </div>
+          </div>
+
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <div class="theme-icon">🔗</div>
+              <div class="theme-meta">
+                <div class="theme-name">API &amp; Integration Layer</div>
+              </div>
+            </div>
+            <div class="theme-description">
+              Exposes registration capabilities via external API endpoints and a notification engine — enabling downstream systems and taxpayer confirmations to be triggered automatically.
+            </div>
+          </div>
+
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <div class="theme-icon">📊</div>
+              <div class="theme-meta">
+                <div class="theme-name">Reporting &amp; Audit</div>
+              </div>
+            </div>
+            <div class="theme-description">
+              Provides full audit trail of registration events and KPI dashboards for officer workload — supporting compliance and operational oversight for tax administrators.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT PANEL ── -->
+    <div class="panel-right">
+
+      <div>
+        <div class="section-label">Overall Progress</div>
+        <div class="donut-wrap">
+          <div class="donut-container">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+              <circle fill="none" stroke="#e4eceb" stroke-width="11" cx="60" cy="60" r="48"/>
+              <circle fill="none" stroke="#1a3c3a" stroke-width="11" stroke-linecap="round"
+                cx="60" cy="60" r="48"
+                stroke-dasharray="42.2 259.4"
+                stroke-dashoffset="0"/>
+              <circle fill="none" stroke="#FF6359" stroke-width="11" stroke-linecap="round"
+                cx="60" cy="60" r="48"
+                stroke-dasharray="87.5 214.1"
+                stroke-dashoffset="-42.2"/>
+              <circle fill="none" stroke="#f0a500" stroke-width="11" stroke-linecap="round"
+                cx="60" cy="60" r="48"
+                stroke-dasharray="21.1 280.5"
+                stroke-dashoffset="-129.7"/>
+            </svg>
+            <div class="donut-inner">
+              <span class="donut-pct">43%</span>
+              <span class="donut-sub">Active</span>
+            </div>
+          </div>
+          <div class="donut-legend">
+            <div class="leg-row">
+              <div class="leg-dot" style="background:#1a3c3a"></div>
+              <span class="leg-label">Done</span>
+              <span class="leg-count">2 features</span>
+            </div>
+            <div class="leg-row">
+              <div class="leg-dot" style="background:#FF6359"></div>
+              <span class="leg-label">In Progress</span>
+              <span class="leg-count">4 features</span>
+            </div>
+            <div class="leg-row">
+              <div class="leg-dot" style="background:#f0a500"></div>
+              <span class="leg-label">In Analysis</span>
+              <span class="leg-count">1 feature</span>
+            </div>
+            <div class="leg-row">
+              <div class="leg-dot" style="background:#e4eceb"></div>
+              <span class="leg-label">To Do</span>
+              <span class="leg-count">7 features</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Priority Split</div>
+        <div class="prio-summary">
+          <div class="prio-row">
+            <div class="prio-dot" style="background:#FF6359"></div>
+            <span class="prio-label">P1 – Must Have</span>
+            <div class="prio-track">
+              <div class="prio-fill" style="width:57%; background:#FF6359"></div>
+            </div>
+            <span class="prio-count">8</span>
+          </div>
+          <div class="prio-row">
+            <div class="prio-dot" style="background:#f0a500"></div>
+            <span class="prio-label">P2 – Should Have</span>
+            <div class="prio-track">
+              <div class="prio-fill" style="width:21%; background:#f0a500"></div>
+            </div>
+            <span class="prio-count">3</span>
+          </div>
+          <div class="prio-row">
+            <div class="prio-dot" style="background:#41605e"></div>
+            <span class="prio-label">P3 – Nice to Have</span>
+            <div class="prio-track">
+              <div class="prio-fill" style="width:14%; background:#41605e"></div>
+            </div>
+            <span class="prio-count">2</span>
+          </div>
+          <div class="prio-row">
+            <div class="prio-dot" style="background:#c0cccc"></div>
+            <span class="prio-label">PSO – Planning</span>
+            <div class="prio-track">
+              <div class="prio-fill" style="width:7%; background:#c0cccc"></div>
+            </div>
+            <span class="prio-count">1</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <div class="slide-footer">
+    <span class="footer-text">Solon Tax Product Roadmap 2026 · Confidential</span>
+    <span class="footer-text">Executive Steering Committee · 29 April 2026</span>
+  </div>
+
+</section>
+
+</body>
+</html>
+

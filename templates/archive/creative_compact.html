@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solon Tax – Comprehensive Roadmap</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f2f2d 0%, #1a3c3a 100%);
+      color: #f0f0ed;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: rgba(15, 47, 45, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 18px 40px;
+      border-bottom: 4px solid #FF6359;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pi-badge {
+      background: #FF6359;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .brand-text h1 {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    .brand-text p {
+      font-size: 8px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 2px;
+    }
+
+    .header-stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #FF6359;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 8px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 40px;
+    }
+
+    /* ── SECTION ── */
+    section {
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #FF6359;
+      margin-bottom: 12px;
+    }
+
+    .section-divider {
+      height: 2px;
+      background: linear-gradient(90deg, #FF6359 0%, rgba(255,99,89,0) 100%);
+      margin-bottom: 24px;
+    }
+
+    /* ══════════════════════════════════════════════════════ */
+    /* ── SECTION 1: INITIATIVE GROUP ── */
+    /* ══════════════════════════════════════════════════════ */
+
+    .group-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr 220px;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .sidebar-box {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,99,89,0.2);
+      border-radius: 6px;
+      padding: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #FF6359;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,99,89,0.15);
+    }
+
+    .progress-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      margin-bottom: 8px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .progress-count {
+      font-weight: 700;
+      color: #FF6359;
+    }
+
+    .bar-container {
+      height: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255,99,89,0.1);
+    }
+
+    .bar-segment {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .group-center {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .group-hero {
+      background: linear-gradient(135deg, rgba(255,99,89,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      border: 1px solid rgba(255,99,89,0.2);
+      border-radius: 8px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+    }
+
+    .group-hero-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.4px;
+    }
+
+    .group-hero-desc {
+      font-size: 11px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+    }
+
+    .value-box {
+      background: linear-gradient(135deg, rgba(255,99,89,0.15) 0%, rgba(255,99,89,0.05) 100%);
+      border: 1px solid rgba(255,99,89,0.3);
+      border-radius: 6px;
+      padding: 16px;
+    }
+
+    .value-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #FF6359;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,99,89,0.2);
+    }
+
+    .value-text {
+      font-size: 9px;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+    }
+
+    .value-text li {
+      margin-bottom: 6px;
+      padding-left: 12px;
+      position: relative;
+    }
+
+    .value-text li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #FF6359;
+      font-weight: 700;
+    }
+
+    /* ── INITIATIVES TABLE ── */
+    .table-section {
+      margin-top: 24px;
+    }
+
+    .table-title {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #FF6359;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,99,89,0.15);
+    }
+
+    .init-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10px;
+    }
+
+    .init-table thead {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .init-table th {
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      border-bottom: 2px solid rgba(255,99,89,0.2);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .init-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,99,89,0.1);
+      color: rgba(255,255,255,0.85);
+    }
+
+    .init-table tbody tr:hover {
+      background: rgba(255,99,89,0.1);
+    }
+
+    .init-name {
+      font-weight: 700;
+    }
+
+    .init-desc {
+      font-size: 9px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 2px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 9px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-effort {
+      background: rgba(255,99,89,0.2);
+      color: #FF6359;
+      border: 1px solid rgba(255,99,89,0.3);
+    }
+
+    .badge-status {
+      background: rgba(255,99,89,0.15);
+      color: #FF6359;
+    }
+
+    .badge-priority {
+      background: #FF6359;
+      color: white;
+    }
+
+    /* ══════════════════════════════════════════════════════ */
+    /* ── SECTION 2: INITIATIVE ── */
+    /* ══════════════════════════════════════════════════════ */
+
+    .initiative-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .benefit-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,99,89,0.2);
+      border-radius: 6px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .benefit-num {
+      font-size: 28px;
+      font-weight: 700;
+      color: #FF6359;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .benefit-title {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    .benefit-text {
+      font-size: 11px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+    }
+
+    .epics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .epic-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,99,89,0.15);
+      border-radius: 6px;
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .epic-title {
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #FF6359;
+      line-height: 1.3;
+    }
+
+    .epic-desc {
+      font-size: 10px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.5;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,99,89,0.1);
+      text-align: center;
+      font-size: 8px;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1200px) {
+      .group-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .initiative-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .epics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .initiative-grid {
+        grid-template-columns: 1fr;
+      }
+      .epics-grid {
+        grid-template-columns: 1fr;
+      }
+      main {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-brand">
+    <div class="pi-badge">PI 28</div>
+    <div class="brand-text">
+      <h1>Solon Tax</h1>
+      <p>Integrated Roadmap</p>
+    </div>
+  </div>
+  <div class="header-stat">
+    <div class="stat-value">23.4k</div>
+    <div class="stat-label">Total Hours</div>
+  </div>
+  <div class="header-stat">
+    <div class="stat-value">12</div>
+    <div class="stat-label">Initiatives</div>
+  </div>
+  <div class="header-stat">
+    <div class="stat-value">57</div>
+    <div class="stat-label">Features</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: INITIATIVE GROUP -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section>
+    <div class="section-label">01 · Initiative Group Overview</div>
+    <div class="section-divider"></div>
+
+    <!-- Group Layout -->
+    <div class="group-grid">
+      <!-- Left: Progress & Priority -->
+      <div>
+        <!-- Overall Progress -->
+        <div class="sidebar-box">
+          <div class="sidebar-title">Overall Progress</div>
+          <div class="progress-item">
+            <div class="progress-dot" style="background:#2C4A48;"></div>
+            <span>Done</span>
+            <span class="progress-count" style="margin-left:auto;">7</span>
+          </div>
+          <div class="progress-item">
+            <div class="progress-dot" style="background:#FF6359;"></div>
+            <span>In Progress</span>
+            <span class="progress-count" style="margin-left:auto;">28</span>
+          </div>
+          <div class="progress-item">
+            <div class="progress-dot" style="background:#F0A500;"></div>
+            <span>In Analysis</span>
+            <span class="progress-count" style="margin-left:auto;">14</span>
+          </div>
+          <div class="progress-item">
+            <div class="progress-dot" style="background:#666;"></div>
+            <span>To Do</span>
+            <span class="progress-count" style="margin-left:auto;">8</span>
+          </div>
+        </div>
+
+        <!-- Priority Split -->
+        <div class="sidebar-box" style="margin-top: 16px;">
+          <div class="sidebar-title">Priority Split</div>
+          <div class="bar-container">
+            <div class="bar-segment" style="width:58%; background:#FF6359;">P1</div>
+            <div class="bar-segment" style="width:42%; background:#F0A500;">P2</div>
+          </div>
+          <div class="progress-item" style="margin-bottom: 6px;">
+            <span style="font-size:9px;">P1: 58%</span>
+            <span class="progress-count" style="margin-left:auto;">33</span>
+          </div>
+          <div class="progress-item" style="margin-bottom: 0;">
+            <span style="font-size:9px;">P2: 42%</span>
+            <span class="progress-count" style="margin-left:auto;">24</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center: Hero Statement -->
+      <div class="group-center">
+        <div class="group-hero">
+          <h2 class="group-hero-title">Core Revenue Management & Platform Evolution</h2>
+          <p class="group-hero-desc">Five strategic revenue initiatives combined with critical platform modernization to enable end-to-end taxpayer lifecycle management, reduce operational costs, and unlock €200M+ in future project pipeline. Encompasses registration, accounting, billing, penalties, tax accounts, and technology foundation upgrades.</p>
+        </div>
+      </div>
+
+      <!-- Right: Business Value -->
+      <div>
+        <div class="value-box">
+          <div class="value-title">Business Value</div>
+          <ul class="value-text">
+            <li>Enables end-to-end taxpayer lifecycle management from registration through accounting</li>
+            <li>Reduces manual caseworker effort via automated billing, assessments & penalty calculations</li>
+            <li>Directly supports Greek project delivery and future market opportunities</li>
+          </ul>
+        </div>
+
+        <div class="value-box" style="margin-top: 16px;">
+          <div class="value-title">Market Relevance</div>
+          <ul class="value-text">
+            <li>Core dependency for all current and pipeline Solon Tax project implementations</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform</li>
+            <li>€200M+ in future project pipeline contingent on platform completeness</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Initiatives Table -->
+    <div class="table-section">
+      <div class="table-title">All Initiatives & Status</div>
+      <table class="init-table">
+        <thead>
+          <tr>
+            <th style="width:28%">Initiative</th>
+            <th style="width:13%">Effort</th>
+            <th style="width:12%">PI Window</th>
+            <th style="width:16%">Status</th>
+            <th style="width:10%">Priority</th>
+            <th style="width:7%">Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="init-name">Hexagonal Architecture</div>
+              <div class="init-desc">Revenue management restructure</div>
+            </td>
+            <td><span class="badge badge-effort">1,200h</span></td>
+            <td>PI 28-29</td>
+            <td><span class="badge badge-status">In Progress</span></td>
+            <td><span class="badge badge-priority">P1</span></td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Taxpayer Registration</div>
+              <div class="init-desc">Party identifiers, org hierarchy</div>
+            </td>
+            <td><span class="badge badge-effort">11.9k</span></td>
+            <td>PI 27-28</td>
+            <td><span class="badge badge-status">In Progress</span></td>
+            <td><span class="badge badge-priority">P1</span></td>
+            <td>14</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Taxpayer Accounting</div>
+              <div class="init-desc">General ledger, reconciliation</div>
+            </td>
+            <td><span class="badge badge-effort">8,064h</span></td>
+            <td>PI 28-29</td>
+            <td><span class="badge badge-status">In Analysis</span></td>
+            <td><span class="badge badge-priority">P1</span></td>
+            <td>9</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Billing & Assessments</div>
+              <div class="init-desc">Instalment plans, automation</div>
+            </td>
+            <td><span class="badge badge-effort">2,880h</span></td>
+            <td>PI 27-28</td>
+            <td><span class="badge badge-status">In Progress</span></td>
+            <td><span class="badge badge-priority">P2</span></td>
+            <td>6</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Java 25 Upgrade</div>
+              <div class="init-desc">Language migration</div>
+            </td>
+            <td><span class="badge badge-effort">800h</span></td>
+            <td>PI 28-29</td>
+            <td><span class="badge badge-status">In Analysis</span></td>
+            <td><span class="badge badge-priority">P1</span></td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Penalty & Interest</div>
+              <div class="init-desc">Interest calculation, allocation</div>
+            </td>
+            <td><span class="badge badge-effort">TBD</span></td>
+            <td>PI 29-30</td>
+            <td><span class="badge badge-status">Planned</span></td>
+            <td><span class="badge badge-priority">P2</span></td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="init-name">Tax Accounts</div>
+              <div class="init-desc">Setup, thresholds, notifications</div>
+            </td>
+            <td><span class="badge badge-effort">TBD</span></td>
+            <td>PI 29</td>
+            <td><span class="badge badge-status">Planned</span></td>
+            <td><span class="badge badge-priority">P1</span></td>
+            <td>2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: INITIATIVE DETAIL -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section>
+    <div class="section-label">02 · Maintainability Enhancements Initiative</div>
+    <div class="section-divider"></div>
+
+    <!-- Why It's Important -->
+    <h3 style="font-size: 12px; font-weight: 700; margin-bottom: 16px; color: rgba(255,255,255,0.9);">Why It's Important</h3>
+    <div class="initiative-grid">
+      <div class="benefit-card">
+        <div class="benefit-num">01</div>
+        <div class="benefit-title">Tech Debt Reduction</div>
+        <div class="benefit-text">Restructures revenue-management-be-custom to hexagonal architecture, improving maintainability and reducing long-term technical debt across teams.</div>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-num">02</div>
+        <div class="benefit-title">Critical Upgrades</div>
+        <div class="benefit-text">Implements crucial technology upgrades including Java 25, Spring Boot 4.x, and Oracle 26ai to keep the platform secure and performant.</div>
+      </div>
+
+      <div class="benefit-card">
+        <div class="benefit-num">03</div>
+        <div class="benefit-title">Configuration Management</div>
+        <div class="benefit-text">Introduces Config Items Management tool for safe packaging and migrating configurations across environments without risk.</div>
+      </div>
+    </div>
+
+    <!-- Key Epics & Features -->
+    <h3 style="font-size: 12px; font-weight: 700; margin: 28px 0 16px 0; color: rgba(255,255,255,0.9);">Key Epics & Features</h3>
+    <div class="epics-grid">
+      <div class="epic-card">
+        <div class="epic-title">Hexagonal Architecture Refactor</div>
+        <div class="epic-desc">Restructure revenue-management-be-custom to clean hexagonal architecture with improved separation of concerns, enhanced testability, and reduced coupling across domain boundaries.</div>
+      </div>
+
+      <div class="epic-card">
+        <div class="epic-title">Java 25 Upgrade</div>
+        <div class="epic-desc">Migrate codebase to Java 25 to leverage latest language features, virtual threads, pattern matching, and significant performance improvements for tax operations.</div>
+      </div>
+
+      <div class="epic-card">
+        <div class="epic-title">Spring Boot 4.x Migration</div>
+        <div class="epic-desc">Upgrade Spring Boot framework to latest version with enhanced observability, improved dependency management, native compilation support, and critical security patches.</div>
+      </div>
+
+      <div class="epic-card">
+        <div class="epic-title">Oracle 26ai Database</div>
+        <div class="epic-desc">Migrate to Oracle 26ai to harness AI-powered optimization, advanced analytics, and improved query performance for high-volume tax transaction processing.</div>
+      </div>
+
+      <div class="epic-card">
+        <div class="epic-title">Tech Debt Across Teams</div>
+        <div class="epic-desc">Systematic UI improvements and technical debt reduction initiatives spanning ATH, EOS, SPA, HEL, and DAID teams for long-term platform sustainability.</div>
+      </div>
+
+      <div class="epic-card">
+        <div class="epic-title">Config Items Management</div>
+        <div class="epic-desc">Build dedicated tool for safely packaging, versioning, and migrating configurations across development, staging, and production environments without manual intervention.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    Solon Tax Product Roadmap 2026 · Confidential · Executive Steering Committee · Netcompany
+  </footer>
+</main>
+
+</body>
+</html>
