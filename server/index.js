@@ -26,6 +26,7 @@ app.use('/api', htmlFlowRoutes);
 app.use('/api', aiProxyRoutes);
 app.use('/api/opencode', agenticRoutes);
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
+app.get('/api/app-info', (_req, res) => res.json({ name: path.basename(process.cwd()) }));
 
 app.use('/published/:projectName/presentations/:presentationName', (req, res, next) => {
   const { projectName, presentationName } = req.params;
