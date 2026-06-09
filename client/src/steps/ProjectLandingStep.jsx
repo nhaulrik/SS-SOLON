@@ -141,14 +141,22 @@ export default function ProjectLandingStep({ onProjectSelected, setToast }) {
   const [newName,   setNewName]   = useState('')
   const [newType,   setNewType]   = useState('shared')
   const [creating,  setCreating]  = useState(false)
+  const [appName,   setAppName]   = useState('Slide Studio')
 
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await fetch('/api/projects')
-        if (!res.ok) throw new Error('Failed to load projects')
-        const data = await res.json()
+        const [projectsRes, infoRes] = await Promise.all([
+          fetch('/api/projects'),
+          fetch('/api/app-info'),
+        ])
+        if (!projectsRes.ok) throw new Error('Failed to load projects')
+        const data = await projectsRes.json()
         setProjects(data.projects || [])
+        if (infoRes.ok) {
+          const info = await infoRes.json()
+          if (info.name) setAppName(info.name)
+        }
       } catch (err) {
         setError(err.message)
         setProjects([])
