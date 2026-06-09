@@ -164,30 +164,6 @@ export function resolveFlowDir(projectName, flowId) {
   return dir;
 }
 
-// ── Project metadata (project.json) ──────────────────────────────────────────
-
-function readProjectMeta(projectName) {
-  const projectDir = resolveProjectDir(projectName);
-  if (!projectDir) return null;
-  const metaPath = path.join(projectDir, 'project.json');
-  if (!fs.existsSync(metaPath)) return null;
-  try {
-    return JSON.parse(fs.readFileSync(metaPath, 'utf-8'));
-  } catch {
-    return null;
-  }
-}
-
-function writeProjectMeta(projectName, meta) {
-  const projectDir = resolveProjectDir(projectName);
-  if (!projectDir) return false;
-  try {
-    fs.writeFileSync(path.join(projectDir, 'project.json'), JSON.stringify(meta, null, 2), 'utf-8');
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 /**
  * Run `git rm -r --cached <projectDir>` to stop tracking a directory without
@@ -195,18 +171,6 @@ function writeProjectMeta(projectName, meta) {
  * Returns true if files were removed from the index, false otherwise
  * (not tracked, not a git repo, etc. — all treated as non-fatal).
  */
-function gitRmCached(projectDir) {
-  try {
-    execSync(`git rm -r --cached "${projectDir}"`, {
-      cwd: PROJECTS_DIR,
-      stdio: 'pipe',
-    });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 /**
  * Maintain PROJECTS_DIR/.gitignore so private projects are excluded from git.
  * Each private project is listed as "<name>/" in the gitignore.
