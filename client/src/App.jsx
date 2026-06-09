@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Toast                from './components/Toast.jsx'
 import ProjectLandingStep   from './steps/ProjectLandingStep.jsx'
 import ProjectDashboardStep from './steps/ProjectDashboardStep.jsx'
@@ -17,6 +17,15 @@ const ALL_STEPS = [
 ]
 
 export default function App() {
+  const [appName, setAppName] = useState('Slide Studio')
+
+  useEffect(() => {
+    fetch('/api/app-info')
+      .then(r => r.ok ? r.json() : null)
+      .then(info => { if (info?.name) { setAppName(info.name); document.title = info.name } })
+      .catch(() => {})
+  }, [])
+
   // ── Step navigation ────────────────────────────────────────────
   const [step,    setStep]    = useState('project-landing')
   const [animDir, setAnimDir] = useState('forward')
@@ -257,6 +266,7 @@ export default function App() {
       <AppHeader>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <ProjectLandingStep
+          appName={appName}
           onProjectSelected={handleProjectSelected}
           setToast={setToast}
         />
@@ -285,6 +295,7 @@ export default function App() {
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <HtmlUploadStep
           {...sharedProps}
+          appName={appName}
           initialSession={htmlUploadSession}
           onSessionChange={setHtmlUploadSession}
           onProjectCreated={handleHtmlProjectCreated}

@@ -20,6 +20,7 @@ import HtmlTreePanel, { sanitizeKey } from '../components/HtmlTreePanel.jsx'
 export default function HtmlUploadStep({
   step, canNavigateTo, navigateTo,
   stepAnimClass, debugContext,
+  appName = 'Slide Studio',
   initialSession, onSessionChange,
   onProjectCreated, onBack, setToast,
   currentProjectName, currentFlowId, pendingFlowName,
@@ -294,18 +295,14 @@ export default function HtmlUploadStep({
          const data = await res.json()
          const meta = data.flow?._metadata || {}
           onProjectCreated({
-            projectName:          currentProjectName,
-            flowId:               currentFlowId,
-            selections:           meta.selections          || selections,
-            zones:                meta.zones               || [],
+            projectName:         currentProjectName,
+            flowId:              currentFlowId,
+            selections:          meta.selections          || selections,
+            zones:               meta.zones               || [],
             repeatableSlides,
-            fullSlideGeneration:  meta.fullSlideGeneration || fullSlideGeneration,
-            agenticCustomInput:   data.flow?.agenticCustomInput   || '',
-            agenticJsonResponse:  data.flow?.agenticJsonResponse  || null,
-            sliceOutputTemplate:  data.flow?.sliceOutputTemplate  || null,
-            selectedContextFiles: data.flow?.selectedContextFiles || [],
-            filters:              data.flow?.filters              || [],
-            groupingColumn:       data.flow?.groupingColumn       || null,
+            fullSlideGeneration: meta.fullSlideGeneration || fullSlideGeneration,
+            agenticCustomInput:  data.flow?.agenticCustomInput  || '',
+            agenticJsonResponse: data.flow?.agenticJsonResponse || null,
           })
        } else {
          // New flow — create it inside the current project
@@ -390,19 +387,7 @@ ${highlightCss}
 
   return (
     <div className="app">
-      <AppHeader
-        title={
-          (templateId || isExistingFlow) && (pendingFlowName || currentFlowId)
-            ? (pendingFlowName || currentFlowId)
-            : 'Solon Slide Studio'
-        }
-        subtitle={
-          (templateId || isExistingFlow) && fileName
-            ? fileName
-            : 'Visual Flow — Upload HTML Template'
-        }
-        debugContext={debugContext}
-      />
+      <AppHeader title={appName} subtitle="Visual Flow — Upload HTML Template" debugContext={debugContext} />
 
       <div className="html-upload-back">
         <button className="btn btn-link" onClick={onBack}><span aria-hidden="true">←</span> Change flow</button>
@@ -447,6 +432,20 @@ ${highlightCss}
               </div>
             ) : (
               <>
+                {/* File loaded header */}
+                <div className="html-file-loaded">
+                  <div className="html-file-loaded-info">
+                    <span className="html-file-icon">📄</span>
+                    <div>
+                      <p className="html-file-name">{fileName}</p>
+                      <p className="html-file-meta">
+                        {slideCount} slide{slideCount !== 1 ? 's' : ''} · {selections.length} zone{selections.length !== 1 ? 's' : ''} assigned
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+
                  {/* DOM Tree panel */}
                  <HtmlTreePanel
                    trees={trees}
