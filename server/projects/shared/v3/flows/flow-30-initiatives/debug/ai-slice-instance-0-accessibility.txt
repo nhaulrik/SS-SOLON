@@ -1,2 +1,0 @@
-[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (1 rows)
-Issue Type: Feature | IRM: IRM-30421 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: ACCESSIBILITY | Roadmap Feature: Compliance with accessibility standards (WCAG 2.1 AA and EN 301 549) | Requester: Other | PI: PI30 | Estimate: 373.1 | Feature Priority: p3 | Feature Status: To Do | Features Description: -
