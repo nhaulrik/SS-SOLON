@@ -1,0 +1,16 @@
+{
+  "name": "v3",
+  "exportId": "2026_2-1",
+  "exportNumber": 1,
+  "exportedAt": "2026-05-06T09:18:46.884Z",
+  "slideCount": 1,
+  "slides": [
+    {
+      "index": 1,
+      "file": "2026-overview.html",
+      "slideId": "slide-1",
+      "title": "2026 Overview",
+      "type": "content"
+    }
+  ]
+}

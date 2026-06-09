@@ -9,6 +9,7 @@ export default function PresentationStructureManager({ projectName, setToast }) 
   const [exportCatalog, setExportCatalog] = useState([])
   const [loading, setLoading] = useState(true)
   const [catalogLoading, setCatalogLoading] = useState(true)
+  const [catalogGroups, setCatalogGroups] = useState([])
   const [saving, setSaving] = useState(false)
   const [nameEditing, setNameEditing] = useState(false)
   const [nameValue, setNameValue] = useState('')
@@ -23,6 +24,7 @@ export default function PresentationStructureManager({ projectName, setToast }) 
   useEffect(() => {
     loadStructures()
     loadCatalog()
+    loadCatalogGroups()
   }, [projectName])
 
   const loadStructures = async () => {
@@ -55,6 +57,30 @@ export default function PresentationStructureManager({ projectName, setToast }) 
       console.error('Catalog load error:', err)
     } finally {
       setCatalogLoading(false)
+    }
+  }
+
+  const loadCatalogGroups = async () => {
+    try {
+      const res = await fetch(`/api/projects/${projectName}/catalog-groups`)
+      if (!res.ok) return
+      const data = await res.json()
+      setCatalogGroups(data.groups || [])
+    } catch (err) {
+      console.error('Catalog groups load error:', err)
+    }
+  }
+
+  const handleSaveCatalogGroups = async (groups) => {
+    setCatalogGroups(groups)
+    try {
+      await fetch(`/api/projects/${projectName}/catalog-groups`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ groups }),
+      })
+    } catch (err) {
+      console.error('Catalog groups save error:', err)
     }
   }
 
@@ -280,6 +306,8 @@ export default function PresentationStructureManager({ projectName, setToast }) 
               exports={exportCatalog}
               loading={catalogLoading}
               activeSlides={activeStructure.slides || []}
+              catalogGroups={catalogGroups}
+              onCatalogGroupsChange={handleSaveCatalogGroups}
               onAddSlides={(newSlides) => {
                 const merged = mergeSlides(activeStructure.slides || [], newSlides)
                 const newTree = appendToTree(activeStructure.tree || [], newSlides.map(s => s.id))

@@ -1,16 +1,109 @@
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import styles from './ProjectDashboardStep.module.css'
 import SlideEditor from '../components/SlideEditor'
 import PresentationStructureManager from '../components/publish/PresentationStructureManager'
 import PresentationsTab from '../components/PresentationsTab'
 
-/**
- * ProjectDashboardStep
- *
- * Shows all flows for a project and lets the user open one or delete it.
- * Projects have no separate template management — each flow carries its own
- * template.html. New flows are created through the html-upload step.
- */
+const THUMB_W = 200
+const THUMB_H = 112
+const ZOOM_SCALE = 4.5
+const OVL_W = THUMB_W * ZOOM_SCALE
+const OVL_H = THUMB_H * ZOOM_SCALE
+const IFRAME_SCALE = OVL_W / 1280
+
+function TemplatePreview({ projectName, flowId }) {
+  const [html, setHtml] = useState(null)
+  const [overlayPos, setOverlayPos] = useState(null)
+  const [hiding, setHiding] = useState(false)
+  const hideTimer = useRef(null)
+  const cardRef = useRef(null)
+
+  useEffect(() => {
+    let cancelled = false
+    fetch(`/api/html-flow/load-flow?projectName=${encodeURIComponent(projectName)}&flowId=${encodeURIComponent(flowId)}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (!cancelled && data?.previewHtml) setHtml(data.previewHtml) })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [projectName, flowId])
+
+  const handleMouseEnter = () => {
+    if (!html || !cardRef.current) return
+    if (hideTimer.current) { clearTimeout(hideTimer.current); hideTimer.current = null }
+    setHiding(false)
+    const r = cardRef.current.getBoundingClientRect()
+    const top = Math.max(8, (window.innerHeight - OVL_H) / 2)
+    const left = Math.max(8, (window.innerWidth - OVL_W) / 2)
+    setOverlayPos({ top, left })
+  }
+
+  const handleMouseLeave = () => {
+    setHiding(true)
+    hideTimer.current = setTimeout(() => { setOverlayPos(null); setHiding(false); hideTimer.current = null }, 250)
+  }
+
+  return (
+    <div
+      ref={cardRef}
+      className={styles.templatePreviewCard}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className={styles.templatePreviewFrame}>
+        {html ? (
+          <iframe
+            className={styles.templatePreviewIframe}
+            srcDoc={html}
+            sandbox="allow-same-origin"
+            title="Template preview"
+          />
+        ) : (
+          <div className={styles.templatePreviewSkeleton} />
+        )}
+      </div>
+      {overlayPos && createPortal(
+        <div
+          className={hiding ? styles.overlayHiding : styles.overlayVisible}
+          style={{
+            position: 'fixed',
+            top: overlayPos.top,
+            left: overlayPos.left,
+            width: OVL_W,
+            height: OVL_H,
+            overflow: 'hidden',
+            borderRadius: 6,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.65)',
+            zIndex: 9999,
+            pointerEvents: 'none',
+            background: '#080e1a',
+            transformOrigin: 'top left',
+          }}
+        >
+          <iframe
+            srcDoc={html}
+            sandbox="allow-same-origin"
+            title="Template preview zoom"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: 1280,
+              height: 720,
+              border: 'none',
+              transform: `scale(${IFRAME_SCALE})`,
+              transformOrigin: 'top left',
+              pointerEvents: 'none',
+              display: 'block',
+            }}
+          />
+        </div>,
+        document.body
+      )}
+    </div>
+  )
+}
+
 export default function ProjectDashboardStep({
   projectName,
   onFlowSelected,
@@ -26,86 +119,74 @@ export default function ProjectDashboardStep({
   const [confirmDeleteId, setConfirmDeleteId] = useState(null)
   const flowNameInputRef = useRef(null)
 
-  // Tab state
   const [activeTab, setActiveTab] = useState('flows')
 
-  // Editor tab state
   const [exports,         setExports]         = useState([])
   const [exportsLoading,  setExportsLoading]  = useState(false)
 
-  // Flows table state
-  const [filterText, setFilterText] = useState('')
-  const [sortBy, setSortBy] = useState(null) // 'name' | 'template' | null
-  const [sortOrder, setSortOrder] = useState('asc') // 'asc' | 'desc'
+  const [filterText,     setFilterText]     = useState('')
+  const [collapsedGroups, setCollapsedGroups] = useState(new Set())
+  const [groupMenuFlowId, setGroupMenuFlowId] = useState(null)
+  const [newGroupInput,  setNewGroupInput]  = useState('')
 
-  // Helper: Get template pill class based on filename — hash-based, no hardcoded names
-  const getTemplatePillClass = (templateFilename) => {
-    const name = (templateFilename || 'template.html').toLowerCase()
-    const palette = [
-      styles.templatePillBlue,
-      styles.templatePillCyan,
-      styles.templatePillEmerald,
-      styles.templatePillGreen,
-      styles.templatePillIndigo,
-      styles.templatePillOrange,
-      styles.templatePillPink,
-      styles.templatePillPurple,
-      styles.templatePillRed,
-      styles.templatePillViolet,
-      styles.templatePillGray,
-    ]
-    let hash = 5381
-    for (let i = 0; i < name.length; i++) {
-      hash = ((hash << 5) + hash) ^ name.charCodeAt(i)
-      hash |= 0
-    }
-    return palette[Math.abs(hash) % palette.length]
-  }
-
-  // Helper: Handle column header click for sorting
-  const handleSortClick = (column) => {
-    if (sortBy === column) {
-      if (sortOrder === 'asc') {
-        setSortOrder('desc')
-      } else {
-        setSortBy(null)
-        setSortOrder('asc')
-      }
-    } else {
-      setSortBy(column)
-      setSortOrder('asc')
-    }
-  }
-
-  // Helper: Get sort indicator for column header
-  const getSortIndicator = (column) => {
-    if (sortBy !== column) return null
-    return sortOrder === 'asc' ? ' ↑' : ' ↓'
-  }
-
-  // Helper: Filter flows by name
-  const getFilteredFlows = (flows) => {
-    return flows.filter(f =>
+  const getFilteredFlows = (flows) =>
+    flows.filter(f =>
       (f.name || f.flowId).toLowerCase().includes(filterText.toLowerCase())
     )
+
+  const getGroupedFlows = (flows) => {
+    const groups = new Map()
+    flows.forEach(flow => {
+      const key = flow._metadata?.group || flow.templateFilename || 'template.html'
+      const isCustom = !!flow._metadata?.group
+      if (!groups.has(key)) groups.set(key, { key, isCustom, flows: [] })
+      groups.get(key).flows.push(flow)
+    })
+    return Array.from(groups.values()).sort((a, b) => {
+      if (a.isCustom !== b.isCustom) return a.isCustom ? -1 : 1
+      return a.key.localeCompare(b.key)
+    })
   }
 
-  // Helper: Sort flows by selected column
-  const getSortedFlows = (flows) => {
-    const sorted = [...flows].sort((a, b) => {
-      if (sortBy === 'name') {
-        const aVal = (a.name || a.flowId).toLowerCase()
-        const bVal = (b.name || b.flowId).toLowerCase()
-        return sortOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal)
-      }
-      if (sortBy === 'template') {
-        const aVal = (a.templateFilename || 'template.html').toLowerCase()
-        const bVal = (b.templateFilename || 'template.html').toLowerCase()
-        return sortOrder === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal)
-      }
-      return 0
+  const getAllCustomGroups = (flows) => {
+    const names = new Set()
+    flows.forEach(f => { if (f._metadata?.group) names.add(f._metadata.group) })
+    return Array.from(names).sort()
+  }
+
+  const toggleGroup = (key) => {
+    setCollapsedGroups(prev => {
+      const next = new Set(prev)
+      next.has(key) ? next.delete(key) : next.add(key)
+      return next
     })
-    return sorted
+  }
+
+  const assignFlowToGroup = async (flowId, groupName) => {
+    const flow = (project?.flows || []).find(f => f.flowId === flowId)
+    if (!flow) return
+    const { group: _removed, ...restMeta } = flow._metadata || {}
+    const newMetadata = groupName ? { ...restMeta, group: groupName } : restMeta
+    try {
+      const res = await fetch(`/api/projects/${projectName}/flows/${flowId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ _metadata: newMetadata }),
+      })
+      if (!res.ok) throw new Error('Failed to update flow')
+      setProject(prev => ({
+        ...prev,
+        flows: prev.flows.map(f =>
+          f.flowId === flowId ? { ...f, _metadata: newMetadata } : f
+        ),
+      }))
+      setToast?.({ type: 'success', message: groupName ? `Moved to "${groupName}"` : 'Removed from custom group' })
+    } catch (err) {
+      setToast?.({ type: 'error', message: err.message })
+    } finally {
+      setGroupMenuFlowId(null)
+      setNewGroupInput('')
+    }
   }
 
   const loadExports = async () => {
@@ -115,7 +196,6 @@ export default function ProjectDashboardStep({
       const data = await res.json()
       setProject(data.project)
 
-      // Fetch exports for all flows in parallel
       const flows = data.project?.flows || []
       setExportsLoading(true)
       const exportsResults = await Promise.all(
@@ -148,9 +228,7 @@ export default function ProjectDashboardStep({
     }
   }
 
-  useEffect(() => {
-    loadExports()
-  }, [projectName])
+  useEffect(() => { loadExports() }, [projectName])
 
   const handleDeleteFlow = async (flowId) => {
     try {
@@ -192,11 +270,19 @@ export default function ProjectDashboardStep({
 
   const flows = project.flows || []
   const filteredFlows = getFilteredFlows(flows)
-  const sortedFlows = getSortedFlows(filteredFlows)
+  const groupedFlows = getGroupedFlows(filteredFlows)
+  const customGroups = getAllCustomGroups(flows)
 
   return (
     <div className={styles.container}>
-      {/* Header */}
+      {/* Overlay to close group menu when clicking outside */}
+      {groupMenuFlowId && (
+        <div
+          className={styles.groupMenuOverlay}
+          onClick={() => { setGroupMenuFlowId(null); setNewGroupInput(''); setConfirmDeleteId(null) }}
+        />
+      )}
+
       <div className={styles.header}>
         <div className={styles.headerTop}>
           <button className={styles.backButton} onClick={onBackToProjects} aria-label="Back to projects">
@@ -206,76 +292,75 @@ export default function ProjectDashboardStep({
         </div>
       </div>
 
-       {/* Tab bar */}
-       <div className={styles.tabs}>
-         <button
-           className={`${styles.tab}${activeTab === 'flows' ? ` ${styles.active}` : ''}`}
-           onClick={() => setActiveTab('flows')}
-         >
-           Flows
-         </button>
-         <button
-           className={`${styles.tab}${activeTab === 'editor' ? ` ${styles.active}` : ''}`}
-           onClick={() => setActiveTab('editor')}
-         >
-           Editor
-         </button>
-         <button
-           className={`${styles.tab}${activeTab === 'publish' ? ` ${styles.active}` : ''}`}
-           onClick={() => setActiveTab('publish')}
-         >
-           Publish
-         </button>
-         <button
-           className={`${styles.tab}${activeTab === 'presentations' ? ` ${styles.active}` : ''}`}
-           onClick={() => setActiveTab('presentations')}
-         >
-           Presentations
-         </button>
-       </div>
+      <div className={styles.tabs}>
+        <button
+          className={`${styles.tab}${activeTab === 'flows' ? ` ${styles.active}` : ''}`}
+          onClick={() => setActiveTab('flows')}
+        >
+          Flows
+        </button>
+        <button
+          className={`${styles.tab}${activeTab === 'editor' ? ` ${styles.active}` : ''}`}
+          onClick={() => setActiveTab('editor')}
+        >
+          Editor
+        </button>
+        <button
+          className={`${styles.tab}${activeTab === 'publish' ? ` ${styles.active}` : ''}`}
+          onClick={() => setActiveTab('publish')}
+        >
+          Publish
+        </button>
+        <button
+          className={`${styles.tab}${activeTab === 'presentations' ? ` ${styles.active}` : ''}`}
+          onClick={() => setActiveTab('presentations')}
+        >
+          Presentations
+        </button>
+      </div>
 
       <div className={styles.content}>
         {activeTab === 'flows' && (
-        <section className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <h2 className={`${styles.sectionTitle} ${styles.srOnly}`}>Flows</h2>
-            <form
-              className={styles.newFlowForm}
-              onSubmit={e => {
-                e.preventDefault()
-                if (!newFlowName.trim()) {
-                  setFlowNameError(true)
-                  flowNameInputRef.current?.focus()
-                  setTimeout(() => setFlowNameError(false), 600)
-                  return
-                }
-                onNewFlow(newFlowName.trim())
-                setNewFlowName('')
-              }}
-            >
-              <label htmlFor="new-flow-name" className={styles.srOnly}>Flow name</label>
-              <input
-                id="new-flow-name"
-                ref={flowNameInputRef}
-                className={`${styles.newFlowInput}${flowNameError ? ` ${styles.newFlowInputError}` : ''}`}
-                type="text"
-                value={newFlowName}
-                onChange={e => { setNewFlowName(e.target.value); setFlowNameError(false) }}
-                placeholder="Flow name…"
-                maxLength={80}
-                aria-invalid={flowNameError || undefined}
-                aria-describedby={flowNameError ? 'flow-name-error' : undefined}
-              />
-              {flowNameError && (
-                <span id="flow-name-error" role="alert" className={styles.srOnly}>Flow name is required</span>
-              )}
-              <button className={styles.primaryButton} type="submit">
-                + New Flow
-              </button>
-            </form>
-          </div>
+          <section className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.srOnly}>Flows</h2>
+              <form
+                className={styles.newFlowForm}
+                onSubmit={e => {
+                  e.preventDefault()
+                  if (!newFlowName.trim()) {
+                    setFlowNameError(true)
+                    flowNameInputRef.current?.focus()
+                    setTimeout(() => setFlowNameError(false), 600)
+                    return
+                  }
+                  onNewFlow(newFlowName.trim())
+                  setNewFlowName('')
+                }}
+              >
+                <label htmlFor="new-flow-name" className={styles.srOnly}>Flow name</label>
+                <input
+                  id="new-flow-name"
+                  ref={flowNameInputRef}
+                  className={`${styles.newFlowInput}${flowNameError ? ` ${styles.newFlowInputError}` : ''}`}
+                  type="text"
+                  value={newFlowName}
+                  onChange={e => { setNewFlowName(e.target.value); setFlowNameError(false) }}
+                  placeholder="Flow name…"
+                  maxLength={80}
+                  aria-invalid={flowNameError || undefined}
+                  aria-describedby={flowNameError ? 'flow-name-error' : undefined}
+                />
+                {flowNameError && (
+                  <span id="flow-name-error" role="alert" className={styles.srOnly}>Flow name is required</span>
+                )}
+                <button className={styles.primaryButton} type="submit">
+                  + New Flow
+                </button>
+              </form>
+            </div>
 
-           {flows.length === 0 ? (
+            {flows.length === 0 ? (
               <div className={styles.emptyState}>
                 <p>No flows yet. Enter a name above to create your first flow.</p>
               </div>
@@ -309,90 +394,160 @@ export default function ProjectDashboardStep({
                     <p>No flows match your filter.</p>
                   </div>
                 ) : (
-                  <table className={styles.flowsTable}>
-                    <thead>
-                      <tr>
-                        <th
-                          className={styles.sortable}
-                          onClick={() => handleSortClick('name')}
-                          role="button"
-                          tabIndex={0}
-                          onKeyDown={(e) => e.key === 'Enter' && handleSortClick('name')}
+                  <div className={styles.flowGroupsContainer}>
+                    {groupedFlows.map(group => (
+                      <div key={group.key} className={styles.flowGroup}>
+                        <button
+                          className={styles.groupHeader}
+                          onClick={() => toggleGroup(group.key)}
+                          aria-expanded={!collapsedGroups.has(group.key)}
                         >
-                          Flow Name{getSortIndicator('name')}
-                        </th>
-                        <th
-                          className={styles.sortable}
-                          onClick={() => handleSortClick('template')}
-                          role="button"
-                          tabIndex={0}
-                          onKeyDown={(e) => e.key === 'Enter' && handleSortClick('template')}
-                        >
-                          Template{getSortIndicator('template')}
-                        </th>
-                        <th>Zones</th>
-                        <th>Created</th>
-                        <th>Generations</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {sortedFlows.map((flow) => (
-                        <tr key={flow.flowId} className={styles.flowTableRow}>
-                          <td className={styles.flowTableName}>{flow.name || flow.flowId}</td>
-                          <td className={styles.flowTableCell}>
-                            <span className={`${styles.templatePill} ${getTemplatePillClass(flow.templateFilename)}`}>
-                              {flow.templateFilename || 'template.html'}
-                            </span>
-                          </td>
-                          <td className={styles.flowTableCell}>
-                            {flow._metadata?.zones?.length ?? flow._metadata?.selections?.length ?? '—'}
-                          </td>
-                          <td className={styles.flowTableCell}>{new Date(flow.createdAt).toLocaleDateString()}</td>
-                          <td className={styles.flowTableCell}>{flow.generations?.length || '—'}</td>
-                          <td className={styles.flowTableActions}>
-                            <button
-                              className={styles.flowOpenButton}
-                              onClick={() => onFlowSelected(flow.flowId)}
-                              aria-label={`Open flow ${flow.name || flow.flowId}`}
-                            >
-                              Open Flow
-                            </button>
-                            {confirmDeleteId === flow.flowId ? (
-                              <>
-                                <button
-                                  className={styles.confirmDeleteButton}
-                                  onClick={() => handleDeleteFlow(flow.flowId)}
-                                  aria-label={`Confirm delete flow ${flow.name || flow.flowId}`}
-                                >
-                                  Delete
-                                </button>
-                                <button
-                                  className={styles.actionButton}
-                                  onClick={() => setConfirmDeleteId(null)}
-                                  aria-label="Cancel delete"
-                                >
-                                  Cancel
-                                </button>
-                              </>
-                            ) : (
-                              <button
-                                className={styles.deleteButton}
-                                onClick={() => setConfirmDeleteId(flow.flowId)}
-                                aria-label={`Delete flow ${flow.name || flow.flowId}`}
+                          <span className={styles.groupChevron}>
+                            {collapsedGroups.has(group.key) ? '▶' : '▼'}
+                          </span>
+                          <span className={styles.groupName}>{group.key}</span>
+                          {group.isCustom && (
+                            <span className={styles.customGroupBadge}>custom</span>
+                          )}
+                          <span className={styles.groupDivider} aria-hidden="true" />
+                          <span className={styles.groupCount}>
+                            {group.flows.length} flow{group.flows.length !== 1 ? 's' : ''}
+                          </span>
+                        </button>
+
+                        {!collapsedGroups.has(group.key) && (
+                          <div className={styles.flowGroupContent}>
+                            <TemplatePreview
+                              projectName={projectName}
+                              flowId={group.flows[0].flowId}
+                            />
+                            <div className={styles.flowCardGrid}>
+                            {group.flows.map(flow => (
+                              <div
+                                key={flow.flowId}
+                                className={styles.flowCard}
+                                onClick={() => onFlowSelected(flow.flowId)}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onFlowSelected(flow.flowId) } }}
+                                aria-label={`Open flow ${flow.name || flow.flowId}`}
                               >
-                                Delete
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                                <div className={styles.flowCardHeader}>
+                                  <div className={styles.groupMenuWrapper}>
+                                    <button
+                                      className={styles.groupMenuButton}
+                                      onClick={e => {
+                                        e.stopPropagation()
+                                        setGroupMenuFlowId(groupMenuFlowId === flow.flowId ? null : flow.flowId)
+                                        setNewGroupInput('')
+                                        setConfirmDeleteId(null)
+                                      }}
+                                      aria-label="Flow options"
+                                      title="Flow options"
+                                    >
+                                      •••
+                                    </button>
+                                    {groupMenuFlowId === flow.flowId && (
+                                      <div className={styles.groupMenu} onClick={e => e.stopPropagation()}>
+                                        {customGroups.length > 0 && (
+                                          <>
+                                            <div className={styles.groupMenuLabel}>Move to group</div>
+                                            {customGroups.map(g => (
+                                              <button
+                                                key={g}
+                                                className={`${styles.groupMenuItem}${flow._metadata?.group === g ? ` ${styles.groupMenuItemActive}` : ''}`}
+                                                onClick={() => assignFlowToGroup(flow.flowId, g)}
+                                              >
+                                                {g}
+                                              </button>
+                                            ))}
+                                            <div className={styles.groupMenuDivider} />
+                                          </>
+                                        )}
+                                        <div className={styles.groupMenuLabel}>
+                                          {customGroups.length > 0 ? 'New group' : 'Move to new group'}
+                                        </div>
+                                        <form
+                                          className={styles.groupMenuInputRow}
+                                          onSubmit={e => {
+                                            e.preventDefault()
+                                            if (newGroupInput.trim()) {
+                                              assignFlowToGroup(flow.flowId, newGroupInput.trim())
+                                            }
+                                          }}
+                                        >
+                                          <input
+                                            className={styles.groupMenuInput}
+                                            value={newGroupInput}
+                                            onChange={e => setNewGroupInput(e.target.value)}
+                                            placeholder="Group name…"
+                                            autoFocus
+                                          />
+                                          <button type="submit" className={styles.groupMenuSubmit} aria-label="Create group">+</button>
+                                        </form>
+                                        {flow._metadata?.group && (
+                                          <>
+                                            <div className={styles.groupMenuDivider} />
+                                            <button
+                                              className={styles.groupMenuRemove}
+                                              onClick={() => assignFlowToGroup(flow.flowId, null)}
+                                            >
+                                              Remove from group
+                                            </button>
+                                          </>
+                                        )}
+                                        <div className={styles.groupMenuDivider} />
+                                        {confirmDeleteId === flow.flowId ? (
+                                          <div className={styles.groupMenuDeleteConfirm}>
+                                            <span className={styles.groupMenuDeleteLabel}>Delete this flow?</span>
+                                            <div className={styles.groupMenuDeleteActions}>
+                                              <button
+                                                className={styles.groupMenuDeleteConfirmBtn}
+                                                onClick={() => handleDeleteFlow(flow.flowId)}
+                                              >
+                                                Delete
+                                              </button>
+                                              <button
+                                                className={styles.groupMenuDeleteCancelBtn}
+                                                onClick={() => setConfirmDeleteId(null)}
+                                              >
+                                                Cancel
+                                              </button>
+                                            </div>
+                                          </div>
+                                        ) : (
+                                          <button
+                                            className={styles.groupMenuRemove}
+                                            onClick={() => setConfirmDeleteId(flow.flowId)}
+                                          >
+                                            Delete flow…
+                                          </button>
+                                        )}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+
+                                <div className={styles.flowCardName}>
+                                  {flow.name || flow.flowId}
+                                  <span className={styles.flowCardArrow} aria-hidden="true">→</span>
+                                </div>
+
+                                <div className={styles.flowCardStats}>
+                                  <span>{new Date(flow.createdAt).toLocaleDateString()}</span>
+                                </div>
+                              </div>
+                            ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 )}
               </>
             )}
-        </section>
+          </section>
         )}
 
         {activeTab === 'editor' && (
@@ -420,9 +575,10 @@ export default function ProjectDashboardStep({
         )}
 
         {activeTab === 'presentations' && (
-          <PresentationsTab projectName={projectName} setToast={setToast} />
+          <div className={styles.presentationsSectionFull}>
+            <PresentationsTab projectName={projectName} setToast={setToast} />
+          </div>
         )}
-
       </div>
     </div>
   )

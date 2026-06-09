@@ -30,6 +30,31 @@
       scroll-behavior: smooth;
     }
     
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-primary);
+      border-radius: 5px;
+      transition: background 0.2s;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-secondary);
+    }
+    
+    /* Firefox scrollbar */
+    * {
+      scrollbar-color: var(--accent-primary) var(--bg-primary);
+      scrollbar-width: thin;
+    }
+    
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       background: var(--bg-primary);
@@ -95,9 +120,26 @@
       border-top: 1px solid var(--border-subtle);
     }
     
-    nav .link-back a {
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border-default);
+    /* Top-right Open App button */
+    .open-app-btn {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      z-index: 200;
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .open-app-btn:hover {
+      background: var(--text-primary);
+      transform: translateY(-1px);
     }
     
     nav a.section-header {
@@ -115,7 +157,7 @@
     main {
       margin-left: var(--sidebar-width);
       padding: 40px 60px;
-      max-width: 900px;
+      max-width: 1000px;
     }
     
     section {
@@ -162,7 +204,7 @@
       margin-bottom: 15px;
     }
     
-    ul {
+    ul, ol {
       color: var(--text-secondary);
       margin: 15px 0;
       padding-left: 25px;
@@ -187,14 +229,10 @@
       margin: 20px 0;
     }
     
-    .card-icon {
-      font-size: 2rem;
-      margin-bottom: 12px;
-    }
-    
     .card h4 {
       color: var(--accent-primary);
       margin-bottom: 8px;
+      margin-top: 0;
     }
     
     .step {
@@ -219,6 +257,7 @@
     
     .step-content h4 {
       margin-bottom: 5px;
+      margin-top: 0;
     }
     
     .step-content p {
@@ -235,6 +274,7 @@
       width: 100%;
       border-collapse: collapse;
       margin: 20px 0;
+      font-size: 0.95rem;
     }
     
     th, td {
@@ -271,6 +311,7 @@
       color: var(--accent-primary);
       overflow-x: auto;
       margin: 15px 0;
+      line-height: 1.4;
     }
     
     .feature-badge {
@@ -295,6 +336,7 @@
     .toc h4 {
       margin-bottom: 15px;
       color: var(--accent-primary);
+      margin-top: 0;
     }
     
     .toc ul {
@@ -362,6 +404,16 @@
       transform: translateY(-3px);
     }
     
+    .badge-small {
+      display: inline-block;
+      background: var(--bg-tertiary);
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      margin-left: 8px;
+    }
+    
     @media (max-width: 900px) {
       nav {
         display: none;
@@ -389,422 +441,865 @@
     <a href="#overview" class="active">Overview</a>
     
     <div class="section-header">Getting Started</div>
-    <a href="#getting-started">Quick Start</a>
-    <a href="#installation">Installation</a>
+    <a href="#install">Installation</a>
     <a href="#running">Running the App</a>
     
-    <div class="section-header">Introduction</div>
-    <a href="#what-is">What is Solon?</a>
-    <a href="#problems">Problems Solved</a>
-    <a href="#features">Features</a>
+    <div class="section-header">Core Concepts</div>
+    <a href="#what-is">What is SOLON?</a>
+    <a href="#core-concepts">Projects & Flows</a>
+    <a href="#templates">HTML Templates</a>
+    <a href="#zones">Zones & Content</a>
+    <a href="#exports">Exports & Publishing</a>
     
-    <div class="section-header">Usage</div>
-    <a href="#use-cases">Use Cases</a>
-    <a href="#walkthrough">Walkthrough</a>
+    <div class="section-header">Workflow</div>
+    <a href="#walkthrough">Complete Walkthrough</a>
+    <a href="#ai-generation">AI Generation</a>
+    <a href="#context-prep">Context Preparation</a>
+    <a href="#presentations">Publishing Presentations</a>
     
-    <div class="section-header">Technology</div>
-    <a href="#differences">vs Browser AI</a>
-    <a href="#technical">Technical</a>
+    <div class="section-header">Advanced</div>
+    <a href="#toolkit">Toolkit Integration</a>
     <a href="#version-control">Version Control</a>
+    <a href="#technical">Technical Architecture</a>
     
-    <div class="section-header">Summary</div>
-    <a href="#summary">Conclusion</a>
-    
-    <div class="link-back">
-      <a href="http://localhost:5173" target="_blank" title="Open SOLON Slide Studio">⬡ Open App</a>
-    </div>
   </nav>
+
+  <!-- Open App button - top right -->
+  <a href="http://localhost:5173" target="_blank" class="open-app-btn" title="Open SOLON Slide Studio">Open App</a>
 
   <!-- Main Content -->
   <main>
     <section id="overview">
       <h1>SOLON Slide Studio</h1>
-      <p class="subtitle">Transform PPTX templates into data-driven presentations with AI-powered automation</p>
+      <p class="subtitle">Generate HTML-based slide presentations using AI-powered content creation and intelligent data management</p>
+      
+      <div class="highlight">
+        <strong>Status:</strong> Refined proof-of-concept. SOLON works reliably for the feature catalog workflow and similar use cases. Some UI/UX features are still evolving. All data is persisted locally in Git, giving you full control and version history.
+      </div>
       
       <div class="toc">
         <h4>Quick Navigation</h4>
         <ul>
-          <li><a href="#getting-started">Quick Start Guide</a></li>
-          <li><a href="#installation">Installation</a></li>
-          <li><a href="#running">Running the App</a></li>
-          <li><a href="#what-is">What is Solon?</a></li>
-          <li><a href="#problems">Problems Solved</a></li>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#walkthrough">Step-by-Step Walkthrough</a></li>
-          <li><a href="#version-control">Version Control Benefits</a></li>
+          <li><a href="#install">Installation & Setup</a></li>
+          <li><a href="#what-is">What SOLON Does</a></li>
+          <li><a href="#walkthrough">Step-by-Step Workflow</a></li>
+          <li><a href="#ai-generation">How AI Generation Works</a></li>
+          <li><a href="#context-prep">Preparing Data for AI</a></li>
+          <li><a href="#presentations">Publishing Presentations</a></li>
+          <li><a href="#toolkit">Sharing via Toolkit (SharePoint)</a></li>
+          <li><a href="#technical">Technical Reference</a></li>
         </ul>
       </div>
     </section>
 
-    <section id="getting-started">
-      <h2>🚀 Quick Start</h2>
-      <p>Get up and running in 5 minutes. Follow these steps to transform your PPTX templates into data-driven presentations.</p>
+    <section id="install">
+      <h2>Installation & Setup</h2>
       
-      <div class="highlight">
-        <strong>Prerequisites:</strong> Node.js (v18+), npm, git
+      <div class="card">
+        <h3>Requirements</h3>
+        <ul>
+          <li><strong>Node.js:</strong> v18.0.0 or higher</li>
+          <li><strong>npm:</strong> v8.0.0 or higher</li>
+          <li><strong>Git:</strong> For version control and project sharing</li>
+          <li><strong>Browser:</strong> Chrome, Firefox, Edge, or Safari (modern versions)</li>
+          <li><strong>AI API access:</strong> Cortex or compatible OpenAI-style endpoint with API key</li>
+        </ul>
       </div>
-      
+
       <div class="step">
         <div class="step-number">1</div>
         <div class="step-content">
           <h4>Clone the Repository</h4>
-          <p>Open your terminal and clone the project:</p>
           <div class="code-block">git clone &lt;your-repo-url&gt;
 cd SOLON</div>
         </div>
       </div>
-      
+
       <div class="step">
         <div class="step-number">2</div>
         <div class="step-content">
-          <h4>Install Dependencies</h4>
-          <p>Install all dependencies from the root folder:</p>
-          <div class="code-block">npm install</div>
-          <p>This installs both frontend and backend dependencies in one go.</p>
+          <h4>Set Environment Variables</h4>
+          <p>Create <code>server/.env</code> with your AI API credentials:</p>
+          <div class="code-block">PORT=3001
+AI_BASE_URL=https://your-cortex-endpoint
+AI_API_KEY=your-api-key
+AI_MODEL=claude-3-5-haiku-vertex</div>
         </div>
       </div>
-      
+
       <div class="step">
         <div class="step-number">3</div>
         <div class="step-content">
-          <h4>Start the Application</h4>
-          <p>Run a single command from the root folder:</p>
-          <div class="code-block">npm run dev</div>
-          <p>This starts both the backend (port 3001) and frontend (port 5173) simultaneously.</p>
+          <h4>Install Dependencies</h4>
+          <div class="code-block">npm install</div>
+          <p>This installs both frontend (React/Vite) and backend (Express) dependencies.</p>
         </div>
       </div>
-      
+
       <div class="step">
         <div class="step-number">4</div>
         <div class="step-content">
-          <h4>Use the App</h4>
-          <ol>
-            <li>Open <strong>http://localhost:5173</strong> in your browser</li>
-            <li>Upload a <strong>.pptx</strong> file</li>
-            <li>Click on text elements to <strong>tag</strong> them as placeholders</li>
-            <li>Toggle the <strong>AI switch</strong> for fields you want AI to generate</li>
-            <li>Click <strong>Generate Recipe</strong> and copy the prompt</li>
-            <li>Paste AI's JSON response and <strong>Preview</strong></li>
-            <li><strong>Download</strong> your generated PPTX</li>
-          </ol>
+          <h4>Start the Application</h4>
+          <div class="code-block">npm run dev</div>
+          <ul>
+            <li>Backend: http://localhost:3001</li>
+            <li>Frontend: http://localhost:5173</li>
+          </ul>
         </div>
-      </div>
-    </section>
-
-    <section id="installation">
-      <h2>📦 Installation</h2>
-      <p>Detailed installation instructions for developers who want to run or extend the application.</p>
-      
-      <div class="card">
-        <h3>System Requirements</h3>
-        <ul>
-          <li><strong>Node.js:</strong> v18.0.0 or higher</li>
-          <li><strong>npm:</strong> v8.0.0 or higher</li>
-          <li><strong>Git:</strong> For version control</li>
-          <li><strong>Browser:</strong> Chrome, Firefox, Edge, or Safari</li>
-        </ul>
-      </div>
-      
-      <div class="card">
-        <h3>Project Structure</h3>
-        <div class="code-block">SOLON/
-├── client/          # React frontend (Vite)
-│   ├── src/
-│   │   ├── App.jsx    # Main React component
-│   │   └── index.css   # Styles
-│   └── package.json
-├── server/          # Node.js backend (Express)
-│   ├── index.js       # Server logic
-│   └── package.json
-├── patches/          # Saved tag configurations
-└── docs.html        # This documentation</div>
-      </div>
-      
-      <div class="card">
-        <h3>Install Commands</h3>
-        <p>From the root directory:</p>
-        <div class="code-block">npm install</div>
       </div>
     </section>
 
     <section id="running">
-      <h2>▶️ Running the Application</h2>
-      <p>Start both frontend and backend with a single command:</p>
+      <h2>Running the Application</h2>
       
       <div class="card">
-        <h3>Start Both Servers</h3>
+        <h3>Development Mode</h3>
+        <p>Start both servers with hot reload:</p>
         <div class="code-block">npm run dev</div>
-        <ul>
-          <li>Backend runs on <strong>http://localhost:3001</strong></li>
-          <li>Frontend runs on <strong>http://localhost:5173</strong></li>
-        </ul>
       </div>
-      
-      <div class="highlight">
-        <strong>Tip:</strong> Use <code>npm start</code> as an alternative that runs the same command.
+
+      <div class="card">
+        <h3>Build for Production</h3>
+        <div class="code-block">npm run build</div>
+        <p>Creates optimized client build in <code>client/dist/</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3>Running Tests</h3>
+        <div class="code-block"># Unit tests
+npm test
+
+# Watch mode
+npm run test:watch
+
+# End-to-end tests
+npm run test:e2e</div>
       </div>
     </section>
 
     <section id="what-is">
-      <h2>What is SOLON Slide Studio?</h2>
-      <p>SOLON Slide Studio is a web application that enables users to transform PowerPoint templates into dynamic, data-driven presentations. It solves the repetitive problem of manually updating slides for recurring presentations like weekly reports, sales decks, and status updates.</p>
+      <h2>What is SOLON?</h2>
       
+      <p>SOLON Slide Studio automates the creation of data-driven HTML slide presentations. Unlike simple templating, SOLON combines:</p>
+      
+      <ul>
+        <li><strong>Template Management:</strong> Upload an HTML template with defined content zones</li>
+        <li><strong>Data-Driven Content:</strong> Provide structured data (spreadsheets, documents) to the AI</li>
+        <li><strong>AI-Powered Generation:</strong> Multi-agent AI orchestration creates custom content per slide</li>
+        <li><strong>Presentation Publishing:</strong> Build hierarchical slide structures and export as standalone HTML</li>
+        <li><strong>Git-Based Collaboration:</strong> All projects, flows, and exports live in version control</li>
+      </ul>
+
       <div class="highlight">
-        <strong>Core Idea:</strong> Tag elements in a PPTX template as placeholders, generate a recipe prompt for AI, paste AI-generated JSON, and automatically produce a finished presentation.
+        <strong>Key Insight:</strong> SOLON was created to automate the feature catalog workflow — turning manual slide creation from hours of work into a 15–20 minute agentic AI process. It can be used for recurring reports, roadmap catalogs, proposal decks, and any templated multi-slide workflow.
       </div>
     </section>
 
-    <section id="problems">
-      <h2>Problems Solved</h2>
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-icon">🔄</div>
-          <h4>Manual Repetition</h4>
-          <p>No more copying and pasting the same slide structure for recurring presentations.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">🤖</div>
-          <h4>AI Integration Gap</h4>
-          <p>Bridges the gap between online AI tools and local file generation.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">💾</div>
-          <h4>Template Reuse</h4>
-          <p>Save patches (tag configurations) to disk for reuse across presentations.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">👁️</div>
-          <h4>Preview Before Download</h4>
-          <p>Verify the final output before generating the file.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="features">
-      <h2>Features</h2>
-      <div>
-        <span class="feature-badge">PPTX Upload & Parsing</span>
-        <span class="feature-badge">Element Tagging</span>
-        <span class="feature-badge">Recipe Generation</span>
-        <span class="feature-badge">JSON Validation</span>
-        <span class="feature-badge">Slide Preview</span>
-        <span class="feature-badge">Patch Persistence</span>
-        <span class="feature-badge">Repeatable Slides</span>
-        <span class="feature-badge">Character Limits</span>
-      </div>
-    </section>
-
-    <section id="use-cases">
-      <h2>Use Cases</h2>
+    <section id="core-concepts">
+      <h2>Core Concepts: Projects & Flows</h2>
       
       <div class="card">
-        <h3>Current Use Cases</h3>
+        <h3>Projects</h3>
+        <p>A project is a Git repository containing one or more flows, AI context documents, and published presentations. Projects are stored in two locations:</p>
         <ul>
-          <li><strong>Weekly Status Reports</strong> - Automate team update slides with metrics from JSON</li>
-          <li><strong>Sales Decks</strong> - Generate client presentations with personalized data</li>
-          <li><strong>Product Updates</strong> - Create release notes slides from structured data</li>
-          <li><strong>Meeting Agendas</strong> - Populate recurring meeting templates with specific topics</li>
+          <li><strong>Shared:</strong> Tracked in Git; team members can clone and collaborate</li>
+          <li><strong>Private:</strong> Git-ignored; local-only, useful for drafts or experiments</li>
+        </ul>
+        <p>You can convert a project between shared and private at any time. The app automatically manages <code>.gitignore</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3>Flows</h3>
+        <p>A flow is a complete, reusable workflow for a single template. It contains:</p>
+        <ul>
+          <li><strong>Template HTML:</strong> Your uploaded HTML template with content zones defined</li>
+          <li><strong>Zone Selections:</strong> Which HTML elements are content placeholders (and their AI instructions)</li>
+          <li><strong>Filters & Grouping:</strong> Rules to slice the context data into per-slide instances</li>
+          <li><strong>Generations:</strong> History of all AI-generated content rounds</li>
+          <li><strong>Exports:</strong> Packaged sets of generated slides ready to publish</li>
+        </ul>
+        <p>All flow state is persisted in <code>flow.json</code> so you can return to it later and regenerate or modify.</p>
+      </div>
+
+      <div class="card">
+        <h3>Folder Structure on Disk</h3>
+        <div class="code-block">server/projects/
+├── shared/                        # Git-tracked projects
+│   └── &lt;projectName&gt;/
+│       ├── project.json           # Project metadata
+│       ├── AI Context/            # Source docs (xlsx, txt, md, pdf, docx)
+│       ├── flows/
+│       │   └── &lt;flowId&gt;/
+│       │       ├── flow.json      # All flow state
+│       │       ├── template.html  # Your HTML template
+│       │       ├── output-*.html  # Generated outputs
+│       │       └── exports/
+│       │           └── &lt;exportId&gt;/
+│       │               └── &lt;slide&gt;.html  # Individual slides
+│       └── presentations/         # Published presentations
+└── private/                       # Git-ignored projects
+    └── &lt;projectName&gt;/
+        └── (same structure as shared)</div>
+      </div>
+    </section>
+
+    <section id="templates">
+      <h2>HTML Templates</h2>
+      
+      <div class="card">
+        <h3>What is a Template?</h3>
+        <p>A template is a well-formed HTML file (single document) that defines the structure of one or more slides. It can include:</p>
+        <ul>
+          <li>Multiple <code>&lt;section&gt;</code> tags, each representing a slide</li>
+          <li>Static HTML (header, footer, styling, navigation)</li>
+          <li>Placeholder <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, or <code>&lt;span&gt;</code> elements where content will be inserted</li>
+          <li>CSS styles and responsive layouts</li>
+          <li>JavaScript for interactivity (e.g., sortable tables, collapsible sections)</li>
         </ul>
       </div>
+
+      <div class="card">
+        <h3>Defining Content Zones</h3>
+        <p>In SOLON, you select which HTML elements should receive AI-generated content. These are called "zones." For each zone you:</p>
+        <ol>
+          <li>Click the element in the template preview</li>
+          <li>Assign it a semantic key (e.g., "initiative_name", "description", "estimate")</li>
+          <li>Optionally provide an AI prompt to guide generation</li>
+          <li>Mark it as auto-generate (so AI fills it) or manual (you fill it later)</li>
+        </ol>
+        <p>Zones are identified by CSS selectors (e.g., <code>div.header</code> or <code>#summary-text</code>), so your template must have distinguishable elements.</p>
+      </div>
+
+      <div class="card">
+        <h3>Multi-Slide Templates</h3>
+        <p>If your template has multiple <code>&lt;section&gt;</code> tags, SOLON treats each as a different "slide" within the flow. You define zones for each slide independently. This lets you create heterogeneous flows with different slide types in the same template.</p>
+      </div>
+
+      <div class="card">
+        <h3>Template Metadata (Optional)</h3>
+        <p>You can embed AI instructions directly in the HTML template using a <code>&lt;meta&gt;</code> tag:</p>
+        <div class="code-block">&lt;head&gt;
+  &lt;meta name="ai-instructions" content="... instructions for the AI ..."&gt;
+&lt;/head&gt;</div>
+        <p>These instructions appear as the default context when generating content for this flow.</p>
+      </div>
+    </section>
+
+    <section id="zones">
+      <h2>Zones & Content Binding</h2>
       
       <div class="card">
-        <h3>Potential Extensions</h3>
+        <h3>How Zones Work</h3>
+        <p>A zone is a mapping between an HTML element and a piece of content. When you:</p>
+        <ol>
+          <li>Generate content via AI, the AI produces JSON with keys matching your zone names</li>
+          <li>Apply the JSON, SOLON replaces the zone's HTML text with the AI-generated value</li>
+          <li>Preview the result in the browser before exporting</li>
+        </ol>
+        <p>SOLON supports both text zones (simple <code>&lt;p&gt;</code>, <code>&lt;span&gt;</code>, etc.) and block zones (entire <code>&lt;div&gt;</code> or <code>&lt;section&gt;</code> fragments).</p>
+      </div>
+
+      <div class="card">
+        <h3>Zone Features</h3>
         <ul>
-          <li><strong>Multi-format Export</strong> - Export to PDF, images, or Google Slides</li>
-          <li><strong>API Integration</strong> - Connect to databases or APIs for live data</li>
-          <li><strong>Bulk Processing</strong> - Generate multiple presentations from different JSON files</li>
-          <li><strong>Template Library</strong> - Cloud storage of reusable templates</li>
-          <li><strong>Version Control</strong> - Track changes to patches over time</li>
-          <li><strong>Collaboration</strong> - Share patches between team members</li>
+          <li><strong>Auto-Discovery:</strong> SOLON scans your template and suggests common placeholders (headings, paragraphs, divs)</li>
+          <li><strong>Custom Prompts:</strong> For each zone, provide a custom AI instruction (e.g., "Summarize in 50 words")</li>
+          <li><strong>Character Limits:</strong> Optionally restrict zone content length (useful for headings)</li>
+          <li><strong>Repeatable Zones:</strong> If a zone appears across multiple slide instances, it's marked as repeatable</li>
+          <li><strong>Full-Slide Generation:</strong> Toggle to generate all zones on a slide at once (uses template instructions) vs. zone by zone</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Inline Editing</h3>
+        <p>In the Preview step, you can click on any generated slide content and edit it directly in the browser. Changes are saved to the output file immediately, so you can fine-tune AI output without re-generating.</p>
+      </div>
+    </section>
+
+    <section id="exports">
+      <h2>Exports & Slide Packaging</h2>
+      
+      <div class="card">
+        <h3>What is an Export?</h3>
+        <p>An export is a versioned, packaged set of slides generated from a single AI generation round. Each export contains:</p>
+        <ul>
+          <li><strong>Slide Files:</strong> Individual, self-contained HTML files (each is a complete webpage)</li>
+          <li><strong>Metadata:</strong> Slide titles, creation timestamp, generation IDs</li>
+          <li><strong>Project Index:</strong> <code>project.json</code> listing all slides for the viewer</li>
+        </ul>
+        <p>Exports are immutable once created, so you can safely iterate on future generations without losing prior work.</p>
+      </div>
+
+      <div class="card">
+        <h3>Creating Exports</h3>
+        <p>After you've generated content and previewed it, you create an export in the Metadata step. SOLON:</p>
+        <ol>
+          <li>Extracts all generated <code>&lt;section&gt;</code> elements from the output HTML</li>
+          <li>Wraps each section in a complete HTML document (with the template's head, scripts, styles)</li>
+          <li>Infers slide titles from headings (<code>&lt;h1&gt;</code>, <code>&lt;h2&gt;</code>, etc.) or lets you name them</li>
+          <li>Saves everything to <code>exports/&lt;exportId&gt;/</code></li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>Using Exports</h3>
+        <p>Exports serve as building blocks for presentations. You can:</p>
+        <ul>
+          <li>Browse all exports across your project and hand-pick slides</li>
+          <li>Combine slides from different flows and template types into a single presentation</li>
+          <li>Rename, reorder, or delete slides before publishing</li>
+          <li>Publish a structured presentation with navigation (see Publishing section)</li>
         </ul>
       </div>
     </section>
 
     <section id="walkthrough">
-      <h2>Walkthrough: Step by Step</h2>
+      <h2>Complete Workflow: Step-by-Step</h2>
       
       <div class="card">
         <div class="step">
           <div class="step-number">1</div>
           <div class="step-content">
-            <h4>Upload PPTX Template</h4>
-            <p>Drag and drop your PowerPoint file (.pptx). The app parses the file and extracts all text elements with their positions, sizes, and styles.</p>
+            <h4>Create or Open a Project</h4>
+            <p>Start at the project landing page. Create a new project (shared or private) or open an existing one. All your flows and context data for that project live here.</p>
           </div>
         </div>
-        
+
         <div class="arrow">↓</div>
-        
+
         <div class="step">
           <div class="step-number">2</div>
           <div class="step-content">
-            <h4>Tag Elements</h4>
-            <p>Click on text elements in the slide preview to tag them as placeholders. Each tag becomes a variable that will be replaced with data later.</p>
+            <h4>Create a Flow</h4>
+            <p>From the project dashboard, create a new flow and give it a name. You'll then upload your HTML template. SOLON parses the template, extracts the DOM tree, and detects <code>&lt;section&gt;</code> boundaries.</p>
           </div>
         </div>
-        
+
         <div class="arrow">↓</div>
-        
+
         <div class="step">
           <div class="step-number">3</div>
           <div class="step-content">
-            <h4>Save Patch (Optional)</h4>
-            <p>Give your patch a name and save it. Patches are stored in the <code>/patches</code> folder as JSON files for future reuse.</p>
+            <h4>Define Zones</h4>
+            <p>In the HTML Upload step, click on template elements to tag them as content zones. SOLON auto-discovers common placeholders. You can set zone names, AI prompts, and character limits. Configure whether slides are repeatable (multiple instances generated) and whether to generate all zones at once.</p>
           </div>
         </div>
-        
+
         <div class="arrow">↓</div>
-        
+
         <div class="step">
           <div class="step-number">4</div>
           <div class="step-content">
-            <h4>Generate Recipe</h4>
-            <p>Click "Generate Recipe" to create an AI prompt. This tells an online AI exactly what JSON structure you need.</p>
-            <div class="code-block">{
-  "title": "...",
-  "records": [{ "item": "..." }]
-}</div>
+            <h4>Prepare Context Data</h4>
+            <p>Place AI context documents in your project's <code>AI Context/</code> folder (xlsx, csv, txt, md, pdf, docx). These are the data sources that the AI will read to generate content. Select which files to use and optionally filter rows (e.g., "only PI 28" or "only this vendor").</p>
           </div>
         </div>
-        
+
         <div class="arrow">↓</div>
-        
+
         <div class="step">
           <div class="step-number">5</div>
           <div class="step-content">
-            <h4>Copy Recipe → Paste JSON</h4>
-            <p>Copy the recipe to AI, get JSON back, paste it into the app. Validation happens automatically as you type.</p>
+            <h4>Configure Slice Output Template</h4>
+            <p>Choose a "slice output template" — an AI instruction file that tells the AI how to extract data from your context for each slide instance. Templates like <code>initiative-group.txt</code> define rules like "read the Initiatives column, group by Group ID, and extract totals." Custom templates can be created per project.</p>
           </div>
         </div>
-        
+
         <div class="arrow">↓</div>
-        
+
         <div class="step">
           <div class="step-number">6</div>
           <div class="step-content">
-            <h4>Preview & Download</h4>
-            <p>Review all generated slides, use arrow keys to navigate, then click "Download PPTX" to get your finished presentation.</p>
+            <h4>Generate with AI</h4>
+            <p>Click "Generate with AI" to start the agentic pipeline. SOLON orchestrates multiple AI agents in parallel, each generating one slide. You can monitor progress, see logs, and retry any failed agents. The final JSON is automatically filled in the JSON Response field.</p>
+          </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="step">
+          <div class="step-number">7</div>
+          <div class="step-content">
+            <h4>Validate & Apply Content</h4>
+            <p>Review the AI-generated JSON. SOLON validates it against your zone schema. Once validated, click "Apply Content" to patch the JSON values into your template, producing output HTML files.</p>
+          </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="step">
+          <div class="step-number">8</div>
+          <div class="step-content">
+            <h4>Preview & Edit</h4>
+            <p>Preview all generated slides in the browser. Use arrow keys or buttons to navigate. Click any text to edit it inline. Changes save immediately. Use "Generate Per-Slide" to regenerate specific slides if needed.</p>
+          </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="step">
+          <div class="step-number">9</div>
+          <div class="step-content">
+            <h4>Create Export & Assign Metadata</h4>
+            <p>In the Metadata step, name your export and optionally rename individual slides. Then create the export — SOLON packages each slide as a self-contained HTML file.</p>
+          </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="step">
+          <div class="step-number">10</div>
+          <div class="step-content">
+            <h4>Build Presentation Structure</h4>
+            <p>Use the presentation tree builder (drag-and-drop) to organize exports into a hierarchical structure. Drag slides from exports, create folder groups, and define navigation levels. Once structured, publish the presentation.</p>
+          </div>
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="step">
+          <div class="step-number">11</div>
+          <div class="step-content">
+            <h4>Publish & Share</h4>
+            <p>Your published presentation is a self-contained HTML file with an interactive sidebar navigator. Access it locally, download it, or bundle it for sharing via toolkit/SharePoint (see Toolkit Integration section).</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="differences">
-      <h2>How It Differs from Browser-Only AI</h2>
+    <section id="ai-generation">
+      <h2>How AI Generation Works</h2>
       
-      <table>
-        <thead>
-          <tr>
-            <th>Aspect</th>
-            <th>Browser-Only AI</th>
-            <th>SOLON Slide Studio</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>File Generation</strong></td>
-            <td>Cannot create PPTX files</td>
-            <td>Generates downloadable PPTX</td>
-          </tr>
-          <tr>
-            <td><strong>Template Handling</strong></td>
-            <td>Copy-paste workflow</td>
-            <td>Parses PPTX, preserves formatting</td>
-          </tr>
-          <tr>
-            <td><strong>Data Binding</strong></td>
-            <td>Manual replacement</td>
-            <td>Automatic placeholder replacement</td>
-          </tr>
-          <tr>
-            <td><strong>Preview</strong></td>
-            <td>No visual preview</td>
-            <td>Real-time slide preview</td>
-          </tr>
-          <tr>
-            <td><strong>Reusability</strong></td>
-            <td>No templates/patches</td>
-            <td>Patches persist for reuse</td>
-          </tr>
-        </tbody>
-      </table>
-      
-      <div class="highlight">
-        <strong>The Bridge:</strong> SOLON Slide Studio acts as a bridge between AI (which generates JSON) and PowerPoint (which needs the actual file).
+      <div class="card">
+        <h3>Overview</h3>
+        <p>SOLON uses a multi-agent AI orchestration pipeline. Instead of generating all slides in one prompt, it:</p>
+        <ol>
+          <li><strong>Plans:</strong> Reads your context, identifies how many slide instances to generate, and extracts relevant data for each</li>
+          <li><strong>Orchestrates:</strong> Spawns one AI agent per slide instance, running them in parallel</li>
+          <li><strong>Assembles:</strong> Merges all agent outputs into a single JSON file ready to apply to your template</li>
+        </ol>
+        <p>This approach scales efficiently: generating 30 slides takes roughly the same time as generating 3 (since agents run in parallel, with a batch limit of 5).</p>
+      </div>
+
+      <div class="card">
+        <h3>The Agentic Pipeline</h3>
+
+        <h4>Phase 1: Context & Orchestration</h4>
+        <ul>
+          <li><strong>Context Reading:</strong> SOLON reads files from your <code>AI Context/</code> folder. Supports Excel (.xlsx, .xls), CSV, plain text, Markdown, PDF, and Word (.docx).</li>
+          <li><strong>Row Filtering:</strong> If you've set filters (e.g., "PI = 28"), only matching rows are used.</li>
+          <li><strong>Orchestration Call:</strong> If your flow uses repeatable slides with AI-driven grouping, an orchestrator AI call reads the context schema and identifies how many instances to create (e.g., "Create one slide per PI").</li>
+          <li><strong>Slicing:</strong> For each identified instance, a slicer AI call extracts the relevant data from the context according to your slice output template.</li>
+        </ul>
+
+        <h4>Phase 2: Parallel Agent Generation</h4>
+        <ul>
+          <li><strong>Agent Spawning:</strong> One AI agent is created per slide instance (e.g., 6 agents for 6 initiative groups).</li>
+          <li><strong>Agent Context:</strong> Each agent receives the full zone schema, template, slice output rules, and its instance-specific data.</li>
+          <li><strong>Parallel Execution:</strong> Agents run in batches (up to 5 concurrent). Each agent generates JSON for all zones on its slide.</li>
+          <li><strong>JSON Assembly:</strong> All agent outputs are merged into a single JSON object matching your zone structure.</li>
+          <li><strong>Completion Pass:</strong> If any fields are missing, targeted AI calls fill them in automatically.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Model Selection</h3>
+        <p>By default, SOLON uses <strong>Claude Haiku</strong> (fast, cost-effective) for most generation tasks. If you're generating many slides, Haiku's speed is important — generating 30 slides with Sonnet might time out, while Haiku completes reliably.</p>
+        <p>For complex reasoning (e.g., if you only have 3–5 slides and need very high quality), you can edit <code>server/config.js</code> to switch to Sonnet, but note the trade-off: slower, more expensive, higher timeout risk.</p>
+      </div>
+
+      <div class="card">
+        <h3>Debugging & Logs</h3>
+        <p>During generation, you can see real-time logs in the browser. After generation completes, SOLON saves debug files to <code>flows/&lt;flowId&gt;/debug/</code>:</p>
+        <ul>
+          <li><code>ai-orchestrator-prompt.txt</code> — Prompt sent to the orchestrator AI</li>
+          <li><code>ai-slice-instance-&lt;N&gt;-&lt;slug&gt;.txt</code> — Data slice for each instance</li>
+          <li><code>ai-agent-prompts.txt</code> — Prompts sent to each agent</li>
+        </ul>
+        <p>These help you understand what the AI saw and refine your context or prompts for next time.</p>
+      </div>
+
+      <div class="card">
+        <h3>Error Handling & Retries</h3>
+        <p>If an agent fails (e.g., due to network timeout), you can retry it individually using the UI. SOLON re-runs that agent and merges its output into the existing JSON. You don't need to re-generate everything.</p>
       </div>
     </section>
 
-    <section id="technical">
-      <h2>Technical Overview</h2>
+    <section id="context-prep">
+      <h2>Context Preparation: Best Practices</h2>
       
+      <p>The quality of generated content depends heavily on the quality and clarity of your AI context. Here are essential tips from real-world use:</p>
+
       <div class="card">
-        <h3>Architecture</h3>
+        <h3>1. Pre-Calculate All Numbers</h3>
+        <p>AI is notoriously bad at arithmetic. Don't ask it to sum or calculate — provide pre-calculated values explicitly in your context.</p>
+        <p><strong>Bad:</strong> "Here are all features; count them and provide total estimate."</p>
+        <p><strong>Good:</strong> Add a row in your spreadsheet: "Total Features: 24, Total Estimate: 450 days"</p>
+        <p>SOLON's feature catalog example uses a separate "Request A Stats" sheet with pre-calculated totals per PI and requester.</p>
+      </div>
+
+      <div class="card">
+        <h3>2. Use Spreadsheets (Excel/CSV) for Structured Data</h3>
+        <p>Spreadsheets are the best context format. SOLON converts them to pipe-delimited text with column headers and a schema summary, which AI understands well.</p>
+        <p><strong>Layout:</strong> One row per item, columns for all attributes (ID, Name, Status, Owner, Estimate, etc.). Use consistent, short column names.</p>
+      </div>
+
+      <div class="card">
+        <h3>3. Filter Strategically</h3>
+        <p>If your full context is large (e.g., roadmap for the entire year), use filters to reduce what's fed to each AI agent. Example: "only generate for PI 28" filters the spreadsheet before slicing.</p>
+        <p>Filtering reduces token usage and keeps context focused, improving quality and speed.</p>
+      </div>
+
+      <div class="card">
+        <h3>4. Design Slice Output Templates Carefully</h3>
+        <p>The slice output template tells AI how to extract data. Be explicit and unambiguous:</p>
+        <div class="code-block">For REQUEST A STATS:
+- Look up the row where PI = "PI28" AND Requester = "Engineering"
+- Read the Estimate column directly (don't calculate)
+- If no row exists, treat estimate as 0
+- Provide the result as plain text, no formatting</div>
+        <p>Clear rules prevent AI hallucination.</p>
+      </div>
+
+      <div class="card">
+        <h3>5. Avoid Token Overload</h3>
+        <p>SOLON has a hard limit of 400,000 characters per context. For large roadmaps:</p>
         <ul>
-          <li><strong>Frontend:</strong> React + Vite (port 5173)</li>
-          <li><strong>Backend:</strong> Node.js + Express (port 3001)</li>
-          <li><strong>PPTX Parsing:</strong> adm-zip library</li>
-          <li><strong>Persistence:</strong> JSON files in /patches</li>
+          <li>Use filters to feed only relevant rows to each agent</li>
+          <li>Split large documents into smaller, focused context files</li>
+          <li>Use a grouping column to deterministically partition data (e.g., "PI" column splits by quarter)</li>
+        </ul>
+        <p>The agentic approach mitigates this: if you have 30 initiatives across multiple PIs, each agent sees only its PI's data (via filtering) and processes it independently. Total tokens scale linearly, not exponentially.</p>
+      </div>
+
+      <div class="card">
+        <h3>6. Use Consistent Terminology</h3>
+        <p>If your context refers to a concept as "Initiative," your template zones should also use "Initiative" (not "Epic" or "Feature"). This reduces confusion and improves AI accuracy.</p>
+      </div>
+
+      <div class="card">
+        <h3>7. Include Descriptions & Metadata</h3>
+        <p>Don't just provide IDs and names. Include descriptions, acceptance criteria, benefit hypotheses, and other details. AI uses these to reason about content, producing richer slides.</p>
+      </div>
+
+      <div class="card">
+        <h3>8. Validate Your Context Manually</h3>
+        <p>Before running large generations, test with a single instance or a small filter. Review the generated output; if it's incorrect, check:</p>
+        <ul>
+          <li>Is your context file accurate?</li>
+          <li>Does your slice output template match the data layout?</li>
+          <li>Are column names spelled correctly?</li>
+          <li>Did you filter the right rows?</li>
         </ul>
       </div>
+    </section>
+
+    <section id="presentations">
+      <h2>Publishing Presentations</h2>
       
       <div class="card">
-        <h3>Placeholder Convention</h3>
-        <p>Elements are tagged using Mustache-style syntax:</p>
-        <div class="code-block">{{product_name}}</div>
+        <h3>Presentations vs. Exports</h3>
+        <p>An <strong>export</strong> is a collection of generated slides from one flow. A <strong>presentation</strong> is a curated, navigable document built from one or more exports.</p>
+        <p>Presentations add:</p>
+        <ul>
+          <li>Hierarchical slide organization (folders, groups, levels)</li>
+          <li>Navigation sidebar with outline</li>
+          <li>Slide-to-slide navigation buttons</li>
+          <li>Optional breadcrumb trail</li>
+          <li>Self-contained, standalone HTML (single file or linked)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Building a Presentation Structure</h3>
+        <p>In the Metadata step, you'll see a tree builder interface:</p>
+        <ol>
+          <li><strong>Browse Exports:</strong> View all exports across your project</li>
+          <li><strong>Create Structure:</strong> Click "New Structure" to start building a presentation layout</li>
+          <li><strong>Drag Slides:</strong> Drag individual slides from exports into the tree</li>
+          <li><strong>Organize Groups:</strong> Create folder nodes to group related slides (e.g., "Q1", "Q2", "Budget Overview")</li>
+          <li><strong>Set Hierarchy:</strong> Define nesting levels (SOLON supports up to 3–4 levels of hierarchy)</li>
+          <li><strong>Reorder:</strong> Drag slides up/down to adjust order</li>
+          <li><strong>Publish:</strong> Once satisfied, publish the structure as a presentation</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>What You Get</h3>
+        <p>When you publish a presentation, SOLON generates:</p>
+        <ul>
+          <li><strong>index.html:</strong> Main viewer with sidebar navigation and iframe-based slide display</li>
+          <li><strong>slides/ folder:</strong> Individual slide HTML files, linked by the viewer</li>
+          <li><strong>meta.json:</strong> Presentation metadata (name, publish date, slide count)</li>
+        </ul>
+        <p>The viewer is fully self-contained: you can download the entire <code>presentations/&lt;name&gt;/</code> folder and open <code>index.html</code> in any browser. No server required.</p>
+      </div>
+
+      <div class="card">
+        <h3>Navigating a Presentation</h3>
+        <p>Once published, the presentation UI includes:</p>
+        <ul>
+          <li><strong>Sidebar:</strong> Full outline of all slides and groups. Click any slide to jump to it.</li>
+          <li><strong>Collapse/Expand:</strong> Groups can be collapsed to hide child slides</li>
+          <li><strong>Main View:</strong> Central iframe displaying the current slide with full styling and interactivity preserved</li>
+          <li><strong>Navigation Buttons:</strong> "Previous" / "Next" buttons to traverse slides</li>
+          <li><strong>Breadcrumb (optional):</strong> Shows current path (e.g., "Q1 &gt; Engineering &gt; Overview")</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Versioning & Updates</h3>
+        <p>Presentations are versioned by timestamp. If you regenerate slides and want to update a presentation:</p>
+        <ol>
+          <li>Create a new export from your updated generation</li>
+          <li>Edit the presentation structure: remove old slides, add new ones</li>
+          <li>Publish as a new version (or overwrite the old one)</li>
+        </ol>
+        <p>Previous presentations are archived; you can always revert to an earlier version by accessing the published folder directly.</p>
+      </div>
+    </section>
+
+    <section id="toolkit">
+      <h2>Sharing via Toolkit / SharePoint</h2>
+      
+      <div class="highlight">
+        <strong>Note:</strong> This workflow is currently manual. SOLON's "Package" feature (automated bundling) is in development. For now, use the workaround below.
+      </div>
+
+      <div class="card">
+        <h3>The Challenge</h3>
+        <p>Presentations are stored as multi-file structures (index.html + slides/ folder). SharePoint expects a single file. To share a presentation on SharePoint, you need to bundle everything into one self-contained HTML file.</p>
+      </div>
+
+      <div class="card">
+        <h3>Current Workaround: Manual Bundling</h3>
+        <ol>
+          <li><strong>Generate Your Presentation:</strong> Complete the workflow and publish your presentation in SOLON</li>
+          <li><strong>Bundle the Files:</strong> Use an AI tool or script to combine all files in <code>presentations/&lt;name&gt;/</code> into a single HTML file. The script should:
+            <ul>
+              <li>Read <code>index.html</code></li>
+              <li>Embed all CSS and JavaScript inline</li>
+              <li>Convert relative slide links to data URIs or embedded HTML</li>
+              <li>Output a single self-contained HTML file (~5–10 MB for typical presentations)</li>
+            </ul>
+          </li>
+          <li><strong>Upload to SharePoint:</strong> Create a SharePoint page with a Script Editor web part</li>
+          <li><strong>Paste HTML:</strong> Paste the bundled HTML content into the Script Editor's editor dialog</li>
+          <li><strong>Save & View:</strong> The page now displays your interactive presentation inline</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>Future: Automated Packaging</h3>
+        <p>SOLON is planning to integrate automated bundling into the UI. Once released, you'll see a "Package for Toolkit" button that handles all of the above in one click.</p>
+      </div>
+
+      <div class="card">
+        <h3>Alternative: Direct Hosting</h3>
+        <p>If your organization has a web server or CDN, you can host the presentation folder directly and share the URL. This avoids bundling and keeps file sizes manageable, but requires hosting infrastructure.</p>
       </div>
     </section>
 
     <section id="version-control">
       <h2>Version Control & Collaboration</h2>
-      <p>The entire project is maintained in Git version control:</p>
-      
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-icon">📜</div>
-          <h4>Complete History</h4>
-          <p>Every change tracked. Roll back to any version.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">🔀</div>
-          <h4>Branching</h4>
-          <p>Try features safely with branches.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">👥</div>
-          <h4>Collaboration</h4>
-          <p>Multiple developers can work simultaneously.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">☁️</div>
-          <h4>Remote Backup</h4>
-          <p>Code safely stored in the cloud.</p>
-        </div>
-      </div>
       
       <div class="card">
-        <h3>Recreate the Environment</h3>
-        <div class="code-block"># Clone and run
-git clone &lt;repo-url&gt;
-cd solon-slide-studio
-npm install
-npm run dev</div>
-      </div>
-      
-      <div class="card">
-        <h3>Deployment Opportunities</h3>
+        <h3>Projects in Git</h3>
+        <p>All SOLON projects live in <code>server/projects/shared/</code> or <code>server/projects/private/</code>. Shared projects are committed to Git; private projects are Git-ignored.</p>
+        <p>This means:</p>
         <ul>
-          <li><strong>Docker</strong> - Containerize for consistent deployment</li>
-          <li><strong>Cloud</strong> - Deploy to Vercel, Render, Railway</li>
-          <li><strong>Enterprise</strong> - Run on internal servers</li>
+          <li>Team members can clone the repository and access all shared projects</li>
+          <li>Changes to templates, context files, and generated exports are tracked</li>
+          <li>You can branch to experiment with new templates or regenerations</li>
+          <li>Full audit trail of all modifications</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Shared Projects</h3>
+        <p>A shared project is synced with Git. When you:</p>
+        <ul>
+          <li><strong>Create a flow:</strong> New files appear in your working directory (unstaged)</li>
+          <li><strong>Generate content:</strong> Export files are created (unstaged)</li>
+          <li><strong>Publish presentations:</strong> Presentation folder is created (unstaged)</li>
+        </ul>
+        <p>Commit these changes via Git to share with team members. They'll pull the latest and see your flows, exports, and presentations.</p>
+      </div>
+
+      <div class="card">
+        <h3>Private Projects</h3>
+        <p>Use private projects for drafts, experiments, or local work. These are excluded from Git (see <code>.gitignore</code>) and never uploaded to the remote.</p>
+        <p>Convert a project from private to shared (or vice versa) via the project dashboard. SOLON auto-updates <code>.gitignore</code>.</p>
+      </div>
+
+      <div class="card">
+        <h3>Collaboration Workflow</h3>
+        <ol>
+          <li><strong>Clone:</strong> Team member clones the shared repository</li>
+          <li><strong>Install & Run:</strong> <code>npm install && npm run dev</code></li>
+          <li><strong>Access Shared Projects:</strong> All shared projects appear in the landing page</li>
+          <li><strong>Open a Flow:</strong> Team member can open an existing flow and regenerate, modify, or create new exports</li>
+          <li><strong>Commit & Push:</strong> Changes are pushed to the remote; other team members pull to stay in sync</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>Template & Context Management</h3>
+        <p>Templates and context files are committed to Git, so template improvements and updated context data propagate to all team members automatically. For example:</p>
+        <ul>
+          <li>Designer updates the template HTML → commits</li>
+          <li>Other team members pull → next generation uses the improved template</li>
+          <li>Data analyst updates the roadmap spreadsheet → commits</li>
+          <li>Other team members pull → next generation uses fresh data</li>
         </ul>
       </div>
     </section>
 
-    <section id="summary">
-      <h2>Summary</h2>
-      <p>SOLON Slide Studio transforms the tedious process of updating recurring presentations into an automated, AI-powered workflow. By combining online AI creativity with precise file generation, it solves real-world presentation challenges.</p>
+    <section id="technical">
+      <h2>Technical Architecture</h2>
       
-      <div class="highlight" style="text-align: center;">
-        <em>"Tag once, generate infinitely."</em>
+      <div class="card">
+        <h3>System Overview</h3>
+        <ul>
+          <li><strong>Frontend:</strong> React + Vite (port 5173)</li>
+          <li><strong>Backend:</strong> Node.js + Express (port 3001)</li>
+          <li><strong>Data Store:</strong> Filesystem (projects folder) + Git</li>
+          <li><strong>AI Provider:</strong> Cortex API (OpenAI-compatible)</li>
+          <li><strong>Key Libraries:</strong> archiver (ZIP), xlsx (Excel), mammoth (DOCX), pdf-parse (PDF), node-html-parser</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Frontend Architecture</h3>
+        <p>The frontend is a step-based wizard (React + Hooks). All state lives in a central App component and flows down as props:</p>
+        <ul>
+          <li><strong>ProjectLandingStep:</strong> List/create projects</li>
+          <li><strong>ProjectDashboardStep:</strong> View flows, create new flow</li>
+          <li><strong>HtmlUploadStep:</strong> Upload template, define zones</li>
+          <li><strong>HtmlRecipeStep:</strong> Generate with AI, paste JSON response</li>
+          <li><strong>HtmlPreviewStep:</strong> Preview & inline-edit generated slides</li>
+          <li><strong>HtmlMetadataStep:</strong> Create exports, build presentation structures, publish</li>
+        </ul>
+        <p>Navigation is guarded: you can only advance after completing each step.</p>
+      </div>
+
+      <div class="card">
+        <h3>Backend Architecture</h3>
+        <p>Express routes delegate to business logic modules:</p>
+        <ul>
+          <li><strong>routes/projects.js:</strong> Project & flow CRUD</li>
+          <li><strong>routes/html-flow.js:</strong> Template parsing, zone selection, export management</li>
+          <li><strong>routes/ai-proxy.js:</strong> Simple AI calls (recipe generation)</li>
+          <li><strong>routes/opencode-agentic.js:</strong> Multi-agent orchestration (SSE streams)</li>
+          <li><strong>routes/presentations.js:</strong> Presentation publishing</li>
+          <li><strong>lib/:</strong> Business logic (project manager, export manager, AI client, HTML parser, etc.)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Environment Variables</h3>
+        <div class="code-block">PORT=3001
+AI_BASE_URL=https://cortex-endpoint
+AI_API_KEY=your-key
+AI_MODEL=claude-3-5-haiku-vertex</div>
+        <p>These must be set in <code>server/.env</code> at runtime. Without them, generation will fail.</p>
+      </div>
+
+      <div class="card">
+        <h3>Key Endpoints Summary</h3>
+        <ul>
+          <li><strong>POST /api/html-flow/upload-template:</strong> Parse HTML, create pending session</li>
+          <li><strong>POST /api/opencode/agentic/plan:</strong> SSE stream; orchestrate and slice</li>
+          <li><strong>POST /api/opencode/agentic/run:</strong> SSE stream; spawn agents, assemble JSON</li>
+          <li><strong>POST /api/html-flow/apply-content:</strong> Apply JSON to template, generate output</li>
+          <li><strong>POST /api/projects/:p/flows/:f/exports:</strong> Create export from generation</li>
+          <li><strong>POST /api/projects/:p/presentations:</strong> Publish presentation from structure</li>
+        </ul>
+        <p>See the Architecture Reference (in the earlier task output) for complete endpoint list.</p>
+      </div>
+
+      <div class="card">
+        <h3>Database & Persistence</h3>
+        <p>SOLON has no database. All state is stored as JSON files on the filesystem:</p>
+        <ul>
+          <li><strong>flow.json:</strong> Complete flow state, zone selections, generations, exports</li>
+          <li><strong>project.json:</strong> Project metadata</li>
+          <li><strong>export.json, project.json:</strong> Export metadata and slide index</li>
+          <li><strong>presentation-structures.json:</strong> Saved presentation structures</li>
+        </ul>
+        <p>This makes state human-readable and Git-friendly. You can inspect or even edit JSON files directly.</p>
+      </div>
+
+      <div class="card">
+        <h3>Error Handling & Debugging</h3>
+        <ul>
+          <li><strong>Browser Console:</strong> Frontend logs (React errors, API calls)</li>
+          <li><strong>Terminal:</strong> Backend logs (Express logs, AI calls, file operations)</li>
+          <li><strong>Debug Files:</strong> <code>flows/&lt;flowId&gt;/debug/</code> contains AI prompts, slices, and agent logs</li>
+          <li><strong>Toast Notifications:</strong> In-app status messages and error alerts</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Testing</h3>
+        <ul>
+          <li><strong>Unit Tests:</strong> <code>npm test</code> (Vitest)</li>
+          <li><strong>End-to-End Tests:</strong> <code>npm run test:e2e</code> (Playwright)</li>
+          <li><strong>Linting:</strong> <code>npm run lint</code> (ESLint)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Deployment</h3>
+        <p>SOLON is a full-stack Node.js + React app. You can deploy to:</p>
+        <ul>
+          <li><strong>VPS/Server:</strong> Install Node.js, clone repo, set .env, run <code>npm run dev</code> or <code>npm run build</code> + production server</li>
+          <li><strong>Docker:</strong> Containerize both frontend and backend (Dockerfile provided in repo)</li>
+          <li><strong>Cloud Platforms:</strong> Vercel (frontend), Render, Railway (backend), or combined platforms like Heroku or AWS</li>
+        </ul>
+        <p>The main consideration: ensure AI API credentials are securely managed (use secret management services, not hardcoded).</p>
+      </div>
+    </section>
+
+    <section id="summary">
+      <h2>Summary & Next Steps</h2>
+      
+      <p>SOLON Slide Studio is a powerful tool for automating data-driven presentation generation. Whether you're creating a feature catalog, roadmap overview, or recurring status report, SOLON's agentic AI and template-based approach can save hours of manual work.</p>
+
+      <div class="highlight">
+        <strong>The Core Workflow:</strong> Create a project → Upload a template → Define zones → Provide context data → Generate with AI → Preview & edit → Export slides → Publish a structured presentation.
+      </div>
+
+      <div class="card">
+        <h3>Getting Help</h3>
+        <ul>
+          <li>Check the <strong>debug files</strong> in your flow folder if generation fails</li>
+          <li>Review the <strong>browser console</strong> for API errors</li>
+          <li>Test with a <strong>small instance first</strong> (e.g., filter to one PI) before scaling to full generation</li>
+          <li>Reach out to the team if you encounter unexpected behavior (SOLON is a refined POC, and feedback helps improve it)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Known Limitations & Rough Edges</h3>
+        <ul>
+          <li><strong>Toolkit Integration:</strong> Bundling presentations is manual (automated packaging coming soon)</li>
+          <li><strong>Presentation UI:</strong> Some browser-side bugs in navigation and sidebar collapse (minor, doesn't affect core functionality)</li>
+          <li><strong>Slice Output Templates:</strong> Currently managed as files; UI for creating/editing slice templates not yet built</li>
+          <li><strong>Performance:</strong> Generating 50+ slides may take 5+ minutes (due to AI latency, not app overhead)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Future Improvements</h3>
+        <ul>
+          <li>Automated presentation bundling for toolkit/SharePoint</li>
+          <li>In-app slice output template editor</li>
+          <li>Enhanced UI/UX for the presentation tree builder</li>
+          <li>Support for additional AI models (e.g., GPT-4, custom fine-tuned models)</li>
+          <li>Presentation versioning & rollback</li>
+          <li>Team collaboration features (comments, approvals)</li>
+        </ul>
       </div>
     </section>
   </main>

@@ -240,22 +240,43 @@ export default function App() {
     navigateTo('html-upload')
   }, [navigateTo])
 
+  // ── Header wrapper ─────────────────────────────────────────────
+  const AppHeader = ({ children }) => (
+    <div className="app">
+      <header>
+        <div>
+          <h1>SOLON Slide Studio</h1>
+          <div className="header-actions">
+            <a href="/docs.html" target="_blank" rel="noopener noreferrer" className="docs-link">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="8" cy="8" r="7" />
+                <path d="M8 5v6M5 8h6" />
+              </svg>
+              Docs
+            </a>
+          </div>
+        </div>
+      </header>
+      {children}
+    </div>
+  )
+
   if (step === 'project-landing') {
     return (
-      <>
+      <AppHeader>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <ProjectLandingStep
           appName={appName}
           onProjectSelected={handleProjectSelected}
           setToast={setToast}
         />
-      </>
+      </AppHeader>
     )
   }
 
   if (step === 'project-dashboard' && currentProjectName) {
     return (
-      <>
+      <AppHeader>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <ProjectDashboardStep
           projectName={currentProjectName}
@@ -264,13 +285,13 @@ export default function App() {
           onBackToProjects={handleBackToProjects}
           setToast={setToast}
         />
-      </>
+      </AppHeader>
     )
   }
 
   if (step === 'html-upload') {
     return (
-      <>
+      <AppHeader>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <HtmlUploadStep
           {...sharedProps}
@@ -284,96 +305,100 @@ export default function App() {
           currentFlowId={currentFlowId}
           pendingFlowName={pendingFlowName}
         />
-      </>
+      </AppHeader>
     )
   }
 
   if (step === 'html-recipe' && htmlProject) {
     return (
-      <>
+      <AppHeader>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
          <HtmlRecipeStep
-           project={htmlProject}
-           projectName={currentProjectName}
-           flowId={currentFlowId}
-           step={step}
-           canNavigateTo={canNavigateTo}
-            navigateTo={navigateTo}
-            onBack={handleBackToHtmlUpload}
-            onApplied={handleHtmlApplied}
-            onAiResponseChange={handleHtmlAiResponseChange}
-            setToast={setToast}
-            debugContext={debugContext}
-           // Agentic state
-           agenticStatus={agenticStatus}
-           agenticPhase={agenticPhase}
-           agenticLogs={agenticLogs}
-           agenticAgents={agenticAgents}
-           agenticErrorMsg={agenticErrorMsg}
-           agenticElapsed={agenticElapsed}
-           agenticContentPrompt={agenticContentPrompt}
-           agenticPlan={agenticPlan}
-           // Agentic setters
-           setAgenticStatus={setAgenticStatus}
-           setAgenticPhase={setAgenticPhase}
-           setAgenticLogs={setAgenticLogs}
-           setAgenticAgents={setAgenticAgents}
-           setAgenticErrorMsg={setAgenticErrorMsg}
-           setAgenticElapsed={setAgenticElapsed}
-           setAgenticContentPrompt={setAgenticContentPrompt}
-           setAgenticPlan={setAgenticPlan}
-           // Preview-initiated regeneration
-           highlightedAgent={highlightedAgent}
-           onHighlightCleared={() => setHighlightedAgent(null)}
-         />
-      </>
+            project={htmlProject}
+            projectName={currentProjectName}
+            flowId={currentFlowId}
+            step={step}
+            canNavigateTo={canNavigateTo}
+             navigateTo={navigateTo}
+             onBack={handleBackToHtmlUpload}
+             onApplied={handleHtmlApplied}
+             onAiResponseChange={handleHtmlAiResponseChange}
+             setToast={setToast}
+             debugContext={debugContext}
+            // Agentic state
+            agenticStatus={agenticStatus}
+            agenticPhase={agenticPhase}
+            agenticLogs={agenticLogs}
+            agenticAgents={agenticAgents}
+            agenticErrorMsg={agenticErrorMsg}
+            agenticElapsed={agenticElapsed}
+            agenticContentPrompt={agenticContentPrompt}
+            agenticPlan={agenticPlan}
+            // Agentic setters
+            setAgenticStatus={setAgenticStatus}
+            setAgenticPhase={setAgenticPhase}
+            setAgenticLogs={setAgenticLogs}
+            setAgenticAgents={setAgenticAgents}
+            setAgenticErrorMsg={setAgenticErrorMsg}
+            setAgenticElapsed={setAgenticElapsed}
+            setAgenticContentPrompt={setAgenticContentPrompt}
+            setAgenticPlan={setAgenticPlan}
+            // Preview-initiated regeneration
+            highlightedAgent={highlightedAgent}
+            onHighlightCleared={() => setHighlightedAgent(null)}
+          />
+      </AppHeader>
     )
   }
 
-   if (step === 'html-preview' && htmlProject && htmlApplied) {
-     return (
-       <>
-         <Toast toast={toast} onDismiss={() => setToast(null)} />
-         <HtmlPreviewStep
-           projectName={currentProjectName}
-           applied={htmlApplied}
-           flowId={currentFlowId}
-           step={step}
-           canNavigateTo={canNavigateTo}
-           navigateTo={navigateTo}
-           onBack={handleBackToHtmlRecipe}
-           onNext={handlePreviewNext}
-           onPreviewHtmlChange={handlePreviewHtmlChange}
-           setToast={setToast}
-           debugContext={debugContext}
-           repeatableSlides={htmlProject?.repeatableSlides ?? []}
-           onRequestRegenerate={handleRequestRegenerate}
-         />
-       </>
-     )
-   }
+    if (step === 'html-preview' && htmlProject && htmlApplied) {
+      return (
+        <AppHeader>
+          <Toast toast={toast} onDismiss={() => setToast(null)} />
+          <HtmlPreviewStep
+            projectName={currentProjectName}
+            flowName={htmlProject.name || currentFlowId}
+            templateFilename={htmlProject.templateFilename || currentProjectName}
+            applied={htmlApplied}
+            flowId={currentFlowId}
+            step={step}
+            canNavigateTo={canNavigateTo}
+            navigateTo={navigateTo}
+            onBack={handleBackToHtmlRecipe}
+            onNext={handlePreviewNext}
+            onPreviewHtmlChange={handlePreviewHtmlChange}
+            setToast={setToast}
+            debugContext={debugContext}
+            repeatableSlides={htmlProject?.repeatableSlides ?? []}
+            onRequestRegenerate={handleRequestRegenerate}
+          />
+        </AppHeader>
+      )
+    }
 
-   if (step === 'html-metadata' && htmlProject && htmlApplied) {
-     return (
-       <>
-         <Toast toast={toast} onDismiss={() => setToast(null)} />
-         <HtmlMetadataStep
-           projectName={currentProjectName}
-           flowId={currentFlowId}
-           applied={htmlApplied}
-           slideNames={htmlApplied?.slideNames ?? []}
-           step={step}
-           canNavigateTo={canNavigateTo}
-           navigateTo={navigateTo}
-           onBack={() => navigateTo('html-preview')}
-           onFinish={handleMetadataFinish}
-           setToast={setToast}
-           debugContext={debugContext}
-           skippedSlides={skippedSlides}
-         />
-       </>
-     )
-   }
+    if (step === 'html-metadata' && htmlProject && htmlApplied) {
+      return (
+        <AppHeader>
+          <Toast toast={toast} onDismiss={() => setToast(null)} />
+          <HtmlMetadataStep
+            projectName={currentProjectName}
+            flowName={htmlProject.name || currentFlowId}
+            templateFilename={htmlProject.templateFilename || currentProjectName}
+            flowId={currentFlowId}
+            applied={htmlApplied}
+            slideNames={htmlApplied?.slideNames ?? []}
+            step={step}
+            canNavigateTo={canNavigateTo}
+            navigateTo={navigateTo}
+            onBack={() => navigateTo('html-preview')}
+            onFinish={handleMetadataFinish}
+            setToast={setToast}
+            debugContext={debugContext}
+            skippedSlides={skippedSlides}
+          />
+        </AppHeader>
+      )
+    }
 
   return null
 }

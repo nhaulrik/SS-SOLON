@@ -1,0 +1,63 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (1 rows)
+Issue Type: Feature | IRM: IRM-30828 | Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES | Roadmap Initiative: EXEMPTIONS | Roadmap Feature: Introduce Exemptions | Requester: GRC | PI: PI30 | Estimate: 1213.1 | Feature Priority: p3 | Feature Status: To Do | Features Description: As a revenue authority I need to be able to implement Policy-driven exclusions for assessments and other liabilities ti the taxpayers to promote sectors, fairness, or development goals. (Other examples on their purposes :  Encourage social or economic development. , support specific sectors or vulnerable groups. , simplify tax administration for low-value cases. align with policy objectives (e.g., promoting investment, education, or sustainability) ) .
+
+The exceptions may be of several *types* e.g. 
+*Geographic* exemptions : to develop special zones
+*Activity* exemptions : develop verticals based on Taxpayer activities exemptions  
+*Party type* exemptions , *Party size* exemptions
+
+*Introduction*
+
+Already applied in system 
+*Waivers:* Relief based on a discretionary decision to "forgive" or "cancel" a debt (mostly interest or penalty) 
+It is applied after liability is assessed but before payment.
+Amount is no longer collectible
+
+{*}Write-offs{*}: An accounting action to remove an uncollectible debt from active accounts (not the same as forgiveness).
+It is applied after the debt is confirmed and collectible. 
+Amount is legally due but no longer pursued. 
+
+*Suppression:* 
+A temporary hold or administrative decision to suppress or defer issuing an assessment , interest.
+It is applied during the assessment/process. 
+The due amount exists but it is not communicated or enforced yet.  
+
+New :
+*Exemption:* 
+A lawful exclusion from a tax obligation defined in legislation or policy.
+It is applied before a due amount/liability arises. 
+(e.g. Charitable organizations are exempt from income tax.)
+The tax {*}never becomes due{*}—it’s not assessed or recorded as payable.
+
+[Revenue type Registration]->  Apply Exemptions
+[Obligations] ->  Exempt items excluded
+Other: 
+[Assessment]->  Suppressions may be applied
+[Billing & Payment] ->   Waivers may be issued
+[Collection/ Enforcement]->  Write-offs recorded
+[Audit & Compliance]-> for all
+ 
+
+*Functional Requirements*
+
+*Admin :*
+I can define Exception types [ Type, Status,  Period or permanent ,  Can be applied manually?,  Approvers list or profiles,  filters on how to define related audience/scope, filters on what will be exemptions requested, define details on the policy applied , legal reason/decision ]
+
+I can apply Exceptions to taxpayers massively.  [Workflow,  Approvals,  Keep attachments, Keep contacts  , RTR and Obligations status , StartDate, EndDate, Status, Reason , timestamp, batch id ] 
+ * Define approvers lists or profiles
+ * Define approval process
+ * Functionality on permanent or time defined exceptions
+ * Define Legal bases
+ * How to define scope
+ * How to define targeted actions
+ * Validations should be applied.
+
+*User :*
+I can apply Exceptions to taxpayers manually.  
+
+*Addiitonally,*  
+ * New statuses for Obligations
+ * Balances review
+ * Forms updated filters with exceptions
+ * Traceability 
+ * I can report on the exemptions applied

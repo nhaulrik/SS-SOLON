@@ -1,0 +1,118 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (2 rows)
+Issue Type: Feature | IRM: IRM-30356 | Roadmap Initiative Group: CORE DATA HUB CAPABILITIES | Roadmap Initiative: AEOI, VIDA & OTHER DATA EXCHANGE | Roadmap Feature: Vida PoC - Flow and example  integrations | Requester: GRC | PI: PI29 | Estimate: 240 | Feature Priority: p3 | Feature Status: To Do | Features Description: *FLOW :*
+
+{color:#505f79}1. Invoice Creation (Seller ERP/Accounting System){color}
+{color:#505f79}Seller generates invoice in EN 16931 compliant format (structured XML/UBL).{color}
+{color:#505f79}Integration Needed: ERP/accounting system must be able to export EN 16931 e-invoic{color}es.
+
+_2._ *Submission / Pre-Validation (National Digital Reporting System, DRR)*
+Invoice data is sent electronically to the tax authority before being delivered to the buyer.
+Integration Options:  Direct API from ERP to tax authority system, or  PEPPOL Access Point that connects ERP  TO  tax authority network endpoint.
+Purpose: pre-validation and acknowledgment.
+
+*3. Validation by Tax Authority*
+Tax authority checks: Invoice format (EN 16931 compliance) ,  VAT numbers and amounts ,  Business rules and optional risk checks
+Outcome process: 
+Accepted: unique ID and timestamp assigned
+Rejected : correction requested
+Integration Needed: Validation engine integrated with DRR database & ERP feedback mechanism.
+
+{color:#505f79}4.   Invoice Delivery to Buyer
+Once validated, invoice is transmitted electronically to the buyer system (ERP or e-invoicing platform).{color}
+{color:#505f79}Integration Needed: PEPPOL or other secure delivery channels to buyer system.{color}
+
+*5. Storage and EU Data Exchange*
+Tax authority stores invoice data in national database.
+For cross-border transactions, summary data or full invoices may be shared with EU Member States via VIES 2.0.
+Integrations Needed:   
+National DB from and to  VIES 2.0 interface 
+Internal reporting / archival systems
+Long-term *archive* of e-invoices, {*}logs{*}, and *declarations* / Security (data retention)
+GDPR
+
+*6. Reconciliation / VAT Return & Compliance*
+Invoice data is used to:
+Auto-populate VAT returns for the taxpayer
+Pre-fill VAT declarations in OSS/IOSS or national system /Extend OSS usage   (?) 
+Share summary data with EU authorities for cross-border reconciliation
+Integration Needed:
+DRR from/to VAT return processing system,
+OSS/IOSS connectors
+(Low- Optional) Payment & Banking Interfaces to verify VAT collection
+
+*7. Monitoring and Risk Analysis*
+Real-time analytics for:  Cross-checking declarations , Fraud detection ,  Audit trails and compliance reporting
+Integration Needed: DRR / national DB ↔ Analytics engines / Risk management platforms
+
+ 
+
+Other: 
+Make sure the exceptions of any failures are logged 
+
+_What is for revenue authority : a) Expand and consolidate systems like mydata (Greece) SDI (Italy) , SII (Spain) b) e-invoicing  integration, connection to VIES 2.0, e-invoicing support, c) New rules for e-Invoices, data retention, real-time reporting ,  d)  Interconnects ERP and e-Invoicing Providers with new APIs and infrastructures for real-time reporting , e) Data protection, auditing, traceability, data analytics, train personnel , specs, instructions, helpdesk._
+
+ 
+
+– Additional
+— data validation and enrichment engines for real-time submissions.
+— fraud-detection analytics and risk scoring models.
+— cross-matching of domestic vs. cross-border data (via VIES 2.0).
+— dashboards and audit trails for inspectors and management.
+Issue Type: Feature | IRM: IRM-30840 | Roadmap Initiative Group: CORE DATA HUB CAPABILITIES | Roadmap Initiative: AEOI, VIDA & OTHER DATA STORAGE | Roadmap Feature: Data Storage  - National DB -Central repository for all issued and received e-invoices. | Requester: GRC | PI: PI29 | Estimate: 400 | Feature Priority: p3 | Feature Status: To Do | Features Description: Based on [https://jira.intrasoft-intl.com/browse/IRM-30356] ** 
+on of the solution flow steps " *_Storage and EU Data Exchange "_* 
+and thus we need to support a solution: 
+ * Central repository for all issued and received e-invoices.
+ * Supports tax control, audit, analytics, and EU data exchange (e.g., via {*}VIES 2.0{*}).
+ * Must comply with national tax law *and* EU data protection rules (GDPR). 
+
+ 
+
+Also to ensure: 
+ * *Data integrity* (accurate, complete, auditable)
+ ** *Immutable (WORM) storage:* prevent tampering or deletion.
+ ** *Retention automation:* apply expiry dates and legal-hold exceptions.
+ ** *Allow Integrity checks:* hash verification and periodic audits.
+
+ * *Scalability & performance* (handles national volume)
+ * *Interoperability* (VIES 2.0, EU standards)
+ * *Security & privacy compliance* (GDPR + national law)
+ * *Governance & traceability* (audit-ready at all times)
+
+ 
+----
++*Solution Considerations*+ 
+ * *Core* 
+ ** *Structured DB + payload store:* relational DB (e.g., PostgreSQL) for key fields; object/WORM storage for full files.
+{*}Scaling{*}
+*Checksum*
+*Storage & indexing:* fast access to invoice metadata and totals; keep original payloads for audit.{*}{{*}}
+ ** *Schema*
+*Ingestion & validation:* accept e-invoices in various formats (UBL, CEN, XML); check syntax and business rules
+{*}Canonical data model:{*} normalize invoices into a consistent schema for processing and reporting.
+
+ * *Integrations*
+ ** *Exchange integration:* interface with VIES 2.0 and other EU Member States (summary or full invoices).
+{*}VIES 2.0 adapter:{*} validate VAT IDs, send/receive cross-border summaries or full invoices.
+ ** *Internal systems:* link to taxpayer master, audit, analytics, and archival modules.
+ ** *Reporting/export:* feed BI dashboards and legal reports.
+
+ *  *Auditing & Reporting*
+ ** *Search & reporting:* support compliance queries, risk analysis, and statistical reporting.
+ ** *Audit & traceability:* log every event—submission, modification, access, and exchange.
+
+ 
+
+--------------------------------------------
+
+Notes - 
+ * Monitoring, alerting, and reconciliation for VIES exchanges.
+
+ * Backup, disaster recovery, and business-continuity planning.
+
+ * Role segregation: operations / auditors / developers.
+
+ * Periodic reviews of exemption and retention configurations.
+
+ 
+
+ 

@@ -11,6 +11,8 @@ import Breadcrumbs from '../components/Breadcrumbs.jsx'
 
 export default function HtmlMetadataStep({
   projectName,
+  flowName,
+  templateFilename,
   flowId,
   applied,        // { outputFile, previewHtml, roundId, slideCount }
   slideNames,     // [{ index, name }, ...]
@@ -174,8 +176,8 @@ export default function HtmlMetadataStep({
   return (
     <div className="app">
       <AppHeader
-        title={projectName}
-        subtitle="Assign slide metadata and export"
+        title={flowName || flowId}
+        subtitle={templateFilename || projectName}
         debugContext={debugContext}
       />
       <Breadcrumbs step={step} canNavigateTo={canNavigateTo} navigateTo={navigateTo} flow="html" />

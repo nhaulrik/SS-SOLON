@@ -134,7 +134,7 @@ function Section({ title, icon, projects, onOpen, onDelete, onConvert, emptyText
   )
 }
 
-export default function ProjectLandingStep({ appName = 'Slide Studio', onProjectSelected, setToast }) {
+export default function ProjectLandingStep({ onProjectSelected, setToast }) {
   const [projects,  setProjects]  = useState([])
   const [loading,   setLoading]   = useState(true)
   const [error,     setError]     = useState(null)
@@ -233,7 +233,6 @@ export default function ProjectLandingStep({ appName = 'Slide Studio', onProject
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>{appName}</h1>
         <p className={styles.subtitle}>
           {hasProjects ? 'Pick up where you left off, or create a new project' : 'Create a project to get started'}
         </p>

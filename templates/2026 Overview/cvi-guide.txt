@@ -1,0 +1,298 @@
+SOLON TAX 2026 — CVI & THEMING GUIDE FOR AI HTML GENERATION
+============================================================
+
+This guide describes the visual identity, layout system, and component patterns
+used in the SOLON Tax Roadmap 2026 slide template. Follow it to produce new HTML
+slides that belong to the same design family.
+
+
+────────────────────────────────────────────────────────────────
+1. CANVAS & SCALING
+────────────────────────────────────────────────────────────────
+
+- Every slide is a fixed 1280 × 720 px rectangle (16:9 widescreen).
+- The slide is centred in the browser window and scaled to fit using a JavaScript
+  transform (translate + scale from top-left origin, 20 px padding on all sides).
+- html/body: overflow hidden, 100vw × 100vh, background #d0cfcb (warm grey).
+- The .slide element: white background (#fff), flex column, overflow hidden,
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18).
+
+
+────────────────────────────────────────────────────────────────
+2. COLOUR PALETTE
+────────────────────────────────────────────────────────────────
+
+Primary accent (coral/red):   #FF6359
+Dark teal (brand dark):       #1a3c3a
+Mid teal (secondary):         #2C8A84
+Light teal (tertiary):        #7fb3af
+White:                        #ffffff
+Off-white background:         #fafaf8
+Light grey divider:           #ecebe6
+Warm grey section bg:         #e9e8e4
+Body text dark:               #333 / #1a3c3a
+Body text mid:                #555
+Body text muted:              #8e8e8a / #aaa / #bbb
+Muted white on dark:          rgba(255,255,255,0.55)
+Muted teal on dark:           rgba(127,179,175,0.8)
+
+Usage rules:
+- #FF6359 is the primary accent — use it for eyebrow labels, key stats,
+  active/highlighted values, and the top accent bar.
+- #1a3c3a is the brand dark — use it for the header bar, footer bar,
+  large headline numbers, and high-emphasis text.
+- #2C8A84 / #7fb3af are secondary and tertiary tints — use them for
+  alternative data series, card accents, and legend dots.
+- Never use pure black (#000). The darkest text is #333 or #1a3c3a.
+
+
+────────────────────────────────────────────────────────────────
+3. TYPOGRAPHY
+────────────────────────────────────────────────────────────────
+
+Font: Inter (Google Fonts), fallback "Segoe UI", sans-serif.
+Import: @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+Apply to *: font-family: "Inter", "Segoe UI", sans-serif; box-sizing: border-box; margin: 0; padding: 0;
+
+Scale in use:
+  10px / weight 600–800  — micro labels, footer text, column headers
+  11px / weight 300–800  — secondary labels, legend text, muted subtitles
+  12px / weight 700–800  — logo mark, segment labels inside bars
+  13px / weight 800      — eyebrow / section labels (uppercase, 3px letter-spacing)
+  14px / weight 600      — legend names, small headings
+  15px / weight 400      — sub-labels, supporting copy
+  18px / weight 700      — section titles, card section headers
+  22px / weight 800      — legend percentage values
+  24px / weight 700      — main slide title in header
+  28px / weight 800      — card PI name, card hour totals
+  30px / weight 700      — header stat values
+  42px / weight 600      — struck-through "old" comparison value
+  88px / weight 800      — hero/big number display
+
+Key typographic rules:
+- Eyebrow / category labels: UPPERCASE, letter-spacing 3px, color #FF6359.
+- Large numbers: letter-spacing negative (−1px to −4px), line-height ~0.95–1.
+- Muted labels: font-weight 300 or color rgba(255,255,255,0.55) on dark backgrounds.
+- Logo mark: uppercase, letter-spacing 2.5px, weight 800, muted teal on dark bg.
+
+
+────────────────────────────────────────────────────────────────
+4. STRUCTURAL LAYOUT (top to bottom)
+────────────────────────────────────────────────────────────────
+
+The slide uses a vertical flex column with four zones:
+
+A. TOP ACCENT BAR
+   - ::before pseudo-element on .slide
+   - height: 7px, background: #FF6359, spans full width
+   - Not a real DOM element — pure CSS
+
+B. HEADER BAR (height ~96px, margin-top 7px to clear accent bar)
+   - background: #1a3c3a
+   - padding: 0 44px, flex row, space-between
+   - Left side: eyebrow label (coral, uppercase) + main title (white, 24px/700)
+     + subtitle (muted white, 11px/300)
+   - Right side: optional stat blocks (large coral number + muted label)
+     separated by thin rgba dividers; logo mark at far right
+   - Stat block pattern: value (30px/700, #FF6359) over label (11px, muted, uppercase)
+
+C. CONTENT BAND / "TOP STORY" (height ~188px)
+   - background: #fafaf8, border-bottom: 1px solid #ecebe6
+   - Horizontal flex, divided into 2–3 panels by 1px #ecebe6 borders
+   - Left panel: hero metric (88px/800, #1a3c3a) with eyebrow and supporting copy
+   - Right panel(s): stacked bar chart + legend, or comparable data summary
+   - Stacked bar: height 36px, border-radius 6px, segments coloured by category
+     (coral = primary, mid-teal = secondary, light-teal = tertiary)
+
+D. CARD GRID / MAIN SECTION (flex: 1, fills remaining height)
+   - background: #e9e8e4 (warm grey)
+   - padding: 16px, gap: 16px
+   - Cards displayed as equal-width flex children
+
+E. FOOTER BAR (position: absolute, bottom 0, full width, height 30px)
+   - background: #1a3c3a
+   - padding: 0 36px, flex row, space-between
+   - Text: 10px, #7fb3af, letter-spacing 1.5px, uppercase
+   - Left: project/document name; Right: organisation name
+
+
+────────────────────────────────────────────────────────────────
+5. CARD COMPONENT
+────────────────────────────────────────────────────────────────
+
+Each card (.pi-card):
+- background: #fff, border-radius: 7px
+- padding: 16px 18px 14px
+- box-shadow: 0 2px 10px rgba(0,0,0,0.07)
+- border-top: 3px solid [accent colour] — coral for primary, mid-teal for
+  secondary, light-teal for tertiary
+- flex column layout
+
+Card anatomy (top to bottom):
+1. Card header row (space-between):
+   - Left: large label (28px/800, uppercase, coloured to match border-top accent)
+   - Right: metric value (28px/800, #1a3c3a) + micro label below (10px/600, #aaa, uppercase)
+
+2. Mini stacked bar (height 10px, border-radius 999px, gap 3px between segments)
+   - Segments: pill-shaped (border-radius 999px), same 3-colour system as top story
+
+3. Mini legend (flex row, gap 12px)
+   - Each item: 8×8px dot (border-radius 2px) + category name (11px/600, #777)
+     + value (11px/800, #1a3c3a)
+
+4. Section divider label (10px/800, #bbb, uppercase, letter-spacing 3px,
+   padding-top 14px, border-top: 1px solid #f0f0ec)
+
+5. Initiative / data rows (.pi-init-row):
+   - flex row, space-between, padding: 7px 0
+   - border-bottom: 1px solid #f5f5f2 (last row: no border)
+   - Name (11px/500, #555, truncated with ellipsis, flex:1)
+   - Inline bar: 92px wide, 8px tall, background #f0f0ec, border-radius 4px;
+     fill coloured to match card accent
+   - Value (11px/800, #1a3c3a, width 36px, right-aligned)
+   - Bar fill width = proportional to max value in the set (max = 100%)
+
+
+────────────────────────────────────────────────────────────────
+6. DATA VISUALISATION CONVENTIONS
+────────────────────────────────────────────────────────────────
+
+- Large numbers: use "k" notation rounded to one decimal (e.g. 56218 → "56.2k").
+  For very round numbers the decimal may be dropped (e.g. "246k").
+- Percentages: always integers, sum to 100% across a bar.
+- Stacked bars: widths set as inline style (style="width:XX%;").
+  Text inside a segment shows the percentage if the segment is wide enough.
+- Proportional inline bars inside cards: max group = 100%, others proportional.
+- Struck-through "old" value: font-size 42px, color #aaa, text-decoration line-through,
+  displayed inline next to the current value at 88px.
+- Category colour mapping (consistent across all charts on the slide):
+    Category A (primary)   → #FF6359 (coral)
+    Category B (secondary) → #2C8A84 (mid-teal)
+    Category C (tertiary)  → #7fb3af (light-teal)
+
+
+────────────────────────────────────────────────────────────────
+7. SPACING & SIZING RULES
+────────────────────────────────────────────────────────────────
+
+- Outer slide padding (header/content): 44px horizontal.
+- Card grid padding: 16px all sides, 16px gap between cards.
+- Card internal padding: 16px 18px 14px.
+- Divider lines: 1px solid, colour #ecebe6 (between panels) or #f0f0ec / #f5f5f2 (inside cards).
+- Vertical separators in header: 1px wide, 44px tall, rgba(255,255,255,0.15).
+- Header stat blocks: padding 0 28px each side.
+- Legend items: gap 28px between items (top story), 12px (card mini-legend).
+
+
+────────────────────────────────────────────────────────────────
+8. BOILERPLATE SHELL
+────────────────────────────────────────────────────────────────
+
+Use this shell as the starting point for any new slide in this family:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[SLIDE TITLE]</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Inter", "Segoe UI", sans-serif; }
+  html, body { overflow: hidden; width: 100vw; height: 100vh; }
+  body { background: #d0cfcb; }
+  .slide {
+    width: 1280px; height: 720px;
+    background: #fff; display: flex; flex-direction: column;
+    overflow: hidden; position: relative;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+  .slide::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 7px; background: #FF6359;
+  }
+  /* ... add component styles here ... */
+  .slide-footer {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    background: #1a3c3a; height: 30px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 36px;
+  }
+  .footer-text { font-size: 10px; color: #7fb3af; letter-spacing: 1.5px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<section>
+<div class="slide">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-text-section">
+      <div class="header-label">[EYEBROW LABEL]</div>
+      <div class="header-title">[MAIN TITLE]</div>
+      <div class="header-subtitle">[SUBTITLE]</div>
+    </div>
+    <div class="header-right">
+      <!-- optional stat blocks -->
+      <div class="header-logo">Netcompany</div>
+    </div>
+  </div>
+
+  <!-- CONTENT ZONES -->
+  <!-- ... -->
+
+  <!-- FOOTER -->
+  <div class="slide-footer">
+    <span class="footer-text">[Document Name]</span>
+    <span class="footer-text">Netcompany</span>
+  </div>
+
+</div>
+</section>
+<script>
+  (function () {
+    var slide = document.querySelector('.slide');
+    var PAD = 20;
+    function scaleSlide() {
+      var s = Math.min((window.innerWidth - PAD * 2) / 1280, (window.innerHeight - PAD * 2) / 720);
+      var x = (window.innerWidth  - 1280 * s) / 2;
+      var y = PAD;
+      slide.style.cssText = 'position:fixed;top:0;left:0;transform-origin:top left;transform:translate('+x+'px,'+y+'px) scale('+s+')';
+    }
+    scaleSlide();
+    window.addEventListener('resize', scaleSlide);
+  })();
+</script>
+</body>
+</html>
+
+
+────────────────────────────────────────────────────────────────
+9. DO / DON'T CHECKLIST
+────────────────────────────────────────────────────────────────
+
+DO:
+  ✓ Keep the fixed 1280×720 canvas with JS scaling.
+  ✓ Always include the 7px coral top accent bar via ::before.
+  ✓ Use #1a3c3a for the header and footer bars.
+  ✓ Use #FF6359 as the sole primary accent (coral) for highlights and labels.
+  ✓ Use Inter at the weights specified (300/400/500/600/700/800).
+  ✓ Use negative letter-spacing on large numbers (−1px to −4px).
+  ✓ Use "k" notation for large numbers.
+  ✓ Maintain the 3-colour category system consistently within a slide.
+  ✓ Keep card border-top 3px coloured to match the card's data series.
+  ✓ Use pill-shaped (border-radius 999px) mini bars inside cards.
+  ✓ Keep the footer pinned absolutely to the bottom with #1a3c3a background.
+  ✓ Use the warm grey (#e9e8e4) as the background of the card grid section.
+  ✓ Separate panels with 1px #ecebe6 borders (not shadows).
+
+DON'T:
+  ✗ Use pure black or any colour outside the defined palette.
+  ✗ Use any font other than Inter / Segoe UI.
+  ✗ Make the slide scrollable — all content must fit within 720px height.
+  ✗ Add drop shadows to text.
+  ✗ Use border-radius larger than 7px on cards or 6px on full-width bars.
+  ✗ Mix different accent colours arbitrarily — follow the category mapping.
+  ✗ Use bold borders or outlines on cards (only the 3px top accent border).
+  ✗ Add gradients — all backgrounds are flat solid colours.
+  ✗ Change the footer or header height without adjusting the rest of the layout.

@@ -1,0 +1,52 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (3 rows)
+Issue Type: Feature | IRM: IRM-16272 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: PIT | Roadmap Feature: PIT - File Original Personal Income Tax Return from Self Service – User | Requester: Other | PI: PI29 | Estimate: 14 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: As a self service user, I want to file an original personal income tax return for a specific filing period, so that I can meet my obligation to file a personal income tax return with correct data and on time as stipulated in the tax law.
+
+*Introduction*
+
+Personal income tax return that will be presented on the self service will have the same form sections and form fields as the example personal income tax return that has been described in IRM-14601.
+
+Assumption is that the following self service requirements related to personal income tax are already supported:
+ * User can login to the self service portal to deal with the tax matters for a specific party in a specific to which this user has been granted access
+ * User can see what filing obligations exist for this party in a specific role for personal income tax and see the status of each of these obligations
+ * User can see the personal income tax assessment for a specific filing / payment obligation
+ * User can see what payment obligations exist for personal income tax assessments for which this specific party in a specific role is liable
+ * User can see what payment obligations exist for any additional charges that have been levied towards a personal tax assessment (e.g. late payment interest) and for which this party in a specific role is considered liable
+ * User can pay a liability that exists for a personal income tax assessment and any related charges for this party in a specific role
+ * User can see the balance for personal income tax for this party in a specific role
+
+Following self service requirements related to the personal income tax have not been implemented yet and are not in scope of this feature.
+ * User can see that income that was paid by employers to this party in a specific role, and that the taxes and social contributions that were already deducted by these employers, are prefilled in the income form section of a pending personal income tax return
+ * User can save a draft of a pending personal income tax return, and can open and complete a draft personal income tax return at a later point in time
+ * User can see a notification that the personal income tax has been assessed for the filing period for which the personal income tax return was submitted
+
+*Functional Requirements*
+ * User can create a pending original personal income tax return for a filing period for which no original personal income tax has been submitted yet. User can see the form sections for taxpayer details, bank account details, income details, details on deductions, cost of living details, final tax assessment and attachments, and the related form fields as described in IRM-14601. Any meta data related to a personal income tax return (e.g. form source, related risk observations and related bill segments) should not be shown on the self service.
+ * User can see that the taxpayer details and bank account details are prefilled in a pending personal income tax return
+ * User can fill in the necessary details in the bank account details, income details, details on deductions, cost of living details, final tax assessment and attachments form sections
+ * User can submit the personal income tax return once completed
+ * User can see if there are any validation exceptions that prevent the pending personal income tax return from being submitted. User can navigate from a validation exception to the related form section and form field(s) to resolve any issues.
+ * User can open a submitted personal income tax return to see what data was included in that return
+Issue Type: Feature | IRM: IRM-16273 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: PIT | Roadmap Feature: PIT - Amend Original Personal Income Tax Return from Self Service – User | Requester: Other | PI: PI29 | Estimate: 14 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: As a self service user, I want to amend an already submitted original personal income tax return, so that changes in my income or deductions are reflected in the adjusted personal income tax return.
+
+*Introduction*
+
+This feature is related to IRM-16272 in which requirements have been documented to enable a self service user to file an original personal income tax return for a specific filing period.
+
+Amended personal income tax return that will be presented on the self service will have the same form sections and form fields as the example personal income tax return that has been described in IRM-14601.
+
+This feature is related to IRM-1973 in which requirements have been documented to record adjustments to the data in an input form that was already posted and post any differences that result from these adjustments.
+
+*Functional Requirements*
+ * User can amend an original personal income tax return that was submitted and processed. User can only amend the personal income tax return for the current filing period or for the two prior filing periods. And a user can amend an original personal income tax return more than once. User cannot amend an original personal income tax return if the original personal income tax return has not been submitted or processed yet. If an original income tax return was already amended, then the user can only amend the income tax return again if the previously amended return has also been submitted and processed.
+ * User can see that the pending amended personal income tax return is prefilled with data from the submitted and processed original personal income tax return or from the latest submitted and processed personal income tax return that amended this original personal income tax return.
+ * User can update the necessary details in the bank account details, income details, details on deductions, cost of living details, final tax assessment and attachments form sections of the pending amended personal income tax return
+ * User can submit the pending amended personal income tax return once completed
+ * User can see if there are any validation exceptions that prevent the pending amended personal income tax return from being submitted. User can navigate from a validation exception to the related form section and form field(s) to resolve any issues.
+ * User can see what amendments have been submitted when for a specific original personal income tax return
+ * User can open a submitted amended personal income tax return to see what data was included in that return
+ * Any updates to the personal income tax return input form, form rules and process that have been implemented in the Revenue Management application (see IRM-14601), that are required to support amended tax returns are also in scope of this feature. When processing an amended original personal income tax return in the Revenue Management application, the difference between the personal income tax assessment in this return and the assessment of the original personal income tax return or the latest submitted and processed personal income tax return that amended this original personal income tax return should be posted.
+Issue Type: Feature | IRM: IRM-19256 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: PIT | Roadmap Feature: PIT -  Support saving a declaration form in ISS where calculated tax is displayed prior submitting  | Requester: GRC | PI: PI29 | Estimate: 7.699999999999999 | Feature Priority: p1 | Feature Status: Ready for Dev | Features Description: As a taxpayer I want to be able to see calculated tax in a declaration form (ie VAT) in taxpayers' portal prior submitting and save this as a draft form, so as to be able to meet requirements for Greek demo.
+
+*Functional Requirement*
+
+> User can see in  ISS a tax declaration form ie VAT total tax amount calculated prior submitting the form, save form as a draft and then open to submit. 

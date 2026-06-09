@@ -1,0 +1,37 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (1 rows)
+Issue Type: Feature | IRM: IRM-30334 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: PAYE | Roadmap Feature: PIT  &  Pay as you earn | Requester: GRC | PI: PI29 | Estimate: 42 | Feature Priority: p3 | Feature Status: To Do | Features Description:  
+
+*A)  PIT  form (RM, ISS)*  prerequisites :  
+ * 
+ ** [https://jira.intrasoft-intl.com/browse/IRM-16272]
+ ** [https://jira.intrasoft-intl.com/browse/IRM-16273]
+ ** [https://jira.intrasoft-intl.com/browse/IRM-15337]
+ ** [https://jira.intrasoft-intl.com/browse/IRM-19256]
+
+*B) Pay as you earn logic* 
+Reference Implementations including forms, calculations, demo data + possibly new entities (also included in registration new entities)
+ * 
+ ** for 3rd parties / employer 
+ *** 
+ **** Create a new Form (or another solution )  for Tax Employee Services  (in GR one amount for all employees not drill down) /  Form for Yearly Payroll statement per employee (could be a log to each taxpayer with some details) to get the  amounts for the taxpayer  (withholding form) 
+ **** Demo data RT calendar and RT (preliminary and monthly collection) 
+ **** Calculations for estimations /Preliminary  tax assessments
+ **** Payments per RTR 
+ **** Prepare the functionality to get  Amendments based on new calculations
+ **** Payments reconciliation (what we have already) 
+ ** Taxpayer
+ *** 
+ **** Capture the data per taxpayer (possibly new entity)
+ **** Load taxes info in the PIT form for each taxpayer (Batch)
+ **** Notifications for Amendments postdated updates-  if there has been a retrospective change in the data and parameters that affect the tax calculation (implemented as example in Municipality tax)
+
+ - 
+ ** 
+ *** 
+ ---- SS :  Preliminary assessment  notice for Taxpayer
+ ---- SS :  Prefilled PIT form  (see above) 
+ ---- SS : Taxpayer Objection to PIT
+
+*C) Monthly and yearly Processing*
+ - Perform a comprehensive processing of all parties/party roles once a month (monthly reconciliation) including complex calculation areas (e.g.  p&I,  calculate balances, etc).
+ - Perform comprehensive reconciliations in scheduled times for all taxpayers in the tax year at the time of the final tax assessment for several taxes.

@@ -1,0 +1,61 @@
+{
+  "exportId": "28-ref-2",
+  "exportNumber": 2,
+  "exportName": "28-ref",
+  "createdAt": "2026-05-05T22:18:22.577Z",
+  "source": {
+    "roundId": "c1cabf98-73da-4381-9062-be345029a21f",
+    "outputFile": "output-c1cabf98-73da-4381-9062-be345029a21f.html"
+  },
+  "content": {
+    "slideCount": 5,
+    "totalSize": 268585,
+    "slides": [
+      {
+        "index": 1,
+        "file": "application-processes.html",
+        "size": 53187,
+        "title": "APPLICATION PROCESSES",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "pit.html",
+        "size": 52522,
+        "title": "PIT",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "self-service-account-overview.html",
+        "size": 53182,
+        "title": "SELF SERVICE ACCOUNT OVERVIEW",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "self-service-filing-payments.html",
+        "size": 57429,
+        "title": "SELF SERVICE FILING & PAYMENTS",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "vat.html",
+        "size": 52265,
+        "title": "VAT",
+        "slideId": "slide-5",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-28-initiatives",
+    "templateFile": ""
+  }
+}

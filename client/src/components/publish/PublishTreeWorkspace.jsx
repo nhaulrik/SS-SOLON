@@ -135,6 +135,8 @@ function TreeNode({
   dragOverId,
   dragOverZone,
   isDragging,
+  selectedNodeIds,
+  anySelected,
   onToggleExpand,
   onStartEditNode,
   onFinishEditNode,
@@ -146,6 +148,7 @@ function TreeNode({
   onDragEnd,
   onNodeDragOver,
   onDrop,
+  onToggleSelect,
   setEditingNodeId,
 }) {
   const nodeId = node.slideRefId || node.id
@@ -155,6 +158,7 @@ function TreeNode({
   const isExpanded = expandedIds.has(nodeId)
   const isDragTarget = dragOverId === nodeId
   const isEditingTitle = editingNodeId === nodeId
+  const isSelected = selectedNodeIds.has(nodeId)
   const levelLabel = (levelNames || [])[depth]
 
   // Find index in flat list to know if there's a node above
@@ -173,11 +177,25 @@ function TreeNode({
     <div className={styles.treeNode} role="treeitem" aria-expanded={hasChildren ? isExpanded : undefined}>
       {/* Node row — single drag target, zone computed from cursor Y */}
       <div
-        className={`${styles.nodeRow} ${dropClass}`}
+        className={`${styles.nodeRow} ${dropClass} ${isSelected ? styles.nodeRowSelected : ''}`}
         style={{ paddingLeft: `${16 + depth * 28}px` }}
         onDragOver={e => onNodeDragOver(e, nodeId)}
         onDrop={e => onDrop(e, nodeId)}
       >
+        {/* Select checkbox */}
+        <label
+          className={`${styles.selectCheckboxLabel} ${anySelected ? styles.selectCheckboxVisible : ''}`}
+          title="Select"
+          onClick={e => e.stopPropagation()}
+        >
+          <input
+            type="checkbox"
+            className={styles.selectCheckbox}
+            checked={isSelected}
+            onChange={() => onToggleSelect(nodeId)}
+          />
+        </label>
+
         {/* Drag handle */}
         <span
           className={styles.dragHandle}
@@ -289,6 +307,8 @@ function TreeNode({
               dragOverId={dragOverId}
               dragOverZone={dragOverZone}
               isDragging={isDragging}
+              selectedNodeIds={selectedNodeIds}
+              anySelected={anySelected}
               onToggleExpand={onToggleExpand}
               onStartEditNode={onStartEditNode}
               onFinishEditNode={onFinishEditNode}
@@ -300,6 +320,7 @@ function TreeNode({
               onDragEnd={onDragEnd}
               onNodeDragOver={onNodeDragOver}
               onDrop={onDrop}
+              onToggleSelect={onToggleSelect}
               setEditingNodeId={setEditingNodeId}
             />
           ))}
@@ -322,6 +343,7 @@ export default function PublishTreeWorkspace({
   onAddSection,
 }) {
   const [expandedIds, setExpandedIds] = useState(new Set())
+  const [selectedNodeIds, setSelectedNodeIds] = useState(new Set())
   const [editingNodeId, setEditingNodeId] = useState(null)
   const [editingNodeValue, setEditingNodeValue] = useState('')
   const [editingLevelDepth, setEditingLevelDepth] = useState(null)
@@ -399,9 +421,29 @@ export default function PublishTreeWorkspace({
     })
   }, [])
 
+  // ── Select ───────────────────────────────────────────────────────────────
+
+  const handleToggleSelect = useCallback((nodeId) => {
+    setSelectedNodeIds(prev => {
+      const next = new Set(prev)
+      next.has(nodeId) ? next.delete(nodeId) : next.add(nodeId)
+      return next
+    })
+  }, [])
+
+  const handleBulkDelete = useCallback(() => {
+    let newTree = tree
+    for (const id of selectedNodeIds) {
+      newTree = removeFromTree(newTree, id)
+    }
+    onChange(slides, newTree)
+    setSelectedNodeIds(new Set())
+  }, [tree, slides, onChange, selectedNodeIds])
+
   // ── Remove ───────────────────────────────────────────────────────────────
 
   const handleRemove = useCallback((slideRefId) => {
+    setSelectedNodeIds(prev => { const n = new Set(prev); n.delete(slideRefId); return n })
     onChange(slides, removeFromTree(tree, slideRefId))
   }, [tree, slides, onChange])
 
@@ -633,6 +675,8 @@ export default function PublishTreeWorkspace({
 
   // ── Render ───────────────────────────────────────────────────────────────
 
+  const anySelected = selectedNodeIds.size > 0
+
   return (
     <div className={styles.workspace}>
       <div className={styles.header}>
@@ -692,6 +736,29 @@ export default function PublishTreeWorkspace({
         </div>
       )}
 
+      {/* Bulk action bar */}
+      {anySelected && (
+        <div className={styles.bulkBar}>
+          <span className={styles.bulkCount}>
+            {selectedNodeIds.size} node{selectedNodeIds.size !== 1 ? 's' : ''} selected
+          </span>
+          <div className={styles.bulkActions}>
+            <button
+              className={styles.bulkClearBtn}
+              onClick={() => setSelectedNodeIds(new Set())}
+            >
+              Clear
+            </button>
+            <button
+              className={styles.bulkDeleteBtn}
+              onClick={handleBulkDelete}
+            >
+              Delete selected
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Tree workspace */}
       <div
         ref={workspaceRef}
@@ -730,6 +797,8 @@ export default function PublishTreeWorkspace({
                     dragOverId={dragOverId}
                     dragOverZone={dragOverZone}
                     isDragging={isDragging}
+                    selectedNodeIds={selectedNodeIds}
+                    anySelected={selectedNodeIds.size > 0}
                     onToggleExpand={toggleExpanded}
                     onStartEditNode={startEditingNode}
                     onFinishEditNode={finishEditingNode}
@@ -741,6 +810,7 @@ export default function PublishTreeWorkspace({
                     onDragEnd={handleDragEnd}
                     onNodeDragOver={handleNodeDragOver}
                     onDrop={handleDrop}
+                    onToggleSelect={handleToggleSelect}
                     setEditingNodeId={setEditingNodeId}
                   />
                 ))}

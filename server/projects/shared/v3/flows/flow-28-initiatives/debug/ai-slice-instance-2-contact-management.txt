@@ -1,0 +1,162 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (5 rows)
+Issue Type: Feature | IRM: IRM-26949 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Assign Unique Number to Incoming and Outgoing Documents | Requester: GRC | PI: PI28 | Estimate: 709.1 | Feature Priority: p1 | Feature Status: HLD | Features Description:  As an admin I can define a rule to generate reference ID in a relevant field for incoming and outgoing documents in the system in order to comply with legal requirements part that refers to the Identification of the document. 
+
+ 
+
+*Introduction* **
+
+Using functionality as defined by the solution of [https://jira.intrasoft-intl.com/browse/IRM-435]    **    ,  we may define the Document using a specific format. 
+
+ 
+
+*Functional Requirements*
+ * Configurator, should be able to define the name of the file to be visible
+ ** Option A : Configurator generated a file name according their needs, when generating a document (e.g. Operational report or export of form as in related psd). 
+ ** Option B : If product may not allow configurators to define the file name themselves then  a "Alternative Name" filed is available for documents incoming or outgoing,
+ *** 
+ **** Field  can be visible in relevant pages/related lists
+ **** Field in visible in Attachments related section next to file Name column
+ **** I can search documents by this field. 
+ **** The field in logged in audit log.
+ **** Customers may define the  "Alternative Name", that  will construct and  
+ (relevant IRM-435 ) 
+ ** Special care on performance and error handling of the generation should be taken into consideration. 
+
+ * -Example / Base rule to format the Reference ID  :  **-  
+  -a) Primary related entity type from which was generated, description  (e.g. Form)-
+  -b)-  {-}Seperator "{-}"-
+ -c) Related party role primary Identifier-
+ -d)- {-}Seperator "{-}"-
+  -e)  YYYTMMDDHH (Year 4 digits + Month 3 digits+ Day 2 digits + HH+MM+SS)-
+  {-}d)  Seperator "{-}"- 
+  -e) String that will be "IN" for Inbound documents,  "OUT" for Outbound documents, "SYS" for System generated documents-
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+Performance , Security, Accessibility, Usability 
+
+DODs should be fulfilled. 
+
+ 
+
+ 
+
+ 
+
+ 
+----
+-More details on Legal requirements for Documents :- 
+ -LT:- 
+|-Every document, whether incoming or system-generated (e.g. forms, letters), must receive a unique registration number.-
+-Forms are documents, so forms submitted by users must also have metadata as below:.-|
+||-Field-||-Description-||
+|-*Document Name*-|-Human-readable title-|
+|-*Creator / Author*-|-User or system module creating the document-|
+|-*Sender / Receiver*-| * -For sent docs: add recipient.-
+ * -For received docs: record sender, their reg. number, original date/title.-|
+|-*Date*-|-Created and registered timestamps, YYYY-MM-DD-|
+|-*Registration Number*-|-MAP automatically assigns a unique document registration number with a prefix and yearly resetting counter (e.g., 2025-IN-0001, 2025-OUT-0002).-|
+|-*Original Document Ref.*-|-Links to the original document (e.g. response to request)-|
+
+-Depending on the document type{*},{*} additional metadata fields may be required (e.g., contact email, case ID, type of correspondence).|-
+Issue Type: Feature | IRM: IRM-790 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Send Outbound Message Automatically to Multiple Recipients - Admin | Requester: GRC | PI: PI28 | Estimate: 38.4 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to automatically send a copy of a specific outbound message (e.g. letter, email or text message) to different types of recipients (e.g. taxpayer and tax agent), so that the information in the outbound message can be exchanged with all relevant parties.
+
+*Introduction*
+
+This feature extends IRM-786 and IRM-789 where requirements have been documented to send an outbound letter and outbound email / text messages automatically to a single party.
+
+*Functional Requirements*
+
+Admin can enter literal values and/or reference values that will be known at run-time for input parameters that admin has defined for this type of contact and that can be used to automatically select the type of recipients that need to be considered for this type of outbound message, and automatically select a recipient for each type of recipient (based on rules defined by admin). These values can be defined on a 'establish and/or record contact' task within a specific type of business process (see IRM-785).
+
+When executing the 'establish and/or record contact' task on an instance of this type of business process, the system will automatically generate all outbound messages, store these messages, finalize the messages, select a communication channel for each recipient and send the finalized outbound messages via the selected communication channels (e.g. print letter or send email).
+Issue Type: Feature | IRM: IRM-775 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Define and Maintain Contact Types - Select Recipients - Admin | Requester: GRC | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to define and maintain rules to determine what recipient(s) need to receive a copy of a certain type of outbound message (e.g. certain type of letter, email or SMS), so that duplicate messages can be send to all parties that need to be informed.
+
+*Introduction*
+
+This feature extends IRM-772 in which requirements have been documented to define and maintain different types of contacts.
+
+Recipients will receive the same information or almost the same information. For example, one letter could contain text to explain that this letter is a copy of the letter that has been sent to the taxpayer representative.
+Relevant to https://jira.intrasoft-intl.com/browse/IRM-774 
+
+*Functional Requirements*
+ * Admin can define rules to determine what types of recipients must receive a copy of a specific type of outbound message under certain circumstances. For example, if a certain type of letter is sent to the recipient type 'taxpayer' then a copy of this letter may have to be sent to the recipient type 'tax agent' and/or recipient type 'spouse'.
+ * Admin can define rules to determine the recipient for each type of recipient that will receive a copy of the message. For example, find the 'tax agent' that is representing a 'taxpayer' for a specific type of tax. Input parameters defined on the contact type can be used to select the recipients. Values for these input parameters can be provided at design time (literal values) or can be provided at run-time.
+Issue Type: Feature | IRM: IRM-774 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Define and Maintain Different Types of Recipients - Admin | Requester: GRC | PI: PI28 | Estimate: 14 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to define and maintain different types of recipients for outbound messages, so that it can be indicated to what type of recipients a specific message (e.g. letter or email) must be send.
+
+*Functional Requirements*
+ * Admin can define a new type of recipient. Examples of properties of a recipient are a code and a description.
+ * Admin can search a type of recipient
+ * Admin can update a type of recipient
+ * Admin can delete a type of recipient provided there are no referential constraints
+Issue Type: Feature | IRM: IRM-766 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Send Outbound Message Manually to Multiple Recipients - User | Requester: GRC | PI: PI28 | Estimate: 79.2 | Feature Priority: p1 | Feature Status: Waiting Analysis Approval | Features Description: As a revenue official, I want to send a copy/version of a specific outbound message (e.g. letter, email or text message) to different types of recipients (e.g. taxpayer and tax agent), so that the information in the outbound message can be exchanged with all relevant parties.
+
+*Introduction*
+
+This feature extends IRM-762 and IRM-765 where requirements have been documented to send an outbound letter and outbound email / text message manually to a single party.
+Admin feature to support this is the IRM-26951 
+
+*Functional Requirements*
+ * *Select recipients*
+ ** User can select to send a contact to multiple recipients instead of one party role if contact type allows this usage. Option appears to the user to load a list. 
+ *** Optionally select to upload a file with party role IDs.  The party roles appears in a list. 
+ *** Optionally may add recipients manually selecting them and adding in the list. 
+ *** Optionally may select one recipient from the list and click to remove it.
+ *** The contact is send using one record of contact as per the channel selected. -The preferred contact is selected if applicable.-
+-(Note: it is better to use systems contact details to avoid improper usage of persons emails)-  
+ ** -User will create the parent contact as per contact type.-
+ *** -It is expected system , per recipient to generate/send a new contact  - as a child contact to parent contact created.-  
+ *** -The child contacts should be visible under the parent contact-
+ ** User will select one channel. 
+ * *Generation and results*
+ ** User can generate the outbound messages/emails for the recipients selected.
+ ** Different types of recipients may receive different outbound message content. (Based on [https://jira.intrasoft-intl.com/browse/IRM-774] ) Admin need to define the contact template per recipient.  
+Examples: 
+One outbound message could contain text to explain that this outbound message is a copy of the outbound message that has been sent to another type of recipient.
+Address requested in contact template as well as balance is adjusted as per party selected. 
+Generation requirements as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients. (to be moved to a new feature).
+ ** User can regenerate the outbound messages. Regeneration requirements as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients.
+ ** User can finalize the generated outbound messages.
+ ** User can send the finalized outbound messages via the selected communication channel. Send requirements as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients.
+ ** User can store the outbound messages. Storage requirements as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients.
+ ** User can see the results of the emailing/sms if integration allows so (as per  IRM-27816 ) 
+ ** Solution should be applicable to [https://jira.intrasoft-intl.com/browse/IRM-28177] 
+ * *Exceptions*
+ ** Errors/exceptions appears if one of the recipients have incorrect/missing contact details for the selected channel and none of the batch  is sent. 
+"Mass contact generation failed" 
+"Mass contact send failed" 
+Note: it is expected is user does not have access as per row level security to the party role, cannot select party role in the list described above.
+ ** Errors/exceptions appears if any of the contacts cannot generate proper content - parameters are missing. 
+ * *History*
+ ** All Actions and list of sent contacts should be logged in audit trail
+ * *Admin leftovers*
+ ** Make visible admin items implemented in [https://jira.intrasoft-intl.com/browse/IRM-26951]  
+
+ 
+----
+Notes: 
+
+ 
+
+A)
+
+By an end customer an idea of how to work with files is: 
+
+!image-2025-09-15-20-42-40-437.png!
+
+B) 
+
+Requirements for a next version of this functionality : 
+ * -{color:#c1c7d0}User can see what type of recipients are considered for this type of outbound message (based on rules defined by admin){color}-
+ * -{color:#c1c7d0}User can see what recipients have automatically been selected for each type of recipient that is considered for this type of outbound message (based on rules defined by admin). Values entered by the user for input parameters that provide the context in which the outbound message is created (as described in IRM-762 and IRM-765), are used as input to select the correct recipients.{color}-
+ * -{color:#c1c7d0}User can override what type of recipients must be considered for this outbound message{color}-
+ * -{color:#c1c7d0}User can override the selection of recipients for each type of recipient{color}-
+ * {color:#c1c7d0}-User can see and override the preferred communication channel for each recipient. Requirements to select communication channels as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients.-{color}
+ * User can send the finalized outbound messages via the selected communication channel{-}{color:#c1c7d0}s{color}{-}. Send requirements as documented in IRM-762 and IRM-765 also apply when sending outbound messages to multiple recipients.
+ *  

@@ -309,6 +309,16 @@
   color: #60a5fa;
 }
 
+.filterChipValues {
+  font-size: 11px;
+  color: #71717a;
+  margin-left: 4px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .filterChipRemoveBtn {
   flex-shrink: 0;
   width: 16px;
@@ -728,6 +738,54 @@
   color: #60a5fa;
   font-size: 11px;
   letter-spacing: 0.02em;
+}
+
+.groupingValuesList {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 0 0 14px 0;
+}
+
+.groupingValueChip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #cbd5e1;
+  line-height: 1.5;
+  padding: 2px 0;
+}
+
+
+.groupingValueName {
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.groupingValueName:hover {
+  color: #e2e8f0;
+}
+
+.groupingValueFileBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  background: rgba(96, 165, 250, 0.06);
+  color: #7da8e8;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.groupingValueFileBtn:hover {
+  background: rgba(96, 165, 250, 0.18);
+  border-color: rgba(96, 165, 250, 0.5);
+  color: #93c5fd;
 }
 
 .confirmActions {

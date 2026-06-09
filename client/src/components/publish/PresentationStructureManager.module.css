@@ -253,9 +253,9 @@
 }
 
 .leftPanel {
-  width: 300px;
-  min-width: 260px;
-  max-width: 340px;
+  width: 345px;
+  min-width: 300px;
+  max-width: 390px;
   display: flex;
   flex-direction: column;
   border-right: 1px solid var(--border-default, #234A40);
