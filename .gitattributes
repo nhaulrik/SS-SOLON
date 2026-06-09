@@ -1,0 +1,9 @@
+# Protect SOLON-specific files from upstream deletions
+server/templates/slice-output/         merge=ours
+templates/2026 Overview/               merge=ours
+templates/Initiative Group/            merge=ours
+templates/Initiative/                  merge=ours
+templates/archive/                     merge=ours
+templates/combined/                    merge=ours
+templates/frontpage/                   merge=ours
+templates/publish/                     merge=ours
