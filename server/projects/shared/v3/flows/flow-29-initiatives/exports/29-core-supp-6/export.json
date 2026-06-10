@@ -1,0 +1,85 @@
+{
+  "exportId": "29-core-supp-6",
+  "exportNumber": 6,
+  "exportName": "29-core-supp",
+  "createdAt": "2026-05-05T22:35:06.832Z",
+  "source": {
+    "roundId": "e5715bcf-aeb1-4439-b6d3-a5f11ab9b86e",
+    "outputFile": "output-e5715bcf-aeb1-4439-b6d3-a5f11ab9b86e.html"
+  },
+  "content": {
+    "slideCount": 8,
+    "totalSize": 883942,
+    "slides": [
+      {
+        "index": 2,
+        "file": "case-management.html",
+        "size": 110609,
+        "title": "CASE MANAGEMENT",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "contact-management.html",
+        "size": 111371,
+        "title": "CONTACT MANAGEMENT",
+        "slideId": "slide-5",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "document-management-integration.html",
+        "size": 112770,
+        "title": "DOCUMENT MANAGEMENT INTEGRATION",
+        "slideId": "slide-7",
+        "type": "content"
+      },
+      {
+        "index": 6,
+        "file": "operational-reporting.html",
+        "size": 108759,
+        "title": "OPERATIONAL REPORTING",
+        "slideId": "slide-8",
+        "type": "content"
+      },
+      {
+        "index": 7,
+        "file": "reference-data.html",
+        "size": 110152,
+        "title": "REFERENCE DATA",
+        "slideId": "slide-11",
+        "type": "content"
+      },
+      {
+        "index": 8,
+        "file": "ui-configuration.html",
+        "size": 109711,
+        "title": "UI CONFIGURATION",
+        "slideId": "slide-14",
+        "type": "content"
+      },
+      {
+        "index": 11,
+        "file": "slide-11.html",
+        "size": 110572,
+        "title": "Slide 11",
+        "slideId": "slide-11",
+        "type": "content"
+      },
+      {
+        "index": 14,
+        "file": "slide-14.html",
+        "size": 109998,
+        "title": "Slide 14",
+        "slideId": "slide-14",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-29-initiatives",
+    "templateFile": ""
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "exportId": "c30-ref-4",
+  "exportNumber": 4,
+  "exportName": "c30-ref",
+  "createdAt": "2026-05-05T22:51:06.650Z",
+  "source": {
+    "roundId": "10723953-3dd3-4197-b00c-1b68b6de14c1",
+    "outputFile": "output-10723953-3dd3-4197-b00c-1b68b6de14c1.html"
+  },
+  "content": {
+    "slideCount": 3,
+    "totalSize": 118285,
+    "slides": [
+      {
+        "index": 1,
+        "file": "cit.html",
+        "size": 39240,
+        "title": "CIT",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "paye.html",
+        "size": 39398,
+        "title": "PAYE",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "pit.html",
+        "size": 39647,
+        "title": "PIT",
+        "slideId": "slide-3",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-30-initiatives",
+    "templateFile": ""
+  }
+}

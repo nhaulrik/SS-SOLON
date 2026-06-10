@@ -1,0 +1,36 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (3 rows)
+Issue Type: Feature | IRM: IRM-18729 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Import Code Lists - Admin | Requester: GRC | PI: PI29 | Estimate: 392 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to import information for one or more code lists, so that this information can be used to add or update these code lists and their related code list items.
+
+*Functional Requirements*
+ * Admin can select a file that contains structured information (e.g. in XML format) on one or more code lists and their related code list items. The file structure will be available in the Solon documentation. 
+ * Admin can upload the information from the selected file. 
+Assumption is that admin can by uploading the file add new code lists and their related code list items, add a new code list item to an existing code list, and add or update new data pertaining an existing code list or code list item except for any data that uniquely identifies this code list or code list item. 
+Assumption that admin cannot by uploading the file delete any code lists or code list items.
+ * Admin can see that the information from the selected file was used to add or update the code lists and their related code list items for which information was included in the selected file.
+ * UI: Admin may access controls to upload an codelist with codelist items  with attributes and relationships.
+ * Exceptions will be thrown if upload cannot be successfully completed with error descriptions. 
+(non available related item, non available attribute, wrong expiration dates) 
+Issue Type: Feature | IRM: IRM-18730 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Export Code List | Requester: GRC | PI: PI29 | Estimate: 392 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin or user with proper permissions, I want to export the information of a specific code list and its related code list items, so that this information can be edited or used in another tool.
+
+*Functional Requirements*
+ * Admin can choose to download the information of a specific code list and its related code list items in a structured format (e.g. using XML, csv, xls) , in selected language. 
+Will contain information with codes and descriptions (where applicable) for  : 
+ ** Codelist  , related categories and attributes
+ ** Codelist Items  with columns
+a) Code,  b) Description, c) Order,   d)Attributes and attribute values, 
+e) Related codelist items in category cross (with codelist-s related info) (codelist code, description , codelist item code description) , 
+f)   related codelist items within codelist 
+ * Admin can provide a name for the file in which the information must be stored and can indicate in what folder this file should be saved
+ * Admin can see that a file with the information for that specific code list and its related code list items was created after the download was completed.
+ * UI: User may see controls to export codelist in common codelist UI page. and in codelists list view.
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+Performance , Security, Accessibility, Usability  DODs should be fulfilled. 
+Issue Type: Feature | IRM: IRM-36279 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Addition of validitiy period on relationships between codelist items | Requester: Other | PI: PI29 | Estimate: 80 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: Codelist item relationship need to be enhanced and include date range for which the relationship applies.
