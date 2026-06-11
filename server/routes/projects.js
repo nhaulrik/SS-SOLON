@@ -198,4 +198,49 @@ router.delete('/:projectName/flows/:flowId', (req, res) => {
   }
 });
 
+// ── GET /api/projects/:projectName/config ─────────────────────────────────────
+
+router.get('/:projectName/config', (req, res) => {
+  try {
+    const projectDir = resolveProjectDir(req.params.projectName);
+    if (!projectDir) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    const configPath = path.join(projectDir, 'config.json');
+    let config = {};
+    if (fs.existsSync(configPath)) {
+      const configData = fs.readFileSync(configPath, 'utf8');
+      config = JSON.parse(configData);
+    }
+    res.json({ config });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── PUT /api/projects/:projectName/config ──────────────────────────────────────
+
+router.put('/:projectName/config', (req, res) => {
+  try {
+    const projectDir = resolveProjectDir(req.params.projectName);
+    if (!projectDir) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    if (typeof req.body !== 'object' || req.body === null || Array.isArray(req.body)) {
+      return res.status(400).json({ error: 'Request body must be a plain object' });
+    }
+    const configPath = path.join(projectDir, 'config.json');
+    let config = {};
+    if (fs.existsSync(configPath)) {
+      const configData = fs.readFileSync(configPath, 'utf8');
+      config = JSON.parse(configData);
+    }
+    config = { ...config, ...req.body };
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+    res.json({ config });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 export default router;

@@ -1,0 +1,58 @@
+/* Theme overrides applied via [data-theme] attribute on <html> */
+
+:root[data-theme="default"] {
+  --bg-primary: #061210;
+  --bg-secondary: #0A1F1B;
+  --bg-tertiary: #0F2B26;
+  --bg-elevated: #142F29;
+  --accent-primary: #4CAF80;
+  --accent-secondary: #73AA87;
+  --accent-muted: #2D5A45;
+  --text-primary: #E8F5EF;
+  --text-secondary: #A8C5B8;
+  --text-muted: #5E7B6D;
+  --border-subtle: #1A3530;
+  --border-default: #234A40;
+  --border-strong: #2E5A4D;
+  --shadow-glow: 0 0 24px rgba(76, 175, 128, 0.2);
+  --shadow-glow-accent: 0 0 20px rgba(76, 175, 128, 0.3);
+  --bg-canvas: oklch(8% 0.015 160);
+}
+
+:root[data-theme="blue"] {
+  --bg-primary: #060C14;
+  --bg-secondary: #0A1828;
+  --bg-tertiary: #0F2040;
+  --bg-elevated: #142850;
+  --accent-primary: #4C9FE0;
+  --accent-secondary: #73B8F0;
+  --accent-muted: #1A4A7A;
+  --text-primary: #E8F2FF;
+  --text-secondary: #A8C4E0;
+  --text-muted: #5E7B9A;
+  --border-subtle: #1A2D45;
+  --border-default: #234060;
+  --border-strong: #2E5080;
+  --shadow-glow: 0 0 24px rgba(76, 159, 224, 0.2);
+  --shadow-glow-accent: 0 0 20px rgba(76, 159, 224, 0.3);
+  --bg-canvas: oklch(8% 0.015 240);
+}
+
+:root[data-theme="yellow"] {
+  --bg-primary: #0F0900;
+  --bg-secondary: #1C1200;
+  --bg-tertiary: #2A1800;
+  --bg-elevated: #3D2200;
+  --accent-primary: #FFB300;
+  --accent-secondary: #FBBF24;
+  --accent-muted: #7A5500;
+  --text-primary: #FFF8E8;
+  --text-secondary: #D4B896;
+  --text-muted: #8A6B4A;
+  --border-subtle: #2E1A00;
+  --border-default: #4A2D00;
+  --border-strong: #5E3A00;
+  --shadow-glow: 0 0 24px rgba(255, 179, 0, 0.2);
+  --shadow-glow-accent: 0 0 20px rgba(255, 179, 0, 0.3);
+  --bg-canvas: oklch(8% 0.015 60);
+}

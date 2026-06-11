@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import Toast                from './components/Toast.jsx'
+import ThemePicker          from './components/ThemePicker.jsx'
 import ProjectLandingStep   from './steps/ProjectLandingStep.jsx'
 import ProjectDashboardStep from './steps/ProjectDashboardStep.jsx'
 import HtmlUploadStep       from './steps/HtmlUploadStep.jsx'
@@ -26,6 +27,25 @@ export default function App() {
       .catch(() => {})
   }, [])
 
+  // ── Theme ─────────────────────────────────────────────────────
+  const [theme, setTheme] = useState('default')
+
+  const applyTheme = useCallback((t) => {
+    document.documentElement.dataset.theme = t
+    setTheme(t)
+  }, [])
+
+  const handleThemeChange = useCallback((newTheme, projectName) => {
+    applyTheme(newTheme)
+    if (projectName) {
+      fetch(`/api/projects/${encodeURIComponent(projectName)}/config`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ theme: newTheme }),
+      }).catch(() => {})
+    }
+  }, [applyTheme])
+
   // ── Step navigation ────────────────────────────────────────────
   const [step,    setStep]    = useState('project-landing')
   const [animDir, setAnimDir] = useState('forward')
@@ -45,8 +65,12 @@ export default function App() {
 
   const handleProjectSelected = useCallback((projectName) => {
     setCurrentProjectName(projectName)
+    fetch(`/api/projects/${encodeURIComponent(projectName)}/config`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { applyTheme(data?.config?.theme || 'default') })
+      .catch(() => applyTheme('default'))
     navigateTo('project-dashboard')
-  }, [navigateTo])
+  }, [navigateTo, applyTheme])
 
   const handleFlowSelected = useCallback((flowId) => {
     setCurrentFlowId(flowId)
@@ -56,8 +80,9 @@ export default function App() {
   const handleBackToProjects = useCallback(() => {
     setCurrentProjectName(null)
     setCurrentFlowId(null)
+    applyTheme('default')
     navigateTo('project-landing')
-  }, [navigateTo])
+  }, [navigateTo, applyTheme])
 
   const handleBackToHtmlUpload = useCallback(() => {
     navigateTo('html-upload')
@@ -258,6 +283,10 @@ export default function App() {
         </div>
       </header>
       {children}
+      <ThemePicker
+        theme={theme}
+        onThemeChange={(t) => handleThemeChange(t, currentProjectName)}
+      />
     </div>
   )
 
