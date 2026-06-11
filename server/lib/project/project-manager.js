@@ -164,35 +164,6 @@ export function resolveFlowDir(projectName, flowId) {
   return dir;
 }
 
-
-/**
- * Run `git rm -r --cached <projectDir>` to stop tracking a directory without
- * deleting files from disk. Stages the deletions so the caller can commit.
- * Returns true if files were removed from the index, false otherwise
- * (not tracked, not a git repo, etc. — all treated as non-fatal).
- */
-/**
- * Maintain PROJECTS_DIR/.gitignore so private projects are excluded from git.
- * Each private project is listed as "<name>/" in the gitignore.
- */
-function syncGitignore(projectName, type) {
-  const gitignorePath = path.join(PROJECTS_DIR, '.gitignore');
-  let lines = [];
-  if (fs.existsSync(gitignorePath)) {
-    lines = fs.readFileSync(gitignorePath, 'utf-8').split('\n');
-  }
-
-  const entry = projectName + '/';
-  lines = lines.filter(l => l.trim() !== entry);
-
-  if (type === 'private') {
-    lines.push(entry);
-  }
-
-  const content = lines.filter(l => l.trim() !== '').join('\n');
-  fs.writeFileSync(gitignorePath, content ? content + '\n' : '', 'utf-8');
-}
-
 // ── Project discovery ─────────────────────────────────────────────────────────
 
 /**
@@ -335,7 +306,6 @@ export function deleteProject(projectName) {
   if (!projectDir || !fs.existsSync(projectDir)) return false;
   try {
     fs.rmSync(projectDir, { recursive: true, force: true });
-    syncGitignore(projectName, 'shared'); // remove from .gitignore on deletion
     return true;
   } catch {
     return false;
