@@ -1,0 +1,4 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (1 rows)
+Issue Type: Feature | IRM: IRM-30403 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTENT MANAGEMENT INTEGRATION | Roadmap Feature: SS Enhancements - CMS Integration | Requester: GRC | PI: PI28 | Estimate: 80 | Feature Priority: p3 | Feature Status: To Do | Features Description: Integration with CMS
+
+i.e. : productize what LT did in a generic way (not drupal specific) 

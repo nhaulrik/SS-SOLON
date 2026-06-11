@@ -1,0 +1,93 @@
+{
+  "exportId": "28-core-support-5",
+  "exportNumber": 5,
+  "exportName": "28-core-support",
+  "createdAt": "2026-05-06T08:52:41.856Z",
+  "source": {
+    "roundId": "e65fbe06-b365-435c-8ab3-f63c95bd25c1",
+    "outputFile": "output-e65fbe06-b365-435c-8ab3-f63c95bd25c1.html"
+  },
+  "content": {
+    "slideCount": 9,
+    "totalSize": 713397,
+    "slides": [
+      {
+        "index": 1,
+        "file": "batch-processing-enhancements.html",
+        "size": 79329,
+        "title": "BATCH PROCESSING ENHANCEMENTS",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "case-management.html",
+        "size": 79309,
+        "title": "CASE MANAGEMENT",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "contact-management.html",
+        "size": 81293,
+        "title": "CONTACT MANAGEMENT",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "content-management-integration.html",
+        "size": 77451,
+        "title": "CONTENT MANAGEMENT INTEGRATION",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "document-management-integration.html",
+        "size": 79390,
+        "title": "DOCUMENT MANAGEMENT INTEGRATION",
+        "slideId": "slide-5",
+        "type": "content"
+      },
+      {
+        "index": 6,
+        "file": "form-processing.html",
+        "size": 78475,
+        "title": "FORM PROCESSING",
+        "slideId": "slide-6",
+        "type": "content"
+      },
+      {
+        "index": 7,
+        "file": "operational-reporting.html",
+        "size": 78089,
+        "title": "OPERATIONAL REPORTING",
+        "slideId": "slide-7",
+        "type": "content"
+      },
+      {
+        "index": 8,
+        "file": "reference-data.html",
+        "size": 79819,
+        "title": "REFERENCE DATA",
+        "slideId": "slide-8",
+        "type": "content"
+      },
+      {
+        "index": 9,
+        "file": "ui-configuration.html",
+        "size": 80242,
+        "title": "UI CONFIGURATION",
+        "slideId": "slide-9",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-28-initiatives",
+    "templateFile": ""
+  }
+}

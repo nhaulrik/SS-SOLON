@@ -1,0 +1,97 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (3 rows)
+Issue Type: Feature | IRM: IRM-38250 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Enhance codelist items codes flexibility and historical track in Solon Tax | Requester: GRC | PI: PI28 | Estimate: 522.9 | Feature Priority: p1 | Feature Status: In Design | Features Description: As an RM Admin, I can update reference data with a codelist item having a code that is not unique, while its description is updated with different validity periods (no overlap), so as to comply with EU regulating updates.
+
+*Introduction* 
+
+*Tax Activity Codes in the EU:* There is no single "tax code" for all EU members. Instead, three main systems are used:
+ * {*}NACE Codes{*}: The official statistical classification for economic activities. The current version is *NACE Rev. 2.1* (effective Jan 1, 2025). Attached in this feature for reference. 
+ * {*}VAT Category Codes{*}: Standardized letters (e.g., *S* for Standard, *E* for Exempt) used in electronic invoicing.
+ * {*}VATEX Codes{*}: Specific codes used to justify *VAT exemptions* based on EU Directive 2006/112/EC.
+ * *Customs Codes (TARIC/CN)* For the import/export of goods, the Combined Nomenclature (CN) is used, which is an 8-digit coding system. 
+
+In Greece, AADE (Independent Authority for Public Revenue) has proceeded with the mapping of the old activity codes (KAD 2008) to the new KAD 2025, a process which began on March 1, 2026. There is a direct correlation between Greek KAD (Activity Code Numbers) and NACE codes. KAD constitute the national version of the European NACE classification.
+ * {*}Structure{*}: The first 4 characters of an eight-digit Greek KAD are fully identical to the 4 characters of the corresponding NACE code.
+ * {*}2026 Harmonization{*}: AADE recently proceeded (as of 01/03/2026) with an automatic update of KADs for 1.9 million Tax IDs (AFM), in order to fully harmonize them with the new European standard {*}NACE Rev. 2.1{*}.
+ * {*}Purpose{*}: This mapping ensures that economic activities in Greece are comparable to those of other EU member states for statistical and regulatory purposes.
+
+*When a Code is Updated*
+
+When the EU updates the NACE structure:
+ * {*}Automatic Migration{*}: Most codes are automatically updated by national tax authorities (like AADE in Greece) if there is a 1-to-1 match.
+ * {*}Manual Selection{*}: If one old code splits into multiple new ones, the taxpayer must manually select the most accurate one via the tax portal.
+ * {*}Description Changes{*}: A code's number *can stay the same while its description* *is updated* to reflect modern technology or clearer definitions.
+
+Validity and History
+ * {*}Historical Accuracy{*}: A code must be valid for the period it was used. If you are filing an amended return for 2024, you use the code that was active in 2024, not the new 2025/2026 version.
+ * {*}EU-Wide Validity{*}: This principle of historicity applies to all EU countries. While the digital portals differ (e.g., myAADE in Greece), the transition logic to NACE Rev. 2.1 is harmonized across the Union.
+
+For Greek Tax Authority
+The code *must remain valid* for the period prior to the change, as tax and statistical representation follows the principle of historicity. In practice, this means the following: * {*}Principle of Historicity{*}: For any transaction, declaration, or audit concerning the past (e.g., fiscal year 2024), the code that was in effect *at that time* is used. New codes (e.g., KAD 2025/2026) apply only to actions from their effective date onwards.
+ * {*}System Maintenance{*}: AADE and Eurostat systems maintain the "historical versions" of the codes. If you need to file an amended return for a previous year, you must use the old code that corresponded to that specific period.
+ * {*}Migration (Mapping){*}: The mapping performed by AADE does not "erase" the past; it creates a new entry in your Registry history. The "Registry Certificate" will show the expiration date of the old code and the start date of the new one.
+ * {*}Audits and Cross-checks{*}: In the event of a tax audit for a past fiscal year, auditors examine the activity based on the description and the code that were in effect at the time of the transaction.
+
+The current Solon Tax platform implementation requires unique codes for codelist items within the same codelist. However, EU tax regulations, particularly for tax activity codes (NACE, VAT Category, VATEX), require the ability to maintain the same code with different descriptions across different validity periods to support historical accuracy and regulatory compliance.
+
+*Current Implementation Support*
+
+The platform currently supports:
+ * Unique code constraint for codelist items within a codelist
+ * Basic validity period management with valid_from and valid_to fields
+ * Codelist item labels with language support
+
+*To Be Implementation*
+
+Allow the same code to be added for different validity periods with:
+ * No overlap between validity periods for the same code
+ * Different descriptions for the same code across different time periods
+ * Historical data preservation for reporting and backdated updates
+
+*Functional Business Requirements*
+ # {*}Historical Code Management{*}: Enable codelist items to have the same code with different descriptions across non-overlapping validity periods
+ # {*}Temporal Data Integrity{*}: Ensure no validity period overlaps exist for items with the same code within a codelist
+ # {*}Backdated Processing Support{*}: Allow selection of historical codelist items when processing backdated taxpayer updates
+ # {*}Regulatory Compliance{*}: Support EU tax code evolution requirements (NACE Rev. 2.1)
+ # {*}Reporting Continuity{*}: Maintain historical reference data for accurate reporting across different time periods
+
+*Documentation*
+Document all the above adjustments for updating reference data to support compliance with EU updates codes not unique per validity period.
+
+ 
+
+*Non functional requirements*
+Performance , Security, Traceability, Accessibility, Usability  DODs should be fulfilled. 
+Issue Type: Feature | IRM: IRM-18729 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Import Code Lists - Admin | Requester: GRC | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to import information for one or more code lists, so that this information can be used to add or update these code lists and their related code list items.
+
+*Functional Requirements*
+ * Admin can select a file that contains structured information (e.g. in XML format) on one or more code lists and their related code list items. The file structure will be available in the Solon documentation. 
+ * Admin can upload the information from the selected file. 
+Assumption is that admin can by uploading the file add new code lists and their related code list items, add a new code list item to an existing code list, and add or update new data pertaining an existing code list or code list item except for any data that uniquely identifies this code list or code list item. 
+Assumption that admin cannot by uploading the file delete any code lists or code list items.
+ * Admin can see that the information from the selected file was used to add or update the code lists and their related code list items for which information was included in the selected file.
+ * UI: Admin may access controls to upload an codelist with codelist items  with attributes and relationships.
+ * Exceptions will be thrown if upload cannot be successfully completed with error descriptions. 
+(non available related item, non available attribute, wrong expiration dates) 
+Issue Type: Feature | IRM: IRM-18730 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Export Code List | Requester: GRC | PI: PI28 | Estimate: 42 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin or user with proper permissions, I want to export the information of a specific code list and its related code list items, so that this information can be edited or used in another tool.
+
+*Functional Requirements*
+ * Admin can choose to download the information of a specific code list and its related code list items in a structured format (e.g. using XML, csv, xls) , in selected language. 
+Will contain information with codes and descriptions (where applicable) for  : 
+ ** Codelist  , related categories and attributes
+ ** Codelist Items  with columns
+a) Code,  b) Description, c) Order,   d)Attributes and attribute values, 
+e) Related codelist items in category cross (with codelist-s related info) (codelist code, description , codelist item code description) , 
+f)   related codelist items within codelist 
+ * Admin can provide a name for the file in which the information must be stored and can indicate in what folder this file should be saved
+ * Admin can see that a file with the information for that specific code list and its related code list items was created after the download was completed.
+ * UI: User may see controls to export codelist in common codelist UI page. and in codelists list view.
+
+ 
+
+*Documentation*
+Document all the above adjustments. 
+
+ 
+
+*Non functional requirements*
+Performance , Security, Accessibility, Usability  DODs should be fulfilled. 

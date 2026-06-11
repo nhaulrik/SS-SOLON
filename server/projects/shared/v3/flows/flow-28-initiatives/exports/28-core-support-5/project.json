@@ -1,0 +1,72 @@
+{
+  "name": "v3",
+  "exportId": "28-core-support-5",
+  "exportNumber": 5,
+  "exportedAt": "2026-05-06T08:52:41.856Z",
+  "slideCount": 9,
+  "slides": [
+    {
+      "index": 1,
+      "file": "batch-processing-enhancements.html",
+      "slideId": "slide-1",
+      "title": "BATCH PROCESSING ENHANCEMENTS",
+      "type": "content"
+    },
+    {
+      "index": 2,
+      "file": "case-management.html",
+      "slideId": "slide-2",
+      "title": "CASE MANAGEMENT",
+      "type": "content"
+    },
+    {
+      "index": 3,
+      "file": "contact-management.html",
+      "slideId": "slide-3",
+      "title": "CONTACT MANAGEMENT",
+      "type": "content"
+    },
+    {
+      "index": 4,
+      "file": "content-management-integration.html",
+      "slideId": "slide-4",
+      "title": "CONTENT MANAGEMENT INTEGRATION",
+      "type": "content"
+    },
+    {
+      "index": 5,
+      "file": "document-management-integration.html",
+      "slideId": "slide-5",
+      "title": "DOCUMENT MANAGEMENT INTEGRATION",
+      "type": "content"
+    },
+    {
+      "index": 6,
+      "file": "form-processing.html",
+      "slideId": "slide-6",
+      "title": "FORM PROCESSING",
+      "type": "content"
+    },
+    {
+      "index": 7,
+      "file": "operational-reporting.html",
+      "slideId": "slide-7",
+      "title": "OPERATIONAL REPORTING",
+      "type": "content"
+    },
+    {
+      "index": 8,
+      "file": "reference-data.html",
+      "slideId": "slide-8",
+      "title": "REFERENCE DATA",
+      "type": "content"
+    },
+    {
+      "index": 9,
+      "file": "ui-configuration.html",
+      "slideId": "slide-9",
+      "title": "UI CONFIGURATION",
+      "type": "content"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "exportId": "29-data-hub-2",
+  "exportNumber": 2,
+  "exportName": "29-data-hub",
+  "createdAt": "2026-05-05T22:28:23.510Z",
+  "source": {
+    "roundId": "545644d8-1f1d-4cfe-b1e4-472cd19cb293",
+    "outputFile": "output-545644d8-1f1d-4cfe-b1e4-472cd19cb293.html"
+  },
+  "content": {
+    "slideCount": 2,
+    "totalSize": 123925,
+    "slides": [
+      {
+        "index": 1,
+        "file": "aeoi-vida-other-data-exchange.html",
+        "size": 61912,
+        "title": "AEOI, VIDA & OTHER DATA EXCHANGE",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "aeoi-vida-other-data-storage.html",
+        "size": 62013,
+        "title": "AEOI, VIDA & OTHER DATA STORAGE",
+        "slideId": "slide-2",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-29-initiatives",
+    "templateFile": ""
+  }
+}

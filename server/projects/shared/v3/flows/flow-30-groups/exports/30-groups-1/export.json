@@ -1,0 +1,69 @@
+{
+  "exportId": "30-groups-1",
+  "exportNumber": 1,
+  "exportName": "30-groups",
+  "createdAt": "2026-05-05T19:53:10.415Z",
+  "source": {
+    "roundId": "e70f6125-7e7a-4658-be4f-2ed3d5336a9e",
+    "outputFile": "output-e70f6125-7e7a-4658-be4f-2ed3d5336a9e.html"
+  },
+  "content": {
+    "slideCount": 6,
+    "totalSize": 136261,
+    "slides": [
+      {
+        "index": 1,
+        "file": "non-functional-requirement-coverage.html",
+        "size": 23100,
+        "title": "NON-FUNCTIONAL REQUIREMENT COVERAGE",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "core-data-hub-capabilities.html",
+        "size": 21761,
+        "title": "CORE DATA HUB CAPABILITIES",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "other-activities.html",
+        "size": 26798,
+        "title": "OTHER ACTIVITIES",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "core-supporting-capabilities.html",
+        "size": 21787,
+        "title": "CORE SUPPORTING CAPABILITIES",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "reference-implementations.html",
+        "size": 21654,
+        "title": "REFERENCE IMPLEMENTATIONS",
+        "slideId": "slide-5",
+        "type": "content"
+      },
+      {
+        "index": 6,
+        "file": "core-revenue-management-capabilities.html",
+        "size": 21161,
+        "title": "CORE REVENUE MANAGEMENT CAPABILITIES",
+        "slideId": "slide-6",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-30-groups",
+    "templateFile": ""
+  }
+}

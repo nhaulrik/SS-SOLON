@@ -1,0 +1,61 @@
+{
+  "exportId": "30-core-sup-3",
+  "exportNumber": 3,
+  "exportName": "30-core-sup",
+  "createdAt": "2026-05-05T22:49:22.810Z",
+  "source": {
+    "roundId": "de946909-52a0-412e-8ca6-17fbe02ea3af",
+    "outputFile": "output-de946909-52a0-412e-8ca6-17fbe02ea3af.html"
+  },
+  "content": {
+    "slideCount": 5,
+    "totalSize": 245305,
+    "slides": [
+      {
+        "index": 1,
+        "file": "batch-processing-enhancements.html",
+        "size": 49983,
+        "title": "BATCH PROCESSING ENHANCEMENTS",
+        "slideId": "slide-1",
+        "type": "content"
+      },
+      {
+        "index": 2,
+        "file": "case-management.html",
+        "size": 48698,
+        "title": "CASE MANAGEMENT",
+        "slideId": "slide-2",
+        "type": "content"
+      },
+      {
+        "index": 3,
+        "file": "contact-management.html",
+        "size": 48796,
+        "title": "CONTACT MANAGEMENT",
+        "slideId": "slide-3",
+        "type": "content"
+      },
+      {
+        "index": 4,
+        "file": "document-management-integration.html",
+        "size": 49519,
+        "title": "DOCUMENT MANAGEMENT INTEGRATION",
+        "slideId": "slide-4",
+        "type": "content"
+      },
+      {
+        "index": 5,
+        "file": "reference-data.html",
+        "size": 48309,
+        "title": "REFERENCE DATA",
+        "slideId": "slide-5",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-30-initiatives",
+    "templateFile": ""
+  }
+}

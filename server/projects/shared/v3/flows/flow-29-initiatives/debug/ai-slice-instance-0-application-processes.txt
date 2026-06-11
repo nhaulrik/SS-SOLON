@@ -1,0 +1,63 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (1 rows)
+Issue Type: Feature | IRM: IRM-29513 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: APPLICATION PROCESSES | Roadmap Feature: Support four-eye principle in Solon Tax - Approval Workflow | Requester: GRC | PI: PI29 | Estimate: 392 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an IRM Admin, I should be able to configure workflows, that enforce four-eyes approval within business processes, ensuring that one user initiates an action and a different user validates and approves it before completion.
+
+*Introduction* 
+
+This feature is a result of PSD-12702 for UBM project, however it is anticipated that all implementations may use this functionality to cover different business cases. As it is described in the related PSD: 
+
+At present, SOLON does not support double attestation (four eye principle) out of the box in human case management, which conflicts with the following requirement specified in SKV's contract (applicable to UBM as well):
+
+ 
+|​3.2.2.2.1.16|​Functional|​Case Management|​In the software, it shall be possible to configure the actions that require verification (double attestation) by two different case workers during manual handling, including at least:
+ - Manual registration of debiting/crediting
+ - Manual modification of a transaction on a tax account
+ - Manual administration of Swedish and foreign disbursement accounts
+ - Manual registration and modification of a disbursement block​|​LKVFM-2.9.306|
+
+ 
+
+UBM need the possibility to employ double attestation on human tasks, such that a change affected by the completion of the case is verified by at least 2 distinct case workers. This is for example needed for imposing sanctions on either individual people, credit institutions, or countries, where one case worker would create the case, and another one would validate the right target is being sanctioned, approve the case, turn it back to the initiator, who could then complete the task and thereby enforce the sanction. A rejection should naturally not enforce anything, but require a change in the human task from the initiator, or closing of the case altogether. 
+
+Dependent user stories for sanctions are attached as a PNG. They are not yet created as User Stories in toolkit. Furthermore manual registration of payment methods (e.g. for international bank accounts) require double attestation. It is expected that more functional cases that require double attestation will appear. As such, a generic approach to employing double attestation on a human task flow is needed.
+
+A workaround is being worked on that could support double attestation, but is a process that requires a lot of manual setup (see attachment). If SOLON had the capability of staging a change for entities in a human task (without persisting it), waiting for either approval or rejection, the requirements for double attestation would be a simpler task to support. 
+
+*Functional Requirements*
+
+> An admin must be able to create, edit, and delete workflow templates for different business processes
+
+> An admin must be able to configure the states (e.g., {_}Pending → Submitted → Approved → Completed{_}) and transitions between them. 
+
+> An admin must be able to define one or more approval steps within a workflow. 
+
+> An admin must be able to assign which roles (e.g., Maker, Checker) can perform each workflow step. 
+
+> An admin must be able to enforce that the same user cannot perform both maker and checker roles in the same workflow instance. 
+
+> An admin must be able to define rules for assigning checkers (e.g., based on transaction type, workers profile, business unit, availability).
+
+> An admin must be able to configure whether one or multiple checkers are required before an item moves forward. 
+
+> An admin must be able to set conditions (e.g., value thresholds, registration characteristics) that trigger additional approval steps. 
+
+> An admin must be able to configure escalation paths if approvals are delayed beyond a defined time. 
+
+> An admin must be able to configure which users(roles) receive notifications when an action is required.
+
+> An admin must be able to set reminder frequencies and escalation notifications. 
+
+> An admin must be able to configure who can view pending, approved, or rejected workflow items. 
+
+> An admin must be able to monitor the status of workflow instances (pending, approved, rejected, completed).
+
+> An admin must be able to ensure all workflow actions are logged with user ID, timestamp, and action type. 
+
+> An admin must be able to generate reports on workflow performance (e.g., approval times, bottlenecks, compliance with four-eyes). 
+
+> An admin must be able to define workflow steps once and reuse them across different business processes. 
+
+> An admin must be able to configure workflows without coding, using parameters (roles, thresholds, states). 
+
+> An admin _must be able to maintain multiple versions of a workflow template and activate/deactivate them as needed._
+
+ 

@@ -1,0 +1,3173 @@
+=== Agent 1: slide_1 — #1 ===
+You populate one slide instance in a presentation template with real content.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (12 rows)
+Issue Type: Feature | IRM: IRM-30421 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: ACCESSIBILITY | Roadmap Feature: Compliance with accessibility standards (WCAG 2.1 AA and EN 301 549) | Requester: Other | PI: PI30 | Estimate: 373.1 | Feature Priority: p3 | Feature Status: To Do | Features Description: -
+Issue Type: Feature | IRM: IRM-30679 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: MAINTAINABILITY | Roadmap Feature: Vanilla Installation automation - Solon Tax kubernetes operator | Requester: Other | PI: PI30 | Estimate: 746.9 | Feature Priority: p3 | Feature Status: To Do | Features Description: *Problem Statement*
+
+The current installation procedure for SolonTax (until v2.1.0 ) relies on the manual configuration and deployment of multiple Helm charts for core and auxiliary components. This process presents several challenges:
+ * *High Operational Overhead:* System administrators must manually configure multiple {{values.yaml}} files, which is time-consuming.
+ * *Prone to Errors:* There is a significant risk of misconfiguration when values are not synchronized correctly across different Helm charts (e.g. service endpoints).
+ * *Complex Upgrades:* Managing the upgrade sequence and dependencies between components is a manual and fragile process.
+
+*Proposed Solution*
+
+To address these challenges, this feature proposes the development of a new Kubernetes Operator, the {*}SolonTax Operator{*}. The operator will act as a single point of control to automate and streamline the lifecycle management (installation, configuration, and upgrades) of a SolonTax environment.
+
+By defining a Custom Resource (CR), administrators will be able to declare the desired state of a SolonTax installation, and the operator will work to fulfill that state, abstracting away the complexity of managing the underlying Helm charts.
+
+*Acceptance Criteria*
+ # *Helm Chart Orchestration:* The operator utilizes the existing {{Revenue Management}} and {{ISS}} Helm charts to deploy SolonTax components.
+ # *Selective Component Installation:* The operator's Custom Resource (CR) allows specifying the installation of:
+ ** {{Revenue Management}} components only.
+ ** {{ISS}} components only.
+ ** Both {{Revenue Management}} and {{ISS}} components.
+ # *Configuration Cascading:* A single, top-level configuration value in the operator's CR (e.g., {{{}spec.env.jdbcUrl{}}}) is correctly propagated to all relevant underlying Helm charts and their respective ConfigMaps.
+ # *Configuration Overrides:* The operator's CR provides a mechanism to override specific values in individual Helm charts (e.g., setting {{spec.components.revenueManagement.deployment.apiGateway.logging.level.root }}to {{DEBUG}} should override the default log level for that component only).
+ # *Dependency Management:* The operator's reconciliation loop correctly manages dependencies. For example, it must ensure a database migration Job completes successfully before proceeding with the upgrade of dependent microservice Deployments.
+
+*Technical Requirements & Considerations*
+ * *Technology Stack:* The operator must be implemented using the *Java Operator SDK* ([https://github.com/operator-framework/java-operator-sdk]) and the *Spring Boot Starter* ([https://github.com/operator-framework/josdk-spring-boot-starter]).
+ * *Helm Chart Dependency Strategy:* An architectural decision must be made on how the operator will access the Helm charts it manages. The implementation should consider and evaluate:
+ ** Bundling the Helm charts within the operator's container image.
+ ** Fetching the charts from a remote Helm registry at runtime.
+ ** A hybrid approach that supports both.
+
+*Out of Scope*
+ * The initial version of this operator will *only* manage the core *SolonTax* components ({{{}Revenue Management{}}} and {{{}ISS{}}}).
+ * The management of auxiliary components (e.g., databases, message brokers, logging stacks) is not included in the scope of this work but may be considered for future iterations.
+Issue Type: Feature | IRM: IRM-30255 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: MAINTAINABILITY | Roadmap Feature: Support an AI-assisted JSON schema generation mechanism within Form Designer | Requester: Other | PI: PI30 | Estimate: 1213.1 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: As an admin, I should be able to use an AI-assisted JSON + UI schemas generation mechanism when using the form designer, so as to minimise complexity and error prone methods.
+
+*Introduction* 
+
+Adding an AI-assisted JSON schema generation mechanism within the Form Designer would significantly reduce complexity for administrators, developers, and integrators by automatically converting designed forms into standardized data structures.
+
+*Functional Requirement* 
+
+*> AI Schema Translation*
+
+Revenue Management shall automatically generate a JSON Schema representation for every saved or published form.
+
+Revenue Management shall use an AI model to infer correct JSON Schema types, structures, and validation constraints based on field definitions and properties from the form designer.
+
+_Example:_ A “Date of Birth” field becomes {{{}{ "type": "string", "format": "date" }{}}}.
+
+Revenue Management shall support bidirectional conversion, allowing import of JSON Schemas back into editable form layouts.
+
+The AI engine shall recognize conditional logic and field dependencies and express them in JSON Schema constructs (e.g., {{{}if/then/else{}}}).
+
+The AI engine shall automatically infer relationships between nested sections or tabs and map them as nested JSON objects.
+
+*> Schema Optimization and Validation*
+
+The AI engine shall validate generated JSON Schemas for compliance with JSON Schema Draft version specifications compatible with the one used in solon Tax revenue management at the time.
+
+Revenue Management shall flag inconsistencies or redundant structures detected during generation (e.g., duplicate field names, circular dependencies).
+
+Revenue Management shall allow users to preview and manually fine-tune the generated JSON Schema before publishing.
+
+Revenue Management shall maintain version history for generated schemas aligned with form versions.
+
+*> AI Learning and Context Awareness*
+
+The AI engine shall learn from existing published forms and schemas to improve accuracy of future translations (e.g., reusing known field mappings).
+
+The AI engine shall support domain-specific language understanding — for instance, recognizing that “Gross Income” or “Taxable Income” should be treated as numeric fields with precision settings.
+
+The AI shall support multilingual form labels, understanding that language differences should not affect schema consistency.
+
+*> Integration and Export*
+
+Revenue Management shall allow exporting the generated JSON Schema for use in external systems (e.g., data validation APIs or ETL processes).
+
+Revenue Management shall expose a REST API endpoint to retrieve schema definitions programmatically by form name or version.
+
+The AI mechanism shall ensure backward compatibility between schema versions (e.g., mapping old field names to new ones if renamed).
+
+*> Security and Governance*
+
+The AI mechanism shall not expose sensitive taxpayer data during schema generation or learning.
+
+Revenue Management shall record an audit log of AI actions (generation, corrections, user overrides).
+
+Only users with specific roles can configure, view or export generated schemas.
+Issue Type: Feature | IRM: IRM-30724 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: MAINTAINABILITY | Roadmap Feature: Release Automation Enhancements | Requester: Other | PI: PI30 | Estimate: 392 | Feature Priority: p3 | Feature Status: To Do | Features Description: Placeholder for activities that will streamline release process, such as:
+ * Automating release branch management: A single operation should create all develop/release/master branches
+ * Automatically sync environments to a specified version
+ * etc
+Issue Type: Feature | IRM: IRM-30730 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: MAINTAINABILITY | Roadmap Feature: Introduce helm charts dependencies | Requester: Other | PI: PI30 | Estimate: 392 | Feature Priority: p3 | Feature Status: To Do | Features Description: *Problem Statement*
+
+The current Helm chart architecture for SolonTax does not utilize Helm's dependency mechanism. This has led to several inefficiencies:
+ * *Template Duplication:* Common templates and helper logic are copied across multiple charts, leading to significant code duplication.
+ * *High Maintenance Overhead:* Enhancements or bug fixes made in one chart's templates must be manually identified and ported to all other charts, a process that is both time-consuming and error-prone.
+ * *Inconsistent Configurations:* The {{revenue-management-be}} and {{revenue-management-be-custom}} charts are maintained as two completely separate entities, doubling the effort required for updates and increasing the risk of divergence.
+
+This lack of a centralized structure makes the charts difficult to maintain, scale, and audit.
+
+*Proposed Solution*
+
+This feature will refactor the SolonTax Helm charts to adopt a more modular and maintainable structure by introducing a common *{{base}}* chart.
+ # *Create a {{base}} Helm Chart:* A new {{base}} chart will be created to serve as a common dependency for all application charts. This chart will consolidate all shared templates, helpers, and logic (e.g., for Deployments, Services, ConfigMaps, etc.). It will be designed to be flexible enough to handle both backend and frontend components.
+
+ # *Refactor {{revenue-management-be}} Charts:* The {{revenue-management-be-custom}} chart will be refactored to use the {{revenue-management-be}} chart as a parent dependency. The custom chart will become a lightweight extension, responsible only for overriding values (like image tags) and adding configurations specific to the customized microservices. This will result in a single, unified Helm release for all {{revenue-management-be}} components.
+
+*Acceptance Criteria*
+ # *Base Chart Creation:* A new {{base}} Helm chart is created and contains common, reusable templates for standard Kubernetes resources (e.g., Deployment, Service, ConfigMap, Ingress).
+ # *Dependency Adoption:* All existing SolonTax application charts (both backend and frontend) are updated to declare the {{base}} chart as a dependency in their {{{}Chart.yaml{}}}.
+ # *Duplication Removal:* Duplicated template logic is removed from the application charts, which now leverage the templates provided by the {{base}} chart.
+ # *{{revenue-management-be}} Refactoring:* The {{revenue-management-be-custom}} chart is refactored to be a child chart of {{{}revenue-management-be{}}}.
+ # *Unified Release:* A single {{helm install}} or {{helm upgrade}} of the refactored {{revenue-management-be-custom}} chart successfully deploys both the standard {{revenue-management-be}} components and the customized components as a single Helm release.
+ # *Override Functionality:* The {{revenue-management-be-custom}} chart can successfully override default values (e.g., image tags) from the parent {{revenue-management-be}} chart and inject additional properties for its specific microservices.
+ # *Flexibility for Exceptions:* Application charts retain the ability to introduce their own specialized templates if a specific requirement cannot be met by the common {{base}} chart.
+Issue Type: Feature | IRM: IRM-30677 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: MAINTAINABILITY | Roadmap Feature: Automatic Documentation Generation enhancements | Requester: Other | PI: PI30 | Estimate: 746.9 | Feature Priority: p3 | Feature Status: To Do | Features Description: Scope of this enabler is to supply the appropriate tooling to automatically generate documentation artifacts, currently documented manually, directly from source. Items that can be covered are;
+ * C4 container view diagrams:
+ ** {*}Possibility{*}: create a maven plugin that can parse annotated classes that denote inbound outbound ports and create the diagrams in structurizr of pluntuml format
+ ** {*}Affects{*}: https://docs.netcompany.com/swpd-doc/docs-solon-tax/solon-tax/2.0.0/sad/partials/container_view.html
+ * Application Properties:
+ ** {*}Essential{*}: Back all application properties used in solontax microservices with POJOS (currently not 100% the case) 
+ ** {*}Possibility{*}: create tooling that can extract application properties information via either a maven plugin or via actuator endpoints and generate documentation as it's done  
+ ** {*}Affects{*}: [https://docs.netcompany.com/swpd-doc/docs-solon-tax/solon-tax/2.0.0/ing/partials/appendix_a_application_properties.html]
+ * Installation Configuration instruction
+ ** {*}Essential{*}: Embed installation configuration guidelines within helm charts README.md documents, and use that directly in installation manual:
+ ** *Affects:* [https://docs.netcompany.com/swpd-doc/docs-solon-tax/solon-tax/2.0.0/ing/partials/components_installation_configuration.html]
+ * Base/Demo configuration data (not currently documented)
+ ** {*}Essential{*}: Create tooling that can extract Base and Demo data entries:
+ *** Have complete documentation per release in the appropriate guide
+ *** Have information about changes in release notes.
+Issue Type: Feature | IRM: IRM-30739 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: MAINTAINABILITY | Roadmap Feature: Dev Experience improvements | Requester: Other | PI: PI30 | Estimate: 130.9 | Feature Priority: p3 | Feature Status: To Do | Features Description: Everything that can include developer experience:
+ * Test code changes easier either locally or in a developer env sandbox
+ * Usage of AI  in day to day development
+
+TBD
+Issue Type: Feature | IRM: IRM-41554 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: OPERABILITY | Roadmap Feature: PD Documentation updates/enhancements for x.x.x (Current PI30) | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-17803 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: RELIABILITY | Roadmap Feature: Analysis : When Fts/Journal Entries creation fails, admin can re-create them using a system process | Requester: GRC | PI: PI30 | Estimate: 130.9 | Feature Priority: p3 | Feature Status: To Do | Features Description: When FTs or/and  journal entries creation fails, -  records cannot be created - .
+What if kafka has a process and moved event to dead letters topic ? 
+(For journal entries  system will throw an exception as implemented by [https://jira.intrasoft-intl.com/browse/IRM-17070] ) 
+
+Admin will not be able to rerun the process to create the Fts and journal entries automatically. If admin has the relevant system access, may create manually the expected journal entries, making the decisions on accounting rules to be used and amounts per journal entry logged. It would be better to support admin on rerunning the part of the process /kafka event that creates the journal entries on settings predefines in fts or assessments etc. 
+
+(!)  Investigation and decision is needed  on how to move on. 
+
+(?) Is it similar issue with Financial transactions creation faults? 
+
+ 
+
++Suggested Action :+
+ -  An api (supported or not by a UI button) to run when no journal entries created while expected - >(re) send the kafka event as to try recreate records. - run dead letter items in queue 
+(?) Similar to the rerun allocation process under Obligations 
+ - (?) BSs cannot created/cancelled/change status if Fts not created.
+
+ 
+
++Notes:+  
+Topics that needs additional investigation: 
+ - how to define the Journal entries amounts in Allocation segments
+ - how to define that journal entries rules are instructed by Assessments calculation rules. 
+
+Additionally, possibly it would be useful to generate in this situation : 
+ - Human task , notification to admin that journal entries are not created 9
+Issue Type: Feature | IRM: IRM-30734 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: TRACEABILITY | Roadmap Feature: [Vanilla Installation] - Introduce OpenTelemetry observability support | Requester: Other | PI: PI30 | Estimate: 392 | Feature Priority: p3 | Feature Status: To Do | Features Description: *Problem Statement*
+
+The current observability solution for SolonTax has several significant limitations:
+ * *Intrusive Instrumentation:* Backend microservices require a built-in {{elastic-apm}} Java dependency, which tightly couples the application code to a specific monitoring tool.
+ * *Incomplete Coverage:* The existing setup provides no mechanism to instrument and gather telemetry from critical auxiliary components like Kafka or Keycloak, creating visibility gaps in the system.
+ * *Inflexible Architecture:* The system is hard-wired to use Elasticsearch as the sole destination for telemetry data (logs, traces, metrics). This prevents integration with other modern observability platforms or routing data to different sinks based on need.
+
+The current approach is not aligned with modern best practices, where OpenTelemetry has emerged as the industry standard for vendor-neutral telemetry collection.
+
+*Proposed Solution*
+
+This feature will modernize the SolonTax observability stack by adopting OpenTelemetry as the new standard. This will be achieved by leveraging the OpenTelemetry Operator for Kubernetes to enable non-intrusive, comprehensive data collection.
+
+The key changes include:
+ # *Introduce OpenTelemetry Components:* The OpenTelemetry Operator (providing the necessary CRDs) and the OpenTelemetry Collector will be added as standard components to a vanilla SolonTax installation.
+ # *Enable Non-Intrusive Instrumentation:* The existing {{elastic-apm}} dependency usage will be deprecated. Instead, instrumentation will be applied automatically at runtime using the OpenTelemetry {{Instrumentation}} Custom Resource Definition (CRD), which injects the agent without requiring code changes.
+ # *Centralize Telemetry Collection:* The OpenTelemetry Collector will be configured as the central hub for all telemetry data. It will receive logs, metrics, and traces from SolonTax services and will be architected to support receiving data from auxiliary components in the future. It will then process and forward this data to the appropriate backend, such as Elasticsearch.
+
+This aligns with the findings of the proof-of-concept from {*}IRM-20971{*}, which validated the feasibility of this approach.
+
+*Acceptance Criteria*
+ # *OTel Operator and Collector Installation:* The OpenTelemetry Operator and a default OpenTelemetry Collector instance are successfully deployed as part of the standard SolonTax installation process.
+ # *Default Auto-Instrumentation:* The SolonTax and Auxilliary components are automatically instrumented via the OpenTelemetry {{Instrumentation}} CRD by default in a new installation.
+ # *APM Dependency Deprecation:* The {{elastic-apm}} JAR dependency is flagged as deprecated .
+ # *End-to-End Telemetry Flow:* Traces, metrics, and logs generated by the SolonTax services are successfully collected by the OpenTelemetry Collector and correctly forwarded to and indexed in the configured Elasticsearch backend.
+ # *Architectural Adherence:* The observability topology is updated to reflect OpenTelemetry best practices, with the Collector serving as the primary entry point for all telemetry data.
+
+*Out of Scope*
+ * The configuration of telemetry sinks other than Elasticsearch is not included in this scope. The primary goal is to replace the collection mechanism while maintaining the existing data backend.
+Issue Type: Feature | IRM: IRM-30357 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: USABILITY | Roadmap Feature: AI in RM | Requester: Other | PI: PI30 | Estimate: 1213.1 | Feature Priority: p3 | Feature Status: To Do | Features Description: - Search
+ -- Autocomplete, suggestions, ranking, search relevant items, cross entity searching. 
+ - Navigation
+ -- natural language navigation ,  suggest quick links on frequently used items, suggest next action, voice commands
+
+ - RM  - Customer overview 
+ -- Notifications e.g most likely to delay filling obligations for....
+ -- Suggest next actions
+ -- Summarize taxpayer overview.  
+ -- detect suspicious or incorrect patterns that rule-based logic might miss.
+ - RM - Document Management
+ -- Document management /Classify documents sent as attachments or in any other ways by mapping them to the right taxpayer, period, or transaction types
+ - RM - Support Reconciliations
+ --  Time-consuming job of reconciliations may be supported  
+Issue Type: Feature | IRM: IRM-30358 | Roadmap Initiative Group: NON-FUNCTIONAL REQUIREMENT COVERAGE | Roadmap Initiative: USABILITY | Roadmap Feature: AI in SS | Requester: Other | PI: PI30 | Estimate: 746.9 | Feature Priority: p3 | Feature Status: To Do | Features Description: -  Search
+ -- Autocomplete, suggestions, ranking, search relevant items, cross entity searching. 
+ - Navigation
+ -- natural language navigation ,  suggest quick links on frequently used items, suggest next action, voice commands
+ - SS: AI Assistant
+ -- Support taxpayer to fill-in a form
+ -- Suggest next step (e.g. submit new form, amend a form after marriage status update)
+ -- Document management / ** classify PDFs or other files per period, or transaction type.
+ - SS:  Live support /BOTs 
+ -- Support taxpayer on actions /live support
+ -- help agents to respond more quickly, automate responses where possible
+
+ 
+
+=== Shared Reference Data ===
+=== RichFeatureQueries_Full_2026.xlsx / Reference Sheet ===
+85233 | Spent Hours 2026
+160808.08462 | Planned Hours 2026
+246041.41795333335 | Total Hours 2026
+56218.299999999996 | PI 28 Total Hours
+66240.4 | PI 29 Total Hours
+38372.700000000004 | PI 30 Total Hours
+
+=== RichFeatureQueries_Full_2026.xlsx / Requester Stats ===
+PI | Requester | Estimate | __EMPTY | __EMPTY_1 | __EMPTY_2 | __EMPTY_3 | __EMPTY_4
+PI30 | Other | 30932 |  |  |  |  | 
+PI30 | GRC | 8493 |  |  |  |  | 
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Group Stats ===
+PI | Roadmap Initiative Group | Initiative Count | Feature Count | Estimate
+PI30 | OTHER ACTIVITIES | 16 | 38 | 21858
+PI30 | CORE SUPPORTING CAPABILITIES | 5 | 6 | 2727
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | 1 | 1 | 1213
+PI30 | CORE DATA HUB CAPABILITIES | 2 | 2 | 5973
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | 6 | 13 | 6870
+PI30 | REFERENCE IMPLEMENTATIONS | 3 | 4 | 785
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Stats ===
+PI | Roadmap Initiative Group | Roadmap Initiative | Total Estimate | Features | P1 | P2 | P3
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA EXCHANGE | 2240 | 1 | 0 | 0 | 1
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA STORAGE | 3733 | 1 | 0 | 0 | 1
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | EXEMPTIONS | 1213 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | BATCH PROCESSING ENHANCEMENTS | 1092 | 2 | 0 | 0 | 2
+PI30 | CORE SUPPORTING CAPABILITIES | DOCUMENT MANAGEMENT INTEGRATION | 104 | 1 | 1 | 0 | 0
+PI30 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | REFERENCE DATA | 747 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | CONTACT MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | MAINTAINABILITY | 4014 | 7 | 0 | 0 | 7
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | USABILITY | 1960 | 2 | 0 | 0 | 2
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | ACCESSIBILITY | 373 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | 131 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | OPERABILITY |  | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | DEVOPS |  | 7 | 0 | 0 | 5
+PI30 | OTHER ACTIVITIES | TRAINING | 1960 | 2 | 0 | 0 | 2
+PI30 | OTHER ACTIVITIES | DOCUMENTATION |  | 8 | 0 | 0 | 1
+PI30 | OTHER ACTIVITIES | APPSEC TEAM | 3734 | 3 | 0 | 0 | 3
+PI30 | OTHER ACTIVITIES | MANAGEMENT | 6451 | 13 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | RELEASE ACTIVITIES | 1232 | 10 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO support | 94 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PREVENTIVE MAINTENANCE | 1600 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PROJECT SUPPORT | 373 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CORRECTIVE MAINTENANCE | 560 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | SECURITY | 480 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CEREMONIES AND TRAININGS | 2133 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO & Analysis | 1440 | 2 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | Business Owners | 1800 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | MANAGEMENT TIME |  | 5 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | ARK |  | 4 | 0 | 0 | 0
+PI30 | REFERENCE IMPLEMENTATIONS | PAYE | 392 | 1 | 0 | 0 | 1
+PI30 | REFERENCE IMPLEMENTATIONS | PIT | 262 | 2 | 0 | 0 | 2
+PI30 | REFERENCE IMPLEMENTATIONS | CIT | 131 | 1 | 0 | 0 | 1
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write n/a for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate content for slide instance 1 of 6 using the SOURCE DATA above.
+User instructions: [auto_div_header] Edit only these text nodes:
+    .pi-badge -> value of ACTIVE PI field, for example PI 28
+    .header-title -> always the value of Roadmap Initiative Group field verbatim
+    .header-stat-value (1st) -> Total Effort formatted with comma
+    .header-stat-value (2nd) -> Initiative Count as integer
+    .header-stat-value (3rd) -> Feature Count as integer
+
+[auto_div_initiatives_table] Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+
+[div] Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+
+[auto_div_business_value] Keep the Business Value card structure intact.
+        Update only the bullet text.
+
+[auto_div_market_relevance] Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+
+translate everythin into german.
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+HTML INSIDE JSON — MANDATORY RULES (for HTML zones):
+- ALL HTML attribute values MUST use single quotes (e.g. class='foo', href='...', src='...')
+- NEVER use double quotes inside HTML — they break JSON string parsing
+- Escape any literal backslashes in HTML as \
+
+STRUCTURAL CONTRACT FOR HTML ZONES (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+Violating this breaks the slide layout irreparably.
+
+HTML ZONES (TEMPLATES PER KEY — structure is a contract, fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='header-left'>
+      <div class='pi-badge'>PI 28</div>
+      <div class='header-text-section'>
+        <div class='header-label'>Feature Catalog</div>
+        <div class='header-title'>Core Revenue Management Capabilities</div>
+        <div class='header-subtitle'>Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class='header-right'>
+      <div class='header-stat'>
+        <div class='header-stat-value'>23,200</div>
+        <div class='header-stat-label'>Total Hours</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>10</div>
+        <div class='header-stat-label'>Initiatives</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>35</div>
+        <div class='header-stat-label'>Features</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='table-wrap-outer' data-block='auto_div_initiatives_table' data-ai-instructions='
+      Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+    '>
+    <div class='table-wrap'>
+      <table>
+        <thead>
+          <tr>
+            <th style='width:49%'>Initiative</th>
+            <th style='width:20%' class='sortable' data-col='1' data-type='status'>Status</th>
+            <th style='width:8%'  class='sortable' data-col='2' data-type='number'>Features</th>
+            <th style='width:10%' class='sortable' data-col='3' data-type='priority'>Priority</th>
+            <th style='width:13%' class='sortable' data-col='4' data-type='effort'>Effort</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class='init-name'>Registration</div>
+              <div class='init-desc'>Party identifiers, org hierarchy, search enhancements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>14</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>11,866h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Taxpayer Accounting</div>
+              <div class='init-desc'>General ledger core, reconciliation &amp; balance management</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>9</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>8,064h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Returns Processing</div>
+              <div class='init-desc'>Filing workflows, validation rules, submission tracking &amp; acknowledgements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>7</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>4,320h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Payment Processing</div>
+              <div class='init-desc'>Multi-channel payments, allocation rules &amp; reconciliation engine</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>3,200h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Billing &amp; Assessments</div>
+              <div class='init-desc'>Instalment plans, assessment automation, billing cycles</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>2,880h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Reporting &amp; Analytics</div>
+              <div class='init-desc'>Management dashboards, statutory reports, KPI tracking &amp; exports</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>3</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>1,760h</span></td>
+          </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Penalty &amp; Interest</div>
+               <div class='init-desc'>Interest calculation, credit unallocated payment segments</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge prio-na' style='background:transparent; border:1px solid #CCCCCC; color:#888;'>N/A</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Tax Accounts</div>
+              <div class='init-desc'>Tax account setup, configurable thresholds, notifications</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>2</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Debt Management</div>
+              <div class='init-desc'>Debt recovery workflows, write-off management, enforcement actions</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>5</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Audit &amp; Compliance</div>
+               <div class='init-desc'>Case management, audit trail logging, compliance monitoring &amp; alerts</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge' style='background:#CCCCCC;'>P3</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+         </tbody>
+      </table>
+    </div>
+    </div>
+
+    <div class='right-panel' data-ai-instructions='
+      Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+    '>
+
+      <div class='value-card' data-block='auto_div_business_value' data-ai-instructions='
+        Keep the Business Value card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe coral'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Business Value</div>
+              <div class='card-subtitle'>Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class='value-bullets coral-dots'>
+            <li>End-to-end taxpayer lifecycle management from registration through accounting and penalty enforcement</li>
+            <li>Automated billing, assessments &amp; penalty calculations reduce manual caseworker effort across all tax types</li>
+            <li>Directly accelerates Greek project delivery and enables rapid reuse across future jurisdictions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class='value-card' data-block='auto_div_market_relevance' data-ai-instructions='
+        Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe teal'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Market Relevance</div>
+              <div class='card-subtitle'>Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class='value-bullets teal-dots'>
+            <li>Core dependency for all current and pipeline Solon Tax implementations across multiple jurisdictions</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform in active tenders</li>
+            <li>Platform completeness is a prerequisite condition cited in new-market RFP evaluation criteria</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class='footer-text'>Solon Tax Product Roadmap 2026</span>
+    <span class='footer-text'>Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 2: slide_1 — #2 ===
+You populate one slide instance in a presentation template with real content.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (2 rows)
+Issue Type: Feature | IRM: IRM-30356 | Roadmap Initiative Group: CORE DATA HUB CAPABILITIES | Roadmap Initiative: AEOI, VIDA & OTHER DATA EXCHANGE | Roadmap Feature: Vida PoC - Flow and example  integrations | Requester: GRC | PI: PI30 | Estimate: 2240 | Feature Priority: p3 | Feature Status: To Do | Features Description: *FLOW :*
+
+{color:#505f79}1. Invoice Creation (Seller ERP/Accounting System){color}
+{color:#505f79}Seller generates invoice in EN 16931 compliant format (structured XML/UBL).{color}
+{color:#505f79}Integration Needed: ERP/accounting system must be able to export EN 16931 e-invoic{color}es.
+
+_2._ *Submission / Pre-Validation (National Digital Reporting System, DRR)*
+Invoice data is sent electronically to the tax authority before being delivered to the buyer.
+Integration Options:  Direct API from ERP to tax authority system, or  PEPPOL Access Point that connects ERP  TO  tax authority network endpoint.
+Purpose: pre-validation and acknowledgment.
+
+*3. Validation by Tax Authority*
+Tax authority checks: Invoice format (EN 16931 compliance) ,  VAT numbers and amounts ,  Business rules and optional risk checks
+Outcome process: 
+Accepted: unique ID and timestamp assigned
+Rejected : correction requested
+Integration Needed: Validation engine integrated with DRR database & ERP feedback mechanism.
+
+{color:#505f79}4.   Invoice Delivery to Buyer
+Once validated, invoice is transmitted electronically to the buyer system (ERP or e-invoicing platform).{color}
+{color:#505f79}Integration Needed: PEPPOL or other secure delivery channels to buyer system.{color}
+
+*5. Storage and EU Data Exchange*
+Tax authority stores invoice data in national database.
+For cross-border transactions, summary data or full invoices may be shared with EU Member States via VIES 2.0.
+Integrations Needed:   
+National DB from and to  VIES 2.0 interface 
+Internal reporting / archival systems
+Long-term *archive* of e-invoices, {*}logs{*}, and *declarations* / Security (data retention)
+GDPR
+
+*6. Reconciliation / VAT Return & Compliance*
+Invoice data is used to:
+Auto-populate VAT returns for the taxpayer
+Pre-fill VAT declarations in OSS/IOSS or national system /Extend OSS usage   (?) 
+Share summary data with EU authorities for cross-border reconciliation
+Integration Needed:
+DRR from/to VAT return processing system,
+OSS/IOSS connectors
+(Low- Optional) Payment & Banking Interfaces to verify VAT collection
+
+*7. Monitoring and Risk Analysis*
+Real-time analytics for:  Cross-checking declarations , Fraud detection ,  Audit trails and compliance reporting
+Integration Needed: DRR / national DB ↔ Analytics engines / Risk management platforms
+
+ 
+
+Other: 
+Make sure the exceptions of any failures are logged 
+
+_What is for revenue authority : a) Expand and consolidate systems like mydata (Greece) SDI (Italy) , SII (Spain) b) e-invoicing  integration, connection to VIES 2.0, e-invoicing support, c) New rules for e-Invoices, data retention, real-time reporting ,  d)  Interconnects ERP and e-Invoicing Providers with new APIs and infrastructures for real-time reporting , e) Data protection, auditing, traceability, data analytics, train personnel , specs, instructions, helpdesk._
+
+ 
+
+– Additional
+— data validation and enrichment engines for real-time submissions.
+— fraud-detection analytics and risk scoring models.
+— cross-matching of domestic vs. cross-border data (via VIES 2.0).
+— dashboards and audit trails for inspectors and management.
+Issue Type: Feature | IRM: IRM-30840 | Roadmap Initiative Group: CORE DATA HUB CAPABILITIES | Roadmap Initiative: AEOI, VIDA & OTHER DATA STORAGE | Roadmap Feature: Data Storage  - National DB -Central repository for all issued and received e-invoices. | Requester: GRC | PI: PI30 | Estimate: 3733.1 | Feature Priority: p3 | Feature Status: To Do | Features Description: Based on [https://jira.intrasoft-intl.com/browse/IRM-30356] ** 
+on of the solution flow steps " *_Storage and EU Data Exchange "_* 
+and thus we need to support a solution: 
+ * Central repository for all issued and received e-invoices.
+ * Supports tax control, audit, analytics, and EU data exchange (e.g., via {*}VIES 2.0{*}).
+ * Must comply with national tax law *and* EU data protection rules (GDPR). 
+
+ 
+
+Also to ensure: 
+ * *Data integrity* (accurate, complete, auditable)
+ ** *Immutable (WORM) storage:* prevent tampering or deletion.
+ ** *Retention automation:* apply expiry dates and legal-hold exceptions.
+ ** *Allow Integrity checks:* hash verification and periodic audits.
+
+ * *Scalability & performance* (handles national volume)
+ * *Interoperability* (VIES 2.0, EU standards)
+ * *Security & privacy compliance* (GDPR + national law)
+ * *Governance & traceability* (audit-ready at all times)
+
+ 
+----
++*Solution Considerations*+ 
+ * *Core* 
+ ** *Structured DB + payload store:* relational DB (e.g., PostgreSQL) for key fields; object/WORM storage for full files.
+{*}Scaling{*}
+*Checksum*
+*Storage & indexing:* fast access to invoice metadata and totals; keep original payloads for audit.{*}{{*}}
+ ** *Schema*
+*Ingestion & validation:* accept e-invoices in various formats (UBL, CEN, XML); check syntax and business rules
+{*}Canonical data model:{*} normalize invoices into a consistent schema for processing and reporting.
+
+ * *Integrations*
+ ** *Exchange integration:* interface with VIES 2.0 and other EU Member States (summary or full invoices).
+{*}VIES 2.0 adapter:{*} validate VAT IDs, send/receive cross-border summaries or full invoices.
+ ** *Internal systems:* link to taxpayer master, audit, analytics, and archival modules.
+ ** *Reporting/export:* feed BI dashboards and legal reports.
+
+ *  *Auditing & Reporting*
+ ** *Search & reporting:* support compliance queries, risk analysis, and statistical reporting.
+ ** *Audit & traceability:* log every event—submission, modification, access, and exchange.
+
+ 
+
+--------------------------------------------
+
+Notes - 
+ * Monitoring, alerting, and reconciliation for VIES exchanges.
+
+ * Backup, disaster recovery, and business-continuity planning.
+
+ * Role segregation: operations / auditors / developers.
+
+ * Periodic reviews of exemption and retention configurations.
+
+ 
+
+ 
+
+=== Shared Reference Data ===
+=== RichFeatureQueries_Full_2026.xlsx / Reference Sheet ===
+85233 | Spent Hours 2026
+160808.08462 | Planned Hours 2026
+246041.41795333335 | Total Hours 2026
+56218.299999999996 | PI 28 Total Hours
+66240.4 | PI 29 Total Hours
+38372.700000000004 | PI 30 Total Hours
+
+=== RichFeatureQueries_Full_2026.xlsx / Requester Stats ===
+PI | Requester | Estimate | __EMPTY | __EMPTY_1 | __EMPTY_2 | __EMPTY_3 | __EMPTY_4
+PI30 | Other | 30932 |  |  |  |  | 
+PI30 | GRC | 8493 |  |  |  |  | 
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Group Stats ===
+PI | Roadmap Initiative Group | Initiative Count | Feature Count | Estimate
+PI30 | OTHER ACTIVITIES | 16 | 38 | 21858
+PI30 | CORE SUPPORTING CAPABILITIES | 5 | 6 | 2727
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | 1 | 1 | 1213
+PI30 | CORE DATA HUB CAPABILITIES | 2 | 2 | 5973
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | 6 | 13 | 6870
+PI30 | REFERENCE IMPLEMENTATIONS | 3 | 4 | 785
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Stats ===
+PI | Roadmap Initiative Group | Roadmap Initiative | Total Estimate | Features | P1 | P2 | P3
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA EXCHANGE | 2240 | 1 | 0 | 0 | 1
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA STORAGE | 3733 | 1 | 0 | 0 | 1
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | EXEMPTIONS | 1213 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | BATCH PROCESSING ENHANCEMENTS | 1092 | 2 | 0 | 0 | 2
+PI30 | CORE SUPPORTING CAPABILITIES | DOCUMENT MANAGEMENT INTEGRATION | 104 | 1 | 1 | 0 | 0
+PI30 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | REFERENCE DATA | 747 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | CONTACT MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | MAINTAINABILITY | 4014 | 7 | 0 | 0 | 7
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | USABILITY | 1960 | 2 | 0 | 0 | 2
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | ACCESSIBILITY | 373 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | 131 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | OPERABILITY |  | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | DEVOPS |  | 7 | 0 | 0 | 5
+PI30 | OTHER ACTIVITIES | TRAINING | 1960 | 2 | 0 | 0 | 2
+PI30 | OTHER ACTIVITIES | DOCUMENTATION |  | 8 | 0 | 0 | 1
+PI30 | OTHER ACTIVITIES | APPSEC TEAM | 3734 | 3 | 0 | 0 | 3
+PI30 | OTHER ACTIVITIES | MANAGEMENT | 6451 | 13 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | RELEASE ACTIVITIES | 1232 | 10 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO support | 94 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PREVENTIVE MAINTENANCE | 1600 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PROJECT SUPPORT | 373 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CORRECTIVE MAINTENANCE | 560 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | SECURITY | 480 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CEREMONIES AND TRAININGS | 2133 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO & Analysis | 1440 | 2 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | Business Owners | 1800 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | MANAGEMENT TIME |  | 5 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | ARK |  | 4 | 0 | 0 | 0
+PI30 | REFERENCE IMPLEMENTATIONS | PAYE | 392 | 1 | 0 | 0 | 1
+PI30 | REFERENCE IMPLEMENTATIONS | PIT | 262 | 2 | 0 | 0 | 2
+PI30 | REFERENCE IMPLEMENTATIONS | CIT | 131 | 1 | 0 | 0 | 1
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write n/a for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate content for slide instance 2 of 6 using the SOURCE DATA above.
+User instructions: [auto_div_header] Edit only these text nodes:
+    .pi-badge -> value of ACTIVE PI field, for example PI 28
+    .header-title -> always the value of Roadmap Initiative Group field verbatim
+    .header-stat-value (1st) -> Total Effort formatted with comma
+    .header-stat-value (2nd) -> Initiative Count as integer
+    .header-stat-value (3rd) -> Feature Count as integer
+
+[auto_div_initiatives_table] Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+
+[div] Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+
+[auto_div_business_value] Keep the Business Value card structure intact.
+        Update only the bullet text.
+
+[auto_div_market_relevance] Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+
+translate everythin into german.
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+HTML INSIDE JSON — MANDATORY RULES (for HTML zones):
+- ALL HTML attribute values MUST use single quotes (e.g. class='foo', href='...', src='...')
+- NEVER use double quotes inside HTML — they break JSON string parsing
+- Escape any literal backslashes in HTML as \
+
+STRUCTURAL CONTRACT FOR HTML ZONES (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+Violating this breaks the slide layout irreparably.
+
+HTML ZONES (TEMPLATES PER KEY — structure is a contract, fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='header-left'>
+      <div class='pi-badge'>PI 28</div>
+      <div class='header-text-section'>
+        <div class='header-label'>Feature Catalog</div>
+        <div class='header-title'>Core Revenue Management Capabilities</div>
+        <div class='header-subtitle'>Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class='header-right'>
+      <div class='header-stat'>
+        <div class='header-stat-value'>23,200</div>
+        <div class='header-stat-label'>Total Hours</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>10</div>
+        <div class='header-stat-label'>Initiatives</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>35</div>
+        <div class='header-stat-label'>Features</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='table-wrap-outer' data-block='auto_div_initiatives_table' data-ai-instructions='
+      Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+    '>
+    <div class='table-wrap'>
+      <table>
+        <thead>
+          <tr>
+            <th style='width:49%'>Initiative</th>
+            <th style='width:20%' class='sortable' data-col='1' data-type='status'>Status</th>
+            <th style='width:8%'  class='sortable' data-col='2' data-type='number'>Features</th>
+            <th style='width:10%' class='sortable' data-col='3' data-type='priority'>Priority</th>
+            <th style='width:13%' class='sortable' data-col='4' data-type='effort'>Effort</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class='init-name'>Registration</div>
+              <div class='init-desc'>Party identifiers, org hierarchy, search enhancements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>14</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>11,866h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Taxpayer Accounting</div>
+              <div class='init-desc'>General ledger core, reconciliation &amp; balance management</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>9</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>8,064h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Returns Processing</div>
+              <div class='init-desc'>Filing workflows, validation rules, submission tracking &amp; acknowledgements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>7</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>4,320h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Payment Processing</div>
+              <div class='init-desc'>Multi-channel payments, allocation rules &amp; reconciliation engine</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>3,200h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Billing &amp; Assessments</div>
+              <div class='init-desc'>Instalment plans, assessment automation, billing cycles</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>2,880h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Reporting &amp; Analytics</div>
+              <div class='init-desc'>Management dashboards, statutory reports, KPI tracking &amp; exports</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>3</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>1,760h</span></td>
+          </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Penalty &amp; Interest</div>
+               <div class='init-desc'>Interest calculation, credit unallocated payment segments</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge prio-na' style='background:transparent; border:1px solid #CCCCCC; color:#888;'>N/A</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Tax Accounts</div>
+              <div class='init-desc'>Tax account setup, configurable thresholds, notifications</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>2</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Debt Management</div>
+              <div class='init-desc'>Debt recovery workflows, write-off management, enforcement actions</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>5</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Audit &amp; Compliance</div>
+               <div class='init-desc'>Case management, audit trail logging, compliance monitoring &amp; alerts</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge' style='background:#CCCCCC;'>P3</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+         </tbody>
+      </table>
+    </div>
+    </div>
+
+    <div class='right-panel' data-ai-instructions='
+      Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+    '>
+
+      <div class='value-card' data-block='auto_div_business_value' data-ai-instructions='
+        Keep the Business Value card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe coral'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Business Value</div>
+              <div class='card-subtitle'>Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class='value-bullets coral-dots'>
+            <li>End-to-end taxpayer lifecycle management from registration through accounting and penalty enforcement</li>
+            <li>Automated billing, assessments &amp; penalty calculations reduce manual caseworker effort across all tax types</li>
+            <li>Directly accelerates Greek project delivery and enables rapid reuse across future jurisdictions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class='value-card' data-block='auto_div_market_relevance' data-ai-instructions='
+        Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe teal'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Market Relevance</div>
+              <div class='card-subtitle'>Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class='value-bullets teal-dots'>
+            <li>Core dependency for all current and pipeline Solon Tax implementations across multiple jurisdictions</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform in active tenders</li>
+            <li>Platform completeness is a prerequisite condition cited in new-market RFP evaluation criteria</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class='footer-text'>Solon Tax Product Roadmap 2026</span>
+    <span class='footer-text'>Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 3: slide_1 — #3 ===
+You populate one slide instance in a presentation template with real content.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (52 rows)
+Issue Type: Feature | IRM: IRM-30636 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: APPSEC TEAM | Roadmap Feature: SOLONTAX Supply Chain Security Enablement | Requester: Other | PI: PI30 | Estimate: 2240 | Feature Priority: p3 | Feature Status: To Do | Features Description: This enabler targets the end-to-end improvement of software supply chain security across development operations by adopting related best practices (CIS benchmark, NIST SSDF, SLSA, OWASP SCVS).{*}Scope includes:{*}
+
+*1. Benchmark Assessment*
+ * Conduct an initial assessment of existing software supply chain processes and tools against the CIS benchmark control families (Governance, Source Code, Build, Dependencies, Deployment, Monitoring).
+ * Identify compliance gaps and improvement areas.
+
+*2. Governance & Policy Definition*
+ * Update a Supply Chain Security practices in the security plan.
+ * Establish ownership, maintenance procedures, and periodic review cycles.
+
+*3. Source Code & Dependency Security*
+ * Enforce secure repository configurations (signed commits, branch protection, access control).
+ * Integrate Software Composition Analysis (SCA) and open-source dependency validation.
+ * Generate and maintain Software Bill of Materials (SBOMs) for all products.
+
+*4. Build & CI/CD Pipeline Hardening*
+ * Review and harden CI/CD configurations per CIS benchmark controls:
+ ** Credential and secret management
+ ** Build agent isolation
+ ** Artifact integrity validation
+ ** Controlled use of third-party build steps/plugins
+ ** Enable artifact signing and reproducible builds.
+
+*5. Artifact & Deployment Integrity*
+ * Enforce signed artifacts and signature verification during deployments.
+ * Apply access and retention controls for artifact repositories.
+
+*6. Monitoring, Compliance & Continuous Improvement*
+ * Automate CIS benchmark validation where possible.
+ * Conduct regular re-assessments and track remediation progress.
+ * Provide compliance dashboards and evidence for audits.
+Issue Type: Feature | IRM: IRM-30635 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: APPSEC TEAM | Roadmap Feature: SOLON TAX Application Security Core Enablement  | Requester: Other | PI: PI30 | Estimate: 0.8999999999999999 | Feature Priority: p3 | Feature Status: In Progress | Features Description: This enabler covers all recurring application security assurance activities executed annually and per Program Increment (PI) to maintain a consistent, compliant, and resilient security posture across all products.
+
+*Scope includes:*
+h4. Annual activities
+ * Application security training for development teams.
+
+ * Product threat model updates.
+
+ * Security requirements compliance assessments (OWASP ASVS Trust Level 3).
+
+h4. Per-PI activities
+ * Secure Architecture and Secure Design definition support.
+
+ * Threat modeling for new features and existing components.
+
+ * Secure code review for critical and high-risk features.
+
+ * DevSecOps automation maintenance and configuration (SAST, SCA, DAST, Container Image Scanning, Secret Scanning).
+
+ * Vulnerability management monitoring, resolution advisory, and reporting.
+
+ * Security verification testing against newly implemented features.
+
+ * Handling of security service requests from clients and projects, including support for external assessments, questionnaires, penetration testing evidence, and product security clarifications.
+
+h4. Continuous evolution (tooling, methodology, practices)
+ * Enhancements in policies and configurations for automated security testing to increase accuracy and coverage.
+
+ * Adaptation of threat modeling techniques and secure coding practices based on evolving standards and frameworks.
+
+ * Research and Proof of Concept (PoC) evaluations of new application security testing tools to identify opportunities for automation, scalability, and improved detection capabilities.
+
+h4. Governance and support
+ * Provide security-related input to tender documentation.
+
+ * Participate in internal and external audits, providing technical and procedural security evidence.
+
+ * Participate in meetings and security review boards as required.
+Issue Type: Feature | IRM: IRM-30639 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: APPSEC TEAM | Roadmap Feature: Horizontal Security Controls Design Specification & Documentation | Requester: Other | PI: PI30 | Estimate: 1493.1 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: This enabler focuses on ensuring the product’s security design and specification documentation meets the requirements defined in OWASP ASVS 5.0, improving transparency, audit readiness, and maintainability.
+
+The activity involves reviewing, updating, and formalizing the product’s design documentation across key domains to ensure it aligns with secure design expectations and is kept current with architectural and functional changes.
+h3. *Key Objectives:*
+ * Establish and maintain comprehensive security design and specification documentation in alignment with OWASP ASVS 5.0 requirements.
+ * Perform a gap analysis against ASVS 5.0 to identify missing, incomplete, or outdated security documentation.
+ * Define and document security controls, expected behaviors, and rationale for all key areas (validation, authentication, authorization, data protection, configuration, secure coding, and logging).
+ * Ensure that design specifications accurately reflect implemented controls and are updated whenever architectural or functional changes occur.
+ * Introduce a structured and version-controlled documentation framework (e.g., via Confluence or repository) to ensure traceability and controlled updates.
+ * Integrate documentation reviews into the product’s regular development and release cadence (e.g., per PI or major release).
+ * Improve alignment between threat models, design specifications, and verification activities to support audits and ongoing assurance.
+Issue Type: Feature | IRM: IRM-28387 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: ARK | Roadmap Feature: DD160 - Programming Guidelines – Java | Construct Document | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-28442 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: ARK | Roadmap Feature: O0500 - Software Architecture | Construct Document | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-31711 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: ARK | Roadmap Feature: D0110 - Technical Design Guidelines | Construct Document (Next Version) | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-31922 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: ARK | Roadmap Feature: Feature-based Documentation | Create Best Practices | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: Business Owners | Roadmap Feature: Business Owners | Requester: Other | PI: PI30 | Estimate: 1800 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: CEREMONIES AND TRAININGS | Roadmap Feature: Ceremonies and Trainings (Current PI30) | Requester: Other | PI: PI30 | Estimate: 2133 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: CORRECTIVE MAINTENANCE | Roadmap Feature: CORRECTIVE MAINTENANCE PI30 | Requester: Other | PI: PI30 | Estimate: 560 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-35280 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: PI27 DevOPs Meetings and Training | Requester: Other | PI: PI30 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: Plan and deliver a series of DevOps meetings and training sessions to align teams on CI/CD best practices, Infrastructure as Code, observability, security/compliance, and incident response.
+Issue Type: Feature | IRM: IRM-35283 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: Pi27 DevOps Evolution | Requester: Other | PI: PI30 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: Enhancements on tools, pipelines, automations
+Issue Type: Feature | IRM: IRM-35282 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: PI27 DevOps Cluster Upgrades | Requester: Other | PI: PI30 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: Upgrade of Solon Tax's existing clusters 
+Issue Type: Feature | IRM: IRM-35281 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: PI27 DevOps - Infrastructure and Maintenance activities | Requester: Other | PI: PI30 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: Infrastructure and maintenance requests originating from DevOps 
+Issue Type: Feature | IRM: IRM-35519 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: PI27 DBA Activities and Environment Support | Requester: Other | PI: PI30 | Estimate:  | Feature Priority: p3 | Feature Status: To Do | Features Description: PI27 DBA Activities and Environment Support
+Issue Type: Feature | IRM: IRM-35107 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DEVOPS | Roadmap Feature: Tooling | Document Review Process Internal documents/Documentation Owners - DevOps | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-39515 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DOCUMENTATION | Roadmap Feature: Tooling | Internal Documents Review Process - DRAFT MR | Requester: Other | PI: PI30 | Estimate:  | Feature Priority: p3 | Feature Status: In Design | Features Description: Internal Documents Review Process by means of DRAFT MR.
+Issue Type: Feature | IRM: IRM-28417 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DOCUMENTATION | Roadmap Feature: D0160 - User-interface design | Migrate Document | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-28434 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DOCUMENTATION | Roadmap Feature: O0200 - Operations Guide | Migrate Document | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-34897 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DOCUMENTATION | Roadmap Feature: Tooling | Document Review Process Internal documents/Documentation Owners - TW | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-35419 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DOCUMENTATION | Roadmap Feature: Tooling | Document Repository Structure | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-35720 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DOCUMENTATION | Roadmap Feature: Product Documentation Team - PI 27 Support | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-35728 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DOCUMENTATION | Roadmap Feature: Product Documentation Support (TW) | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-40138 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: DOCUMENTATION | Roadmap Feature: Tooling | DD120 Migration to PlantUML | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Delivery | Requester: Other | PI: PI30 | Estimate: 288 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Development Management | Requester: Other | PI: PI30 | Estimate: 864 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Management PdM | Requester: Other | PI: PI30 | Estimate: 1296 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Architect | Requester: Other | PI: PI30 | Estimate: 576 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Test Manager | Requester: Other | PI: PI30 | Estimate: 288 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Product Implementaions Leads (PIL) | Requester: Other | PI: PI30 | Estimate: 1152 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: PIL2 TL - Daedalus, Athena, Spartans | Requester: Other | PI: PI30 | Estimate: 259.2 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: PIL3 TL - Helios, EOS, Selene | Requester: Other | PI: PI30 | Estimate: 259.2 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: PIL4 - Sif, Baldur | Requester: Other | PI: PI30 | Estimate: 172.8 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Technical Architecture and engineering | Requester: Other | PI: PI30 | Estimate: 691.2 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: PMO & Analysis Lead | Requester: Other | PI: PI30 | Estimate: 288 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: DevOps | Requester: Other | PI: PI30 | Estimate: 86.4 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT | Roadmap Feature: Service Desk | Requester: Other | PI: PI30 | Estimate: 144 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-28205 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT TIME | Roadmap Feature: T0100 - Test Strategy | Construct Document | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-32096 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT TIME | Roadmap Feature: P0150 - Product Handbook | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-34749 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT TIME | Roadmap Feature: PD Managerial Improvements | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-34915 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT TIME | Roadmap Feature: PI27 | NC Methodology Management | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-35189 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: MANAGEMENT TIME | Roadmap Feature: PI27 Administration | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PMO & Analysis | Roadmap Feature: WoW and Governance | Requester: Other | PI: PI30 | Estimate: 576 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PMO & Analysis | Roadmap Feature: AgenticAI track 1 | Requester: Other | PI: PI30 | Estimate: 864 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PREVENTIVE MAINTENANCE | Roadmap Feature: PREVENTIVE MAINTENANCE PI30 | Requester: Other | PI: PI30 | Estimate: 1600 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: PROJECT SUPPORT | Roadmap Feature: Project Support PI30 | Requester: Other | PI: PI30 | Estimate: 373 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: RELEASE ACTIVITIES | Roadmap Feature: Release Management PI30 | Requester: Other | PI: PI30 | Estimate: 432 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: RELEASE ACTIVITIES | Roadmap Feature: Release Activities PI30 | Requester: Other | PI: PI30 | Estimate: 320 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-40623 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: RELEASE ACTIVITIES | Roadmap Feature: PI 27 External Documentation Review (Shared Review) - v3.0.0 | Requester: Other | PI: PI30 | Estimate:  | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: PLACEHOLDER | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: SECURITY | Roadmap Feature: Security Defect/Improvement Management (Current PI30) | Requester: Other | PI: PI30 | Estimate: 480 | Feature Priority:  | Feature Status:  | Features Description: 
+Issue Type: Feature | IRM: IRM-30526 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: TRAINING | Roadmap Feature: Training material and courses | Requester: Other | PI: PI30 | Estimate: 746.9 | Feature Priority: p3 | Feature Status: To Do | Features Description: * Training material (presentation, documentation & videos)
+ * Hands-on exercises
+ * Classroom sessions (4 rounds per year - 10 days/round)
+
+Curriculum is presented in the attached slide. PD is expected to cover the scope of the column on the right and offer support (approx. 30%) for the remaining scope
+Issue Type: Feature | IRM: IRM-30525 | Roadmap Initiative Group: OTHER ACTIVITIES | Roadmap Initiative: TRAINING | Roadmap Feature: Training environment | Requester: Other | PI: PI30 | Estimate: 1213.1 | Feature Priority: p3 | Feature Status: To Do | Features Description: Setup and maintenance of a dedicated environment for training purposes. 
+
+ 
+
+=== Shared Reference Data ===
+=== RichFeatureQueries_Full_2026.xlsx / Reference Sheet ===
+85233 | Spent Hours 2026
+160808.08462 | Planned Hours 2026
+246041.41795333335 | Total Hours 2026
+56218.299999999996 | PI 28 Total Hours
+66240.4 | PI 29 Total Hours
+38372.700000000004 | PI 30 Total Hours
+
+=== RichFeatureQueries_Full_2026.xlsx / Requester Stats ===
+PI | Requester | Estimate | __EMPTY | __EMPTY_1 | __EMPTY_2 | __EMPTY_3 | __EMPTY_4
+PI30 | Other | 30932 |  |  |  |  | 
+PI30 | GRC | 8493 |  |  |  |  | 
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Group Stats ===
+PI | Roadmap Initiative Group | Initiative Count | Feature Count | Estimate
+PI30 | OTHER ACTIVITIES | 16 | 38 | 21858
+PI30 | CORE SUPPORTING CAPABILITIES | 5 | 6 | 2727
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | 1 | 1 | 1213
+PI30 | CORE DATA HUB CAPABILITIES | 2 | 2 | 5973
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | 6 | 13 | 6870
+PI30 | REFERENCE IMPLEMENTATIONS | 3 | 4 | 785
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Stats ===
+PI | Roadmap Initiative Group | Roadmap Initiative | Total Estimate | Features | P1 | P2 | P3
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA EXCHANGE | 2240 | 1 | 0 | 0 | 1
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA STORAGE | 3733 | 1 | 0 | 0 | 1
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | EXEMPTIONS | 1213 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | BATCH PROCESSING ENHANCEMENTS | 1092 | 2 | 0 | 0 | 2
+PI30 | CORE SUPPORTING CAPABILITIES | DOCUMENT MANAGEMENT INTEGRATION | 104 | 1 | 1 | 0 | 0
+PI30 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | REFERENCE DATA | 747 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | CONTACT MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | MAINTAINABILITY | 4014 | 7 | 0 | 0 | 7
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | USABILITY | 1960 | 2 | 0 | 0 | 2
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | ACCESSIBILITY | 373 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | 131 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | OPERABILITY |  | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | DEVOPS |  | 7 | 0 | 0 | 5
+PI30 | OTHER ACTIVITIES | TRAINING | 1960 | 2 | 0 | 0 | 2
+PI30 | OTHER ACTIVITIES | DOCUMENTATION |  | 8 | 0 | 0 | 1
+PI30 | OTHER ACTIVITIES | APPSEC TEAM | 3734 | 3 | 0 | 0 | 3
+PI30 | OTHER ACTIVITIES | MANAGEMENT | 6451 | 13 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | RELEASE ACTIVITIES | 1232 | 10 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO support | 94 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PREVENTIVE MAINTENANCE | 1600 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PROJECT SUPPORT | 373 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CORRECTIVE MAINTENANCE | 560 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | SECURITY | 480 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CEREMONIES AND TRAININGS | 2133 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO & Analysis | 1440 | 2 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | Business Owners | 1800 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | MANAGEMENT TIME |  | 5 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | ARK |  | 4 | 0 | 0 | 0
+PI30 | REFERENCE IMPLEMENTATIONS | PAYE | 392 | 1 | 0 | 0 | 1
+PI30 | REFERENCE IMPLEMENTATIONS | PIT | 262 | 2 | 0 | 0 | 2
+PI30 | REFERENCE IMPLEMENTATIONS | CIT | 131 | 1 | 0 | 0 | 1
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write n/a for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate content for slide instance 3 of 6 using the SOURCE DATA above.
+User instructions: [auto_div_header] Edit only these text nodes:
+    .pi-badge -> value of ACTIVE PI field, for example PI 28
+    .header-title -> always the value of Roadmap Initiative Group field verbatim
+    .header-stat-value (1st) -> Total Effort formatted with comma
+    .header-stat-value (2nd) -> Initiative Count as integer
+    .header-stat-value (3rd) -> Feature Count as integer
+
+[auto_div_initiatives_table] Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+
+[div] Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+
+[auto_div_business_value] Keep the Business Value card structure intact.
+        Update only the bullet text.
+
+[auto_div_market_relevance] Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+
+translate everythin into german.
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+HTML INSIDE JSON — MANDATORY RULES (for HTML zones):
+- ALL HTML attribute values MUST use single quotes (e.g. class='foo', href='...', src='...')
+- NEVER use double quotes inside HTML — they break JSON string parsing
+- Escape any literal backslashes in HTML as \
+
+STRUCTURAL CONTRACT FOR HTML ZONES (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+Violating this breaks the slide layout irreparably.
+
+HTML ZONES (TEMPLATES PER KEY — structure is a contract, fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='header-left'>
+      <div class='pi-badge'>PI 28</div>
+      <div class='header-text-section'>
+        <div class='header-label'>Feature Catalog</div>
+        <div class='header-title'>Core Revenue Management Capabilities</div>
+        <div class='header-subtitle'>Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class='header-right'>
+      <div class='header-stat'>
+        <div class='header-stat-value'>23,200</div>
+        <div class='header-stat-label'>Total Hours</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>10</div>
+        <div class='header-stat-label'>Initiatives</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>35</div>
+        <div class='header-stat-label'>Features</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='table-wrap-outer' data-block='auto_div_initiatives_table' data-ai-instructions='
+      Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+    '>
+    <div class='table-wrap'>
+      <table>
+        <thead>
+          <tr>
+            <th style='width:49%'>Initiative</th>
+            <th style='width:20%' class='sortable' data-col='1' data-type='status'>Status</th>
+            <th style='width:8%'  class='sortable' data-col='2' data-type='number'>Features</th>
+            <th style='width:10%' class='sortable' data-col='3' data-type='priority'>Priority</th>
+            <th style='width:13%' class='sortable' data-col='4' data-type='effort'>Effort</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class='init-name'>Registration</div>
+              <div class='init-desc'>Party identifiers, org hierarchy, search enhancements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>14</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>11,866h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Taxpayer Accounting</div>
+              <div class='init-desc'>General ledger core, reconciliation &amp; balance management</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>9</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>8,064h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Returns Processing</div>
+              <div class='init-desc'>Filing workflows, validation rules, submission tracking &amp; acknowledgements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>7</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>4,320h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Payment Processing</div>
+              <div class='init-desc'>Multi-channel payments, allocation rules &amp; reconciliation engine</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>3,200h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Billing &amp; Assessments</div>
+              <div class='init-desc'>Instalment plans, assessment automation, billing cycles</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>2,880h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Reporting &amp; Analytics</div>
+              <div class='init-desc'>Management dashboards, statutory reports, KPI tracking &amp; exports</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>3</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>1,760h</span></td>
+          </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Penalty &amp; Interest</div>
+               <div class='init-desc'>Interest calculation, credit unallocated payment segments</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge prio-na' style='background:transparent; border:1px solid #CCCCCC; color:#888;'>N/A</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Tax Accounts</div>
+              <div class='init-desc'>Tax account setup, configurable thresholds, notifications</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>2</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Debt Management</div>
+              <div class='init-desc'>Debt recovery workflows, write-off management, enforcement actions</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>5</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Audit &amp; Compliance</div>
+               <div class='init-desc'>Case management, audit trail logging, compliance monitoring &amp; alerts</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge' style='background:#CCCCCC;'>P3</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+         </tbody>
+      </table>
+    </div>
+    </div>
+
+    <div class='right-panel' data-ai-instructions='
+      Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+    '>
+
+      <div class='value-card' data-block='auto_div_business_value' data-ai-instructions='
+        Keep the Business Value card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe coral'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Business Value</div>
+              <div class='card-subtitle'>Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class='value-bullets coral-dots'>
+            <li>End-to-end taxpayer lifecycle management from registration through accounting and penalty enforcement</li>
+            <li>Automated billing, assessments &amp; penalty calculations reduce manual caseworker effort across all tax types</li>
+            <li>Directly accelerates Greek project delivery and enables rapid reuse across future jurisdictions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class='value-card' data-block='auto_div_market_relevance' data-ai-instructions='
+        Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe teal'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Market Relevance</div>
+              <div class='card-subtitle'>Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class='value-bullets teal-dots'>
+            <li>Core dependency for all current and pipeline Solon Tax implementations across multiple jurisdictions</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform in active tenders</li>
+            <li>Platform completeness is a prerequisite condition cited in new-market RFP evaluation criteria</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class='footer-text'>Solon Tax Product Roadmap 2026</span>
+    <span class='footer-text'>Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 4: slide_1 — #4 ===
+You populate one slide instance in a presentation template with real content.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (6 rows)
+Issue Type: Feature | IRM: IRM-41632 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: BATCH PROCESSING ENHANCEMENTS | Roadmap Feature: Amplio batch - Replacement of SCDF with Amplio (Part 3) | Requester: Other | PI: PI30 | Estimate: 494.9 | Feature Priority: p3 | Feature Status: To Do | Features Description: The main goal of the feature, is to migrate the remaining batch jobs to the Amplio Batch engine.
+h2. 1. Job migrations
+h3. 1.1 revenue-management-batch repository
+
+In the revenue-management-batch repository, the following missing jobs marked as BASE, needs to be migrated:
+|*Image Name*|*Category*|*Release*|*GR AADE priority* |
+|archive-data|BASE|TBD|p2|
+|data-nomination|BASE|TBD|p2|
+|delete-data|BASE|TBD|p2|
+|gdpr-anonymize-data|BASE|TBD|p3|
+|gdpr-deletion|BASE|TBD|p3|
+ * This job needs to be refactored, to not use temporary tables anymore and is therefore not a 1-1 migration.
+h3. 1.2 revenue-management-batch-custom repository
+
+In the revenue-management-batch-custom repository, the following missing jobs marked as EXAMPLE, needs to be migrated:
+|*Image Name*|*Category*|*Release*|{*}GR AADE priority{*}{*}{*}|
+|compliance-monitor|EXAMPLE|TBD|p2|
+|release-suppression|EXAMPLE|TBD|p3|
+|suppression-activations|EXAMPLE|TBD|p3|
+|debt-recovery|EXAMPLE|TBD|p3|
+|handover-debt|EXAMPLE|TBD|p3|
+h2. 2. Miscellaneous
+h3. 2.1 Deprecation warnings
+
+All migrated jobs, should be marked as deprecated within SCDF.
+h3. 2.2 Documentation
+
+Remaining documentation, including detailed design for the batch engine needs to be finalized, together with new documentation for the batch jobs as they get migrated. 
+
+The product documentation likewise needs to be updated. 
+Issue Type: Feature | IRM: IRM-40987 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: BATCH PROCESSING ENHANCEMENTS | Roadmap Feature: Amplio Batch - Java foundation 4.0 | Requester: Other | PI: PI30 | Estimate: 597.1 | Feature Priority: p3 | Feature Status: To Do | Features Description: This Support is dependant on the newest version of Amplio being released, which is expected sometime in the beginning of 2026.
+
+Scope:
+ # Update to newest version of Amplio
+ ** Java Foundation 4.0 and Amplio Rho 2.0 are scheduled to be released in January 2026.
+ ** The release will introduce new functionality for the batch engine, for example the possibility to start batch jobs directly from the UI. 
+ ** The upgrade should be coordinated with the Amplioj4Solon team, as revenue-management-batch, Amplio Admin and Amplio Process Engine all need to follow the same version of Amplio.
+ # Technical alignment between Amplio Process Engine, Amplio Batch and SOLON
+ ** Because of the direct dependencies between the components, It is needed to get them technically aligned. This is both in regards to ensuring immediate support for new functionality but also ensuring maintainability of the projects within the SOLON product team.
+ # Use foundation functionality for batch jobs
+ ** The scope is both in regards to utilizing improved batch scheduler functionality introduced in future foundation releases, but also ensuring proper multitenancy support, as provided by the foundation.
+Issue Type: Feature | IRM: IRM-30378 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CASE MANAGEMENT | Roadmap Feature: Integration with Luminus (BRA & Audit support)   | Requester: GRC | PI: PI30 | Estimate: 392 | Feature Priority: p3 | Feature Status: To Do | Features Description: * Improve *integration* with Lumenus BRA / Contractual
+   Candidate list to generate cases flow (batch) 
+   SSO, traceability of source steps and criteria/valuation 
+ * Establish  *integration* with Lumenus Audit Support  (?) / Contractual
+   Audit cases integrated with Audit cases in Lumenus and sync statuses
+Issue Type: Feature | IRM: IRM-761 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CONTACT MANAGEMENT | Roadmap Feature: Support History of Changes for Contact when edited before sent as well - User | Requester: GRC | PI: PI30 | Estimate: 392 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As a revenue official, I want to see the history of changes for the contact, so that I can understand who changed what and when.
+
+*Functional Requirements*
+
+*Contacts History*
+ * User can see a list with list entries that show what changed on the contact over time. Each time the contact is updated a list entry is added automatically. 
+ * For each change (not only status transition - like in parties) , the user can see details of what changed, when and who made the change
+ ** e.g. , This should be logged also when contact was changed before sent or when in generated status change channel. 
+ * User can click to open version page (as in Financial transactions)
+ * User can sort and filter the list
+
+*List page*
+ * In Contacts list page I have available the versions menu
+ * Open Contact versions page
+Issue Type: Feature | IRM: IRM-28521 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: DOCUMENT MANAGEMENT INTEGRATION | Roadmap Feature: Generic component - Support for Embedded 3rd-Party Digital Signature and Document Preview Components in RM pages | Requester: Other | PI: PI30 | Estimate: 104.30000000000001 | Feature Priority: p1 | Feature Status: Closed | Features Description: As an delivery team and admin I need the ability to integrate 3rd-party components such as digital signature dialogs and embedded document/PDF previewers into the Solon UI, so that we can support customer-specific implementations.
+As a revenue authority user, I want to preview forms and assist taxpayers in digitally signing documents directly within the Registration Module (RM), in order to comply with national requirements and improve support service at physical desks.
+
+On these Solon will not provide any out of the self integration with these tools but will provide a widget to enable partners on that. 
+
+*Introduction*
+
+According to the Lithuanian law, when signing documents electronically, the user should be able to preview the document in the Web page. Furthermore, the customers want to be able to preview signed or unsigned documents within the web app.
+Moreover, there are user flows provided by the client, where users need to preview PDF documents directly within the application. However, the current UI/JSON schema system does not support rendering or embedding PDF viewers, making it impossible to include this functionality through the schema.
+
+Currently, Solon's UI metadata schema (UI/JSON) does not support rendering embedded components like PDF viewers or signature popups. As a result, these features cannot be implemented declaratively through configuration alone. Similar components will be used in ISS by LT delivery teams  (using external portal platform). 
+Relevant: 
+[https://jira.intrasoft-intl.com/browse/PSD-11428]
+[https://jira.intrasoft-intl.com/browse/PSD-12028] 
+
+Solon {*}will not deliver native integrations with specific 3rd-party signature providers or preview tools{*}. However, to support flexibility and enable integration at project level, Solon will provide a generic UI extension mechanism (widget) that can be configured to load and render such external components.
+
++Considerations+ 
+ * _This widget/tag will allow embedding or linking to external components,  such as:_
+ ** _PDF  document viewers (e.g. in form page preview form and attachments in a relevant preview mode)_
+ *** _External digital signature modules._
+_WHAT IS/could be  INCLUDED IN THE iframe and the support of all its usages is Out of scope_ 
+_In scope: Be able to add iframes in modals and pages._ 
+ ** _The new tag if used in an appropriate widget that is expected to be implemented by delivery , it will be able to support_ 
+ *** _rendering the embedded content inline_ 
+ *** _or  opening it as a dialog/popup/modal. (such as receiving input request from digital signature app)_
+ *** _being triggerable by actions of user (e.g. sign button)_
+ *** _pass parameters  via urls or post messages_ 
+ *** _return control to Solon tax ui on success of the process (e.g. sign properly) ._ 
+
+ 
+
+*Functional requirements*
+ * A new *custom widget framework  (i.e.*  *widget-based framework* *using* *secure iframe embedding)* will be introduced in the UI schema system.
+ ** Product based on type of widget  (pdf viewer, digital signature)  the proper sandbox attributes should be used
+(iframes preferably should have the {{sandbox}} attribute to restrict the content of the embedded page. Any features that are needed (execute scripts, submit forms, etc.) can be explicitly enabled per case when needed).
+ ** Closing window callbacks may be functional. 
+ ** Be agnostic to signature providers.
+ ** Be reusable / configurable 
+
+Out of scope : 
+Ui interaction/ post messages 
+Custom error messages 
+
+ 
+
+*Assumption* :
+Integration is {*}properly implemented{*}.
+The delivery teams must ensure that the embedded solutions conform to {*}data protection{*}, {*}security policies{*}, and *access control rules* already applied in Solon.
+
+ 
+
+*Documentation*
+
+Document all the above adjustments and any suggestion on good usage of the iframe while posting messages. 
+
+ 
+
+*Non functional requirements*
+
+Performance and Security DODs should be fulfilled. 
+----
+!image-2025-07-31-14-51-32-673.png!
+
+!image-2025-07-28-21-14-34-600.png|width=1146,height=625!
+
+ 
+
+ 
+----
+Flow :
+
+*E-Signature Workflow Overview*
+ # *User Initiates Signing* (frontend)
+
+The user clicks the *"Sign"* button.
+ # *Signing Initialization Request* (backend)
+
+A request is sent to the {*}electronic signature service{*}, which:
+ * Uploads the files to the {*}signature provider{*}.
+ * Initializes the signing process with a specified returnUrl, used to redirect the user back to our system after signing.
+ * Returns an {*}external signing UID{*}.
+
+ # *Popup with Embedded Signing UI* (frontend)
+
+A popup window is opened containing an iframe.
+The iframe loads the signing page using the URL that includes the *external signing UID* as a query parameter.
+
+*_[DASKALAKIS Ioannis] Please provide, if possible, some more details on the authentication and authorization scheme that may need to be followed to facilitate loading service’s provider URL for the given UID with  the User’s  browser session._*
+
+*_No authentication needs to be done from the browser. Only the backend IP needs to be whitelisted on the service provider and our service accepting the callback needs to be exposed and reachable by the service provider. We have started a discussion about this on another channel, still waiting for a response._*
+ # *User Signs Documents* (frontend)
+
+The user completes the signing process within the loaded iframe page.
+ # *Callback and Document Handling* (backend)
+
+Our service receives a *callback* from the signature provider when the document status changes (e.g., signing completed).
+At this point, we:
+ * {*}Download{*}the signed version of the document from the provider.
+ * {*}Validate{*}the signed document.
+ * {*}Upload{*}it via the document-management
+
+*_[DASKALAKIS Ioannis] This, along with #3, suggests that any document exchange between our system and the signature provider will only take place via service API calls with an adapter implemented in the scope of the project. Please confirm._*
+
+*_Yes, that is correct._*
+ # *User Redirection and UI Update* (frontend)
+
+After signing, the user sees a *success message* on the provider's page and is *redirected to the* {*}returnUrl{*}.
+If we are able to detect this redirect within the popup, we can:
+ * Automatically {*}close the popup{*}.
+ * {*}Load the signed document{*}and its metadata in our system for the user to review.
+
+*_[DASKALAKIS Ioannis] Is this required to be a document preview functionality, or it is a direct document download?_*
+
+*_Preview is required according to project requirements._*
+Issue Type: Feature | IRM: IRM-36279 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: REFERENCE DATA | Roadmap Feature: Addition of validitiy period on relationships between codelist items | Requester: Other | PI: PI30 | Estimate: 746.9 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: Codelist item relationship need to be enhanced and include date range for which the relationship applies.
+
+=== Shared Reference Data ===
+=== RichFeatureQueries_Full_2026.xlsx / Reference Sheet ===
+85233 | Spent Hours 2026
+160808.08462 | Planned Hours 2026
+246041.41795333335 | Total Hours 2026
+56218.299999999996 | PI 28 Total Hours
+66240.4 | PI 29 Total Hours
+38372.700000000004 | PI 30 Total Hours
+
+=== RichFeatureQueries_Full_2026.xlsx / Requester Stats ===
+PI | Requester | Estimate | __EMPTY | __EMPTY_1 | __EMPTY_2 | __EMPTY_3 | __EMPTY_4
+PI30 | Other | 30932 |  |  |  |  | 
+PI30 | GRC | 8493 |  |  |  |  | 
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Group Stats ===
+PI | Roadmap Initiative Group | Initiative Count | Feature Count | Estimate
+PI30 | OTHER ACTIVITIES | 16 | 38 | 21858
+PI30 | CORE SUPPORTING CAPABILITIES | 5 | 6 | 2727
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | 1 | 1 | 1213
+PI30 | CORE DATA HUB CAPABILITIES | 2 | 2 | 5973
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | 6 | 13 | 6870
+PI30 | REFERENCE IMPLEMENTATIONS | 3 | 4 | 785
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Stats ===
+PI | Roadmap Initiative Group | Roadmap Initiative | Total Estimate | Features | P1 | P2 | P3
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA EXCHANGE | 2240 | 1 | 0 | 0 | 1
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA STORAGE | 3733 | 1 | 0 | 0 | 1
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | EXEMPTIONS | 1213 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | BATCH PROCESSING ENHANCEMENTS | 1092 | 2 | 0 | 0 | 2
+PI30 | CORE SUPPORTING CAPABILITIES | DOCUMENT MANAGEMENT INTEGRATION | 104 | 1 | 1 | 0 | 0
+PI30 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | REFERENCE DATA | 747 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | CONTACT MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | MAINTAINABILITY | 4014 | 7 | 0 | 0 | 7
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | USABILITY | 1960 | 2 | 0 | 0 | 2
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | ACCESSIBILITY | 373 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | 131 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | OPERABILITY |  | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | DEVOPS |  | 7 | 0 | 0 | 5
+PI30 | OTHER ACTIVITIES | TRAINING | 1960 | 2 | 0 | 0 | 2
+PI30 | OTHER ACTIVITIES | DOCUMENTATION |  | 8 | 0 | 0 | 1
+PI30 | OTHER ACTIVITIES | APPSEC TEAM | 3734 | 3 | 0 | 0 | 3
+PI30 | OTHER ACTIVITIES | MANAGEMENT | 6451 | 13 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | RELEASE ACTIVITIES | 1232 | 10 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO support | 94 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PREVENTIVE MAINTENANCE | 1600 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PROJECT SUPPORT | 373 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CORRECTIVE MAINTENANCE | 560 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | SECURITY | 480 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CEREMONIES AND TRAININGS | 2133 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO & Analysis | 1440 | 2 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | Business Owners | 1800 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | MANAGEMENT TIME |  | 5 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | ARK |  | 4 | 0 | 0 | 0
+PI30 | REFERENCE IMPLEMENTATIONS | PAYE | 392 | 1 | 0 | 0 | 1
+PI30 | REFERENCE IMPLEMENTATIONS | PIT | 262 | 2 | 0 | 0 | 2
+PI30 | REFERENCE IMPLEMENTATIONS | CIT | 131 | 1 | 0 | 0 | 1
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write n/a for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate content for slide instance 4 of 6 using the SOURCE DATA above.
+User instructions: [auto_div_header] Edit only these text nodes:
+    .pi-badge -> value of ACTIVE PI field, for example PI 28
+    .header-title -> always the value of Roadmap Initiative Group field verbatim
+    .header-stat-value (1st) -> Total Effort formatted with comma
+    .header-stat-value (2nd) -> Initiative Count as integer
+    .header-stat-value (3rd) -> Feature Count as integer
+
+[auto_div_initiatives_table] Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+
+[div] Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+
+[auto_div_business_value] Keep the Business Value card structure intact.
+        Update only the bullet text.
+
+[auto_div_market_relevance] Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+
+translate everythin into german.
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+HTML INSIDE JSON — MANDATORY RULES (for HTML zones):
+- ALL HTML attribute values MUST use single quotes (e.g. class='foo', href='...', src='...')
+- NEVER use double quotes inside HTML — they break JSON string parsing
+- Escape any literal backslashes in HTML as \
+
+STRUCTURAL CONTRACT FOR HTML ZONES (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+Violating this breaks the slide layout irreparably.
+
+HTML ZONES (TEMPLATES PER KEY — structure is a contract, fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='header-left'>
+      <div class='pi-badge'>PI 28</div>
+      <div class='header-text-section'>
+        <div class='header-label'>Feature Catalog</div>
+        <div class='header-title'>Core Revenue Management Capabilities</div>
+        <div class='header-subtitle'>Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class='header-right'>
+      <div class='header-stat'>
+        <div class='header-stat-value'>23,200</div>
+        <div class='header-stat-label'>Total Hours</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>10</div>
+        <div class='header-stat-label'>Initiatives</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>35</div>
+        <div class='header-stat-label'>Features</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='table-wrap-outer' data-block='auto_div_initiatives_table' data-ai-instructions='
+      Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+    '>
+    <div class='table-wrap'>
+      <table>
+        <thead>
+          <tr>
+            <th style='width:49%'>Initiative</th>
+            <th style='width:20%' class='sortable' data-col='1' data-type='status'>Status</th>
+            <th style='width:8%'  class='sortable' data-col='2' data-type='number'>Features</th>
+            <th style='width:10%' class='sortable' data-col='3' data-type='priority'>Priority</th>
+            <th style='width:13%' class='sortable' data-col='4' data-type='effort'>Effort</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class='init-name'>Registration</div>
+              <div class='init-desc'>Party identifiers, org hierarchy, search enhancements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>14</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>11,866h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Taxpayer Accounting</div>
+              <div class='init-desc'>General ledger core, reconciliation &amp; balance management</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>9</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>8,064h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Returns Processing</div>
+              <div class='init-desc'>Filing workflows, validation rules, submission tracking &amp; acknowledgements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>7</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>4,320h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Payment Processing</div>
+              <div class='init-desc'>Multi-channel payments, allocation rules &amp; reconciliation engine</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>3,200h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Billing &amp; Assessments</div>
+              <div class='init-desc'>Instalment plans, assessment automation, billing cycles</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>2,880h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Reporting &amp; Analytics</div>
+              <div class='init-desc'>Management dashboards, statutory reports, KPI tracking &amp; exports</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>3</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>1,760h</span></td>
+          </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Penalty &amp; Interest</div>
+               <div class='init-desc'>Interest calculation, credit unallocated payment segments</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge prio-na' style='background:transparent; border:1px solid #CCCCCC; color:#888;'>N/A</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Tax Accounts</div>
+              <div class='init-desc'>Tax account setup, configurable thresholds, notifications</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>2</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Debt Management</div>
+              <div class='init-desc'>Debt recovery workflows, write-off management, enforcement actions</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>5</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Audit &amp; Compliance</div>
+               <div class='init-desc'>Case management, audit trail logging, compliance monitoring &amp; alerts</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge' style='background:#CCCCCC;'>P3</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+         </tbody>
+      </table>
+    </div>
+    </div>
+
+    <div class='right-panel' data-ai-instructions='
+      Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+    '>
+
+      <div class='value-card' data-block='auto_div_business_value' data-ai-instructions='
+        Keep the Business Value card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe coral'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Business Value</div>
+              <div class='card-subtitle'>Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class='value-bullets coral-dots'>
+            <li>End-to-end taxpayer lifecycle management from registration through accounting and penalty enforcement</li>
+            <li>Automated billing, assessments &amp; penalty calculations reduce manual caseworker effort across all tax types</li>
+            <li>Directly accelerates Greek project delivery and enables rapid reuse across future jurisdictions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class='value-card' data-block='auto_div_market_relevance' data-ai-instructions='
+        Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe teal'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Market Relevance</div>
+              <div class='card-subtitle'>Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class='value-bullets teal-dots'>
+            <li>Core dependency for all current and pipeline Solon Tax implementations across multiple jurisdictions</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform in active tenders</li>
+            <li>Platform completeness is a prerequisite condition cited in new-market RFP evaluation criteria</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class='footer-text'>Solon Tax Product Roadmap 2026</span>
+    <span class='footer-text'>Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 5: slide_1 — #5 ===
+You populate one slide instance in a presentation template with real content.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (4 rows)
+Issue Type: Feature | IRM: IRM-542 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: CIT | Roadmap Feature: CIT - Submit a CIT Return on ICARUS Self Service | Requester: Other | PI: PI30 | Estimate: 130.9 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: As an ICARUS Self Service user, I want to submit a CIT Return form that captures all necessary Information needed to create a tax assessment for CIT.
+
+*Prerequisites*
+ An entity should be:
+ 1. Registered in IRM System, thus have a TIN
+ 2. Registered for CIT in IRM
+ prior to submit a CIT return form.
+
+The following *actions* should be available in ICARUS Self Service: 
+ 1. Open a CIT Return form, from the list of existing filing obligations.
+ 2. Create a CIT Return form and save it as a draft. User should be able to open the draft at a later point and proceed with editing.
+ 3. Print a CIT Return form in a PDF format should be available.
+ 4. Submit a CIT Return form to the back-end system.
+
+5. Taxpayer should be able to see the submission date ie the date the form was submitted to the revenue authority. 
+
+6. Taxpayer should be able to see a unique form reference number.
+
+ 
+
+The following *validations* on the CIT Return form should be available in ICARUS Self Service. Note that these are only sample validation rules since these may differentiate per country:
+ # In Section "Filing Period Details" Fields "Filing Period Start and End Dates" create a validation for filing period based on the filing frequency defined to verify the period selected is complaint. Ex. If filing frequency is annual then 12 month period should be selected.
+ # In Section "Filing Period Details" Field "If you do not have to complete ... please tick this box" create a validation when this field is selected then remaining input amount sections to calculate CIT should not be available to edit. Tax amount for this period should be set to zero. 
+ # In Section "Net Income" only fields "Returns and Allowances, Cost of Goods Sold, Depreciation and Amortization" should be allowed to accept negative values (Zero value should be allowed). 
+ # In Section "Final Tax Assessment"when field "Other Adjustments" has a value different than zero then Attachment Category "Miscellaneous related attachments" should be required prior submitting the form.
+Issue Type: Feature | IRM: IRM-30334 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: PAYE | Roadmap Feature: PIT  &  Pay as you earn | Requester: GRC | PI: PI30 | Estimate: 392 | Feature Priority: p3 | Feature Status: To Do | Features Description:  
+
+*A)  PIT  form (RM, ISS)*  prerequisites :  
+ * 
+ ** [https://jira.intrasoft-intl.com/browse/IRM-16272]
+ ** [https://jira.intrasoft-intl.com/browse/IRM-16273]
+ ** [https://jira.intrasoft-intl.com/browse/IRM-15337]
+ ** [https://jira.intrasoft-intl.com/browse/IRM-19256]
+
+*B) Pay as you earn logic* 
+Reference Implementations including forms, calculations, demo data + possibly new entities (also included in registration new entities)
+ * 
+ ** for 3rd parties / employer 
+ *** 
+ **** Create a new Form (or another solution )  for Tax Employee Services  (in GR one amount for all employees not drill down) /  Form for Yearly Payroll statement per employee (could be a log to each taxpayer with some details) to get the  amounts for the taxpayer  (withholding form) 
+ **** Demo data RT calendar and RT (preliminary and monthly collection) 
+ **** Calculations for estimations /Preliminary  tax assessments
+ **** Payments per RTR 
+ **** Prepare the functionality to get  Amendments based on new calculations
+ **** Payments reconciliation (what we have already) 
+ ** Taxpayer
+ *** 
+ **** Capture the data per taxpayer (possibly new entity)
+ **** Load taxes info in the PIT form for each taxpayer (Batch)
+ **** Notifications for Amendments postdated updates-  if there has been a retrospective change in the data and parameters that affect the tax calculation (implemented as example in Municipality tax)
+
+ - 
+ ** 
+ *** 
+ ---- SS :  Preliminary assessment  notice for Taxpayer
+ ---- SS :  Prefilled PIT form  (see above) 
+ ---- SS : Taxpayer Objection to PIT
+
+*C) Monthly and yearly Processing*
+ - Perform a comprehensive processing of all parties/party roles once a month (monthly reconciliation) including complex calculation areas (e.g.  p&I,  calculate balances, etc).
+ - Perform comprehensive reconciliations in scheduled times for all taxpayers in the tax year at the time of the final tax assessment for several taxes.
+Issue Type: Feature | IRM: IRM-16272 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: PIT | Roadmap Feature: PIT - File Original Personal Income Tax Return from Self Service – User | Requester: Other | PI: PI30 | Estimate: 130.9 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: As a self service user, I want to file an original personal income tax return for a specific filing period, so that I can meet my obligation to file a personal income tax return with correct data and on time as stipulated in the tax law.
+
+*Introduction*
+
+Personal income tax return that will be presented on the self service will have the same form sections and form fields as the example personal income tax return that has been described in IRM-14601.
+
+Assumption is that the following self service requirements related to personal income tax are already supported:
+ * User can login to the self service portal to deal with the tax matters for a specific party in a specific to which this user has been granted access
+ * User can see what filing obligations exist for this party in a specific role for personal income tax and see the status of each of these obligations
+ * User can see the personal income tax assessment for a specific filing / payment obligation
+ * User can see what payment obligations exist for personal income tax assessments for which this specific party in a specific role is liable
+ * User can see what payment obligations exist for any additional charges that have been levied towards a personal tax assessment (e.g. late payment interest) and for which this party in a specific role is considered liable
+ * User can pay a liability that exists for a personal income tax assessment and any related charges for this party in a specific role
+ * User can see the balance for personal income tax for this party in a specific role
+
+Following self service requirements related to the personal income tax have not been implemented yet and are not in scope of this feature.
+ * User can see that income that was paid by employers to this party in a specific role, and that the taxes and social contributions that were already deducted by these employers, are prefilled in the income form section of a pending personal income tax return
+ * User can save a draft of a pending personal income tax return, and can open and complete a draft personal income tax return at a later point in time
+ * User can see a notification that the personal income tax has been assessed for the filing period for which the personal income tax return was submitted
+
+*Functional Requirements*
+ * User can create a pending original personal income tax return for a filing period for which no original personal income tax has been submitted yet. User can see the form sections for taxpayer details, bank account details, income details, details on deductions, cost of living details, final tax assessment and attachments, and the related form fields as described in IRM-14601. Any meta data related to a personal income tax return (e.g. form source, related risk observations and related bill segments) should not be shown on the self service.
+ * User can see that the taxpayer details and bank account details are prefilled in a pending personal income tax return
+ * User can fill in the necessary details in the bank account details, income details, details on deductions, cost of living details, final tax assessment and attachments form sections
+ * User can submit the personal income tax return once completed
+ * User can see if there are any validation exceptions that prevent the pending personal income tax return from being submitted. User can navigate from a validation exception to the related form section and form field(s) to resolve any issues.
+ * User can open a submitted personal income tax return to see what data was included in that return
+Issue Type: Feature | IRM: IRM-16273 | Roadmap Initiative Group: REFERENCE IMPLEMENTATIONS | Roadmap Initiative: PIT | Roadmap Feature: PIT - Amend Original Personal Income Tax Return from Self Service – User | Requester: Other | PI: PI30 | Estimate: 130.9 | Feature Priority: p3 | Feature Status: Under Analysis | Features Description: As a self service user, I want to amend an already submitted original personal income tax return, so that changes in my income or deductions are reflected in the adjusted personal income tax return.
+
+*Introduction*
+
+This feature is related to IRM-16272 in which requirements have been documented to enable a self service user to file an original personal income tax return for a specific filing period.
+
+Amended personal income tax return that will be presented on the self service will have the same form sections and form fields as the example personal income tax return that has been described in IRM-14601.
+
+This feature is related to IRM-1973 in which requirements have been documented to record adjustments to the data in an input form that was already posted and post any differences that result from these adjustments.
+
+*Functional Requirements*
+ * User can amend an original personal income tax return that was submitted and processed. User can only amend the personal income tax return for the current filing period or for the two prior filing periods. And a user can amend an original personal income tax return more than once. User cannot amend an original personal income tax return if the original personal income tax return has not been submitted or processed yet. If an original income tax return was already amended, then the user can only amend the income tax return again if the previously amended return has also been submitted and processed.
+ * User can see that the pending amended personal income tax return is prefilled with data from the submitted and processed original personal income tax return or from the latest submitted and processed personal income tax return that amended this original personal income tax return.
+ * User can update the necessary details in the bank account details, income details, details on deductions, cost of living details, final tax assessment and attachments form sections of the pending amended personal income tax return
+ * User can submit the pending amended personal income tax return once completed
+ * User can see if there are any validation exceptions that prevent the pending amended personal income tax return from being submitted. User can navigate from a validation exception to the related form section and form field(s) to resolve any issues.
+ * User can see what amendments have been submitted when for a specific original personal income tax return
+ * User can open a submitted amended personal income tax return to see what data was included in that return
+ * Any updates to the personal income tax return input form, form rules and process that have been implemented in the Revenue Management application (see IRM-14601), that are required to support amended tax returns are also in scope of this feature. When processing an amended original personal income tax return in the Revenue Management application, the difference between the personal income tax assessment in this return and the assessment of the original personal income tax return or the latest submitted and processed personal income tax return that amended this original personal income tax return should be posted.
+
+=== Shared Reference Data ===
+=== RichFeatureQueries_Full_2026.xlsx / Reference Sheet ===
+85233 | Spent Hours 2026
+160808.08462 | Planned Hours 2026
+246041.41795333335 | Total Hours 2026
+56218.299999999996 | PI 28 Total Hours
+66240.4 | PI 29 Total Hours
+38372.700000000004 | PI 30 Total Hours
+
+=== RichFeatureQueries_Full_2026.xlsx / Requester Stats ===
+PI | Requester | Estimate | __EMPTY | __EMPTY_1 | __EMPTY_2 | __EMPTY_3 | __EMPTY_4
+PI30 | Other | 30932 |  |  |  |  | 
+PI30 | GRC | 8493 |  |  |  |  | 
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Group Stats ===
+PI | Roadmap Initiative Group | Initiative Count | Feature Count | Estimate
+PI30 | OTHER ACTIVITIES | 16 | 38 | 21858
+PI30 | CORE SUPPORTING CAPABILITIES | 5 | 6 | 2727
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | 1 | 1 | 1213
+PI30 | CORE DATA HUB CAPABILITIES | 2 | 2 | 5973
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | 6 | 13 | 6870
+PI30 | REFERENCE IMPLEMENTATIONS | 3 | 4 | 785
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Stats ===
+PI | Roadmap Initiative Group | Roadmap Initiative | Total Estimate | Features | P1 | P2 | P3
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA EXCHANGE | 2240 | 1 | 0 | 0 | 1
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA STORAGE | 3733 | 1 | 0 | 0 | 1
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | EXEMPTIONS | 1213 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | BATCH PROCESSING ENHANCEMENTS | 1092 | 2 | 0 | 0 | 2
+PI30 | CORE SUPPORTING CAPABILITIES | DOCUMENT MANAGEMENT INTEGRATION | 104 | 1 | 1 | 0 | 0
+PI30 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | REFERENCE DATA | 747 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | CONTACT MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | MAINTAINABILITY | 4014 | 7 | 0 | 0 | 7
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | USABILITY | 1960 | 2 | 0 | 0 | 2
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | ACCESSIBILITY | 373 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | 131 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | OPERABILITY |  | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | DEVOPS |  | 7 | 0 | 0 | 5
+PI30 | OTHER ACTIVITIES | TRAINING | 1960 | 2 | 0 | 0 | 2
+PI30 | OTHER ACTIVITIES | DOCUMENTATION |  | 8 | 0 | 0 | 1
+PI30 | OTHER ACTIVITIES | APPSEC TEAM | 3734 | 3 | 0 | 0 | 3
+PI30 | OTHER ACTIVITIES | MANAGEMENT | 6451 | 13 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | RELEASE ACTIVITIES | 1232 | 10 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO support | 94 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PREVENTIVE MAINTENANCE | 1600 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PROJECT SUPPORT | 373 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CORRECTIVE MAINTENANCE | 560 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | SECURITY | 480 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CEREMONIES AND TRAININGS | 2133 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO & Analysis | 1440 | 2 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | Business Owners | 1800 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | MANAGEMENT TIME |  | 5 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | ARK |  | 4 | 0 | 0 | 0
+PI30 | REFERENCE IMPLEMENTATIONS | PAYE | 392 | 1 | 0 | 0 | 1
+PI30 | REFERENCE IMPLEMENTATIONS | PIT | 262 | 2 | 0 | 0 | 2
+PI30 | REFERENCE IMPLEMENTATIONS | CIT | 131 | 1 | 0 | 0 | 1
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write n/a for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate content for slide instance 5 of 6 using the SOURCE DATA above.
+User instructions: [auto_div_header] Edit only these text nodes:
+    .pi-badge -> value of ACTIVE PI field, for example PI 28
+    .header-title -> always the value of Roadmap Initiative Group field verbatim
+    .header-stat-value (1st) -> Total Effort formatted with comma
+    .header-stat-value (2nd) -> Initiative Count as integer
+    .header-stat-value (3rd) -> Feature Count as integer
+
+[auto_div_initiatives_table] Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+
+[div] Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+
+[auto_div_business_value] Keep the Business Value card structure intact.
+        Update only the bullet text.
+
+[auto_div_market_relevance] Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+
+translate everythin into german.
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+HTML INSIDE JSON — MANDATORY RULES (for HTML zones):
+- ALL HTML attribute values MUST use single quotes (e.g. class='foo', href='...', src='...')
+- NEVER use double quotes inside HTML — they break JSON string parsing
+- Escape any literal backslashes in HTML as \
+
+STRUCTURAL CONTRACT FOR HTML ZONES (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+Violating this breaks the slide layout irreparably.
+
+HTML ZONES (TEMPLATES PER KEY — structure is a contract, fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='header-left'>
+      <div class='pi-badge'>PI 28</div>
+      <div class='header-text-section'>
+        <div class='header-label'>Feature Catalog</div>
+        <div class='header-title'>Core Revenue Management Capabilities</div>
+        <div class='header-subtitle'>Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class='header-right'>
+      <div class='header-stat'>
+        <div class='header-stat-value'>23,200</div>
+        <div class='header-stat-label'>Total Hours</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>10</div>
+        <div class='header-stat-label'>Initiatives</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>35</div>
+        <div class='header-stat-label'>Features</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='table-wrap-outer' data-block='auto_div_initiatives_table' data-ai-instructions='
+      Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+    '>
+    <div class='table-wrap'>
+      <table>
+        <thead>
+          <tr>
+            <th style='width:49%'>Initiative</th>
+            <th style='width:20%' class='sortable' data-col='1' data-type='status'>Status</th>
+            <th style='width:8%'  class='sortable' data-col='2' data-type='number'>Features</th>
+            <th style='width:10%' class='sortable' data-col='3' data-type='priority'>Priority</th>
+            <th style='width:13%' class='sortable' data-col='4' data-type='effort'>Effort</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class='init-name'>Registration</div>
+              <div class='init-desc'>Party identifiers, org hierarchy, search enhancements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>14</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>11,866h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Taxpayer Accounting</div>
+              <div class='init-desc'>General ledger core, reconciliation &amp; balance management</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>9</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>8,064h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Returns Processing</div>
+              <div class='init-desc'>Filing workflows, validation rules, submission tracking &amp; acknowledgements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>7</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>4,320h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Payment Processing</div>
+              <div class='init-desc'>Multi-channel payments, allocation rules &amp; reconciliation engine</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>3,200h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Billing &amp; Assessments</div>
+              <div class='init-desc'>Instalment plans, assessment automation, billing cycles</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>2,880h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Reporting &amp; Analytics</div>
+              <div class='init-desc'>Management dashboards, statutory reports, KPI tracking &amp; exports</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>3</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>1,760h</span></td>
+          </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Penalty &amp; Interest</div>
+               <div class='init-desc'>Interest calculation, credit unallocated payment segments</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge prio-na' style='background:transparent; border:1px solid #CCCCCC; color:#888;'>N/A</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Tax Accounts</div>
+              <div class='init-desc'>Tax account setup, configurable thresholds, notifications</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>2</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Debt Management</div>
+              <div class='init-desc'>Debt recovery workflows, write-off management, enforcement actions</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>5</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Audit &amp; Compliance</div>
+               <div class='init-desc'>Case management, audit trail logging, compliance monitoring &amp; alerts</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge' style='background:#CCCCCC;'>P3</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+         </tbody>
+      </table>
+    </div>
+    </div>
+
+    <div class='right-panel' data-ai-instructions='
+      Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+    '>
+
+      <div class='value-card' data-block='auto_div_business_value' data-ai-instructions='
+        Keep the Business Value card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe coral'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Business Value</div>
+              <div class='card-subtitle'>Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class='value-bullets coral-dots'>
+            <li>End-to-end taxpayer lifecycle management from registration through accounting and penalty enforcement</li>
+            <li>Automated billing, assessments &amp; penalty calculations reduce manual caseworker effort across all tax types</li>
+            <li>Directly accelerates Greek project delivery and enables rapid reuse across future jurisdictions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class='value-card' data-block='auto_div_market_relevance' data-ai-instructions='
+        Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe teal'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Market Relevance</div>
+              <div class='card-subtitle'>Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class='value-bullets teal-dots'>
+            <li>Core dependency for all current and pipeline Solon Tax implementations across multiple jurisdictions</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform in active tenders</li>
+            <li>Platform completeness is a prerequisite condition cited in new-market RFP evaluation criteria</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class='footer-text'>Solon Tax Product Roadmap 2026</span>
+    <span class='footer-text'>Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+
+=== Agent 6: slide_1 — #6 ===
+You populate one slide instance in a presentation template with real content.
+
+SOURCE DATA FOR THIS SLIDE INSTANCE (verbatim rows from context files):
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (1 rows)
+Issue Type: Feature | IRM: IRM-30828 | Roadmap Initiative Group: CORE REVENUE MANAGEMENT CAPABILITIES | Roadmap Initiative: EXEMPTIONS | Roadmap Feature: Introduce Exemptions | Requester: GRC | PI: PI30 | Estimate: 1213.1 | Feature Priority: p3 | Feature Status: To Do | Features Description: As a revenue authority I need to be able to implement Policy-driven exclusions for assessments and other liabilities ti the taxpayers to promote sectors, fairness, or development goals. (Other examples on their purposes :  Encourage social or economic development. , support specific sectors or vulnerable groups. , simplify tax administration for low-value cases. align with policy objectives (e.g., promoting investment, education, or sustainability) ) .
+
+The exceptions may be of several *types* e.g. 
+*Geographic* exemptions : to develop special zones
+*Activity* exemptions : develop verticals based on Taxpayer activities exemptions  
+*Party type* exemptions , *Party size* exemptions
+
+*Introduction*
+
+Already applied in system 
+*Waivers:* Relief based on a discretionary decision to "forgive" or "cancel" a debt (mostly interest or penalty) 
+It is applied after liability is assessed but before payment.
+Amount is no longer collectible
+
+{*}Write-offs{*}: An accounting action to remove an uncollectible debt from active accounts (not the same as forgiveness).
+It is applied after the debt is confirmed and collectible. 
+Amount is legally due but no longer pursued. 
+
+*Suppression:* 
+A temporary hold or administrative decision to suppress or defer issuing an assessment , interest.
+It is applied during the assessment/process. 
+The due amount exists but it is not communicated or enforced yet.  
+
+New :
+*Exemption:* 
+A lawful exclusion from a tax obligation defined in legislation or policy.
+It is applied before a due amount/liability arises. 
+(e.g. Charitable organizations are exempt from income tax.)
+The tax {*}never becomes due{*}—it’s not assessed or recorded as payable.
+
+[Revenue type Registration]->  Apply Exemptions
+[Obligations] ->  Exempt items excluded
+Other: 
+[Assessment]->  Suppressions may be applied
+[Billing & Payment] ->   Waivers may be issued
+[Collection/ Enforcement]->  Write-offs recorded
+[Audit & Compliance]-> for all
+ 
+
+*Functional Requirements*
+
+*Admin :*
+I can define Exception types [ Type, Status,  Period or permanent ,  Can be applied manually?,  Approvers list or profiles,  filters on how to define related audience/scope, filters on what will be exemptions requested, define details on the policy applied , legal reason/decision ]
+
+I can apply Exceptions to taxpayers massively.  [Workflow,  Approvals,  Keep attachments, Keep contacts  , RTR and Obligations status , StartDate, EndDate, Status, Reason , timestamp, batch id ] 
+ * Define approvers lists or profiles
+ * Define approval process
+ * Functionality on permanent or time defined exceptions
+ * Define Legal bases
+ * How to define scope
+ * How to define targeted actions
+ * Validations should be applied.
+
+*User :*
+I can apply Exceptions to taxpayers manually.  
+
+*Addiitonally,*  
+ * New statuses for Obligations
+ * Balances review
+ * Forms updated filters with exceptions
+ * Traceability 
+ * I can report on the exemptions applied
+
+=== Shared Reference Data ===
+=== RichFeatureQueries_Full_2026.xlsx / Reference Sheet ===
+85233 | Spent Hours 2026
+160808.08462 | Planned Hours 2026
+246041.41795333335 | Total Hours 2026
+56218.299999999996 | PI 28 Total Hours
+66240.4 | PI 29 Total Hours
+38372.700000000004 | PI 30 Total Hours
+
+=== RichFeatureQueries_Full_2026.xlsx / Requester Stats ===
+PI | Requester | Estimate | __EMPTY | __EMPTY_1 | __EMPTY_2 | __EMPTY_3 | __EMPTY_4
+PI30 | Other | 30932 |  |  |  |  | 
+PI30 | GRC | 8493 |  |  |  |  | 
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Group Stats ===
+PI | Roadmap Initiative Group | Initiative Count | Feature Count | Estimate
+PI30 | OTHER ACTIVITIES | 16 | 38 | 21858
+PI30 | CORE SUPPORTING CAPABILITIES | 5 | 6 | 2727
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | 1 | 1 | 1213
+PI30 | CORE DATA HUB CAPABILITIES | 2 | 2 | 5973
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | 6 | 13 | 6870
+PI30 | REFERENCE IMPLEMENTATIONS | 3 | 4 | 785
+
+=== RichFeatureQueries_Full_2026.xlsx / Initiative Stats ===
+PI | Roadmap Initiative Group | Roadmap Initiative | Total Estimate | Features | P1 | P2 | P3
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA EXCHANGE | 2240 | 1 | 0 | 0 | 1
+PI30 | CORE DATA HUB CAPABILITIES | AEOI, VIDA & OTHER DATA STORAGE | 3733 | 1 | 0 | 0 | 1
+PI30 | CORE REVENUE MANAGEMENT CAPABILITIES | EXEMPTIONS | 1213 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | BATCH PROCESSING ENHANCEMENTS | 1092 | 2 | 0 | 0 | 2
+PI30 | CORE SUPPORTING CAPABILITIES | DOCUMENT MANAGEMENT INTEGRATION | 104 | 1 | 1 | 0 | 0
+PI30 | CORE SUPPORTING CAPABILITIES | CASE MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | REFERENCE DATA | 747 | 1 | 0 | 0 | 1
+PI30 | CORE SUPPORTING CAPABILITIES | CONTACT MANAGEMENT | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | MAINTAINABILITY | 4014 | 7 | 0 | 0 | 7
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | USABILITY | 1960 | 2 | 0 | 0 | 2
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | ACCESSIBILITY | 373 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | TRACEABILITY | 392 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | RELIABILITY | 131 | 1 | 0 | 0 | 1
+PI30 | NON-FUNCTIONAL REQUIREMENT COVERAGE | OPERABILITY |  | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | DEVOPS |  | 7 | 0 | 0 | 5
+PI30 | OTHER ACTIVITIES | TRAINING | 1960 | 2 | 0 | 0 | 2
+PI30 | OTHER ACTIVITIES | DOCUMENTATION |  | 8 | 0 | 0 | 1
+PI30 | OTHER ACTIVITIES | APPSEC TEAM | 3734 | 3 | 0 | 0 | 3
+PI30 | OTHER ACTIVITIES | MANAGEMENT | 6451 | 13 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | RELEASE ACTIVITIES | 1232 | 10 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO support | 94 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PREVENTIVE MAINTENANCE | 1600 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PROJECT SUPPORT | 373 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CORRECTIVE MAINTENANCE | 560 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | SECURITY | 480 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | CEREMONIES AND TRAININGS | 2133 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | PMO & Analysis | 1440 | 2 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | Business Owners | 1800 | 1 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | MANAGEMENT TIME |  | 5 | 0 | 0 | 0
+PI30 | OTHER ACTIVITIES | ARK |  | 4 | 0 | 0 | 0
+PI30 | REFERENCE IMPLEMENTATIONS | PAYE | 392 | 1 | 0 | 0 | 1
+PI30 | REFERENCE IMPLEMENTATIONS | PIT | 262 | 2 | 0 | 0 | 2
+PI30 | REFERENCE IMPLEMENTATIONS | CIT | 131 | 1 | 0 | 0 | 1
+
+YOUR ROLE:
+- You are a content generator. Transform the SOURCE DATA above into polished presentation content for this specific slide instance.
+- Every fact, number, name, metric, label, category, and status in your output MUST come from the SOURCE DATA above.
+- Do not invent, estimate, or add data not present in the SOURCE DATA — this includes inventing plausible-sounding labels or categories that are not in the data.
+- If data for a zone element is missing from the SOURCE DATA, write n/a for that element — never substitute with invented content.
+- ZONE INSTRUCTIONS per key are authoritative directives — follow them precisely and completely. They may specify expectations, tone, formatting, style or anything the user specifies in addition to data queries. These always take priority over defaults.
+
+  Task: generate content for slide instance 6 of 6 using the SOURCE DATA above.
+User instructions: [auto_div_header] Edit only these text nodes:
+    .pi-badge -> value of ACTIVE PI field, for example PI 28
+    .header-title -> always the value of Roadmap Initiative Group field verbatim
+    .header-stat-value (1st) -> Total Effort formatted with comma
+    .header-stat-value (2nd) -> Initiative Count as integer
+    .header-stat-value (3rd) -> Feature Count as integer
+
+[auto_div_initiatives_table] Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+
+[div] Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+
+[auto_div_business_value] Keep the Business Value card structure intact.
+        Update only the bullet text.
+
+[auto_div_market_relevance] Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+
+translate everythin into german.
+
+⚠️ OUTPUT FORMAT — CRITICAL:
+Your entire response MUST be a single valid JSON object.
+Do NOT write any explanation, reasoning, preamble, or commentary — before or after the JSON.
+Do NOT wrap the JSON in markdown fences (```json ... ```).
+Start your response with { and end it with }.
+
+The object MUST have EXACTLY these keys:
+{
+  "auto_div_header": "<innerHTML matching template structure>",
+  "auto_div_body": "<innerHTML matching template structure>",
+  "auto_div_slide_footer": "<innerHTML matching template structure>",
+}
+
+HTML INSIDE JSON — MANDATORY RULES (for HTML zones):
+- ALL HTML attribute values MUST use single quotes (e.g. class='foo', href='...', src='...')
+- NEVER use double quotes inside HTML — they break JSON string parsing
+- Escape any literal backslashes in HTML as \
+
+STRUCTURAL CONTRACT FOR HTML ZONES (read before anything else):
+Every innerHTML value you return MUST mirror the TEMPLATE shown for each key:
+- Keep the exact same HTML element types, class names, attributes, and nesting structure.
+- Do NOT add new sections, new structural blocks, new headings, or new layout elements that are not present in the template.
+- Do NOT remove or collapse existing structural elements — every element in the template must appear in your output.
+- For repeating elements (table rows, list items, cards): output exactly one item per data record from SOURCE DATA. Do not cap the count to what the template shows — if the data has 9 records, output 9 rows. If the data has 2 records, output 2 rows.
+- Text content must be concise — match the approximate text density of the template. Do not write paragraphs where the template shows short labels or values.
+- Only data-driven text content (values, names, descriptions, metrics) and src/href values may differ from the template.
+- Fixed UI labels already present in the template — such as card titles, section headings, column headers, category names, and any other structural text — MUST be copied verbatim. Never rename, rephrase, or replace them, even if a different label seems more appropriate for the data.
+Violating this breaks the slide layout irreparably.
+
+HTML ZONES (TEMPLATES PER KEY — structure is a contract, fill with data, do not alter structure):
+
+KEY "auto_div_header":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='header-left'>
+      <div class='pi-badge'>PI 28</div>
+      <div class='header-text-section'>
+        <div class='header-label'>Feature Catalog</div>
+        <div class='header-title'>Core Revenue Management Capabilities</div>
+        <div class='header-subtitle'>Roadmap Initiative Group</div>
+      </div>
+    </div>
+    <div class='header-right'>
+      <div class='header-stat'>
+        <div class='header-stat-value'>23,200</div>
+        <div class='header-stat-label'>Total Hours</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>10</div>
+        <div class='header-stat-label'>Initiatives</div>
+      </div>
+      <div class='header-divider'></div>
+      <div class='header-stat'>
+        <div class='header-stat-value'>35</div>
+        <div class='header-stat-label'>Features</div>
+      </div>
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_body":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<div class='table-wrap-outer' data-block='auto_div_initiatives_table' data-ai-instructions='
+      Keep the table structure intact.
+      Update the initiative rows and cell text only.
+      Do not change the header labels, sorting attributes, or column order.
+      Priority badge colors must strictly follow the template palette — do not introduce any other colors:
+        P1 → background:#FF6359  (coral/red)
+        P2 → background:#F0A500  (amber)
+        P3 → background:#CCCCCC  (light gray, color:white)
+        N/A → background:transparent; border:1px solid #CCCCCC; color:#888  (use class prio-na)
+    '>
+    <div class='table-wrap'>
+      <table>
+        <thead>
+          <tr>
+            <th style='width:49%'>Initiative</th>
+            <th style='width:20%' class='sortable' data-col='1' data-type='status'>Status</th>
+            <th style='width:8%'  class='sortable' data-col='2' data-type='number'>Features</th>
+            <th style='width:10%' class='sortable' data-col='3' data-type='priority'>Priority</th>
+            <th style='width:13%' class='sortable' data-col='4' data-type='effort'>Effort</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class='init-name'>Registration</div>
+              <div class='init-desc'>Party identifiers, org hierarchy, search enhancements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>14</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>11,866h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Taxpayer Accounting</div>
+              <div class='init-desc'>General ledger core, reconciliation &amp; balance management</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>9</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>8,064h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Returns Processing</div>
+              <div class='init-desc'>Filing workflows, validation rules, submission tracking &amp; acknowledgements</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>7</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>4,320h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Payment Processing</div>
+              <div class='init-desc'>Multi-channel payments, allocation rules &amp; reconciliation engine</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#4A90D9;'></span>
+                In Analysis
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+            <td><span class='effort-pill'>3,200h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Billing &amp; Assessments</div>
+              <div class='init-desc'>Instalment plans, assessment automation, billing cycles</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>6</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>2,880h</span></td>
+          </tr>
+          <tr>
+            <td>
+              <div class='init-name'>Reporting &amp; Analytics</div>
+              <div class='init-desc'>Management dashboards, statutory reports, KPI tracking &amp; exports</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#F0A500;'></span>
+                In Progress
+              </span>
+            </td>
+            <td><span class='feat-count'>3</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+            <td><span class='effort-pill'>1,760h</span></td>
+          </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Penalty &amp; Interest</div>
+               <div class='init-desc'>Interest calculation, credit unallocated payment segments</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge prio-na' style='background:transparent; border:1px solid #CCCCCC; color:#888;'>N/A</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Tax Accounts</div>
+              <div class='init-desc'>Tax account setup, configurable thresholds, notifications</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>2</span></td>
+            <td><span class='prio-badge' style='background:#FF6359;'>P1</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Debt Management</div>
+              <div class='init-desc'>Debt recovery workflows, write-off management, enforcement actions</div>
+            </td>
+            <td>
+              <span class='status-badge'>
+                <span class='status-dot' style='background:#CCCCCC;'></span>
+                To Do
+              </span>
+            </td>
+            <td><span class='feat-count'>5</span></td>
+            <td><span class='prio-badge' style='background:#F0A500;'>P2</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+           <tr>
+             <td>
+               <div class='init-name'>Audit &amp; Compliance</div>
+               <div class='init-desc'>Case management, audit trail logging, compliance monitoring &amp; alerts</div>
+             </td>
+             <td>
+               <span class='status-badge'>
+                 <span class='status-dot' style='background:#CCCCCC;'></span>
+                 To Do
+               </span>
+             </td>
+             <td><span class='feat-count'>4</span></td>
+             <td><span class='prio-badge' style='background:#CCCCCC;'>P3</span></td>
+             <td><span class='effort-pill tbd'>TBD</span></td>
+           </tr>
+         </tbody>
+      </table>
+    </div>
+    </div>
+
+    <div class='right-panel' data-ai-instructions='
+      Keep the two value cards and their structure intact.
+      Update only the text content inside the cards.
+    '>
+
+      <div class='value-card' data-block='auto_div_business_value' data-ai-instructions='
+        Keep the Business Value card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe coral'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Business Value</div>
+              <div class='card-subtitle'>Operational impact &amp; delivery enablement</div>
+            </div>
+          </div>
+          <ul class='value-bullets coral-dots'>
+            <li>End-to-end taxpayer lifecycle management from registration through accounting and penalty enforcement</li>
+            <li>Automated billing, assessments &amp; penalty calculations reduce manual caseworker effort across all tax types</li>
+            <li>Directly accelerates Greek project delivery and enables rapid reuse across future jurisdictions</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class='value-card' data-block='auto_div_market_relevance' data-ai-instructions='
+        Keep the Market Relevance card structure intact.
+        Update only the bullet text.
+      '>
+        <div class='card-stripe teal'></div>
+        <div class='card-inner'>
+          <div class='card-header-row'>
+            <div class='card-title-group'>
+              <div class='card-title'>Market Relevance</div>
+              <div class='card-subtitle'>Strategic positioning &amp; pipeline dependency</div>
+            </div>
+          </div>
+          <ul class='value-bullets teal-dots'>
+            <li>Core dependency for all current and pipeline Solon Tax implementations across multiple jurisdictions</li>
+            <li>Strengthens competitive position as a full-featured tax revenue management platform in active tenders</li>
+            <li>Platform completeness is a prerequisite condition cited in new-market RFP evaluation criteria</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.
+
+KEY "auto_div_slide_footer":
+TEMPLATE (study the HTML structure — replicate element types, class names, and nesting using SOURCE DATA only):
+<span class='footer-text'>Solon Tax Product Roadmap 2026</span>
+    <span class='footer-text'>Netcompany</span>
+↑ Use this structure as a pattern only. Output exactly one repeating item (card, row, list item) per data record — never match the template's item count.

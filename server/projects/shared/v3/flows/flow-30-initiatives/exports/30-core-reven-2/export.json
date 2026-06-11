@@ -1,0 +1,29 @@
+{
+  "exportId": "30-core-reven-2",
+  "exportNumber": 2,
+  "exportName": "30-core-reven",
+  "createdAt": "2026-05-05T22:46:23.722Z",
+  "source": {
+    "roundId": "34e19285-2a9c-41bd-9d9c-d729c5d8ffcb",
+    "outputFile": "output-34e19285-2a9c-41bd-9d9c-d729c5d8ffcb.html"
+  },
+  "content": {
+    "slideCount": 1,
+    "totalSize": 28595,
+    "slides": [
+      {
+        "index": 1,
+        "file": "exemptions.html",
+        "size": 28595,
+        "title": "EXEMPTIONS",
+        "slideId": "slide-1",
+        "type": "content"
+      }
+    ]
+  },
+  "metadata": {
+    "projectName": "v3",
+    "flowId": "flow-30-initiatives",
+    "templateFile": ""
+  }
+}

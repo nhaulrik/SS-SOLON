@@ -1,0 +1,31 @@
+[Sheet: RichFeatureQueries_Full_2026.xlsx / Full Features] (3 rows)
+Issue Type: Feature | IRM: IRM-30378 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CASE MANAGEMENT | Roadmap Feature: Integration with Luminus (BRA & Audit support)   | Requester: GRC | PI: PI29 | Estimate: 42 | Feature Priority: p3 | Feature Status: To Do | Features Description: * Improve *integration* with Lumenus BRA / Contractual
+   Candidate list to generate cases flow (batch) 
+   SSO, traceability of source steps and criteria/valuation 
+ * Establish  *integration* with Lumenus Audit Support  (?) / Contractual
+   Audit cases integrated with Audit cases in Lumenus and sync statuses
+Issue Type: Feature | IRM: IRM-12465 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CASE MANAGEMENT | Roadmap Feature: Define and Maintain Case Type - Case Worker Profiles - Use Availability - Admin | Requester: GRC | PI: PI29 | Estimate: 392 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As an admin, I want to use the case worker’s availability as a criterion in a case worker’s profile. So that only case workers that have a certain availability can be assigned to cases for which this case worker’s profile is applicable.
+
+*Introduction*
+
+This feature extends IRM-702 in which requirements have been documented to define what case worker’s profiles are required to perform a certain type of case.
+
+*Functional Requirements*
+ * Admin can use the following matching criteria when defining profiles for the most suitable case workers for a specific type of case:
+ ** Average Allocation: can be calculated by dividing the sum of the allocated effort of a worker within a given period (from the start date up until the end date of a case) by the sum of the available man-hours in that same period based on the resource calendars that are effective for the case worker in that period. Admin can for example define that the average allocation should be equal to or less than 0.8.
+ ** Available man-hours: can be calculated by subtracting the sum of the allocated effort of a case worker within a given period (from the start date up until the end date of a case) from the sum of the available man-hours in that same period based on the resource calendars that are effective for the case worker in that period. Admin can for example define that a worker should at least have 8 hours unallocated man-hours within a period.
+Issue Type: Feature | IRM: IRM-12464 | Roadmap Initiative Group: CORE SUPPORTING CAPABILITIES | Roadmap Initiative: CASE MANAGEMENT | Roadmap Feature: Add and Maintain Case - Assign and Unassign Case Workers - Effort - User | Requester: GRC | PI: PI29 | Estimate: 392 | Feature Priority: p3 | Feature Status: Waiting Analysis Approval | Features Description: As a revenue official, I want to assign case workers (user) that have a required profile (e.g. skills, experience and part of a certain organizational unit) to a case while also considering the availability of the suitable candidates, so that a capable worker (user) with sufficient availability can work on and complete the case. Also, I want to see how much effort is involved for each assigned case worker and for the case in total.
+
+*Introduction*
+
+This feature extends IRM-680 in which requirements have been documented to assign and unassign a worker to/from a case. IRM-680 includes a requirement that the user can specify the expected allocation of a case worker for a case.
+
+This feature is related to IRM-12459 in which requirements have been documented to assign and unassign one or more resource calendars to a worker.
+
+*Functional Requirements*
+ * Eligible Workers
+ ** User can see the average allocation from the case start date up until the case end date for each case worker that meets any of the worker’s profiles for the case. Average allocation can be calculated by dividing the sum of the allocated effort of a case worker from the start date up until the end date of a case by the sum of the available man-hours in that same period based on the resource calendars that are effective for the case worker in that period
+ ** User can see the availability in man-hours from the case start date up until the case end date for each case worker that meets any of the case worker’s profiles for the case. Available man-hours can be calculated by subtracting the sum of the allocated effort for a case worker from the start date up until the end date of a case from the sum of the available man-hours in that same period based on the resource calendars that are effective for the case worker in that period.
+ * Worker’s Assignment
+ ** User can see what effort has been calculated based on the provided expected allocation for the case worker’s assignment and the resource calendar(s) that are effective for this worker from the case start date up until the case end date. Effort can only be calculated if (1) a start date and end date have been defined for the related case, and (2) an expected allocation has been provided. Period(s) within the start and end date of the case for which no effective resource calendar has been defined for the case worker are considered non-working periods. Assumption is that the effort will be recalculated if (1) the case start or end date are updated, (2) the expected allocation for that case worker for that case is updated, and/or (3) a resource calendar of an assigned case worker that falls within the period in which the case has been scheduled, is updated.
+ * User can see the total calculated effort for the case. Total effort is equal to the sum of the effort that was calculated for each case worker that was assigned to the case.
