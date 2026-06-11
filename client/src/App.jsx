@@ -1,6 +1,29 @@
 import { useState, useCallback, useEffect } from 'react'
 import Toast                from './components/Toast.jsx'
 import ThemePicker          from './components/ThemePicker.jsx'
+
+function AppHeader({ appName, theme, onThemeChange, children }) {
+  return (
+    <div className="app">
+      <header>
+        <div>
+          <h1>{appName}</h1>
+          <div className="header-actions">
+            <a href="/docs.html" target="_blank" rel="noopener noreferrer" className="docs-link">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="8" cy="8" r="7" />
+                <path d="M8 5v6M5 8h6" />
+              </svg>
+              Docs
+            </a>
+          </div>
+        </div>
+      </header>
+      {children}
+      <ThemePicker theme={theme} onThemeChange={onThemeChange} />
+    </div>
+  )
+}
 import ProjectLandingStep   from './steps/ProjectLandingStep.jsx'
 import ProjectDashboardStep from './steps/ProjectDashboardStep.jsx'
 import HtmlUploadStep       from './steps/HtmlUploadStep.jsx'
@@ -265,31 +288,9 @@ export default function App() {
     navigateTo('html-upload')
   }, [navigateTo])
 
-  // ── Header wrapper ─────────────────────────────────────────────
-  const AppHeader = ({ children }) => (
-    <div className="app">
-      <header>
-        <div>
-          <h1>{appName}</h1>
-          <div className="header-actions">
-            <a href="/docs.html" target="_blank" rel="noopener noreferrer" className="docs-link">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="8" cy="8" r="7" />
-                <path d="M8 5v6M5 8h6" />
-              </svg>
-              Docs
-            </a>
-          </div>
-        </div>
-      </header>
-      {children}
-      <ThemePicker theme={theme} onThemeChange={handleThemeChange} />
-    </div>
-  )
-
   if (step === 'project-landing') {
     return (
-      <AppHeader>
+      <AppHeader appName={appName} theme={theme} onThemeChange={handleThemeChange}>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <ProjectLandingStep
           appName={appName}
@@ -302,7 +303,7 @@ export default function App() {
 
   if (step === 'project-dashboard' && currentProjectName) {
     return (
-      <AppHeader>
+      <AppHeader appName={appName} theme={theme} onThemeChange={handleThemeChange}>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <ProjectDashboardStep
           projectName={currentProjectName}
@@ -317,7 +318,7 @@ export default function App() {
 
   if (step === 'html-upload') {
     return (
-      <AppHeader>
+      <AppHeader appName={appName} theme={theme} onThemeChange={handleThemeChange}>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
         <HtmlUploadStep
           {...sharedProps}
@@ -337,7 +338,7 @@ export default function App() {
 
   if (step === 'html-recipe' && htmlProject) {
     return (
-      <AppHeader>
+      <AppHeader appName={appName} theme={theme} onThemeChange={handleThemeChange}>
         <Toast toast={toast} onDismiss={() => setToast(null)} />
          <HtmlRecipeStep
             project={htmlProject}
@@ -379,7 +380,7 @@ export default function App() {
 
     if (step === 'html-preview' && htmlProject && htmlApplied) {
       return (
-        <AppHeader>
+        <AppHeader appName={appName} theme={theme} onThemeChange={handleThemeChange}>
           <Toast toast={toast} onDismiss={() => setToast(null)} />
           <HtmlPreviewStep
             projectName={currentProjectName}
@@ -404,7 +405,7 @@ export default function App() {
 
     if (step === 'html-metadata' && htmlProject && htmlApplied) {
       return (
-        <AppHeader>
+        <AppHeader appName={appName} theme={theme} onThemeChange={handleThemeChange}>
           <Toast toast={toast} onDismiss={() => setToast(null)} />
           <HtmlMetadataStep
             projectName={currentProjectName}
