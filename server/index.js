@@ -31,6 +31,31 @@ app.use('/api/opencode', agenticRoutes);
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 app.get('/api/app-info', (_req, res) => res.json({ name: path.basename(process.cwd()) }));
 
+const APP_CONFIG_PATH = path.join(process.cwd(), 'app-config.json');
+
+app.get('/api/app-config', (_req, res) => {
+  try {
+    const config = fs.existsSync(APP_CONFIG_PATH) ? JSON.parse(fs.readFileSync(APP_CONFIG_PATH, 'utf8')) : {};
+    res.json({ config });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put('/api/app-config', (req, res) => {
+  try {
+    if (typeof req.body !== 'object' || req.body === null || Array.isArray(req.body)) {
+      return res.status(400).json({ error: 'Request body must be a plain object' });
+    }
+    const existing = fs.existsSync(APP_CONFIG_PATH) ? JSON.parse(fs.readFileSync(APP_CONFIG_PATH, 'utf8')) : {};
+    const config = { ...existing, ...req.body };
+    fs.writeFileSync(APP_CONFIG_PATH, JSON.stringify(config, null, 2));
+    res.json({ config });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.use('/published/:projectName/presentations/:presentationName', (req, res, next) => {
   const { projectName, presentationName } = req.params;
   if (!/^[\w-]{1,100}$/.test(projectName)) return res.status(400).end();
