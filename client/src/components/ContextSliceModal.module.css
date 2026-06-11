@@ -13,8 +13,8 @@
 
 /* ── Dialog ─────────────────────────────────────────────────────────────── */
 .dialog {
-  background: #0A1F1B;
-  border: 1px solid #1A3530;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
   display: flex;
@@ -31,7 +31,7 @@
   align-items: center;
   gap: 10px;
   padding: 16px 20px;
-  border-bottom: 1px solid #1A3530;
+  border-bottom: 1px solid var(--border-subtle);
   flex-shrink: 0;
 }
 
@@ -42,8 +42,8 @@
   width: 30px;
   height: 30px;
   border-radius: 7px;
-  background: rgba(76, 175, 128, 0.12);
-  color: #4CAF80;
+  background: rgba(var(--accent-primary-rgb), 0.12);
+  color: var(--accent-primary);
   flex-shrink: 0;
 }
 
@@ -57,14 +57,14 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #5E7B6D;
+  color: var(--text-muted);
   margin-bottom: 2px;
 }
 
 .headerName {
   font-size: 14px;
   font-weight: 600;
-  color: #E8F5EF;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -83,18 +83,18 @@
   gap: 6px;
   padding: 6px 12px;
   border-radius: 6px;
-  border: 1px solid #234A40;
+  border: 1px solid var(--border-default);
   background: transparent;
-  color: #A8C5B8;
+  color: var(--text-secondary);
   font-size: 12px;
   cursor: pointer;
   transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
 }
 
 .folderBtn:hover {
-  background: rgba(76, 175, 128, 0.08);
-  border-color: #4CAF80;
-  color: #4CAF80;
+  background: rgba(var(--accent-primary-rgb), 0.08);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 .closeBtn {
@@ -104,9 +104,9 @@
   width: 28px;
   height: 28px;
   border-radius: 6px;
-  border: 1px solid #1A3530;
+  border: 1px solid var(--border-subtle);
   background: transparent;
-  color: #5E7B6D;
+  color: var(--text-muted);
   font-size: 16px;
   line-height: 1;
   cursor: pointer;
@@ -125,14 +125,14 @@
   align-items: center;
   gap: 6px;
   padding: 8px 20px;
-  border-bottom: 1px solid #1A3530;
-  background: #061210;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-primary);
   flex-shrink: 0;
 }
 
 .filenameText {
   font-size: 11px;
-  color: #5E7B6D;
+  color: var(--text-muted);
   font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 }
 
@@ -148,7 +148,7 @@
   font-size: 12px;
   line-height: 1.7;
   font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
-  color: #A8C5B8;
+  color: var(--text-secondary);
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -158,15 +158,15 @@
   align-items: center;
   gap: 10px;
   padding: 32px 0;
-  color: #5E7B6D;
+  color: var(--text-muted);
   font-size: 13px;
 }
 
 .spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid #1A3530;
-  border-top-color: #4CAF80;
+  border: 2px solid var(--border-subtle);
+  border-top-color: var(--accent-primary);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
@@ -177,7 +177,7 @@
 
 .empty {
   padding: 32px 0;
-  color: #5E7B6D;
+  color: var(--text-muted);
   font-size: 13px;
   font-style: italic;
 }

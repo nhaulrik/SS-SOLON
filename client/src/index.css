@@ -9,6 +9,7 @@
   --bg-elevated: #142F29;
   
   --accent-primary: #4CAF80;
+  --accent-primary-rgb: 76, 175, 128;
   --accent-secondary: #73AA87;
   --accent-muted: #2D5A45;
   
@@ -43,7 +44,7 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 24px rgba(76, 175, 128, 0.2);
+  --shadow-glow: 0 0 24px rgba(var(--accent-primary-rgb), 0.2);
   /* Glow is suppressed for users who prefer reduced motion */
   
   /* Transitions */
@@ -72,7 +73,7 @@
    --btn-font-weight: 500;
 
    /* Shadow tokens */
-   --shadow-glow-accent: 0 0 20px rgba(76, 175, 128, 0.3);
+   --shadow-glow-accent: 0 0 20px rgba(var(--accent-primary-rgb), 0.3);
    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.4);
    --shadow-deep: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
@@ -345,7 +346,7 @@ header p {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(76, 175, 128, 0.05) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(var(--accent-primary-rgb), 0.05) 0%, transparent 70%);
 }
   
 .upload-zone:hover {
@@ -355,7 +356,7 @@ header p {
 }
 
 .upload-zone:hover::before {
-  background: radial-gradient(circle at 50% 50%, rgba(76, 175, 128, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(var(--accent-primary-rgb), 0.1) 0%, transparent 70%);
 }
 
 .upload-zone p {
@@ -528,7 +529,7 @@ select:focus-visible {
 .form-group input:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(76, 175, 128, 0.15);
+  box-shadow: 0 0 0 3px rgba(var(--accent-primary-rgb), 0.15);
 }
 
 
@@ -585,7 +586,7 @@ select:focus-visible {
 .json-input:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(76, 175, 128, 0.15);
+  box-shadow: 0 0 0 3px rgba(var(--accent-primary-rgb), 0.15);
 }
 
 .json-input.has-error {
@@ -604,7 +605,7 @@ select:focus-visible {
 }
 
 .validation-status.valid {
-  background: rgba(76, 175, 128, 0.1);
+  background: rgba(var(--accent-primary-rgb), 0.1);
   border: 1px solid var(--accent-muted);
   color: var(--accent-primary);
 }
@@ -875,7 +876,7 @@ select:focus-visible {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(76, 175, 128, 0.04) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(var(--accent-primary-rgb), 0.04) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -2262,8 +2263,8 @@ select:focus-visible {
 
 .html-metadata-divider:hover,
 .html-metadata-divider:active {
-  background: rgba(76, 175, 128, 0.15);
-  border-color: rgba(76, 175, 128, 0.4);
+  background: rgba(var(--accent-primary-rgb), 0.15);
+  border-color: rgba(var(--accent-primary-rgb), 0.4);
 }
 
 .html-metadata-divider-handle {
@@ -2744,7 +2745,7 @@ select:focus-visible {
 
 .tree-assign-uniqueness-option--active {
   border-color: var(--accent-primary);
-  background: rgba(76,175,128,0.05);
+  background: rgba(var(--accent-primary-rgb), 0.05);
 }
 
 /* ── Shared zone badge variant ───────────────────────────────────────────────── */
@@ -2804,13 +2805,13 @@ select:focus-visible {
 }
 
 .tree-node--highlight {
-  background: rgba(76,175,128,0.10) !important;
-  outline: 1px solid rgba(76,175,128,0.25);
+  background: rgba(var(--accent-primary-rgb), 0.10) !important;
+  outline: 1px solid rgba(var(--accent-primary-rgb), 0.25);
   outline-offset: -1px;
 }
 
 .tree-node--selected {
-  background: rgba(76,175,128,0.08);
+  background: rgba(var(--accent-primary-rgb), 0.08);
 }
 
 .tree-node--interesting > .tree-node-label {
@@ -2828,7 +2829,7 @@ select:focus-visible {
 
 /* Assigned rows: slightly stronger tint so zones are scannable */
 .tree-node--assigned-leaf {
-  background: rgba(76,175,128,0.07);
+  background: rgba(var(--accent-primary-rgb), 0.07);
 }
 
 .tree-node--assigned-block {
@@ -3002,7 +3003,7 @@ select:focus-visible {
 }
 
 .tree-zone-badge--leaf {
-  background: rgba(76,175,128,0.18);
+  background: rgba(var(--accent-primary-rgb), 0.18);
   color: var(--accent-primary);
 }
 
@@ -3176,7 +3177,7 @@ select:focus-visible {
 
 .tree-assign-option--active {
   border-color: var(--accent-primary);
-  background: rgba(76,175,128,0.06);
+  background: rgba(var(--accent-primary-rgb), 0.06);
 }
 
 .tree-assign-option input { margin-top: 2px; flex-shrink: 0; accent-color: var(--accent-primary); }
@@ -3451,8 +3452,8 @@ select:focus-visible {
 
 .html-editor-divider:hover,
 .html-editor-divider:active {
-  background: rgba(76, 175, 128, 0.15);
-  border-color: rgba(76, 175, 128, 0.4);
+  background: rgba(var(--accent-primary-rgb), 0.15);
+  border-color: rgba(var(--accent-primary-rgb), 0.4);
 }
 
 .html-editor-divider-handle {
@@ -3553,7 +3554,7 @@ select:focus-visible {
 .dialog-body input:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 2px rgba(76, 175, 128, 0.1);
+  box-shadow: 0 0 0 2px rgba(var(--accent-primary-rgb), 0.1);
 }
 
 .dialog-body input:disabled {
@@ -3674,7 +3675,7 @@ select:focus-visible {
 .form-group select:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 2px rgba(76, 175, 128, 0.1);
+  box-shadow: 0 0 0 2px rgba(var(--accent-primary-rgb), 0.1);
 }
 
 .form-group input.input-error,
@@ -3742,7 +3743,7 @@ select:focus-visible {
 
 .toggle-btn:hover:not(:disabled) {
   color: var(--text-primary);
-  background: rgba(76, 175, 128, 0.08);
+  background: rgba(var(--accent-primary-rgb), 0.08);
 }
 
 .toggle-btn--active {
@@ -3918,12 +3919,12 @@ select:focus-visible {
 }
 
 .metadata-table-row.selected {
-  background-color: rgba(76, 175, 128, 0.1);
+  background-color: rgba(var(--accent-primary-rgb), 0.1);
   border-left: 3px solid var(--accent-primary);
 }
 
 .metadata-table-row.hovered {
-  background-color: rgba(76, 175, 128, 0.05);
+  background-color: rgba(var(--accent-primary-rgb), 0.05);
 }
 
 .metadata-table-row.has-errors {
@@ -3971,7 +3972,7 @@ select:focus-visible {
 .metadata-table-select:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 2px rgba(76, 175, 128, 0.1);
+  box-shadow: 0 0 0 2px rgba(var(--accent-primary-rgb), 0.1);
 }
 
 .metadata-table-input.error,
@@ -4217,11 +4218,11 @@ select:focus-visible {
 .slide-carousel-item.selected {
   border-color: var(--accent-primary);
   box-shadow: 0 0 0 2px var(--accent-primary), var(--shadow-md);
-  background: rgba(76, 175, 128, 0.08);
+  background: rgba(var(--accent-primary-rgb), 0.08);
 }
 
 .slide-carousel-item.hovered {
-  background: rgba(76, 175, 128, 0.05);
+  background: rgba(var(--accent-primary-rgb), 0.05);
 }
 
 .slide-carousel-iframe {
